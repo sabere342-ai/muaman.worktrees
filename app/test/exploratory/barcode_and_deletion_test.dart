@@ -201,7 +201,7 @@ void main() {
   });
 
   group('Zero price', () {
-    test('Zero sale price is accepted by DB and UI', () async {
+    test('Zero sale price is rejected', () async {
       await testDb.insert('products', {
         'name': 'Free Sample',
         'barcode': 'FREE001',
@@ -214,26 +214,26 @@ void main() {
         'inventoryAdjustment': 0,
       });
 
-      await DatabaseHelper.instance.insertSaleAndDecrementStock(
-        Sale(
-          date: DateTime(2026, 7, 28),
-          productName: 'Free Sample',
-          barcode: 'FREE001',
-          quantity: 1,
-          salePrice: 0,
-          costPrice: 50.0,
+      expect(
+        () => DatabaseHelper.instance.insertSaleAndDecrementStock(
+          Sale(
+            date: DateTime(2026, 7, 28),
+            productName: 'Free Sample',
+            barcode: 'FREE001',
+            quantity: 1,
+            salePrice: 0,
+            costPrice: 50.0,
+          ),
         ),
+        throwsA(isA<ArgumentError>()),
       );
 
       final sales = await testDb.query('sales');
-      expect(sales.length, 1);
-      expect(sales.first['salePrice'], 0);
-      expect(sales.first['totalSaleValue'], 0);
-      expect(sales.first['cogs'], 50);
+      expect(sales, isEmpty);
 
       final products = await testDb.query('products');
       final product = Product.fromMap(products.first);
-      expect(product.currentQuantity, 4);
+      expect(product.currentQuantity, 5);
     });
   });
 }

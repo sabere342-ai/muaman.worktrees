@@ -52,7 +52,8 @@ class _SalesScreenState extends State<SalesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('المبيعات', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('المبيعات',
+            style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
         backgroundColor: const Color(0xFF0D47A1),
         foregroundColor: Colors.white,
@@ -63,7 +64,8 @@ class _SalesScreenState extends State<SalesScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const SalesReportScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const SalesReportScreen()),
               );
             },
           ),
@@ -73,7 +75,9 @@ class _SalesScreenState extends State<SalesScreen> {
               if (value == 'اليوم') {
                 setState(() {
                   _filteredSales = _sales
-                      .where((s) => DateFormat('yyyy-MM-dd').format(s.date) == DateFormat('yyyy-MM-dd').format(DateTime.now()))
+                      .where((s) =>
+                          DateFormat('yyyy-MM-dd').format(s.date) ==
+                          DateFormat('yyyy-MM-dd').format(DateTime.now()))
                       .toList();
                 });
               } else if (value == 'بال تاريخ') {
@@ -85,7 +89,8 @@ class _SalesScreenState extends State<SalesScreen> {
             itemBuilder: (context) => [
               const PopupMenuItem(value: 'الكل', child: Text('عرض الكل')),
               const PopupMenuItem(value: 'اليوم', child: Text('مبيعات اليوم')),
-              const PopupMenuItem(value: 'بال تاريخ', child: Text('筛选 بالتاريخ')),
+              const PopupMenuItem(
+                  value: 'بال تاريخ', child: Text('筛选 بالتاريخ')),
             ],
           ),
           IconButton(icon: const Icon(Icons.refresh), onPressed: _loadData),
@@ -102,7 +107,8 @@ class _SalesScreenState extends State<SalesScreen> {
               decoration: InputDecoration(
                 hintText: 'بحث بالاسم أو الباركود...',
                 prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 filled: true,
                 fillColor: Colors.white,
               ),
@@ -119,7 +125,8 @@ class _SalesScreenState extends State<SalesScreen> {
                 const Spacer(),
                 Text(
                   'الإجمالي: ${_filteredSales.fold(0.0, (sum, s) => sum + s.totalSaleValue).toStringAsFixed(0)} ج.م',
-                  style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0D47A1)),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, color: Color(0xFF0D47A1)),
                 ),
               ],
             ),
@@ -164,7 +171,8 @@ class _SalesScreenState extends State<SalesScreen> {
           backgroundColor: Colors.blue.shade50,
           child: const Icon(Icons.shopping_cart, color: Colors.blue),
         ),
-        title: Text(sale.productName, style: const TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(sale.productName,
+            style: const TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text(
           'التاريخ: $dateStr\nالكمية: ${sale.quantity} | السعر: ${sale.salePrice.toStringAsFixed(0)} ج.م',
           style: const TextStyle(fontSize: 12),
@@ -197,7 +205,8 @@ class _SalesScreenState extends State<SalesScreen> {
     Product? selectedProduct;
     final qtyController = TextEditingController(text: '1');
     final priceController = TextEditingController();
-    final dateController = TextEditingController(text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
+    final dateController = TextEditingController(
+        text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
     DateTime selectedDate = DateTime.now();
     bool isSaving = false;
 
@@ -217,16 +226,19 @@ class _SalesScreenState extends State<SalesScreen> {
                     }
                     return _products.where((p) =>
                         p.currentQuantity > 0 &&
-                        (p.name.toLowerCase().contains(textEditingValue.text.toLowerCase()) ||
+                        (p.name.toLowerCase().contains(
+                                textEditingValue.text.toLowerCase()) ||
                             p.barcode.contains(textEditingValue.text)));
                   },
-                  displayStringForOption: (Product p) => '${p.name} (${p.currentQuantity} متاح)',
+                  displayStringForOption: (Product p) =>
+                      '${p.name} (${p.currentQuantity} متاح)',
                   onSelected: (Product selection) {
                     selectedProduct = selection;
                     priceController.text = '';
                     setDialogState(() {});
                   },
-                  fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
+                  fieldViewBuilder:
+                      (context, controller, focusNode, onSubmitted) {
                     return TextField(
                       controller: controller,
                       focusNode: focusNode,
@@ -247,9 +259,12 @@ class _SalesScreenState extends State<SalesScreen> {
                     ),
                     child: Row(
                       children: [
-                        Text('المخزون: ${selectedProduct!.currentQuantity}', style: const TextStyle(fontSize: 12)),
+                        Text('المخزون: ${selectedProduct!.currentQuantity}',
+                            style: const TextStyle(fontSize: 12)),
                         const Spacer(),
-                        Text('التكلفة: ${selectedProduct!.costPrice.toStringAsFixed(0)} ج.م', style: const TextStyle(fontSize: 12)),
+                        Text(
+                            'التكلفة: ${selectedProduct!.costPrice.toStringAsFixed(0)} ج.م',
+                            style: const TextStyle(fontSize: 12)),
                       ],
                     ),
                   ),
@@ -272,7 +287,8 @@ class _SalesScreenState extends State<SalesScreen> {
                     );
                     if (picked != null) {
                       selectedDate = picked;
-                      dateController.text = DateFormat('yyyy-MM-dd').format(picked);
+                      dateController.text =
+                          DateFormat('yyyy-MM-dd').format(picked);
                     }
                   },
                 ),
@@ -315,10 +331,20 @@ class _SalesScreenState extends State<SalesScreen> {
                       final qty = int.tryParse(qtyController.text) ?? 0;
                       final price = double.tryParse(priceController.text) ?? 0;
                       if (qty <= 0) return;
+                      if (price <= 0) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content:
+                                  Text('يجب أن يكون سعر البيع أكبر من صفر'),
+                              backgroundColor: Colors.red),
+                        );
+                        return;
+                      }
 
                       setDialogState(() => isSaving = true);
                       try {
-                        await DatabaseHelper.instance.insertSaleAndDecrementStock(
+                        await DatabaseHelper.instance
+                            .insertSaleAndDecrementStock(
                           Sale(
                             date: selectedDate,
                             productName: selectedProduct!.name,
@@ -335,13 +361,17 @@ class _SalesScreenState extends State<SalesScreen> {
                       } on StateError catch (e) {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(e.message), backgroundColor: Colors.red),
+                            SnackBar(
+                                content: Text(e.message),
+                                backgroundColor: Colors.red),
                           );
                         }
                       } catch (e) {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('فشل تسجيل البيع: $e'), backgroundColor: Colors.red),
+                            SnackBar(
+                                content: Text('فشل تسجيل البيع: $e'),
+                                backgroundColor: Colors.red),
                           );
                         }
                       } finally {
@@ -351,7 +381,10 @@ class _SalesScreenState extends State<SalesScreen> {
                       }
                     },
               child: isSaving
-                  ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2))
                   : const Text('تسجيل البيع'),
             ),
           ],
@@ -371,7 +404,9 @@ class _SalesScreenState extends State<SalesScreen> {
       setState(() {
         _filterDate = picked;
         _filteredSales = _sales
-            .where((s) => DateFormat('yyyy-MM-dd').format(s.date) == DateFormat('yyyy-MM-dd').format(picked))
+            .where((s) =>
+                DateFormat('yyyy-MM-dd').format(s.date) ==
+                DateFormat('yyyy-MM-dd').format(picked))
             .toList();
       });
     }

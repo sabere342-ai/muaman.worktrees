@@ -107,6 +107,9 @@ class DatabaseHelper {
 
   // =================== PRODUCTS ===================
   Future<int> insertProduct(Product product) async {
+    if (product.costPrice <= 0) {
+      throw ArgumentError('يجب أن تكون تكلفة الصنف أكبر من صفر');
+    }
     final db = await database;
     return await db.insert('products', product.toMap()..remove('id'));
   }
@@ -134,6 +137,9 @@ class DatabaseHelper {
   }
 
   Future<int> updateProduct(Product product) async {
+    if (product.costPrice <= 0) {
+      throw ArgumentError('يجب أن تكون تكلفة الصنف أكبر من صفر');
+    }
     final db = await database;
     return await db.update('products', product.toMap(),
         where: 'id = ?', whereArgs: [product.id]);
@@ -245,6 +251,9 @@ class DatabaseHelper {
     return await db.transaction((txn) async {
       if (sale.quantity <= 0) {
         throw ArgumentError('Sale quantity must be greater than zero');
+      }
+      if (sale.salePrice <= 0) {
+        throw ArgumentError('يجب أن يكون سعر البيع أكبر من صفر');
       }
 
       final productMaps = await txn

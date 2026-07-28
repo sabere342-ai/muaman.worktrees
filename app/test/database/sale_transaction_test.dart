@@ -66,7 +66,8 @@ void main() {
 
   group('insertSaleAndDecrementStock', () {
     test('Test 1: Successful sale decrements stock', () async {
-      await testDb.insert('products', insertTestProduct().toMap()..remove('id'));
+      await testDb.insert(
+          'products', insertTestProduct().toMap()..remove('id'));
 
       await DatabaseHelper.instance.insertSaleAndDecrementStock(makeSale());
 
@@ -86,13 +87,18 @@ void main() {
       expect(updatedProduct.currentQuantity, expectedCurrent);
     });
 
-    test('Test 2: Exact stock sale succeeds and results in zero stock', () async {
-      await testDb.insert('products', insertTestProduct(
-        currentQuantity: 5,
-        openingQuantity: 5,
-      ).toMap()..remove('id'));
+    test('Test 2: Exact stock sale succeeds and results in zero stock',
+        () async {
+      await testDb.insert(
+          'products',
+          insertTestProduct(
+            currentQuantity: 5,
+            openingQuantity: 5,
+          ).toMap()
+            ..remove('id'));
 
-      await DatabaseHelper.instance.insertSaleAndDecrementStock(makeSale(quantity: 5));
+      await DatabaseHelper.instance
+          .insertSaleAndDecrementStock(makeSale(quantity: 5));
 
       final products = await testDb.query('products');
       final updatedProduct = Product.fromMap(products.first);
@@ -101,13 +107,17 @@ void main() {
     });
 
     test('Test 3: Insufficient stock rejects sale', () async {
-      await testDb.insert('products', insertTestProduct(
-        currentQuantity: 4,
-        openingQuantity: 4,
-      ).toMap()..remove('id'));
+      await testDb.insert(
+          'products',
+          insertTestProduct(
+            currentQuantity: 4,
+            openingQuantity: 4,
+          ).toMap()
+            ..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance.insertSaleAndDecrementStock(makeSale(quantity: 5)),
+        () => DatabaseHelper.instance
+            .insertSaleAndDecrementStock(makeSale(quantity: 5)),
         throwsA(isA<StateError>()),
       );
 
@@ -121,10 +131,12 @@ void main() {
     });
 
     test('Test 4: Zero quantity rejects sale', () async {
-      await testDb.insert('products', insertTestProduct().toMap()..remove('id'));
+      await testDb.insert(
+          'products', insertTestProduct().toMap()..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance.insertSaleAndDecrementStock(makeSale(quantity: 0)),
+        () => DatabaseHelper.instance
+            .insertSaleAndDecrementStock(makeSale(quantity: 0)),
         throwsA(isA<ArgumentError>()),
       );
 
@@ -138,10 +150,12 @@ void main() {
     });
 
     test('Test 5: Negative quantity rejects sale', () async {
-      await testDb.insert('products', insertTestProduct().toMap()..remove('id'));
+      await testDb.insert(
+          'products', insertTestProduct().toMap()..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance.insertSaleAndDecrementStock(makeSale(quantity: -1)),
+        () => DatabaseHelper.instance
+            .insertSaleAndDecrementStock(makeSale(quantity: -1)),
         throwsA(isA<ArgumentError>()),
       );
 
@@ -155,32 +169,42 @@ void main() {
     });
 
     test('Test 6: Rollback when stock check fails after sale insert', () async {
-      await testDb.insert('products', insertTestProduct(
-        currentQuantity: 5,
-        openingQuantity: 5,
-      ).toMap()..remove('id'));
+      await testDb.insert(
+          'products',
+          insertTestProduct(
+            currentQuantity: 5,
+            openingQuantity: 5,
+          ).toMap()
+            ..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance.insertSaleAndDecrementStock(makeSale(quantity: 6)),
+        () => DatabaseHelper.instance
+            .insertSaleAndDecrementStock(makeSale(quantity: 6)),
         throwsA(isA<StateError>()),
       );
 
       final sales = await testDb.query('sales');
-      expect(sales, isEmpty, reason: 'Sale must be rolled back on stock check failure');
+      expect(sales, isEmpty,
+          reason: 'Sale must be rolled back on stock check failure');
 
       final products = await testDb.query('products');
       final product = Product.fromMap(products.first);
       expect(product.currentQuantity, 5);
     });
 
-    test('Test 7: Stale UI quantity — method reads fresh stock from DB', () async {
-      await testDb.insert('products', insertTestProduct(
-        currentQuantity: 2,
-        openingQuantity: 2,
-      ).toMap()..remove('id'));
+    test('Test 7: Stale UI quantity — method reads fresh stock from DB',
+        () async {
+      await testDb.insert(
+          'products',
+          insertTestProduct(
+            currentQuantity: 2,
+            openingQuantity: 2,
+          ).toMap()
+            ..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance.insertSaleAndDecrementStock(makeSale(quantity: 3)),
+        () => DatabaseHelper.instance
+            .insertSaleAndDecrementStock(makeSale(quantity: 3)),
         throwsA(isA<StateError>()),
       );
 
@@ -192,14 +216,71 @@ void main() {
       expect(product.currentQuantity, 2);
     });
 
-    test('Test 8: Consecutive sales maintain correct stock', () async {
-      await testDb.insert('products', insertTestProduct(
-        currentQuantity: 10,
-        openingQuantity: 10,
-      ).toMap()..remove('id'));
+    test('Test 9: Zero sale price is rejected', () async {
+      await testDb.insert(
+          'products', insertTestProduct().toMap()..remove('id'));
 
-      await DatabaseHelper.instance.insertSaleAndDecrementStock(makeSale(quantity: 4));
-      await DatabaseHelper.instance.insertSaleAndDecrementStock(makeSale(quantity: 3));
+      expect(
+        () => DatabaseHelper.instance
+            .insertSaleAndDecrementStock(makeSale(salePrice: 0)),
+        throwsA(isA<ArgumentError>()),
+      );
+
+      final sales = await testDb.query('sales');
+      expect(sales, isEmpty);
+
+      final products = await testDb.query('products');
+      final product = Product.fromMap(products.first);
+      expect(product.currentQuantity, 10);
+    });
+
+    test('Test 10: Negative sale price is rejected', () async {
+      await testDb.insert(
+          'products', insertTestProduct().toMap()..remove('id'));
+
+      expect(
+        () => DatabaseHelper.instance
+            .insertSaleAndDecrementStock(makeSale(salePrice: -50)),
+        throwsA(isA<ArgumentError>()),
+      );
+
+      final sales = await testDb.query('sales');
+      expect(sales, isEmpty);
+
+      final products = await testDb.query('products');
+      final product = Product.fromMap(products.first);
+      expect(product.currentQuantity, 10);
+    });
+
+    test('Test 11: Positive sale price still accepted', () async {
+      await testDb.insert(
+          'products', insertTestProduct().toMap()..remove('id'));
+
+      await DatabaseHelper.instance
+          .insertSaleAndDecrementStock(makeSale(salePrice: 100));
+
+      final sales = await testDb.query('sales');
+      expect(sales.length, 1);
+      expect((sales.first['salePrice'] as num).toDouble(), 100);
+
+      final products = await testDb.query('products');
+      final product = Product.fromMap(products.first);
+      expect(product.currentQuantity, 7);
+    });
+
+    test('Test 8: Consecutive sales maintain correct stock', () async {
+      await testDb.insert(
+          'products',
+          insertTestProduct(
+            currentQuantity: 10,
+            openingQuantity: 10,
+          ).toMap()
+            ..remove('id'));
+
+      await DatabaseHelper.instance
+          .insertSaleAndDecrementStock(makeSale(quantity: 4));
+      await DatabaseHelper.instance
+          .insertSaleAndDecrementStock(makeSale(quantity: 3));
 
       final sales = await testDb.query('sales');
       expect(sales.length, 2);

@@ -45,7 +45,8 @@ class _InventoryScreenState extends State<InventoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('المخزن', style: TextStyle(fontWeight: FontWeight.bold)),
+        title:
+            const Text('المخزن', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
         backgroundColor: const Color(0xFF1A237E),
         foregroundColor: Colors.white,
@@ -81,12 +82,16 @@ class _InventoryScreenState extends State<InventoryScreen> {
               children: [
                 Text(
                   'عدد الأصناف: ${_filteredProducts.length}',
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 14),
                 ),
                 const Spacer(),
                 Text(
                   'إجمالي المخزون: ${_filteredProducts.fold(0, (sum, p) => sum + p.currentQuantity)}',
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF1A237E)),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: Color(0xFF1A237E)),
                 ),
               ],
             ),
@@ -121,7 +126,8 @@ class _InventoryScreenState extends State<InventoryScreen> {
   }
 
   Widget _buildProductCard(Product product) {
-    final isLowStock = product.currentQuantity <= 2 && product.currentQuantity >= 0;
+    final isLowStock =
+        product.currentQuantity <= 2 && product.currentQuantity >= 0;
     final isOut = product.currentQuantity <= 0;
 
     return Card(
@@ -148,7 +154,8 @@ class _InventoryScreenState extends State<InventoryScreen> {
                     : Colors.green,
           ),
         ),
-        title: Text(product.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(product.name,
+            style: const TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text(
           'باركود: ${product.barcode}\nالكمية: ${product.currentQuantity} | التكلفة: ${product.costPrice.toStringAsFixed(0)} ج.م',
           style: const TextStyle(fontSize: 12),
@@ -173,8 +180,10 @@ class _InventoryScreenState extends State<InventoryScreen> {
 
   void _showAddEditDialog(BuildContext context, {Product? product}) {
     final nameController = TextEditingController(text: product?.name ?? '');
-    final costController = TextEditingController(text: product?.costPrice.toString() ?? '');
-    final openingQtyController = TextEditingController(text: product?.openingQuantity.toString() ?? '0');
+    final costController =
+        TextEditingController(text: product?.costPrice.toString() ?? '');
+    final openingQtyController =
+        TextEditingController(text: product?.openingQuantity.toString() ?? '0');
     final isEditing = product != null;
 
     showDialog(
@@ -225,6 +234,14 @@ class _InventoryScreenState extends State<InventoryScreen> {
             onPressed: () async {
               if (nameController.text.isEmpty) return;
               final costPrice = double.tryParse(costController.text) ?? 0;
+              if (costPrice <= 0) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                      content: Text('يجب أن تكون تكلفة الصنف أكبر من صفر'),
+                      backgroundColor: Colors.red),
+                );
+                return;
+              }
               final openingQty = int.tryParse(openingQtyController.text) ?? 0;
 
               if (isEditing) {
