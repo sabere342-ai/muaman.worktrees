@@ -232,7 +232,15 @@ class _InventoryScreenState extends State<InventoryScreen> {
           ),
           ElevatedButton(
             onPressed: () async {
-              if (nameController.text.isEmpty) return;
+              final name = nameController.text.trim();
+              if (name.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                      content: Text('يجب إدخال اسم المنتج'),
+                      backgroundColor: Colors.red),
+                );
+                return;
+              }
               final costPrice = double.tryParse(costController.text) ?? 0;
               if (costPrice <= 0) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -244,28 +252,40 @@ class _InventoryScreenState extends State<InventoryScreen> {
               }
               final openingQty = int.tryParse(openingQtyController.text) ?? 0;
 
-              if (isEditing) {
-                await DatabaseHelper.instance.updateProduct(
-                  product.copyWith(
-                    name: nameController.text,
-                    costPrice: costPrice,
-                  ),
-                );
-              } else {
-                final barcode = await DatabaseHelper.instance.generateBarcode();
-                await DatabaseHelper.instance.insertProduct(
-                  Product(
-                    name: nameController.text,
-                    barcode: barcode,
-                    openingQuantity: openingQty,
-                    currentQuantity: openingQty,
-                    costPrice: costPrice,
-                    totalInventoryCost: openingQty * costPrice,
-                  ),
-                );
+              try {
+                if (isEditing) {
+                  await DatabaseHelper.instance.updateProduct(
+                    product.copyWith(
+                      name: name,
+                      costPrice: costPrice,
+                    ),
+                  );
+                } else {
+                  final barcode =
+                      await DatabaseHelper.instance.generateBarcode();
+                  await DatabaseHelper.instance.insertProduct(
+                    Product(
+                      name: name,
+                      barcode: barcode,
+                      openingQuantity: openingQty,
+                      currentQuantity: openingQty,
+                      costPrice: costPrice,
+                      totalInventoryCost: openingQty * costPrice,
+                    ),
+                  );
+                }
+                if (context.mounted) Navigator.pop(context);
+                _loadProducts();
+              } on ArgumentError catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(e.message),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
               }
-              if (context.mounted) Navigator.pop(context);
-              _loadProducts();
             },
             child: Text(isEditing ? 'حفظ' : 'إضافة'),
           ),

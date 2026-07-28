@@ -107,11 +107,34 @@ class DatabaseHelper {
 
   // =================== PRODUCTS ===================
   Future<int> insertProduct(Product product) async {
+    final trimmedName = product.name.trim();
+    if (trimmedName.isEmpty) {
+      throw ArgumentError('يجب إدخال اسم المنتج');
+    }
+
+    final trimmedBarcode = product.barcode.trim();
+    if (trimmedBarcode.isEmpty) {
+      throw ArgumentError('الباركود مطلوب');
+    }
+
     if (product.costPrice <= 0) {
       throw ArgumentError('يجب أن تكون تكلفة الصنف أكبر من صفر');
     }
+
     final db = await database;
-    return await db.insert('products', product.toMap()..remove('id'));
+
+    final dup = await db.rawQuery(
+        'SELECT id FROM products WHERE trim(barcode) = ? LIMIT 1',
+        [trimmedBarcode]);
+    if (dup.isNotEmpty) {
+      throw ArgumentError('الباركود موجود مسبقًا');
+    }
+
+    final normalized = product.copyWith(
+      name: trimmedName,
+      barcode: trimmedBarcode,
+    );
+    return await db.insert('products', normalized.toMap()..remove('id'));
   }
 
   Future<List<Product>> getAllProducts() async {
@@ -137,11 +160,34 @@ class DatabaseHelper {
   }
 
   Future<int> updateProduct(Product product) async {
+    final trimmedName = product.name.trim();
+    if (trimmedName.isEmpty) {
+      throw ArgumentError('يجب إدخال اسم المنتج');
+    }
+
+    final trimmedBarcode = product.barcode.trim();
+    if (trimmedBarcode.isEmpty) {
+      throw ArgumentError('الباركود مطلوب');
+    }
+
     if (product.costPrice <= 0) {
       throw ArgumentError('يجب أن تكون تكلفة الصنف أكبر من صفر');
     }
+
     final db = await database;
-    return await db.update('products', product.toMap(),
+
+    final dup = await db.rawQuery(
+        'SELECT id FROM products WHERE trim(barcode) = ? AND id != ?',
+        [trimmedBarcode, product.id]);
+    if (dup.isNotEmpty) {
+      throw ArgumentError('الباركود موجود مسبقًا');
+    }
+
+    final normalized = product.copyWith(
+      name: trimmedName,
+      barcode: trimmedBarcode,
+    );
+    return await db.update('products', normalized.toMap(),
         where: 'id = ?', whereArgs: [product.id]);
   }
 
