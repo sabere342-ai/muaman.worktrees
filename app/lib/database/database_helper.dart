@@ -312,9 +312,34 @@ class DatabaseHelper {
   // =================== SALES ===================
   Future<int> insertSale(Sale sale) async {
     final db = await database;
-    final id = await db.insert('sales', sale.toMap()..remove('id'));
-    await updateSoldQuantity(sale.barcode, sale.quantity);
-    return id;
+    return await db.transaction((txn) async {
+      await _requireExistingProductByBarcode(txn, sale.barcode);
+
+      final productMaps = await txn
+          .query('products', where: 'barcode = ?', whereArgs: [sale.barcode]);
+      final product = Product.fromMap(productMaps.first);
+
+      final id = await txn.insert('sales', sale.toMap()..remove('id'));
+
+      final newSold = product.soldQuantity + sale.quantity;
+      final newCurrent = product.openingQuantity -
+          newSold +
+          product.returnedQuantity +
+          product.inventoryAdjustment;
+
+      await txn.update(
+        'products',
+        {
+          'soldQuantity': newSold,
+          'currentQuantity': newCurrent,
+          'totalInventoryCost': newCurrent * product.costPrice,
+        },
+        where: 'barcode = ?',
+        whereArgs: [sale.barcode],
+      );
+
+      return id;
+    });
   }
 
   Future<int> insertSaleAndDecrementStock(Sale sale) async {
@@ -387,16 +412,61 @@ class DatabaseHelper {
 
   Future<int> updateSale(Sale sale) async {
     final db = await database;
-    final oldSale =
-        await db.query('sales', where: 'id = ?', whereArgs: [sale.id]);
-    if (oldSale.isNotEmpty) {
-      final old = Sale.fromMap(oldSale.first);
-      await revertSoldQuantity(old.barcode, old.quantity);
-    }
-    await db
-        .update('sales', sale.toMap(), where: 'id = ?', whereArgs: [sale.id]);
-    await updateSoldQuantity(sale.barcode, sale.quantity);
-    return 1;
+    return await db.transaction((txn) async {
+      final oldData =
+          await txn.query('sales', where: 'id = ?', whereArgs: [sale.id]);
+
+      if (oldData.isNotEmpty) {
+        final old = Sale.fromMap(oldData.first);
+
+        final oldProductMaps = await txn
+            .query('products', where: 'barcode = ?', whereArgs: [old.barcode]);
+        if (oldProductMaps.isNotEmpty) {
+          final oldProduct = Product.fromMap(oldProductMaps.first);
+          final revertedSold = oldProduct.soldQuantity - old.quantity;
+          final revertedCurrent = oldProduct.openingQuantity -
+              revertedSold +
+              oldProduct.returnedQuantity +
+              oldProduct.inventoryAdjustment;
+          await txn.update(
+            'products',
+            {
+              'soldQuantity': revertedSold,
+              'currentQuantity': revertedCurrent,
+              'totalInventoryCost': revertedCurrent * oldProduct.costPrice,
+            },
+            where: 'barcode = ?',
+            whereArgs: [old.barcode],
+          );
+        }
+      }
+
+      await _requireExistingProductByBarcode(txn, sale.barcode);
+
+      final newProductMaps = await txn
+          .query('products', where: 'barcode = ?', whereArgs: [sale.barcode]);
+      final newProduct = Product.fromMap(newProductMaps.first);
+      final newSold = newProduct.soldQuantity + sale.quantity;
+      final newCurrent = newProduct.openingQuantity -
+          newSold +
+          newProduct.returnedQuantity +
+          newProduct.inventoryAdjustment;
+
+      await txn.update(
+        'products',
+        {
+          'soldQuantity': newSold,
+          'currentQuantity': newCurrent,
+          'totalInventoryCost': newCurrent * newProduct.costPrice,
+        },
+        where: 'barcode = ?',
+        whereArgs: [sale.barcode],
+      );
+
+      await txn.update('sales', sale.toMap(),
+          where: 'id = ?', whereArgs: [sale.id]);
+      return 1;
+    });
   }
 
   Future<int> deleteSale(int id) async {
@@ -425,9 +495,34 @@ class DatabaseHelper {
   // =================== RETURNS ===================
   Future<int> insertReturn(ReturnItem returnItem) async {
     final db = await database;
-    final id = await db.insert('returns', returnItem.toMap()..remove('id'));
-    await updateReturnedQuantity(returnItem.barcode, returnItem.quantity);
-    return id;
+    return await db.transaction((txn) async {
+      await _requireExistingProductByBarcode(txn, returnItem.barcode);
+
+      final productMaps = await txn.query('products',
+          where: 'barcode = ?', whereArgs: [returnItem.barcode]);
+      final product = Product.fromMap(productMaps.first);
+
+      final id = await txn.insert('returns', returnItem.toMap()..remove('id'));
+
+      final newReturned = product.returnedQuantity + returnItem.quantity;
+      final newCurrent = product.openingQuantity -
+          product.soldQuantity +
+          newReturned +
+          product.inventoryAdjustment;
+
+      await txn.update(
+        'products',
+        {
+          'returnedQuantity': newReturned,
+          'currentQuantity': newCurrent,
+          'totalInventoryCost': newCurrent * product.costPrice,
+        },
+        where: 'barcode = ?',
+        whereArgs: [returnItem.barcode],
+      );
+
+      return id;
+    });
   }
 
   Future<List<ReturnItem>> getAllReturns() async {
@@ -438,16 +533,62 @@ class DatabaseHelper {
 
   Future<int> updateReturn(ReturnItem returnItem) async {
     final db = await database;
-    final oldData =
-        await db.query('returns', where: 'id = ?', whereArgs: [returnItem.id]);
-    if (oldData.isNotEmpty) {
-      final old = ReturnItem.fromMap(oldData.first);
-      await revertReturnedQuantity(old.barcode, old.quantity);
-    }
-    await db.update('returns', returnItem.toMap(),
-        where: 'id = ?', whereArgs: [returnItem.id]);
-    await updateReturnedQuantity(returnItem.barcode, returnItem.quantity);
-    return 1;
+    return await db.transaction((txn) async {
+      final oldData = await txn.query('returns',
+          where: 'id = ?', whereArgs: [returnItem.id]);
+
+      if (oldData.isNotEmpty) {
+        final old = ReturnItem.fromMap(oldData.first);
+
+        final oldProductMaps = await txn.query('products',
+            where: 'barcode = ?', whereArgs: [old.barcode]);
+        if (oldProductMaps.isNotEmpty) {
+          final oldProduct = Product.fromMap(oldProductMaps.first);
+          final revertedReturned =
+              oldProduct.returnedQuantity - old.quantity;
+          final revertedCurrent = oldProduct.openingQuantity -
+              oldProduct.soldQuantity +
+              revertedReturned +
+              oldProduct.inventoryAdjustment;
+          await txn.update(
+            'products',
+            {
+              'returnedQuantity': revertedReturned,
+              'currentQuantity': revertedCurrent,
+              'totalInventoryCost': revertedCurrent * oldProduct.costPrice,
+            },
+            where: 'barcode = ?',
+            whereArgs: [old.barcode],
+          );
+        }
+      }
+
+      await _requireExistingProductByBarcode(txn, returnItem.barcode);
+
+      final newProductMaps = await txn.query('products',
+          where: 'barcode = ?', whereArgs: [returnItem.barcode]);
+      final newProduct = Product.fromMap(newProductMaps.first);
+      final newReturned = newProduct.returnedQuantity + returnItem.quantity;
+      final newCurrent = newProduct.openingQuantity -
+          newProduct.soldQuantity +
+          newReturned +
+          newProduct.inventoryAdjustment;
+
+      await txn.update(
+        'products',
+        {
+          'returnedQuantity': newReturned,
+          'currentQuantity': newCurrent,
+          'totalInventoryCost': newCurrent * newProduct.costPrice,
+        },
+        where: 'barcode = ?',
+        whereArgs: [returnItem.barcode],
+      );
+
+      await txn.update('returns', returnItem.toMap(),
+          where: 'id = ?', whereArgs: [returnItem.id]);
+      return 1;
+    });
   }
 
   Future<int> deleteReturn(int id) async {
@@ -606,6 +747,60 @@ class DatabaseHelper {
     return refs;
   }
 
+  /// Scans all tables for orphan references to non-existent products.
+  /// Returns an [IntegrityIssueReport] cataloguing every orphan row found.
+  Future<IntegrityIssueReport> findProductReferenceIntegrityIssues() async {
+    final db = await database;
+
+    // inventory_count rows whose productId does not match any product
+    final orphanCounts = await db.rawQuery('''
+      SELECT ic.* FROM inventory_count ic
+      WHERE ic.productId NOT IN (SELECT id FROM products)
+    ''');
+
+    // sales rows whose barcode does not match any product barcode
+    final orphanSales = await db.rawQuery('''
+      SELECT s.* FROM sales s
+      WHERE s.barcode NOT IN (SELECT barcode FROM products)
+    ''');
+
+    // returns rows whose barcode does not match any product barcode
+    final orphanReturns = await db.rawQuery('''
+      SELECT r.* FROM returns r
+      WHERE r.barcode NOT IN (SELECT barcode FROM products)
+    ''');
+
+    return IntegrityIssueReport(
+      orphanSales: orphanSales,
+      orphanReturns: orphanReturns,
+      orphanInventoryCounts: orphanCounts,
+    );
+  }
+
+  /// Throws [ProductReferenceIntegrityException] if no product exists with the
+  /// given [productId]. Must be called inside a transaction ([txn]).
+  Future<void> _requireExistingProductById(
+      Transaction txn, int productId) async {
+    final rows =
+        await txn.query('products', where: 'id = ?', whereArgs: [productId]);
+    if (rows.isEmpty) {
+      throw ProductReferenceIntegrityException(
+          'المنتج (رقم $productId) غير موجود');
+    }
+  }
+
+  /// Throws [ProductReferenceIntegrityException] if no product exists with the
+  /// given [barcode]. Must be called inside a transaction ([txn]).
+  Future<void> _requireExistingProductByBarcode(
+      Transaction txn, String barcode) async {
+    final rows = await txn
+        .query('products', where: 'barcode = ?', whereArgs: [barcode]);
+    if (rows.isEmpty) {
+      throw ProductReferenceIntegrityException(
+          'لا يوجد منتج بالباركود "$barcode"');
+    }
+  }
+
   Future<Map<String, dynamic>> getInventorySummary() async {
     final db = await database;
     final countResult = await db
@@ -720,4 +915,35 @@ class ProductDeletionException implements Exception {
 
   @override
   String toString() => 'ProductDeletionException: $message';
+}
+
+class ProductReferenceIntegrityException implements Exception {
+  final String message;
+  ProductReferenceIntegrityException(this.message);
+
+  @override
+  String toString() => 'ProductReferenceIntegrityException: $message';
+}
+
+/// Report returned by [DatabaseHelper.findProductReferenceIntegrityIssues].
+class IntegrityIssueReport {
+  final List<Map<String, dynamic>> orphanSales;
+  final List<Map<String, dynamic>> orphanReturns;
+  final List<Map<String, dynamic>> orphanInventoryCounts;
+
+  IntegrityIssueReport({
+    required this.orphanSales,
+    required this.orphanReturns,
+    required this.orphanInventoryCounts,
+  });
+
+  bool get hasIssues =>
+      orphanSales.isNotEmpty ||
+      orphanReturns.isNotEmpty ||
+      orphanInventoryCounts.isNotEmpty;
+
+  int get totalOrphans =>
+      orphanSales.length +
+      orphanReturns.length +
+      orphanInventoryCounts.length;
 }
