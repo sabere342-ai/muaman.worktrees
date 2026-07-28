@@ -35,11 +35,13 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final totalReturnValue = _returns.fold(0.0, (sum, r) => sum + r.totalReturnValue);
+    final totalReturnValue =
+        _returns.fold(0.0, (sum, r) => sum + r.totalReturnValue);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('المرتجعات', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('المرتجعات',
+            style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
         backgroundColor: const Color(0xFFB71C1C),
         foregroundColor: Colors.white,
@@ -57,14 +59,23 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
               children: [
                 Column(
                   children: [
-                    Text('${_returns.length}', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFFB71C1C))),
+                    Text('${_returns.length}',
+                        style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFB71C1C))),
                     const Text('عدد المرتجعات', style: TextStyle(fontSize: 12)),
                   ],
                 ),
                 Column(
                   children: [
-                    Text('${totalReturnValue.toStringAsFixed(0)} ج.م', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFFB71C1C))),
-                    const Text('إجمالي المرتجعات', style: TextStyle(fontSize: 12)),
+                    Text('${totalReturnValue.toStringAsFixed(0)} ج.م',
+                        style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFB71C1C))),
+                    const Text('إجمالي المرتجعات',
+                        style: TextStyle(fontSize: 12)),
                   ],
                 ),
               ],
@@ -85,13 +96,17 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
                             return Card(
                               margin: const EdgeInsets.symmetric(vertical: 4),
                               elevation: 2,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
                               child: ListTile(
                                 leading: CircleAvatar(
                                   backgroundColor: Colors.red.shade50,
-                                  child: const Icon(Icons.assignment_return, color: Colors.red),
+                                  child: const Icon(Icons.assignment_return,
+                                      color: Colors.red),
                                 ),
-                                title: Text(ret.productName, style: const TextStyle(fontWeight: FontWeight.bold)),
+                                title: Text(ret.productName,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold)),
                                 subtitle: Text(
                                   'التاريخ: ${DateFormat('yyyy-MM-dd').format(ret.date)}\nالكمية: ${ret.quantity} | السعر: ${ret.salePrice.toStringAsFixed(0)} ج.م',
                                   style: const TextStyle(fontSize: 12),
@@ -102,10 +117,14 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
                                   children: [
                                     Text(
                                       '${ret.totalReturnValue.toStringAsFixed(0)} ج.م',
-                                      style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.red, fontSize: 14),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.red,
+                                          fontSize: 14),
                                     ),
                                     IconButton(
-                                      icon: const Icon(Icons.delete, size: 18, color: Colors.red),
+                                      icon: const Icon(Icons.delete,
+                                          size: 18, color: Colors.red),
                                       onPressed: () => _confirmDelete(ret),
                                       padding: EdgeInsets.zero,
                                       constraints: const BoxConstraints(),
@@ -134,7 +153,8 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
     Product? selectedProduct;
     final qtyController = TextEditingController(text: '1');
     final priceController = TextEditingController();
-    final dateController = TextEditingController(text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
+    final dateController = TextEditingController(
+        text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
     DateTime selectedDate = DateTime.now();
 
     showDialog(
@@ -152,7 +172,9 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
                       return _products;
                     }
                     return _products.where((p) =>
-                        p.name.toLowerCase().contains(textEditingValue.text.toLowerCase()) ||
+                        p.name
+                            .toLowerCase()
+                            .contains(textEditingValue.text.toLowerCase()) ||
                         p.barcode.contains(textEditingValue.text));
                   },
                   displayStringForOption: (Product p) => p.name,
@@ -160,7 +182,8 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
                     selectedProduct = selection;
                     setDialogState(() {});
                   },
-                  fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
+                  fieldViewBuilder:
+                      (context, controller, focusNode, onSubmitted) {
                     return TextField(
                       controller: controller,
                       focusNode: focusNode,
@@ -189,27 +212,35 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
                     );
                     if (picked != null) {
                       selectedDate = picked;
-                      dateController.text = DateFormat('yyyy-MM-dd').format(picked);
+                      dateController.text =
+                          DateFormat('yyyy-MM-dd').format(picked);
                     }
                   },
                 ),
                 const SizedBox(height: 12),
                 TextField(
                   controller: qtyController,
-                  decoration: const InputDecoration(labelText: 'الكمية المرتجعة', border: OutlineInputBorder()),
+                  decoration: const InputDecoration(
+                      labelText: 'الكمية المرتجعة',
+                      border: OutlineInputBorder()),
                   keyboardType: TextInputType.number,
                 ),
                 const SizedBox(height: 12),
                 TextField(
                   controller: priceController,
-                  decoration: const InputDecoration(labelText: 'سعر البيع وقت الإرجاع', border: OutlineInputBorder(), prefixText: 'ج.م '),
+                  decoration: const InputDecoration(
+                      labelText: 'سعر البيع وقت الإرجاع',
+                      border: OutlineInputBorder(),
+                      prefixText: 'ج.م '),
                   keyboardType: TextInputType.number,
                 ),
               ],
             ),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(context), child: const Text('إلغاء')),
+            TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('إلغاء')),
             ElevatedButton(
               onPressed: () async {
                 if (selectedProduct == null) return;
@@ -245,7 +276,9 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
         title: const Text('حذف المرتجع'),
         content: Text('هل أنت متأكد من حذف مرتجع "${ret.productName}"؟'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('إلغاء')),
+          TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('إلغاء')),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () async {

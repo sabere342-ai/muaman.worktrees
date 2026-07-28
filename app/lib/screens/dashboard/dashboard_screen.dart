@@ -35,7 +35,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('لوحة التحكم', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('لوحة التحكم',
+            style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
         backgroundColor: const Color(0xFF004D40),
         foregroundColor: Colors.white,
@@ -108,18 +109,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
       icon: Icons.account_balance_wallet,
       color: const Color(0xFF1B5E20),
       children: [
-        _buildDataRow('إجمالي المبيعات', _financialData['totalSales'] ?? 0, Colors.green),
-        _buildDataRow('إجمالي المرتجعات', _financialData['totalReturns'] ?? 0, Colors.red),
-        _buildDataRow('صافي المبيعات', _financialData['netSales'] ?? 0, Colors.blue, isBold: true),
+        _buildDataRow(
+            'إجمالي المبيعات', _financialData['totalSales'] ?? 0, Colors.green),
+        _buildDataRow('إجمالي المرتجعات', _financialData['totalReturns'] ?? 0,
+            Colors.red),
+        _buildDataRow(
+            'صافي المبيعات', _financialData['netSales'] ?? 0, Colors.blue,
+            isBold: true),
         const Divider(),
-        _buildDataRow('تكلفة البضاعة المباعة', _financialData['totalCOGS'] ?? 0, Colors.orange),
-        _buildDataRow('تكلفة البضاعة المرتجعة', _financialData['totalReturnedCOGS'] ?? 0, Colors.teal),
-        _buildDataRow('صافي تكلفة المبيعات', _financialData['netCOGS'] ?? 0, Colors.orange, isBold: true),
+        _buildDataRow('تكلفة البضاعة المباعة', _financialData['totalCOGS'] ?? 0,
+            Colors.orange),
+        _buildDataRow('تكلفة البضاعة المرتجعة',
+            _financialData['totalReturnedCOGS'] ?? 0, Colors.teal),
+        _buildDataRow('صافي تكلفة المبيعات', _financialData['netCOGS'] ?? 0,
+            Colors.orange,
+            isBold: true),
         const Divider(),
-        _buildDataRow('مجمل الربح', _financialData['grossProfit'] ?? 0, Colors.indigo, isBold: true),
-        _buildDataRow('إجمالي المصروفات', _financialData['totalExpenses'] ?? 0, Colors.deepOrange),
+        _buildDataRow(
+            'مجمل الربح', _financialData['grossProfit'] ?? 0, Colors.indigo,
+            isBold: true),
+        _buildDataRow('إجمالي المصروفات', _financialData['totalExpenses'] ?? 0,
+            Colors.deepOrange),
         const Divider(),
-        _buildDataRow('صافي الربح', _financialData['netProfit'] ?? 0, const Color(0xFF004D40), isBold: true, fontSize: 18),
+        _buildDataRow('صافي الربح', _financialData['netProfit'] ?? 0,
+            const Color(0xFF004D40),
+            isBold: true, fontSize: 18),
       ],
     );
   }
@@ -130,9 +144,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       icon: Icons.inventory_2,
       color: const Color(0xFF0D47A1),
       children: [
-        _buildStatRow('إجمالي قيمة المخزون', '${(_inventoryData['totalInventoryValue'] ?? 0).toStringAsFixed(0)} ج.م'),
+        _buildStatRow('إجمالي قيمة المخزون',
+            '${(_inventoryData['totalInventoryValue'] ?? 0).toStringAsFixed(0)} ج.م'),
         _buildStatRow('عدد الأصناف', '${_inventoryData['itemCount'] ?? 0}'),
-        _buildStatRow('إجمالي الكمية الحالية', '${_inventoryData['totalQuantity'] ?? 0}'),
+        _buildStatRow(
+            'إجمالي الكمية الحالية', '${_inventoryData['totalQuantity'] ?? 0}'),
       ],
     );
   }
@@ -144,8 +160,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       color: const Color(0xFF4A148C),
       children: [
         _buildStatRow('عمليات البيع', '${_inventoryData['salesCount'] ?? 0}'),
-        _buildStatRow('عمليات الإرجاع', '${_inventoryData['returnsCount'] ?? 0}'),
-        _buildStatRow('سجلات المصروفات', '${_inventoryData['expensesCount'] ?? 0}'),
+        _buildStatRow(
+            'عمليات الإرجاع', '${_inventoryData['returnsCount'] ?? 0}'),
+        _buildStatRow(
+            'سجلات المصروفات', '${_inventoryData['expensesCount'] ?? 0}'),
         const Divider(height: 16),
         SizedBox(
           width: double.infinity,
@@ -153,16 +171,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const SalesReportScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const SalesReportScreen()),
               );
             },
             icon: const Icon(Icons.assessment, size: 18),
-            label: const Text('تقارير المبيعات التفصيلية', style: TextStyle(fontWeight: FontWeight.bold)),
+            label: const Text('تقارير المبيعات التفصيلية',
+                style: TextStyle(fontWeight: FontWeight.bold)),
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF0D47A1),
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 12),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
             ),
           ),
         ),
@@ -203,7 +224,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               children: [
                 Icon(icon, color: color, size: 20),
                 const SizedBox(width: 8),
-                Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color)),
+                Text(title,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: color)),
               ],
             ),
             const Divider(),
@@ -214,16 +239,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _buildDataRow(String label, double value, Color color, {bool isBold = false, double? fontSize}) {
+  Widget _buildDataRow(String label, double value, Color color,
+      {bool isBold = false, double? fontSize}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(
-            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-            fontSize: fontSize != null ? fontSize - 4 : 14,
-          )),
+          Text(label,
+              style: TextStyle(
+                fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+                fontSize: fontSize != null ? fontSize - 4 : 14,
+              )),
           Text(
             '${value.toStringAsFixed(0)} ج.م',
             style: TextStyle(
@@ -244,7 +271,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: const TextStyle(fontSize: 14)),
-          Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+          Text(value,
+              style:
+                  const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
         ],
       ),
     );

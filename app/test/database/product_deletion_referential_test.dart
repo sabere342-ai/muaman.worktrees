@@ -53,10 +53,12 @@ void main() {
 
     test('Other products remain after deleting one unreferenced product',
         () async {
-      await testDb.insert('products',
+      await testDb.insert(
+          'products',
           insertProduct(id: 1, name: 'A', barcode: 'A001').toMap()
             ..remove('id'));
-      await testDb.insert('products',
+      await testDb.insert(
+          'products',
           insertProduct(id: 2, name: 'B', barcode: 'A002').toMap()
             ..remove('id'));
 
@@ -208,10 +210,11 @@ void main() {
   });
 
   group('Product with zero quantity but history', () {
-    test('Product with zero current quantity but sale history cannot be deleted',
+    test(
+        'Product with zero current quantity but sale history cannot be deleted',
         () async {
-      await testDb.insert('products',
-          insertProduct(currentQuantity: 0).toMap()..remove('id'));
+      await testDb.insert(
+          'products', insertProduct(currentQuantity: 0).toMap()..remove('id'));
 
       await testDb.insert('sales', {
         'date': '2026-07-28T00:00:00.000',

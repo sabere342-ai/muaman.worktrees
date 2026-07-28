@@ -44,7 +44,8 @@ void main() {
       final id = await DatabaseHelper.instance
           .insertProduct(makeProduct(name: '  سكر  '));
 
-      final products = await testDb.query('products', where: 'id = ?', whereArgs: [id]);
+      final products =
+          await testDb.query('products', where: 'id = ?', whereArgs: [id]);
       expect(products.first['name'], 'سكر');
     });
 
@@ -65,17 +66,20 @@ void main() {
 
   group('Name normalization — updateProduct', () {
     test('Name with leading/trailing spaces is trimmed on update', () async {
-      final id = await testDb.insert('products', makeProduct().toMap()..remove('id'));
+      final id =
+          await testDb.insert('products', makeProduct().toMap()..remove('id'));
 
       await DatabaseHelper.instance
           .updateProduct(makeProduct(id: id, name: '  سكر أبيض  '));
 
-      final products = await testDb.query('products', where: 'id = ?', whereArgs: [id]);
+      final products =
+          await testDb.query('products', where: 'id = ?', whereArgs: [id]);
       expect(products.first['name'], 'سكر أبيض');
     });
 
     test('Whitespace-only name is rejected on update', () async {
-      final id = await testDb.insert('products', makeProduct().toMap()..remove('id'));
+      final id =
+          await testDb.insert('products', makeProduct().toMap()..remove('id'));
 
       expect(
         () => DatabaseHelper.instance
@@ -90,7 +94,8 @@ void main() {
       final id = await DatabaseHelper.instance
           .insertProduct(makeProduct(barcode: '  12345  '));
 
-      final products = await testDb.query('products', where: 'id = ?', whereArgs: [id]);
+      final products =
+          await testDb.query('products', where: 'id = ?', whereArgs: [id]);
       expect(products.first['barcode'], '12345');
     });
   });
@@ -108,10 +113,13 @@ void main() {
       );
     });
 
-    test('Update with barcode that matches another product after trim is rejected',
+    test(
+        'Update with barcode that matches another product after trim is rejected',
         () async {
-      await testDb.insert('products', makeProduct(id: 1, barcode: '12345').toMap()..remove('id'));
-      await testDb.insert('products', makeProduct(id: 2, barcode: '67890').toMap()..remove('id'));
+      await testDb.insert('products',
+          makeProduct(id: 1, barcode: '12345').toMap()..remove('id'));
+      await testDb.insert('products',
+          makeProduct(id: 2, barcode: '67890').toMap()..remove('id'));
 
       expect(
         () => DatabaseHelper.instance
@@ -128,15 +136,15 @@ void main() {
       await DatabaseHelper.instance
           .updateProduct(makeProduct(id: id, barcode: '  12345  '));
 
-      final products = await testDb.query('products', where: 'id = ?', whereArgs: [id]);
+      final products =
+          await testDb.query('products', where: 'id = ?', whereArgs: [id]);
       expect(products.first['barcode'], '12345');
     });
   });
 
   group('No partial write on rejection', () {
     test('Product count unchanged after rejected insert', () async {
-      await DatabaseHelper.instance
-          .insertProduct(makeProduct(barcode: 'ORIG'));
+      await DatabaseHelper.instance.insertProduct(makeProduct(barcode: 'ORIG'));
 
       expect(
         () => DatabaseHelper.instance
@@ -158,7 +166,8 @@ void main() {
         throwsA(isA<ArgumentError>()),
       );
 
-      final products = await testDb.query('products', where: 'id = ?', whereArgs: [1]);
+      final products =
+          await testDb.query('products', where: 'id = ?', whereArgs: [1]);
       expect(products.first['name'], 'Original');
       expect(products.first['barcode'], 'ORIG');
     });
@@ -166,8 +175,8 @@ void main() {
 
   group('Normalized values stored in DB', () {
     test('Inserted name and barcode are stored trimmed', () async {
-      await DatabaseHelper.instance
-          .insertProduct(makeProduct(name: '  منتج جديد  ', barcode: '  NEW001  '));
+      await DatabaseHelper.instance.insertProduct(
+          makeProduct(name: '  منتج جديد  ', barcode: '  NEW001  '));
 
       final products = await testDb.query('products');
       expect(products.length, 1);
@@ -179,10 +188,11 @@ void main() {
       final id = await DatabaseHelper.instance
           .insertProduct(makeProduct(name: 'Old', barcode: 'OLD001'));
 
-      await DatabaseHelper.instance
-          .updateProduct(makeProduct(id: id, name: '  Updated  ', barcode: '  NEW001  '));
+      await DatabaseHelper.instance.updateProduct(
+          makeProduct(id: id, name: '  Updated  ', barcode: '  NEW001  '));
 
-      final products = await testDb.query('products', where: 'id = ?', whereArgs: [id]);
+      final products =
+          await testDb.query('products', where: 'id = ?', whereArgs: [id]);
       final p = Product.fromMap(products.first);
       expect(p.name, 'Updated');
       expect(p.barcode, 'NEW001');
@@ -192,7 +202,8 @@ void main() {
   group('Empty barcode validation', () {
     test('Empty barcode after trim is rejected', () async {
       expect(
-        () => DatabaseHelper.instance.insertProduct(makeProduct(barcode: '   ')),
+        () =>
+            DatabaseHelper.instance.insertProduct(makeProduct(barcode: '   ')),
         throwsA(isA<ArgumentError>()),
       );
     });

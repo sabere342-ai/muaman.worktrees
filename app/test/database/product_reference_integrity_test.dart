@@ -104,7 +104,9 @@ void main() {
 
     test('hasIssues true when any list non-empty', () {
       final report = IntegrityIssueReport(
-        orphanSales: [{'id': 1}],
+        orphanSales: [
+          {'id': 1}
+        ],
         orphanReturns: [],
         orphanInventoryCounts: [],
       );
@@ -114,9 +116,16 @@ void main() {
 
     test('totalOrphans sums all lists', () {
       final report = IntegrityIssueReport(
-        orphanSales: [{'id': 1}],
-        orphanReturns: [{'id': 2}, {'id': 3}],
-        orphanInventoryCounts: [{'id': 4}],
+        orphanSales: [
+          {'id': 1}
+        ],
+        orphanReturns: [
+          {'id': 2},
+          {'id': 3}
+        ],
+        orphanInventoryCounts: [
+          {'id': 4}
+        ],
       );
       expect(report.totalOrphans, 4);
     });
@@ -227,16 +236,14 @@ void main() {
   group('insertSale guard', () {
     test('Rejects sale with non-existent product barcode', () async {
       expect(
-        () => DatabaseHelper.instance
-            .insertSale(makeSale(barcode: 'GHOST001')),
+        () => DatabaseHelper.instance.insertSale(makeSale(barcode: 'GHOST001')),
         throwsA(isA<ProductReferenceIntegrityException>()),
       );
     });
 
     test('No sale row written after rejection', () async {
       expect(
-        () => DatabaseHelper.instance
-            .insertSale(makeSale(barcode: 'GHOST001')),
+        () => DatabaseHelper.instance.insertSale(makeSale(barcode: 'GHOST001')),
         throwsA(isA<ProductReferenceIntegrityException>()),
       );
 
@@ -308,8 +315,10 @@ void main() {
 
   group('updateSale guard', () {
     test('Rejects update when new barcode has no matching product', () async {
-      await testDb.insert('products', makeProduct(id: 1, barcode: 'OLD001').toMap()..remove('id'));
-      await testDb.insert('products', makeProduct(id: 2, barcode: 'VALID002').toMap()..remove('id'));
+      await testDb.insert('products',
+          makeProduct(id: 1, barcode: 'OLD001').toMap()..remove('id'));
+      await testDb.insert('products',
+          makeProduct(id: 2, barcode: 'VALID002').toMap()..remove('id'));
 
       final saleId = await testDb.insert('sales', {
         'date': '2026-07-28T00:00:00.000',
@@ -329,8 +338,10 @@ void main() {
       );
     });
 
-    test('Old stock is preserved and no partial write after rejection', () async {
-      await testDb.insert('products', makeProduct(id: 1, barcode: 'OLD001').toMap()..remove('id'));
+    test('Old stock is preserved and no partial write after rejection',
+        () async {
+      await testDb.insert('products',
+          makeProduct(id: 1, barcode: 'OLD001').toMap()..remove('id'));
 
       final saleId = await DatabaseHelper.instance
           .insertSale(makeSale(barcode: 'OLD001', quantity: 3));
@@ -353,8 +364,10 @@ void main() {
     });
 
     test('Accepts update when new barcode matches existing product', () async {
-      await testDb.insert('products', makeProduct(id: 1, barcode: 'OLD001').toMap()..remove('id'));
-      await testDb.insert('products', makeProduct(id: 2, barcode: 'NEW001').toMap()..remove('id'));
+      await testDb.insert('products',
+          makeProduct(id: 1, barcode: 'OLD001').toMap()..remove('id'));
+      await testDb.insert('products',
+          makeProduct(id: 2, barcode: 'NEW001').toMap()..remove('id'));
 
       final saleId = await testDb.insert('sales', {
         'date': '2026-07-28T00:00:00.000',
@@ -379,8 +392,10 @@ void main() {
 
   group('updateReturn guard', () {
     test('Rejects update when new barcode has no matching product', () async {
-      await testDb.insert('products', makeProduct(id: 1, barcode: 'OLD001').toMap()..remove('id'));
-      await testDb.insert('products', makeProduct(id: 2, barcode: 'VALID002').toMap()..remove('id'));
+      await testDb.insert('products',
+          makeProduct(id: 1, barcode: 'OLD001').toMap()..remove('id'));
+      await testDb.insert('products',
+          makeProduct(id: 2, barcode: 'VALID002').toMap()..remove('id'));
 
       final returnId = await testDb.insert('returns', {
         'date': '2026-07-28T00:00:00.000',
@@ -401,8 +416,10 @@ void main() {
     });
 
     test('Accepts update when new barcode matches existing product', () async {
-      await testDb.insert('products', makeProduct(id: 1, barcode: 'OLD001').toMap()..remove('id'));
-      await testDb.insert('products', makeProduct(id: 2, barcode: 'NEW001').toMap()..remove('id'));
+      await testDb.insert('products',
+          makeProduct(id: 1, barcode: 'OLD001').toMap()..remove('id'));
+      await testDb.insert('products',
+          makeProduct(id: 2, barcode: 'NEW001').toMap()..remove('id'));
 
       final returnId = await testDb.insert('returns', {
         'date': '2026-07-28T00:00:00.000',
@@ -457,13 +474,13 @@ void main() {
   });
 
   group('Transaction atomicity on guard rejection', () {
-    test('No partial write when sale product missing and sale insert is guarded',
+    test(
+        'No partial write when sale product missing and sale insert is guarded',
         () async {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance
-            .insertSale(makeSale(barcode: 'GHOST001')),
+        () => DatabaseHelper.instance.insertSale(makeSale(barcode: 'GHOST001')),
         throwsA(isA<ProductReferenceIntegrityException>()),
       );
 
@@ -492,7 +509,8 @@ void main() {
   });
 
   group('Defense in depth', () {
-    test('Direct insertSaleAndDecrementStock already has product check', () async {
+    test('Direct insertSaleAndDecrementStock already has product check',
+        () async {
       expect(
         () => DatabaseHelper.instance
             .insertSaleAndDecrementStock(makeSale(barcode: 'MISSING')),

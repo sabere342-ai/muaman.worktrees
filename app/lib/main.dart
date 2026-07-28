@@ -38,7 +38,8 @@ class MyApp extends StatelessWidget {
         ),
         cardTheme: CardTheme(
           elevation: 2,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
           elevation: 4,

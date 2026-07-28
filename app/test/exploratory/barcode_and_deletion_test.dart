@@ -128,8 +128,7 @@ void main() {
           reason: 'Product must still exist after rejection');
 
       final sales = await testDb.query('sales');
-      expect(sales.length, 1,
-          reason: 'Sales should persist after rejection');
+      expect(sales.length, 1, reason: 'Sales should persist after rejection');
       expect(sales.first['productName'], 'Product X');
 
       final counts = await testDb.query('inventory_count');

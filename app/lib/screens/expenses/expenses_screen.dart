@@ -35,7 +35,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('المصروفات', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('المصروفات',
+            style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
         backgroundColor: const Color(0xFFE65100),
         foregroundColor: Colors.white,
@@ -53,14 +54,23 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
               children: [
                 Column(
                   children: [
-                    Text('${_expenses.length}', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFFE65100))),
+                    Text('${_expenses.length}',
+                        style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFE65100))),
                     const Text('عدد المصروفات', style: TextStyle(fontSize: 12)),
                   ],
                 ),
                 Column(
                   children: [
-                    Text('${totalExpenses.toStringAsFixed(0)} ج.م', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFFE65100))),
-                    const Text('إجمالي المصروفات', style: TextStyle(fontSize: 12)),
+                    Text('${totalExpenses.toStringAsFixed(0)} ج.م',
+                        style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFE65100))),
+                    const Text('إجمالي المصروفات',
+                        style: TextStyle(fontSize: 12)),
                   ],
                 ),
               ],
@@ -81,23 +91,32 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                             return Card(
                               margin: const EdgeInsets.symmetric(vertical: 4),
                               elevation: 2,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
                               child: ListTile(
                                 leading: CircleAvatar(
                                   backgroundColor: Colors.orange.shade50,
-                                  child: const Icon(Icons.money_off, color: Colors.orange),
+                                  child: const Icon(Icons.money_off,
+                                      color: Colors.orange),
                                 ),
-                                title: Text(expense.description, style: const TextStyle(fontWeight: FontWeight.bold)),
-                                subtitle: Text('التاريخ: ${DateFormat('yyyy-MM-dd').format(expense.date)}'),
+                                title: Text(expense.description,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold)),
+                                subtitle: Text(
+                                    'التاريخ: ${DateFormat('yyyy-MM-dd').format(expense.date)}'),
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
                                       '${expense.amount.toStringAsFixed(0)} ج.م',
-                                      style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.orange, fontSize: 14),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.orange,
+                                          fontSize: 14),
                                     ),
                                     IconButton(
-                                      icon: const Icon(Icons.delete, size: 18, color: Colors.red),
+                                      icon: const Icon(Icons.delete,
+                                          size: 18, color: Colors.red),
                                       onPressed: () => _confirmDelete(expense),
                                       padding: EdgeInsets.zero,
                                       constraints: const BoxConstraints(),
@@ -125,7 +144,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   void _showAddExpenseDialog(BuildContext context) {
     final descController = TextEditingController();
     final amountController = TextEditingController();
-    final dateController = TextEditingController(text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
+    final dateController = TextEditingController(
+        text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
     DateTime selectedDate = DateTime.now();
 
     showDialog(
@@ -153,7 +173,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                   );
                   if (picked != null) {
                     selectedDate = picked;
-                    dateController.text = DateFormat('yyyy-MM-dd').format(picked);
+                    dateController.text =
+                        DateFormat('yyyy-MM-dd').format(picked);
                   }
                 },
               ),
@@ -179,10 +200,13 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
           ),
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('إلغاء')),
+          TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('إلغاء')),
           ElevatedButton(
             onPressed: () async {
-              if (descController.text.isEmpty || amountController.text.isEmpty) return;
+              if (descController.text.isEmpty || amountController.text.isEmpty)
+                return;
               final amount = double.tryParse(amountController.text) ?? 0;
               if (amount <= 0) return;
 
@@ -210,7 +234,9 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
         title: const Text('حذف المصروف'),
         content: Text('هل أنت متأكد من حذف "${expense.description}"؟'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('إلغاء')),
+          TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('إلغاء')),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () async {

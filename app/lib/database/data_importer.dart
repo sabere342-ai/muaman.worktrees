@@ -10,92 +10,522 @@ class DataImporter {
 
   static Future<void> _importProducts(Database db) async {
     final products = [
-      {'name': 'تي شيرت 2سوستة تركي', 'barcode': '2000000000001', 'openingQuantity': 1, 'costPrice': 360.0},
-      {'name': 'تي شيرت بلانكو قصات', 'barcode': '2000000000002', 'openingQuantity': 8, 'costPrice': 480.0},
-      {'name': 'تي شيرت حورس طباعة فوم', 'barcode': '2000000000003', 'openingQuantity': 5, 'costPrice': 250.0},
-      {'name': 'تي شيرت كويك', 'barcode': '2000000000004', 'openingQuantity': 3, 'costPrice': 200.0},
-      {'name': 'تي شيرت وولف سادة', 'barcode': '2000000000005', 'openingQuantity': 2, 'costPrice': 250.0},
-      {'name': 'تي شيرت اليفين', 'barcode': '2000000000006', 'openingQuantity': 1, 'costPrice': 360.0},
-      {'name': 'تي شيرت ترند تريكو', 'barcode': '2000000000007', 'openingQuantity': 4, 'costPrice': 290.0},
-      {'name': 'تي شيرت بليزي', 'barcode': '2000000000008', 'openingQuantity': 1, 'costPrice': 350.0},
-      {'name': 'تي شيرت كراش', 'barcode': '2000000000009', 'openingQuantity': 14, 'costPrice': 180.0},
-      {'name': 'تي شيرت ياقة نور', 'barcode': '2000000000010', 'openingQuantity': 7, 'costPrice': 280.0},
-      {'name': 'تي شيرت فيو مخربش', 'barcode': '2000000000011', 'openingQuantity': 2, 'costPrice': 300.0},
-      {'name': 'تي شيرت ياقة عجينة', 'barcode': '2000000000012', 'openingQuantity': 1, 'costPrice': 240.0},
-      {'name': 'تي شيرت ياقة فولكفر فيندي', 'barcode': '2000000000013', 'openingQuantity': 1, 'costPrice': 410.0},
-      {'name': 'تي شيرت جولدن بوي ديور', 'barcode': '2000000000014', 'openingQuantity': 1, 'costPrice': 490.0},
-      {'name': 'تي شيرت ديور باريس', 'barcode': '2000000000015', 'openingQuantity': 2, 'costPrice': 460.0},
-      {'name': 'تي شيرت ياقة امريكان ايجل مونك', 'barcode': '2000000000016', 'openingQuantity': 2, 'costPrice': 360.0},
-      {'name': 'تي شيرت مقلم عرض', 'barcode': '2000000000017', 'openingQuantity': 5, 'costPrice': 295.0},
-      {'name': 'تي شيرت فري كم', 'barcode': '2000000000018', 'openingQuantity': 1, 'costPrice': 320.0},
-      {'name': 'تي شيرت ليمون', 'barcode': '2000000000019', 'openingQuantity': 2, 'costPrice': 490.0},
-      {'name': 'تي شيرت فولكفر ديور', 'barcode': '2000000000020', 'openingQuantity': 2, 'costPrice': 410.0},
-      {'name': 'هودي 2سوستة شتوي', 'barcode': '2000000000021', 'openingQuantity': 1, 'costPrice': 380.0},
-      {'name': 'تي شيرت بلانكو جديد', 'barcode': '2000000000022', 'openingQuantity': 16, 'costPrice': 490.0},
-      {'name': 'تي شيرت فري عرض', 'barcode': '2000000000023', 'openingQuantity': 24, 'costPrice': 250.0},
-      {'name': 'تي شيرت فري جلد', 'barcode': '2000000000024', 'openingQuantity': 6, 'costPrice': 510.0},
-      {'name': 'تي شيرت فري طباعة رابر', 'barcode': '2000000000025', 'openingQuantity': 13, 'costPrice': 390.0},
-      {'name': 'كات فري', 'barcode': '2000000000026', 'openingQuantity': 3, 'costPrice': 270.0},
-      {'name': 'كات BOSS', 'barcode': '2000000000027', 'openingQuantity': 6, 'costPrice': 290.0},
-      {'name': 'تي شيرت صيني', 'barcode': '2000000000028', 'openingQuantity': 1, 'costPrice': 295.0},
-      {'name': 'تي شيرت دبل فيس', 'barcode': '2000000000029', 'openingQuantity': 3, 'costPrice': 450.0},
-      {'name': 'سوت تي شيرت كابو', 'barcode': '2000000000030', 'openingQuantity': 6, 'costPrice': 370.0},
-      {'name': 'سوت كتان كم', 'barcode': '2000000000031', 'openingQuantity': 3, 'costPrice': 410.0},
-      {'name': 'سوت كتان نص كم', 'barcode': '2000000000032', 'openingQuantity': 7, 'costPrice': 370.0},
-      {'name': 'قميص كوريشة', 'barcode': '2000000000033', 'openingQuantity': 4, 'costPrice': 170.0},
-      {'name': 'قميص سبرينج سادة', 'barcode': '2000000000034', 'openingQuantity': 7, 'costPrice': 300.0},
-      {'name': 'قميص كتان', 'barcode': '2000000000035', 'openingQuantity': 14, 'costPrice': 210.0},
-      {'name': 'قميص جينز تقيل سبرينج', 'barcode': '2000000000036', 'openingQuantity': 2, 'costPrice': 550.0},
-      {'name': 'قميص امريكان ايجل جينز', 'barcode': '2000000000037', 'openingQuantity': 1, 'costPrice': 480.0},
-      {'name': 'قميص كامب جينز', 'barcode': '2000000000038', 'openingQuantity': 3, 'costPrice': 550.0},
-      {'name': 'قميص حربي', 'barcode': '2000000000039', 'openingQuantity': 4, 'costPrice': 465.0},
-      {'name': 'جبردين استك ZARA', 'barcode': '2000000000040', 'openingQuantity': 4, 'costPrice': 380.0},
-      {'name': 'سوفت CABO', 'barcode': '2000000000041', 'openingQuantity': 2, 'costPrice': 375.0},
-      {'name': 'شروال جبردين VEGAS', 'barcode': '2000000000042', 'openingQuantity': 2, 'costPrice': 380.0},
-      {'name': 'شروال القنطرة', 'barcode': '2000000000043', 'openingQuantity': 14, 'costPrice': 280.0},
-      {'name': 'جوستافو LINE3', 'barcode': '2000000000044', 'openingQuantity': 7, 'costPrice': 315.0},
-      {'name': 'جوستافو رمادي', 'barcode': '2000000000045', 'openingQuantity': 2, 'costPrice': 550.0},
-      {'name': 'جوستافو استك', 'barcode': '2000000000046', 'openingQuantity': 6, 'costPrice': 320.0},
-      {'name': 'شروال كلاسيك', 'barcode': '2000000000047', 'openingQuantity': 1, 'costPrice': 450.0},
-      {'name': 'شروال جبردين BOSS', 'barcode': '2000000000048', 'openingQuantity': 1, 'costPrice': 575.0},
-      {'name': 'كارجو جينز', 'barcode': '2000000000049', 'openingQuantity': 2, 'costPrice': 550.0},
-      {'name': 'ريلاكسيد نحاسي', 'barcode': '2000000000050', 'openingQuantity': 1, 'costPrice': 340.0},
-      {'name': 'وايد ليج كاتنج', 'barcode': '2000000000051', 'openingQuantity': 1, 'costPrice': 330.0},
-      {'name': 'دريب', 'barcode': '2000000000052', 'openingQuantity': 6, 'costPrice': 510.0},
-      {'name': 'وايد ليج ديزل', 'barcode': '2000000000053', 'openingQuantity': 23, 'costPrice': 330.0},
-      {'name': 'بلولاين جي بي اس جديد', 'barcode': '2000000000054', 'openingQuantity': 1, 'costPrice': 430.0},
-      {'name': 'جينز جيب سيليكون', 'barcode': '2000000000055', 'openingQuantity': 3, 'costPrice': 360.0},
-      {'name': 'جينز جيب تطريز بي', 'barcode': '2000000000056', 'openingQuantity': 2, 'costPrice': 310.0},
-      {'name': 'وايد ليج سادة', 'barcode': '2000000000057', 'openingQuantity': 15, 'costPrice': 330.0},
-      {'name': 'بوي فريند حبل', 'barcode': '2000000000058', 'openingQuantity': 3, 'costPrice': 320.0},
-      {'name': 'بوي فريند حزام', 'barcode': '2000000000059', 'openingQuantity': 10, 'costPrice': 340.0},
-      {'name': 'بلولاين القنطرة', 'barcode': '2000000000060', 'openingQuantity': 3, 'costPrice': 390.0},
-      {'name': 'جينز اكس ثري', 'barcode': '2000000000061', 'openingQuantity': 1, 'costPrice': 330.0},
-      {'name': 'بدي قصة', 'barcode': '2000000000062', 'openingQuantity': 10, 'costPrice': 160.0},
-      {'name': 'مايوه نايك', 'barcode': '2000000000063', 'openingQuantity': 5, 'costPrice': 115.0},
-      {'name': 'مايوه كيلفن كلاين', 'barcode': '2000000000064', 'openingQuantity': 2, 'costPrice': 210.0},
-      {'name': 'جينز تمبرلاند', 'barcode': '2000000000065', 'openingQuantity': 34, 'costPrice': 315.0},
-      {'name': 'تحزية', 'barcode': '2000000000066', 'openingQuantity': 100, 'costPrice': 0.0},
-      {'name': 'بنطلون جبردين GPS', 'barcode': '2000000000067', 'openingQuantity': 24, 'costPrice': 320.0},
-      {'name': 'بولو فيجس', 'barcode': '2000000000068', 'openingQuantity': 4, 'costPrice': 415.0},
-      {'name': 'راوند فيجس', 'barcode': '2000000000069', 'openingQuantity': 2, 'costPrice': 395.0},
-      {'name': 'شروال سوفت مستورد', 'barcode': '2000000000070', 'openingQuantity': 8, 'costPrice': 490.0},
-      {'name': 'قميص بوكس فيت', 'barcode': '2000000000071', 'openingQuantity': 2, 'costPrice': 400.0},
-      {'name': 'تيشيرت RNB', 'barcode': '2000000000072', 'openingQuantity': 10, 'costPrice': 460.0},
-      {'name': 'تيشيرت XIO اوريجينال', 'barcode': '2000000000073', 'openingQuantity': 10, 'costPrice': 390.0},
-      {'name': 'تيشيرت A|X', 'barcode': '2000000000074', 'openingQuantity': 8, 'costPrice': 360.0},
-      {'name': 'قميص كتان XIO', 'barcode': '2000000000075', 'openingQuantity': 8, 'costPrice': 450.0},
-      {'name': 'بنطلون كتان', 'barcode': '2000000000076', 'openingQuantity': 1, 'costPrice': 200.0},
-      {'name': 'قميص نص كتان', 'barcode': '2000000000077', 'openingQuantity': 1, 'costPrice': 185.0},
-      {'name': 'شورت كتان', 'barcode': '2000000000078', 'openingQuantity': 1, 'costPrice': 185.0},
-      {'name': 'تي شيرت بلانكو باريس', 'barcode': '2000000000079', 'openingQuantity': 12, 'costPrice': 400.0},
-      {'name': 'تيشيرت وولف جديد', 'barcode': '2000000000080', 'openingQuantity': 22, 'costPrice': 430.0},
-      {'name': 'تي شيرت فري ديور', 'barcode': '2000000000081', 'openingQuantity': 6, 'costPrice': 250.0},
-      {'name': 'تي شيرت LV', 'barcode': '2000000000082', 'openingQuantity': 8, 'costPrice': 275.0},
-      {'name': 'شورت جديد', 'barcode': '2000000000083', 'openingQuantity': 3, 'costPrice': 210.0},
-      {'name': 'سوت كتان جديد', 'barcode': '2000000000084', 'openingQuantity': 5, 'costPrice': 390.0},
-      {'name': 'قميص كتان جديد', 'barcode': '2000000000085', 'openingQuantity': 10, 'costPrice': 235.0},
-      {'name': 'قميص سوت كتان', 'barcode': '2000000000086', 'openingQuantity': 3, 'costPrice': 195.0},
+      {
+        'name': 'تي شيرت 2سوستة تركي',
+        'barcode': '2000000000001',
+        'openingQuantity': 1,
+        'costPrice': 360.0
+      },
+      {
+        'name': 'تي شيرت بلانكو قصات',
+        'barcode': '2000000000002',
+        'openingQuantity': 8,
+        'costPrice': 480.0
+      },
+      {
+        'name': 'تي شيرت حورس طباعة فوم',
+        'barcode': '2000000000003',
+        'openingQuantity': 5,
+        'costPrice': 250.0
+      },
+      {
+        'name': 'تي شيرت كويك',
+        'barcode': '2000000000004',
+        'openingQuantity': 3,
+        'costPrice': 200.0
+      },
+      {
+        'name': 'تي شيرت وولف سادة',
+        'barcode': '2000000000005',
+        'openingQuantity': 2,
+        'costPrice': 250.0
+      },
+      {
+        'name': 'تي شيرت اليفين',
+        'barcode': '2000000000006',
+        'openingQuantity': 1,
+        'costPrice': 360.0
+      },
+      {
+        'name': 'تي شيرت ترند تريكو',
+        'barcode': '2000000000007',
+        'openingQuantity': 4,
+        'costPrice': 290.0
+      },
+      {
+        'name': 'تي شيرت بليزي',
+        'barcode': '2000000000008',
+        'openingQuantity': 1,
+        'costPrice': 350.0
+      },
+      {
+        'name': 'تي شيرت كراش',
+        'barcode': '2000000000009',
+        'openingQuantity': 14,
+        'costPrice': 180.0
+      },
+      {
+        'name': 'تي شيرت ياقة نور',
+        'barcode': '2000000000010',
+        'openingQuantity': 7,
+        'costPrice': 280.0
+      },
+      {
+        'name': 'تي شيرت فيو مخربش',
+        'barcode': '2000000000011',
+        'openingQuantity': 2,
+        'costPrice': 300.0
+      },
+      {
+        'name': 'تي شيرت ياقة عجينة',
+        'barcode': '2000000000012',
+        'openingQuantity': 1,
+        'costPrice': 240.0
+      },
+      {
+        'name': 'تي شيرت ياقة فولكفر فيندي',
+        'barcode': '2000000000013',
+        'openingQuantity': 1,
+        'costPrice': 410.0
+      },
+      {
+        'name': 'تي شيرت جولدن بوي ديور',
+        'barcode': '2000000000014',
+        'openingQuantity': 1,
+        'costPrice': 490.0
+      },
+      {
+        'name': 'تي شيرت ديور باريس',
+        'barcode': '2000000000015',
+        'openingQuantity': 2,
+        'costPrice': 460.0
+      },
+      {
+        'name': 'تي شيرت ياقة امريكان ايجل مونك',
+        'barcode': '2000000000016',
+        'openingQuantity': 2,
+        'costPrice': 360.0
+      },
+      {
+        'name': 'تي شيرت مقلم عرض',
+        'barcode': '2000000000017',
+        'openingQuantity': 5,
+        'costPrice': 295.0
+      },
+      {
+        'name': 'تي شيرت فري كم',
+        'barcode': '2000000000018',
+        'openingQuantity': 1,
+        'costPrice': 320.0
+      },
+      {
+        'name': 'تي شيرت ليمون',
+        'barcode': '2000000000019',
+        'openingQuantity': 2,
+        'costPrice': 490.0
+      },
+      {
+        'name': 'تي شيرت فولكفر ديور',
+        'barcode': '2000000000020',
+        'openingQuantity': 2,
+        'costPrice': 410.0
+      },
+      {
+        'name': 'هودي 2سوستة شتوي',
+        'barcode': '2000000000021',
+        'openingQuantity': 1,
+        'costPrice': 380.0
+      },
+      {
+        'name': 'تي شيرت بلانكو جديد',
+        'barcode': '2000000000022',
+        'openingQuantity': 16,
+        'costPrice': 490.0
+      },
+      {
+        'name': 'تي شيرت فري عرض',
+        'barcode': '2000000000023',
+        'openingQuantity': 24,
+        'costPrice': 250.0
+      },
+      {
+        'name': 'تي شيرت فري جلد',
+        'barcode': '2000000000024',
+        'openingQuantity': 6,
+        'costPrice': 510.0
+      },
+      {
+        'name': 'تي شيرت فري طباعة رابر',
+        'barcode': '2000000000025',
+        'openingQuantity': 13,
+        'costPrice': 390.0
+      },
+      {
+        'name': 'كات فري',
+        'barcode': '2000000000026',
+        'openingQuantity': 3,
+        'costPrice': 270.0
+      },
+      {
+        'name': 'كات BOSS',
+        'barcode': '2000000000027',
+        'openingQuantity': 6,
+        'costPrice': 290.0
+      },
+      {
+        'name': 'تي شيرت صيني',
+        'barcode': '2000000000028',
+        'openingQuantity': 1,
+        'costPrice': 295.0
+      },
+      {
+        'name': 'تي شيرت دبل فيس',
+        'barcode': '2000000000029',
+        'openingQuantity': 3,
+        'costPrice': 450.0
+      },
+      {
+        'name': 'سوت تي شيرت كابو',
+        'barcode': '2000000000030',
+        'openingQuantity': 6,
+        'costPrice': 370.0
+      },
+      {
+        'name': 'سوت كتان كم',
+        'barcode': '2000000000031',
+        'openingQuantity': 3,
+        'costPrice': 410.0
+      },
+      {
+        'name': 'سوت كتان نص كم',
+        'barcode': '2000000000032',
+        'openingQuantity': 7,
+        'costPrice': 370.0
+      },
+      {
+        'name': 'قميص كوريشة',
+        'barcode': '2000000000033',
+        'openingQuantity': 4,
+        'costPrice': 170.0
+      },
+      {
+        'name': 'قميص سبرينج سادة',
+        'barcode': '2000000000034',
+        'openingQuantity': 7,
+        'costPrice': 300.0
+      },
+      {
+        'name': 'قميص كتان',
+        'barcode': '2000000000035',
+        'openingQuantity': 14,
+        'costPrice': 210.0
+      },
+      {
+        'name': 'قميص جينز تقيل سبرينج',
+        'barcode': '2000000000036',
+        'openingQuantity': 2,
+        'costPrice': 550.0
+      },
+      {
+        'name': 'قميص امريكان ايجل جينز',
+        'barcode': '2000000000037',
+        'openingQuantity': 1,
+        'costPrice': 480.0
+      },
+      {
+        'name': 'قميص كامب جينز',
+        'barcode': '2000000000038',
+        'openingQuantity': 3,
+        'costPrice': 550.0
+      },
+      {
+        'name': 'قميص حربي',
+        'barcode': '2000000000039',
+        'openingQuantity': 4,
+        'costPrice': 465.0
+      },
+      {
+        'name': 'جبردين استك ZARA',
+        'barcode': '2000000000040',
+        'openingQuantity': 4,
+        'costPrice': 380.0
+      },
+      {
+        'name': 'سوفت CABO',
+        'barcode': '2000000000041',
+        'openingQuantity': 2,
+        'costPrice': 375.0
+      },
+      {
+        'name': 'شروال جبردين VEGAS',
+        'barcode': '2000000000042',
+        'openingQuantity': 2,
+        'costPrice': 380.0
+      },
+      {
+        'name': 'شروال القنطرة',
+        'barcode': '2000000000043',
+        'openingQuantity': 14,
+        'costPrice': 280.0
+      },
+      {
+        'name': 'جوستافو LINE3',
+        'barcode': '2000000000044',
+        'openingQuantity': 7,
+        'costPrice': 315.0
+      },
+      {
+        'name': 'جوستافو رمادي',
+        'barcode': '2000000000045',
+        'openingQuantity': 2,
+        'costPrice': 550.0
+      },
+      {
+        'name': 'جوستافو استك',
+        'barcode': '2000000000046',
+        'openingQuantity': 6,
+        'costPrice': 320.0
+      },
+      {
+        'name': 'شروال كلاسيك',
+        'barcode': '2000000000047',
+        'openingQuantity': 1,
+        'costPrice': 450.0
+      },
+      {
+        'name': 'شروال جبردين BOSS',
+        'barcode': '2000000000048',
+        'openingQuantity': 1,
+        'costPrice': 575.0
+      },
+      {
+        'name': 'كارجو جينز',
+        'barcode': '2000000000049',
+        'openingQuantity': 2,
+        'costPrice': 550.0
+      },
+      {
+        'name': 'ريلاكسيد نحاسي',
+        'barcode': '2000000000050',
+        'openingQuantity': 1,
+        'costPrice': 340.0
+      },
+      {
+        'name': 'وايد ليج كاتنج',
+        'barcode': '2000000000051',
+        'openingQuantity': 1,
+        'costPrice': 330.0
+      },
+      {
+        'name': 'دريب',
+        'barcode': '2000000000052',
+        'openingQuantity': 6,
+        'costPrice': 510.0
+      },
+      {
+        'name': 'وايد ليج ديزل',
+        'barcode': '2000000000053',
+        'openingQuantity': 23,
+        'costPrice': 330.0
+      },
+      {
+        'name': 'بلولاين جي بي اس جديد',
+        'barcode': '2000000000054',
+        'openingQuantity': 1,
+        'costPrice': 430.0
+      },
+      {
+        'name': 'جينز جيب سيليكون',
+        'barcode': '2000000000055',
+        'openingQuantity': 3,
+        'costPrice': 360.0
+      },
+      {
+        'name': 'جينز جيب تطريز بي',
+        'barcode': '2000000000056',
+        'openingQuantity': 2,
+        'costPrice': 310.0
+      },
+      {
+        'name': 'وايد ليج سادة',
+        'barcode': '2000000000057',
+        'openingQuantity': 15,
+        'costPrice': 330.0
+      },
+      {
+        'name': 'بوي فريند حبل',
+        'barcode': '2000000000058',
+        'openingQuantity': 3,
+        'costPrice': 320.0
+      },
+      {
+        'name': 'بوي فريند حزام',
+        'barcode': '2000000000059',
+        'openingQuantity': 10,
+        'costPrice': 340.0
+      },
+      {
+        'name': 'بلولاين القنطرة',
+        'barcode': '2000000000060',
+        'openingQuantity': 3,
+        'costPrice': 390.0
+      },
+      {
+        'name': 'جينز اكس ثري',
+        'barcode': '2000000000061',
+        'openingQuantity': 1,
+        'costPrice': 330.0
+      },
+      {
+        'name': 'بدي قصة',
+        'barcode': '2000000000062',
+        'openingQuantity': 10,
+        'costPrice': 160.0
+      },
+      {
+        'name': 'مايوه نايك',
+        'barcode': '2000000000063',
+        'openingQuantity': 5,
+        'costPrice': 115.0
+      },
+      {
+        'name': 'مايوه كيلفن كلاين',
+        'barcode': '2000000000064',
+        'openingQuantity': 2,
+        'costPrice': 210.0
+      },
+      {
+        'name': 'جينز تمبرلاند',
+        'barcode': '2000000000065',
+        'openingQuantity': 34,
+        'costPrice': 315.0
+      },
+      {
+        'name': 'تحزية',
+        'barcode': '2000000000066',
+        'openingQuantity': 100,
+        'costPrice': 0.0
+      },
+      {
+        'name': 'بنطلون جبردين GPS',
+        'barcode': '2000000000067',
+        'openingQuantity': 24,
+        'costPrice': 320.0
+      },
+      {
+        'name': 'بولو فيجس',
+        'barcode': '2000000000068',
+        'openingQuantity': 4,
+        'costPrice': 415.0
+      },
+      {
+        'name': 'راوند فيجس',
+        'barcode': '2000000000069',
+        'openingQuantity': 2,
+        'costPrice': 395.0
+      },
+      {
+        'name': 'شروال سوفت مستورد',
+        'barcode': '2000000000070',
+        'openingQuantity': 8,
+        'costPrice': 490.0
+      },
+      {
+        'name': 'قميص بوكس فيت',
+        'barcode': '2000000000071',
+        'openingQuantity': 2,
+        'costPrice': 400.0
+      },
+      {
+        'name': 'تيشيرت RNB',
+        'barcode': '2000000000072',
+        'openingQuantity': 10,
+        'costPrice': 460.0
+      },
+      {
+        'name': 'تيشيرت XIO اوريجينال',
+        'barcode': '2000000000073',
+        'openingQuantity': 10,
+        'costPrice': 390.0
+      },
+      {
+        'name': 'تيشيرت A|X',
+        'barcode': '2000000000074',
+        'openingQuantity': 8,
+        'costPrice': 360.0
+      },
+      {
+        'name': 'قميص كتان XIO',
+        'barcode': '2000000000075',
+        'openingQuantity': 8,
+        'costPrice': 450.0
+      },
+      {
+        'name': 'بنطلون كتان',
+        'barcode': '2000000000076',
+        'openingQuantity': 1,
+        'costPrice': 200.0
+      },
+      {
+        'name': 'قميص نص كتان',
+        'barcode': '2000000000077',
+        'openingQuantity': 1,
+        'costPrice': 185.0
+      },
+      {
+        'name': 'شورت كتان',
+        'barcode': '2000000000078',
+        'openingQuantity': 1,
+        'costPrice': 185.0
+      },
+      {
+        'name': 'تي شيرت بلانكو باريس',
+        'barcode': '2000000000079',
+        'openingQuantity': 12,
+        'costPrice': 400.0
+      },
+      {
+        'name': 'تيشيرت وولف جديد',
+        'barcode': '2000000000080',
+        'openingQuantity': 22,
+        'costPrice': 430.0
+      },
+      {
+        'name': 'تي شيرت فري ديور',
+        'barcode': '2000000000081',
+        'openingQuantity': 6,
+        'costPrice': 250.0
+      },
+      {
+        'name': 'تي شيرت LV',
+        'barcode': '2000000000082',
+        'openingQuantity': 8,
+        'costPrice': 275.0
+      },
+      {
+        'name': 'شورت جديد',
+        'barcode': '2000000000083',
+        'openingQuantity': 3,
+        'costPrice': 210.0
+      },
+      {
+        'name': 'سوت كتان جديد',
+        'barcode': '2000000000084',
+        'openingQuantity': 5,
+        'costPrice': 390.0
+      },
+      {
+        'name': 'قميص كتان جديد',
+        'barcode': '2000000000085',
+        'openingQuantity': 10,
+        'costPrice': 235.0
+      },
+      {
+        'name': 'قميص سوت كتان',
+        'barcode': '2000000000086',
+        'openingQuantity': 3,
+        'costPrice': 195.0
+      },
     ];
 
     for (final p in products) {
@@ -362,7 +792,8 @@ class DataImporter {
         'cogs': qty * cost,
       });
 
-      final product = await db.query('products', where: 'barcode = ?', whereArgs: [barcode]);
+      final product = await db
+          .query('products', where: 'barcode = ?', whereArgs: [barcode]);
       if (product.isNotEmpty) {
         final p = product.first;
         final newSold = (p['soldQuantity'] as int) + qty;
@@ -370,11 +801,15 @@ class DataImporter {
         final returned = p['returnedQuantity'] as int;
         final adjustment = p['inventoryAdjustment'] as int;
         final newCurrent = opening - newSold + returned + adjustment;
-        await db.update('products', {
-          'soldQuantity': newSold,
-          'currentQuantity': newCurrent,
-          'totalInventoryCost': newCurrent * (p['costPrice'] as double),
-        }, where: 'barcode = ?', whereArgs: [barcode]);
+        await db.update(
+            'products',
+            {
+              'soldQuantity': newSold,
+              'currentQuantity': newCurrent,
+              'totalInventoryCost': newCurrent * (p['costPrice'] as double),
+            },
+            where: 'barcode = ?',
+            whereArgs: [barcode]);
       }
     }
   }
@@ -410,7 +845,8 @@ class DataImporter {
         'returnedCogs': qty * cost,
       });
 
-      final product = await db.query('products', where: 'barcode = ?', whereArgs: [barcode]);
+      final product = await db
+          .query('products', where: 'barcode = ?', whereArgs: [barcode]);
       if (product.isNotEmpty) {
         final p = product.first;
         final newReturned = (p['returnedQuantity'] as int) + qty;
@@ -418,11 +854,15 @@ class DataImporter {
         final sold = p['soldQuantity'] as int;
         final adjustment = p['inventoryAdjustment'] as int;
         final newCurrent = opening - sold + newReturned + adjustment;
-        await db.update('products', {
-          'returnedQuantity': newReturned,
-          'currentQuantity': newCurrent,
-          'totalInventoryCost': newCurrent * (p['costPrice'] as double),
-        }, where: 'barcode = ?', whereArgs: [barcode]);
+        await db.update(
+            'products',
+            {
+              'returnedQuantity': newReturned,
+              'currentQuantity': newCurrent,
+              'totalInventoryCost': newCurrent * (p['costPrice'] as double),
+            },
+            where: 'barcode = ?',
+            whereArgs: [barcode]);
       }
     }
   }

@@ -194,8 +194,8 @@ class DatabaseHelper {
   Future<int> deleteProduct(int id) async {
     final db = await database;
     return await db.transaction((txn) async {
-      final productMaps = await txn
-          .query('products', where: 'id = ?', whereArgs: [id]);
+      final productMaps =
+          await txn.query('products', where: 'id = ?', whereArgs: [id]);
       if (productMaps.isEmpty) return 0;
       final product = Product.fromMap(productMaps.first);
 
@@ -411,60 +411,141 @@ class DatabaseHelper {
   }
 
   Future<int> updateSale(Sale sale) async {
+    if (sale.quantity <= 0) {
+      throw ArgumentError('يجب أن تكون الكمية أكبر من صفر');
+    }
+    if (sale.salePrice.isNaN || sale.salePrice.isInfinite) {
+      throw ArgumentError('سعر البيع غير صالح');
+    }
+    if (sale.salePrice <= 0) {
+      throw ArgumentError('يجب أن يكون سعر البيع أكبر من صفر');
+    }
+
+    final trimmedBarcode = sale.barcode.trim();
+
     final db = await database;
     return await db.transaction((txn) async {
       final oldData =
           await txn.query('sales', where: 'id = ?', whereArgs: [sale.id]);
 
-      if (oldData.isNotEmpty) {
-        final old = Sale.fromMap(oldData.first);
+      if (oldData.isEmpty) {
+        throw StateError('السجل المطلوب تعديله غير موجود');
+      }
 
-        final oldProductMaps = await txn
-            .query('products', where: 'barcode = ?', whereArgs: [old.barcode]);
-        if (oldProductMaps.isNotEmpty) {
-          final oldProduct = Product.fromMap(oldProductMaps.first);
-          final revertedSold = oldProduct.soldQuantity - old.quantity;
-          final revertedCurrent = oldProduct.openingQuantity -
-              revertedSold +
-              oldProduct.returnedQuantity +
-              oldProduct.inventoryAdjustment;
-          await txn.update(
-            'products',
-            {
-              'soldQuantity': revertedSold,
-              'currentQuantity': revertedCurrent,
-              'totalInventoryCost': revertedCurrent * oldProduct.costPrice,
-            },
-            where: 'barcode = ?',
-            whereArgs: [old.barcode],
+      final old = Sale.fromMap(oldData.first);
+      final oldBarcode = old.barcode;
+
+      final oldProductMaps = await txn
+          .query('products', where: 'barcode = ?', whereArgs: [oldBarcode]);
+      if (oldProductMaps.isEmpty) {
+        throw ProductReferenceIntegrityException(
+            'المنتج القديم للبيع غير موجود');
+      }
+      final oldProduct = Product.fromMap(oldProductMaps.first);
+
+      await _requireExistingProductByBarcode(txn, trimmedBarcode);
+
+      final newProductMaps = await txn
+          .query('products', where: 'barcode = ?', whereArgs: [trimmedBarcode]);
+      final newProduct = Product.fromMap(newProductMaps.first);
+
+      final sameProduct = oldBarcode == trimmedBarcode;
+
+      if (sameProduct) {
+        final netEffect = sale.quantity - old.quantity;
+        if (netEffect > 0 && newProduct.currentQuantity < netEffect) {
+          throw InsufficientStockException(
+            productId: newProduct.id!,
+            availableQuantity: newProduct.currentQuantity.toDouble(),
+            requestedQuantity: netEffect.toDouble(),
           );
+        }
+
+        final newSold = newProduct.soldQuantity - old.quantity + sale.quantity;
+        final newCurrent = newProduct.openingQuantity -
+            newSold +
+            newProduct.returnedQuantity +
+            newProduct.inventoryAdjustment;
+
+        final affectedProduct = await txn.update(
+          'products',
+          {
+            'soldQuantity': newSold,
+            'currentQuantity': newCurrent,
+            'totalInventoryCost': newCurrent * newProduct.costPrice,
+          },
+          where: 'id = ?',
+          whereArgs: [newProduct.id],
+        );
+        if (affectedProduct != 1) {
+          throw StateError('فشل تحديث المخزون');
+        }
+      } else {
+        final revertedSold = oldProduct.soldQuantity - old.quantity;
+        final revertedCurrent = oldProduct.openingQuantity -
+            revertedSold +
+            oldProduct.returnedQuantity +
+            oldProduct.inventoryAdjustment;
+
+        final affectedOld = await txn.update(
+          'products',
+          {
+            'soldQuantity': revertedSold,
+            'currentQuantity': revertedCurrent,
+            'totalInventoryCost': revertedCurrent * oldProduct.costPrice,
+          },
+          where: 'id = ?',
+          whereArgs: [oldProduct.id],
+        );
+        if (affectedOld != 1) {
+          throw StateError('فشل تحديث المخزون القديم');
+        }
+
+        if (newProduct.currentQuantity < sale.quantity) {
+          throw InsufficientStockException(
+            productId: newProduct.id!,
+            availableQuantity: newProduct.currentQuantity.toDouble(),
+            requestedQuantity: sale.quantity.toDouble(),
+          );
+        }
+
+        final newSold = newProduct.soldQuantity + sale.quantity;
+        final newCurrent = newProduct.openingQuantity -
+            newSold +
+            newProduct.returnedQuantity +
+            newProduct.inventoryAdjustment;
+
+        final affectedNew = await txn.update(
+          'products',
+          {
+            'soldQuantity': newSold,
+            'currentQuantity': newCurrent,
+            'totalInventoryCost': newCurrent * newProduct.costPrice,
+          },
+          where: 'id = ?',
+          whereArgs: [newProduct.id],
+        );
+        if (affectedNew != 1) {
+          throw StateError('فشل تحديث المخزون الجديد');
         }
       }
 
-      await _requireExistingProductByBarcode(txn, sale.barcode);
-
-      final newProductMaps = await txn
-          .query('products', where: 'barcode = ?', whereArgs: [sale.barcode]);
-      final newProduct = Product.fromMap(newProductMaps.first);
-      final newSold = newProduct.soldQuantity + sale.quantity;
-      final newCurrent = newProduct.openingQuantity -
-          newSold +
-          newProduct.returnedQuantity +
-          newProduct.inventoryAdjustment;
-
-      await txn.update(
-        'products',
-        {
-          'soldQuantity': newSold,
-          'currentQuantity': newCurrent,
-          'totalInventoryCost': newCurrent * newProduct.costPrice,
-        },
-        where: 'barcode = ?',
-        whereArgs: [sale.barcode],
+      final updatedSale = Sale(
+        id: sale.id,
+        date: sale.date,
+        productName: sale.productName,
+        barcode: trimmedBarcode,
+        quantity: sale.quantity,
+        salePrice: sale.salePrice,
+        costPrice: sale.costPrice,
       );
 
-      await txn.update('sales', sale.toMap(),
+      final affectedSale = await txn.update('sales', updatedSale.toMap(),
           where: 'id = ?', whereArgs: [sale.id]);
+      if (affectedSale != 1) {
+        throw StateError('فشل تحديث سجل البيع');
+      }
+
       return 1;
     });
   }
@@ -532,61 +613,141 @@ class DatabaseHelper {
   }
 
   Future<int> updateReturn(ReturnItem returnItem) async {
+    if (returnItem.quantity <= 0) {
+      throw ArgumentError('يجب أن تكون الكمية أكبر من صفر');
+    }
+    if (returnItem.salePrice.isNaN || returnItem.salePrice.isInfinite) {
+      throw ArgumentError('سعر المرتجع غير صالح');
+    }
+    if (returnItem.salePrice <= 0) {
+      throw ArgumentError('يجب أن يكون سعر المرتجع أكبر من صفر');
+    }
+
+    final trimmedBarcode = returnItem.barcode.trim();
+
     final db = await database;
     return await db.transaction((txn) async {
-      final oldData = await txn.query('returns',
-          where: 'id = ?', whereArgs: [returnItem.id]);
+      final oldData = await txn
+          .query('returns', where: 'id = ?', whereArgs: [returnItem.id]);
 
-      if (oldData.isNotEmpty) {
-        final old = ReturnItem.fromMap(oldData.first);
+      if (oldData.isEmpty) {
+        throw StateError('السجل المطلوب تعديله غير موجود');
+      }
 
-        final oldProductMaps = await txn.query('products',
-            where: 'barcode = ?', whereArgs: [old.barcode]);
-        if (oldProductMaps.isNotEmpty) {
-          final oldProduct = Product.fromMap(oldProductMaps.first);
-          final revertedReturned =
-              oldProduct.returnedQuantity - old.quantity;
-          final revertedCurrent = oldProduct.openingQuantity -
-              oldProduct.soldQuantity +
-              revertedReturned +
-              oldProduct.inventoryAdjustment;
-          await txn.update(
-            'products',
-            {
-              'returnedQuantity': revertedReturned,
-              'currentQuantity': revertedCurrent,
-              'totalInventoryCost': revertedCurrent * oldProduct.costPrice,
-            },
-            where: 'barcode = ?',
-            whereArgs: [old.barcode],
+      final old = ReturnItem.fromMap(oldData.first);
+      final oldBarcode = old.barcode;
+
+      final oldProductMaps = await txn
+          .query('products', where: 'barcode = ?', whereArgs: [oldBarcode]);
+      if (oldProductMaps.isEmpty) {
+        throw ProductReferenceIntegrityException(
+            'المنتج القديم للمرتجع غير موجود');
+      }
+      final oldProduct = Product.fromMap(oldProductMaps.first);
+
+      await _requireExistingProductByBarcode(txn, trimmedBarcode);
+
+      final newProductMaps = await txn
+          .query('products', where: 'barcode = ?', whereArgs: [trimmedBarcode]);
+      final newProduct = Product.fromMap(newProductMaps.first);
+
+      final sameProduct = oldBarcode == trimmedBarcode;
+
+      if (sameProduct) {
+        if (newProduct.currentQuantity < old.quantity) {
+          throw ReturnStockReversalException(
+            returnId: returnItem.id!,
+            currentStock: newProduct.currentQuantity.toDouble(),
+            requiredReversalQuantity: old.quantity.toDouble(),
           );
+        }
+
+        final newReturned =
+            newProduct.returnedQuantity - old.quantity + returnItem.quantity;
+        final newCurrent = newProduct.openingQuantity -
+            newProduct.soldQuantity +
+            newReturned +
+            newProduct.inventoryAdjustment;
+
+        final affectedProduct = await txn.update(
+          'products',
+          {
+            'returnedQuantity': newReturned,
+            'currentQuantity': newCurrent,
+            'totalInventoryCost': newCurrent * newProduct.costPrice,
+          },
+          where: 'id = ?',
+          whereArgs: [newProduct.id],
+        );
+        if (affectedProduct != 1) {
+          throw StateError('فشل تحديث المخزون');
+        }
+      } else {
+        final revertedReturned = oldProduct.returnedQuantity - old.quantity;
+        final revertedCurrent = oldProduct.openingQuantity -
+            oldProduct.soldQuantity +
+            revertedReturned +
+            oldProduct.inventoryAdjustment;
+
+        if (revertedCurrent < 0) {
+          throw ReturnStockReversalException(
+            returnId: returnItem.id!,
+            currentStock: oldProduct.currentQuantity.toDouble(),
+            requiredReversalQuantity: old.quantity.toDouble(),
+          );
+        }
+
+        final affectedOld = await txn.update(
+          'products',
+          {
+            'returnedQuantity': revertedReturned,
+            'currentQuantity': revertedCurrent,
+            'totalInventoryCost': revertedCurrent * oldProduct.costPrice,
+          },
+          where: 'id = ?',
+          whereArgs: [oldProduct.id],
+        );
+        if (affectedOld != 1) {
+          throw StateError('فشل تحديث المخزون القديم');
+        }
+
+        final newReturned = newProduct.returnedQuantity + returnItem.quantity;
+        final newCurrent = newProduct.openingQuantity -
+            newProduct.soldQuantity +
+            newReturned +
+            newProduct.inventoryAdjustment;
+
+        final affectedNew = await txn.update(
+          'products',
+          {
+            'returnedQuantity': newReturned,
+            'currentQuantity': newCurrent,
+            'totalInventoryCost': newCurrent * newProduct.costPrice,
+          },
+          where: 'id = ?',
+          whereArgs: [newProduct.id],
+        );
+        if (affectedNew != 1) {
+          throw StateError('فشل تحديث المخزون الجديد');
         }
       }
 
-      await _requireExistingProductByBarcode(txn, returnItem.barcode);
-
-      final newProductMaps = await txn.query('products',
-          where: 'barcode = ?', whereArgs: [returnItem.barcode]);
-      final newProduct = Product.fromMap(newProductMaps.first);
-      final newReturned = newProduct.returnedQuantity + returnItem.quantity;
-      final newCurrent = newProduct.openingQuantity -
-          newProduct.soldQuantity +
-          newReturned +
-          newProduct.inventoryAdjustment;
-
-      await txn.update(
-        'products',
-        {
-          'returnedQuantity': newReturned,
-          'currentQuantity': newCurrent,
-          'totalInventoryCost': newCurrent * newProduct.costPrice,
-        },
-        where: 'barcode = ?',
-        whereArgs: [returnItem.barcode],
+      final updatedReturn = ReturnItem(
+        id: returnItem.id,
+        date: returnItem.date,
+        productName: returnItem.productName,
+        barcode: trimmedBarcode,
+        quantity: returnItem.quantity,
+        salePrice: returnItem.salePrice,
+        costPrice: returnItem.costPrice,
       );
 
-      await txn.update('returns', returnItem.toMap(),
+      final affectedReturn = await txn.update('returns', updatedReturn.toMap(),
           where: 'id = ?', whereArgs: [returnItem.id]);
+      if (affectedReturn != 1) {
+        throw StateError('فشل تحديث سجل المرتجع');
+      }
+
       return 1;
     });
   }
@@ -725,8 +886,8 @@ class DatabaseHelper {
   /// Returns a list of Arabic reason strings, or an empty list if none found.
   Future<List<String>> getProductReferences(int productId) async {
     final db = await database;
-    final productMaps = await db
-        .query('products', where: 'id = ?', whereArgs: [productId]);
+    final productMaps =
+        await db.query('products', where: 'id = ?', whereArgs: [productId]);
     if (productMaps.isEmpty) return [];
     final product = Product.fromMap(productMaps.first);
 
@@ -793,8 +954,8 @@ class DatabaseHelper {
   /// given [barcode]. Must be called inside a transaction ([txn]).
   Future<void> _requireExistingProductByBarcode(
       Transaction txn, String barcode) async {
-    final rows = await txn
-        .query('products', where: 'barcode = ?', whereArgs: [barcode]);
+    final rows =
+        await txn.query('products', where: 'barcode = ?', whereArgs: [barcode]);
     if (rows.isEmpty) {
       throw ProductReferenceIntegrityException(
           'لا يوجد منتج بالباركود "$barcode"');
@@ -925,6 +1086,43 @@ class ProductReferenceIntegrityException implements Exception {
   String toString() => 'ProductReferenceIntegrityException: $message';
 }
 
+class InsufficientStockException implements Exception {
+  final int productId;
+  final double availableQuantity;
+  final double requestedQuantity;
+
+  InsufficientStockException({
+    required this.productId,
+    required this.availableQuantity,
+    required this.requestedQuantity,
+  });
+
+  String get message => 'الكمية المطلوبة غير متوفرة في المخزون';
+
+  @override
+  String toString() =>
+      'InsufficientStockException: $message (available=$availableQuantity, requested=$requestedQuantity)';
+}
+
+class ReturnStockReversalException implements Exception {
+  final int returnId;
+  final double currentStock;
+  final double requiredReversalQuantity;
+
+  ReturnStockReversalException({
+    required this.returnId,
+    required this.currentStock,
+    required this.requiredReversalQuantity,
+  });
+
+  String get message =>
+      'لا يمكن تعديل المرتجع لأن جزءًا من كميته تم استخدامه من المخزون';
+
+  @override
+  String toString() =>
+      'ReturnStockReversalException: $message (returnId=$returnId, currentStock=$currentStock, requiredReversal=$requiredReversalQuantity)';
+}
+
 /// Report returned by [DatabaseHelper.findProductReferenceIntegrityIssues].
 class IntegrityIssueReport {
   final List<Map<String, dynamic>> orphanSales;
@@ -943,7 +1141,5 @@ class IntegrityIssueReport {
       orphanInventoryCounts.isNotEmpty;
 
   int get totalOrphans =>
-      orphanSales.length +
-      orphanReturns.length +
-      orphanInventoryCounts.length;
+      orphanSales.length + orphanReturns.length + orphanInventoryCounts.length;
 }
