@@ -34,7 +34,8 @@ class DatabaseHelper {
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
-    return await openDatabase(path, version: 2, onCreate: _createDB, onUpgrade: _onUpgrade);
+    return await openDatabase(path,
+        version: 2, onCreate: _createDB, onUpgrade: _onUpgrade);
   }
 
   Future<void> _createDB(Database db, int version) async {
@@ -118,14 +119,16 @@ class DatabaseHelper {
 
   Future<Product?> getProductByBarcode(String barcode) async {
     final db = await database;
-    final maps = await db.query('products', where: 'barcode = ?', whereArgs: [barcode]);
+    final maps =
+        await db.query('products', where: 'barcode = ?', whereArgs: [barcode]);
     if (maps.isEmpty) return null;
     return Product.fromMap(maps.first);
   }
 
   Future<Product?> getProductByName(String name) async {
     final db = await database;
-    final maps = await db.query('products', where: 'name = ?', whereArgs: [name]);
+    final maps =
+        await db.query('products', where: 'name = ?', whereArgs: [name]);
     if (maps.isEmpty) return null;
     return Product.fromMap(maps.first);
   }
@@ -146,7 +149,10 @@ class DatabaseHelper {
     final product = await getProductByBarcode(barcode);
     if (product != null) {
       final newSold = product.soldQuantity + quantity;
-      final newCurrent = product.openingQuantity - newSold + product.returnedQuantity + product.inventoryAdjustment;
+      final newCurrent = product.openingQuantity -
+          newSold +
+          product.returnedQuantity +
+          product.inventoryAdjustment;
       await db.update(
         'products',
         {
@@ -165,7 +171,10 @@ class DatabaseHelper {
     final product = await getProductByBarcode(barcode);
     if (product != null) {
       final newSold = product.soldQuantity - quantity;
-      final newCurrent = product.openingQuantity - newSold + product.returnedQuantity + product.inventoryAdjustment;
+      final newCurrent = product.openingQuantity -
+          newSold +
+          product.returnedQuantity +
+          product.inventoryAdjustment;
       await db.update(
         'products',
         {
@@ -184,7 +193,10 @@ class DatabaseHelper {
     final product = await getProductByBarcode(barcode);
     if (product != null) {
       final newReturned = product.returnedQuantity + quantity;
-      final newCurrent = product.openingQuantity - product.soldQuantity + newReturned + product.inventoryAdjustment;
+      final newCurrent = product.openingQuantity -
+          product.soldQuantity +
+          newReturned +
+          product.inventoryAdjustment;
       await db.update(
         'products',
         {
@@ -203,7 +215,10 @@ class DatabaseHelper {
     final product = await getProductByBarcode(barcode);
     if (product != null) {
       final newReturned = product.returnedQuantity - quantity;
-      final newCurrent = product.openingQuantity - product.soldQuantity + newReturned + product.inventoryAdjustment;
+      final newCurrent = product.openingQuantity -
+          product.soldQuantity +
+          newReturned +
+          product.inventoryAdjustment;
       await db.update(
         'products',
         {
@@ -232,9 +247,8 @@ class DatabaseHelper {
         throw ArgumentError('Sale quantity must be greater than zero');
       }
 
-      final productMaps = await txn.query('products',
-          where: 'barcode = ?',
-          whereArgs: [sale.barcode]);
+      final productMaps = await txn
+          .query('products', where: 'barcode = ?', whereArgs: [sale.barcode]);
 
       if (productMaps.isEmpty) {
         throw StateError('Product with barcode "${sale.barcode}" not found');
@@ -251,7 +265,10 @@ class DatabaseHelper {
       }
 
       final newSold = product.soldQuantity + sale.quantity;
-      final newCurrent = product.openingQuantity - newSold + product.returnedQuantity + product.inventoryAdjustment;
+      final newCurrent = product.openingQuantity -
+          newSold +
+          product.returnedQuantity +
+          product.inventoryAdjustment;
 
       final affected = await txn.update(
         'products',
@@ -265,7 +282,8 @@ class DatabaseHelper {
       );
 
       if (affected == 0) {
-        throw StateError('Stock changed before sale could complete. Please try again.');
+        throw StateError(
+            'Stock changed before sale could complete. Please try again.');
       }
 
       return id;
@@ -289,12 +307,14 @@ class DatabaseHelper {
 
   Future<int> updateSale(Sale sale) async {
     final db = await database;
-    final oldSale = await db.query('sales', where: 'id = ?', whereArgs: [sale.id]);
+    final oldSale =
+        await db.query('sales', where: 'id = ?', whereArgs: [sale.id]);
     if (oldSale.isNotEmpty) {
       final old = Sale.fromMap(oldSale.first);
       await revertSoldQuantity(old.barcode, old.quantity);
     }
-    await db.update('sales', sale.toMap(), where: 'id = ?', whereArgs: [sale.id]);
+    await db
+        .update('sales', sale.toMap(), where: 'id = ?', whereArgs: [sale.id]);
     await updateSoldQuantity(sale.barcode, sale.quantity);
     return 1;
   }
@@ -311,7 +331,8 @@ class DatabaseHelper {
 
   Future<double> getTotalSales() async {
     final db = await database;
-    final result = await db.rawQuery('SELECT SUM(totalSaleValue) as total FROM sales');
+    final result =
+        await db.rawQuery('SELECT SUM(totalSaleValue) as total FROM sales');
     return (result.first['total'] as num?)?.toDouble() ?? 0;
   }
 
@@ -337,12 +358,14 @@ class DatabaseHelper {
 
   Future<int> updateReturn(ReturnItem returnItem) async {
     final db = await database;
-    final oldData = await db.query('returns', where: 'id = ?', whereArgs: [returnItem.id]);
+    final oldData =
+        await db.query('returns', where: 'id = ?', whereArgs: [returnItem.id]);
     if (oldData.isNotEmpty) {
       final old = ReturnItem.fromMap(oldData.first);
       await revertReturnedQuantity(old.barcode, old.quantity);
     }
-    await db.update('returns', returnItem.toMap(), where: 'id = ?', whereArgs: [returnItem.id]);
+    await db.update('returns', returnItem.toMap(),
+        where: 'id = ?', whereArgs: [returnItem.id]);
     await updateReturnedQuantity(returnItem.barcode, returnItem.quantity);
     return 1;
   }
@@ -359,13 +382,15 @@ class DatabaseHelper {
 
   Future<double> getTotalReturns() async {
     final db = await database;
-    final result = await db.rawQuery('SELECT SUM(totalReturnValue) as total FROM returns');
+    final result =
+        await db.rawQuery('SELECT SUM(totalReturnValue) as total FROM returns');
     return (result.first['total'] as num?)?.toDouble() ?? 0;
   }
 
   Future<double> getTotalReturnedCOGS() async {
     final db = await database;
-    final result = await db.rawQuery('SELECT SUM(returnedCogs) as total FROM returns');
+    final result =
+        await db.rawQuery('SELECT SUM(returnedCogs) as total FROM returns');
     return (result.first['total'] as num?)?.toDouble() ?? 0;
   }
 
@@ -394,37 +419,59 @@ class DatabaseHelper {
 
   Future<double> getTotalExpenses() async {
     final db = await database;
-    final result = await db.rawQuery('SELECT SUM(amount) as total FROM expenses');
+    final result =
+        await db.rawQuery('SELECT SUM(amount) as total FROM expenses');
     return (result.first['total'] as num?)?.toDouble() ?? 0;
   }
 
   // =================== INVENTORY COUNT ===================
-  Future<void> saveInventoryCount(int productId, int actualQuantity, String notes) async {
+  Future<int> saveInventoryCount(
+      int productId, int actualQuantity, String notes) async {
     final db = await database;
-    await db.insert('inventory_count', {
-      'productId': productId,
-      'actualQuantity': actualQuantity,
-      'notes': notes,
-      'countDate': DateTime.now().toIso8601String(),
-    });
-    final product = await db.query('products', where: 'id = ?', whereArgs: [productId]);
-    if (product.isNotEmpty) {
-      final p = Product.fromMap(product.first);
-      final systemQty = p.currentQuantity;
-      final diff = actualQuantity - systemQty;
-      final newAdjustment = p.inventoryAdjustment + diff;
-      final newCurrent = p.openingQuantity - p.soldQuantity + p.returnedQuantity + newAdjustment;
-      await db.update(
+    return await db.transaction((txn) async {
+      if (actualQuantity < 0) {
+        throw ArgumentError('الكمية الفعلية لا يمكن أن تكون سالبة');
+      }
+
+      final productMaps =
+          await txn.query('products', where: 'id = ?', whereArgs: [productId]);
+
+      if (productMaps.isEmpty) {
+        throw StateError('المنتج غير موجود');
+      }
+
+      final product = Product.fromMap(productMaps.first);
+      final countDifference = actualQuantity - product.currentQuantity;
+      final newCurrent = actualQuantity;
+      final newAdjustment = newCurrent -
+          (product.openingQuantity -
+              product.soldQuantity +
+              product.returnedQuantity);
+
+      await txn.insert('inventory_count', {
+        'productId': productId,
+        'actualQuantity': actualQuantity,
+        'notes': notes,
+        'countDate': DateTime.now().toIso8601String(),
+      });
+
+      final affected = await txn.update(
         'products',
         {
           'inventoryAdjustment': newAdjustment,
           'currentQuantity': newCurrent,
-          'totalInventoryCost': newCurrent * p.costPrice,
+          'totalInventoryCost': newCurrent * product.costPrice,
         },
-        where: 'id = ?',
-        whereArgs: [productId],
+        where: 'id = ? AND currentQuantity = ?',
+        whereArgs: [productId, product.currentQuantity],
       );
-    }
+
+      if (affected == 0) {
+        throw StateError('تغير المخزون أثناء الحفظ. حاول مرة أخرى');
+      }
+
+      return countDifference;
+    });
   }
 
   // =================== DASHBOARD ===================
@@ -455,20 +502,28 @@ class DatabaseHelper {
 
   Future<Map<String, dynamic>> getInventorySummary() async {
     final db = await database;
-    final countResult = await db.rawQuery('SELECT COUNT(*) as count FROM products WHERE name != ""');
-    final totalQtyResult = await db.rawQuery('SELECT SUM(currentQuantity) as total FROM products');
-    final totalCostResult = await db.rawQuery('SELECT SUM(totalInventoryCost) as total FROM products');
-    final salesCountResult = await db.rawQuery('SELECT COUNT(*) as count FROM sales WHERE productName != ""');
-    final returnsCountResult = await db.rawQuery('SELECT COUNT(*) as count FROM returns WHERE productName != ""');
-    final expensesCountResult = await db.rawQuery('SELECT COUNT(*) as count FROM expenses WHERE description != ""');
+    final countResult = await db
+        .rawQuery('SELECT COUNT(*) as count FROM products WHERE name != ""');
+    final totalQtyResult =
+        await db.rawQuery('SELECT SUM(currentQuantity) as total FROM products');
+    final totalCostResult = await db
+        .rawQuery('SELECT SUM(totalInventoryCost) as total FROM products');
+    final salesCountResult = await db.rawQuery(
+        'SELECT COUNT(*) as count FROM sales WHERE productName != ""');
+    final returnsCountResult = await db.rawQuery(
+        'SELECT COUNT(*) as count FROM returns WHERE productName != ""');
+    final expensesCountResult = await db.rawQuery(
+        'SELECT COUNT(*) as count FROM expenses WHERE description != ""');
 
     return {
       'itemCount': (countResult.first['count'] as num?)?.toInt() ?? 0,
       'totalQuantity': (totalQtyResult.first['total'] as num?)?.toInt() ?? 0,
-      'totalInventoryValue': (totalCostResult.first['total'] as num?)?.toDouble() ?? 0,
+      'totalInventoryValue':
+          (totalCostResult.first['total'] as num?)?.toDouble() ?? 0,
       'salesCount': (salesCountResult.first['count'] as num?)?.toInt() ?? 0,
       'returnsCount': (returnsCountResult.first['count'] as num?)?.toInt() ?? 0,
-      'expensesCount': (expensesCountResult.first['count'] as num?)?.toInt() ?? 0,
+      'expensesCount':
+          (expensesCountResult.first['count'] as num?)?.toInt() ?? 0,
     };
   }
 
@@ -507,8 +562,10 @@ class DatabaseHelper {
 
   Future<Map<String, dynamic>> getSalesSummary() async {
     final db = await database;
-    final totalSalesResult = await db.rawQuery('SELECT SUM(totalSaleValue) as total, SUM(quantity) as qty, COUNT(*) as count FROM sales');
-    final totalCOGSResult = await db.rawQuery('SELECT SUM(cogs) as total FROM sales');
+    final totalSalesResult = await db.rawQuery(
+        'SELECT SUM(totalSaleValue) as total, SUM(quantity) as qty, COUNT(*) as count FROM sales');
+    final totalCOGSResult =
+        await db.rawQuery('SELECT SUM(cogs) as total FROM sales');
     final todayResult = await db.rawQuery('''
       SELECT SUM(totalSaleValue) as total, SUM(quantity) as qty
       FROM sales WHERE date(date) = date('now', 'localtime')
@@ -521,9 +578,12 @@ class DatabaseHelper {
     return {
       'totalSales': (totalSalesResult.first['total'] as num?)?.toDouble() ?? 0,
       'totalQty': (totalSalesResult.first['qty'] as num?)?.toInt() ?? 0,
-      'totalTransactions': (totalSalesResult.first['count'] as num?)?.toInt() ?? 0,
+      'totalTransactions':
+          (totalSalesResult.first['count'] as num?)?.toInt() ?? 0,
       'totalCOGS': (totalCOGSResult.first['total'] as num?)?.toDouble() ?? 0,
-      'grossProfit': ((totalSalesResult.first['total'] as num?)?.toDouble() ?? 0) - ((totalCOGSResult.first['total'] as num?)?.toDouble() ?? 0),
+      'grossProfit':
+          ((totalSalesResult.first['total'] as num?)?.toDouble() ?? 0) -
+              ((totalCOGSResult.first['total'] as num?)?.toDouble() ?? 0),
       'todaySales': (todayResult.first['total'] as num?)?.toDouble() ?? 0,
       'todayQty': (todayResult.first['qty'] as num?)?.toInt() ?? 0,
       'monthSales': (monthResult.first['total'] as num?)?.toDouble() ?? 0,

@@ -14,6 +14,7 @@ class _InventoryCountScreenState extends State<InventoryCountScreen> {
   List<Product> _filteredProducts = [];
   final _searchController = TextEditingController();
   bool _isLoading = true;
+  int? _savingProductId;
 
   @override
   void initState() {
@@ -45,7 +46,8 @@ class _InventoryCountScreenState extends State<InventoryCountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('الجرد', style: TextStyle(fontWeight: FontWeight.bold)),
+        title:
+            const Text('الجرد', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
         backgroundColor: const Color(0xFF4A148C),
         foregroundColor: Colors.white,
@@ -64,7 +66,8 @@ class _InventoryCountScreenState extends State<InventoryCountScreen> {
               decoration: InputDecoration(
                 hintText: 'بحث بالاسم أو الباركود...',
                 prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 filled: true,
                 fillColor: Colors.white,
               ),
@@ -74,7 +77,8 @@ class _InventoryCountScreenState extends State<InventoryCountScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: const Text(
               'أدخل الكمية الفعلية لكل صنف لعملية الجرد',
-              style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF4A148C)),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, color: Color(0xFF4A148C)),
             ),
           ),
           Expanded(
@@ -98,7 +102,9 @@ class _InventoryCountScreenState extends State<InventoryCountScreen> {
   }
 
   Widget _buildCountCard(Product product) {
-    final actualController = TextEditingController(text: product.currentQuantity.toString());
+    final actualController =
+        TextEditingController(text: product.currentQuantity.toString());
+    final isSaving = _savingProductId == product.id;
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
@@ -113,7 +119,8 @@ class _InventoryCountScreenState extends State<InventoryCountScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(product.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text(product.name,
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 4),
                   Text(
                     'النظام: ${product.currentQuantity} | التكلفة: ${product.costPrice.toStringAsFixed(0)} ج.م',
@@ -137,35 +144,68 @@ class _InventoryCountScreenState extends State<InventoryCountScreen> {
               ),
             ),
             const SizedBox(width: 8),
-            IconButton(
-              icon: const Icon(Icons.save, color: Color(0xFF4A148C)),
-              onPressed: () async {
-                final actual = int.tryParse(actualController.text) ?? 0;
-                await DatabaseHelper.instance.saveInventoryCount(product.id!, actual, '');
-
-                if (context.mounted) {
-                  final diff = actual - product.currentQuantity;
-                  String msg;
-                  if (diff > 0) {
-                    msg = 'زيادة +$diff - تم تسجيل التسوية';
-                  } else if (diff < 0) {
-                    msg = 'عجز $diff - تم تسجيل التسوية';
-                  } else {
-                    msg = 'مطابق';
-                  }
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('${product.name}: $msg'),
-                      backgroundColor: diff == 0 ? Colors.green : Colors.orange,
-                    ),
-                  );
-                  _loadProducts();
-                }
-              },
-            ),
+            isSaving
+                ? const SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : IconButton(
+                    icon: const Icon(Icons.save, color: Color(0xFF4A148C)),
+                    onPressed: () => _saveCount(product, actualController),
+                  ),
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _saveCount(
+      Product product, TextEditingController controller) async {
+    final actual = int.tryParse(controller.text);
+    if (actual == null) {
+      _showMessage('الرجاء إدخال رقم صحيح', Colors.red);
+      return;
+    }
+
+    setState(() => _savingProductId = product.id);
+
+    try {
+      final diff = await DatabaseHelper.instance
+          .saveInventoryCount(product.id!, actual, '');
+
+      if (!mounted) return;
+
+      String msg;
+      if (diff > 0) {
+        msg = 'زيادة +$diff - تم تسجيل التسوية';
+      } else if (diff < 0) {
+        msg = 'عجز $diff - تم تسجيل التسوية';
+      } else {
+        msg = 'مطابق';
+      }
+      _showMessage(
+          '${product.name}: $msg', diff == 0 ? Colors.green : Colors.orange);
+      _loadProducts();
+    } on ArgumentError catch (e) {
+      if (!mounted) return;
+      _showMessage(e.message, Colors.red);
+    } on StateError catch (e) {
+      if (!mounted) return;
+      _showMessage(e.message, Colors.red);
+    } catch (e) {
+      if (!mounted) return;
+      _showMessage('حدث خطأ: $e', Colors.red);
+    } finally {
+      if (mounted) {
+        setState(() => _savingProductId = null);
+      }
+    }
+  }
+
+  void _showMessage(String message, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: color),
     );
   }
 

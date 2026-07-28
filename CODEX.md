@@ -1,21 +1,35 @@
 # Code Integrity Audit — محل مؤمن
 
-**Branch:** `codex/muaman-01-core-integrity-audit-scope-freeze`  
-**Date:** 2026-07-28  
+**Branch:** `codex/muaman-03-inventory-count-stock-reconciliation`
+**Date:** 2026-07-28
+**Last update:** MUAMAN-03 completed
 **Scope:** All source files under `app/lib/` and `app/test/`
+
+---
+
+## Progress
+
+| Phase | Status | Outcome |
+|-------|--------|---------|
+| MUAMAN-01 | ✅ Completed | Audit / Scope freeze |
+| MUAMAN-02 | ✅ Completed | C2 — Atomic Sale + Stock Decrement (Outcome A) |
+| MUAMAN-03 | ✅ Completed | C1 — Inventory Count Application (Outcome A) |
 
 ---
 
 ## Critical Issues
 
-### C1. Inventory counts are recorded but never applied to stock
+### C1. Inventory counts are recorded but never applied to stock [FIXED]
 
-`database_helper.dart:157` — `saveInventoryCount` inserts a row into `inventory_counts` but **never updates** `products.current_quantity`. The UI (`inventory_count_screen.dart:142-144`) shows a diff snackbar ("زيادة / عجز") but the adjustment is ephemeral — the product table retains the old quantity. This makes the entire inventory count feature decorative.
+**Fixed in MUAMAN-03.** `saveInventoryCount()` now wraps the count insert and product update in a single `db.transaction()` with optimistic locking. The inventory equation is always maintained. 10 new tests verify reconciliation, rollback, and edge cases.
 
-- **File:** `app/lib/database/database_helper.dart` lines 157-172  
-- **Impact:** Stock reconciliation is impossible; `current_quantity` drifts further from reality over time.
+**Modified files:**
+- `app/lib/database/database_helper.dart` — `saveInventoryCount()` rewritten
+- `app/lib/screens/inventory_count/inventory_count_screen.dart` — `isSaving` guard, error handling, DB-authoritative diff
 
-### C2. Sale insertion and stock decrement are not atomic
+**Tests:** `test/database/inventory_count_transaction_test.dart` — 10/10 passing
+
+### C2. Sale insertion and stock decrement are not atomic [FIXED]
 
 `sales_screen.dart:319-328` calls `insertSale()` on line 319 and `updateProductQuantity()` is called from `insertSale`'s internals — wait, let me re-check. Actually `insertSale` does NOT update product quantity. Let me check DatabaseHelper.insertSale again.
 
@@ -126,8 +140,9 @@ Created in `_onCreate` (line 46-55) but never referenced elsewhere. This wastes 
 
 | Tier | Count | Criticality |
 |------|-------|-------------|
-| Critical | 3 | Stock never decremented on sale, counts never applied, no FK |
+| Critical (open) | 1 | C3 — No FK / referential integrity |
+| Critical (fixed) | 2 | C1 (MUAMAN-03), C2 (MUAMAN-02) |
 | Moderate | 4 | Zero-price sales, no DB guards, race conditions, zero cost |
 | Minor | 5 | Sanitization, uniqueness, dead code, tests, redundant model |
 
-**Priority fix:** Wrap sale insert + stock decrement in a single transaction, and make `saveInventoryCount` actually adjust `current_quantity`.
+**Next recommended phase:** Re-evaluate remaining findings by actual impact — zero price, zero cost, barcode uniqueness, returns path, orphan records.
