@@ -199,6 +199,7 @@ class _SalesScreenState extends State<SalesScreen> {
     final priceController = TextEditingController();
     final dateController = TextEditingController(text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
     DateTime selectedDate = DateTime.now();
+    bool isSaving = false;
 
     showDialog(
       context: context,
@@ -294,42 +295,64 @@ class _SalesScreenState extends State<SalesScreen> {
                   ),
                   keyboardType: TextInputType.number,
                 ),
+                if (isSaving) ...[
+                  const SizedBox(height: 12),
+                  const LinearProgressIndicator(),
+                ],
               ],
             ),
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: isSaving ? null : () => Navigator.pop(context),
               child: const Text('إلغاء'),
             ),
             ElevatedButton(
-              onPressed: () async {
-                if (selectedProduct == null) return;
-                final qty = int.tryParse(qtyController.text) ?? 0;
-                final price = double.tryParse(priceController.text) ?? 0;
-                if (qty <= 0) return;
+              onPressed: isSaving
+                  ? null
+                  : () async {
+                      if (selectedProduct == null) return;
+                      final qty = int.tryParse(qtyController.text) ?? 0;
+                      final price = double.tryParse(priceController.text) ?? 0;
+                      if (qty <= 0) return;
 
-                if (qty > selectedProduct!.currentQuantity) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('الكمية المطلوبة أكبر من المخزون المتاح'), backgroundColor: Colors.red),
-                  );
-                  return;
-                }
-
-                await DatabaseHelper.instance.insertSale(
-                  Sale(
-                    date: selectedDate,
-                    productName: selectedProduct!.name,
-                    barcode: selectedProduct!.barcode,
-                    quantity: qty,
-                    salePrice: price,
-                    costPrice: selectedProduct!.costPrice,
-                  ),
-                );
-                if (context.mounted) Navigator.pop(context);
-                _loadData();
-              },
-              child: const Text('تسجيل البيع'),
+                      setDialogState(() => isSaving = true);
+                      try {
+                        await DatabaseHelper.instance.insertSaleAndDecrementStock(
+                          Sale(
+                            date: selectedDate,
+                            productName: selectedProduct!.name,
+                            barcode: selectedProduct!.barcode,
+                            quantity: qty,
+                            salePrice: price,
+                            costPrice: selectedProduct!.costPrice,
+                          ),
+                        );
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                          _loadData();
+                        }
+                      } on StateError catch (e) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(e.message), backgroundColor: Colors.red),
+                          );
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('فشل تسجيل البيع: $e'), backgroundColor: Colors.red),
+                          );
+                        }
+                      } finally {
+                        if (context.mounted) {
+                          setDialogState(() => isSaving = false);
+                        }
+                      }
+                    },
+              child: isSaving
+                  ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
+                  : const Text('تسجيل البيع'),
             ),
           ],
         ),

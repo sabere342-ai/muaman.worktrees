@@ -27,6 +27,10 @@ class DatabaseHelper {
     return _database!;
   }
 
+  static Future<void> setTestDatabase(Database db) async {
+    _database = db;
+  }
+
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
@@ -219,6 +223,53 @@ class DatabaseHelper {
     final id = await db.insert('sales', sale.toMap()..remove('id'));
     await updateSoldQuantity(sale.barcode, sale.quantity);
     return id;
+  }
+
+  Future<int> insertSaleAndDecrementStock(Sale sale) async {
+    final db = await database;
+    return await db.transaction((txn) async {
+      if (sale.quantity <= 0) {
+        throw ArgumentError('Sale quantity must be greater than zero');
+      }
+
+      final productMaps = await txn.query('products',
+          where: 'barcode = ?',
+          whereArgs: [sale.barcode]);
+
+      if (productMaps.isEmpty) {
+        throw StateError('Product with barcode "${sale.barcode}" not found');
+      }
+
+      final product = Product.fromMap(productMaps.first);
+
+      final id = await txn.insert('sales', sale.toMap()..remove('id'));
+
+      if (product.currentQuantity < sale.quantity) {
+        throw StateError(
+          'Insufficient stock: available ${product.currentQuantity}, requested ${sale.quantity}',
+        );
+      }
+
+      final newSold = product.soldQuantity + sale.quantity;
+      final newCurrent = product.openingQuantity - newSold + product.returnedQuantity + product.inventoryAdjustment;
+
+      final affected = await txn.update(
+        'products',
+        {
+          'soldQuantity': newSold,
+          'currentQuantity': newCurrent,
+          'totalInventoryCost': newCurrent * product.costPrice,
+        },
+        where: 'id = ? AND currentQuantity >= ?',
+        whereArgs: [product.id, sale.quantity],
+      );
+
+      if (affected == 0) {
+        throw StateError('Stock changed before sale could complete. Please try again.');
+      }
+
+      return id;
+    });
   }
 
   Future<List<Sale>> getAllSales() async {
