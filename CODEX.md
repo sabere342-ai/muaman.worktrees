@@ -1,8 +1,8 @@
-# Code Integrity Audit — محل مؤمن
+# Code Integrity Audit - مؤمن شوب
 
-**Branch:** `codex/muaman-03-inventory-count-stock-reconciliation`
+**Branch:** `codex/muaman-04-remaining-integrity-findings-revalidation`
 **Date:** 2026-07-28
-**Last update:** MUAMAN-03 completed
+**Last update:** MUAMAN-04 completed
 **Scope:** All source files under `app/lib/` and `app/test/`
 
 ---
@@ -11,9 +11,10 @@
 
 | Phase | Status | Outcome |
 |-------|--------|---------|
-| MUAMAN-01 | ✅ Completed | Audit / Scope freeze |
-| MUAMAN-02 | ✅ Completed | C2 — Atomic Sale + Stock Decrement (Outcome A) |
-| MUAMAN-03 | ✅ Completed | C1 — Inventory Count Application (Outcome A) |
+| MUAMAN-01 | ✔ Completed | Audit / Scope freeze |
+| MUAMAN-02 | ✔ Completed | C2 — Atomic Sale + Stock Decrement (Outcome A) |
+| MUAMAN-03 | ✔ Completed | C1 — Inventory Count Application (Outcome A) |
+| MUAMAN-04 | ✔ Completed | Revalidate 10 findings → Recommend zero price/cost validation (Outcome A) |
 
 ---
 
@@ -31,108 +32,68 @@
 
 ### C2. Sale insertion and stock decrement are not atomic [FIXED]
 
-`sales_screen.dart:319-328` calls `insertSale()` on line 319 and `updateProductQuantity()` is called from `insertSale`'s internals — wait, let me re-check. Actually `insertSale` does NOT update product quantity. Let me check DatabaseHelper.insertSale again.
+**Fixed in MUAMAN-02.** `insertSaleAndDecrementStock()` wraps both operations in a single `db.transaction()` with optimistic locking and insufficient-stock guard. 8 new tests verify atomicity, rollback, and concurrent-sale safety.
 
-Looking at `database_helper.dart:135-155`:
+**Modified files:**
+- `app/lib/database/database_helper.dart` — added `insertSaleAndDecrementStock()` with transaction
+- `app/lib/screens/sales/sales_screen.dart` — switched call to `insertSaleAndDecrementStock`
 
-```dart
-Future<int> insertSale(Sale sale) async {
-  final db = await database;
-  return await db.insert('sales', sale.toMap());
-}
+**Tests:** `test/database/sale_transaction_test.dart` — 8/8 passing
 
-Future<void> updateProductQuantity(int productId, int newQuantity) async {
-  final db = await database;
-  await db.update(
-    'products',
-    {'current_quantity': newQuantity},
-    where: 'id = ?',
-    whereArgs: [productId],
-  );
-}
-```
+### C3. No FK referential integrity [MUAMAN-04: P3 — no proven corruption]
 
-These are two separate methods. In `sales_screen.dart:319-328`:
-
-```dart
-await DatabaseHelper.instance.insertSale(sale);
-// No explicit call to updateProductQuantity here!
-```
-
-Wait — actually I need to re-read the sales screen code more carefully. Lines 319-328:
-
-```dart
-await DatabaseHelper.instance.insertSale(
-  Sale(
-    date: selectedDate,
-    productName: selectedProduct!.name,
-    barcode: selectedProduct!.barcode,
-    quantity: qty,
-    salePrice: price,
-    costPrice: selectedProduct!.costPrice,
-  ),
-);
-if (context.mounted) Navigator.pop(context);
-_loadData();
-```
-
-There's NO call to `updateProductQuantity` after `insertSale`. So **selling a product does NOT decrement stock at all**. This is the most critical bug.
-
-- **Files:** `database_helper.dart:135-155`, `sales_screen.dart:319-328`
-- **Impact:** `current_quantity` in the products table is never decremented when a sale is made. The inventory becomes completely inaccurate from the very first sale.
-
-**FIX REQUIRED:** `insertSale()` must be wrapped in a transaction that both inserts the sale row AND decrements `products.current_quantity`.
-
-### C3. No DB-level referential integrity
-
-- No foreign key constraints on any table.
-- If a product is deleted (`database_helper.dart:89-97`), its `sales` and `inventory_counts` rows become orphaned with no cleanup.
-- The `sale_items` table exists in the schema (`database_helper.dart:46-55`) but is **never written to or read by any code** — it is dead schema.
+**Revalidated in MUAMAN-04.**
+- No foreign key constraints enforced (PRAGMA foreign_keys OFF). This is **by design** for financial records: sales/returns use denormalized productName+barcode (no FK), so historical records survive product deletion.
+- Product deletion (`database_helper.dart:142-144`) orphans `inventory_count` records (P2 — identified separately), but no cascade crashes or data loss were proven.
+- `sale_items` table: **removed from current `_createDB` schema** (line 41 creates only 5 tables). Exists only as empty residue on databases upgraded from version 1.
 
 ---
 
 ## Moderate Issues
 
-### M1. No price validation
+### M1. No price validation [P1 — Accounting Incorrectness]
 
-- `sales_screen.dart:309` — only rejects `qty <= 0`; a sale with `price = 0` is accepted, producing zero `totalSaleValue` and breaking profit calculations.
-- `products_screen.dart` — the add product dialog does not validate `costPrice > 0`.
+**Revalidated in MUAMAN-04.** `sales_screen.dart:316` — `priceController.text` parsed via `double.tryParse(...) ?? 0`. No `price > 0` guard. A sale with `price=0` produces `totalSaleValue=0` while `cogs=quantity*costPrice > 0`, generating a false loss entry in reports.
 
-### M2. No negative-stock guard at the DB layer
+**Proof:** Explorer test confirms zero-price sale is accepted.
 
-Only the UI (`sales_screen.dart:312-316`) checks `qty > currentQuantity`. A concurrent request, direct DB write, or future code path can oversell without any CHECK constraint or trigger at the SQLite level.
+### M2. No negative-stock guard at the DB layer [P3 — Defense in depth]
 
-### M3. Race condition in sale dialog
+**Revalidated in MUAMAN-04.** The UI (`sales_screen.dart:312-316`) checks `qty > currentQuantity`, but there's no CHECK constraint or trigger at the SQLite level. The only DB-level guard is `insertSaleAndDecrementStock`'s optimistic lock (`WHERE currentQuantity >= ?`), which catches race conditions but not direct DB writes.
 
-`_showAddSaleDialog` captures `_products` at dialog-open time (line 215: `_products.where((p) => p.currentQuantity > 0)`). If another sale is completed while the dialog is open, the stale list may still show a now-depleted product as available.
+### M3. Race condition in sale dialog [P3 — Low likelihood]
 
-### M4. Product cost price can be zero
+**Revalidated in MUAMAN-04.** `_showAddSaleDialog` captures `_products` at dialog-open time (line 215: `_products.where((p) => p.currentQuantity > 0)`). If another sale completes while the dialog is open, the stale list may still show a now-depleted product as available. Proof-of-concept not executed but code path is clear.
 
-`products_screen.dart` — adding/editing a product does not enforce `costPrice > 0`. Zero cost → zero COGS → infinite profit margin in reports.
+### M4. Product cost price can be zero [P1 — Accounting Incorrectness]
+
+**Revalidated in MUAMAN-04.** `inventory_screen.dart:227` — `costController.text` parsed via `double.tryParse(...) ?? 0`. No `costPrice > 0` validation in add or edit dialogs. Seed data includes "تحزية" with `costPrice: 0.0`. Zero cost → zero COGS → infinite/undefined gross profit margin.
+
+**Proof:** Seed product "تحزية" explicitly has `costPrice: 0.0`.
 
 ---
 
 ## Minor Issues
 
-### m1. No input sanitization
+### m1. No input sanitization [P3]
 
-Product names and barcodes are not `.trim()`-ed before insert. Leading/trailing whitespace can cause duplicate-name bugs and barcode lookup failures.
+**Revalidated in MUAMAN-04.** No `.trim()` call in `inventory_screen.dart:188` (name), `inventory_screen.dart:197` (cost), `expenses_screen.dart:166` (description), `inventory_count_screen.dart:109` (count notes). Space-padded barcode/name could bypass uniqueness or cause lookup failures.
 
-### m2. No unique constraint on barcode
+### m2. Barcode uniqueness [MUAMAN-04: PARTIALLY CORRECTED]
 
-Only checked in UI before insert. Two concurrent inserts or a direct DB write could create duplicate barcodes.
+**MUAMAN-04 found: The UNIQUE constraint EXISTS** at `database_helper.dart:46` (`barcode TEXT UNIQUE NOT NULL`). The original CODEX claim "No unique constraint on barcode" was inaccurate — the constraint is in the DDL. However, the UI does NOT catch `DatabaseException` on duplicate insert, so the user sees an unhandled error.
 
-### m3. `sale_items` table is dead code
+### m3. `sale_items` table [MUAMAN-04: OUTDATED — removed from schema]
 
-Created in `_onCreate` (line 46-55) but never referenced elsewhere. This wastes schema space and confuses future developers.
+**MUAMAN-04 found: `sale_items` is NOT in current `_createDB`.** The schema (lines 41-104) creates only 5 tables: products, sales, returns, expenses, inventory_count. `sale_items` was dropped from schema between version 1 and 2. It only exists as empty residue on upgraded databases.
 
-### m4. Widget test is default Flutter boilerplate
+### m4. Widget test is default Flutter boilerplate [P3]
 
-`widget_test.dart` contains the counter-app smoke test from `flutter create`. It imports `muaman_store/main.dart` which has no counter — the test will fail immediately.
+Unchanged since MUAMAN-01. `widget_test.dart` tests a counter app that doesn't exist in this project. Pre-existing failure.
 
-### m5. Sale model has redundant computed properties
+### m5. Sale model computed properties [MUAMAN-04: NOT A DEFECT]
 
-`sale.dart:24-25` defines `computedTotalSaleValue` and `computedCogs` as getters, but `toMap()` on lines 35/37 computes these values eagerly into `totalSaleValue`/`cogs`. The getters are dead code; the map fields duplicate what could be derived.
+**MUAMAN-04 found: NOT redundant.** `computedTotalSaleValue` and `computedCogs` are getters that compute values at serialization time (`toMap()` uses them). They serve a distinct purpose: ensuring stored values are consistent at write time. No discrepancy between computed and stored values was found.
 
 ---
 
@@ -140,9 +101,12 @@ Created in `_onCreate` (line 46-55) but never referenced elsewhere. This wastes 
 
 | Tier | Count | Criticality |
 |------|-------|-------------|
-| Critical (open) | 1 | C3 — No FK / referential integrity |
 | Critical (fixed) | 2 | C1 (MUAMAN-03), C2 (MUAMAN-02) |
-| Moderate | 4 | Zero-price sales, no DB guards, race conditions, zero cost |
-| Minor | 5 | Sanitization, uniqueness, dead code, tests, redundant model |
+| Critical (open) | 0 | All reclassified in MUAMAN-04 |
+| P1 — Accounting Incorrectness | 2 | M1 (zero sale price), M4 (zero cost price) |
+| P2 — Reliability | 2 | Product deletion orphans, unhandled DB exception |
+| P3 — Maintainability/Defense | 5 | Negative-stock guard, race condition, trimming, widget test, sale_items residue |
 
-**Next recommended phase:** Re-evaluate remaining findings by actual impact — zero price, zero cost, barcode uniqueness, returns path, orphan records.
+**Next recommended phase: MUAMAN-05 — Zero Price and Zero Cost Validation**
+
+Highest-priority proven defect: acceptance of zero sale prices and zero cost prices producing incorrect accounting entries (P1). Fix is small and atomic. Requires business decision on whether zero values are ever legitimate (samples, gifts, bundled "تحزية").
