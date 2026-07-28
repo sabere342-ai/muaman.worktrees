@@ -3,6 +3,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:muaman_store/database/database_helper.dart';
 import 'package:muaman_store/models/product.dart';
 import 'package:muaman_store/models/sale.dart';
+import 'package:muaman_store/models/return_item.dart';
 
 void main() {
   setUpAll(() {
@@ -86,7 +87,7 @@ void main() {
   });
 
   group('Product deletion', () {
-    test('Deleting product succeeds even with related sales', () async {
+    test('Deleting product with sales is rejected', () async {
       await testDb.insert('products', {
         'name': 'Product X',
         'barcode': 'DEL001',
@@ -117,86 +118,76 @@ void main() {
         'countDate': '2026-07-28T00:00:00.000',
       });
 
-      await DatabaseHelper.instance.deleteProduct(1);
+      expect(
+        () => DatabaseHelper.instance.deleteProduct(1),
+        throwsA(isA<ProductDeletionException>()),
+      );
 
       final products = await testDb.query('products');
-      expect(products, isEmpty);
+      expect(products.length, 1,
+          reason: 'Product must still exist after rejection');
 
       final sales = await testDb.query('sales');
       expect(sales.length, 1,
-          reason: 'Sales should persist after product deletion');
+          reason: 'Sales should persist after rejection');
       expect(sales.first['productName'], 'Product X');
 
       final counts = await testDb.query('inventory_count');
       expect(counts.length, 1,
-          reason: 'Count records persist but productId is orphaned');
-
-      final dbProds = await testDb.query('products');
-      expect(dbProds, isEmpty);
+          reason: 'Count records should persist after rejection');
     });
 
-    test('Reusing deleted product barcode creates new identity', () async {
+    test('Unreferenced product can be deleted', () async {
       await testDb.insert('products', {
-        'name': 'Old Product',
-        'barcode': 'REUSE001',
-        'openingQuantity': 10,
-        'soldQuantity': 3,
+        'name': 'Standalone',
+        'barcode': 'STAND001',
+        'openingQuantity': 5,
+        'soldQuantity': 0,
         'returnedQuantity': 0,
-        'currentQuantity': 7,
-        'costPrice': 100.0,
-        'totalInventoryCost': 700.0,
+        'currentQuantity': 5,
+        'costPrice': 50.0,
+        'totalInventoryCost': 250.0,
         'inventoryAdjustment': 0,
-      });
-
-      await testDb.insert('sales', {
-        'date': '2026-07-28T00:00:00.000',
-        'productName': 'Old Product',
-        'barcode': 'REUSE001',
-        'quantity': 3,
-        'salePrice': 200.0,
-        'totalSaleValue': 600.0,
-        'costPrice': 100.0,
-        'cogs': 300.0,
       });
 
       await DatabaseHelper.instance.deleteProduct(1);
 
+      final products = await testDb.query('products');
+      expect(products, isEmpty,
+          reason: 'Unreferenced product should be deleted');
+    });
+
+    test('Deleting product referenced only by return is rejected', () async {
       await testDb.insert('products', {
-        'name': 'New Product',
-        'barcode': 'REUSE001',
-        'openingQuantity': 20,
+        'name': 'Returned Item',
+        'barcode': 'RET001',
+        'openingQuantity': 10,
         'soldQuantity': 0,
-        'returnedQuantity': 0,
-        'currentQuantity': 20,
-        'costPrice': 150.0,
-        'totalInventoryCost': 3000.0,
+        'returnedQuantity': 2,
+        'currentQuantity': 10,
+        'costPrice': 100.0,
+        'totalInventoryCost': 1000.0,
         'inventoryAdjustment': 0,
       });
 
-      final newSaleId =
-          await DatabaseHelper.instance.insertSaleAndDecrementStock(
-        Sale(
-          date: DateTime(2026, 7, 28),
-          productName: 'New Product',
-          barcode: 'REUSE001',
-          quantity: 5,
-          salePrice: 300.0,
-          costPrice: 150.0,
-        ),
+      await testDb.insert('returns', {
+        'date': '2026-07-28T00:00:00.000',
+        'productName': 'Returned Item',
+        'barcode': 'RET001',
+        'quantity': 2,
+        'salePrice': 200.0,
+        'totalReturnValue': 400.0,
+        'costPrice': 100.0,
+        'returnedCogs': 200.0,
+      });
+
+      expect(
+        () => DatabaseHelper.instance.deleteProduct(1),
+        throwsA(isA<ProductDeletionException>()),
       );
 
-      final oldSales = await testDb
-          .query('sales', where: 'productName = ?', whereArgs: ['Old Product']);
-      expect(oldSales.length, 1);
-      expect(oldSales.first['barcode'], 'REUSE001');
-
-      final newSales =
-          await testDb.query('sales', where: 'id = ?', whereArgs: [newSaleId]);
-      expect(newSales.first['productName'], 'New Product');
-      expect(newSales.first['barcode'], 'REUSE001');
-
-      final sales = await testDb.query('sales');
-      expect(sales.length, 2);
+      final products = await testDb.query('products');
+      expect(products.length, 1);
     });
   });
 
@@ -275,6 +266,20 @@ Future<void> createExploratoryTables(Database db) async {
       actualQuantity INTEGER DEFAULT 0,
       notes TEXT DEFAULT '',
       countDate TEXT NOT NULL
+    )
+  ''');
+
+  await db.execute('''
+    CREATE TABLE returns (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      date TEXT NOT NULL,
+      productName TEXT NOT NULL,
+      barcode TEXT NOT NULL,
+      quantity INTEGER DEFAULT 0,
+      salePrice REAL DEFAULT 0,
+      totalReturnValue REAL DEFAULT 0,
+      costPrice REAL DEFAULT 0,
+      returnedCogs REAL DEFAULT 0
     )
   ''');
 }

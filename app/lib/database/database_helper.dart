@@ -147,7 +147,32 @@ class DatabaseHelper {
 
   Future<int> deleteProduct(int id) async {
     final db = await database;
-    return await db.delete('products', where: 'id = ?', whereArgs: [id]);
+    return await db.transaction((txn) async {
+      final productMaps = await txn
+          .query('products', where: 'id = ?', whereArgs: [id]);
+      if (productMaps.isEmpty) return 0;
+      final product = Product.fromMap(productMaps.first);
+
+      final List<String> references = [];
+
+      final saleRows = await txn.query('sales',
+          where: 'barcode = ?', whereArgs: [product.barcode], limit: 1);
+      if (saleRows.isNotEmpty) references.add('مبيعات');
+
+      final returnRows = await txn.query('returns',
+          where: 'barcode = ?', whereArgs: [product.barcode], limit: 1);
+      if (returnRows.isNotEmpty) references.add('مرتجعات');
+
+      final countRows = await txn.query('inventory_count',
+          where: 'productId = ?', whereArgs: [id], limit: 1);
+      if (countRows.isNotEmpty) references.add('جرد مخزون');
+
+      if (references.isNotEmpty) {
+        throw ProductDeletionException(references);
+      }
+
+      return await txn.delete('products', where: 'id = ?', whereArgs: [id]);
+    });
   }
 
   Future<void> updateSoldQuantity(String barcode, int quantity) async {
@@ -509,6 +534,32 @@ class DatabaseHelper {
     };
   }
 
+  /// Checks whether a product has any historical or operational references.
+  /// Returns a list of Arabic reason strings, or an empty list if none found.
+  Future<List<String>> getProductReferences(int productId) async {
+    final db = await database;
+    final productMaps = await db
+        .query('products', where: 'id = ?', whereArgs: [productId]);
+    if (productMaps.isEmpty) return [];
+    final product = Product.fromMap(productMaps.first);
+
+    final List<String> refs = [];
+
+    final saleRows = await db.query('sales',
+        where: 'barcode = ?', whereArgs: [product.barcode], limit: 1);
+    if (saleRows.isNotEmpty) refs.add('مبيعات');
+
+    final returnRows = await db.query('returns',
+        where: 'barcode = ?', whereArgs: [product.barcode], limit: 1);
+    if (returnRows.isNotEmpty) refs.add('مرتجعات');
+
+    final countRows = await db.query('inventory_count',
+        where: 'productId = ?', whereArgs: [productId], limit: 1);
+    if (countRows.isNotEmpty) refs.add('جرد مخزون');
+
+    return refs;
+  }
+
   Future<Map<String, dynamic>> getInventorySummary() async {
     final db = await database;
     final countResult = await db
@@ -607,4 +658,20 @@ class DatabaseHelper {
     final maxId = ((result.first['maxId'] as num?)?.toInt() ?? 0) + 1;
     return '200${maxId.toString().padLeft(10, '0')}';
   }
+}
+
+class ProductDeletionException implements Exception {
+  final List<String> reasons;
+  ProductDeletionException(this.reasons);
+
+  String get message {
+    if (reasons.isEmpty) {
+      return 'لا يمكن حذف المنتج لوجود معاملات أو سجلات مرتبطة به';
+    }
+    final joined = reasons.join(' و');
+    return 'لا يمكن حذف المنتج لارتباطه بـ $joined سابقة';
+  }
+
+  @override
+  String toString() => 'ProductDeletionException: $message';
 }

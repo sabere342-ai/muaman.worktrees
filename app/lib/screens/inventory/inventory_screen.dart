@@ -288,9 +288,31 @@ class _InventoryScreenState extends State<InventoryScreen> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () async {
-              await DatabaseHelper.instance.deleteProduct(product.id!);
-              if (context.mounted) Navigator.pop(context);
-              _loadProducts();
+              try {
+                await DatabaseHelper.instance.deleteProduct(product.id!);
+                if (context.mounted) Navigator.pop(context);
+                _loadProducts();
+              } on ProductDeletionException catch (e) {
+                if (context.mounted) {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(e.message),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('حدث خطأ: $e'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              }
             },
             child: const Text('حذف', style: TextStyle(color: Colors.white)),
           ),
