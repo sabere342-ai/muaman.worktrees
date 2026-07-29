@@ -6,7 +6,10 @@ import '../../models/product.dart';
 import 'sales_report_screen.dart';
 
 class SalesScreen extends StatefulWidget {
-  const SalesScreen({super.key});
+  final bool showAppBar;
+  final bool showFab;
+
+  const SalesScreen({super.key, this.showAppBar = true, this.showFab = true});
 
   @override
   State<SalesScreen> createState() => _SalesScreenState();
@@ -51,51 +54,55 @@ class _SalesScreenState extends State<SalesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('المبيعات',
-            style: TextStyle(fontWeight: FontWeight.bold)),
-        centerTitle: true,
-        backgroundColor: const Color(0xFF0D47A1),
-        foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.assessment),
-            tooltip: 'التقارير',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const SalesReportScreen()),
-              );
-            },
-          ),
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.filter_list),
-            onSelected: (value) {
-              if (value == 'اليوم') {
-                setState(() {
-                  _filteredSales = _sales
-                      .where((s) =>
-                          DateFormat('yyyy-MM-dd').format(s.date) ==
-                          DateFormat('yyyy-MM-dd').format(DateTime.now()))
-                      .toList();
-                });
-              } else if (value == 'بال تاريخ') {
-                _selectDate();
-              } else {
-                setState(() => _filteredSales = _sales);
-              }
-            },
-            itemBuilder: (context) => [
-              const PopupMenuItem(value: 'الكل', child: Text('عرض الكل')),
-              const PopupMenuItem(value: 'اليوم', child: Text('مبيعات اليوم')),
-              const PopupMenuItem(
-                  value: 'بال تاريخ', child: Text('筛选 بالتاريخ')),
-            ],
-          ),
-          IconButton(icon: const Icon(Icons.refresh), onPressed: _loadData),
-        ],
-      ),
+      appBar: widget.showAppBar
+          ? AppBar(
+              title: const Text('المبيعات',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              centerTitle: true,
+              backgroundColor: const Color(0xFF0D47A1),
+              foregroundColor: Colors.white,
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.assessment),
+                  tooltip: 'التقارير',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SalesReportScreen()),
+                    );
+                  },
+                ),
+                PopupMenuButton<String>(
+                  icon: const Icon(Icons.filter_list),
+                  onSelected: (value) {
+                    if (value == 'اليوم') {
+                      setState(() {
+                        _filteredSales = _sales
+                            .where((s) =>
+                                DateFormat('yyyy-MM-dd').format(s.date) ==
+                                DateFormat('yyyy-MM-dd').format(DateTime.now()))
+                            .toList();
+                      });
+                    } else if (value == 'بال تاريخ') {
+                      _selectDate();
+                    } else {
+                      setState(() => _filteredSales = _sales);
+                    }
+                  },
+                  itemBuilder: (context) => [
+                    const PopupMenuItem(value: 'الكل', child: Text('عرض الكل')),
+                    const PopupMenuItem(
+                        value: 'اليوم', child: Text('مبيعات اليوم')),
+                    const PopupMenuItem(
+                        value: 'بال تاريخ', child: Text('筛选 بالتاريخ')),
+                  ],
+                ),
+                IconButton(
+                    icon: const Icon(Icons.refresh), onPressed: _loadData),
+              ],
+            )
+          : null,
       body: Column(
         children: [
           Container(
@@ -150,13 +157,15 @@ class _SalesScreenState extends State<SalesScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _showAddSaleDialog(context),
-        icon: const Icon(Icons.add_shopping_cart),
-        label: const Text('بيع جديد'),
-        backgroundColor: const Color(0xFF0D47A1),
-        foregroundColor: Colors.white,
-      ),
+      floatingActionButton: widget.showFab
+          ? FloatingActionButton.extended(
+              onPressed: () => _showAddSaleDialog(context),
+              icon: const Icon(Icons.add_shopping_cart),
+              label: const Text('بيع جديد'),
+              backgroundColor: const Color(0xFF0D47A1),
+              foregroundColor: Colors.white,
+            )
+          : null,
     );
   }
 

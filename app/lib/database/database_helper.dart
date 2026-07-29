@@ -13,12 +13,18 @@ class DatabaseHelper {
   DatabaseHelper._init();
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    await db.execute('DROP TABLE IF EXISTS products');
-    await db.execute('DROP TABLE IF EXISTS sales');
-    await db.execute('DROP TABLE IF EXISTS returns');
-    await db.execute('DROP TABLE IF EXISTS expenses');
-    await db.execute('DROP TABLE IF EXISTS inventory_count');
-    await _createDB(db, newVersion);
+    if (oldVersion < 2) {
+      await db.execute('DROP TABLE IF EXISTS products');
+      await db.execute('DROP TABLE IF EXISTS sales');
+      await db.execute('DROP TABLE IF EXISTS returns');
+      await db.execute('DROP TABLE IF EXISTS expenses');
+      await db.execute('DROP TABLE IF EXISTS inventory_count');
+      await _createDB(db, newVersion);
+      return;
+    }
+    if (oldVersion < 3) {
+      await _createUsersTable(db);
+    }
   }
 
   Future<Database> get database async {
@@ -35,7 +41,7 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
     return await openDatabase(path,
-        version: 2, onCreate: _createDB, onUpgrade: _onUpgrade);
+        version: 3, onCreate: _createDB, onUpgrade: _onUpgrade);
   }
 
   Future<void> _createDB(Database db, int version) async {
@@ -102,7 +108,24 @@ class DatabaseHelper {
       )
     ''');
 
+    await _createUsersTable(db);
     await DataImporter.importData(db);
+  }
+
+  Future<void> _createUsersTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        displayName TEXT NOT NULL,
+        username TEXT NOT NULL UNIQUE,
+        passwordHash TEXT NOT NULL,
+        role TEXT NOT NULL,
+        isActive INTEGER NOT NULL DEFAULT 1,
+        createdAt TEXT NOT NULL,
+        updatedAt TEXT NOT NULL,
+        lastLoginAt TEXT
+      )
+    ''');
   }
 
   // =================== PRODUCTS ===================

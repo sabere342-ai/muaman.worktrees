@@ -20,16 +20,37 @@ void main() {
     await db.close();
   });
 
-  testWidgets('App renders dashboard without crashing',
+  testWidgets('App renders first-owner setup when no users exist',
       (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
 
-    // Pump to let async _loadData complete (no-isolate FFI completes on microtask queue)
     await tester.pump();
     await tester.pump();
 
-    expect(find.text('لوحة تحكم محل مؤمن'), findsOneWidget);
-    expect(find.text('إجمالي المبيعات'), findsOneWidget);
+    expect(find.text('إعداد النظام'), findsOneWidget);
+    expect(find.text('إنشاء حساب المالك'), findsOneWidget);
+  });
+
+  testWidgets('App renders login screen when users exist',
+      (WidgetTester tester) async {
+    final db = await DatabaseHelper.instance.database;
+    await db.insert('users', {
+      'displayName': 'Test Owner',
+      'username': 'owner',
+      'passwordHash': 'dummy:dummy',
+      'role': 'owner',
+      'isActive': 1,
+      'createdAt': DateTime.now().toIso8601String(),
+      'updatedAt': DateTime.now().toIso8601String(),
+    });
+
+    await tester.pumpWidget(const MyApp());
+
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.text('إدارة محل مؤمن'), findsOneWidget);
+    expect(find.text('اسم المستخدم'), findsOneWidget);
   });
 }
 
@@ -89,6 +110,19 @@ Future<void> _createWidgetTestTables(Database db) async {
       actualQuantity INTEGER DEFAULT 0,
       notes TEXT DEFAULT '',
       countDate TEXT NOT NULL
+    )
+  ''');
+  await db.execute('''
+    CREATE TABLE users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      displayName TEXT NOT NULL,
+      username TEXT NOT NULL UNIQUE,
+      passwordHash TEXT NOT NULL,
+      role TEXT NOT NULL,
+      isActive INTEGER NOT NULL DEFAULT 1,
+      createdAt TEXT NOT NULL,
+      updatedAt TEXT NOT NULL,
+      lastLoginAt TEXT
     )
   ''');
 }
