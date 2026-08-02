@@ -7,6 +7,7 @@ import 'database/user_repository.dart';
 import 'models/user_role.dart';
 import 'services/session_state.dart';
 import 'services/permissions.dart';
+import 'services/app_settings.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/first_owner_setup_screen.dart';
 import 'screens/admin/user_management_screen.dart';
@@ -16,6 +17,7 @@ import 'screens/sales/sales_screen.dart';
 import 'screens/returns/returns_screen.dart';
 import 'screens/expenses/expenses_screen.dart';
 import 'screens/inventory_count/inventory_count_screen.dart';
+import 'screens/settings_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -89,6 +91,7 @@ class _AuthGateState extends State<AuthGate> {
 
   Future<void> _initialize() async {
     await DatabaseHelper.instance.database;
+    await AppSettings.initializeDefaults();
     final hasUsers = await _userRepo.hasAnyUser();
     if (mounted) {
       setState(() {
@@ -295,6 +298,12 @@ class _FullAppShellState extends State<FullAppShell> {
                 tooltip: 'إدارة المستخدمين',
                 onPressed: () => _openUserManagement(context),
               ),
+            if (widget.sessionState.hasPermission(AppPermission.canManageUsers))
+              IconButton(
+                icon: const Icon(Icons.settings),
+                tooltip: 'الإعدادات',
+                onPressed: () => _openSettings(context),
+              ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Center(
@@ -338,6 +347,18 @@ class _FullAppShellState extends State<FullAppShell> {
         builder: (context) => Directionality(
           textDirection: TextDirection.rtl,
           child: UserManagementScreen(sessionState: widget.sessionState),
+        ),
+      ),
+    );
+  }
+
+  void _openSettings(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const Directionality(
+          textDirection: TextDirection.rtl,
+          child: SettingsScreen(),
         ),
       ),
     );

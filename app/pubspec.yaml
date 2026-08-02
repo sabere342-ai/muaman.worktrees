@@ -40,6 +40,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   pdf: ^3.11.1
   printing: ^5.13.4
+  xml: ^6.5.0
+  archive: ^3.6.1
 
 dev_dependencies:
   flutter_test:

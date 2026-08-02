@@ -4,6 +4,7 @@ import '../models/product.dart';
 import '../models/sale.dart';
 import '../models/return_item.dart';
 import '../models/expense.dart';
+import '../models/invoice.dart';
 import 'data_importer.dart';
 
 class DatabaseHelper {
@@ -25,6 +26,14 @@ class DatabaseHelper {
     if (oldVersion < 3) {
       await _createUsersTable(db);
     }
+    if (oldVersion < 4) {
+      await _createImportBatchesTable(db);
+    }
+    if (oldVersion < 5) {
+      await _createInvoicesTable(db);
+      await db.execute('ALTER TABLE sales ADD COLUMN invoiceId INTEGER');
+      await _createAppSettingsTable(db);
+    }
   }
 
   Future<Database> get database async {
@@ -41,7 +50,7 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
     return await openDatabase(path,
-        version: 3, onCreate: _createDB, onUpgrade: _onUpgrade);
+        version: 5, onCreate: _createDB, onUpgrade: _onUpgrade);
   }
 
   Future<void> _createDB(Database db, int version) async {
@@ -63,6 +72,7 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE sales (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        invoiceId INTEGER,
         date TEXT NOT NULL,
         productName TEXT NOT NULL,
         barcode TEXT NOT NULL,
@@ -109,7 +119,62 @@ class DatabaseHelper {
     ''');
 
     await _createUsersTable(db);
+    await _createImportBatchesTable(db);
+    await _createInvoicesTable(db);
+    await _createAppSettingsTable(db);
     await DataImporter.importData(db);
+  }
+
+  Future<void> _createImportBatchesTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS import_batches (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        file_sha256 TEXT NOT NULL UNIQUE,
+        file_name TEXT NOT NULL,
+        imported_at TEXT NOT NULL,
+        products_count INTEGER DEFAULT 0,
+        sales_count INTEGER DEFAULT 0,
+        returns_count INTEGER DEFAULT 0,
+        expenses_count INTEGER DEFAULT 0,
+        adjustments_count INTEGER DEFAULT 0,
+        total_quantity INTEGER DEFAULT 0,
+        total_inventory_value REAL DEFAULT 0,
+        total_sales REAL DEFAULT 0,
+        total_returns REAL DEFAULT 0,
+        net_sales REAL DEFAULT 0,
+        total_cogs REAL DEFAULT 0,
+        returned_cogs REAL DEFAULT 0,
+        net_cogs REAL DEFAULT 0,
+        gross_profit REAL DEFAULT 0,
+        total_expenses REAL DEFAULT 0,
+        net_profit REAL DEFAULT 0,
+        reconciliation_json TEXT
+      )
+    ''');
+  }
+
+  Future<void> _createInvoicesTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS invoices (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        invoiceNumber TEXT NOT NULL UNIQUE,
+        date TEXT NOT NULL,
+        customerName TEXT NOT NULL,
+        paymentMethod TEXT NOT NULL,
+        totalAmount REAL DEFAULT 0,
+        totalItems INTEGER DEFAULT 0,
+        createdAt TEXT NOT NULL
+      )
+    ''');
+  }
+
+  Future<void> _createAppSettingsTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS app_settings (
+        key TEXT PRIMARY KEY,
+        value TEXT NOT NULL
+      )
+    ''');
   }
 
   Future<void> _createUsersTable(Database db) async {
@@ -374,30 +439,30 @@ class DatabaseHelper {
       if (sale.salePrice <= 0) {
         throw ArgumentError('يجب أن يكون سعر البيع أكبر من صفر');
       }
-
+ 
       final productMaps = await txn
           .query('products', where: 'barcode = ?', whereArgs: [sale.barcode]);
-
+ 
       if (productMaps.isEmpty) {
         throw StateError('Product with barcode "${sale.barcode}" not found');
       }
-
+ 
       final product = Product.fromMap(productMaps.first);
-
-      final id = await txn.insert('sales', sale.toMap()..remove('id'));
-
+ 
       if (product.currentQuantity < sale.quantity) {
         throw StateError(
           'Insufficient stock: available ${product.currentQuantity}, requested ${sale.quantity}',
         );
       }
-
+ 
+      final id = await txn.insert('sales', sale.toMap()..remove('id'));
+ 
       final newSold = product.soldQuantity + sale.quantity;
       final newCurrent = product.openingQuantity -
           newSold +
           product.returnedQuantity +
           product.inventoryAdjustment;
-
+ 
       final affected = await txn.update(
         'products',
         {
@@ -408,16 +473,81 @@ class DatabaseHelper {
         where: 'id = ? AND currentQuantity >= ?',
         whereArgs: [product.id, sale.quantity],
       );
-
+ 
       if (affected == 0) {
         throw StateError(
             'Stock changed before sale could complete. Please try again.');
       }
-
+ 
       return id;
     });
   }
-
+ 
+  Future<int> insertInvoiceWithItems(
+      Invoice invoice, List<Sale> invoiceItems) async {
+    final db = await database;
+    return await db.transaction((txn) async {
+      if (invoiceItems.isEmpty) {
+        throw ArgumentError('يجب إضافة منتج واحد على الأقل إلى الفاتورة');
+      }
+      if (invoice.totalAmount <= 0) {
+        throw ArgumentError('الإجمالي يجب أن يكون أكبر من صفر');
+      }
+      if (invoice.customerName.trim().isEmpty) {
+        throw ArgumentError('اسم العميل مطلوب');
+      }
+ 
+      final invoiceId = await txn.insert('invoices', invoice.toMap());
+      for (final item in invoiceItems) {
+        if (item.quantity <= 0) {
+          throw ArgumentError('الكمية يجب أن تكون أكبر من صفر');
+        }
+        if (item.salePrice <= 0) {
+          throw ArgumentError('سعر البيع يجب أن يكون أكبر من صفر');
+        }
+ 
+        final productMaps = await txn.query('products',
+            where: 'barcode = ?', whereArgs: [item.barcode]);
+        if (productMaps.isEmpty) {
+          throw StateError('المنتج غير موجود: ${item.productName}');
+        }
+ 
+        final product = Product.fromMap(productMaps.first);
+        if (product.currentQuantity < item.quantity) {
+          throw StateError(
+              'الكمية غير كافية للمنتج ${item.productName}. المتاح: ${product.currentQuantity}');
+        }
+ 
+        await txn.insert('sales', item.copyWith(invoiceId: invoiceId).toMap()
+          ..remove('id'));
+ 
+        final newSold = product.soldQuantity + item.quantity;
+        final newCurrent = product.openingQuantity -
+            newSold +
+            product.returnedQuantity +
+            product.inventoryAdjustment;
+ 
+        final affected = await txn.update(
+          'products',
+          {
+            'soldQuantity': newSold,
+            'currentQuantity': newCurrent,
+            'totalInventoryCost': newCurrent * product.costPrice,
+          },
+          where: 'id = ? AND currentQuantity >= ?',
+          whereArgs: [product.id, item.quantity],
+        );
+ 
+        if (affected == 0) {
+          throw StateError(
+              'تغير المخزون قبل حفظ الفاتورة. حاول مرة أخرى.');
+        }
+      }
+ 
+      return invoiceId;
+    });
+  }
+ 
   Future<List<Sale>> getAllSales() async {
     final db = await database;
     final maps = await db.query('sales', orderBy: 'id ASC');

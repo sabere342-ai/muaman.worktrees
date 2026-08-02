@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../database/database_helper.dart';
 import '../../models/sale.dart';
-import '../../models/product.dart';
+import 'invoice_screen.dart';
 import 'sales_report_screen.dart';
 
 class SalesScreen extends StatefulWidget {
@@ -18,7 +18,6 @@ class SalesScreen extends StatefulWidget {
 class _SalesScreenState extends State<SalesScreen> {
   List<Sale> _sales = [];
   List<Sale> _filteredSales = [];
-  List<Product> _products = [];
   final _searchController = TextEditingController();
   bool _isLoading = true;
   DateTime _filterDate = DateTime.now();
@@ -32,11 +31,9 @@ class _SalesScreenState extends State<SalesScreen> {
   Future<void> _loadData() async {
     setState(() => _isLoading = true);
     final sales = await DatabaseHelper.instance.getAllSales();
-    final products = await DatabaseHelper.instance.getAllProducts();
     setState(() {
       _sales = sales.reversed.toList();
       _filteredSales = _sales;
-      _products = products;
       _isLoading = false;
     });
   }
@@ -159,9 +156,9 @@ class _SalesScreenState extends State<SalesScreen> {
       ),
       floatingActionButton: widget.showFab
           ? FloatingActionButton.extended(
-              onPressed: () => _showAddSaleDialog(context),
+              onPressed: () => _openInvoiceScreen(context),
               icon: const Icon(Icons.add_shopping_cart),
-              label: const Text('بيع جديد'),
+              label: const Text('فاتورة جديدة'),
               backgroundColor: const Color(0xFF0D47A1),
               foregroundColor: Colors.white,
             )
@@ -210,196 +207,16 @@ class _SalesScreenState extends State<SalesScreen> {
     );
   }
 
-  void _showAddSaleDialog(BuildContext context) {
-    Product? selectedProduct;
-    final qtyController = TextEditingController(text: '1');
-    final priceController = TextEditingController();
-    final dateController = TextEditingController(
-        text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
-    DateTime selectedDate = DateTime.now();
-    bool isSaving = false;
-
-    showDialog(
-      context: context,
-      builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: const Text('تسجيل عملية بيع'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Autocomplete<Product>(
-                  optionsBuilder: (TextEditingValue textEditingValue) {
-                    if (textEditingValue.text.isEmpty) {
-                      return _products.where((p) => p.currentQuantity > 0);
-                    }
-                    return _products.where((p) =>
-                        p.currentQuantity > 0 &&
-                        (p.name.toLowerCase().contains(
-                                textEditingValue.text.toLowerCase()) ||
-                            p.barcode.contains(textEditingValue.text)));
-                  },
-                  displayStringForOption: (Product p) =>
-                      '${p.name} (${p.currentQuantity} متاح)',
-                  onSelected: (Product selection) {
-                    selectedProduct = selection;
-                    priceController.text = '';
-                    setDialogState(() {});
-                  },
-                  fieldViewBuilder:
-                      (context, controller, focusNode, onSubmitted) {
-                    return TextField(
-                      controller: controller,
-                      focusNode: focusNode,
-                      decoration: const InputDecoration(
-                        labelText: 'بحث المنتج',
-                        border: OutlineInputBorder(),
-                      ),
-                    );
-                  },
-                ),
-                if (selectedProduct != null) ...[
-                  const SizedBox(height: 8),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade50,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      children: [
-                        Text('المخزون: ${selectedProduct!.currentQuantity}',
-                            style: const TextStyle(fontSize: 12)),
-                        const Spacer(),
-                        Text(
-                            'التكلفة: ${selectedProduct!.costPrice.toStringAsFixed(0)} ج.م',
-                            style: const TextStyle(fontSize: 12)),
-                      ],
-                    ),
-                  ),
-                ],
-                const SizedBox(height: 12),
-                TextField(
-                  controller: dateController,
-                  readOnly: true,
-                  decoration: const InputDecoration(
-                    labelText: 'التاريخ',
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.calendar_today),
-                  ),
-                  onTap: () async {
-                    final picked = await showDatePicker(
-                      context: context,
-                      initialDate: selectedDate,
-                      firstDate: DateTime(2024),
-                      lastDate: DateTime.now(),
-                    );
-                    if (picked != null) {
-                      selectedDate = picked;
-                      dateController.text =
-                          DateFormat('yyyy-MM-dd').format(picked);
-                    }
-                  },
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: qtyController,
-                  decoration: const InputDecoration(
-                    labelText: 'الكمية',
-                    border: OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.number,
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: priceController,
-                  decoration: const InputDecoration(
-                    labelText: 'سعر البيع',
-                    border: OutlineInputBorder(),
-                    prefixText: 'ج.م ',
-                  ),
-                  keyboardType: TextInputType.number,
-                ),
-                if (isSaving) ...[
-                  const SizedBox(height: 12),
-                  const LinearProgressIndicator(),
-                ],
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: isSaving ? null : () => Navigator.pop(context),
-              child: const Text('إلغاء'),
-            ),
-            ElevatedButton(
-              onPressed: isSaving
-                  ? null
-                  : () async {
-                      if (selectedProduct == null) return;
-                      final qty = int.tryParse(qtyController.text) ?? 0;
-                      final price = double.tryParse(priceController.text) ?? 0;
-                      if (qty <= 0) return;
-                      if (price <= 0) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content:
-                                  Text('يجب أن يكون سعر البيع أكبر من صفر'),
-                              backgroundColor: Colors.red),
-                        );
-                        return;
-                      }
-
-                      setDialogState(() => isSaving = true);
-                      try {
-                        await DatabaseHelper.instance
-                            .insertSaleAndDecrementStock(
-                          Sale(
-                            date: selectedDate,
-                            productName: selectedProduct!.name,
-                            barcode: selectedProduct!.barcode,
-                            quantity: qty,
-                            salePrice: price,
-                            costPrice: selectedProduct!.costPrice,
-                          ),
-                        );
-                        if (context.mounted) {
-                          Navigator.pop(context);
-                          _loadData();
-                        }
-                      } on StateError catch (e) {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text(e.message),
-                                backgroundColor: Colors.red),
-                          );
-                        }
-                      } catch (e) {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text('فشل تسجيل البيع: $e'),
-                                backgroundColor: Colors.red),
-                          );
-                        }
-                      } finally {
-                        if (context.mounted) {
-                          setDialogState(() => isSaving = false);
-                        }
-                      }
-                    },
-              child: isSaving
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2))
-                  : const Text('تسجيل البيع'),
-            ),
-          ],
-        ),
+  void _openInvoiceScreen(BuildContext context) async {
+    final result = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const InvoiceScreen(),
       ),
     );
+    if (result == true) {
+      _loadData();
+    }
   }
 
   Future<void> _selectDate() async {
