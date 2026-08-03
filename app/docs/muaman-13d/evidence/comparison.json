@@ -1,0 +1,41 @@
+{
+    "schema":  "muaman-13d-comparison",
+    "identical":  true,
+    "allFilesByteIdentical":  true,
+    "onlyInRun1":  [
+
+                   ],
+    "onlyInRun2":  [
+
+                   ],
+    "addedFiles":  [
+
+                   ],
+    "removedFiles":  [
+
+                     ],
+    "changedFiles":  [
+
+                     ],
+    "sameSizeDifferentHashFiles":  [
+
+                                   ],
+    "sizeMismatches":  [
+
+                       ],
+    "hashMismatches":  [
+
+                       ],
+    "fileCountRun1":  13,
+    "fileCountRun2":  13,
+    "fileCount":  13,
+    "fileCountIdentical":  true,
+    "totalBytesRun1":  33273462,
+    "totalBytesRun2":  33273462,
+    "totalBytes":  33273462,
+    "totalBytesIdentical":  true,
+    "canonicalManifestIdentical":  true,
+    "canonicalManifestDifference":  null,
+    "run1CanonicalManifestSha256":  "3e93a6d386f31780b0191259a079a79344b7c58ac52670fecc1a3c5fdd0d2fd9",
+    "run2CanonicalManifestSha256":  "3e93a6d386f31780b0191259a079a79344b7c58ac52670fecc1a3c5fdd0d2fd9"
+}

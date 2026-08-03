@@ -1,0 +1,57 @@
+{
+    "snapshotRun1":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13d-acceptance\\runs\\run-1\\snapshot",
+    "schema":  "muaman-13d-artifact-locations",
+    "files":  [
+                  {
+                      "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13d-acceptance\\runs\\run-1-a.zip",
+                      "sizeBytes":  14482661,
+                      "sha256":  "334A75A0A60BDC02807A2FB0F70B3F0E4C867EA6B00E287F116EB367648E8C0F"
+                  },
+                  {
+                      "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13d-acceptance\\runs\\run-1-b.zip",
+                      "sizeBytes":  14482661,
+                      "sha256":  "334A75A0A60BDC02807A2FB0F70B3F0E4C867EA6B00E287F116EB367648E8C0F"
+                  },
+                  {
+                      "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13d-acceptance\\runs\\run-2-a.zip",
+                      "sizeBytes":  14482661,
+                      "sha256":  "334A75A0A60BDC02807A2FB0F70B3F0E4C867EA6B00E287F116EB367648E8C0F"
+                  },
+                  {
+                      "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13d-acceptance\\runs\\run-2-b.zip",
+                      "sizeBytes":  14482661,
+                      "sha256":  "334A75A0A60BDC02807A2FB0F70B3F0E4C867EA6B00E287F116EB367648E8C0F"
+                  },
+                  {
+                      "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13d-acceptance\\runs\\run-1\\logs\\flutter-build.log",
+                      "sizeBytes":  276,
+                      "sha256":  "010D0EFCA38C9040AABB86A0C3320DB09176094115A56B24696CF8816EE643D1"
+                  },
+                  {
+                      "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13d-acceptance\\runs\\run-1\\logs\\diag-link-exe.log",
+                      "sizeBytes":  4915615,
+                      "sha256":  "FD4BCBE9DE30733B745A09481C7DCB4C81E46369663CC47C8967C180297835B1"
+                  },
+                  {
+                      "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13d-acceptance\\runs\\run-1\\logs\\diag-link-dll.log",
+                      "sizeBytes":  3408689,
+                      "sha256":  "224A2EC4E0E75B14CCFE9455B44D111F107F21A8E37981A8352536639F69FA66"
+                  },
+                  {
+                      "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13d-acceptance\\runs\\run-2\\logs\\flutter-build.log",
+                      "sizeBytes":  276,
+                      "sha256":  "12E3149E003EE56A89D2314CB233FA488A539FFF586E435C2047D1C33CD90861"
+                  },
+                  {
+                      "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13d-acceptance\\runs\\run-2\\logs\\diag-link-exe.log",
+                      "sizeBytes":  4915676,
+                      "sha256":  "494657CF3E31F83C085695D37E7B47CB3E841F403CF8F4C2146C189E6042ABE4"
+                  },
+                  {
+                      "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13d-acceptance\\runs\\run-2\\logs\\diag-link-dll.log",
+                      "sizeBytes":  3408753,
+                      "sha256":  "84BA94927F51BEAEA2DB57F697F0BC0CEF5CB5A808217863E167A0AAAE43EA55"
+                  }
+              ],
+    "snapshotRun2":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13d-acceptance\\runs\\run-2\\snapshot"
+}

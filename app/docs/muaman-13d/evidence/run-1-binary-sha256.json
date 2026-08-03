@@ -1,0 +1,22 @@
+{
+    "schema":  "muaman-13d-run-binaries",
+    "runId":  "run-1",
+    "files":  [
+                  {
+                      "path":  "C:\\dev\\muaman.worktrees\\muaman-13d-independent-committed-state-reproducibility-acceptance\\app\\build\\windows\\x64\\runner\\Release\\muaman_store.exe",
+                      "sha256":  "A7CFF7E5C0FBF5CF4DD2C5809827220B2861353BE741DDB0CC0205B08B6C04D3"
+                  },
+                  {
+                      "path":  "C:\\dev\\muaman.worktrees\\muaman-13d-independent-committed-state-reproducibility-acceptance\\app\\build\\windows\\x64\\runner\\Release\\printing_plugin.dll",
+                      "sha256":  "0235520A7CA7C21ADED291E866746F7BD82D9063EE7C5D6D0EF383E243079834"
+                  },
+                  {
+                      "path":  "C:\\dev\\muaman.worktrees\\muaman-13d-independent-committed-state-reproducibility-acceptance\\app\\build\\windows\\x64\\runner\\Release\\flutter_windows.dll",
+                      "sha256":  "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E"
+                  },
+                  {
+                      "path":  "C:\\dev\\muaman.worktrees\\muaman-13d-independent-committed-state-reproducibility-acceptance\\app\\build\\windows\\x64\\runner\\Release\\pdfium.dll",
+                      "sha256":  "0C88EBACC0393FD45FC3E7B35E31E72C9E55B633A846A7ECF4085694DBA68ABD"
+                  }
+              ]
+}

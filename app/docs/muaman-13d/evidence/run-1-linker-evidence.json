@@ -1,0 +1,77 @@
+{
+  "schema": "muaman-linker-evidence",
+  "schemaVersion": 1,
+  "runId": "run-1",
+  "buildConfiguration": "Release",
+  "sourceConfigurationFiles": [
+    "windows/CMakeLists.txt",
+    "windows/runner/CMakeLists.txt",
+    "windows/flutter/generated_plugins.cmake (generated)"
+  ],
+  "linkerExecutable": "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/link.exe",
+  "linkerVersion": "14.51.36243.0",
+  "targets": [
+    {
+      "targetName": "muaman_store",
+      "outputPath": "C:/dev/muaman.worktrees/muaman-13d-independent-committed-state-reproducibility-acceptance/app/build/windows/x64/runner/Release/muaman_store.exe",
+      "configuration": "Release|x64",
+      "linkerFlags": "%(AdditionalOptions) /machine:x64 /Brepro",
+      "additionalOptions": "%(AdditionalOptions) /machine:x64 /Brepro",
+      "additionalDependencies": [
+        "..\\flutter\\Release\\flutter_wrapper_app.lib",
+        "dwmapi.lib",
+        "..\\plugins\\printing\\Release\\printing_plugin.lib",
+        "C:\\dev\\muaman.worktrees\\muaman-13d-independent-committed-state-reproducibility-acceptance\\app\\windows\\flutter\\ephemeral\\flutter_windows.dll.lib",
+        "kernel32.lib",
+        "user32.lib",
+        "gdi32.lib",
+        "winspool.lib",
+        "shell32.lib",
+        "ole32.lib",
+        "oleaut32.lib",
+        "uuid.lib",
+        "comdlg32.lib",
+        "advapi32.lib"
+      ],
+      "programDataBaseFile": "C:/dev/muaman.worktrees/muaman-13d-independent-committed-state-reproducibility-acceptance/app/build/windows/x64/runner/Release/muaman_store.pdb",
+      "importLibrary": "C:/dev/muaman.worktrees/muaman-13d-independent-committed-state-reproducibility-acceptance/app/build/windows/x64/runner/Release/muaman_store.lib",
+      "subSystem": "Windows",
+      "generateDebugInformation": "false",
+      "linkIncremental": "false",
+      "breproPresent": true,
+      "breproOccurrences": 1,
+      "linkCommand": "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe /OUT:\"C:\\dev\\muaman.worktrees\\muaman-13d-independent-committed-state-reproducibility-acceptance\\app\\build\\windows\\x64\\runner\\Release\\muaman_store.exe\" /INCREMENTAL:NO /NOLOGO ..\\flutter\\Release\\flutter_wrapper_app.lib dwmapi.lib ..\\plugins\\printing\\Release\\printing_plugin.lib \"C:\\dev\\muaman.worktrees\\muaman-13d-independent-committed-state-reproducibility-acceptance\\app\\windows\\flutter\\ephemeral\\flutter_windows.dll.lib\" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:\"level='asInvoker' uiAccess='false'\" /manifest:embed /manifestinput:\"C:\\dev\\muaman.worktrees\\muaman-13d-independent-committed-state-reproducibility-acceptance\\app\\windows\\runner\\runner.exe.manifest\" /PDB:\"C:/dev/muaman.worktrees/muaman-13d-independent-committed-state-reproducibility-acceptance/app/build/windows/x64/runner/Release/muaman_store.pdb\" /SUBSYSTEM:WINDOWS /TLBID:1 /IMPLIB:\"C:/dev/muaman.worktrees/muaman-13d-independent-committed-state-reproducibility-acceptance/app/build/windows/x64/runner/Release/muaman_store.lib\" /MACHINE:X64  /machine:x64 /Brepro muaman_store.dir\\Release\\Runner.res"
+    },
+    {
+      "targetName": "printing_plugin",
+      "outputPath": "C:/dev/muaman.worktrees/muaman-13d-independent-committed-state-reproducibility-acceptance/app/build/windows/x64/plugins/printing/Release/printing_plugin.dll",
+      "configuration": "Release|x64",
+      "linkerFlags": "%(AdditionalOptions) /machine:x64 /Brepro",
+      "additionalOptions": "%(AdditionalOptions) /machine:x64 /Brepro",
+      "additionalDependencies": [
+        "..\\..\\pdfium-src\\lib\\pdfium.dll.lib",
+        "..\\..\\flutter\\Release\\flutter_wrapper_plugin.lib",
+        "C:\\dev\\muaman.worktrees\\muaman-13d-independent-committed-state-reproducibility-acceptance\\app\\windows\\flutter\\ephemeral\\flutter_windows.dll.lib",
+        "kernel32.lib",
+        "user32.lib",
+        "gdi32.lib",
+        "winspool.lib",
+        "shell32.lib",
+        "ole32.lib",
+        "oleaut32.lib",
+        "uuid.lib",
+        "comdlg32.lib",
+        "advapi32.lib"
+      ],
+      "programDataBaseFile": "C:/dev/muaman.worktrees/muaman-13d-independent-committed-state-reproducibility-acceptance/app/build/windows/x64/plugins/printing/Release/printing_plugin.pdb",
+      "importLibrary": "C:/dev/muaman.worktrees/muaman-13d-independent-committed-state-reproducibility-acceptance/app/build/windows/x64/plugins/printing/Release/printing_plugin.lib",
+      "subSystem": "Console",
+      "generateDebugInformation": "false",
+      "linkIncremental": "false",
+      "breproPresent": true,
+      "breproOccurrences": 1,
+      "linkCommand": "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe /OUT:\"C:\\dev\\muaman.worktrees\\muaman-13d-independent-committed-state-reproducibility-acceptance\\app\\build\\windows\\x64\\plugins\\printing\\Release\\printing_plugin.dll\" /INCREMENTAL:NO /NOLOGO \"..\\..\\pdfium-src\\lib\\pdfium.dll.lib\" ..\\..\\flutter\\Release\\flutter_wrapper_plugin.lib \"C:\\dev\\muaman.worktrees\\muaman-13d-independent-committed-state-reproducibility-acceptance\\app\\windows\\flutter\\ephemeral\\flutter_windows.dll.lib\" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:\"level='asInvoker' uiAccess='false'\" /manifest:embed /PDB:\"C:/dev/muaman.worktrees/muaman-13d-independent-committed-state-reproducibility-acceptance/app/build/windows/x64/plugins/printing/Release/printing_plugin.pdb\" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:\"C:/dev/muaman.worktrees/muaman-13d-independent-committed-state-reproducibility-acceptance/app/build/windows/x64/plugins/printing/Release/printing_plugin.lib\" /MACHINE:X64  /machine:x64 /Brepro /DLL printing_plugin.dir\\Release\\printing.obj"
+    }
+  ],
+  "allTargetsBreproPresent": true
+}

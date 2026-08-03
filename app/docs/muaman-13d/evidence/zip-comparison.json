@@ -1,0 +1,19 @@
+{
+    "schema":  "muaman-13d-zip-comparison",
+    "run1AZipSha256":  "334A75A0A60BDC02807A2FB0F70B3F0E4C867EA6B00E287F116EB367648E8C0F",
+    "run1BZipSha256":  "334A75A0A60BDC02807A2FB0F70B3F0E4C867EA6B00E287F116EB367648E8C0F",
+    "run2AZipSha256":  "334A75A0A60BDC02807A2FB0F70B3F0E4C867EA6B00E287F116EB367648E8C0F",
+    "run2BZipSha256":  "334A75A0A60BDC02807A2FB0F70B3F0E4C867EA6B00E287F116EB367648E8C0F",
+    "run1AZipSizeBytes":  14482661,
+    "run1BZipSizeBytes":  14482661,
+    "run2AZipSizeBytes":  14482661,
+    "run2BZipSizeBytes":  14482661,
+    "run1aEqualsRun1b":  true,
+    "run2aEqualsRun2b":  true,
+    "run1aEqualsRun2a":  true,
+    "run1aEqualsRun2b":  true,
+    "run1bEqualsRun2a":  true,
+    "run1bEqualsRun2b":  true,
+    "allFourZipsByteIdentical":  true,
+    "timestamp":  "2026-08-03T19:13:15.3482964Z"
+}

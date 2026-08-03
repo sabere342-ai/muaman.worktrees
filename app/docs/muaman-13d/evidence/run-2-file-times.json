@@ -1,0 +1,71 @@
+{
+    "files":  [
+                  {
+                      "path":  "data/app.so",
+                      "creationTimeUtc":  "2026-08-03T19:12:36.2339535Z",
+                      "lastWriteTimeUtc":  "2026-08-03T19:12:02.1332158Z"
+                  },
+                  {
+                      "path":  "data/flutter_assets/AssetManifest.bin",
+                      "creationTimeUtc":  "2026-08-03T19:12:36.2553109Z",
+                      "lastWriteTimeUtc":  "2026-08-03T19:12:02.5663826Z"
+                  },
+                  {
+                      "path":  "data/flutter_assets/AssetManifest.json",
+                      "creationTimeUtc":  "2026-08-03T19:12:36.2587411Z",
+                      "lastWriteTimeUtc":  "2026-08-03T19:12:02.5663826Z"
+                  },
+                  {
+                      "path":  "data/flutter_assets/FontManifest.json",
+                      "creationTimeUtc":  "2026-08-03T19:12:36.2711794Z",
+                      "lastWriteTimeUtc":  "2026-08-03T19:12:02.5663826Z"
+                  },
+                  {
+                      "path":  "data/flutter_assets/fonts/MaterialIcons-Regular.otf",
+                      "creationTimeUtc":  "2026-08-03T19:12:36.2778410Z",
+                      "lastWriteTimeUtc":  "2024-11-13T15:13:34.0000000Z"
+                  },
+                  {
+                      "path":  "data/flutter_assets/NOTICES.Z",
+                      "creationTimeUtc":  "2026-08-03T19:12:36.2731815Z",
+                      "lastWriteTimeUtc":  "2026-08-03T19:12:02.5668902Z"
+                  },
+                  {
+                      "path":  "data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+                      "creationTimeUtc":  "2026-08-03T19:12:36.2949992Z",
+                      "lastWriteTimeUtc":  "2026-06-07T14:22:40.8855313Z"
+                  },
+                  {
+                      "path":  "data/flutter_assets/shaders/ink_sparkle.frag",
+                      "creationTimeUtc":  "2026-08-03T19:12:36.3039867Z",
+                      "lastWriteTimeUtc":  "2026-08-03T19:12:03.2592090Z"
+                  },
+                  {
+                      "path":  "data/icudtl.dat",
+                      "creationTimeUtc":  "2026-08-03T19:12:36.2485710Z",
+                      "lastWriteTimeUtc":  "2024-11-13T15:13:36.0000000Z"
+                  },
+                  {
+                      "path":  "flutter_windows.dll",
+                      "creationTimeUtc":  "2026-08-03T19:12:36.2010083Z",
+                      "lastWriteTimeUtc":  "2024-11-13T15:15:00.0000000Z"
+                  },
+                  {
+                      "path":  "muaman_store.exe",
+                      "creationTimeUtc":  "2026-08-03T19:12:36.2207137Z",
+                      "lastWriteTimeUtc":  "2026-08-03T19:12:33.1994154Z"
+                  },
+                  {
+                      "path":  "pdfium.dll",
+                      "creationTimeUtc":  "2026-08-03T19:12:36.2229568Z",
+                      "lastWriteTimeUtc":  "2026-08-03T19:11:13.4931628Z"
+                  },
+                  {
+                      "path":  "printing_plugin.dll",
+                      "creationTimeUtc":  "2026-08-03T19:12:36.2309538Z",
+                      "lastWriteTimeUtc":  "2026-08-03T19:12:27.2794772Z"
+                  }
+              ],
+    "schema":  "muaman-13d-run2-file-times",
+    "runId":  "run-2"
+}
