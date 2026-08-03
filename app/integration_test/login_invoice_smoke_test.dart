@@ -64,8 +64,8 @@ void main() {
     await tester.tap(find.widgetWithText(ElevatedButton, 'تسجيل الدخول'));
 
     // Wait for the dashboard to finish loading (app shell is then ready).
-    await pumpUntil(tester,
-        () => find.text('الملخص المالي').evaluate().isNotEmpty);
+    await pumpUntil(
+        tester, () => find.text('الملخص المالي').evaluate().isNotEmpty);
 
     // Open the sales screen and create a new invoice.
     await tester.tap(find.text('المبيعات'));
@@ -82,8 +82,8 @@ void main() {
     // Filter to a single product that still has stock, then add it to cart.
     await tester.enterText(search, '2سوستة');
     await tester.pump();
-    await pumpUntil(tester,
-        () => find.text('تي شيرت 2سوستة تركي').evaluate().isNotEmpty);
+    await pumpUntil(
+        tester, () => find.text('تي شيرت 2سوستة تركي').evaluate().isNotEmpty);
     await tester.tap(find.text('تي شيرت 2سوستة تركي'));
     await tester.pump();
 
@@ -97,7 +97,7 @@ void main() {
     final invoicesBefore = (await db.query('invoices')).length;
     final salesBefore = (await db.query('sales')).length;
     final prodBefore = (await db.query('products',
-        where: 'barcode = ?', whereArgs: ['2000000000001']))
+            where: 'barcode = ?', whereArgs: ['2000000000001']))
         .first;
 
     // Saving with an empty price must be rejected with no DB writes.
@@ -130,8 +130,8 @@ void main() {
         (prodBefore['currentQuantity'] as int) - 1);
 
     // Login side effect: the owner's lastLoginAt must be recorded.
-    final owner = await db
-        .query('users', where: 'username = ?', whereArgs: ['owner']);
+    final owner =
+        await db.query('users', where: 'username = ?', whereArgs: ['owner']);
     expect(owner.single['lastLoginAt'], isNotNull);
   });
 }

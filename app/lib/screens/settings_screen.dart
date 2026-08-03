@@ -88,9 +88,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 8),
             Card(
               elevation: 2,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
               child: ListTile(
-                leading: const Icon(Icons.support_agent, color: Color(0xFF0D47A1)),
+                leading:
+                    const Icon(Icons.support_agent, color: Color(0xFF0D47A1)),
                 title: Text('رقم الدعم: $_supportPhone'),
                 subtitle: const Text('يمكنك نسخ الرقم للتواصل مع الدعم'),
                 trailing: IconButton(
@@ -98,7 +100,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: _supportPhone));
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('تم نسخ رقم الدعم')), 
+                      const SnackBar(content: Text('تم نسخ رقم الدعم')),
                     );
                   },
                 ),
@@ -129,7 +131,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ? const SizedBox(
                             width: 18,
                             height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                            child: CircularProgressIndicator(
+                                strokeWidth: 2, color: Colors.white),
                           )
                         : const Text('تفعيل الرخصة'),
                   ),
@@ -160,7 +163,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ? const SizedBox(
                             width: 18,
                             height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                            child: CircularProgressIndicator(
+                                strokeWidth: 2, color: Colors.white),
                           )
                         : const Text('استيراد البيانات'),
                   ),
@@ -171,7 +175,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const Text('تفاصيل الترخيص',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             const SizedBox(height: 8),
-            Text('حالة الترخيص: ${_licenseStatus == 'active' ? 'نشطة' : 'غير نشطة'}'),
+            Text(
+                'حالة الترخيص: ${_licenseStatus == 'active' ? 'نشطة' : 'غير نشطة'}'),
           ],
         ),
       ),
@@ -182,7 +187,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final key = _licenseController.text.trim();
     if (key.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('أدخل مفتاح الرخصة'), backgroundColor: Colors.red),
+        const SnackBar(
+            content: Text('أدخل مفتاح الرخصة'), backgroundColor: Colors.red),
       );
       return;
     }
@@ -195,7 +201,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(valid ? 'تم تفعيل الرخصة بنجاح' : 'مفتاح الرخصة غير صالح'),
+        content:
+            Text(valid ? 'تم تفعيل الرخصة بنجاح' : 'مفتاح الرخصة غير صالح'),
         backgroundColor: valid ? Colors.green : Colors.red,
       ),
     );
@@ -205,13 +212,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final path = _workbookPathController.text.trim();
     if (path.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('أدخل مسار ملف Excel'), backgroundColor: Colors.red),
+        const SnackBar(
+            content: Text('أدخل مسار ملف Excel'), backgroundColor: Colors.red),
       );
       return;
     }
     if (!File(path).existsSync()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('الملف غير موجود'), backgroundColor: Colors.red),
+        const SnackBar(
+            content: Text('الملف غير موجود'), backgroundColor: Colors.red),
       );
       return;
     }
@@ -226,12 +235,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
       await AppSettings.setWorkbookPath(path);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('تم الاستيراد بنجاح. المنتجات: ${report.productsImported}')),
+        SnackBar(
+            content: Text(
+                'تم الاستيراد بنجاح. المنتجات: ${report.productsImported}')),
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('فشل الاستيراد: $e'), backgroundColor: Colors.red),
+        SnackBar(
+            content: Text('فشل الاستيراد: $e'), backgroundColor: Colors.red),
       );
     } finally {
       if (mounted) {

@@ -69,7 +69,8 @@ class XlsxReader {
     return result;
   }
 
-  static List<List<String?>> _parseSheet(String xml, List<String> sharedStrings) {
+  static List<List<String?>> _parseSheet(
+      String xml, List<String> sharedStrings) {
     final document = XmlDocument.parse(xml);
     final rows = <List<String?>>[];
     var maxCols = 0;
