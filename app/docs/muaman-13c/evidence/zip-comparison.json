@@ -1,0 +1,13 @@
+{
+    "schema":  "muaman-repro-zip-comparison",
+    "run1ZipSha256":  "561D49437C9EBDFB33E6F7980CD432A24857E4AC25798E1A72D16D3BD94FEB34",
+    "run2ZipSha256":  "561D49437C9EBDFB33E6F7980CD432A24857E4AC25798E1A72D16D3BD94FEB34",
+    "run1ZipRebuildSha256":  "561D49437C9EBDFB33E6F7980CD432A24857E4AC25798E1A72D16D3BD94FEB34",
+    "run2ZipRebuildSha256":  "561D49437C9EBDFB33E6F7980CD432A24857E4AC25798E1A72D16D3BD94FEB34",
+    "run1ZipSizeBytes":  14482496,
+    "run2ZipSizeBytes":  14482496,
+    "sameSnapshotDeterministicRun1":  true,
+    "sameSnapshotDeterministicRun2":  true,
+    "crossBuildZipEqual":  true,
+    "timestamp":  "2026-08-03T18:15:09.7863982Z"
+}

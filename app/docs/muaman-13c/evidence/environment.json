@@ -1,0 +1,54 @@
+{
+    "schema":  "muaman-repro-environment",
+    "baselineCommit":  "8acccfdf3181a5bb326cdb827cfe5f6c11b71352",
+    "branch":  "codex/muaman-13c-enable-brepro-full-windows-determinism",
+    "timestamp":  "2026-08-03T18:15:14.7927082Z",
+    "os":  {
+               "caption":  "Microsoft Windows 11 Pro",
+               "version":  "10.0.26200",
+               "architecture":  "64-bit"
+           },
+    "flutter":  {
+                    "version":  "3.24.5",
+                    "fullText":  "Flutter 3.24.5 ΓÇó channel stable ΓÇó https://github.com/flutter/flutter.git\r\nFramework ΓÇó revision dec2ee5c1f (1 year, 9 months ago) ΓÇó 2024-11-13 11:13:06 -0800\r\nEngine ΓÇó revision a18df97ca5\r\nTools ΓÇó Dart 3.5.4 ΓÇó DevTools 2.37.3"
+                },
+    "dart":  {
+                 "version":  "3.5.4",
+                 "fullText":  "Dart SDK version: 3.5.4 (stable) (Wed Oct 16 16:18:51 2024 +0000) on \"windows_x64\""
+             },
+    "cmake":  {
+                  "version":  "4.3.3",
+                  "fullText":  "cmake version 4.3.3\r\n\r\nCMake suite maintained and supported by Kitware (kitware.com/cmake)."
+              },
+    "visualStudio":  {
+                         "displayName":  "Visual Studio Build Tools 2026",
+                         "version":  "18.6.0",
+                         "path":  "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools"
+                     },
+    "msvc":  {
+                 "linkExe":  "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.51.36231\\bin\\Hostx64\\x64\\link.exe",
+                 "linkVersion":  "14.51.36243.0",
+                 "msbuild":  "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Current\\Bin\\amd64\\MSBuild.exe"
+             },
+    "paths":  {
+                  "flutter":  "C:\\src\\flutter\\bin\\flutter.bat",
+                  "dart":  "C:\\src\\flutter\\bin\\dart.bat",
+                  "cmake":  "C:\\Program Files\\CMake\\bin\\cmake.exe",
+                  "appRoot":  "C:\\dev\\muaman.worktrees\\muaman-13c-enable-brepro-full-windows-determinism\\app",
+                  "workRoot":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13c-repro"
+              },
+    "pubspecLockSha256":  "EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A",
+    "commands":  [
+                     "git -C \u003capp\u003e rev-parse HEAD",
+                     "flutter clean",
+                     "flutter pub get",
+                     "flutter build windows --release",
+                     "dart run tool/repro_manifest.dart --release-dir \u003csnapshot\u003e --out run-N-manifest.json [meta flags]",
+                     "dart run tool/pe_inspect.dart --run-id run-N --out pe-inspection.json --file \u003cpe\u003e ...",
+                     "MSBuild \u003cproj\u003e.vcxproj /p:Configuration=Release /t:Build /v:diag /nologo /p:BuildProjectReferences=false  (evidence relink)",
+                     "dart run tool/linker_evidence.dart --run-id run-N --linker-path \u003clink.exe\u003e --linker-version \u003cv\u003e --vcxproj \u003cproj\u003e --diag-log \u003clog\u003e --out linker-evidence.json",
+                     "dart run tool/repro_zip.dart --release-dir \u003csnapshot\u003e --out run-N-deterministic.zip --canonical-manifest run-N-manifest.json",
+                     "dart run tool/repro_compare.dart --run-1 \u003csnap1\u003e --run-2 \u003csnap2\u003e --manifest-1 \u003cman1\u003e --manifest-2 \u003cman2\u003e --out comparison.json",
+                     "dart run tool/pe_inspect.dart --compare run-1/pe-inspection.json run-2/pe-inspection.json --out pe-comparison.json"
+                 ]
+}

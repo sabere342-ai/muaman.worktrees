@@ -86,16 +86,43 @@ Future<Map<String, dynamic>> compareDirectories(
       sizeMismatches.isEmpty &&
       hashMismatches.isEmpty;
 
+  // Canonical, spec-level classifications of the per-file comparison.
+  final changedPaths = <String>{};
+  for (final mismatch in sizeMismatches) {
+    changedPaths.add(mismatch['path'] as String);
+  }
+  for (final mismatch in hashMismatches) {
+    changedPaths.add(mismatch['path'] as String);
+  }
+  final changedFiles = changedPaths.toList()..sort();
+
+  final sameSizeDifferentHash = <String>[];
+  for (final mismatch in hashMismatches) {
+    if (mismatch['run1SizeBytes'] == mismatch['run2SizeBytes']) {
+      sameSizeDifferentHash.add(mismatch['path'] as String);
+    }
+  }
+  sameSizeDifferentHash.sort();
+
   return <String, dynamic>{
     'identical': identical,
+    'allFilesByteIdentical': identical,
     'onlyInRun1': onlyInRun1,
     'onlyInRun2': onlyInRun2,
+    'addedFiles': onlyInRun2,
+    'removedFiles': onlyInRun1,
+    'changedFiles': changedFiles,
+    'sameSizeDifferentHashFiles': sameSizeDifferentHash,
     'sizeMismatches': sizeMismatches,
     'hashMismatches': hashMismatches,
     'run1FileCount': map1.length,
     'run2FileCount': map2.length,
+    'fileCount': map1.length,
+    'fileCountIdentical': map1.length == map2.length,
     'run1TotalBytes': run1Bytes,
     'run2TotalBytes': run2Bytes,
+    'totalBytes': run1Bytes,
+    'totalBytesIdentical': run1Bytes == run2Bytes,
   };
 }
 
@@ -150,6 +177,12 @@ Future<void> main(List<String> args) async {
         canonicalManifestDifference(manifest1Json: m1, manifest2Json: m2);
     report['canonicalManifestIdentical'] = diff == null;
     report['canonicalManifestDifference'] = diff;
+    report['run1CanonicalManifestSha256'] = sha256
+        .convert(utf8.encode(canonicalSectionFromManifestJson(m1)))
+        .toString();
+    report['run2CanonicalManifestSha256'] = sha256
+        .convert(utf8.encode(canonicalSectionFromManifestJson(m2)))
+        .toString();
   }
 
   final json = renderReport(report);

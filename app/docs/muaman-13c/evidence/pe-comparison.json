@@ -1,0 +1,81 @@
+{
+  "files": [
+    {
+      "fileName": "flutter_windows.dll",
+      "sizeEqual": true,
+      "sha256Equal": true,
+      "byteIdentical": true,
+      "coffTimeDateStampEqual": true,
+      "coffTimeDateStampRun1": 1731463209,
+      "coffTimeDateStampRun2": 1731463209,
+      "debugTimeDateStampsEqual": true,
+      "debugTimeDateStampsRun1": [
+        1731463209,
+        1731463209,
+        1731463209
+      ],
+      "debugTimeDateStampsRun2": [
+        1731463209,
+        1731463209,
+        1731463209
+      ]
+    },
+    {
+      "fileName": "muaman_store.exe",
+      "sizeEqual": true,
+      "sha256Equal": true,
+      "byteIdentical": true,
+      "coffTimeDateStampEqual": true,
+      "coffTimeDateStampRun1": 4212839308,
+      "coffTimeDateStampRun2": 4212839308,
+      "debugTimeDateStampsEqual": true,
+      "debugTimeDateStampsRun1": [
+        4212839308,
+        4212839308
+      ],
+      "debugTimeDateStampsRun2": [
+        4212839308,
+        4212839308
+      ]
+    },
+    {
+      "fileName": "pdfium.dll",
+      "sizeEqual": true,
+      "sha256Equal": true,
+      "byteIdentical": true,
+      "coffTimeDateStampEqual": true,
+      "coffTimeDateStampRun1": 1654405200,
+      "coffTimeDateStampRun2": 1654405200,
+      "debugTimeDateStampsEqual": true,
+      "debugTimeDateStampsRun1": [
+        1654405200,
+        1654405200
+      ],
+      "debugTimeDateStampsRun2": [
+        1654405200,
+        1654405200
+      ]
+    },
+    {
+      "fileName": "printing_plugin.dll",
+      "sizeEqual": true,
+      "sha256Equal": true,
+      "byteIdentical": true,
+      "coffTimeDateStampEqual": true,
+      "coffTimeDateStampRun1": 4105333590,
+      "coffTimeDateStampRun2": 4105333590,
+      "debugTimeDateStampsEqual": true,
+      "debugTimeDateStampsRun1": [
+        4105333590,
+        4105333590
+      ],
+      "debugTimeDateStampsRun2": [
+        4105333590,
+        4105333590
+      ]
+    }
+  ],
+  "allFilesByteIdentical": true,
+  "run1File": "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13c-repro\\runs\\run-1\\pe-inspection.json",
+  "run2File": "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13c-repro\\runs\\run-2\\pe-inspection.json"
+}

@@ -1,0 +1,89 @@
+{
+  "schema": "muaman-repro-manifest",
+  "schemaVersion": 1,
+  "canonical": {
+    "fileCount": 13,
+    "totalBytes": 33273462,
+    "files": [
+      {
+        "path": "data/app.so",
+        "sizeBytes": 7324576,
+        "sha256": "ea6f802772e272d561a69aba370aad04068ce420fc172b9e7ddd738a80403e06"
+      },
+      {
+        "path": "data/flutter_assets/AssetManifest.bin",
+        "sizeBytes": 117,
+        "sha256": "00af55ad3d6f21898fe77e0ff092d1a1cda52c941b6860e9928d45c8af8c095d"
+      },
+      {
+        "path": "data/flutter_assets/AssetManifest.json",
+        "sizeBytes": 109,
+        "sha256": "4a9b3de7eec9ba46b279bbccd132e32f52d6d555d79dda4aa7f3bcb4e9bd651f"
+      },
+      {
+        "path": "data/flutter_assets/FontManifest.json",
+        "sizeBytes": 208,
+        "sha256": "cd7e03645bc44b2dd47b7cb626f51c4ecbf55a197ab77241628b47ac165fbe21"
+      },
+      {
+        "path": "data/flutter_assets/NOTICES.Z",
+        "sizeBytes": 89152,
+        "sha256": "ab7675dac8c7dcdf17a78e747c669c9ba13ed55306422f6d65f31ba98da82dd6"
+      },
+      {
+        "path": "data/flutter_assets/fonts/MaterialIcons-Regular.otf",
+        "sizeBytes": 1645184,
+        "sha256": "d9865b671a09d683d13a863089d8825e0f61a37696ce5d7d448bc8023aa62453"
+      },
+      {
+        "path": "data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+        "sizeBytes": 257628,
+        "sha256": "67c44fe9183b002e79dde7f6977e2988661c9a3e4a3c5fce968787efdbed823c"
+      },
+      {
+        "path": "data/flutter_assets/shaders/ink_sparkle.frag",
+        "sizeBytes": 17304,
+        "sha256": "3aa09424d1dc391fd59a9735efe986ff43302b5e5bc310926afe11c68626c3b2"
+      },
+      {
+        "path": "data/icudtl.dat",
+        "sizeBytes": 778864,
+        "sha256": "c12537022ef818991a7bfed41a76d8d6ae962ffbc0e6511ac762a5d0845e7f7c"
+      },
+      {
+        "path": "flutter_windows.dll",
+        "sizeBytes": 18181632,
+        "sha256": "b66713715a7aeaa2f88ba18838aa7c245556eaaeb31c82da3f5aebcb71a7715e"
+      },
+      {
+        "path": "muaman_store.exe",
+        "sizeBytes": 90624,
+        "sha256": "36d4959f5601d452f18d389335a6c5ef302d337f1c3f277e7be02d5d70e772d5"
+      },
+      {
+        "path": "pdfium.dll",
+        "sizeBytes": 4749824,
+        "sha256": "0c88ebacc0393fd45fc3e7b35e31e72c9e55b633a846a7ecf4085694dba68abd"
+      },
+      {
+        "path": "printing_plugin.dll",
+        "sizeBytes": 138240,
+        "sha256": "622759580251ebbaa6c604faae99c2beeab2546d33cd8747b005c03c5408d7fc"
+      }
+    ]
+  },
+  "meta": {
+    "runId": "run-2",
+    "baselineCommit": "8acccfdf3181a5bb326cdb827cfe5f6c11b71352",
+    "branch": "codex/muaman-13c-enable-brepro-full-windows-determinism",
+    "platform": "windows",
+    "architecture": "x64",
+    "buildMode": "release",
+    "flutterVersion": "3.24.5",
+    "dartVersion": "3.5.4",
+    "builtAt": "2026-08-03T18:14:24.4669424Z",
+    "sourceTreeCleanBeforeBuild": false,
+    "sourceTreeCleanAfterBuild": false,
+    "pubspecLockHash": "EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A"
+  }
+}

@@ -29,6 +29,20 @@ set(CMAKE_SHARED_LINKER_FLAGS_PROFILE "${CMAKE_SHARED_LINKER_FLAGS_RELEASE}")
 set(CMAKE_C_FLAGS_PROFILE "${CMAKE_C_FLAGS_RELEASE}")
 set(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS_RELEASE}")
 
+# Reproducible linking (MSVC). link.exe embeds the wall-clock time in the PE
+# COFF header and the debug directory by default, which makes otherwise
+# identical clean builds produce different binaries. /Brepro replaces that
+# time with a deterministic value derived from the link inputs.
+#
+# Applied to the Release linker flags only: it must reach both the executable
+# linker and every shared library (plugin DLL) that this CMake project builds,
+# so it is set on the configuration-wide EXE and SHARED linker flags rather
+# than on individual targets. Debug keeps its default incremental linking.
+if(MSVC)
+  string(APPEND CMAKE_EXE_LINKER_FLAGS_RELEASE " /Brepro")
+  string(APPEND CMAKE_SHARED_LINKER_FLAGS_RELEASE " /Brepro")
+endif()
+
 # Use Unicode for all projects.
 add_definitions(-DUNICODE -D_UNICODE)
 
