@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import '../../database/database_helper.dart';
 import '../../models/product.dart';
 
+import '../../services/session_state.dart';
+import '../../services/permissions.dart';
+
 class InventoryScreen extends StatefulWidget {
-  const InventoryScreen({super.key});
+  final SessionState? sessionState;
+  const InventoryScreen({super.key, this.sessionState});
 
   @override
   State<InventoryScreen> createState() => _InventoryScreenState();
@@ -157,7 +161,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
         title: Text(product.name,
             style: const TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text(
-          'باركود: ${product.barcode}\nالكمية: ${product.currentQuantity} | التكلفة: ${product.costPrice.toStringAsFixed(0)} ج.م',
+          'باركود: ${product.barcode}\nالكمية: ${product.currentQuantity}',
           style: const TextStyle(fontSize: 12),
         ),
         isThreeLine: true,
@@ -188,109 +192,141 @@ class _InventoryScreenState extends State<InventoryScreen> {
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(isEditing ? 'تعديل الصنف' : 'إضافة صنف جديد'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nameController,
-                decoration: const InputDecoration(
-                  labelText: 'اسم المنتج',
-                  border: OutlineInputBorder(),
+      builder: (context) {
+        final nameFocus = FocusNode();
+        final costFocus = FocusNode();
+        final qtyFocus = FocusNode();
+        var isSaving = false;
+
+        Future<void> saveProduct() async {
+          if (isSaving) return;
+          final name = nameController.text.trim();
+          if (name.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                  content: Text('يجب إدخال اسم المنتج'),
+                  backgroundColor: Colors.red),
+            );
+            return;
+          }
+          final costPrice = double.tryParse(costController.text) ?? 0;
+          if (costPrice <= 0) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                  content: Text('يجب أن تكون تكلفة الصنف أكبر من صفر'),
+                  backgroundColor: Colors.red),
+            );
+            return;
+          }
+          final openingQty = int.tryParse(openingQtyController.text) ?? 0;
+
+          isSaving = true;
+          try {
+            if (isEditing) {
+              await DatabaseHelper.instance.updateProduct(
+                product.copyWith(
+                  name: name,
+                  costPrice: costPrice,
                 ),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: costController,
-                decoration: const InputDecoration(
-                  labelText: 'سعر التكلفة',
-                  border: OutlineInputBorder(),
-                  prefixText: 'ج.م ',
+              );
+            } else {
+              final barcode = await DatabaseHelper.instance.generateBarcode();
+              await DatabaseHelper.instance.insertProduct(
+                Product(
+                  name: name,
+                  barcode: barcode,
+                  openingQuantity: openingQty,
+                  currentQuantity: openingQty,
+                  costPrice: costPrice,
+                  totalInventoryCost: openingQty * costPrice,
                 ),
-                keyboardType: TextInputType.number,
-              ),
-              if (!isEditing) ...[
+              );
+            }
+            if (context.mounted) Navigator.pop(context);
+            _loadProducts();
+          } on ArgumentError catch (e) {
+            isSaving = false;
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(e.message),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          }
+        }
+
+        return AlertDialog(
+          title: Text(isEditing ? 'تعديل الصنف' : 'إضافة صنف جديد'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: nameController,
+                  focusNode: nameFocus,
+                  textInputAction: TextInputAction.next,
+                  onSubmitted: (_) =>
+                      FocusScope.of(context).requestFocus(costFocus),
+                  decoration: const InputDecoration(
+                    labelText: 'اسم المنتج',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
                 const SizedBox(height: 12),
                 TextField(
-                  controller: openingQtyController,
+                  controller: costController,
+                  focusNode: costFocus,
+                  textInputAction:
+                      isEditing ? TextInputAction.done : TextInputAction.next,
+                  onSubmitted: (_) {
+                    if (isEditing) {
+                      saveProduct();
+                    } else {
+                      FocusScope.of(context).requestFocus(qtyFocus);
+                    }
+                  },
                   decoration: const InputDecoration(
-                    labelText: 'الكمية الافتتاحية',
+                    labelText: 'سعر التكلفة',
                     border: OutlineInputBorder(),
+                    prefixText: 'ج.م ',
                   ),
                   keyboardType: TextInputType.number,
                 ),
+                if (!isEditing) ...[
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: openingQtyController,
+                    focusNode: qtyFocus,
+                    textInputAction: TextInputAction.done,
+                    onSubmitted: (_) {
+                      saveProduct();
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'الكمية الافتتاحية',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('إلغاء'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              final name = nameController.text.trim();
-              if (name.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('يجب إدخال اسم المنتج'),
-                      backgroundColor: Colors.red),
-                );
-                return;
-              }
-              final costPrice = double.tryParse(costController.text) ?? 0;
-              if (costPrice <= 0) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('يجب أن تكون تكلفة الصنف أكبر من صفر'),
-                      backgroundColor: Colors.red),
-                );
-                return;
-              }
-              final openingQty = int.tryParse(openingQtyController.text) ?? 0;
-
-              try {
-                if (isEditing) {
-                  await DatabaseHelper.instance.updateProduct(
-                    product.copyWith(
-                      name: name,
-                      costPrice: costPrice,
-                    ),
-                  );
-                } else {
-                  final barcode =
-                      await DatabaseHelper.instance.generateBarcode();
-                  await DatabaseHelper.instance.insertProduct(
-                    Product(
-                      name: name,
-                      barcode: barcode,
-                      openingQuantity: openingQty,
-                      currentQuantity: openingQty,
-                      costPrice: costPrice,
-                      totalInventoryCost: openingQty * costPrice,
-                    ),
-                  );
-                }
-                if (context.mounted) Navigator.pop(context);
-                _loadProducts();
-              } on ArgumentError catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(e.message),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                }
-              }
-            },
-            child: Text(isEditing ? 'حفظ' : 'إضافة'),
-          ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('إلغاء'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                await saveProduct();
+              },
+              child: Text(isEditing ? 'حفظ' : 'إضافة'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -308,9 +344,36 @@ class _InventoryScreenState extends State<InventoryScreen> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () async {
+              final canDelete = widget.sessionState
+                      ?.hasPermission(AppPermission.canManageUsers) ??
+                  false;
+              if (!canDelete) {
+                if (context.mounted) {
+                  Navigator.pop(context);
+                  showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                            title: const Text('غير مصرح'),
+                            content: const Text(
+                                'لا يمكنك حذف العمليات. هذه الخاصية متاحة للمالك فقط.'),
+                            actions: [
+                              TextButton(
+                                  onPressed: () => Navigator.pop(ctx),
+                                  child: const Text('حسناً'))
+                            ],
+                          ));
+                }
+                return;
+              }
+
               try {
-                await DatabaseHelper.instance.deleteProduct(product.id!);
-                if (context.mounted) Navigator.pop(context);
+                await DatabaseHelper.instance.deleteProduct(
+                  product.id!,
+                  currentRole: widget.sessionState?.currentRole,
+                );
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
                 _loadProducts();
               } on ProductDeletionException catch (e) {
                 if (context.mounted) {

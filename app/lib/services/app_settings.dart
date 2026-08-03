@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:path/path.dart' as path;
 import '../database/database_helper.dart';
 
 class AppSettings {
@@ -20,7 +21,8 @@ class AppSettings {
     final db = await DatabaseHelper.instance.database;
     await _createDefaultIfMissing(db, keyButtonStyle, defaultButtonStyle);
     await _createDefaultIfMissing(db, keySupportPhone, defaultSupportPhone);
-    await _createDefaultIfMissing(db, keyDefaultCustomerName, defaultCustomerName);
+    await _createDefaultIfMissing(
+        db, keyDefaultCustomerName, defaultCustomerName);
     await _createDefaultIfMissing(db, keyLicenseStatus, 'inactive');
   }
 
@@ -101,22 +103,34 @@ class AppSettings {
   }
 
   static Future<String> getDefaultWorkbookPath() async {
-    final current = Directory.current.path;
     const fileName = 'شيت_ادارة_محل_مؤمن_شهر8.xlsx';
-    final candidate = File('$current/$fileName');
-    if (candidate.existsSync()) {
-      return candidate.path;
+    const monthFolder = 'شهر 8';
+
+    final searchRoots = <String>{};
+    var current = Directory.current;
+    for (var i = 0; i < 4; i++) {
+      searchRoots.add(current.path);
+      current = current.parent;
     }
-    final parent = Directory.current.parent.path;
-    final parentCandidate = File('$parent/$fileName');
-    if (parentCandidate.existsSync()) {
-      return parentCandidate.path;
+
+    final exeDir = Directory(Platform.resolvedExecutable).parent;
+    current = exeDir;
+    for (var i = 0; i < 4; i++) {
+      searchRoots.add(current.path);
+      current = current.parent;
     }
-    final grandParent = Directory.current.parent.parent.path;
-    final grandParentCandidate = File('$grandParent/$fileName');
-    if (grandParentCandidate.existsSync()) {
-      return grandParentCandidate.path;
+
+    for (final root in searchRoots) {
+      final candidate = File(path.join(root, fileName));
+      if (candidate.existsSync()) {
+        return candidate.path;
+      }
+      final nestedCandidate = File(path.join(root, monthFolder, fileName));
+      if (nestedCandidate.existsSync()) {
+        return nestedCandidate.path;
+      }
     }
+
     return '';
   }
 }

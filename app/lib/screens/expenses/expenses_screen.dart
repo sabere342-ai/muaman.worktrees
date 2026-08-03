@@ -3,8 +3,12 @@ import 'package:intl/intl.dart';
 import '../../database/database_helper.dart';
 import '../../models/expense.dart';
 
+import '../../services/session_state.dart';
+import '../../services/permissions.dart';
+
 class ExpensesScreen extends StatefulWidget {
-  const ExpensesScreen({super.key});
+  final SessionState? sessionState;
+  const ExpensesScreen({super.key, this.sessionState});
 
   @override
   State<ExpensesScreen> createState() => _ExpensesScreenState();
@@ -205,10 +209,14 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
               child: const Text('إلغاء')),
           ElevatedButton(
             onPressed: () async {
-              if (descController.text.isEmpty || amountController.text.isEmpty)
+              if (descController.text.isEmpty ||
+                  amountController.text.isEmpty) {
                 return;
+              }
               final amount = double.tryParse(amountController.text) ?? 0;
-              if (amount <= 0) return;
+              if (amount <= 0) {
+                return;
+              }
 
               await DatabaseHelper.instance.insertExpense(
                 Expense(
@@ -217,7 +225,9 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                   amount: amount,
                 ),
               );
-              if (context.mounted) Navigator.pop(context);
+              if (context.mounted) {
+                Navigator.pop(context);
+              }
               _loadExpenses();
             },
             child: const Text('إضافة'),
@@ -240,8 +250,35 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () async {
-              await DatabaseHelper.instance.deleteExpense(expense.id!);
-              if (context.mounted) Navigator.pop(context);
+              final canDelete = widget.sessionState
+                      ?.hasPermission(AppPermission.canManageUsers) ??
+                  false;
+              if (!canDelete) {
+                if (context.mounted) {
+                  Navigator.pop(context);
+                  showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                            title: const Text('غير مصرح'),
+                            content: const Text(
+                                'لا يمكنك حذف العمليات. هذه الخاصية متاحة للمالك فقط.'),
+                            actions: [
+                              TextButton(
+                                  onPressed: () => Navigator.pop(ctx),
+                                  child: const Text('حسناً'))
+                            ],
+                          ));
+                }
+                return;
+              }
+
+              await DatabaseHelper.instance.deleteExpense(
+                expense.id!,
+                currentRole: widget.sessionState?.currentRole,
+              );
+              if (context.mounted) {
+                Navigator.pop(context);
+              }
               _loadExpenses();
             },
             child: const Text('حذف', style: TextStyle(color: Colors.white)),

@@ -24,6 +24,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     setState(() => _isLoading = true);
     final financial = await DatabaseHelper.instance.getDashboardData();
     final inventory = await DatabaseHelper.instance.getInventorySummary();
+    if (!mounted) return;
     setState(() {
       _financialData = financial;
       _inventoryData = inventory;

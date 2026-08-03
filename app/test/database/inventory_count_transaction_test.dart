@@ -362,6 +362,7 @@ Future<void> createTestTables(Database db) async {
   await db.execute('''
     CREATE TABLE sales (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      invoiceId INTEGER,
       date TEXT NOT NULL,
       productName TEXT NOT NULL,
       barcode TEXT NOT NULL,

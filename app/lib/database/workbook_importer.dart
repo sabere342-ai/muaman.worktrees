@@ -42,23 +42,23 @@ class ReconciliationReport {
   });
 
   Map<String, dynamic> toJson() => {
-    'productsImported': productsImported,
-    'salesImported': salesImported,
-    'returnsImported': returnsImported,
-    'expensesImported': expensesImported,
-    'adjustmentsImported': adjustmentsImported,
-    'totalQuantity': totalQuantity,
-    'totalInventoryValue': totalInventoryValue,
-    'totalSales': totalSales,
-    'totalReturns': totalReturns,
-    'netSales': netSales,
-    'totalCogs': totalCogs,
-    'returnedCogs': returnedCogs,
-    'netCogs': netCogs,
-    'grossProfit': grossProfit,
-    'totalExpenses': totalExpenses,
-    'netProfit': netProfit,
-  };
+        'productsImported': productsImported,
+        'salesImported': salesImported,
+        'returnsImported': returnsImported,
+        'expensesImported': expensesImported,
+        'adjustmentsImported': adjustmentsImported,
+        'totalQuantity': totalQuantity,
+        'totalInventoryValue': totalInventoryValue,
+        'totalSales': totalSales,
+        'totalReturns': totalReturns,
+        'netSales': netSales,
+        'totalCogs': totalCogs,
+        'returnedCogs': returnedCogs,
+        'netCogs': netCogs,
+        'grossProfit': grossProfit,
+        'totalExpenses': totalExpenses,
+        'netProfit': netProfit,
+      };
 }
 
 class PreflightResult {
@@ -86,7 +86,7 @@ class WorkbookImportException implements Exception {
 
 class WorkbookImporter {
   static const String expectedSha256 =
-      '04728fb666e1f813cb9fc3ece5608b6283b068112c04fb4bc96a103bf7000905';
+      'e16c3b7ca089a2cc82fee383c514cc061eb0223e44d7ac1b766807fd28ae47c4';
 
   static const List<String> expectedSheets = [
     'لوحة التحكم',

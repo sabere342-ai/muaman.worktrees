@@ -5,6 +5,7 @@ import '../models/sale.dart';
 import '../models/return_item.dart';
 import '../models/expense.dart';
 import '../models/invoice.dart';
+import '../models/user_role.dart';
 import 'data_importer.dart';
 
 class DatabaseHelper {
@@ -279,7 +280,15 @@ class DatabaseHelper {
         where: 'id = ?', whereArgs: [product.id]);
   }
 
-  Future<int> deleteProduct(int id) async {
+  void _requireOwner(UserRole? currentRole) {
+    if (currentRole != UserRole.owner) {
+      throw StateError(
+          'غير مصرح بحذف هذه العملية. هذه الخاصية متاحة للمالك فقط.');
+    }
+  }
+
+  Future<int> deleteProduct(int id, {UserRole? currentRole}) async {
+    _requireOwner(currentRole);
     final db = await database;
     return await db.transaction((txn) async {
       final productMaps =
@@ -439,30 +448,30 @@ class DatabaseHelper {
       if (sale.salePrice <= 0) {
         throw ArgumentError('يجب أن يكون سعر البيع أكبر من صفر');
       }
- 
+
       final productMaps = await txn
           .query('products', where: 'barcode = ?', whereArgs: [sale.barcode]);
- 
+
       if (productMaps.isEmpty) {
         throw StateError('Product with barcode "${sale.barcode}" not found');
       }
- 
+
       final product = Product.fromMap(productMaps.first);
- 
+
       if (product.currentQuantity < sale.quantity) {
         throw StateError(
           'Insufficient stock: available ${product.currentQuantity}, requested ${sale.quantity}',
         );
       }
- 
+
       final id = await txn.insert('sales', sale.toMap()..remove('id'));
- 
+
       final newSold = product.soldQuantity + sale.quantity;
       final newCurrent = product.openingQuantity -
           newSold +
           product.returnedQuantity +
           product.inventoryAdjustment;
- 
+
       final affected = await txn.update(
         'products',
         {
@@ -473,16 +482,16 @@ class DatabaseHelper {
         where: 'id = ? AND currentQuantity >= ?',
         whereArgs: [product.id, sale.quantity],
       );
- 
+
       if (affected == 0) {
         throw StateError(
             'Stock changed before sale could complete. Please try again.');
       }
- 
+
       return id;
     });
   }
- 
+
   Future<int> insertInvoiceWithItems(
       Invoice invoice, List<Sale> invoiceItems) async {
     final db = await database;
@@ -496,7 +505,7 @@ class DatabaseHelper {
       if (invoice.customerName.trim().isEmpty) {
         throw ArgumentError('اسم العميل مطلوب');
       }
- 
+
       final invoiceId = await txn.insert('invoices', invoice.toMap());
       for (final item in invoiceItems) {
         if (item.quantity <= 0) {
@@ -505,28 +514,28 @@ class DatabaseHelper {
         if (item.salePrice <= 0) {
           throw ArgumentError('سعر البيع يجب أن يكون أكبر من صفر');
         }
- 
-        final productMaps = await txn.query('products',
-            where: 'barcode = ?', whereArgs: [item.barcode]);
+
+        final productMaps = await txn
+            .query('products', where: 'barcode = ?', whereArgs: [item.barcode]);
         if (productMaps.isEmpty) {
           throw StateError('المنتج غير موجود: ${item.productName}');
         }
- 
+
         final product = Product.fromMap(productMaps.first);
         if (product.currentQuantity < item.quantity) {
           throw StateError(
               'الكمية غير كافية للمنتج ${item.productName}. المتاح: ${product.currentQuantity}');
         }
- 
-        await txn.insert('sales', item.copyWith(invoiceId: invoiceId).toMap()
-          ..remove('id'));
- 
+
+        await txn.insert(
+            'sales', item.copyWith(invoiceId: invoiceId).toMap()..remove('id'));
+
         final newSold = product.soldQuantity + item.quantity;
         final newCurrent = product.openingQuantity -
             newSold +
             product.returnedQuantity +
             product.inventoryAdjustment;
- 
+
         final affected = await txn.update(
           'products',
           {
@@ -537,17 +546,16 @@ class DatabaseHelper {
           where: 'id = ? AND currentQuantity >= ?',
           whereArgs: [product.id, item.quantity],
         );
- 
+
         if (affected == 0) {
-          throw StateError(
-              'تغير المخزون قبل حفظ الفاتورة. حاول مرة أخرى.');
+          throw StateError('تغير المخزون قبل حفظ الفاتورة. حاول مرة أخرى.');
         }
       }
- 
+
       return invoiceId;
     });
   }
- 
+
   Future<List<Sale>> getAllSales() async {
     final db = await database;
     final maps = await db.query('sales', orderBy: 'id ASC');
@@ -703,7 +711,8 @@ class DatabaseHelper {
     });
   }
 
-  Future<int> deleteSale(int id) async {
+  Future<int> deleteSale(int id, {UserRole? currentRole}) async {
+    _requireOwner(currentRole);
     final db = await database;
     final saleData = await db.query('sales', where: 'id = ?', whereArgs: [id]);
     if (saleData.isNotEmpty) {
@@ -905,7 +914,8 @@ class DatabaseHelper {
     });
   }
 
-  Future<int> deleteReturn(int id) async {
+  Future<int> deleteReturn(int id, {UserRole? currentRole}) async {
+    _requireOwner(currentRole);
     final db = await database;
     final data = await db.query('returns', where: 'id = ?', whereArgs: [id]);
     if (data.isNotEmpty) {
@@ -947,7 +957,8 @@ class DatabaseHelper {
         where: 'id = ?', whereArgs: [expense.id]);
   }
 
-  Future<int> deleteExpense(int id) async {
+  Future<int> deleteExpense(int id, {UserRole? currentRole}) async {
+    _requireOwner(currentRole);
     final db = await database;
     return await db.delete('expenses', where: 'id = ?', whereArgs: [id]);
   }
@@ -1089,18 +1100,6 @@ class DatabaseHelper {
       orphanReturns: orphanReturns,
       orphanInventoryCounts: orphanCounts,
     );
-  }
-
-  /// Throws [ProductReferenceIntegrityException] if no product exists with the
-  /// given [productId]. Must be called inside a transaction ([txn]).
-  Future<void> _requireExistingProductById(
-      Transaction txn, int productId) async {
-    final rows =
-        await txn.query('products', where: 'id = ?', whereArgs: [productId]);
-    if (rows.isEmpty) {
-      throw ProductReferenceIntegrityException(
-          'المنتج (رقم $productId) غير موجود');
-    }
   }
 
   /// Throws [ProductReferenceIntegrityException] if no product exists with the

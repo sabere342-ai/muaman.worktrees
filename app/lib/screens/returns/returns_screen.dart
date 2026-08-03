@@ -4,8 +4,12 @@ import '../../database/database_helper.dart';
 import '../../models/return_item.dart';
 import '../../models/product.dart';
 
+import '../../services/session_state.dart';
+import '../../services/permissions.dart';
+
 class ReturnsScreen extends StatefulWidget {
-  const ReturnsScreen({super.key});
+  final SessionState? sessionState;
+  const ReturnsScreen({super.key, this.sessionState});
 
   @override
   State<ReturnsScreen> createState() => _ReturnsScreenState();
@@ -282,8 +286,35 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () async {
-              await DatabaseHelper.instance.deleteReturn(ret.id!);
-              if (context.mounted) Navigator.pop(context);
+              final canDelete = widget.sessionState
+                      ?.hasPermission(AppPermission.canManageUsers) ??
+                  false;
+              if (!canDelete) {
+                if (context.mounted) {
+                  Navigator.pop(context);
+                  showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                            title: const Text('غير مصرح'),
+                            content: const Text(
+                                'لا يمكنك حذف العمليات. هذه الخاصية متاحة للمالك فقط.'),
+                            actions: [
+                              TextButton(
+                                  onPressed: () => Navigator.pop(ctx),
+                                  child: const Text('حسناً'))
+                            ],
+                          ));
+                }
+                return;
+              }
+
+              await DatabaseHelper.instance.deleteReturn(
+                ret.id!,
+                currentRole: widget.sessionState?.currentRole,
+              );
+              if (context.mounted) {
+                Navigator.pop(context);
+              }
               _loadData();
             },
             child: const Text('حذف', style: TextStyle(color: Colors.white)),

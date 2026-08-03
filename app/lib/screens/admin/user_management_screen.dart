@@ -54,142 +54,168 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
     await showDialog(
       context: context,
       builder: (ctx) => StatefulBuilder(
-        builder: (ctx, setDState) => AlertDialog(
-          title: const Text('إنشاء مستخدم جديد'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (error != null)
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(8),
-                    margin: const EdgeInsets.only(bottom: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.red.shade50,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(error!,
-                        style: TextStyle(
-                            color: Colors.red.shade800, fontSize: 13)),
-                  ),
-                TextField(
-                    controller: nameCtrl,
-                    decoration: const InputDecoration(
-                        labelText: 'الاسم', border: OutlineInputBorder())),
-                const SizedBox(height: 12),
-                TextField(
-                    controller: usernameCtrl,
-                    decoration: const InputDecoration(
-                        labelText: 'اسم المستخدم',
-                        border: OutlineInputBorder())),
-                const SizedBox(height: 12),
-                TextField(
-                    controller: passwordCtrl,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                        labelText: 'كلمة المرور',
-                        border: OutlineInputBorder())),
-                const SizedBox(height: 12),
-                TextField(
-                    controller: confirmCtrl,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                        labelText: 'تأكيد كلمة المرور',
-                        border: OutlineInputBorder())),
-                const SizedBox(height: 12),
-                DropdownButtonFormField<UserRole>(
-                  value: selectedRole,
-                  decoration: const InputDecoration(
-                      labelText: 'الدور', border: OutlineInputBorder()),
-                  items: const [
-                    DropdownMenuItem(
-                        value: UserRole.owner, child: Text('مالك')),
-                    DropdownMenuItem(
-                        value: UserRole.employee, child: Text('موظف')),
-                    DropdownMenuItem(
-                        value: UserRole.salesOnly,
-                        child: Text('موظف مبيعات فقط')),
-                  ],
-                  onChanged: (v) => setDState(() => selectedRole = v!),
-                ),
-                const SizedBox(height: 12),
-                SwitchListTile(
-                  title: const Text('حساب نشط'),
-                  value: isActive,
-                  onChanged: (v) => setDState(() => isActive = v),
-                  contentPadding: EdgeInsets.zero,
-                ),
-                if (isSaving) const LinearProgressIndicator(),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-                onPressed: isSaving ? null : () => Navigator.pop(ctx),
-                child: const Text('إلغاء')),
-            ElevatedButton(
-              onPressed: isSaving
-                  ? null
-                  : () async {
-                      setDState(() {
-                        isSaving = true;
-                        error = null;
-                      });
-                      try {
-                        if (nameCtrl.text.trim().isEmpty) {
-                          throw ArgumentError('الاسم مطلوب');
-                        }
-                        if (usernameCtrl.text.trim().isEmpty) {
-                          throw ArgumentError('اسم المستخدم مطلوب');
-                        }
-                        if (passwordCtrl.text.isEmpty) {
-                          throw ArgumentError('كلمة المرور مطلوبة');
-                        }
-                        if (passwordCtrl.text.length < 6) {
-                          throw ArgumentError(
-                              'كلمة المرور يجب أن تكون 6 أحرف على الأقل');
-                        }
-                        if (passwordCtrl.text != confirmCtrl.text) {
-                          throw ArgumentError(
-                              'كلمة المرور وتأكيدها غير متطابقين');
-                        }
+        builder: (ctx, setDState) {
+          final nameFocus = FocusNode();
+          final usernameFocus = FocusNode();
+          final passwordFocus = FocusNode();
+          final confirmFocus = FocusNode();
 
-                        await _repo.createUser(
-                          displayName: nameCtrl.text,
-                          username: usernameCtrl.text,
-                          password: passwordCtrl.text,
-                          role: selectedRole,
-                          isActive: isActive,
-                        );
-                        if (ctx.mounted) Navigator.pop(ctx);
-                        _loadUsers();
-                      } on ArgumentError catch (e) {
-                        setDState(() {
-                          error = e.message;
-                          isSaving = false;
-                        });
-                      } on DuplicateUsernameException {
-                        setDState(() {
-                          error = 'اسم المستخدم موجود بالفعل';
-                          isSaving = false;
-                        });
-                      } catch (e) {
-                        setDState(() {
-                          error = 'حدث خطأ: $e';
-                          isSaving = false;
-                        });
-                      }
-                    },
-              child: isSaving
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2))
-                  : const Text('إنشاء'),
+          Future<void> submitCreate() async {
+            setDState(() {
+              isSaving = true;
+              error = null;
+            });
+            try {
+              if (nameCtrl.text.trim().isEmpty) {
+                throw ArgumentError('الاسم مطلوب');
+              }
+              if (usernameCtrl.text.trim().isEmpty) {
+                throw ArgumentError('اسم المستخدم مطلوب');
+              }
+              if (passwordCtrl.text.isEmpty) {
+                throw ArgumentError('كلمة المرور مطلوبة');
+              }
+              if (passwordCtrl.text.length < 6) {
+                throw ArgumentError('كلمة المرور يجب أن تكون 6 أحرف على الأقل');
+              }
+              if (passwordCtrl.text != confirmCtrl.text) {
+                throw ArgumentError('كلمة المرور وتأكيدها غير متطابقين');
+              }
+
+              await _repo.createUser(
+                displayName: nameCtrl.text,
+                username: usernameCtrl.text,
+                password: passwordCtrl.text,
+                role: selectedRole,
+                isActive: isActive,
+              );
+              if (ctx.mounted) Navigator.pop(ctx);
+              _loadUsers();
+            } on ArgumentError catch (e) {
+              setDState(() {
+                error = e.message;
+                isSaving = false;
+              });
+            } on DuplicateUsernameException {
+              setDState(() {
+                error = 'اسم المستخدم موجود بالفعل';
+                isSaving = false;
+              });
+            } catch (e) {
+              setDState(() {
+                error = 'حدث خطأ: $e';
+                isSaving = false;
+              });
+            }
+          }
+
+          return AlertDialog(
+            title: const Text('إنشاء مستخدم جديد'),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (error != null)
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(8),
+                      margin: const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.red.shade50,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(error!,
+                          style: TextStyle(
+                              color: Colors.red.shade800, fontSize: 13)),
+                    ),
+                  TextField(
+                      controller: nameCtrl,
+                      focusNode: nameFocus,
+                      textInputAction: TextInputAction.next,
+                      onSubmitted: (_) =>
+                          FocusScope.of(context).requestFocus(usernameFocus),
+                      decoration: const InputDecoration(
+                          labelText: 'الاسم', border: OutlineInputBorder())),
+                  const SizedBox(height: 12),
+                  TextField(
+                      controller: usernameCtrl,
+                      focusNode: usernameFocus,
+                      textInputAction: TextInputAction.next,
+                      onSubmitted: (_) =>
+                          FocusScope.of(context).requestFocus(passwordFocus),
+                      decoration: const InputDecoration(
+                          labelText: 'اسم المستخدم',
+                          border: OutlineInputBorder())),
+                  const SizedBox(height: 12),
+                  TextField(
+                      controller: passwordCtrl,
+                      focusNode: passwordFocus,
+                      obscureText: true,
+                      textInputAction: TextInputAction.next,
+                      onSubmitted: (_) =>
+                          FocusScope.of(context).requestFocus(confirmFocus),
+                      decoration: const InputDecoration(
+                          labelText: 'كلمة المرور',
+                          border: OutlineInputBorder())),
+                  const SizedBox(height: 12),
+                  TextField(
+                      controller: confirmCtrl,
+                      focusNode: confirmFocus,
+                      obscureText: true,
+                      textInputAction: TextInputAction.done,
+                      onSubmitted: (_) {
+                        if (!isSaving) submitCreate();
+                      },
+                      decoration: const InputDecoration(
+                          labelText: 'تأكيد كلمة المرور',
+                          border: OutlineInputBorder())),
+                  const SizedBox(height: 12),
+                  DropdownButtonFormField<UserRole>(
+                    value: selectedRole,
+                    decoration: const InputDecoration(
+                        labelText: 'الدور', border: OutlineInputBorder()),
+                    items: const [
+                      DropdownMenuItem(
+                          value: UserRole.owner, child: Text('مالك')),
+                      DropdownMenuItem(
+                          value: UserRole.employee, child: Text('موظف')),
+                      DropdownMenuItem(
+                          value: UserRole.salesOnly,
+                          child: Text('موظف مبيعات فقط')),
+                    ],
+                    onChanged: (v) => setDState(() => selectedRole = v!),
+                  ),
+                  const SizedBox(height: 12),
+                  SwitchListTile(
+                    title: const Text('حساب نشط'),
+                    value: isActive,
+                    onChanged: (v) => setDState(() => isActive = v),
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                  if (isSaving) const LinearProgressIndicator(),
+                ],
+              ),
             ),
-          ],
-        ),
+            actions: [
+              TextButton(
+                  onPressed: isSaving ? null : () => Navigator.pop(ctx),
+                  child: const Text('إلغاء')),
+              ElevatedButton(
+                onPressed: isSaving
+                    ? null
+                    : () async {
+                        await submitCreate();
+                      },
+                child: isSaving
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2))
+                    : const Text('إنشاء'),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -413,10 +439,12 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                         await _repo.resetPassword(
                             id: user.id!, newPassword: passwordCtrl.text);
                         if (ctx.mounted) Navigator.pop(ctx);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content:
-                                    Text('تم إعادة تعيين كلمة المرور بنجاح')));
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'تم إعادة تعيين كلمة المرور بنجاح')));
+                        }
                       } on ArgumentError catch (e) {
                         setDState(() {
                           error = e.message;
@@ -513,14 +541,17 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                                   );
                                   _loadUsers();
                                 } on CannotDisableCurrentUserException {
+                                  if (!context.mounted) return;
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                           content: Text(
                                               'لا يمكن تعطيل حسابك الحالي')));
                                 } on LastActiveOwnerException catch (e) {
+                                  if (!context.mounted) return;
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text(e.message)));
                                 } catch (e) {
+                                  if (!context.mounted) return;
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text('$e')));
                                 }

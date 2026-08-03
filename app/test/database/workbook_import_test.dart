@@ -5,6 +5,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:muaman_store/database/workbook_importer.dart';
 import 'package:muaman_store/database/xlsx_reader.dart';
 import 'package:muaman_store/database/database_helper.dart';
+
 void main() {
   setUpAll(() {
     sqfliteFfiInit();
@@ -15,7 +16,12 @@ void main() {
 
   setUp(() async {
     final repoRoot = Directory.current.parent.path;
-    workbookPath = path.join(repoRoot, 'شيت_ادارة_محل_مؤمن_شهر8.xlsx');
+    workbookPath = path.join(
+      repoRoot,
+      'app',
+      'شهر 8',
+      'شيت_ادارة_محل_مؤمن_شهر8.xlsx',
+    );
     if (!File(workbookPath).existsSync()) {
       throw StateError('Expected workbook file not found at $workbookPath');
     }
@@ -31,9 +37,16 @@ void main() {
   group('XlsxReader - workbook structure', () {
     test('1. Reads all 6 expected sheets', () {
       final sheets = XlsxReader.read(workbookPath);
-      expect(sheets.keys, containsAll([
-        'لوحة التحكم', 'المخزن', 'الجرد', 'المبيعات', 'المرتجعات', 'المصروفات'
-      ]));
+      expect(
+          sheets.keys,
+          containsAll([
+            'لوحة التحكم',
+            'المخزن',
+            'الجرد',
+            'المبيعات',
+            'المرتجعات',
+            'المصروفات'
+          ]));
     });
 
     test('2. المخزن sheet has product rows with barcodes', () {
@@ -51,7 +64,7 @@ void main() {
         if (barcode == null || barcode.isEmpty) continue;
         productCount++;
       }
-      expect(productCount, 78);
+      expect(productCount, 69);
     });
 
     test('3. المبيعات sheet has 0 sales records in the current workbook', () {
@@ -82,7 +95,8 @@ void main() {
       expect(count, 0);
     });
 
-    test('5. المصروفات sheet has 0 expense records in the current workbook', () {
+    test('5. المصروفات sheet has 0 expense records in the current workbook',
+        () {
       final sheets = XlsxReader.read(workbookPath);
       final expenses = sheets['المصروفات']!;
       int count = 0;
@@ -96,7 +110,7 @@ void main() {
       expect(count, 0);
     });
 
-    test('6. الجرد sheet has 80 adjustment records', () {
+    test('6. الجرد sheet has 71 adjustment records', () {
       final sheets = XlsxReader.read(workbookPath);
       final adjust = sheets['الجرد']!;
       int count = 0;
@@ -107,7 +121,7 @@ void main() {
         if (row[1] == 'ملاحظة') break;
         count++;
       }
-      expect(count, 80);
+      expect(count, 71);
     });
   });
 
@@ -131,7 +145,7 @@ void main() {
       final result = WorkbookImporter.preflight(sheets, allowZeroCost: false);
       expect(result.hasZeroCostProduct, true);
       expect(result.zeroCostProductName, 'تحزية');
-      expect(result.zeroCostBarcode, '2000000000066');
+      expect(result.zeroCostBarcode, '2000000000056');
       expect(result.isValid, false);
     });
 
@@ -151,9 +165,9 @@ void main() {
         skipShaCheck: true,
       );
 
-      expect(report.productsImported, 78);
+      expect(report.productsImported, 69);
       final products = await testDb.query('products');
-      expect(products.length, 78);
+      expect(products.length, 69);
     });
 
     test('12. Import produces correct sales count', () async {
@@ -203,7 +217,7 @@ void main() {
         skipShaCheck: true,
       );
 
-      expect(report.adjustmentsImported, 80);
+      expect(report.adjustmentsImported, 71);
     });
 
     test('16. Import creates import_batches record', () async {
@@ -217,7 +231,7 @@ void main() {
       final batches = await testDb.query('import_batches');
       expect(batches.length, 1);
       expect(batches.first['file_sha256'],
-          '04728fb666e1f813cb9fc3ece5608b6283b068112c04fb4bc96a103bf7000905');
+          'e16c3b7ca089a2cc82fee383c514cc061eb0223e44d7ac1b766807fd28ae47c4');
     });
 
     test('17. Re-import is rejected (idempotency)', () async {
@@ -259,7 +273,7 @@ void main() {
         skipShaCheck: false,
       );
 
-      expect(report.productsImported, 78);
+      expect(report.productsImported, 69);
     });
 
     test('20. Financial gates match expected values', () async {
@@ -274,29 +288,29 @@ void main() {
       expect(report.totalReturns, closeTo(0, 0.1));
       expect(report.netSales, closeTo(0, 0.1));
       expect(report.totalExpenses, closeTo(0, 0.1));
-      expect(report.totalQuantity, 410);
+      expect(report.totalQuantity, 241);
     });
- 
-    test('21. Total quantity from import equals 410', () async {
+
+    test('21. Total quantity from import equals 241', () async {
       final report = await WorkbookImporter.import(
         workbookPath: workbookPath,
         db: testDb,
         allowZeroCost: true,
         skipShaCheck: true,
       );
- 
-      expect(report.totalQuantity, 410);
+
+      expect(report.totalQuantity, 241);
     });
- 
-    test('22. Total inventory value is approximately 104720', () async {
+
+    test('22. Total inventory value is approximately 79625', () async {
       final report = await WorkbookImporter.import(
         workbookPath: workbookPath,
         db: testDb,
         allowZeroCost: true,
         skipShaCheck: true,
       );
- 
-      expect(report.totalInventoryValue, closeTo(104720, 10));
+
+      expect(report.totalInventoryValue, closeTo(79625, 10));
     });
   });
 
@@ -309,11 +323,11 @@ void main() {
         skipShaCheck: true,
       );
 
-      final products = await testDb.query('products',
-          where: 'name = ?', whereArgs: ['تحزية']);
+      final products = await testDb
+          .query('products', where: 'name = ?', whereArgs: ['تحزية']);
       expect(products.length, 1);
       expect(products.first['costPrice'], 0.0);
-      expect(products.first['barcode'], '2000000000066');
+      expect(products.first['barcode'], '2000000000056');
     });
 
     test('24. Product تحزية has currentQuantity 1', () async {
@@ -324,20 +338,22 @@ void main() {
         skipShaCheck: true,
       );
 
-      final products = await testDb.query('products',
-          where: 'name = ?', whereArgs: ['تحزية']);
+      final products = await testDb
+          .query('products', where: 'name = ?', whereArgs: ['تحزية']);
       expect(products.length, 1);
-      expect(products.first['currentQuantity'], 98);
+      expect(products.first['currentQuantity'], 0);
     });
 
-    test('25. Non-existent barcode test removed (not all barcodes in workbook)', () async {
+    test('25. Non-existent barcode test removed (not all barcodes in workbook)',
+        () async {
       // Products #58-#59 may exist in original workbook but not all barcodes
       // are present in the XLSX cached values. Skipping specific barcode tests.
     });
   });
 
   group('Sales data integrity', () {
-    test('26. No sales are imported from template-style workbook rows', () async {
+    test('26. No sales are imported from template-style workbook rows',
+        () async {
       final report = await WorkbookImporter.import(
         workbookPath: workbookPath,
         db: testDb,
@@ -377,13 +393,13 @@ void main() {
         skipShaCheck: true,
       );
 
-      expect(report.productsImported, 78);
+      expect(report.productsImported, 69);
       expect(report.salesImported, 0);
       expect(report.returnsImported, 0);
       expect(report.expensesImported, 0);
-      expect(report.adjustmentsImported, 80);
-      expect(report.totalQuantity, 410);
-      expect(report.totalInventoryValue, closeTo(104720, 10));
+      expect(report.adjustmentsImported, 71);
+      expect(report.totalQuantity, 241);
+      expect(report.totalInventoryValue, closeTo(79625, 10));
       expect(report.totalSales, closeTo(0, 0.1));
       expect(report.totalExpenses, closeTo(0, 0.1));
       expect(report.netProfit, closeTo(0, 0.1));
@@ -398,7 +414,7 @@ void main() {
       );
 
       final json = report.toJson();
-      expect(json['productsImported'], 78);
+      expect(json['productsImported'], 69);
       expect(json['salesImported'], 0);
     });
   });

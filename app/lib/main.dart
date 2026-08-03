@@ -205,7 +205,8 @@ class SalesOnlyShell extends StatelessWidget {
               onLogout();
             }
           },
-          child: const SalesScreen(showAppBar: false, showFab: true),
+          child: SalesScreen(
+              showAppBar: false, showFab: true, sessionState: sessionState),
         ),
       ),
     );
@@ -233,13 +234,24 @@ class _FullAppShellState extends State<FullAppShell> {
     _NavItem(0, 'لوحة التحكم', Icons.dashboard,
         AppPermission.canAccessDashboard, const DashboardScreen()),
     _NavItem(1, 'المخزن', Icons.inventory_2, AppPermission.canAccessInventory,
-        const InventoryScreen()),
-    _NavItem(2, 'المبيعات', Icons.shopping_cart, AppPermission.canAccessSales,
-        const SalesScreen(showAppBar: false, showFab: true)),
-    _NavItem(3, 'المرتجعات', Icons.assignment_return,
-        AppPermission.canAccessReturns, const ReturnsScreen()),
+        InventoryScreen(sessionState: widget.sessionState)),
+    _NavItem(
+        2,
+        'المبيعات',
+        Icons.shopping_cart,
+        AppPermission.canAccessSales,
+        SalesScreen(
+            showAppBar: false,
+            showFab: true,
+            sessionState: widget.sessionState)),
+    _NavItem(
+        3,
+        'المرتجعات',
+        Icons.assignment_return,
+        AppPermission.canAccessReturns,
+        ReturnsScreen(sessionState: widget.sessionState)),
     _NavItem(4, 'المصروفات', Icons.money_off, AppPermission.canAccessExpenses,
-        const ExpensesScreen()),
+        ExpensesScreen(sessionState: widget.sessionState)),
     _NavItem(5, 'الجرد', Icons.fact_check, AppPermission.canAccessStocktake,
         const InventoryCountScreen()),
   ];

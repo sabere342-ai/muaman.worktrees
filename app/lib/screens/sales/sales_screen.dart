@@ -5,11 +5,19 @@ import '../../models/sale.dart';
 import 'invoice_screen.dart';
 import 'sales_report_screen.dart';
 
+import '../../services/session_state.dart';
+import '../../services/permissions.dart';
+
 class SalesScreen extends StatefulWidget {
   final bool showAppBar;
   final bool showFab;
+  final SessionState? sessionState;
 
-  const SalesScreen({super.key, this.showAppBar = true, this.showFab = true});
+  const SalesScreen(
+      {super.key,
+      this.showAppBar = true,
+      this.showFab = true,
+      this.sessionState});
 
   @override
   State<SalesScreen> createState() => _SalesScreenState();
@@ -197,7 +205,28 @@ class _SalesScreenState extends State<SalesScreen> {
             ),
             IconButton(
               icon: const Icon(Icons.delete, size: 18, color: Colors.red),
-              onPressed: () => _confirmDeleteSale(sale),
+              onPressed: () {
+                // Only owner may delete operations
+                final canDelete = widget.sessionState
+                        ?.hasPermission(AppPermission.canManageUsers) ??
+                    false;
+                if (!canDelete) {
+                  showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                            title: const Text('غير مصرح'),
+                            content: const Text(
+                                'لا يمكنك حذف العمليات. هذه الخاصية متاحة للمالك فقط.'),
+                            actions: [
+                              TextButton(
+                                  onPressed: () => Navigator.pop(ctx),
+                                  child: const Text('حسناً'))
+                            ],
+                          ));
+                  return;
+                }
+                _confirmDeleteSale(sale);
+              },
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
             ),
@@ -252,8 +281,13 @@ class _SalesScreenState extends State<SalesScreen> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () async {
-              await DatabaseHelper.instance.deleteSale(sale.id!);
-              if (context.mounted) Navigator.pop(context);
+              await DatabaseHelper.instance.deleteSale(
+                sale.id!,
+                currentRole: widget.sessionState?.currentRole,
+              );
+              if (context.mounted) {
+                Navigator.pop(context);
+              }
               _loadData();
             },
             child: const Text('حذف', style: TextStyle(color: Colors.white)),

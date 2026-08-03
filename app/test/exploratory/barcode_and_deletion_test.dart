@@ -3,7 +3,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:muaman_store/database/database_helper.dart';
 import 'package:muaman_store/models/product.dart';
 import 'package:muaman_store/models/sale.dart';
-import 'package:muaman_store/models/return_item.dart';
+import 'package:muaman_store/models/user_role.dart';
 
 void main() {
   setUpAll(() {
@@ -119,7 +119,10 @@ void main() {
       });
 
       expect(
-        () => DatabaseHelper.instance.deleteProduct(1),
+        () => DatabaseHelper.instance.deleteProduct(
+          1,
+          currentRole: UserRole.owner,
+        ),
         throwsA(isA<ProductDeletionException>()),
       );
 
@@ -149,7 +152,8 @@ void main() {
         'inventoryAdjustment': 0,
       });
 
-      await DatabaseHelper.instance.deleteProduct(1);
+      await DatabaseHelper.instance
+          .deleteProduct(1, currentRole: UserRole.owner);
 
       final products = await testDb.query('products');
       expect(products, isEmpty,
@@ -181,7 +185,10 @@ void main() {
       });
 
       expect(
-        () => DatabaseHelper.instance.deleteProduct(1),
+        () => DatabaseHelper.instance.deleteProduct(
+          1,
+          currentRole: UserRole.owner,
+        ),
         throwsA(isA<ProductDeletionException>()),
       );
 
@@ -247,6 +254,7 @@ Future<void> createExploratoryTables(Database db) async {
   await db.execute('''
     CREATE TABLE sales (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      invoiceId INTEGER,
       date TEXT NOT NULL,
       productName TEXT NOT NULL,
       barcode TEXT NOT NULL,

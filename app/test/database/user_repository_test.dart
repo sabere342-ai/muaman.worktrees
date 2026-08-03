@@ -639,6 +639,7 @@ Future<void> createTestTables(Database db) async {
   await db.execute('''
     CREATE TABLE sales (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      invoiceId INTEGER,
       date TEXT NOT NULL,
       productName TEXT NOT NULL,
       barcode TEXT NOT NULL,
@@ -690,6 +691,31 @@ Future<void> createTestTables(Database db) async {
       createdAt TEXT NOT NULL,
       updatedAt TEXT NOT NULL,
       lastLoginAt TEXT
+    )
+  ''');
+  await db.execute('''
+    CREATE TABLE IF NOT EXISTS import_batches (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      file_sha256 TEXT NOT NULL UNIQUE,
+      file_name TEXT NOT NULL,
+      imported_at TEXT NOT NULL,
+      products_count INTEGER DEFAULT 0,
+      sales_count INTEGER DEFAULT 0,
+      returns_count INTEGER DEFAULT 0,
+      expenses_count INTEGER DEFAULT 0,
+      adjustments_count INTEGER DEFAULT 0,
+      total_quantity INTEGER DEFAULT 0,
+      total_inventory_value REAL DEFAULT 0,
+      total_sales REAL DEFAULT 0,
+      total_returns REAL DEFAULT 0,
+      net_sales REAL DEFAULT 0,
+      total_cogs REAL DEFAULT 0,
+      returned_cogs REAL DEFAULT 0,
+      net_cogs REAL DEFAULT 0,
+      gross_profit REAL DEFAULT 0,
+      total_expenses REAL DEFAULT 0,
+      net_profit REAL DEFAULT 0,
+      reconciliation_json TEXT
     )
   ''');
 }

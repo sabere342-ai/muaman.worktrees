@@ -16,6 +16,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _usernameFocus = FocusNode();
+  final _passwordFocus = FocusNode();
   final _repo = UserRepository();
   bool _isLoading = false;
   bool _obscurePassword = true;
@@ -25,6 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void dispose() {
     _usernameController.dispose();
     _passwordController.dispose();
+    _usernameFocus.dispose();
+    _passwordFocus.dispose();
     super.dispose();
   }
 
@@ -128,6 +132,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     TextField(
                       controller: _usernameController,
+                      focusNode: _usernameFocus,
+                      textInputAction: TextInputAction.next,
+                      onSubmitted: (_) =>
+                          FocusScope.of(context).requestFocus(_passwordFocus),
                       decoration: const InputDecoration(
                         labelText: 'اسم المستخدم',
                         border: OutlineInputBorder(),
@@ -137,6 +145,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 16),
                     TextField(
                       controller: _passwordController,
+                      focusNode: _passwordFocus,
+                      textInputAction: TextInputAction.done,
+                      onSubmitted: (_) {
+                        if (!_isLoading) _login();
+                      },
                       obscureText: _obscurePassword,
                       decoration: InputDecoration(
                         labelText: 'كلمة المرور',

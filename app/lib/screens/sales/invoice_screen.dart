@@ -70,7 +70,8 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       _cartItems.add(_CartItem(
         product: product,
         quantity: 1,
-        salePrice: product.costPrice > 0 ? product.costPrice : 0,
+        // Do NOT pre-fill sale price with cost price — hide cost from sales UI.
+        salePrice: 0,
       ));
     });
   }
@@ -185,7 +186,8 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                               ),
                                               elevation: 2,
                                               child: Padding(
-                                                padding: const EdgeInsets.all(10),
+                                                padding:
+                                                    const EdgeInsets.all(10),
                                                 child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -196,25 +198,30 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                                                 FontWeight.bold,
                                                             fontSize: 14)),
                                                     const SizedBox(height: 4),
-                                                    Text('باركود: ${product.barcode}',
+                                                    Text(
+                                                        'باركود: ${product.barcode}',
                                                         style: const TextStyle(
                                                             fontSize: 11,
-                                                            color: Colors.grey)),
+                                                            color:
+                                                                Colors.grey)),
                                                     const Spacer(),
                                                     Row(
                                                       children: [
                                                         Expanded(
                                                           child: Text(
                                                             'الكمية: ${product.currentQuantity}',
-                                                            style: const TextStyle(
+                                                            style:
+                                                                const TextStyle(
                                                               fontSize: 11,
                                                             ),
                                                           ),
                                                         ),
-                                                        const SizedBox(width: 8),
+                                                        const SizedBox(
+                                                            width: 8),
                                                         const Icon(
                                                           Icons.add_circle,
-                                                          color: Color(0xFF0D47A1),
+                                                          color:
+                                                              Color(0xFF0D47A1),
                                                           size: 20,
                                                         ),
                                                       ],
@@ -268,10 +275,10 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                                       Expanded(
                                                         child: Text(
                                                           item.product.name,
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight.bold),
+                                                          style: const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
                                                         ),
                                                       ),
                                                       IconButton(
@@ -280,38 +287,52 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                                           size: 18,
                                                         ),
                                                         onPressed: () =>
-                                                            _removeCartItem(item),
+                                                            _removeCartItem(
+                                                                item),
                                                       ),
                                                     ],
                                                   ),
                                                   const SizedBox(height: 6),
-                                                  Text('باركود: ${item.product.barcode}',
+                                                  Text(
+                                                      'باركود: ${item.product.barcode}',
                                                       style: const TextStyle(
                                                           fontSize: 12,
-                                                          color:
-                                                              Colors.grey)),
+                                                          color: Colors.grey)),
                                                   const SizedBox(height: 8),
                                                   Row(
                                                     children: [
                                                       Expanded(
                                                         child: Row(
                                                           children: [
-                                                            const Text('الكمية:'),
-                                                            const SizedBox(width: 6),
+                                                            const Text(
+                                                                'الكمية:'),
+                                                            const SizedBox(
+                                                                width: 6),
                                                             IconButton(
-                                                              icon: const Icon(
-                                                                  Icons.remove_circle_outline),
-                                                              onPressed: item.quantity > 1
-                                                                  ? () => _updateCartItemQuantity(item, item.quantity - 1)
+                                                              icon: const Icon(Icons
+                                                                  .remove_circle_outline),
+                                                              onPressed: item
+                                                                          .quantity >
+                                                                      1
+                                                                  ? () => _updateCartItemQuantity(
+                                                                      item,
+                                                                      item.quantity -
+                                                                          1)
                                                                   : null,
                                                             ),
-                                                            Text('${item.quantity}'),
+                                                            Text(
+                                                                '${item.quantity}'),
                                                             IconButton(
-                                                              icon: const Icon(
-                                                                  Icons.add_circle_outline),
-                                                              onPressed: item.quantity <
-                                                                      item.product.currentQuantity
-                                                                  ? () => _updateCartItemQuantity(item, item.quantity + 1)
+                                                              icon: const Icon(Icons
+                                                                  .add_circle_outline),
+                                                              onPressed: item
+                                                                          .quantity <
+                                                                      item.product
+                                                                          .currentQuantity
+                                                                  ? () => _updateCartItemQuantity(
+                                                                      item,
+                                                                      item.quantity +
+                                                                          1)
                                                                   : null,
                                                             ),
                                                           ],
@@ -320,7 +341,8 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                                       Expanded(
                                                         child: TextField(
                                                           keyboardType:
-                                                              TextInputType.number,
+                                                              TextInputType
+                                                                  .number,
                                                           decoration:
                                                               const InputDecoration(
                                                             labelText:
@@ -329,8 +351,8 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                                                 OutlineInputBorder(),
                                                             prefixText: 'ج.م ',
                                                           ),
-                                                          controller:
-                                                              item.priceController,
+                                                          controller: item
+                                                              .priceController,
                                                           onChanged: (value) =>
                                                               _updateCartItemPrice(
                                                                   item, value),
@@ -339,11 +361,13 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                                     ],
                                                   ),
                                                   const SizedBox(height: 8),
-                                                  Text(
-                                                    'إجمالي العنصر: ${(item.salePrice * item.quantity).toStringAsFixed(0)} ج.م',
-                                                    style: const TextStyle(
-                                                        fontWeight: FontWeight.bold),
-                                                  ),
+                                                  if (item.salePrice > 0)
+                                                    Text(
+                                                      'إجمالي العنصر: ${(item.salePrice * item.quantity).toStringAsFixed(0)} ج.م',
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
                                                 ],
                                               ),
                                             ),
@@ -461,6 +485,21 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       return;
     }
 
+    for (final item in _cartItems) {
+      if (item.salePrice.isNaN ||
+          item.salePrice.isInfinite ||
+          item.salePrice <= 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                'سعر البيع غير صالح للصنف "${item.product.name}". يجب إدخال سعر بيع أكبر من صفر.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+    }
+
     final invoice = Invoice(
       invoiceNumber: 'INV-${DateTime.now().millisecondsSinceEpoch}',
       date: DateTime.now(),
@@ -489,7 +528,8 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('فشل حفظ الفاتورة: $e'), backgroundColor: Colors.red),
+        SnackBar(
+            content: Text('فشل حفظ الفاتورة: $e'), backgroundColor: Colors.red),
       );
     } finally {
       if (mounted) {
@@ -519,5 +559,6 @@ class _CartItem {
     required this.product,
     required this.quantity,
     required this.salePrice,
-  }) : priceController = TextEditingController(text: salePrice.toStringAsFixed(0));
+  }) : priceController = TextEditingController(
+            text: salePrice > 0 ? salePrice.toStringAsFixed(0) : '');
 }
