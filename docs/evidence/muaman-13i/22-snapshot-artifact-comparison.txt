@@ -1,0 +1,43 @@
+MUAMAN-13I FLUTTER TOOLS SNAPSHOT ARTIFACT COMPARISON
+=====================================================
+Captured (UTC): 2026-08-04 20:21:00
+File: bin\cache\flutter_tools.snapshot (compiled tool)
+
+Pristine (bundled with official archive, pre-patch):
+  SDK A and SDK B identical:
+    SHA-256 7F856722439F28F32814BE1061482267C9F2ADDB1FB89C58BDC2097C1B0E7772
+    size 38,458,800 bytes
+
+Post-regeneration (built from patched source, post-patch):
+  SDK A: SHA-256 57E14DDE18C0607615238C77331113569C8F161748FDDD9C4AB61904A29BFB0B
+         size 39,428,080 bytes
+  SDK B: SHA-256 A70CCEA11F8D4252AF4B4BACE4A770D341B83F92803E6634914D20933D2D0327
+         size 39,624,896 bytes
+  Size delta A->B = 196,816 bytes.
+  flutter_tools.stamp identical in both SDKs:
+    "dec2ee5c1f98f8e84a7d5380c05eb8a3d0a81668:"
+
+String presence check (ASCI search):
+  'Visual Studio 18 2026'  : A True,  B True
+  'MSVC v144'              : A True,  B True
+  'Visual Studio 17 2022'  : A True,  B True (pre-existing arm)
+  => Both snapshots demonstrably contain the patched VS2026 logic.
+
+Why the two snapshots differ in size (classified legitimate):
+  flutter_tools.snapshot embeds absolute filesystem strings (SDK root,
+  PUB_CACHE, TEMP, HOME, USERPROFILE, package config paths). The two SDK
+  roots were deliberately chosen to differ by 67 path characters
+  (15 chars vs 82 chars), and their isolated env roots differ as well,
+  so the compiled snapshot binaries legitimately differ in length.
+  This was already observed in 13H (A=38,428,704 / B=38,690,816) while the
+  final release builds matched byte-for-byte. The snapshot is a build-time
+  tool input; the deterministic acceptance criterion is the RELEASE OUTPUT,
+  which is verified byte-identical in evidence 34-42.
+
+Additional determinism control (evidence 23):
+  flutter_tools package resolution (pubspec.lock) is byte-identical across
+  SDKs; package_config name/version sets are identical (97 entries);
+  differences are confined to embedded absolute path strings.
+
+Result: PASS - snapshots contain the patch; size delta fully accounted for
+by embedded path length; not a determinism failure

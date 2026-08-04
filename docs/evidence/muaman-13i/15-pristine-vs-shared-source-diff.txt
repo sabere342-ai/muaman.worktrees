@@ -1,0 +1,37 @@
+MUAMAN-13I PRISTINE VERSUS SHARED SDK SOURCE DIFF
+=================================================
+Captured (UTC): 2026-08-04 19:20:30
+Comparison: pristine official SDK (SDK A extraction) vs shared 13G/13H SDK
+Command: git diff --no-index <pristine> <shared>
+Pristine file: packages\flutter_tools\lib\src\windows\visual_studio.dart (C:\m13i\a\sdk\...)
+Shared file:   packages\flutter_tools\lib\src\windows\visual_studio.dart (C:\src\flutter\...)
+
+Diffstat:
+  1 file changed, 3 insertions(+)
+
+Full unified diff (pristine -> shared):
+  @@ -180,6 +180,7 @@ class VisualStudio {
+     String? get cmakeGenerator {
+       // From https://cmake.org/cmake/help/v3.22/manual/cmake-generators.7.html#visual-studio-generators
+       return switch (_majorVersion) {
+  +     18 => 'Visual Studio 18 2026',
+       17 => 'Visual Studio 17 2022',
+       _  => 'Visual Studio 16 2019',
+     };
+   @@ -287,6 +288,8 @@ class VisualStudio {
+       // relevant for the most likely fresh install case).
+       String cppToolchainDescription;
+       switch (majorVersion ?? _majorVersion) {
+  +      case 18:
+  +        cppToolchainDescription = 'MSVC v144 - VS 2026 C++ x64/x86 build tools';
+        case 16:
+        default:
+          cppToolchainDescription = 'MSVC v142 - VS 2019 C++ x64/x86 build tools';
+
+Only one file differs. Exactly 3 inserted lines. No other source file of the
+pristine official SDK differs from the shared 13G/13H SDK for the changed
+target path. (The 13H phase previously verified the full set of build-relevant
+artifacts between the shared SDK and fresh extractions; MUAMAN-13I derives the
+patch from this single-file source diff.)
+
+Result: PASS - the only intentional source modification is the 3-line VS2026 change

@@ -1,0 +1,54 @@
+MUAMAN-13I FLUTTER TOOLS SNAPSHOT REGENERATION LOGS
+====================================================
+Captured (UTC): 2026-08-04 20:20:00
+
+Both SDKs were taken to the same deterministic state before regeneration:
+  - VS2026 patch applied (evidence 19/20, postimage D08E9D71...)
+  - isolated PUB_CACHE / TEMP / TMP / HOME / USERPROFILE set per SDK
+  - bin\cache\flutter_tools.stamp deleted to force rebuild
+  - flutter --version executed to recompile the tool from patched source
+
+=== SDK A regeneration ===
+Env:
+  PUB_CACHE     = C:\m13i\a\pub
+  TEMP/TMP      = C:\m13i\a\tmp
+  HOME/USERPROFILE = C:\m13i\a\home
+  FLUTTER_ROOT  = C:\m13i\a\sdk
+Command: flutter.bat --version
+Output:
+  Building flutter tool...
+  Running pub upgrade...
+  Resolving dependencies...
+  Downloading packages...
+  Got dependencies.
+  Flutter 3.24.5 • channel stable • https://github.com/flutter/flutter.git
+  Framework • revision dec2ee5c1f (1 year, 9 months ago) • 2024-11-13 11:13:06 -0800
+  Engine • revision a18df97ca5
+  Tools • Dart 3.5.4 • DevTools 2.37.3
+Exit code: 0
+
+=== SDK B regeneration ===
+Env:
+  PUB_CACHE     = C:\dev\muaman-13i-environment-b-independent-pub-cache-root
+  TEMP/TMP      = C:\dev\muaman-13i-environment-b-independent-temp-root
+  HOME/USERPROFILE = C:\dev\muaman-13i-environment-b-independent-home-root
+  FLUTTER_ROOT  = C:\dev\muaman-13i-environment-b-independent-flutter-sdk-installation-root\sdk
+Command: flutter.bat --version
+Output:
+  Building flutter tool...
+  Running pub upgrade...
+  Resolving dependencies...
+  Downloading packages...
+  Got dependencies.
+  Flutter 3.24.5 • channel stable • https://github.com/flutter/flutter.git
+  Framework • revision dec2ee5c1f (1 year, 9 months ago) • 2024-11-13 11:13:06 -0800
+  Engine • revision a18df97ca5
+  Tools • Dart 3.5.4 • DevTools 2.37.3
+Exit code: 0
+
+The pub upgrade ran entirely against each SDK's own isolated PUB_CACHE and
+resolved identical package name/version sets (evidence 23). No shared cache,
+no shared SDK, no network state shared between A and B.
+
+Result: PASS - both SDKs regenerated flutter_tools from patched source
+independently, both exit 0, both report identical toolchain identity

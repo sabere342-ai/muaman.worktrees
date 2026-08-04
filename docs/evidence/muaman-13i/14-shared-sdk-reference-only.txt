@@ -1,0 +1,38 @@
+MUAMAN-13I SHARED SDK REFERENCE-ONLY ISOLATION PROOF
+=====================================================
+Captured (UTC): 2026-08-04 19:20:00
+The existing 13G/13H shared SDK (C:\src\flutter) was used ONLY to identify
+and verify the existing VS2026 compatibility modification. It was not used
+as a build input and no content was copied from it into SDK A or SDK B.
+
+Operations performed on the shared SDK:
+  1. Read packages\flutter_tools\lib\src\windows\visual_studio.dart to
+     derive the patched target content (SHA-256 D08E9D71...).
+  2. Compared (read-only) its engine artifacts region conceptually via the
+     committed 13H evidence; no files were copied.
+  3. None of: bin\cache, flutter_tools.snapshot, package configurations,
+     downloaded artifacts, or patched source files were copied from
+     C:\src\flutter to SDK A or SDK B.
+
+Forbidden operations verified NOT performed:
+  - Copying patched files from the shared SDK into SDK A or SDK B: NO
+  - Copying its bin\cache: NO
+  - Copying its flutter_tools.snapshot: NO
+  - Copying generated package configuration: NO
+  - Copying downloaded artifacts: NO
+  - Using it to hydrate either isolated SDK: NO
+  - Pointing either application build at the shared SDK: NO
+
+Independence proof:
+  - SDK A = fresh extraction of download A (evidence 11-pristine-manifest-a.json)
+  - SDK B = fresh extraction of download B (evidence 12-pristine-manifest-b.json)
+  - The patched visual_studio.dart in SDK A and SDK B (evidence 21/22) is
+    byte-identical to the shared SDK's patched file (SHA-256 D08E9D71...),
+    but it was produced by applying the committed patch artifact to each
+    pristine extraction, not by copying.
+  - Engine/artifacts comparison is governed by the 13H committed evidence
+    (13-sdk-artifact-comparison.txt); MUAMAN-13I independently regenerates
+    flutter_tools snapshots in both SDK roots (evidence 25/26).
+
+Result: PASS - shared SDK used reference-only; both SDKs originate from
+their own pristine archive extractions

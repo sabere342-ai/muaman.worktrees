@@ -1,0 +1,1527 @@
+{
+    "root":  "C:\\m13i\\a\\src",
+    "fileCount":  304,
+    "totalBytes":  31647662,
+    "files":  [
+                  {
+                      "sizeBytes":  89,
+                      "sha256":  "DD2D17C21A542F86DF0A66982BD7476BF61AE3FA3A164BBEDE3FD03321DE1CE3",
+                      "relativePath":  "┘é╪»┘è┘à/.~lock.╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪¡╪»┘è╪½_╪┤┘ç╪▒7.xlsx#"
+                  },
+                  {
+                      "sizeBytes":  6868,
+                      "sha256":  "28BE9719B9F6ECBD6801A25BF914F5DEFC71A8AA081504899669AD0BA956FC26",
+                      "relativePath":  "┘é╪»┘è┘à/┘à╪┤╪¬╪▒┘è╪º╪¬_┘à┘å_23-5.xlsx"
+                  },
+                  {
+                      "sizeBytes":  99591,
+                      "sha256":  "FA4801FEC78DBBCFAE01B33FDD96B79AB8A5131FB69868C81D2D43D4F8F61887",
+                      "relativePath":  "┘é╪»┘è┘à/╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_┘à╪¬┘â╪º┘à┘ä_┘à╪¡╪»╪½_╪┤┘ç╪▒7.xlsx"
+                  },
+                  {
+                      "sizeBytes":  99642,
+                      "sha256":  "86CFBE6F9AF2B3EE155983F19336D0E73B31729CFD17BBD56793E1FA829D1F64",
+                      "relativePath":  "┘é╪»┘è┘à/╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_┘à╪¬┘â╪º┘à┘ä_╪┤┘ç╪▒7.xlsx"
+                  },
+                  {
+                      "sizeBytes":  92865,
+                      "sha256":  "7545FF2B698A40C21D2584752C2C2DB18F28E1DB587FEE059447E5AD38992196",
+                      "relativePath":  "┘é╪»┘è┘à/╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪¡╪»┘è╪½.xlsx"
+                  },
+                  {
+                      "sizeBytes":  100724,
+                      "sha256":  "766BEE82AFED7E7F261A43E07245E566FC710DF0AB999CEEB2E0FC70FF051793",
+                      "relativePath":  "┘é╪»┘è┘à/╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪¡╪»┘è╪½_╪┤┘ç╪▒7.xlsx"
+                  },
+                  {
+                      "sizeBytes":  79532,
+                      "sha256":  "156E8000595C55AD350134CEBAC0CF044AC5C50E37A8CC21D4B795D1858D0B91",
+                      "relativePath":  "┘é╪»┘è┘à/╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒6.xlsx"
+                  },
+                  {
+                      "sizeBytes":  77032,
+                      "sha256":  "B26B7D60CDEBAD06880FA0B4877C2F183105BAB1B6341FCFFB59DA9B23506C8C",
+                      "relativePath":  "┘é╪»┘è┘à/╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒7.xlsx"
+                  },
+                  {
+                      "sizeBytes":  48756,
+                      "sha256":  "795B2B86E8C003771F09B2AF879FD843D6D25B98C0FE86E8DA81F8704FA93971",
+                      "relativePath":  "┘é╪»┘è┘à/╪¬┘é╪▒┘è╪▒_╪º┘ä╪Ñ┘é┘ü╪º┘ä_╪º┘ä╪┤┘ç╪▒┘è_┘à╪ñ┘à┘å_╪┤┘ç╪▒6.pdf"
+                  },
+                  {
+                      "sizeBytes":  24956,
+                      "sha256":  "37DE73EA4EC56E6A753F0D2D65218EF20A325942E6046DC4AE5EAD378FFE7316",
+                      "relativePath":  "┘é╪»┘è┘à/╪¼╪▒╪»_┘à╪«╪▓┘ê┘å_┘à╪╣╪»┘ä_┘å╪╡┘ü_╪┤┘ç╪▒┘è_┘à╪¡┘ä_┘à╪ñ┘à┘å.xlsx"
+                  },
+                  {
+                      "sizeBytes":  105164,
+                      "sha256":  "12DBF737F41D33249C3C068464F0E7A654FF992243614DF929123003068EE93E",
+                      "relativePath":  "╪┤┘ç╪▒7/╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_┘à╪╖┘ê╪▒_╪¡╪»┘è╪½_╪┤┘ç╪▒7.xlsx"
+                  },
+                  {
+                      "sizeBytes":  1022,
+                      "sha256":  "D4347EB712C090E3BF96480621C9C040271E53C75244D2A260A8DFCB1341D96A",
+                      "relativePath":  "╪┤┘ç╪▒7/extract_sales.py"
+                  },
+                  {
+                      "sizeBytes":  98075,
+                      "sha256":  "04728FB666E1F813CB9FC3ECE5608B6283B068112C04FB4BC96A103BF7000905",
+                      "relativePath":  "╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx"
+                  },
+                  {
+                      "sizeBytes":  734,
+                      "sha256":  "A36CA275533062651096C69C910D5C78AA0A8E572D431BF0DE5B2B506161633D",
+                      "relativePath":  "app/.gitignore"
+                  },
+                  {
+                      "sizeBytes":  1751,
+                      "sha256":  "880AB5F93219BA41BA346838F573A094BF5AB7DD6346F72D7B329AE65570DFCE",
+                      "relativePath":  "app/.metadata"
+                  },
+                  {
+                      "sizeBytes":  97683,
+                      "sha256":  "E16C3B7CA089A2CC82FEE383C514CC061EB0223E44D7AC1B766807FD28AE47C4",
+                      "relativePath":  "app/╪┤┘ç╪▒ 8/╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx"
+                  },
+                  {
+                      "sizeBytes":  1448,
+                      "sha256":  "B63207CF529949EC4727B68C23DBB38CE255B6F6F4AE1EFFCB5C1DCF2852D238",
+                      "relativePath":  "app/analysis_options.yaml"
+                  },
+                  {
+                      "sizeBytes":  260,
+                      "sha256":  "B74B8563F97BCD519DF6E2F8E7CC0789BB00FD5EB215C620EB72E3A945C2A6A4",
+                      "relativePath":  "app/android/.gitignore"
+                  },
+                  {
+                      "sizeBytes":  1418,
+                      "sha256":  "FF593EAEC7A306B6BC11E5B78EC89CF084C394D602D8BC729B8FF196D1C47021",
+                      "relativePath":  "app/android/app/build.gradle"
+                  },
+                  {
+                      "sizeBytes":  385,
+                      "sha256":  "B01A4541A8144C15BC617BAB7EB267C99FA1476368FBBDA5A12CDBF4E316A34C",
+                      "relativePath":  "app/android/app/src/debug/AndroidManifest.xml"
+                  },
+                  {
+                      "sizeBytes":  2245,
+                      "sha256":  "8C334E37018B4DC9C9D368189C44DBEA6AC9C2E821D4EDD999667C13C8FD3355",
+                      "relativePath":  "app/android/app/src/main/AndroidManifest.xml"
+                  },
+                  {
+                      "sizeBytes":  131,
+                      "sha256":  "7BD5EC451A43F4B7517AE1BE9E05005DBA8C06A521C4B20D69BF5E288C5703C1",
+                      "relativePath":  "app/android/app/src/main/kotlin/com/almuaman/muaman_store/MainActivity.kt"
+                  },
+                  {
+                      "sizeBytes":  446,
+                      "sha256":  "2DF60E2CFBEE873CE2858088CF003E6B93498F2F568476DA437610467EA1A9D7",
+                      "relativePath":  "app/android/app/src/main/res/drawable/launch_background.xml"
+                  },
+                  {
+                      "sizeBytes":  450,
+                      "sha256":  "DCA312EC77DE83E43EF70A825C299B51451247286C29167D62F19165750B8793",
+                      "relativePath":  "app/android/app/src/main/res/drawable-v21/launch_background.xml"
+                  },
+                  {
+                      "sizeBytes":  544,
+                      "sha256":  "6A7C8F0D703E3682108F9662F813302236240D3F8F638BB391E32BFB96055FEF",
+                      "relativePath":  "app/android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+                  },
+                  {
+                      "sizeBytes":  442,
+                      "sha256":  "C7C0C0189145E4E32A401C61C9BDC615754B0264E7AFAE24E834BB81049EAF81",
+                      "relativePath":  "app/android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+                  },
+                  {
+                      "sizeBytes":  721,
+                      "sha256":  "E14AA40904929BF313FDED22CF7E7FFCBF1D1AAC4263B5EF1BE8BFCE650397AA",
+                      "relativePath":  "app/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+                  },
+                  {
+                      "sizeBytes":  1031,
+                      "sha256":  "4D470BF22D5C17D84EDC5F82516D1BA8A1C09559CD761CEFB792F86D9F52B540",
+                      "relativePath":  "app/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+                  },
+                  {
+                      "sizeBytes":  1443,
+                      "sha256":  "3C34E1F298D0C9EA3455D46DB6B7759C8211A49E9EC6E44B635FC5C87DFB4180",
+                      "relativePath":  "app/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+                  },
+                  {
+                      "sizeBytes":  1014,
+                      "sha256":  "CCA15A99B59380A548BF6A890F7CA5380EE509B1F9BBB2F5F9EC3589FA25C2F7",
+                      "relativePath":  "app/android/app/src/main/res/values/styles.xml"
+                  },
+                  {
+                      "sizeBytes":  1013,
+                      "sha256":  "EA763597DC1A84C8034251CAEE98D7753E0FBF57340FFC94677427DE4B537516",
+                      "relativePath":  "app/android/app/src/main/res/values-night/styles.xml"
+                  },
+                  {
+                      "sizeBytes":  385,
+                      "sha256":  "B01A4541A8144C15BC617BAB7EB267C99FA1476368FBBDA5A12CDBF4E316A34C",
+                      "relativePath":  "app/android/app/src/profile/AndroidManifest.xml"
+                  },
+                  {
+                      "sizeBytes":  340,
+                      "sha256":  "8E842487C25E027ACF681411B4552D352DDE9CDEC9A41545210BBBCCCAFA5E56",
+                      "relativePath":  "app/android/build.gradle"
+                  },
+                  {
+                      "sizeBytes":  138,
+                      "sha256":  "CE5ADD197675BBA8E2D8A5C30955E2E0F29BFC6703A3A1A2F50F3D0C7E3A9611",
+                      "relativePath":  "app/android/gradle.properties"
+                  },
+                  {
+                      "sizeBytes":  205,
+                      "sha256":  "5FBAEE100C5DEDC530F45BE478F1D8AFEC34D1105A98A7163F2B6C0D117DC1AD",
+                      "relativePath":  "app/android/gradle/wrapper/gradle-wrapper.properties"
+                  },
+                  {
+                      "sizeBytes":  752,
+                      "sha256":  "F3C662934490D10F4512719827EA89ED2263F3B700AEBC26E6A4E4E20E4C38D0",
+                      "relativePath":  "app/android/settings.gradle"
+                  },
+                  {
+                      "sizeBytes":  9836,
+                      "sha256":  "6A7431381BC9829D85568FECE248499894472369F1723F13834B3E8682E7C0CB",
+                      "relativePath":  "app/docs/MUAMAN-02-ATOMIC-SALE-STOCK-DECREMENT-REMEDIATION.md"
+                  },
+                  {
+                      "sizeBytes":  12279,
+                      "sha256":  "960281EF38DD2D77051D40761635BB9054F32B26C140ACEA8E843A24EDBB36C7",
+                      "relativePath":  "app/docs/MUAMAN-03-INVENTORY-COUNT-STOCK-RECONCILIATION.md"
+                  },
+                  {
+                      "sizeBytes":  13533,
+                      "sha256":  "05D70B691CDB112C70580555C773433F45D2AC6CB0907C721F949AA7B12D1197",
+                      "relativePath":  "app/docs/MUAMAN-04-REMAINING-DATA-INTEGRITY-FINDINGS-REVALIDATION.md"
+                  },
+                  {
+                      "sizeBytes":  10583,
+                      "sha256":  "B9197B64A5AFEF383CB27A5616CA008386D1760C44D3A9CA396B55F90C745BA8",
+                      "relativePath":  "app/docs/MUAMAN-05-ZERO-PRICE-ZERO-COST-VALIDATION.md"
+                  },
+                  {
+                      "sizeBytes":  12198,
+                      "sha256":  "26C3608D9AE76767B211EC336F2619F372D00EAB55A0AC8DB39EB3BD96B52601",
+                      "relativePath":  "app/docs/MUAMAN-06-PRODUCT-DELETION-REFERENTIAL-SAFETY.md"
+                  },
+                  {
+                      "sizeBytes":  7305,
+                      "sha256":  "9EB65A09D40FD400B1F871410B324BF0538061B1A0707747EE9089E1E9EC1680",
+                      "relativePath":  "app/docs/MUAMAN-07-PRODUCT-IDENTITY-INPUT-NORMALIZATION.md"
+                  },
+                  {
+                      "sizeBytes":  3930,
+                      "sha256":  "C4BA85535ECC7AF28DB5F29754162DEFD7CEA78A8A9AEE9CA31B71BC2709590B",
+                      "relativePath":  "app/docs/MUAMAN-08-PRODUCT-REFERENCE-INTEGRITY-ORPHAN-DETECTION.md"
+                  },
+                  {
+                      "sizeBytes":  3910,
+                      "sha256":  "E949F9184A89EF1004A375893EF92E5DDD382D3FF9F3D6675D87215A5A459E71",
+                      "relativePath":  "app/docs/MUAMAN-10-TEST-INFRASTRUCTURE-FINAL-RELEASE-READINESS.md"
+                  },
+                  {
+                      "sizeBytes":  6181,
+                      "sha256":  "96E53612A095388A75B8D455DB4139549E2CB8829359A604D02A5DE175510C55",
+                      "relativePath":  "app/docs/MUAMAN-11-ASCII-PATH-WINDOWS-RELEASE-BUILD-FINAL-DELIVERY-VERIFICATION.md"
+                  },
+                  {
+                      "sizeBytes":  11606,
+                      "sha256":  "6D5ECA64EB81959CC6D4930A6322528F2DB125152E306BE7CA3449D76E1B1E00",
+                      "relativePath":  "app/docs/MUAMAN-12-LOCAL-USERS-AUTHENTICATION-ROLES-SALES-ONLY.md"
+                  },
+                  {
+                      "sizeBytes":  18200,
+                      "sha256":  "ED9B94DEDBA36706E56F4DFE692B693228C6F9DCFECBA780348D6C06AE99B64A",
+                      "relativePath":  "app/docs/MUAMAN-13A-CLEAN-RELEASE-PROVENANCE-COMPLETE-WINDOWS-PACKAGE-VERIFICATION.md"
+                  },
+                  {
+                      "sizeBytes":  16472,
+                      "sha256":  "16FDEF2965D3EE6671934C0082197FBC25AC5AD3CFAB58F1FDB691A31D6E3103",
+                      "relativePath":  "app/docs/MUAMAN-13B-DETERMINISTIC-WINDOWS-RELEASE-REBUILD-VERIFICATION.md"
+                  },
+                  {
+                      "sizeBytes":  760,
+                      "sha256":  "D0DF7362DD5BDAD47B2F985AE369A1409412B634423E0701512C84AEDF7FFFDA",
+                      "relativePath":  "app/docs/muaman-13c/evidence/comparison.json"
+                  },
+                  {
+                      "sizeBytes":  3764,
+                      "sha256":  "4503E6B63A4816F8CAB52553458387AAC70239DA22ABD8BF92275FA214EF29FF",
+                      "relativePath":  "app/docs/muaman-13c/evidence/environment.json"
+                  },
+                  {
+                      "sizeBytes":  2252,
+                      "sha256":  "75D8CF5C8425E8D635CAED73EA4921359DC24FC3F5C46B6832959536136F1EBB",
+                      "relativePath":  "app/docs/muaman-13c/evidence/pe-comparison.json"
+                  },
+                  {
+                      "sizeBytes":  5884,
+                      "sha256":  "B5E0221B6D1A72E1AFAFCD488D5355C6518FCE05F28C81FD61D0CE2ED3D4E7BB",
+                      "relativePath":  "app/docs/muaman-13c/evidence/run-1-linker-evidence.json"
+                  },
+                  {
+                      "sizeBytes":  3132,
+                      "sha256":  "05DB85400D6831CDFCBA9280A5BA9F67AA12A3B9679836B57DCB1C9B1389BD02",
+                      "relativePath":  "app/docs/muaman-13c/evidence/run-1-manifest.json"
+                  },
+                  {
+                      "sizeBytes":  4225,
+                      "sha256":  "81DCE0527863F5855F63B71106579A9AA8624B59E3611BE7E44417208F5366F2",
+                      "relativePath":  "app/docs/muaman-13c/evidence/run-1-pe-inspection.json"
+                  },
+                  {
+                      "sizeBytes":  5884,
+                      "sha256":  "F54282EE016A43D06B8880F40FD12CB1DFDBFE248DFAA21EB90BD2F797414C77",
+                      "relativePath":  "app/docs/muaman-13c/evidence/run-2-linker-evidence.json"
+                  },
+                  {
+                      "sizeBytes":  3132,
+                      "sha256":  "9CCD0EA6DC93D40A83E9D179E65DF076133D33588987156E576C3EDD5C6BC03E",
+                      "relativePath":  "app/docs/muaman-13c/evidence/run-2-manifest.json"
+                  },
+                  {
+                      "sizeBytes":  4225,
+                      "sha256":  "BA8C6B22B642C5A17658AA4D9795A7FEF4F75491FC8F0C14C4D5776563305BB4",
+                      "relativePath":  "app/docs/muaman-13c/evidence/run-2-pe-inspection.json"
+                  },
+                  {
+                      "sizeBytes":  675,
+                      "sha256":  "91C0FAC3CD3F7CE37995F85F4437BA388154A1CD02376091B642965F0E60EDE5",
+                      "relativePath":  "app/docs/muaman-13c/evidence/zip-comparison.json"
+                  },
+                  {
+                      "sizeBytes":  27465,
+                      "sha256":  "2E181C47FB631D6A2DC44186CF1D7FA7903ACC750CFD9EE1B98594033218F0AD",
+                      "relativePath":  "app/docs/MUAMAN-13C-ENABLE-BREPRO-FULL-WINDOWS-DETERMINISM.md"
+                  },
+                  {
+                      "sizeBytes":  3596,
+                      "sha256":  "68CF4AB516DBE9CCB9F302E55659E3CDDD72911B766875B118C3DA87517F5CBD",
+                      "relativePath":  "app/docs/muaman-13d/evidence/artifact-locations.json"
+                  },
+                  {
+                      "sizeBytes":  4723,
+                      "sha256":  "43E585F580260A567C715A6ACCB0A380891645E88D0F5F2A91D9D8586ABF7043",
+                      "relativePath":  "app/docs/muaman-13d/evidence/baseline-reconciliation.json"
+                  },
+                  {
+                      "sizeBytes":  1077,
+                      "sha256":  "B21F53E5DF0A1DB5ECF4FD2B846DE17B3160C99312C20A0A5C259D979260A448",
+                      "relativePath":  "app/docs/muaman-13d/evidence/comparison.json"
+                  },
+                  {
+                      "sizeBytes":  4929,
+                      "sha256":  "E3B089611BF3D3D3C4AAF8B4A78B4FA40297A21586A9929721A284E623071A33",
+                      "relativePath":  "app/docs/muaman-13d/evidence/environment.json"
+                  },
+                  {
+                      "sizeBytes":  2628,
+                      "sha256":  "D0B3271CE9647AEC613ED089241E22BD05C1B6D8522B544CC20EBCFD7A28F54C",
+                      "relativePath":  "app/docs/muaman-13d/evidence/pe-comparison.json"
+                  },
+                  {
+                      "sizeBytes":  1436,
+                      "sha256":  "6C533F8838C262C8031B9F534C306DE82BBDAD635A19342375BF8E7106F93BB9",
+                      "relativePath":  "app/docs/muaman-13d/evidence/run-1-binary-sha256.json"
+                  },
+                  {
+                      "sizeBytes":  4965,
+                      "sha256":  "EC18ED091964B5FEF7F16EFEA6DF97C34E2B61A9092AD75A3AED881B9D600582",
+                      "relativePath":  "app/docs/muaman-13d/evidence/run-1-inventory.json"
+                  },
+                  {
+                      "sizeBytes":  6156,
+                      "sha256":  "432C81944FCF5D0A1FDC8933470367D0AF3443E2954C3814CB94DED2E769EE26",
+                      "relativePath":  "app/docs/muaman-13d/evidence/run-1-linker-evidence.json"
+                  },
+                  {
+                      "sizeBytes":  3146,
+                      "sha256":  "7899257CD6F9CB1088DC2AAFB8E04FD93EF8AC80DB061740E9A843BD1B605334",
+                      "relativePath":  "app/docs/muaman-13d/evidence/run-1-manifest.json"
+                  },
+                  {
+                      "sizeBytes":  4245,
+                      "sha256":  "A4869FC8025834EF6857B7635BFE72BDFF12CB4C2B95ABB5E4BB164C6537A974",
+                      "relativePath":  "app/docs/muaman-13d/evidence/run-1-pe-inspection.json"
+                  },
+                  {
+                      "sizeBytes":  1436,
+                      "sha256":  "A8D17B01576AD29BF41072CBA2A9A3957B8FE52EA492DC745E1F97825C2842AF",
+                      "relativePath":  "app/docs/muaman-13d/evidence/run-2-binary-sha256.json"
+                  },
+                  {
+                      "sizeBytes":  3480,
+                      "sha256":  "529D163DFC4CC1F99EA2388B1F162A4DAFB6588565E16735D0586127FC54476A",
+                      "relativePath":  "app/docs/muaman-13d/evidence/run-2-file-times.json"
+                  },
+                  {
+                      "sizeBytes":  4965,
+                      "sha256":  "C072BD4EEAEE0C590F67838DA3984701D188E9E17B3B4D2D8093C255A813A1D0",
+                      "relativePath":  "app/docs/muaman-13d/evidence/run-2-inventory.json"
+                  },
+                  {
+                      "sizeBytes":  6156,
+                      "sha256":  "14156D791373BB5781BB758972E118AA1C3BB65EA50FF8FD291A9A5B4250EC84",
+                      "relativePath":  "app/docs/muaman-13d/evidence/run-2-linker-evidence.json"
+                  },
+                  {
+                      "sizeBytes":  3146,
+                      "sha256":  "17FCF4B5B1CA19F634AE2A87A2A11F4E87DE270691D622D7242D5F43C9A0A5AE",
+                      "relativePath":  "app/docs/muaman-13d/evidence/run-2-manifest.json"
+                  },
+                  {
+                      "sizeBytes":  4245,
+                      "sha256":  "463D9EC0E7A272617BADD2F887390A2BC17B8E9891CEAD74F9D75E0687D823C6",
+                      "relativePath":  "app/docs/muaman-13d/evidence/run-2-pe-inspection.json"
+                  },
+                  {
+                      "sizeBytes":  847,
+                      "sha256":  "7A6DB93A8DE4390FED1308E52E61BDBE85E0F717D36A56898097FD13C946B7FF",
+                      "relativePath":  "app/docs/muaman-13d/evidence/zip-comparison.json"
+                  },
+                  {
+                      "sizeBytes":  31731,
+                      "sha256":  "BB29DBA5CF4B7727D365A663976D126FD9E48AAC9BF02258D38B18E395F35BD3",
+                      "relativePath":  "app/docs/MUAMAN-13D-INDEPENDENT-COMMITTED-STATE-REPRODUCIBILITY-ACCEPTANCE.md"
+                  },
+                  {
+                      "sizeBytes":  387,
+                      "sha256":  "CD34757F38C5CFF94546F01E314560E386D4E3262246A9E81786EDF3139204A7",
+                      "relativePath":  "app/docs/muaman-13e/evidence/01-baseline-identity.json"
+                  },
+                  {
+                      "sizeBytes":  0,
+                      "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                      "relativePath":  "app/docs/muaman-13e/evidence/02b-initial-diff-stat.txt"
+                  },
+                  {
+                      "sizeBytes":  28,
+                      "sha256":  "698B475DED94FF63780B14457710E5F02333184E7A485E8A4795CADBBDF0939D",
+                      "relativePath":  "app/docs/muaman-13e/evidence/02-initial-clean-status.txt"
+                  },
+                  {
+                      "sizeBytes":  1096,
+                      "sha256":  "731930D07640D4285E2549576CCA72C7A43A299C8C86836D00A0222581D03DE8",
+                      "relativePath":  "app/docs/muaman-13e/evidence/03-toolchain-versions.json"
+                  },
+                  {
+                      "sizeBytes":  83,
+                      "sha256":  "7732DB1950E2B71F0E28EFCB1AC550F30C0D346FB79AFB9108282F983B778853",
+                      "relativePath":  "app/docs/muaman-13e/evidence/04-recon-brepro-and-registrant.txt"
+                  },
+                  {
+                      "sizeBytes":  507,
+                      "sha256":  "D55551183C96303F291F65B23AF02351BC1A7CEEC646BE4A3894293716E67D71",
+                      "relativePath":  "app/docs/muaman-13e/evidence/05b-prefix-a-run-summary.json"
+                  },
+                  {
+                      "sizeBytes":  3762,
+                      "sha256":  "53AF4F38BBC79904E914C5123336028B46377D8DD66D7EDE35AC85CA475D8B5D",
+                      "relativePath":  "app/docs/muaman-13e/evidence/05-prefix-a-manifest.json"
+                  },
+                  {
+                      "sizeBytes":  520,
+                      "sha256":  "F26396BF353910B36F23816C6C5F4EDDB55E4A652104A34B655BEE259922A3F3",
+                      "relativePath":  "app/docs/muaman-13e/evidence/06b-prefix-b-run-summary.json"
+                  },
+                  {
+                      "sizeBytes":  3775,
+                      "sha256":  "4CE0CCEE0D8FAE497AA0BB6A1AF652D3CF5361569D4B66E53575D532100D8B11",
+                      "relativePath":  "app/docs/muaman-13e/evidence/06-prefix-b-manifest.json"
+                  },
+                  {
+                      "sizeBytes":  2018,
+                      "sha256":  "A7BF984FF21139CA3A794DA55931CC7F14DA597740C173268D1E6DF6481748AE",
+                      "relativePath":  "app/docs/muaman-13e/evidence/07-prefix-cross-path-comparison.txt"
+                  },
+                  {
+                      "sizeBytes":  3075,
+                      "sha256":  "BA62F05451EB30B21F5A292EF3FD8164B0B5A1C27AF5F599AAF59B61F7B9801D",
+                      "relativePath":  "app/docs/muaman-13e/evidence/08-acceptance-runA-manifest.json"
+                  },
+                  {
+                      "sizeBytes":  4245,
+                      "sha256":  "4C952F4B8C1A45B60A61EAF9C8E3855CA43363EC26F019762856D48ECC89682A",
+                      "relativePath":  "app/docs/muaman-13e/evidence/09-acceptance-runA-pe-inspection.json"
+                  },
+                  {
+                      "sizeBytes":  1900,
+                      "sha256":  "52802323D79572ED6CE2C30B740096398CB48D08CD0B2A39FCB36E0F6A782283",
+                      "relativePath":  "app/docs/muaman-13e/evidence/10-acceptance-runA-leak-scan.json"
+                  },
+                  {
+                      "sizeBytes":  5068,
+                      "sha256":  "D11A5183DCF96D93B3F34AFA933CE8C09012CD6F87023CA302DC449A5F3DE43D",
+                      "relativePath":  "app/docs/muaman-13e/evidence/11-acceptance-runA-linker-evidence.json"
+                  },
+                  {
+                      "sizeBytes":  3075,
+                      "sha256":  "9917EDBDA7BAA6E690E858B4C67F4235F540AA4E95E0A2AFEB7974EC2F2A17B6",
+                      "relativePath":  "app/docs/muaman-13e/evidence/12-acceptance-runB-manifest.json"
+                  },
+                  {
+                      "sizeBytes":  4245,
+                      "sha256":  "BAEEB1CA767F0075F6A54EA66BE56D03F8093DC310266D42AED7F1A3920AFF07",
+                      "relativePath":  "app/docs/muaman-13e/evidence/13-acceptance-runB-pe-inspection.json"
+                  },
+                  {
+                      "sizeBytes":  1900,
+                      "sha256":  "5EB92A3D8E628992E93D1CA70A90A96CAF36EC634E4248C935739EBD47039395",
+                      "relativePath":  "app/docs/muaman-13e/evidence/14-acceptance-runB-leak-scan.json"
+                  },
+                  {
+                      "sizeBytes":  3311,
+                      "sha256":  "08456C2FB81C7EFBDA5D6580B5153263D12E8FDD06AF3161DADBDCD5CD1D409C",
+                      "relativePath":  "app/docs/muaman-13e/evidence/15-acceptance-runB-linker-evidence.json"
+                  },
+                  {
+                      "sizeBytes":  760,
+                      "sha256":  "E65E859EBC1CFA38B6FFB9CC43F6DA07DB06C80FBA57B0916936EA0468D300F0",
+                      "relativePath":  "app/docs/muaman-13e/evidence/16-cross-path-comparison.json"
+                  },
+                  {
+                      "sizeBytes":  2640,
+                      "sha256":  "A1585889B522EF6041B44F1BE985918BD823D21DF6EAF4BB3D1D22FCF18DBEFF",
+                      "relativePath":  "app/docs/muaman-13e/evidence/17-pe-comparison.json"
+                  },
+                  {
+                      "sizeBytes":  685,
+                      "sha256":  "0A5456ABAEE1F30F8123164259C144DC4C1866203F280A1358730B8DA37B6C21",
+                      "relativePath":  "app/docs/muaman-13e/evidence/18-zip-comparison.json"
+                  },
+                  {
+                      "sizeBytes":  4950,
+                      "sha256":  "A73CB289A88AF211A7716728C203373FE046933115A00F45674743BA4DBA3331",
+                      "relativePath":  "app/docs/muaman-13e/evidence/19-third-path-comparison.json"
+                  },
+                  {
+                      "sizeBytes":  5282,
+                      "sha256":  "862E439161CFC584E030B4129034ABFC31A7140540D5BD05547B7F6EFB8AB3B9",
+                      "relativePath":  "app/docs/muaman-13e/evidence/20-guard-test-results.txt"
+                  },
+                  {
+                      "sizeBytes":  102,
+                      "sha256":  "1EDD11624C8F7B602260B6A8074E2C9C3347CFD0196D15841698E0F31E215DCD",
+                      "relativePath":  "app/docs/muaman-13e/evidence/21-flutter-analyze.txt"
+                  },
+                  {
+                      "sizeBytes":  52,
+                      "sha256":  "FC384F6B8C5BA85356A5B6FA28CB960E934A40FD577BA6D140D3ED4871F7BD64",
+                      "relativePath":  "app/docs/muaman-13e/evidence/22-dart-format.txt"
+                  },
+                  {
+                      "sizeBytes":  47926,
+                      "sha256":  "27D389CC274E6C18361B4FF3E691603B5403732D9DAC30229ABA404EEA003BD5",
+                      "relativePath":  "app/docs/muaman-13e/evidence/23-flutter-test-results.txt"
+                  },
+                  {
+                      "sizeBytes":  185,
+                      "sha256":  "DA6EB7B9E9296BCFAFB704D0DC2ECFFD808B6DCA33332074632B74BEBA400DBF",
+                      "relativePath":  "app/docs/muaman-13e/evidence/24-runtime-smoke-test.txt"
+                  },
+                  {
+                      "sizeBytes":  925,
+                      "sha256":  "F0EE93EA90EFCF5EA006EB8BE396878C37BA3BA99AB072EA5C1B0D3D517EB318",
+                      "relativePath":  "app/docs/muaman-13e/evidence/25-environment.json"
+                  },
+                  {
+                      "sizeBytes":  534,
+                      "sha256":  "85F90E4BC4504F7140C7EB816BE9B04EE175F17697595DA78BB87911E113046B",
+                      "relativePath":  "app/docs/muaman-13e/evidence/26-canonical-manifest-3path.json"
+                  },
+                  {
+                      "sizeBytes":  6352,
+                      "sha256":  "9B0E025D9577DF322381FC801F4A59AE31A1FBDAD9C75650913E1A0B0BFA7D8E",
+                      "relativePath":  "app/docs/muaman-13e/evidence/27-cmakelists-fix.txt"
+                  },
+                  {
+                      "sizeBytes":  4785,
+                      "sha256":  "2D09783852C781A42E46AD6B1B37F094E1922B5F351840830C7C5DD7129D301B",
+                      "relativePath":  "app/docs/muaman-13e/evidence/28-flutter-cmakelists-fix.txt"
+                  },
+                  {
+                      "sizeBytes":  2087,
+                      "sha256":  "F21DEB70AA80E601B79041DC141666C998B4C5A6F8962F6C20EC77433DC3148C",
+                      "relativePath":  "app/docs/muaman-13e/evidence/29-inject-registrant-ps1.txt"
+                  },
+                  {
+                      "sizeBytes":  4940,
+                      "sha256":  "9B26383BD035DA6C5D6A705599B82702329017606B17B14FB114ECB7CD8DB150",
+                      "relativePath":  "app/docs/muaman-13e/evidence/30-cmake-pathmap-guard-test.txt"
+                  },
+                  {
+                      "sizeBytes":  2488,
+                      "sha256":  "C86B7C4DE8E41A87027565A699246D306CD5769D4100A74DD2AAE010D36B0456",
+                      "relativePath":  "app/docs/muaman-13e/evidence/31-inject-registrant-guard-test.txt"
+                  },
+                  {
+                      "sizeBytes":  5745,
+                      "sha256":  "6DB9878615C3B2A76DE897BD590BC66AB493E5243C91E4369C3947D4E598E5D0",
+                      "relativePath":  "app/docs/muaman-13e/evidence/32-leak-scan-dart.txt"
+                  },
+                  {
+                      "sizeBytes":  4350,
+                      "sha256":  "709AB7BCA56DC0316654FDF08C6F326D9FF9C90E053BEAFCEF00007C62D0BC58",
+                      "relativePath":  "app/docs/muaman-13e/evidence/33-pe-compare-13d-dart.txt"
+                  },
+                  {
+                      "sizeBytes":  38607,
+                      "sha256":  "DAB811116E73730C8256057F4602EE167BD98F9FAAFF134DC784B3BF69C545BD",
+                      "relativePath":  "app/docs/muaman-13e/evidence/34-run-repro-13e-ps1.txt"
+                  },
+                  {
+                      "sizeBytes":  27887,
+                      "sha256":  "AA54B44E31AFDB720E49DE99EAD6251D36832162B25441029B9E6947B26F9764",
+                      "relativePath":  "app/docs/muaman-13e/MUAMAN-13E-report.md"
+                  },
+                  {
+                      "sizeBytes":  5711,
+                      "sha256":  "00F024003E27356878980015E341EE1194B09BA956785659EF00DA488C446987",
+                      "relativePath":  "app/integration_test/login_invoice_smoke_test.dart"
+                  },
+                  {
+                      "sizeBytes":  603,
+                      "sha256":  "E85B4DB8BA6ED14708E5F7D3C60336E5A3067CE11329B84AA8BA5D98603EE253",
+                      "relativePath":  "app/ios/.gitignore"
+                  },
+                  {
+                      "sizeBytes":  800,
+                      "sha256":  "5309426F22A74C9135D09DE49B310CE7174BE4D378AF844B70B78C14FA872279",
+                      "relativePath":  "app/ios/Flutter/AppFrameworkInfo.plist"
+                  },
+                  {
+                      "sizeBytes":  31,
+                      "sha256":  "C0D1DA54718E75F2028962B689258ECC741ABF7CDAED50483AA5225264D0A7D7",
+                      "relativePath":  "app/ios/Flutter/Debug.xcconfig"
+                  },
+                  {
+                      "sizeBytes":  31,
+                      "sha256":  "C0D1DA54718E75F2028962B689258ECC741ABF7CDAED50483AA5225264D0A7D7",
+                      "relativePath":  "app/ios/Flutter/Release.xcconfig"
+                  },
+                  {
+                      "sizeBytes":  24294,
+                      "sha256":  "5504AC3B92E1628205956B56432E0E35F4ACB2042801287C6F47B88E39C54708",
+                      "relativePath":  "app/ios/Runner.xcodeproj/project.pbxproj"
+                  },
+                  {
+                      "sizeBytes":  142,
+                      "sha256":  "AC28B35C2B940210BEC0FFF8E424B07FD0EFE9112AB178A10533583F251A386C",
+                      "relativePath":  "app/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata"
+                  },
+                  {
+                      "sizeBytes":  246,
+                      "sha256":  "D557C2C32FC6258EC28981FA45DC847B76C9968BEB90A2E26D13EF9C4EA45C30",
+                      "relativePath":  "app/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist"
+                  },
+                  {
+                      "sizeBytes":  234,
+                      "sha256":  "DD64C0308AB2971C456871B990B24A008BDC3ECE09833E8DBE9675E33A496E74",
+                      "relativePath":  "app/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings"
+                  },
+                  {
+                      "sizeBytes":  3745,
+                      "sha256":  "352747DD75665BB9E818E903A6586BE075E7C87B7775F6985EFCDEE16957E9B7",
+                      "relativePath":  "app/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme"
+                  },
+                  {
+                      "sizeBytes":  159,
+                      "sha256":  "706A4C812F2A1E220E6785C27580020D58048E2AE4D30D1280F3C43344CE6B38",
+                      "relativePath":  "app/ios/Runner.xcworkspace/contents.xcworkspacedata"
+                  },
+                  {
+                      "sizeBytes":  246,
+                      "sha256":  "D557C2C32FC6258EC28981FA45DC847B76C9968BEB90A2E26D13EF9C4EA45C30",
+                      "relativePath":  "app/ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist"
+                  },
+                  {
+                      "sizeBytes":  234,
+                      "sha256":  "DD64C0308AB2971C456871B990B24A008BDC3ECE09833E8DBE9675E33A496E74",
+                      "relativePath":  "app/ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings"
+                  },
+                  {
+                      "sizeBytes":  404,
+                      "sha256":  "13E99DAB5435148EFC15D9177BA505DA3D24859A6BA663767510622FDF7A97FA",
+                      "relativePath":  "app/ios/Runner/AppDelegate.swift"
+                  },
+                  {
+                      "sizeBytes":  2641,
+                      "sha256":  "5F8B941B774BDE4496D73347C1F79CBDD786BB76FBDAB9ED1F3F0CB78A0FB0D3",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json"
+                  },
+                  {
+                      "sizeBytes":  10932,
+                      "sha256":  "7770183009E914112DE7D8EF1D235A6A30C5834424858E0D2F8253F6B8D31926",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png"
+                  },
+                  {
+                      "sizeBytes":  295,
+                      "sha256":  "CAB10A0D391EC5BC09EF50CE49E8AD401CEE7EF03707EC0923A222C5C2B3D212",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png"
+                  },
+                  {
+                      "sizeBytes":  406,
+                      "sha256":  "B9AD02CF6576A04D1B6806AC02A2431481B448DD0C2E505CE25842D1F7C4730B",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png"
+                  },
+                  {
+                      "sizeBytes":  450,
+                      "sha256":  "C6E6D3B215AE744A9C391F4C4D44157EFF5E739D6AD6C39F9BFA5DF66DDDD267",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png"
+                  },
+                  {
+                      "sizeBytes":  282,
+                      "sha256":  "5DEE24DC104AC76DC162E42AE0BEB163D426BF365562EE28BA7B3AD368559A60",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png"
+                  },
+                  {
+                      "sizeBytes":  462,
+                      "sha256":  "A9B21EB6F4271385655A8771F76E29EEF8C1107D7879CBCFC567E6619D1F716A",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png"
+                  },
+                  {
+                      "sizeBytes":  704,
+                      "sha256":  "E677D701FFE4AF7BC2935098D6B3984CC9AB7ACE573E6900955A5535B12410CF",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png"
+                  },
+                  {
+                      "sizeBytes":  406,
+                      "sha256":  "B9AD02CF6576A04D1B6806AC02A2431481B448DD0C2E505CE25842D1F7C4730B",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png"
+                  },
+                  {
+                      "sizeBytes":  586,
+                      "sha256":  "7C61C42FC7B657D9CF314D32A4EC458F0647C3AAF360BE1B9377857266EC2499",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png"
+                  },
+                  {
+                      "sizeBytes":  862,
+                      "sha256":  "19BE171481DC71A0B2803EBCD01DD8B0C5FD5778DEE34C0A3CABC948C225F24E",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png"
+                  },
+                  {
+                      "sizeBytes":  862,
+                      "sha256":  "19BE171481DC71A0B2803EBCD01DD8B0C5FD5778DEE34C0A3CABC948C225F24E",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png"
+                  },
+                  {
+                      "sizeBytes":  1674,
+                      "sha256":  "4209A49E44A92EC40A327D3455EB1B1C153EE83D75DE1C2BE0A12AB18B2FF9DE",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png"
+                  },
+                  {
+                      "sizeBytes":  762,
+                      "sha256":  "836C918CB613249EBA0483A6B02FA3DF3C1C0A89A315EE4D3B88509B83C7AB73",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png"
+                  },
+                  {
+                      "sizeBytes":  1226,
+                      "sha256":  "41C7D42F6E61F8FE7F30B1FFA2256AECBC9682BE06D18C4A3062043E1A2E547C",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png"
+                  },
+                  {
+                      "sizeBytes":  1418,
+                      "sha256":  "5D7E5BDF01B93802BC973345B3A78C038907147625035952A08A115A563B7F81",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png"
+                  },
+                  {
+                      "sizeBytes":  414,
+                      "sha256":  "FBD112A9F3B541A1D811F71AC8E4FE68B6176687D973A5F4D99B7AA4A722E94E",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json"
+                  },
+                  {
+                      "sizeBytes":  68,
+                      "sha256":  "93AE7D494FAD0FB30CBF3AE746A39C4BC7A0F8BBF87FBB587A3F3C01F3C5CE20",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png"
+                  },
+                  {
+                      "sizeBytes":  68,
+                      "sha256":  "93AE7D494FAD0FB30CBF3AE746A39C4BC7A0F8BBF87FBB587A3F3C01F3C5CE20",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png"
+                  },
+                  {
+                      "sizeBytes":  68,
+                      "sha256":  "93AE7D494FAD0FB30CBF3AE746A39C4BC7A0F8BBF87FBB587A3F3C01F3C5CE20",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png"
+                  },
+                  {
+                      "sizeBytes":  340,
+                      "sha256":  "853AC958E2416FE2540F6F61165283A3618B71A7BA5F85F65AC41C2158DFCD21",
+                      "relativePath":  "app/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md"
+                  },
+                  {
+                      "sizeBytes":  2414,
+                      "sha256":  "BC3644FBB251FF1E18DE25A4932C927850AE1A025BE3DD1447940429633FE4B2",
+                      "relativePath":  "app/ios/Runner/Base.lproj/LaunchScreen.storyboard"
+                  },
+                  {
+                      "sizeBytes":  1631,
+                      "sha256":  "DCEA4686C02065E56217FD19FCFB73D7509B41872E7486126149D47A18559363",
+                      "relativePath":  "app/ios/Runner/Base.lproj/Main.storyboard"
+                  },
+                  {
+                      "sizeBytes":  1700,
+                      "sha256":  "FBF79017F93AF17E07AD69BEE50FC942F25FFCBD6A4921C372F230DCFF2BB486",
+                      "relativePath":  "app/ios/Runner/Info.plist"
+                  },
+                  {
+                      "sizeBytes":  39,
+                      "sha256":  "EFE657D8B27F7F8595A0D416BFFB33FE7D93BD2869D81F7353B556C439D7A1A7",
+                      "relativePath":  "app/ios/Runner/Runner-Bridging-Header.h"
+                  },
+                  {
+                      "sizeBytes":  297,
+                      "sha256":  "C0E04141287EB7F9C9F3D31CF5BE8CB626A9EA71351206C9121578E8B8F480C3",
+                      "relativePath":  "app/ios/RunnerTests/RunnerTests.swift"
+                  },
+                  {
+                      "sizeBytes":  38616,
+                      "sha256":  "2A97009B2D9C964D4E36ED2B686EC4301A07065C42610C86B7DB564E9FF673F4",
+                      "relativePath":  "app/lib/database/data_importer.dart"
+                  },
+                  {
+                      "sizeBytes":  45357,
+                      "sha256":  "4A9D8BC04D49A9A5AEDD3C5186C4351D732B588EEBEAC237927DBB4F9686BDC4",
+                      "relativePath":  "app/lib/database/database_helper.dart"
+                  },
+                  {
+                      "sizeBytes":  9340,
+                      "sha256":  "19CCC8557624E654EF99B36FEDADCED393CFC817F3B370793D34926A637F9886",
+                      "relativePath":  "app/lib/database/user_repository.dart"
+                  },
+                  {
+                      "sizeBytes":  15435,
+                      "sha256":  "87D71E0F66E48731981CEB75D1C86CB4565B8D3429D3C8F265E99712B7C4AB5D",
+                      "relativePath":  "app/lib/database/workbook_importer.dart"
+                  },
+                  {
+                      "sizeBytes":  4089,
+                      "sha256":  "6AAEF39BA4A5282F98FE60E23226D3630AFC240BFCAED103787DDF4EC7C8040A",
+                      "relativePath":  "app/lib/database/xlsx_reader.dart"
+                  },
+                  {
+                      "sizeBytes":  11510,
+                      "sha256":  "6854D8129780C99DF5135B630D8443FE9FFF8EEEF443E8B010EE3EB8B6C12AB8",
+                      "relativePath":  "app/lib/main.dart"
+                  },
+                  {
+                      "sizeBytes":  694,
+                      "sha256":  "149D1AA196276CE875279BC95FF579482A9A5CACB432EF396D933CC9DA30E811",
+                      "relativePath":  "app/lib/models/expense.dart"
+                  },
+                  {
+                      "sizeBytes":  1405,
+                      "sha256":  "DF4DF17229DF9480C0B0588625017B4ABD09BEFAC949405E3B541EB5E3F9D53E",
+                      "relativePath":  "app/lib/models/invoice.dart"
+                  },
+                  {
+                      "sizeBytes":  2816,
+                      "sha256":  "AC377AA7593C42EE147623FD37929052B69C246393DA4D05E4DE48CF24F4469D",
+                      "relativePath":  "app/lib/models/product.dart"
+                  },
+                  {
+                      "sizeBytes":  1625,
+                      "sha256":  "0020F24871ABCC8EE42CEAB1FA427F212674AA08153151DDE537DC90CF29B2A1",
+                      "relativePath":  "app/lib/models/return_item.dart"
+                  },
+                  {
+                      "sizeBytes":  2363,
+                      "sha256":  "E5E42AF5AC599F63A670BADCAFDFEA70DC64993A33FF9C886BDF106186497347",
+                      "relativePath":  "app/lib/models/sale.dart"
+                  },
+                  {
+                      "sizeBytes":  2233,
+                      "sha256":  "9A0744418781978F1CA9EF59CFEE4A9DB0088B0154461D7D9021F6C6792D0BB5",
+                      "relativePath":  "app/lib/models/user.dart"
+                  },
+                  {
+                      "sizeBytes":  1075,
+                      "sha256":  "E951B86CC3FBFE06FF7A6B20A132A7302466CC3C29334C24AFD23C57C7ECB32A",
+                      "relativePath":  "app/lib/models/user_role.dart"
+                  },
+                  {
+                      "sizeBytes":  25789,
+                      "sha256":  "6F4585D867CF5E9CF44ECD8501E2EB750A720DD3BDD43624DB05C0F9BDBD42E5",
+                      "relativePath":  "app/lib/screens/admin/user_management_screen.dart"
+                  },
+                  {
+                      "sizeBytes":  9152,
+                      "sha256":  "2AAD3A6723D2FA807CF3254C157E617D32D3BED41ECD87084690D82C4FAB1341",
+                      "relativePath":  "app/lib/screens/auth/first_owner_setup_screen.dart"
+                  },
+                  {
+                      "sizeBytes":  7504,
+                      "sha256":  "47112FBFA5A6A04EC3DB30E223352D0EA09DCB272518259D15646396AB55B729",
+                      "relativePath":  "app/lib/screens/auth/login_screen.dart"
+                  },
+                  {
+                      "sizeBytes":  9682,
+                      "sha256":  "514D876CB27BB72DA3E25682FF7D3D1101D09B71BE5A7C800BBB39060659CEAF",
+                      "relativePath":  "app/lib/screens/dashboard/dashboard_screen.dart"
+                  },
+                  {
+                      "sizeBytes":  11203,
+                      "sha256":  "26C5153CDD77105574DCE94BE05DA3F1C65FD6F9359A81AEF74127355902D997",
+                      "relativePath":  "app/lib/screens/expenses/expenses_screen.dart"
+                  },
+                  {
+                      "sizeBytes":  14743,
+                      "sha256":  "F761E7CCAB9930A9CDADD0CC627828C832A5AFCB1F4EA9ECD810EAB82C6E2B8A",
+                      "relativePath":  "app/lib/screens/inventory/inventory_screen.dart"
+                  },
+                  {
+                      "sizeBytes":  7117,
+                      "sha256":  "5C0A6801869FB80B299010ADB0FFCFE311F9199032970416F260A00AC9B96B37",
+                      "relativePath":  "app/lib/screens/inventory_count/inventory_count_screen.dart"
+                  },
+                  {
+                      "sizeBytes":  13321,
+                      "sha256":  "0E432CF493BA9593AA6DC66BB2ACD61DF320E250020CB9EF4E5B0E555845A352",
+                      "relativePath":  "app/lib/screens/returns/returns_screen.dart"
+                  },
+                  {
+                      "sizeBytes":  27356,
+                      "sha256":  "1BAE180A7C6FD563C561204AE0306A8911DE1A4CF3C3E8E121646A7EA9A64F17",
+                      "relativePath":  "app/lib/screens/sales/invoice_screen.dart"
+                  },
+                  {
+                      "sizeBytes":  20443,
+                      "sha256":  "B82E6054E66E2095F344B53A4547E281DBC7BBE1277811157D4A6BD91524210F",
+                      "relativePath":  "app/lib/screens/sales/sales_report_screen.dart"
+                  },
+                  {
+                      "sizeBytes":  10812,
+                      "sha256":  "C4999D774C79A1E0C8EC57D7472D8ED69C4313018A3E1E2627C8E717FE45F38B",
+                      "relativePath":  "app/lib/screens/sales/sales_screen.dart"
+                  },
+                  {
+                      "sizeBytes":  9611,
+                      "sha256":  "475AD2462EF5AD0370E99C7C7BAA61F0D59024FB1F1D970C50404ADA81A7C081",
+                      "relativePath":  "app/lib/screens/settings_screen.dart"
+                  },
+                  {
+                      "sizeBytes":  4796,
+                      "sha256":  "E1F7228688A4A77484A02B2F046875995C999D3995625501DD680C9099536EAA",
+                      "relativePath":  "app/lib/services/app_settings.dart"
+                  },
+                  {
+                      "sizeBytes":  2067,
+                      "sha256":  "25AB652FE85FCFCCF38F6AB4D9636F4A772E72DEF206E0799C0CA1C9C7A77070",
+                      "relativePath":  "app/lib/services/password_hasher.dart"
+                  },
+                  {
+                      "sizeBytes":  1327,
+                      "sha256":  "A9FE9AE0454F7115705C7C48AEE6998423FFE6D3BA254AEBFF9860D6D87000E0",
+                      "relativePath":  "app/lib/services/permissions.dart"
+                  },
+                  {
+                      "sizeBytes":  784,
+                      "sha256":  "3C0D02E34C90988E746F801EF951D4DDAD1995F6F286D73CF4B22CF5A3B9D66B",
+                      "relativePath":  "app/lib/services/session_state.dart"
+                  },
+                  {
+                      "sizeBytes":  19,
+                      "sha256":  "D7BBEAC6BA86E2D94D8CCC63A1A2FBBAC5EE7467F52F75C168165412D6AC3B60",
+                      "relativePath":  "app/linux/.gitignore"
+                  },
+                  {
+                      "sizeBytes":  5583,
+                      "sha256":  "C806B8B298D2F5274FB4D71D20D1F51ADDF3A0AEC12446DE7DA51A174310C2A5",
+                      "relativePath":  "app/linux/CMakeLists.txt"
+                  },
+                  {
+                      "sizeBytes":  2903,
+                      "sha256":  "4EB17836308C1CD53F6B2BB8EDB3B7B30610BFF3B1D9DF7FECC9317F9109700C",
+                      "relativePath":  "app/linux/flutter/CMakeLists.txt"
+                  },
+                  {
+                      "sizeBytes":  408,
+                      "sha256":  "FF87357515A58F6D350000A3F29E1ADBD7DBAF833EB2FF6B67A00719833C737E",
+                      "relativePath":  "app/linux/flutter/generated_plugin_registrant.cc"
+                  },
+                  {
+                      "sizeBytes":  318,
+                      "sha256":  "3E4CF762B2BB67328E807ADA539EAD7BFC68CF7203D15F54267C519C94735099",
+                      "relativePath":  "app/linux/flutter/generated_plugin_registrant.h"
+                  },
+                  {
+                      "sizeBytes":  774,
+                      "sha256":  "3D5ABF1B95094A5735A47A88AA6518E86EB4D4D9EA59DE0E55709F59E5964643",
+                      "relativePath":  "app/linux/flutter/generated_plugins.cmake"
+                  },
+                  {
+                      "sizeBytes":  186,
+                      "sha256":  "905B4DFA4EAB584C1EB6244899B7D5EF56D0BCEAF3BFFB5EA335ED7E0BA3C549",
+                      "relativePath":  "app/linux/main.cc"
+                  },
+                  {
+                      "sizeBytes":  4556,
+                      "sha256":  "00D6021EA71F2529287F77EA3257D904EFA0A0669259C83B821BF112C0C33122",
+                      "relativePath":  "app/linux/my_application.cc"
+                  },
+                  {
+                      "sizeBytes":  406,
+                      "sha256":  "B9BE2B58EAD9FA2FA3422636120E85EA8EE2A600AA0B42E268CB8FF0AE4B9B5D",
+                      "relativePath":  "app/linux/my_application.h"
+                  },
+                  {
+                      "sizeBytes":  96,
+                      "sha256":  "236A523A43625A2D63AF3CD0F2CE8600A3668846F8CB278C1C7C5CBFD4AA4088",
+                      "relativePath":  "app/macos/.gitignore"
+                  },
+                  {
+                      "sizeBytes":  49,
+                      "sha256":  "7E9B3EE3961B7D7718B418CEAED812A5F06A4E4CEC894AAE712A78E159C32AB0",
+                      "relativePath":  "app/macos/Flutter/Flutter-Debug.xcconfig"
+                  },
+                  {
+                      "sizeBytes":  49,
+                      "sha256":  "7E9B3EE3961B7D7718B418CEAED812A5F06A4E4CEC894AAE712A78E159C32AB0",
+                      "relativePath":  "app/macos/Flutter/Flutter-Release.xcconfig"
+                  },
+                  {
+                      "sizeBytes":  359,
+                      "sha256":  "8C9B27CE5DC28B719BEDE169C5F9479F320F8D347463B2D28BE8790B7ED7393A",
+                      "relativePath":  "app/macos/Flutter/GeneratedPluginRegistrant.swift"
+                  },
+                  {
+                      "sizeBytes":  27116,
+                      "sha256":  "6B2EF48A2A5C334C7F271D50C2BE7B8CEC0927FAC09D250D6BEE276C960A3443",
+                      "relativePath":  "app/macos/Runner.xcodeproj/project.pbxproj"
+                  },
+                  {
+                      "sizeBytes":  246,
+                      "sha256":  "D557C2C32FC6258EC28981FA45DC847B76C9968BEB90A2E26D13EF9C4EA45C30",
+                      "relativePath":  "app/macos/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist"
+                  },
+                  {
+                      "sizeBytes":  3769,
+                      "sha256":  "25C71D5DEC6ACE9AFC929A663E739D285FA3E0461D150064E433E6607EADD406",
+                      "relativePath":  "app/macos/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme"
+                  },
+                  {
+                      "sizeBytes":  159,
+                      "sha256":  "706A4C812F2A1E220E6785C27580020D58048E2AE4D30D1280F3C43344CE6B38",
+                      "relativePath":  "app/macos/Runner.xcworkspace/contents.xcworkspacedata"
+                  },
+                  {
+                      "sizeBytes":  246,
+                      "sha256":  "D557C2C32FC6258EC28981FA45DC847B76C9968BEB90A2E26D13EF9C4EA45C30",
+                      "relativePath":  "app/macos/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist"
+                  },
+                  {
+                      "sizeBytes":  210,
+                      "sha256":  "11CE85A6E7FA4E803D69CC233DE44C9B001611B11C1955A149DD790AE66AD105",
+                      "relativePath":  "app/macos/Runner/AppDelegate.swift"
+                  },
+                  {
+                      "sizeBytes":  102994,
+                      "sha256":  "6232E5815AF17E25E0268B2FEC7AEA9E068CC92EC709E9605C2B31DF4FF2A313",
+                      "relativePath":  "app/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_1024.png"
+                  },
+                  {
+                      "sizeBytes":  5680,
+                      "sha256":  "15591F03F31313AF6FD644ED0512106CC04365130B8B73244F1CFA6DDDFB4400",
+                      "relativePath":  "app/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png"
+                  },
+                  {
+                      "sizeBytes":  520,
+                      "sha256":  "CC6928B5ADFC00DBF526192E2705DD9AF641CDF20AB4C6C7CA7CD4936DCA59F0",
+                      "relativePath":  "app/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_16.png"
+                  },
+                  {
+                      "sizeBytes":  14142,
+                      "sha256":  "416EFD77CDE932D42EF34168DA24DD428A495B1F4F34BBBD125A18D2ADD186A2",
+                      "relativePath":  "app/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png"
+                  },
+                  {
+                      "sizeBytes":  1066,
+                      "sha256":  "AE8C4458E41F1E28B1E851ED87D3268D4A0351CEEA427FA2A84CC94DDFB6D4C5",
+                      "relativePath":  "app/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_32.png"
+                  },
+                  {
+                      "sizeBytes":  36406,
+                      "sha256":  "0A91C6C1BF242E54EE179E34629E9EF3E8A6D286C0FCE01E302280A8BE9277E6",
+                      "relativePath":  "app/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_512.png"
+                  },
+                  {
+                      "sizeBytes":  2218,
+                      "sha256":  "6AD229623498E5F1277800DB3AB7CB11FAF85EB2569E1213F7D8E55003C07B42",
+                      "relativePath":  "app/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_64.png"
+                  },
+                  {
+                      "sizeBytes":  1359,
+                      "sha256":  "992BA63D183DFB8F8E3AF38AC203D834D23C004DA1417C438B4C5A3D7D1D7103",
+                      "relativePath":  "app/macos/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json"
+                  },
+                  {
+                      "sizeBytes":  24072,
+                      "sha256":  "776C35481F6581F14148B90071558B25F6CE6262E771988985E9FE8D3E70A472",
+                      "relativePath":  "app/macos/Runner/Base.lproj/MainMenu.xib"
+                  },
+                  {
+                      "sizeBytes":  626,
+                      "sha256":  "675F543EC58366DE2E1835DF4A12DE656E68AB0BF7B8F2DC68B28A1A989507C4",
+                      "relativePath":  "app/macos/Runner/Configs/AppInfo.xcconfig"
+                  },
+                  {
+                      "sizeBytes":  79,
+                      "sha256":  "86BE603022E2A385DD7884FCE4CC29255676C3DDA579D3D4A56C958BF1E57DE0",
+                      "relativePath":  "app/macos/Runner/Configs/Debug.xcconfig"
+                  },
+                  {
+                      "sizeBytes":  81,
+                      "sha256":  "D1BF3F0349AADD5C58EE9D46C0CE4CE45467127C438936E9BB481D861D296565",
+                      "relativePath":  "app/macos/Runner/Configs/Release.xcconfig"
+                  },
+                  {
+                      "sizeBytes":  593,
+                      "sha256":  "AA8DED4C14068CB05F51F5446509FE56805CF1E29961AD6D5A97233BB0632BC1",
+                      "relativePath":  "app/macos/Runner/Configs/Warnings.xcconfig"
+                  },
+                  {
+                      "sizeBytes":  360,
+                      "sha256":  "B2AA41D03E18907D360B721B7BB3EDB302897C8A3DE98EC47B6665033FEA0B0E",
+                      "relativePath":  "app/macos/Runner/DebugProfile.entitlements"
+                  },
+                  {
+                      "sizeBytes":  1092,
+                      "sha256":  "047F9CB0F1122C04589483BEAEDBBE23492FDC8946B94E09BB13080736AF4F93",
+                      "relativePath":  "app/macos/Runner/Info.plist"
+                  },
+                  {
+                      "sizeBytes":  403,
+                      "sha256":  "8178AD756F958F986F794A8BB06E321A6630CEAAF8F235B3B4AE3936E415DC7C",
+                      "relativePath":  "app/macos/Runner/MainFlutterWindow.swift"
+                  },
+                  {
+                      "sizeBytes":  248,
+                      "sha256":  "C3B881C72AA4CCA9CF50DA6654C4D675DEC929056692AF46A6FBECD00AEF5990",
+                      "relativePath":  "app/macos/Runner/Release.entitlements"
+                  },
+                  {
+                      "sizeBytes":  302,
+                      "sha256":  "8A0FF977C64CEAC0750FFFA48087988B7B4125D1B1C49019221E7FFFB574423E",
+                      "relativePath":  "app/macos/RunnerTests/RunnerTests.swift"
+                  },
+                  {
+                      "sizeBytes":  14496,
+                      "sha256":  "EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A",
+                      "relativePath":  "app/pubspec.lock"
+                  },
+                  {
+                      "sizeBytes":  4050,
+                      "sha256":  "11C05340B85AEDEDEE2472B80F9678726EE80FF1CEBB4BFA4D86CA1CF60E02B8",
+                      "relativePath":  "app/pubspec.yaml"
+                  },
+                  {
+                      "sizeBytes":  571,
+                      "sha256":  "20CA825100A6670ECB3C2E3A7856556226849219E1DE45FE70F3BC6ED8733BBE",
+                      "relativePath":  "app/README.md"
+                  },
+                  {
+                      "sizeBytes":  2494,
+                      "sha256":  "E6ABABC9D1F25AC2F97EBA60345217B421B595B2CCE849AFB0C14BA6F1594432",
+                      "relativePath":  "app/test/brepro_build_config_guard_test.dart"
+                  },
+                  {
+                      "sizeBytes":  4940,
+                      "sha256":  "9B26383BD035DA6C5D6A705599B82702329017606B17B14FB114ECB7CD8DB150",
+                      "relativePath":  "app/test/cmake_pathmap_guard_test.dart"
+                  },
+                  {
+                      "sizeBytes":  12143,
+                      "sha256":  "FE3E35648E3D86BF06365BE0FF887C58C8015EA8DE8F4991D9993243D6ABF9F2",
+                      "relativePath":  "app/test/database/inventory_count_transaction_test.dart"
+                  },
+                  {
+                      "sizeBytes":  11190,
+                      "sha256":  "1DF71654E318BF5B609D07769BAAB33FC8A28B19D40BFEE77E24BC4C066B8E4A",
+                      "relativePath":  "app/test/database/product_deletion_referential_test.dart"
+                  },
+                  {
+                      "sizeBytes":  7554,
+                      "sha256":  "B2218F6F5A4639D29A98ED5D8E10C3301CBEEB5B96072F72F5671CF6B2E45E3D",
+                      "relativePath":  "app/test/database/product_normalization_test.dart"
+                  },
+                  {
+                      "sizeBytes":  18559,
+                      "sha256":  "018B5E171F9BE375C739DE294D3B0716CA90AFEEAA29B369E6CD5478CF078559",
+                      "relativePath":  "app/test/database/product_reference_integrity_test.dart"
+                  },
+                  {
+                      "sizeBytes":  4216,
+                      "sha256":  "94EC6B21BE7947DE2E958ADC2BA506C99F56F61C606B94591A1C8A00396883FA",
+                      "relativePath":  "app/test/database/product_validation_test.dart"
+                  },
+                  {
+                      "sizeBytes":  40959,
+                      "sha256":  "86EDB3553840293610916C6553A6C004407AE4562F90D11B0BB65D293433CDDB",
+                      "relativePath":  "app/test/database/sale_return_update_consistency_test.dart"
+                  },
+                  {
+                      "sizeBytes":  10364,
+                      "sha256":  "FE41223AE2BBCEC1F8E236375694E5B5B6C8FEFDED4DC5949D59DC4F2EBB37A5",
+                      "relativePath":  "app/test/database/sale_transaction_test.dart"
+                  },
+                  {
+                      "sizeBytes":  22225,
+                      "sha256":  "605243D3AA308DBE533BBAB1CE1E3E6B1978613360C6F85B67C14A69C1B14970",
+                      "relativePath":  "app/test/database/user_repository_test.dart"
+                  },
+                  {
+                      "sizeBytes":  16167,
+                      "sha256":  "B4F3D69C1053D3B8EA72B2A7C61E7DB16F3A4E5E2EC19F21BCF652FEAC542126",
+                      "relativePath":  "app/test/database/workbook_import_test.dart"
+                  },
+                  {
+                      "sizeBytes":  8557,
+                      "sha256":  "485320AA3E91AC587EB4CB33EBFA8EF295D6F386CCE0D9D215FD225ACBB62392",
+                      "relativePath":  "app/test/exploratory/barcode_and_deletion_test.dart"
+                  },
+                  {
+                      "sizeBytes":  7769,
+                      "sha256":  "D7FAE292EA23915E70F00A24D64C799B74E9D76D91D0E3CAEA4F942AE60ABCA7",
+                      "relativePath":  "app/test/features/enter_key_behavior_test.dart"
+                  },
+                  {
+                      "sizeBytes":  5455,
+                      "sha256":  "22C9CAD26E6EEC2946D9E8F38A0EB2134A13BC1CEB6E7C2F0AA30D51D09B3DA0",
+                      "relativePath":  "app/test/features/sales_invoice_behavior_test.dart"
+                  },
+                  {
+                      "sizeBytes":  3583,
+                      "sha256":  "C880A067AEB2424EE7A81E1D4D00B92A34CF9447775E10FDEBC5F2289D617235",
+                      "relativePath":  "app/test/helpers/test_schema.dart"
+                  },
+                  {
+                      "sizeBytes":  2488,
+                      "sha256":  "C86B7C4DE8E41A87027565A699246D306CD5769D4100A74DD2AAE010D36B0456",
+                      "relativePath":  "app/test/inject_registrant_guard_test.dart"
+                  },
+                  {
+                      "sizeBytes":  4926,
+                      "sha256":  "D33C2B005336B1BD7A297D7816935BCF5CC10992E5698C726A84EFEEA147C728",
+                      "relativePath":  "app/test/linker_evidence_test.dart"
+                  },
+                  {
+                      "sizeBytes":  9303,
+                      "sha256":  "27AAF747810B368B2333A934AEE3C430CADEFF027FB1995279916524B5034DB2",
+                      "relativePath":  "app/test/muaman13f_fresh_clone_guard_test.dart"
+                  },
+                  {
+                      "sizeBytes":  5377,
+                      "sha256":  "1839FB8070288CDAAB907AE0C6897980DD4E97F02FEF90795337265264ABB518",
+                      "relativePath":  "app/test/pe_inspect_test.dart"
+                  },
+                  {
+                      "sizeBytes":  3918,
+                      "sha256":  "E15785315013B9E8B1506ABBEAAE70B16C1600F3154A3A6D9155DE038F87F105",
+                      "relativePath":  "app/test/release_package_guard_test.dart"
+                  },
+                  {
+                      "sizeBytes":  5069,
+                      "sha256":  "99A8A5F966777C9EB54F6F8C054301E19F937873CEF569F82A018D6BD9BF473E",
+                      "relativePath":  "app/test/repro_compare_test.dart"
+                  },
+                  {
+                      "sizeBytes":  5129,
+                      "sha256":  "94E8A53D21473445D71C8F0DACEAA2A0A9A32E2740614BEE1DA25064694FE65C",
+                      "relativePath":  "app/test/repro_manifest_test.dart"
+                  },
+                  {
+                      "sizeBytes":  5252,
+                      "sha256":  "75E51DCD04AD8BD677C4E8D4A8642B83BD3EE8643EA76619BB01A514C75F8B48",
+                      "relativePath":  "app/test/repro_zip_test.dart"
+                  },
+                  {
+                      "sizeBytes":  5210,
+                      "sha256":  "6113F7BE968E5BF870F9E92C78CFB54595996F3B5F8311CA2CD15F82805AE9B2",
+                      "relativePath":  "app/test/widget_test.dart"
+                  },
+                  {
+                      "sizeBytes":  2937,
+                      "sha256":  "7808EDCC685F838671E64DD5DEDC66E8E49B2C2A3F5905F81AD6C54AC29181BC",
+                      "relativePath":  "app/tool/create_release_manifest.dart"
+                  },
+                  {
+                      "sizeBytes":  2446,
+                      "sha256":  "FBA408A2E27FF346090B6C27C43F25A9D2AA125A6C07C400413DFAD86E549FC1",
+                      "relativePath":  "app/tool/create_release_zip.dart"
+                  },
+                  {
+                      "sizeBytes":  2087,
+                      "sha256":  "F21DEB70AA80E601B79041DC141666C998B4C5A6F8962F6C20EC77433DC3148C",
+                      "relativePath":  "app/tool/inject_registrant_package.ps1"
+                  },
+                  {
+                      "sizeBytes":  6571,
+                      "sha256":  "A41CF8EDAE2A5A7EDA36845F6FA86FF430FC0B101DC4DFF4A032F48A28C86345",
+                      "relativePath":  "app/tool/leak_scan.dart"
+                  },
+                  {
+                      "sizeBytes":  10981,
+                      "sha256":  "6CA5205956A69454649A558B818AACBFA7D60FB65B3B724F7DEF57C6F2A8602A",
+                      "relativePath":  "app/tool/linker_evidence.dart"
+                  },
+                  {
+                      "sizeBytes":  35897,
+                      "sha256":  "08AA4CD7BCA58DFC0BB152C630E413F3101496DA1D25AC52A6F4E6FB062679EE",
+                      "relativePath":  "app/tool/muaman13f_fresh_clone_reproducibility.ps1"
+                  },
+                  {
+                      "sizeBytes":  4350,
+                      "sha256":  "709AB7BCA56DC0316654FDF08C6F326D9FF9C90E053BEAFCEF00007C62D0BC58",
+                      "relativePath":  "app/tool/pe_compare_13d.dart"
+                  },
+                  {
+                      "sizeBytes":  2245,
+                      "sha256":  "5A9096417D42645C08A5CE16C94729DF395F05F47AB2B5A3EEE8AE81D7EA719C",
+                      "relativePath":  "app/tool/pe_info.dart"
+                  },
+                  {
+                      "sizeBytes":  12390,
+                      "sha256":  "3EBA6C37505611F881055B2EC453EC275D628582CBB4DA21C3156BFE56526E0B",
+                      "relativePath":  "app/tool/pe_inspect.dart"
+                  },
+                  {
+                      "sizeBytes":  7726,
+                      "sha256":  "A5DC5CB848B87C8356436060865BE64BB303C21CCA44B105C893791D86C3FF5E",
+                      "relativePath":  "app/tool/release_package_verifier.dart"
+                  },
+                  {
+                      "sizeBytes":  6611,
+                      "sha256":  "AAE39B9B940DBB134176CDB4A9C96CB79E6B0E805E77698AD7DEBEDB6FFE5C59",
+                      "relativePath":  "app/tool/repro_compare.dart"
+                  },
+                  {
+                      "sizeBytes":  4939,
+                      "sha256":  "048BC052DD544816E72D14A7B22BE3902E76B47154398F76F238BBF3ECBDD23A",
+                      "relativePath":  "app/tool/repro_inventory_13d.dart"
+                  },
+                  {
+                      "sizeBytes":  5824,
+                      "sha256":  "A61B6449BB4D3881711611023C362401D3EBD51C9045B4BA37679F4C5454194B",
+                      "relativePath":  "app/tool/repro_manifest.dart"
+                  },
+                  {
+                      "sizeBytes":  4548,
+                      "sha256":  "489B5656330696E3783E2867FC90C307378C5B8A9068DC67169013A405AA489A",
+                      "relativePath":  "app/tool/repro_zip.dart"
+                  },
+                  {
+                      "sizeBytes":  23772,
+                      "sha256":  "509253F22D6DA8A428D59E0CB5FF83EEE93FAD1B123E637A1EC896B59304263A",
+                      "relativePath":  "app/tool/run_repro_13c.ps1"
+                  },
+                  {
+                      "sizeBytes":  39031,
+                      "sha256":  "7D31A57D2533F47C12EE8742AA0C17113198A48B924D085EA75C818AA900D4D9",
+                      "relativePath":  "app/tool/run_repro_13d.ps1"
+                  },
+                  {
+                      "sizeBytes":  38607,
+                      "sha256":  "DAB811116E73730C8256057F4602EE167BD98F9FAAFF134DC784B3BF69C545BD",
+                      "relativePath":  "app/tool/run_repro_13e.ps1"
+                  },
+                  {
+                      "sizeBytes":  16080,
+                      "sha256":  "419826CB7EF6124A490E23AE3E430C20D0D58A20D22730F541DCAA107D83D8B7",
+                      "relativePath":  "app/tool/run_repro_build.ps1"
+                  },
+                  {
+                      "sizeBytes":  1495,
+                      "sha256":  "AFBDC37FF1A298612630E73CAE45D20C6607D319A407F9CB2353A65FC27FD79B",
+                      "relativePath":  "app/tool/verify_release_package.dart"
+                  },
+                  {
+                      "sizeBytes":  917,
+                      "sha256":  "7AB2525F4B86B65D3E4C70358A17E5A1AAF6F437F99CBCC046DAD73D59BB9015",
+                      "relativePath":  "app/web/favicon.png"
+                  },
+                  {
+                      "sizeBytes":  5292,
+                      "sha256":  "3DCE99077602F70421C1C6B2A240BC9B83D64D86681D45F2154143310C980BE3",
+                      "relativePath":  "app/web/icons/Icon-192.png"
+                  },
+                  {
+                      "sizeBytes":  8252,
+                      "sha256":  "BACCB205AE45F0B421BE1657259B4943AC40C95094AB877F3BCBE12CD544DCBE",
+                      "relativePath":  "app/web/icons/Icon-512.png"
+                  },
+                  {
+                      "sizeBytes":  5594,
+                      "sha256":  "D2C842E22A9F4EC9D996B23373A905C88D9A203B220C5C151885AD621F974B5C",
+                      "relativePath":  "app/web/icons/Icon-maskable-192.png"
+                  },
+                  {
+                      "sizeBytes":  20998,
+                      "sha256":  "6AEE06CDCAB6B2AEF74B1734C4778F4421D2DA100B0FF9E52B21B55240202929",
+                      "relativePath":  "app/web/icons/Icon-maskable-512.png"
+                  },
+                  {
+                      "sizeBytes":  1266,
+                      "sha256":  "8E6FD72A5BA39409196B9C6C7189890D0C83007DF3A9BED266D12B4404E16150",
+                      "relativePath":  "app/web/index.html"
+                  },
+                  {
+                      "sizeBytes":  955,
+                      "sha256":  "053EBF2933788C328EA0A382EF0040EAFE0CE0BC834B76F6A2BF6F6732CD667A",
+                      "relativePath":  "app/web/manifest.json"
+                  },
+                  {
+                      "sizeBytes":  308,
+                      "sha256":  "955E3110CB16494EE76E1CD5DF47E2C212309EB94A49A123FE87F718DE413CB8",
+                      "relativePath":  "app/windows/.gitignore"
+                  },
+                  {
+                      "sizeBytes":  6352,
+                      "sha256":  "9B0E025D9577DF322381FC801F4A59AE31A1FBDAD9C75650913E1A0B0BFA7D8E",
+                      "relativePath":  "app/windows/CMakeLists.txt"
+                  },
+                  {
+                      "sizeBytes":  4785,
+                      "sha256":  "2D09783852C781A42E46AD6B1B37F094E1922B5F351840830C7C5DD7129D301B",
+                      "relativePath":  "app/windows/flutter/CMakeLists.txt"
+                  },
+                  {
+                      "sizeBytes":  313,
+                      "sha256":  "26B8703147CA454A3EAD9F028D5B502ED4F182C2483155278B2CB4275E9BA891",
+                      "relativePath":  "app/windows/flutter/generated_plugin_registrant.cc"
+                  },
+                  {
+                      "sizeBytes":  317,
+                      "sha256":  "BAC28D0D2535578BF27DB13B937AA03E7790F98619A322914624C1C4E7CDCC6B",
+                      "relativePath":  "app/windows/flutter/generated_plugin_registrant.h"
+                  },
+                  {
+                      "sizeBytes":  778,
+                      "sha256":  "887AB7989A7B27649F9310729F5CF46B56A6E4D87FF11F6BC07BD067E9F35F9E",
+                      "relativePath":  "app/windows/flutter/generated_plugins.cmake"
+                  },
+                  {
+                      "sizeBytes":  1836,
+                      "sha256":  "D765FDD05F63AD099E585A2CCED0CBFF13EC3229B7DE68C8681B2107DB850089",
+                      "relativePath":  "app/windows/runner/CMakeLists.txt"
+                  },
+                  {
+                      "sizeBytes":  2193,
+                      "sha256":  "D615EEDC06AE37321E59C2C00C7687D1887DCD97904EB7225FAFD8DCB5B83DA6",
+                      "relativePath":  "app/windows/runner/flutter_window.cpp"
+                  },
+                  {
+                      "sizeBytes":  961,
+                      "sha256":  "0252B804F5DA380C7709CBE1DAFF2B8D18DAF6C49D7E6DD43E5AF3C99C19F56C",
+                      "relativePath":  "app/windows/runner/flutter_window.h"
+                  },
+                  {
+                      "sizeBytes":  1308,
+                      "sha256":  "E142CF53AB40820497B352A70BD3F2D3C31F142EA26D20611E22FE0F34FC48D4",
+                      "relativePath":  "app/windows/runner/main.cpp"
+                  },
+                  {
+                      "sizeBytes":  448,
+                      "sha256":  "D0E8BF7835468B4B6B1F8F0747F2E8F25C19841F2DF2AC60AAA584DDAE3AA7C6",
+                      "relativePath":  "app/windows/runner/resource.h"
+                  },
+                  {
+                      "sizeBytes":  33772,
+                      "sha256":  "C098D3FC85CACFF98B8E69811B48E9F0D852FCEE278132D794411D978869CBF8",
+                      "relativePath":  "app/windows/runner/resources/app_icon.ico"
+                  },
+                  {
+                      "sizeBytes":  616,
+                      "sha256":  "639A56233FCD8CBCB8BBEFCD93E4680EC2664F32D9ACFB3D2EC1D8726A96E090",
+                      "relativePath":  "app/windows/runner/runner.exe.manifest"
+                  },
+                  {
+                      "sizeBytes":  3168,
+                      "sha256":  "E541F393E555BC2F15DCC129A498CA0D7688C55A2B6ACD8A29A9EB343EB17BC2",
+                      "relativePath":  "app/windows/runner/Runner.rc"
+                  },
+                  {
+                      "sizeBytes":  1862,
+                      "sha256":  "FBB18524C22593D0CE7869B0733E237BE38E668FE045E3023BCF2D0B31784FA3",
+                      "relativePath":  "app/windows/runner/utils.cpp"
+                  },
+                  {
+                      "sizeBytes":  691,
+                      "sha256":  "832E246B6758253F89016FB0374B30791242E97AD950D27FC678B3D9FEACFDC4",
+                      "relativePath":  "app/windows/runner/utils.h"
+                  },
+                  {
+                      "sizeBytes":  8822,
+                      "sha256":  "4E4F4DCF8E86EA6E097562CB3476039E693449BD8045367538AFEE579C017511",
+                      "relativePath":  "app/windows/runner/win32_window.cpp"
+                  },
+                  {
+                      "sizeBytes":  3624,
+                      "sha256":  "D154CF89BA85F820631A9B5BEDACBE64FC5815E428FE6BC5DA579CE649F69841",
+                      "relativePath":  "app/windows/runner/win32_window.h"
+                  },
+                  {
+                      "sizeBytes":  6791,
+                      "sha256":  "5C7E8775B170B90FDD64A3E531585C7E4E98FC95ABC7DBA20ED9C5A8F8A4DCA9",
+                      "relativePath":  "CODEX.md"
+                  },
+                  {
+                      "sizeBytes":  9109,
+                      "sha256":  "C429D7A52C5C111C97D4ABEF20A7E65E5B54F2520F863004C413588774627C1A",
+                      "relativePath":  "docs/evidence/muaman-13f/acceptance-summary.json"
+                  },
+                  {
+                      "sizeBytes":  5003,
+                      "sha256":  "0C6CFEB3FA03B57FF6ACAD13840E92590719C3B677B823325B00F57C173D3100",
+                      "relativePath":  "docs/evidence/muaman-13f/leak-scan-a.json"
+                  },
+                  {
+                      "sizeBytes":  5060,
+                      "sha256":  "7F77DAEA1EA613D60C221DEF4309CA736BDA1EAF21B7891842A1A871A773B26A",
+                      "relativePath":  "docs/evidence/muaman-13f/leak-scan-b.json"
+                  },
+                  {
+                      "sizeBytes":  4011,
+                      "sha256":  "FF9ED8727C7F14108E2DB8ACEE7FC697ED8C9AAFA4DD84FAC0535714543CC010",
+                      "relativePath":  "docs/evidence/muaman-13f/manifest-a.json"
+                  },
+                  {
+                      "sizeBytes":  4011,
+                      "sha256":  "FF9ED8727C7F14108E2DB8ACEE7FC697ED8C9AAFA4DD84FAC0535714543CC010",
+                      "relativePath":  "docs/evidence/muaman-13f/manifest-b.json"
+                  },
+                  {
+                      "sizeBytes":  2330,
+                      "sha256":  "40DA07838915004B19D60BE01F8664CD310BB0257366F9C9818341271590DDC3",
+                      "relativePath":  "docs/evidence/muaman-13f/pe-comparison.json"
+                  },
+                  {
+                      "sizeBytes":  4159,
+                      "sha256":  "85426ED7FD3069EFA9CBFCAD6B907391EF018156F398FC2FD2BD7F59C214C8D1",
+                      "relativePath":  "docs/evidence/muaman-13f/pe-inspection-a.json"
+                  },
+                  {
+                      "sizeBytes":  4387,
+                      "sha256":  "763184396E98E590FE21BAAC88E494D71D29A101AB4209152D5746B75903EFD0",
+                      "relativePath":  "docs/evidence/muaman-13f/pe-inspection-b.json"
+                  },
+                  {
+                      "sizeBytes":  14481448,
+                      "sha256":  "DA9C4B0451A3F92FAE88431438518537B11C9ECDF7A6ED3AEE0C3E6204D01665",
+                      "relativePath":  "docs/evidence/muaman-13f/release-a.zip"
+                  },
+                  {
+                      "sizeBytes":  14481448,
+                      "sha256":  "DA9C4B0451A3F92FAE88431438518537B11C9ECDF7A6ED3AEE0C3E6204D01665",
+                      "relativePath":  "docs/evidence/muaman-13f/release-b.zip"
+                  },
+                  {
+                      "sizeBytes":  4221,
+                      "sha256":  "5B4BCE5B0014D7A1D0235F35F499DF01FA5422F04BB64D66A8F8A9BD4BBD81EC",
+                      "relativePath":  "docs/MUAMAN-13F-INDEPENDENT-FRESH-CLONE-COMMITTED-STATE-REPRODUCIBILITY-ACCEPTANCE.md"
+                  }
+              ]
+}

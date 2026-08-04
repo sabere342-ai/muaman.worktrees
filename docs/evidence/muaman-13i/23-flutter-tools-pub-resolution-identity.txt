@@ -1,0 +1,23 @@
+MUAMAN-13I FLUTTER TOOLS PUB RESOLUTION IDENTITY
+================================================
+Captured (UTC): 2026-08-04 20:22:00
+Scope: packages\flutter_tools dependency resolution after snapshot rebuild
+
+pubspec.lock:
+  SDK A SHA-256: 66955192347D2D4EB24476745462C80A11D9BBF19A461F3504BBBD86E366EE8E (22,451 bytes)
+  SDK B SHA-256: 66955192347D2D4EB24476745462C80A11D9BBF19A461F3504BBBD86E366EE8E (22,451 bytes)
+  Byte-identical: True
+
+.dart_tool\package_config.json:
+  Package name/version entry sets: identical, 97 entries in each SDK.
+  The files themselves differ only in embedded absolute path strings
+  (each SDK root and isolated env root appear in the URI roots).
+  This is the expected, legitimate difference.
+
+Implication:
+  Both SDKs' tool snapshot is compiled from the same resolved dependency
+  set. Any remaining snapshot binary difference is purely path-string
+  length, consistent with the deliberate SDK-root length delta (67 chars)
+  and isolated env root deltas. Version drift between A and B is excluded.
+
+Result: PASS - identical package resolution across independent SDKs

@@ -1,0 +1,30 @@
+MUAMAN-13I OFFICIAL ARCHIVE METADATA (HEAD request, HTTPS)
+==========================================================
+Captured (UTC): 2026-08-04 18:34:52
+URL: https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.24.5-stable.zip
+Tool: curl 8.14.1 (Windows) libcurl/8.14.1 Schannel (HTTPS via Schannel)
+
+HTTP/1.1 200 OK
+Content-Type: application/x-zip-compressed
+Last-Modified: Thu, 14 Nov 2024 01:24:49 GMT
+ETag: "d8e79c31a78162236f993e8eee613e75"
+x-goog-generation: 1731547489072367
+x-goog-metageneration: 1
+x-goog-stored-content-encoding: identity
+x-goog-stored-content-length: 1033788155
+x-goog-hash: crc32c=uCS8QQ==
+x-goog-hash: md5=2OecMaeBYiNvmT6O7mE+dQ==
+x-goog-storage-class: STANDARD
+Accept-Ranges: bytes
+Content-Length: 1033788155
+Server: UploadServer
+
+Notes:
+- HTTPS transport (Schannel), HTTP 200.
+- Content-Length 1,033,788,155 matches MUAMAN-13H downloaded size exactly.
+- Vendor-published SHA-256 from releases_windows.json (version 3.24.5):
+  B8A7485ACD3C6FB23A76B7AC09F89E8D93D62FBFF7147C6F5F8C5686D949EEAC
+- Google Cloud Storage publishes CRC32C and MD5 digests in x-goog-hash.
+  These are storage-level digests of the object, not a cryptographic signature.
+  Provenance is additionally established in MUAMAN-13I by two independent
+  HTTPS downloads with identical byte size and identical SHA-256.

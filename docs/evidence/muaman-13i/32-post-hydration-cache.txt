@@ -1,0 +1,29 @@
+MUAMAN-13I POST-HYDRATION PACKAGE GRAPH COMPARISON
+==================================================
+Captured (UTC): 2026-08-04 20:35:00
+Generated in each app source root by flutter pub get:
+  .dart_tool\package_config.json
+  .flutter-plugins-dependencies
+
+app\pubspec.lock after hydration:
+  A SHA-256: EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A
+  B SHA-256: EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A
+  Unchanged by hydration: True (matches canonical)
+
+app\.dart_tool\package_config.json:
+  Package name=version entries identical: True (65 entries in each)
+  Files differ only in embedded absolute path strings (env roots).
+
+app\.flutter-plugins-dependencies:
+  Same plugin set and versions in both (printing 5.14.3, sqflite*, integration_test).
+  Files differ only in embedded absolute path strings and the runtime
+  "date_created" timestamp. These generated files live in the build root
+  (never committed); they are inputs to the build but the release output is
+  proven byte-identical across environments in evidence 38-42, consistent
+  with 13H.
+
+PUB_CACHE after hydration:
+  A: 9,085 files ; B: 9,085 files
+
+Result: PASS - resolved package graphs identical; only path/timestamp noise
+differs in generated files

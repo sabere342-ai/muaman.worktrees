@@ -1,0 +1,36 @@
+MUAMAN-13I INITIAL COLD-STATE PROOF - ENVIRONMENTS A AND B
+==========================================================
+Captured (UTC): 2026-08-04 20:26:00
+This capture happens after the flutter_tools snapshot regeneration phase
+(evidence 21), so the isolated PUB_CACHE for each environment already
+contains the flutter_tools toolchain dependency set. The APP dependency
+set is not yet present (app pub get has not run).
+
+Source roots:
+  A: C:\m13i\a\src (13 chars)
+  B: C:\dev\muaman-13i-environment-b-independent-source-extraction-root (67 chars)
+
+-- PUB_CACHE (contains only flutter_tools deps from snapshot regen) --
+  A: 6,825 files ; hosted packages: 96 ; package@version entries: 287
+  B: 6,825 files ; hosted packages: 96 ; package@version entries: 287
+  Hosted package name sets identical: True
+  package@version sets identical: True
+  => the two caches are equivalent toolchain dependency sets; app packages
+     (pdf, sqflite, printing, image, intl, qr, xml, ...) are absent.
+
+-- TEMP/TMP --
+  A: 0 files ; B: 0 files
+
+-- HOME/APPDATA/LOCALAPPDATA --
+  A home: 0 files ; B home: 0 files
+
+-- Source tree build artifacts --
+  A app\.dart_tool: False ; A app\build: False ; A app\windows\flutter\ephemeral: False
+  B app\.dart_tool: False ; B app\build: False ; B app\windows\flutter\ephemeral: False
+
+-- Windows Release dir --
+  A exists: False ; B exists: False
+
+Result: PASS - no app build artifacts, no app dependency cache, no prior
+binaries in either environment; only the toolchain dependency set present
+(symmetrically identical between A and B)

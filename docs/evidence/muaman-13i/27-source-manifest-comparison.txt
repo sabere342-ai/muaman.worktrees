@@ -1,0 +1,31 @@
+MUAMAN-13I SOURCE MANIFEST COMPARISON (A vs B vs CANONICAL)
+===========================================================
+Captured (UTC): 2026-08-04 20:25:30
+Manifests: 25-source-manifest-a.json, 26-source-manifest-b.json
+(per-file sizeBytes + sha256 for all extracted files)
+
+SDK A source root (C:\m13i\a\src):
+  fileCount: 304
+  totalBytes: 31,647,662
+SDK B source root (C:\dev\muaman-13i-environment-b-independent-source-extraction-root):
+  fileCount: 304
+  totalBytes: 31,647,662
+
+Comparison results:
+  Path sets identical (A vs B): True
+  Per-file hash/size mismatches (A vs B): 0
+  Files only in A: 0
+  Files only in B: 0
+  A == B source trees: byte-identical (all 304 files)
+
+.git metadata absence:
+  A: C:\m13i\a\src\.git exists: False
+  B: ...\source-extraction-root\.git exists: False
+  (Git-free extraction verified; only committed content is present)
+
+Canonical 13G/13H source state: 304 files / 31,647,662 bytes
+  A matches canonical: True
+  B matches canonical: True
+
+Result: PASS - both source trees byte-identical to each other and to the
+canonical 13G/13H build source; no Git metadata present

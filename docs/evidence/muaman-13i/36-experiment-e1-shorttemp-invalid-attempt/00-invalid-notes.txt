@@ -1,0 +1,3 @@
+﻿INVALID FIRST ATTEMPT - discarded.
+Cause: run_experiment.ps1 set TEMP/TMP to a non-existent fresh root C:\t\m13i-b before creating it; dart.exe failed with 'The system cannot find the path specified.' cleanExit=1 pubGetExit=1 buildLogBytes=0 -> build silently reused E0 artifacts (releaseDir=13, rspCaptureCount=0).
+Fix: run_experiment.ps1 now pre-creates TmpRoot before setting env. Re-run into '36-experiment-e1-shorttemp'.

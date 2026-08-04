@@ -1,0 +1,34 @@
+MUAMAN-13I SOURCE ARCHIVE GENERATION
+====================================
+Captured (UTC): 2026-08-04 20:25:00
+The build source is the canonical app source used by 13G/13H: the git
+archive of the 13F baseline commit 7890ba6ed6b0a8a17797b3d370acc662875fc79a.
+Archiving the same commit reproduces the canonical archive byte-for-byte
+(git archive is deterministic: file mtimes come from the commit).
+
+Command (run independently for each archive):
+  git archive --format=tar --output=<out> 7890ba6ed6b0a8a17797b3d370acc662875fc79a
+
+Archive A: C:\Users\saber\AppData\Local\Temp\opencode\mu13i-src-arcs\archive-a.tar
+  SHA-256: 17A1DD24CE0DCBD1160BE3E66BDB3F89EB287173D5FCBE079A7C7A46F68DAF6F
+  Size: 31,938,560 bytes
+Archive B: C:\Users\saber\AppData\Local\Temp\opencode\mu13i-src-arcs\archive-b.tar
+  SHA-256: 17A1DD24CE0DCBD1160BE3E66BDB3F89EB287173D5FCBE079A7C7A46F68DAF6F
+  Size: 31,938,560 bytes
+
+Canonical MUAMAN-13G/13H source archive SHA-256: 17A1DD24CE0DCBD1160BE3E66BDB3F89EB287173D5FCBE079A7C7A46F68DAF6F
+Archive A matches canonical: True
+Archive B matches canonical: True
+Archive A == Archive B (byte-identical): True
+
+Both archives were produced by independent git archive invocations (not
+copied from each other), then extracted independently into separate source
+roots (evidence 25/26/27). Archives were deleted after extraction; hashes
+remain recorded here.
+
+Source roots (path diversity):
+  A: C:\m13i\a\src (13 chars)
+  B: C:\dev\muaman-13i-environment-b-independent-source-extraction-root (67 chars)
+  Source-root path delta: 54 chars (minimum required 50) => PASS
+
+Result: PASS - canonical source provenance reproduced; archives byte-identical

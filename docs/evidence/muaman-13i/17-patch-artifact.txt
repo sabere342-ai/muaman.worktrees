@@ -1,0 +1,45 @@
+MUAMAN-13I CANONICAL PATCH ARTIFACT
+===================================
+Captured (UTC): 2026-08-04 19:21:20
+Artifact: tools/muaman13i/flutter-vs2026-generator.patch
+SHA-256:  0C62F46CD1FB0775A435861F6A2AEA4A33D5642382F524380E6A37B762B063C3
+Size (bytes): 1737
+Line endings: CRLF (matches target file line endings for byte-exact context)
+
+Relative paths (stable, no machine-specific absolute paths):
+  a/packages/flutter_tools/lib/src/windows/visual_studio.dart
+  b/packages/flutter_tools/lib/src/windows/visual_studio.dart
+
+Index header (content hashes of preimage/postimage blobs):
+  index eb7e701..fceb372 100644
+
+Diffstat: 1 file changed, 3 insertions(+)
+
+Patch content:
+  @@ -180,6 +180,7 @@ class VisualStudio {
+     String? get cmakeGenerator {
+       // From https://cmake.org/cmake/help/v3.22/manual/cmake-generators.7.html#visual-studio-generators
+       return switch (_majorVersion) {
+  +     18 => 'Visual Studio 18 2026',
+       17 => 'Visual Studio 17 2022',
+       _  => 'Visual Studio 16 2019',
+     };
+   @@ -287,6 +288,8 @@ class VisualStudio {
+       // relevant for the most likely fresh install case).
+       String cppToolchainDescription;
+       switch (majorVersion ?? _majorVersion) {
+  +      case 18:
+  +        cppToolchainDescription = 'MSVC v144 - VS 2026 C++ x64/x86 build tools';
+        case 16:
+        default:
+          cppToolchainDescription = 'MSVC v142 - VS 2019 C++ x64/x86 build tools';
+
+Validation:
+  - git apply --check on pristine CRLF file: exit 0 (applies cleanly)
+  - git apply on pristine CRLF file: exit 0; postimage SHA-256 =
+    D08E9D71E978FDE1478FBF438DCEA6D16D26EA966D271F7D5108AC86E3CC5423
+  - git apply --check on tampered preimage: exit 1 ("patch does not apply")
+  - The apply script re-validates preimage/postimage hashes and the
+    no-other-file-modified invariant on every application.
+
+Result: PASS - single canonical patch artifact, deterministic and fail-safe

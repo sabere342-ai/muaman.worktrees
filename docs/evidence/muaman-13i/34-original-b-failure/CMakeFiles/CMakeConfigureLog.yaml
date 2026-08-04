@@ -1,0 +1,1764 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineSystem.cmake:212 (message)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      The system is: Windows - 10.0.26200 - AMD64
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/"
+    found: "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\PostgreSQL\\18\\bin"
+        - "C:\\src\\flutter\\bin"
+        - "C:\\Users\\saber\\AppData\\Roaming\\npm"
+        - "C:\\Users\\saber\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\saber\\AppData\\Local\\Microsoft\\WinGet\\Links"
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin\\mingit\\cmd"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      1
+      MSBuild version 18.6.3+84d3e95b4 for .NET Framework
+      Build started 8/4/2026 11:40:14 PM.
+      
+      Project "C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
+      PrepareForBuild:
+        Creating directory "Debug\\".
+        Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+        Creating directory "Debug\\CompilerIdCXX.tlog\\".
+      InitializeBuildStatus:
+        Creating "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+        Touching "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
+      ClCompile:
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc145.pdb" /external:W0 /Gd /TP /FC /errorReport:queue CMakeCXXCompilerId.cpp
+        CMakeCXXCompilerId.cpp
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018: The "CL" task failed unexpectedly. [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018: System.IndexOutOfRangeException: Index was outside the bounds of the array. [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.FileTracker.FileIsUnderNormalizedPath(String fileName, String path) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.FileTracker.FileIsExcludedFromDependencies(String fileName) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles.ConstructDependencyTable() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles.InternalConstruct(ITask ownerTask, ITaskItem[] tlogFiles, ITaskItem[] sourceFiles, ITaskItem[] outputFiles, ITaskItem[] excludedInputPaths, CanonicalTrackedOutputFiles outputs, Boolean useMinimalRebuildOptimization, Boolean maintainCompositeRootingMarkers) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles..ctor(ITaskItem[] tlogFiles, ITaskItem[] sourceFiles, ITaskItem[] excludedInputPaths, CanonicalTrackedOutputFiles outputs, Boolean useMinimalRebuildOptimization, Boolean maintainCompositeRootingMarkers) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.CL.PostExecuteTool(Int32 exitCode) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.TrackedVCToolTask.ExecuteTool(String pathToTool, String responseFileCommands, String commandLineCommands) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.CL.ExecuteTool(String pathToTool, String responseFileCommands, String commandLineCommands) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.ToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.VCToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.TrackedVCToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskExecutionHost.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskBuilder.<ExecuteInstantiatedTask>d__26.MoveNext() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      Done Building Project "C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (default targets) -- FAILED.
+      
+      Build FAILED.
+      
+      "C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (default target) (1) ->
+      (ClCompile target) -> 
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018: The "CL" task failed unexpectedly. [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018: System.IndexOutOfRangeException: Index was outside the bounds of the array. [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.FileTracker.FileIsUnderNormalizedPath(String fileName, String path) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.FileTracker.FileIsExcludedFromDependencies(String fileName) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles.ConstructDependencyTable() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles.InternalConstruct(ITask ownerTask, ITaskItem[] tlogFiles, ITaskItem[] sourceFiles, ITaskItem[] outputFiles, ITaskItem[] excludedInputPaths, CanonicalTrackedOutputFiles outputs, Boolean useMinimalRebuildOptimization, Boolean maintainCompositeRootingMarkers) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles..ctor(ITaskItem[] tlogFiles, ITaskItem[] sourceFiles, ITaskItem[] excludedInputPaths, CanonicalTrackedOutputFiles outputs, Boolean useMinimalRebuildOptimization, Boolean maintainCompositeRootingMarkers) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.CL.PostExecuteTool(Int32 exitCode) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.TrackedVCToolTask.ExecuteTool(String pathToTool, String responseFileCommands, String commandLineCommands) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.CL.ExecuteTool(String pathToTool, String responseFileCommands, String commandLineCommands) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.ToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.VCToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.TrackedVCToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskExecutionHost.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskBuilder.<ExecuteInstantiatedTask>d__26.MoveNext() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      
+          0 Warning(s)
+          1 Error(s)
+      
+      Time Elapsed 00:00:00.51
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/"
+    found: "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\PostgreSQL\\18\\bin"
+        - "C:\\src\\flutter\\bin"
+        - "C:\\Users\\saber\\AppData\\Roaming\\npm"
+        - "C:\\Users\\saber\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\saber\\AppData\\Local\\Microsoft\\WinGet\\Links"
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin\\mingit\\cmd"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      1
+      MSBuild version 18.6.3+84d3e95b4 for .NET Framework
+      Build started 8/4/2026 11:40:15 PM.
+      
+      Project "C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
+      PrepareForBuild:
+        Creating directory "Debug\\".
+        Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+        Creating directory "Debug\\CompilerIdCXX.tlog\\".
+      InitializeBuildStatus:
+        Creating "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+        Touching "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
+      ClCompile:
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc145.pdb" /external:W0 /Gd /TP /FC /errorReport:queue CMakeCXXCompilerId.cpp
+        CMakeCXXCompilerId.cpp
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018: The "CL" task failed unexpectedly. [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018: System.IndexOutOfRangeException: Index was outside the bounds of the array. [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.FileTracker.FileIsUnderNormalizedPath(String fileName, String path) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.FileTracker.FileIsExcludedFromDependencies(String fileName) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles.ConstructDependencyTable() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles.InternalConstruct(ITask ownerTask, ITaskItem[] tlogFiles, ITaskItem[] sourceFiles, ITaskItem[] outputFiles, ITaskItem[] excludedInputPaths, CanonicalTrackedOutputFiles outputs, Boolean useMinimalRebuildOptimization, Boolean maintainCompositeRootingMarkers) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles..ctor(ITaskItem[] tlogFiles, ITaskItem[] sourceFiles, ITaskItem[] excludedInputPaths, CanonicalTrackedOutputFiles outputs, Boolean useMinimalRebuildOptimization, Boolean maintainCompositeRootingMarkers) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.CL.PostExecuteTool(Int32 exitCode) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.TrackedVCToolTask.ExecuteTool(String pathToTool, String responseFileCommands, String commandLineCommands) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.CL.ExecuteTool(String pathToTool, String responseFileCommands, String commandLineCommands) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.ToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.VCToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.TrackedVCToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskExecutionHost.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskBuilder.<ExecuteInstantiatedTask>d__26.MoveNext() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      Done Building Project "C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (default targets) -- FAILED.
+      
+      Build FAILED.
+      
+      "C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (default target) (1) ->
+      (ClCompile target) -> 
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018: The "CL" task failed unexpectedly. [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018: System.IndexOutOfRangeException: Index was outside the bounds of the array. [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.FileTracker.FileIsUnderNormalizedPath(String fileName, String path) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.FileTracker.FileIsExcludedFromDependencies(String fileName) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles.ConstructDependencyTable() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles.InternalConstruct(ITask ownerTask, ITaskItem[] tlogFiles, ITaskItem[] sourceFiles, ITaskItem[] outputFiles, ITaskItem[] excludedInputPaths, CanonicalTrackedOutputFiles outputs, Boolean useMinimalRebuildOptimization, Boolean maintainCompositeRootingMarkers) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles..ctor(ITaskItem[] tlogFiles, ITaskItem[] sourceFiles, ITaskItem[] excludedInputPaths, CanonicalTrackedOutputFiles outputs, Boolean useMinimalRebuildOptimization, Boolean maintainCompositeRootingMarkers) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.CL.PostExecuteTool(Int32 exitCode) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.TrackedVCToolTask.ExecuteTool(String pathToTool, String responseFileCommands, String commandLineCommands) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.CL.ExecuteTool(String pathToTool, String responseFileCommands, String commandLineCommands) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.ToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.VCToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.TrackedVCToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskExecutionHost.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskBuilder.<ExecuteInstantiatedTask>d__26.MoveNext() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      
+          0 Warning(s)
+          1 Error(s)
+      
+      Time Elapsed 00:00:00.43
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:103 (__resolve_linker_path)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "link"
+    candidate_directories:
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Python314/Scripts/"
+      - "C:/Python314/"
+      - "C:/Windows/SysWOW64/"
+      - "C:/Windows/"
+      - "C:/Windows/SysWOW64/wbem/"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/"
+      - "C:/Windows/SysWOW64/OpenSSH/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/Docker/Docker/resources/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/PostgreSQL/18/bin/"
+      - "C:/src/flutter/bin/"
+      - "C:/Users/saber/AppData/Roaming/npm/"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/"
+    searched_directories:
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/link.com"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/link.exe"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/link"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/link.com"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/link.exe"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/link"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/link.com"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/link.exe"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/link"
+      - "C:/Python314/Scripts/link.com"
+      - "C:/Python314/Scripts/link.exe"
+      - "C:/Python314/Scripts/link"
+      - "C:/Python314/link.com"
+      - "C:/Python314/link.exe"
+      - "C:/Python314/link"
+      - "C:/Windows/SysWOW64/link.com"
+      - "C:/Windows/SysWOW64/link.exe"
+      - "C:/Windows/SysWOW64/link"
+      - "C:/Windows/link.com"
+      - "C:/Windows/link.exe"
+      - "C:/Windows/link"
+      - "C:/Windows/SysWOW64/wbem/link.com"
+      - "C:/Windows/SysWOW64/wbem/link.exe"
+      - "C:/Windows/SysWOW64/wbem/link"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/link.com"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/link.exe"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/link"
+      - "C:/Windows/SysWOW64/OpenSSH/link.com"
+      - "C:/Windows/SysWOW64/OpenSSH/link.exe"
+      - "C:/Windows/SysWOW64/OpenSSH/link"
+      - "C:/ProgramData/chocolatey/bin/link.com"
+      - "C:/ProgramData/chocolatey/bin/link.exe"
+      - "C:/ProgramData/chocolatey/bin/link"
+      - "C:/Program Files/nodejs/link.com"
+      - "C:/Program Files/nodejs/link.exe"
+      - "C:/Program Files/nodejs/link"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/link.com"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/link.exe"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/link"
+      - "C:/Program Files/dotnet/link.com"
+      - "C:/Program Files/dotnet/link.exe"
+      - "C:/Program Files/dotnet/link"
+      - "C:/Program Files/CMake/bin/link.com"
+      - "C:/Program Files/CMake/bin/link.exe"
+      - "C:/Program Files/CMake/bin/link"
+      - "C:/Program Files/Docker/Docker/resources/bin/link.com"
+      - "C:/Program Files/Docker/Docker/resources/bin/link.exe"
+      - "C:/Program Files/Docker/Docker/resources/bin/link"
+      - "C:/Program Files/Git/cmd/link.com"
+      - "C:/Program Files/Git/cmd/link.exe"
+      - "C:/Program Files/Git/cmd/link"
+      - "C:/Program Files/PostgreSQL/18/bin/link.com"
+      - "C:/Program Files/PostgreSQL/18/bin/link.exe"
+      - "C:/Program Files/PostgreSQL/18/bin/link"
+      - "C:/src/flutter/bin/link.com"
+      - "C:/src/flutter/bin/link.exe"
+      - "C:/src/flutter/bin/link"
+      - "C:/Users/saber/AppData/Roaming/npm/link.com"
+      - "C:/Users/saber/AppData/Roaming/npm/link.exe"
+      - "C:/Users/saber/AppData/Roaming/npm/link"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/link.com"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/link.exe"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/link"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/link.com"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/link.exe"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/link"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/link.com"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/link.exe"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\PostgreSQL\\18\\bin"
+        - "C:\\src\\flutter\\bin"
+        - "C:\\Users\\saber\\AppData\\Roaming\\npm"
+        - "C:\\Users\\saber\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\saber\\AppData\\Local\\Microsoft\\WinGet\\Links"
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin\\mingit\\cmd"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:104 (__resolve_linker_path)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lld-link"
+    candidate_directories:
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Python314/Scripts/"
+      - "C:/Python314/"
+      - "C:/Windows/SysWOW64/"
+      - "C:/Windows/"
+      - "C:/Windows/SysWOW64/wbem/"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/"
+      - "C:/Windows/SysWOW64/OpenSSH/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/Docker/Docker/resources/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/PostgreSQL/18/bin/"
+      - "C:/src/flutter/bin/"
+      - "C:/Users/saber/AppData/Roaming/npm/"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/"
+    searched_directories:
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/lld-link.com"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/lld-link.exe"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/lld-link"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/lld-link.com"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/lld-link.exe"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/lld-link"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/lld-link.com"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/lld-link.exe"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/lld-link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/lld-link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/lld-link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/lld-link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link"
+      - "C:/Python314/Scripts/lld-link.com"
+      - "C:/Python314/Scripts/lld-link.exe"
+      - "C:/Python314/Scripts/lld-link"
+      - "C:/Python314/lld-link.com"
+      - "C:/Python314/lld-link.exe"
+      - "C:/Python314/lld-link"
+      - "C:/Windows/SysWOW64/lld-link.com"
+      - "C:/Windows/SysWOW64/lld-link.exe"
+      - "C:/Windows/SysWOW64/lld-link"
+      - "C:/Windows/lld-link.com"
+      - "C:/Windows/lld-link.exe"
+      - "C:/Windows/lld-link"
+      - "C:/Windows/SysWOW64/wbem/lld-link.com"
+      - "C:/Windows/SysWOW64/wbem/lld-link.exe"
+      - "C:/Windows/SysWOW64/wbem/lld-link"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/lld-link.com"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/lld-link.exe"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/lld-link"
+      - "C:/Windows/SysWOW64/OpenSSH/lld-link.com"
+      - "C:/Windows/SysWOW64/OpenSSH/lld-link.exe"
+      - "C:/Windows/SysWOW64/OpenSSH/lld-link"
+      - "C:/ProgramData/chocolatey/bin/lld-link.com"
+      - "C:/ProgramData/chocolatey/bin/lld-link.exe"
+      - "C:/ProgramData/chocolatey/bin/lld-link"
+      - "C:/Program Files/nodejs/lld-link.com"
+      - "C:/Program Files/nodejs/lld-link.exe"
+      - "C:/Program Files/nodejs/lld-link"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/lld-link.com"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/lld-link.exe"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/lld-link"
+      - "C:/Program Files/dotnet/lld-link.com"
+      - "C:/Program Files/dotnet/lld-link.exe"
+      - "C:/Program Files/dotnet/lld-link"
+      - "C:/Program Files/CMake/bin/lld-link.com"
+      - "C:/Program Files/CMake/bin/lld-link.exe"
+      - "C:/Program Files/CMake/bin/lld-link"
+      - "C:/Program Files/Docker/Docker/resources/bin/lld-link.com"
+      - "C:/Program Files/Docker/Docker/resources/bin/lld-link.exe"
+      - "C:/Program Files/Docker/Docker/resources/bin/lld-link"
+      - "C:/Program Files/Git/cmd/lld-link.com"
+      - "C:/Program Files/Git/cmd/lld-link.exe"
+      - "C:/Program Files/Git/cmd/lld-link"
+      - "C:/Program Files/PostgreSQL/18/bin/lld-link.com"
+      - "C:/Program Files/PostgreSQL/18/bin/lld-link.exe"
+      - "C:/Program Files/PostgreSQL/18/bin/lld-link"
+      - "C:/src/flutter/bin/lld-link.com"
+      - "C:/src/flutter/bin/lld-link.exe"
+      - "C:/src/flutter/bin/lld-link"
+      - "C:/Users/saber/AppData/Roaming/npm/lld-link.com"
+      - "C:/Users/saber/AppData/Roaming/npm/lld-link.exe"
+      - "C:/Users/saber/AppData/Roaming/npm/lld-link"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/lld-link.com"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/lld-link.exe"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/lld-link"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/lld-link.com"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/lld-link.exe"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/lld-link"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/lld-link.com"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/lld-link.exe"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/lld-link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\PostgreSQL\\18\\bin"
+        - "C:\\src\\flutter\\bin"
+        - "C:\\Users\\saber\\AppData\\Roaming\\npm"
+        - "C:\\Users\\saber\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\saber\\AppData\\Local\\Microsoft\\WinGet\\Links"
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin\\mingit\\cmd"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "CMAKE_LINKER"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "link"
+    candidate_directories:
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Python314/Scripts/"
+      - "C:/Python314/"
+      - "C:/Windows/SysWOW64/"
+      - "C:/Windows/"
+      - "C:/Windows/SysWOW64/wbem/"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/"
+      - "C:/Windows/SysWOW64/OpenSSH/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/Docker/Docker/resources/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/PostgreSQL/18/bin/"
+      - "C:/src/flutter/bin/"
+      - "C:/Users/saber/AppData/Roaming/npm/"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/"
+    searched_directories:
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/link.com"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/link.exe"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/link"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/link.com"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/link.exe"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/link"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/link.com"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/link.exe"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/link"
+      - "C:/Python314/Scripts/link.com"
+      - "C:/Python314/Scripts/link.exe"
+      - "C:/Python314/Scripts/link"
+      - "C:/Python314/link.com"
+      - "C:/Python314/link.exe"
+      - "C:/Python314/link"
+      - "C:/Windows/SysWOW64/link.com"
+      - "C:/Windows/SysWOW64/link.exe"
+      - "C:/Windows/SysWOW64/link"
+      - "C:/Windows/link.com"
+      - "C:/Windows/link.exe"
+      - "C:/Windows/link"
+      - "C:/Windows/SysWOW64/wbem/link.com"
+      - "C:/Windows/SysWOW64/wbem/link.exe"
+      - "C:/Windows/SysWOW64/wbem/link"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/link.com"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/link.exe"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/link"
+      - "C:/Windows/SysWOW64/OpenSSH/link.com"
+      - "C:/Windows/SysWOW64/OpenSSH/link.exe"
+      - "C:/Windows/SysWOW64/OpenSSH/link"
+      - "C:/ProgramData/chocolatey/bin/link.com"
+      - "C:/ProgramData/chocolatey/bin/link.exe"
+      - "C:/ProgramData/chocolatey/bin/link"
+      - "C:/Program Files/nodejs/link.com"
+      - "C:/Program Files/nodejs/link.exe"
+      - "C:/Program Files/nodejs/link"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/link.com"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/link.exe"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/link"
+      - "C:/Program Files/dotnet/link.com"
+      - "C:/Program Files/dotnet/link.exe"
+      - "C:/Program Files/dotnet/link"
+      - "C:/Program Files/CMake/bin/link.com"
+      - "C:/Program Files/CMake/bin/link.exe"
+      - "C:/Program Files/CMake/bin/link"
+      - "C:/Program Files/Docker/Docker/resources/bin/link.com"
+      - "C:/Program Files/Docker/Docker/resources/bin/link.exe"
+      - "C:/Program Files/Docker/Docker/resources/bin/link"
+      - "C:/Program Files/Git/cmd/link.com"
+      - "C:/Program Files/Git/cmd/link.exe"
+      - "C:/Program Files/Git/cmd/link"
+      - "C:/Program Files/PostgreSQL/18/bin/link.com"
+      - "C:/Program Files/PostgreSQL/18/bin/link.exe"
+      - "C:/Program Files/PostgreSQL/18/bin/link"
+      - "C:/src/flutter/bin/link.com"
+      - "C:/src/flutter/bin/link.exe"
+      - "C:/src/flutter/bin/link"
+      - "C:/Users/saber/AppData/Roaming/npm/link.com"
+      - "C:/Users/saber/AppData/Roaming/npm/link.exe"
+      - "C:/Users/saber/AppData/Roaming/npm/link"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/link.com"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/link.exe"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/link"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/link.com"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/link.exe"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/link"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/link.com"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/link.exe"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\PostgreSQL\\18\\bin"
+        - "C:\\src\\flutter\\bin"
+        - "C:\\Users\\saber\\AppData\\Roaming\\npm"
+        - "C:\\Users\\saber\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\saber\\AppData\\Local\\Microsoft\\WinGet\\Links"
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin\\mingit\\cmd"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "CMAKE_MT"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "mt"
+    candidate_directories:
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Python314/Scripts/"
+      - "C:/Python314/"
+      - "C:/Windows/SysWOW64/"
+      - "C:/Windows/"
+      - "C:/Windows/SysWOW64/wbem/"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/"
+      - "C:/Windows/SysWOW64/OpenSSH/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/Docker/Docker/resources/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/PostgreSQL/18/bin/"
+      - "C:/src/flutter/bin/"
+      - "C:/Users/saber/AppData/Roaming/npm/"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/"
+    searched_directories:
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mt.com"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mt.exe"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mt"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/mt.com"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/mt.exe"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/mt"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/mt.com"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/mt.exe"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/mt"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/mt.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/mt.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/mt"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/mt.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/mt.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/mt"
+      - "C:/Python314/Scripts/mt.com"
+      - "C:/Python314/Scripts/mt.exe"
+      - "C:/Python314/Scripts/mt"
+      - "C:/Python314/mt.com"
+      - "C:/Python314/mt.exe"
+      - "C:/Python314/mt"
+      - "C:/Windows/SysWOW64/mt.com"
+      - "C:/Windows/SysWOW64/mt.exe"
+      - "C:/Windows/SysWOW64/mt"
+      - "C:/Windows/mt.com"
+      - "C:/Windows/mt.exe"
+      - "C:/Windows/mt"
+      - "C:/Windows/SysWOW64/wbem/mt.com"
+      - "C:/Windows/SysWOW64/wbem/mt.exe"
+      - "C:/Windows/SysWOW64/wbem/mt"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/mt.com"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/mt.exe"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/mt"
+      - "C:/Windows/SysWOW64/OpenSSH/mt.com"
+      - "C:/Windows/SysWOW64/OpenSSH/mt.exe"
+      - "C:/Windows/SysWOW64/OpenSSH/mt"
+      - "C:/ProgramData/chocolatey/bin/mt.com"
+      - "C:/ProgramData/chocolatey/bin/mt.exe"
+      - "C:/ProgramData/chocolatey/bin/mt"
+      - "C:/Program Files/nodejs/mt.com"
+      - "C:/Program Files/nodejs/mt.exe"
+      - "C:/Program Files/nodejs/mt"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/mt.com"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/mt.exe"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/mt"
+      - "C:/Program Files/dotnet/mt.com"
+      - "C:/Program Files/dotnet/mt.exe"
+      - "C:/Program Files/dotnet/mt"
+      - "C:/Program Files/CMake/bin/mt.com"
+      - "C:/Program Files/CMake/bin/mt.exe"
+      - "C:/Program Files/CMake/bin/mt"
+      - "C:/Program Files/Docker/Docker/resources/bin/mt.com"
+      - "C:/Program Files/Docker/Docker/resources/bin/mt.exe"
+      - "C:/Program Files/Docker/Docker/resources/bin/mt"
+      - "C:/Program Files/Git/cmd/mt.com"
+      - "C:/Program Files/Git/cmd/mt.exe"
+      - "C:/Program Files/Git/cmd/mt"
+      - "C:/Program Files/PostgreSQL/18/bin/mt.com"
+      - "C:/Program Files/PostgreSQL/18/bin/mt.exe"
+      - "C:/Program Files/PostgreSQL/18/bin/mt"
+      - "C:/src/flutter/bin/mt.com"
+      - "C:/src/flutter/bin/mt.exe"
+      - "C:/src/flutter/bin/mt"
+      - "C:/Users/saber/AppData/Roaming/npm/mt.com"
+      - "C:/Users/saber/AppData/Roaming/npm/mt.exe"
+      - "C:/Users/saber/AppData/Roaming/npm/mt"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/mt.com"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/mt.exe"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/mt"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/mt.com"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/mt.exe"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/mt"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/mt.com"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/mt.exe"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/mt"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\PostgreSQL\\18\\bin"
+        - "C:\\src\\flutter\\bin"
+        - "C:\\Users\\saber\\AppData\\Roaming\\npm"
+        - "C:\\Users\\saber\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\saber\\AppData\\Local\\Microsoft\\WinGet\\Links"
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin\\mingit\\cmd"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "CMAKE_AR"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lib"
+    candidate_directories:
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Python314/Scripts/"
+      - "C:/Python314/"
+      - "C:/Windows/SysWOW64/"
+      - "C:/Windows/"
+      - "C:/Windows/SysWOW64/wbem/"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/"
+      - "C:/Windows/SysWOW64/OpenSSH/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/Docker/Docker/resources/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/PostgreSQL/18/bin/"
+      - "C:/src/flutter/bin/"
+      - "C:/Users/saber/AppData/Roaming/npm/"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/"
+    searched_directories:
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/lib.com"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/lib.exe"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/lib"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/lib.com"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/lib.exe"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/lib"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/lib.com"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/lib.exe"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/lib"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/lib.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/lib.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/lib"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lib.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lib.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lib"
+      - "C:/Python314/Scripts/lib.com"
+      - "C:/Python314/Scripts/lib.exe"
+      - "C:/Python314/Scripts/lib"
+      - "C:/Python314/lib.com"
+      - "C:/Python314/lib.exe"
+      - "C:/Python314/lib"
+      - "C:/Windows/SysWOW64/lib.com"
+      - "C:/Windows/SysWOW64/lib.exe"
+      - "C:/Windows/SysWOW64/lib"
+      - "C:/Windows/lib.com"
+      - "C:/Windows/lib.exe"
+      - "C:/Windows/lib"
+      - "C:/Windows/SysWOW64/wbem/lib.com"
+      - "C:/Windows/SysWOW64/wbem/lib.exe"
+      - "C:/Windows/SysWOW64/wbem/lib"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/lib.com"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/lib.exe"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/lib"
+      - "C:/Windows/SysWOW64/OpenSSH/lib.com"
+      - "C:/Windows/SysWOW64/OpenSSH/lib.exe"
+      - "C:/Windows/SysWOW64/OpenSSH/lib"
+      - "C:/ProgramData/chocolatey/bin/lib.com"
+      - "C:/ProgramData/chocolatey/bin/lib.exe"
+      - "C:/ProgramData/chocolatey/bin/lib"
+      - "C:/Program Files/nodejs/lib.com"
+      - "C:/Program Files/nodejs/lib.exe"
+      - "C:/Program Files/nodejs/lib"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/lib.com"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/lib.exe"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/lib"
+      - "C:/Program Files/dotnet/lib.com"
+      - "C:/Program Files/dotnet/lib.exe"
+      - "C:/Program Files/dotnet/lib"
+      - "C:/Program Files/CMake/bin/lib.com"
+      - "C:/Program Files/CMake/bin/lib.exe"
+      - "C:/Program Files/CMake/bin/lib"
+      - "C:/Program Files/Docker/Docker/resources/bin/lib.com"
+      - "C:/Program Files/Docker/Docker/resources/bin/lib.exe"
+      - "C:/Program Files/Docker/Docker/resources/bin/lib"
+      - "C:/Program Files/Git/cmd/lib.com"
+      - "C:/Program Files/Git/cmd/lib.exe"
+      - "C:/Program Files/Git/cmd/lib"
+      - "C:/Program Files/PostgreSQL/18/bin/lib.com"
+      - "C:/Program Files/PostgreSQL/18/bin/lib.exe"
+      - "C:/Program Files/PostgreSQL/18/bin/lib"
+      - "C:/src/flutter/bin/lib.com"
+      - "C:/src/flutter/bin/lib.exe"
+      - "C:/src/flutter/bin/lib"
+      - "C:/Users/saber/AppData/Roaming/npm/lib.com"
+      - "C:/Users/saber/AppData/Roaming/npm/lib.exe"
+      - "C:/Users/saber/AppData/Roaming/npm/lib"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/lib.com"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/lib.exe"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/lib"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/lib.com"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/lib.exe"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/lib"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/lib.com"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/lib.exe"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/lib"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\PostgreSQL\\18\\bin"
+        - "C:\\src\\flutter\\bin"
+        - "C:\\Users\\saber\\AppData\\Roaming\\npm"
+        - "C:\\Users\\saber\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\saber\\AppData\\Local\\Microsoft\\WinGet\\Links"
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin\\mingit\\cmd"
+...
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/"
+    found: "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\PostgreSQL\\18\\bin"
+        - "C:\\src\\flutter\\bin"
+        - "C:\\Users\\saber\\AppData\\Roaming\\npm"
+        - "C:\\Users\\saber\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\saber\\AppData\\Local\\Microsoft\\WinGet\\Links"
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin\\mingit\\cmd"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files/muaman_store"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      1
+      MSBuild version 18.6.3+84d3e95b4 for .NET Framework
+      Build started 8/4/2026 11:41:11 PM.
+      
+      Project "C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
+      PrepareForBuild:
+        Creating directory "Debug\\".
+        Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+        Creating directory "Debug\\CompilerIdCXX.tlog\\".
+      InitializeBuildStatus:
+        Creating "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+        Touching "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
+      ClCompile:
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc145.pdb" /external:W0 /Gd /TP /FC /errorReport:queue CMakeCXXCompilerId.cpp
+        CMakeCXXCompilerId.cpp
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018: The "CL" task failed unexpectedly. [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018: System.IndexOutOfRangeException: Index was outside the bounds of the array. [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.FileTracker.FileIsUnderNormalizedPath(String fileName, String path) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.FileTracker.FileIsExcludedFromDependencies(String fileName) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles.ConstructDependencyTable() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles.InternalConstruct(ITask ownerTask, ITaskItem[] tlogFiles, ITaskItem[] sourceFiles, ITaskItem[] outputFiles, ITaskItem[] excludedInputPaths, CanonicalTrackedOutputFiles outputs, Boolean useMinimalRebuildOptimization, Boolean maintainCompositeRootingMarkers) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles..ctor(ITaskItem[] tlogFiles, ITaskItem[] sourceFiles, ITaskItem[] excludedInputPaths, CanonicalTrackedOutputFiles outputs, Boolean useMinimalRebuildOptimization, Boolean maintainCompositeRootingMarkers) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.CL.PostExecuteTool(Int32 exitCode) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.TrackedVCToolTask.ExecuteTool(String pathToTool, String responseFileCommands, String commandLineCommands) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.CL.ExecuteTool(String pathToTool, String responseFileCommands, String commandLineCommands) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.ToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.VCToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.TrackedVCToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskExecutionHost.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskBuilder.<ExecuteInstantiatedTask>d__26.MoveNext() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      Done Building Project "C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (default targets) -- FAILED.
+      
+      Build FAILED.
+      
+      "C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (default target) (1) ->
+      (ClCompile target) -> 
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018: The "CL" task failed unexpectedly. [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018: System.IndexOutOfRangeException: Index was outside the bounds of the array. [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.FileTracker.FileIsUnderNormalizedPath(String fileName, String path) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.FileTracker.FileIsExcludedFromDependencies(String fileName) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles.ConstructDependencyTable() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles.InternalConstruct(ITask ownerTask, ITaskItem[] tlogFiles, ITaskItem[] sourceFiles, ITaskItem[] outputFiles, ITaskItem[] excludedInputPaths, CanonicalTrackedOutputFiles outputs, Boolean useMinimalRebuildOptimization, Boolean maintainCompositeRootingMarkers) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles..ctor(ITaskItem[] tlogFiles, ITaskItem[] sourceFiles, ITaskItem[] excludedInputPaths, CanonicalTrackedOutputFiles outputs, Boolean useMinimalRebuildOptimization, Boolean maintainCompositeRootingMarkers) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.CL.PostExecuteTool(Int32 exitCode) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.TrackedVCToolTask.ExecuteTool(String pathToTool, String responseFileCommands, String commandLineCommands) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.CL.ExecuteTool(String pathToTool, String responseFileCommands, String commandLineCommands) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.ToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.VCToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.TrackedVCToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskExecutionHost.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskBuilder.<ExecuteInstantiatedTask>d__26.MoveNext() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      
+          0 Warning(s)
+          1 Error(s)
+      
+      Time Elapsed 00:00:00.42
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/"
+    found: "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\PostgreSQL\\18\\bin"
+        - "C:\\src\\flutter\\bin"
+        - "C:\\Users\\saber\\AppData\\Roaming\\npm"
+        - "C:\\Users\\saber\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\saber\\AppData\\Local\\Microsoft\\WinGet\\Links"
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin\\mingit\\cmd"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files/muaman_store"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      1
+      MSBuild version 18.6.3+84d3e95b4 for .NET Framework
+      Build started 8/4/2026 11:41:12 PM.
+      
+      Project "C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
+      PrepareForBuild:
+        Creating directory "Debug\\".
+        Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+        Creating directory "Debug\\CompilerIdCXX.tlog\\".
+      InitializeBuildStatus:
+        Creating "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+        Touching "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
+      ClCompile:
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc145.pdb" /external:W0 /Gd /TP /FC /errorReport:queue CMakeCXXCompilerId.cpp
+        CMakeCXXCompilerId.cpp
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018: The "CL" task failed unexpectedly. [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018: System.IndexOutOfRangeException: Index was outside the bounds of the array. [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.FileTracker.FileIsUnderNormalizedPath(String fileName, String path) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.FileTracker.FileIsExcludedFromDependencies(String fileName) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles.ConstructDependencyTable() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles.InternalConstruct(ITask ownerTask, ITaskItem[] tlogFiles, ITaskItem[] sourceFiles, ITaskItem[] outputFiles, ITaskItem[] excludedInputPaths, CanonicalTrackedOutputFiles outputs, Boolean useMinimalRebuildOptimization, Boolean maintainCompositeRootingMarkers) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles..ctor(ITaskItem[] tlogFiles, ITaskItem[] sourceFiles, ITaskItem[] excludedInputPaths, CanonicalTrackedOutputFiles outputs, Boolean useMinimalRebuildOptimization, Boolean maintainCompositeRootingMarkers) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.CL.PostExecuteTool(Int32 exitCode) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.TrackedVCToolTask.ExecuteTool(String pathToTool, String responseFileCommands, String commandLineCommands) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.CL.ExecuteTool(String pathToTool, String responseFileCommands, String commandLineCommands) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.ToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.VCToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.TrackedVCToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskExecutionHost.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskBuilder.<ExecuteInstantiatedTask>d__26.MoveNext() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      Done Building Project "C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (default targets) -- FAILED.
+      
+      Build FAILED.
+      
+      "C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (default target) (1) ->
+      (ClCompile target) -> 
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018: The "CL" task failed unexpectedly. [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018: System.IndexOutOfRangeException: Index was outside the bounds of the array. [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.FileTracker.FileIsUnderNormalizedPath(String fileName, String path) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.FileTracker.FileIsExcludedFromDependencies(String fileName) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles.ConstructDependencyTable() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles.InternalConstruct(ITask ownerTask, ITaskItem[] tlogFiles, ITaskItem[] sourceFiles, ITaskItem[] outputFiles, ITaskItem[] excludedInputPaths, CanonicalTrackedOutputFiles outputs, Boolean useMinimalRebuildOptimization, Boolean maintainCompositeRootingMarkers) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.CanonicalTrackedInputFiles..ctor(ITaskItem[] tlogFiles, ITaskItem[] sourceFiles, ITaskItem[] excludedInputPaths, CanonicalTrackedOutputFiles outputs, Boolean useMinimalRebuildOptimization, Boolean maintainCompositeRootingMarkers) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.CL.PostExecuteTool(Int32 exitCode) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.TrackedVCToolTask.ExecuteTool(String pathToTool, String responseFileCommands, String commandLineCommands) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.CL.ExecuteTool(String pathToTool, String responseFileCommands, String commandLineCommands) [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.Utilities.ToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.VCToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.CPPTasks.TrackedVCToolTask.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskExecutionHost.Execute() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Microsoft\\VC\\v180\\Microsoft.CppCommon.targets(790,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskBuilder.<ExecuteInstantiatedTask>d__26.MoveNext() [C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj]
+      
+          0 Warning(s)
+          1 Error(s)
+      
+      Time Elapsed 00:00:00.38
+      
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:103 (__resolve_linker_path)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "link"
+    candidate_directories:
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Python314/Scripts/"
+      - "C:/Python314/"
+      - "C:/Windows/SysWOW64/"
+      - "C:/Windows/"
+      - "C:/Windows/SysWOW64/wbem/"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/"
+      - "C:/Windows/SysWOW64/OpenSSH/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/Docker/Docker/resources/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/PostgreSQL/18/bin/"
+      - "C:/src/flutter/bin/"
+      - "C:/Users/saber/AppData/Roaming/npm/"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/"
+    searched_directories:
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/link.com"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/link.exe"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/link"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/link.com"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/link.exe"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/link"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/link.com"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/link.exe"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/link"
+      - "C:/Python314/Scripts/link.com"
+      - "C:/Python314/Scripts/link.exe"
+      - "C:/Python314/Scripts/link"
+      - "C:/Python314/link.com"
+      - "C:/Python314/link.exe"
+      - "C:/Python314/link"
+      - "C:/Windows/SysWOW64/link.com"
+      - "C:/Windows/SysWOW64/link.exe"
+      - "C:/Windows/SysWOW64/link"
+      - "C:/Windows/link.com"
+      - "C:/Windows/link.exe"
+      - "C:/Windows/link"
+      - "C:/Windows/SysWOW64/wbem/link.com"
+      - "C:/Windows/SysWOW64/wbem/link.exe"
+      - "C:/Windows/SysWOW64/wbem/link"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/link.com"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/link.exe"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/link"
+      - "C:/Windows/SysWOW64/OpenSSH/link.com"
+      - "C:/Windows/SysWOW64/OpenSSH/link.exe"
+      - "C:/Windows/SysWOW64/OpenSSH/link"
+      - "C:/ProgramData/chocolatey/bin/link.com"
+      - "C:/ProgramData/chocolatey/bin/link.exe"
+      - "C:/ProgramData/chocolatey/bin/link"
+      - "C:/Program Files/nodejs/link.com"
+      - "C:/Program Files/nodejs/link.exe"
+      - "C:/Program Files/nodejs/link"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/link.com"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/link.exe"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/link"
+      - "C:/Program Files/dotnet/link.com"
+      - "C:/Program Files/dotnet/link.exe"
+      - "C:/Program Files/dotnet/link"
+      - "C:/Program Files/CMake/bin/link.com"
+      - "C:/Program Files/CMake/bin/link.exe"
+      - "C:/Program Files/CMake/bin/link"
+      - "C:/Program Files/Docker/Docker/resources/bin/link.com"
+      - "C:/Program Files/Docker/Docker/resources/bin/link.exe"
+      - "C:/Program Files/Docker/Docker/resources/bin/link"
+      - "C:/Program Files/Git/cmd/link.com"
+      - "C:/Program Files/Git/cmd/link.exe"
+      - "C:/Program Files/Git/cmd/link"
+      - "C:/Program Files/PostgreSQL/18/bin/link.com"
+      - "C:/Program Files/PostgreSQL/18/bin/link.exe"
+      - "C:/Program Files/PostgreSQL/18/bin/link"
+      - "C:/src/flutter/bin/link.com"
+      - "C:/src/flutter/bin/link.exe"
+      - "C:/src/flutter/bin/link"
+      - "C:/Users/saber/AppData/Roaming/npm/link.com"
+      - "C:/Users/saber/AppData/Roaming/npm/link.exe"
+      - "C:/Users/saber/AppData/Roaming/npm/link"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/link.com"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/link.exe"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/link"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/link.com"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/link.exe"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/link"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/link.com"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/link.exe"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\PostgreSQL\\18\\bin"
+        - "C:\\src\\flutter\\bin"
+        - "C:\\Users\\saber\\AppData\\Roaming\\npm"
+        - "C:\\Users\\saber\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\saber\\AppData\\Local\\Microsoft\\WinGet\\Links"
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin\\mingit\\cmd"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files/muaman_store"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:104 (__resolve_linker_path)"
+      - "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:3 (project)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lld-link"
+    candidate_directories:
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Python314/Scripts/"
+      - "C:/Python314/"
+      - "C:/Windows/SysWOW64/"
+      - "C:/Windows/"
+      - "C:/Windows/SysWOW64/wbem/"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/"
+      - "C:/Windows/SysWOW64/OpenSSH/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/Docker/Docker/resources/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/PostgreSQL/18/bin/"
+      - "C:/src/flutter/bin/"
+      - "C:/Users/saber/AppData/Roaming/npm/"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/"
+    searched_directories:
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/lld-link.com"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/lld-link.exe"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/lld-link"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/lld-link.com"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/lld-link.exe"
+      - "C:/Program Files/Microsoft/jdk-21.0.11.10-hotspot/bin/lld-link"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/lld-link.com"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/lld-link.exe"
+      - "C:/Program Files/Microsoft/jdk-17.0.19.10-hotspot/bin/lld-link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/lld-link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/lld-link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/lld-link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link"
+      - "C:/Python314/Scripts/lld-link.com"
+      - "C:/Python314/Scripts/lld-link.exe"
+      - "C:/Python314/Scripts/lld-link"
+      - "C:/Python314/lld-link.com"
+      - "C:/Python314/lld-link.exe"
+      - "C:/Python314/lld-link"
+      - "C:/Windows/SysWOW64/lld-link.com"
+      - "C:/Windows/SysWOW64/lld-link.exe"
+      - "C:/Windows/SysWOW64/lld-link"
+      - "C:/Windows/lld-link.com"
+      - "C:/Windows/lld-link.exe"
+      - "C:/Windows/lld-link"
+      - "C:/Windows/SysWOW64/wbem/lld-link.com"
+      - "C:/Windows/SysWOW64/wbem/lld-link.exe"
+      - "C:/Windows/SysWOW64/wbem/lld-link"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/lld-link.com"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/lld-link.exe"
+      - "C:/Windows/SysWOW64/WindowsPowerShell/v1.0/lld-link"
+      - "C:/Windows/SysWOW64/OpenSSH/lld-link.com"
+      - "C:/Windows/SysWOW64/OpenSSH/lld-link.exe"
+      - "C:/Windows/SysWOW64/OpenSSH/lld-link"
+      - "C:/ProgramData/chocolatey/bin/lld-link.com"
+      - "C:/ProgramData/chocolatey/bin/lld-link.exe"
+      - "C:/ProgramData/chocolatey/bin/lld-link"
+      - "C:/Program Files/nodejs/lld-link.com"
+      - "C:/Program Files/nodejs/lld-link.exe"
+      - "C:/Program Files/nodejs/lld-link"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/lld-link.com"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/lld-link.exe"
+      - "C:/Program Files/Rust stable MSVC 1.95/bin/lld-link"
+      - "C:/Program Files/dotnet/lld-link.com"
+      - "C:/Program Files/dotnet/lld-link.exe"
+      - "C:/Program Files/dotnet/lld-link"
+      - "C:/Program Files/CMake/bin/lld-link.com"
+      - "C:/Program Files/CMake/bin/lld-link.exe"
+      - "C:/Program Files/CMake/bin/lld-link"
+      - "C:/Program Files/Docker/Docker/resources/bin/lld-link.com"
+      - "C:/Program Files/Docker/Docker/resources/bin/lld-link.exe"
+      - "C:/Program Files/Docker/Docker/resources/bin/lld-link"
+      - "C:/Program Files/Git/cmd/lld-link.com"
+      - "C:/Program Files/Git/cmd/lld-link.exe"
+      - "C:/Program Files/Git/cmd/lld-link"
+      - "C:/Program Files/PostgreSQL/18/bin/lld-link.com"
+      - "C:/Program Files/PostgreSQL/18/bin/lld-link.exe"
+      - "C:/Program Files/PostgreSQL/18/bin/lld-link"
+      - "C:/src/flutter/bin/lld-link.com"
+      - "C:/src/flutter/bin/lld-link.exe"
+      - "C:/src/flutter/bin/lld-link"
+      - "C:/Users/saber/AppData/Roaming/npm/lld-link.com"
+      - "C:/Users/saber/AppData/Roaming/npm/lld-link.exe"
+      - "C:/Users/saber/AppData/Roaming/npm/lld-link"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/lld-link.com"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/lld-link.exe"
+      - "C:/Users/saber/AppData/Local/Programs/Microsoft VS Code/bin/lld-link"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/lld-link.com"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/lld-link.exe"
+      - "C:/Users/saber/AppData/Local/Microsoft/WinGet/Links/lld-link"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/lld-link.com"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/lld-link.exe"
+      - "C:/dev/muaman-13i-environment-b-independent-flutter-sdk-installation-root/sdk/bin/mingit/cmd/lld-link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin"
+        - "C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\Rust stable MSVC 1.95\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\PostgreSQL\\18\\bin"
+        - "C:\\src\\flutter\\bin"
+        - "C:\\Users\\saber\\AppData\\Roaming\\npm"
+        - "C:\\Users\\saber\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\saber\\AppData\\Local\\Microsoft\\WinGet\\Links"
+        - "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk\\bin\\mingit\\cmd"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files/muaman_store"
+...

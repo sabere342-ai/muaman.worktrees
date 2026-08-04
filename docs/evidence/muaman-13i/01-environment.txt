@@ -1,0 +1,45 @@
+﻿MUAMAN-13I ENVIRONMENT / TOOLCHAIN INVENTORY
+=============================================
+Captured (UTC): 2026-08-04 18:34:08
+
+-- OS --
+Caption: Microsoft Windows 11 Pro
+Version: 10.0.26200
+BuildNumber: 26200
+OSArchitecture: 64-bit
+TimeZone: Egypt Standard Time (UTC offset 02:00:00)
+PowerShell: 5.1.26100.6584
+
+-- Hardware --
+System: Dell Inc. Latitude 5520
+CPU: 11th Gen Intel(R) Core(TM) i5-1145G7 @ 2.60GHz
+LogicalProcessors: 8
+PhysicalMemoryMB: 7919
+
+-- Git (orchestration only) --
+git version 2.55.0.windows.2
+
+-- Visual Studio (global, shared) --
+
+-- MSVC toolset (global, shared) --
+cl.exe not found
+
+-- Windows SDK (global, shared) --
+Windows SDK root: C:\Program Files (x86)\Windows Kits\10
+
+-- CMake --
+Global CMake: C:\Program Files\CMake\bin\cmake.exe
+cmake version 4.3.3
+VS-bundled CMake: C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe
+cmake version 4.2.3-msvc3
+
+-- Shared Flutter SDK (reference-only, existing 13G/13H) --
+Path: C:\src\flutter
+dec2ee5c1f9 [flutter_releases] Flutter stable 3.24.5 Framework Cherrypicks (#158778)
+
+-- Space management note --
+Before 13I began, C: had only 2.7 GB free. To make room for two full official Flutter
+SDK extractions, the reproducible build inputs from completed phases were removed:
+  13H env-B SDK root, 13H env-B source root, 13H env-B pub cache, 13G env-B extraction root.
+These were not git worktrees and not the shared SDK; all their hashes/manifests remain
+committed in docs/evidence/muaman-13h and muaman-13g.

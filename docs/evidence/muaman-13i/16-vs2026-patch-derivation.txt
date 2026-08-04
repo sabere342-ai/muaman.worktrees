@@ -1,0 +1,48 @@
+MUAMAN-13I VS2026 PATCH DERIVATION
+==================================
+Captured (UTC): 2026-08-04 19:21:00
+
+Why the patch is required
+-------------------------
+The official Flutter 3.24.5 stable SDK (framework revision dec2ee5c1f9)
+supports Visual Studio generators up to VS 2022 (generator string
+'Visual Studio 17 2022', MSVC v143). The only Visual Studio toolchain
+installed on this machine is Visual Studio 2026 Build Tools (major version
+18, MSVC 14.51.36231). Flutter's windows build therefore fails with:
+  No Visual Studio found. ...
+  CMake generator 'Visual Studio 17 2022' is not recognized.
+CMake 4.x/3.3x recognizes the 'Visual Studio 18 2026' generator; the SDK
+simply lacks the generator mapping and MSVC v144 toolchain description.
+
+How the patch was derived (deterministic)
+-----------------------------------------
+1. Two independent pristine extractions of the official archive were
+   byte-identical (evidence 13-pristine-manifest-comparison.txt).
+2. The pristine visual_studio.dart was read from SDK A.
+3. A patched variant was produced by two byte-exact anchor substitutions
+   (anchors verified present exactly once):
+     a. Before the cmakeGenerator '17 => Visual Studio 17 2022' arm,
+        insert '18 => Visual Studio 18 2026'.
+     b. Before the 'case 16:' arm of the cppToolchainDescription switch,
+        insert case 18 with the MSVC v144 description string.
+4. The patched variant was verified byte-identical to the shared 13G/13H
+   SDK's patched file (SHA-256 D08E9D71...) and to the canonical git
+   diff --no-index preimage (evidence 15).
+5. The canonical patch artifact (tools/muaman13i/flutter-vs2026-generator.patch)
+   was generated from pristine->patched with stable relative paths and an
+   index header, and verified with git apply --check (exit 0) and git apply
+   (postimage hash D08E9D71...). Fail-safe: applying to a tampered preimage
+   exits 1 ("patch does not apply").
+
+Determinism argument
+--------------------
+- Both SDK roots originate from pristine extractions of the same official
+  archive (identical SHA-256 of archive and of all 11,063 extracted files).
+- The patch is a fixed sequence of byte-exact insertions anchored at fixed
+  unique context; it cannot apply to any other preimage (hash-guarded).
+- The apply script (tools/muaman13i/apply_flutter_vs2026_patch.ps1) enforces
+  preimage and postimage SHA-256 and a no-other-file-modified check, so the
+  patched state of every SDK is a pure function of the pristine archive.
+
+Result: PASS - patch derived from pristine official SDK, not copied from the
+shared SDK; semantic delta = exactly 3 inserted source lines

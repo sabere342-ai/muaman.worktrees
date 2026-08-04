@@ -1,0 +1,23 @@
+MUAMAN-13I SDK B VS2026 PATCH APPLICATION LOG
+============================================
+Relevant machine paths: SDK root C:\dev\muaman-13i-environment-b-independent-flutter-sdk-installation-root\sdk (82 chars, isolated).
+Log captured from apply_flutter_vs2026_patch.ps1 run with -ApplyViaGit.
+
+MUAMAN-13I FLUTTER VS2026 PATCH APPLICATION
+============================================
+Captured (UTC): 2026-08-04 20:17:26
+SDK root: C:\dev\muaman-13i-environment-b-independent-flutter-sdk-installation-root\sdk
+Target relative path: packages\flutter_tools\lib\src\windows\visual_studio.dart
+Expected pristine (preimage) SHA-256: 3C95601EE4B1B399904A92EE5AE32B876C8BF2E2BEB6D409461C9D73C988632D
+Expected patched (postimage) SHA-256: D08E9D71E978FDE1478FBF438DCEA6D16D26EA966D271F7D5108AC86E3CC5423
+Pre-application target SHA-256: 3C95601EE4B1B399904A92EE5AE32B876C8BF2E2BEB6D409461C9D73C988632D
+Preimage validation: PASS
+Anchors located: cmakeGenerator insert before offset 6802, requiredComponents insert before offset 10708.
+Post-application target SHA-256: D08E9D71E978FDE1478FBF438DCEA6D16D26EA966D271F7D5108AC86E3CC5423
+Postimage validation: PASS
+No-other-file-modified check: PASS (only packages\flutter_tools\lib\src\windows\visual_studio.dart changed, 1261 files checked)
+
+
+git apply --check exit: 0; git apply exit: 0; applied file SHA-256: D08E9D71E978FDE1478FBF438DCEA6D16D26EA966D271F7D5108AC86E3CC5423
+git apply proof: PASS (patch applies cleanly and yields expected postimage)
+RESULT: PASS - patch applied deterministically to packages\flutter_tools\lib\src\windows\visual_studio.dart (3 semantic source-line substitutions)

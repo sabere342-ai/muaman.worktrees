@@ -1,0 +1,24 @@
+﻿{
+    "label":  "final-a-b",
+    "capturedAtUtc":  "2026-08-04T22:22:37.908Z",
+    "releaseA":  "C:\\m13i\\a\\src\\app\\build\\windows\\x64\\runner\\Release",
+    "releaseB":  "C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\runner\\Release",
+    "fileCountA":  13,
+    "fileCountB":  13,
+    "totalBytesA":  33273462,
+    "totalBytesB":  33273462,
+    "identical":  true,
+    "diffFiles":  [
+
+                  ],
+    "onlyInA":  [
+
+                ],
+    "onlyInB":  [
+
+                ],
+    "leakCount":  0,
+    "leaks":  [
+
+              ]
+}

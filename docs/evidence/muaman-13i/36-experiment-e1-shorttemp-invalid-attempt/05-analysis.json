@@ -1,0 +1,25 @@
+﻿{
+    "experimentId":  "E1",
+    "capturedAtUtc":  "2026-08-04T22:06:56.343Z",
+    "startedAtUtc":  "2026-08-04T22:06:38.393Z",
+    "endedAtUtc":  "2026-08-04T22:06:56.265Z",
+    "elapsedSeconds":  17.9,
+    "cleanExitCode":  1,
+    "pubGetExitCode":  1,
+    "buildExitCode":  0,
+    "responseFileObserved":  false,
+    "fileTrackerCrash":  false,
+    "crashDetail":  "",
+    "compilerIdSuccess":  true,
+    "configureSuccess":  true,
+    "releaseBuildSuccess":  true,
+    "clCommands":  [
+
+                   ],
+    "rspCaptures":  [
+
+                    ],
+    "rspCaptureCount":  0,
+    "buildLogBytes":  0,
+    "releaseDir":  13
+}

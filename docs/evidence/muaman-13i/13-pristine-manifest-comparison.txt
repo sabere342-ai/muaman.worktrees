@@ -1,0 +1,26 @@
+MUAMAN-13I PRISTINE SDK MANIFEST COMPARISON (A vs B)
+=====================================================
+Captured (UTC): 2026-08-04 19:12:00
+Manifests: 11-pristine-manifest-a.json, 12-pristine-manifest-b.json
+Full deterministic manifest of every regular file (relative path, byte size, SHA-256).
+
+Results:
+  File count A: 11,063   B: 11,063   equal: True
+  Total bytes A: 2,536,992,808   B: 2,536,992,808   equal: True
+  Path sets identical: True
+  Files only in A: 0
+  Files only in B: 0
+  SHA-256 mismatches: 0
+  Regular-file byte identity: 11,063/11,063 identical
+
+Conclusion: the two pristine SDK extractions (from two independently
+downloaded official archives) have identical relative file sets and every
+regular file is byte-identical.
+
+Filesystem-metadata note: extraction timestamps and NTFS attributes may
+differ between the two roots (extracted at different wall-clock times);
+those are filesystem metadata, not byte-content differences, and are not
+part of the reproducibility claim. File contents, sizes, and relative
+paths are identical.
+
+Result: PASS - pristine SDK A and SDK B are byte-identical

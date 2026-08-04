@@ -1,0 +1,37 @@
+MUAMAN-13I ARCHIVE BYTE-IDENTITY RESULT
+========================================
+Captured (UTC): 2026-08-04 19:04:50
+Downloads were performed independently: two separate curl HTTPS requests to
+the official Google Cloud Storage URL, into two distinct locations on disk.
+Download B was not created by copying download A.
+
+Download A:
+  path: C:\m13i\dl\flutter_windows_3.24.5-stable.zip
+  size: 1,033,788,155 bytes
+  SHA-256: B8A7485ACD3C6FB23A76B7AC09F89E8D93D62FBFF7147C6F5F8C5686D949EEAC
+
+Download B:
+  path: C:\dev\muaman-13i-download-b\flutter_windows_3.24.5-stable.zip
+  size: 1,033,788,155 bytes
+  SHA-256: B8A7485ACD3C6FB23A76B7AC09F89E8D93D62FBFF7147C6F5F8C5686D949EEAC
+
+Results:
+  A == B byte-identical: True (identical SHA-256)
+  Sizes equal: True (1033788155 == 1033788155)
+  A == official vendor checksum: True
+  B == official vendor checksum: True
+  A == MUAMAN-13H downloaded-archive hash: True
+  B == MUAMAN-13H downloaded-archive hash: True
+
+Vendor checksum status:
+  The vendor (Flutter/Google) publishes a SHA-256 for each archive in
+  releases_windows.json. That value (B8A7485ACD3C6FB23A76B7AC09F89E8D93D62FBFF7147C6F5F8C5686D949EEAC)
+  was retrieved over HTTPS and matched both downloads exactly. This is a
+  vendor-published digest, not a cryptographic vendor signature. No detached
+  signature file is published by the vendor for this archive; that fact is
+  disclosed truthfully. Provenance therefore rests on: official URL, HTTPS
+  transport, two independent downloads, identical byte size, identical
+  SHA-256, consistency with MUAMAN-13H SDK identity, and GCS-published
+  CRC32C/MD5 storage digests.
+
+Result: PASS - both downloads byte-identical and matching the official vendor checksum

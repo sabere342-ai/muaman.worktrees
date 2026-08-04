@@ -1,0 +1,21 @@
+MUAMAN-13I PATCH PREIMAGE / POSTIMAGE HASHS
+===========================================
+Captured (UTC): 2026-08-04 19:21:40
+File: packages\flutter_tools\lib\src\windows\visual_studio.dart
+
+Preimage  (pristine official SDK, SHA-256): 3C95601EE4B1B399904A92EE5AE32B876C8BF2E2BEB6D409461C9D73C988632D
+Postimage (patched, SHA-256):               D08E9D71E978FDE1478FBF438DCEA6D16D26EA966D271F7D5108AC86E3CC5423
+Postimage (patched, size bytes):            24137
+
+These two hash values are the fixed point of the apply script and of the
+guard test. They are identical across:
+  - SDK A application (evidence 18-sdk-a-patch-apply.txt)
+  - SDK B application (evidence 19-sdk-b-patch-apply.txt)
+  - git apply proof inside the apply script
+  - the shared 13G/13H SDK reference file (evidence 15)
+
+No other preimage can reach the expected postimage because both anchors must
+be present exactly once and byte-exact; a preimage missing either anchor or
+with drifted context fails the preimage or postimage hash check and aborts.
+
+Result: PASS - preimage/postimage fixed point established and machine-independent

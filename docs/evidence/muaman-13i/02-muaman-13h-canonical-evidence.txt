@@ -1,0 +1,55 @@
+MUAMAN-13H CANONICAL EVIDENCE EXTRACTION (governing values for MUAMAN-13I)
+============================================================================
+Source: docs/MUAMAN-13H-ISOLATED-CACHE-SDK-ROOT-SOURCE-ARCHIVE-REPRODUCIBILITY-ACCEPTANCE.md
+        docs/evidence/muaman-13h/ (committed at 303dbb04032e07c58f1d630ed3d73168658e1afe)
+        docs/evidence/muaman-13g/ (committed at e90643e03e8438214a9de6d8f1e70c8633efa31a)
+Captured (UTC): 2026-08-04 18:35:00
+
+Baseline full hash: 303dbb04032e07c58f1d630ed3d73168658e1afe
+Baseline commit message: MUAMAN-13H: verify isolated-cache Windows reproducibility
+
+Canonical source-archive SHA-256 (MUAMAN-13G): 17A1DD24CE0DCBD1160BE3E66BDB3F89EB287173D5FCBE079A7C7A46F68DAF6F
+Canonical source-archive size: 31,938,560 bytes
+Canonical extracted source: 304 files, 31,647,662 total bytes
+Canonical pubspec.lock SHA-256: EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A
+
+Canonical Release file count: 13
+Canonical Release total bytes: 33,273,462
+Canonical deterministic ZIP size: 14,481,448
+Canonical deterministic ZIP SHA-256: DA9C4B0451A3F92FAE88431438518537B11C9ECDF7A6ED3AEE0C3E6204D01665
+
+Baseline tests (MUAMAN-13H): 380/380 PASS (355 through MUAMAN-13G + 25 MUAMAN-13H guard checks)
+
+Canonical 13-file Release manifest (SHA-256, from MUAMAN-13G/13H evidence):
+  data/app.so: 8278EC7131C921D480AFEAF69B0D27624B11DF3E9E74180BB80273A09E1E2D3D
+  data/flutter_assets/AssetManifest.bin: 00AF55AD3D6F21898FE77E0FF092D1A1CDA52C941B6860E9928D45C8AF8C095D
+  data/flutter_assets/AssetManifest.json: 4A9B3DE7EEC9BA46B279BBCCD132E32F52D6D555D79DDA4AA7F3BCB4E9BD651F
+  data/flutter_assets/FontManifest.json: CD7E03645BC44B2DD47B7CB626F51C4ECBF55A197AB77241628B47AC165FBE21
+  data/flutter_assets/fonts/MaterialIcons-Regular.otf: D9865B671A09D683D13A863089D8825E0F61A37696CE5D7D448BC8023AA62453
+  data/flutter_assets/NOTICES.Z: AB7675DAC8C7DCDF17A78E747C669C9BA13ED55306422F6D65F31BA98DA82DD6
+  data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf: 67C44FE9183B002E79DDE7F6977E2988661C9A3E4A3C5FCE968787EFDBED823C
+  data/flutter_assets/shaders/ink_sparkle.frag: 3AA09424D1DC391FD59A9735EFE986FF43302B5E5BC310926AFE11C68626C3B2
+  data/icudtl.dat: C12537022EF818991A7BFED41A76D8D6AE962FFBC0E6511AC762A5D0845E7F7C
+  flutter_windows.dll: B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E
+  muaman_store.exe: 194B46007E82D06936355C8C76B1E7DB93F97DF6691596097819E83A608BD6A9
+  pdfium.dll: 0C88EBACC0393FD45FC3E7B35E31E72C9E55B633A846A7ECF4085694DBA68ABD
+  printing_plugin.dll: 959F1E85FEEC7D8AE02F97760608E8022CFF3C3D556AADC824306EA1AFE2A867
+
+Canonical PE COFF timestamps (MUAMAN-13G):
+  flutter_windows.dll: 1731463209
+  muaman_store.exe: 1269388706
+  pdfium.dll: 1654405200
+  printing_plugin.dll: 3033572914
+
+Pinned toolchain (from MUAMAN-13G/13H): Flutter 3.24.5 stable (framework dec2ee5c1f, engine a18df97ca5), Dart 3.5.4
+
+Official Flutter SDK archive used by MUAMAN-13H:
+  Official URL: https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.24.5-stable.zip
+  Official SHA-256 (releases_windows.json): B8A7485ACD3C6FB23A76B7AC09F89E8D93D62FBFF7147C6F5F8C5686D949EEAC
+  Downloaded size: 1,033,788,155 bytes
+  Local SHA-256: B8A7485ACD3C6FB23A76B7AC09F89E8D93D62FBFF7147C6F5F8C5686D949EEAC
+  Hash match: true
+
+Shared SDK (13G/13H reference-only): C:\src\flutter
+Patched file in shared SDK: packages\flutter_tools\lib\src\windows\visual_studio.dart
+Patched file SHA-256 (LF line endings, canonical shared SDK): (recorded in 13H evidence 28 as CRLF value D08E9D71E978FDE1478FBF438DCEA6D16D26EA966D271F7D5108AC86E3CC5423)

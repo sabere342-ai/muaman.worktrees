@@ -1,0 +1,21 @@
+diff --git a/packages/flutter_tools/lib/src/windows/visual_studio.dart b/packages/flutter_tools/lib/src/windows/visual_studio.dart
+index eb7e701..fceb372 100644
+--- a/packages/flutter_tools/lib/src/windows/visual_studio.dart
++++ b/packages/flutter_tools/lib/src/windows/visual_studio.dart
+@@ -180,6 +180,7 @@ class VisualStudio {
+   String? get cmakeGenerator {
+     // From https://cmake.org/cmake/help/v3.22/manual/cmake-generators.7.html#visual-studio-generators
+     return switch (_majorVersion) {
++      18 => 'Visual Studio 18 2026',
+       17 => 'Visual Studio 17 2022',
+       _  => 'Visual Studio 16 2019',
+     };
+@@ -287,6 +288,8 @@ class VisualStudio {
+     // relevant for the most likely fresh install case).
+     String cppToolchainDescription;
+     switch (majorVersion ?? _majorVersion) {
++      case 18:
++        cppToolchainDescription = 'MSVC v144 - VS 2026 C++ x64/x86 build tools';
+       case 16:
+       default:
+         cppToolchainDescription = 'MSVC v142 - VS 2019 C++ x64/x86 build tools';

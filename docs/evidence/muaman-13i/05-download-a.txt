@@ -1,0 +1,14 @@
+MUAMAN-13I OFFICIAL SDK ARCHIVE DOWNLOAD A
+===========================================
+Captured (UTC): 2026-08-04 18:34:00 (hashed 18:49:30)
+URL: https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.24.5-stable.zip
+Tool: curl 8.14.1 -L --fail --retry 3 (HTTPS/Schannel)
+Filename: flutter_windows_3.24.5-stable.zip
+Local path: C:\m13i\dl\flutter_windows_3.24.5-stable.zip
+Start (local): 2026-08-04 21:35:14
+End (local): 2026-08-04 21:49:16
+Duration: 841.8 s
+Exit code: 0
+Byte size: 1,033,788,155 bytes
+SHA-256: B8A7485ACD3C6FB23A76B7AC09F89E8D93D62FBFF7147C6F5F8C5686D949EEAC
+Matches official vendor checksum (releases_windows.json): True

@@ -1,0 +1,26 @@
+﻿MUAMAN-13I PREFLIGHT / BASELINE IDENTITY
+========================================
+Captured (UTC): 2026-08-04 18:33:52
+
+-- git rev-parse HEAD --
+303dbb04032e07c58f1d630ed3d73168658e1afe
+
+-- git log -1 --oneline --
+303dbb0 MUAMAN-13H: verify isolated-cache Windows reproducibility
+
+-- git status --short (must be empty) --
+?? docs/evidence/muaman-13i/
+
+-- git branch --show-current --
+codex/muaman-13i-deterministic-official-sdk-patch-provenance
+
+-- git rev-list --count baseline..HEAD --
+0
+
+-- Worktree path --
+C:/dev/muaman.worktrees/muaman-13i-deterministic-official-sdk-patch-provenance
+
+-- Repository root --
+C:/dev/muaman/.git
+
+Result: baseline 303dbb04032e07c58f1d630ed3d73168658e1afe, working tree clean, 0 commits after baseline, branch codex/muaman-13i-deterministic-official-sdk-patch-provenance.

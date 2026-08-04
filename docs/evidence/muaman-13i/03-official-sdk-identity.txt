@@ -1,0 +1,19 @@
+MUAMAN-13I EXACT OFFICIAL FLUTTER SDK IDENTITY
+==============================================
+Captured (UTC): 2026-08-04 18:36:00
+Source: docs/evidence/muaman-13h/11-sdk-version-a.txt, 12-sdk-version-b.txt, 03-flutter-sdk-archive-provisioning.txt
+       and https://storage.googleapis.com/flutter_infra_release/releases/releases_windows.json
+
+Flutter version: 3.24.5
+Channel: stable
+Framework revision: dec2ee5c1f98f8e84a7d5380c05eb8a3d0a81668 (2024-11-13 11:13:06 -0800)
+Engine revision: a18df97ca57a249df5d8d68cd0820600223ce262
+Dart version: 3.5.4 (stable) (Oct 16 2024) on windows_x64
+DevTools version: 2.37.3
+Official SDK archive filename: flutter_windows_3.24.5-stable.zip
+Official download URL: https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.24.5-stable.zip
+SDK archive format: ZIP (self-contained Windows Flutter distribution)
+Official vendor checksum (releases_windows.json, version 3.24.5 entry):
+  B8A7485ACD3C6FB23A76B7AC09F89E8D93D62FBFF7147C6F5F8C5686D949EEAC
+Existing shared SDK path used by 13G/13H: C:\src\flutter
+VS2026 patch file in shared SDK: packages\flutter_tools\lib\src\windows\visual_studio.dart
