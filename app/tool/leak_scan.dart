@@ -28,9 +28,15 @@ void main(List<String> arguments) async {
     final bytes = await File(entry.path).readAsBytes();
     final relPath =
         entry.path.substring(releaseDir.path.length + 1).replaceAll('\\', '/');
-    final forbiddenHits = <String, int>{};
+    final utf8Hits = <String, int>{};
+    final utf16leHits = <String, int>{};
+    final totalHits = <String, int>{};
     for (final pat in forbidden) {
-      forbiddenHits[pat] = _countOccurrences(bytes, utf8.encode(pat));
+      final u8 = _countOccurrences(bytes, utf8.encode(pat));
+      final u16 = _countOccurrences(bytes, _toUtf16le(pat));
+      utf8Hits[pat] = u8;
+      utf16leHits[pat] = u16;
+      totalHits[pat] = u8 + u16;
     }
 
     int? pkgUriCount;
@@ -44,7 +50,9 @@ void main(List<String> arguments) async {
     fileResults.add(_FileResult(
       path: relPath,
       sizeBytes: entry.size,
-      forbiddenOccurrences: forbiddenHits,
+      forbiddenOccurrences: totalHits,
+      utf8Occurrences: utf8Hits,
+      utf16leOccurrences: utf16leHits,
       packageUriCount: pkgUriCount,
       canonicalRootCount: canonicalCount,
     ));
@@ -63,7 +71,7 @@ void main(List<String> arguments) async {
       (expectedPkgUri == null || pkgUriCountInAppSo == 1);
 
   final json = {
-    'schema': 'muaman-13e-leak-scan',
+    'schema': 'muaman-13f-leak-scan',
     'releaseDir': args.releaseDir,
     'forbidden': forbidden,
     'expectedPackageUri': expectedPkgUri,
@@ -131,6 +139,16 @@ int _countOccurrences(List<int> haystack, List<int> needle) {
   return count;
 }
 
+/// Converts a string to UTF-16LE byte sequence for binary scanning.
+List<int> _toUtf16le(String s) {
+  final result = <int>[];
+  for (final codeUnit in s.codeUnits) {
+    result.add(codeUnit & 0xFF);
+    result.add((codeUnit >> 8) & 0xFF);
+  }
+  return result;
+}
+
 class _Args {
   final String releaseDir;
   final List<String> forbidden;
@@ -175,6 +193,8 @@ class _FileResult {
   final String path;
   final int sizeBytes;
   final Map<String, int> forbiddenOccurrences;
+  final Map<String, int> utf8Occurrences;
+  final Map<String, int> utf16leOccurrences;
   final int? packageUriCount;
   final int canonicalRootCount;
 
@@ -182,6 +202,8 @@ class _FileResult {
     required this.path,
     required this.sizeBytes,
     required this.forbiddenOccurrences,
+    required this.utf8Occurrences,
+    required this.utf16leOccurrences,
     this.packageUriCount,
     required this.canonicalRootCount,
   });
@@ -190,6 +212,8 @@ class _FileResult {
         'path': path,
         'sizeBytes': sizeBytes,
         'forbiddenOccurrences': forbiddenOccurrences,
+        'utf8Occurrences': utf8Occurrences,
+        'utf16leOccurrences': utf16leOccurrences,
         if (packageUriCount != null) 'packageUriCount': packageUriCount,
         'canonicalRootCount': canonicalRootCount,
       };

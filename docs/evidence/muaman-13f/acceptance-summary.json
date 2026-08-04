@@ -1,0 +1,149 @@
+{
+    "schema":  "muaman-13f-acceptance",
+    "baselineSha":  "bc323f2e405294aecc4a279a8fa86b6191c0f52c",
+    "baselineMessage":  "MUAMAN-13F: verify fresh-clone Windows reproducibility",
+    "branch":  "",
+    "cloneA":  {
+                   "path":  "C:\\dev\\muaman.fresh\\m13f-a",
+                   "pathLength":  26,
+                   "head":  "bc323f2e405294aecc4a279a8fa86b6191c0f52c"
+               },
+    "cloneB":  {
+                   "path":  "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b",
+                   "pathLength":  83,
+                   "head":  "bc323f2e405294aecc4a279a8fa86b6191c0f52c"
+               },
+    "pathLengthDelta":  57,
+    "clonesIndependent":  true,
+    "noAlternates":  true,
+    "noWorktree":  true,
+    "environment":  {
+                        "flutter":  "Flutter 3.24.5 ΓÇó channel stable ΓÇó https://github.com/flutter/flutter.git\r\nFramework ΓÇó revision dec2ee5c1f (1 year, 9 months ago) ΓÇó 2024-11-13 11:13:06 -0800\r\nEngine ΓÇó revision a18df97ca5\r\nTools ΓÇó Dart 3.5.4 ΓÇó DevTools 2.37.3",
+                        "dart":  "Dart SDK version: 3.5.4 (stable) (Wed Oct 16 16:18:51 2024 +0000) on \"windows_x64\"",
+                        "cmake":  "cmake version 4.3.3\r\n\r\nCMake suite maintained and supported by Kitware (kitware.com/cmake).",
+                        "ninja":  "not found",
+                        "git":  "git version 2.55.0.windows.2",
+                        "powershell":  "5.1.26100.6584",
+                        "vs":  "18.6.0",
+                        "msvc":  "14.51.36231",
+                        "os":  "Microsoft Windows 11 Pro 26200 (64-bit)"
+                    },
+    "buildA":  {
+                   "startedAt":  "2026-08-04T15:18:50.0976178Z",
+                   "endedAt":  "2026-08-04T15:20:37.0465226Z",
+                   "durationSec":  106.9,
+                   "exitCode":  0
+               },
+    "buildB":  {
+                   "startedAt":  "2026-08-04T15:20:37.0692377Z",
+                   "endedAt":  "2026-08-04T15:22:19.7262389Z",
+                   "durationSec":  102.7,
+                   "exitCode":  0
+               },
+    "releaseA":  {
+                     "fileCount":  13,
+                     "totalBytes":  33273462
+                 },
+    "releaseB":  {
+                     "fileCount":  13,
+                     "totalBytes":  33273462
+                 },
+    "perFileComparison":  [
+                              {
+                                  "relativePath":  "data/app.so",
+                                  "result":  "IDENTICAL",
+                                  "sha256A":  "8278EC7131C921D480AFEAF69B0D27624B11DF3E9E74180BB80273A09E1E2D3D",
+                                  "sha256B":  "8278EC7131C921D480AFEAF69B0D27624B11DF3E9E74180BB80273A09E1E2D3D"
+                              },
+                              {
+                                  "relativePath":  "data/flutter_assets/AssetManifest.bin",
+                                  "result":  "IDENTICAL",
+                                  "sha256A":  "00AF55AD3D6F21898FE77E0FF092D1A1CDA52C941B6860E9928D45C8AF8C095D",
+                                  "sha256B":  "00AF55AD3D6F21898FE77E0FF092D1A1CDA52C941B6860E9928D45C8AF8C095D"
+                              },
+                              {
+                                  "relativePath":  "data/flutter_assets/AssetManifest.json",
+                                  "result":  "IDENTICAL",
+                                  "sha256A":  "4A9B3DE7EEC9BA46B279BBCCD132E32F52D6D555D79DDA4AA7F3BCB4E9BD651F",
+                                  "sha256B":  "4A9B3DE7EEC9BA46B279BBCCD132E32F52D6D555D79DDA4AA7F3BCB4E9BD651F"
+                              },
+                              {
+                                  "relativePath":  "data/flutter_assets/FontManifest.json",
+                                  "result":  "IDENTICAL",
+                                  "sha256A":  "CD7E03645BC44B2DD47B7CB626F51C4ECBF55A197AB77241628B47AC165FBE21",
+                                  "sha256B":  "CD7E03645BC44B2DD47B7CB626F51C4ECBF55A197AB77241628B47AC165FBE21"
+                              },
+                              {
+                                  "relativePath":  "data/flutter_assets/fonts/MaterialIcons-Regular.otf",
+                                  "result":  "IDENTICAL",
+                                  "sha256A":  "D9865B671A09D683D13A863089D8825E0F61A37696CE5D7D448BC8023AA62453",
+                                  "sha256B":  "D9865B671A09D683D13A863089D8825E0F61A37696CE5D7D448BC8023AA62453"
+                              },
+                              {
+                                  "relativePath":  "data/flutter_assets/NOTICES.Z",
+                                  "result":  "IDENTICAL",
+                                  "sha256A":  "AB7675DAC8C7DCDF17A78E747C669C9BA13ED55306422F6D65F31BA98DA82DD6",
+                                  "sha256B":  "AB7675DAC8C7DCDF17A78E747C669C9BA13ED55306422F6D65F31BA98DA82DD6"
+                              },
+                              {
+                                  "relativePath":  "data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+                                  "result":  "IDENTICAL",
+                                  "sha256A":  "67C44FE9183B002E79DDE7F6977E2988661C9A3E4A3C5FCE968787EFDBED823C",
+                                  "sha256B":  "67C44FE9183B002E79DDE7F6977E2988661C9A3E4A3C5FCE968787EFDBED823C"
+                              },
+                              {
+                                  "relativePath":  "data/flutter_assets/shaders/ink_sparkle.frag",
+                                  "result":  "IDENTICAL",
+                                  "sha256A":  "3AA09424D1DC391FD59A9735EFE986FF43302B5E5BC310926AFE11C68626C3B2",
+                                  "sha256B":  "3AA09424D1DC391FD59A9735EFE986FF43302B5E5BC310926AFE11C68626C3B2"
+                              },
+                              {
+                                  "relativePath":  "data/icudtl.dat",
+                                  "result":  "IDENTICAL",
+                                  "sha256A":  "C12537022EF818991A7BFED41A76D8D6AE962FFBC0E6511AC762A5D0845E7F7C",
+                                  "sha256B":  "C12537022EF818991A7BFED41A76D8D6AE962FFBC0E6511AC762A5D0845E7F7C"
+                              },
+                              {
+                                  "relativePath":  "flutter_windows.dll",
+                                  "result":  "IDENTICAL",
+                                  "sha256A":  "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E",
+                                  "sha256B":  "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E"
+                              },
+                              {
+                                  "relativePath":  "muaman_store.exe",
+                                  "result":  "IDENTICAL",
+                                  "sha256A":  "194B46007E82D06936355C8C76B1E7DB93F97DF6691596097819E83A608BD6A9",
+                                  "sha256B":  "194B46007E82D06936355C8C76B1E7DB93F97DF6691596097819E83A608BD6A9"
+                              },
+                              {
+                                  "relativePath":  "pdfium.dll",
+                                  "result":  "IDENTICAL",
+                                  "sha256A":  "0C88EBACC0393FD45FC3E7B35E31E72C9E55B633A846A7ECF4085694DBA68ABD",
+                                  "sha256B":  "0C88EBACC0393FD45FC3E7B35E31E72C9E55B633A846A7ECF4085694DBA68ABD"
+                              },
+                              {
+                                  "relativePath":  "printing_plugin.dll",
+                                  "result":  "IDENTICAL",
+                                  "sha256A":  "959F1E85FEEC7D8AE02F97760608E8022CFF3C3D556AADC824306EA1AFE2A867",
+                                  "sha256B":  "959F1E85FEEC7D8AE02F97760608E8022CFF3C3D556AADC824306EA1AFE2A867"
+                              }
+                          ],
+    "allFilesByteIdentical":  true,
+    "deterministicZip":  {
+                             "sha256A":  "DA9C4B0451A3F92FAE88431438518537B11C9ECDF7A6ED3AEE0C3E6204D01665",
+                             "sha256B":  "DA9C4B0451A3F92FAE88431438518537B11C9ECDF7A6ED3AEE0C3E6204D01665",
+                             "sizeA":  14481448,
+                             "sizeB":  14481448,
+                             "identical":  true
+                         },
+    "peComparison":  {
+                         "identical":  true
+                     },
+    "pathLeakScan":  {
+                         "occurrencesA":  0,
+                         "occurrencesB":  0,
+                         "passed":  true
+                     },
+    "overallPass":  true,
+    "timestamp":  "2026-08-04T15:22:43.4064541Z"
+}

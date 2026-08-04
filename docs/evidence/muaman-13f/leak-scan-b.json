@@ -1,0 +1,132 @@
+{
+  "schema": "muaman-13f-leak-scan",
+  "releaseDir": "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b\\app\\build\\windows\\x64\\runner\\Release",
+  "forbidden": [
+    "C:\\dev\\muaman",
+    "C:\\dev\\muaman.fresh\\m13f-a",
+    "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b",
+    "C:\\dev\\muaman.worktrees"
+  ],
+  "expectedPackageUri": "package:_muaman_registrant/flutter_build/dart_plugin_registrant.dart",
+  "files": [
+    {
+      "path": "data/app.so",
+      "sizeBytes": 7324576,
+      "forbiddenOccurrences": {
+        "C:\\dev\\muaman": 0,
+        "C:\\dev\\muaman.fresh\\m13f-a": 0,
+        "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b": 0,
+        "C:\\dev\\muaman.worktrees": 0
+      },
+      "utf8Occurrences": {
+        "C:\\dev\\muaman": 0,
+        "C:\\dev\\muaman.fresh\\m13f-a": 0,
+        "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b": 0,
+        "C:\\dev\\muaman.worktrees": 0
+      },
+      "utf16leOccurrences": {
+        "C:\\dev\\muaman": 0,
+        "C:\\dev\\muaman.fresh\\m13f-a": 0,
+        "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b": 0,
+        "C:\\dev\\muaman.worktrees": 0
+      },
+      "packageUriCount": 1,
+      "canonicalRootCount": 0
+    },
+    {
+      "path": "muaman_store.exe",
+      "sizeBytes": 90624,
+      "forbiddenOccurrences": {
+        "C:\\dev\\muaman": 0,
+        "C:\\dev\\muaman.fresh\\m13f-a": 0,
+        "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b": 0,
+        "C:\\dev\\muaman.worktrees": 0
+      },
+      "utf8Occurrences": {
+        "C:\\dev\\muaman": 0,
+        "C:\\dev\\muaman.fresh\\m13f-a": 0,
+        "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b": 0,
+        "C:\\dev\\muaman.worktrees": 0
+      },
+      "utf16leOccurrences": {
+        "C:\\dev\\muaman": 0,
+        "C:\\dev\\muaman.fresh\\m13f-a": 0,
+        "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b": 0,
+        "C:\\dev\\muaman.worktrees": 0
+      },
+      "canonicalRootCount": 0
+    },
+    {
+      "path": "printing_plugin.dll",
+      "sizeBytes": 138240,
+      "forbiddenOccurrences": {
+        "C:\\dev\\muaman": 0,
+        "C:\\dev\\muaman.fresh\\m13f-a": 0,
+        "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b": 0,
+        "C:\\dev\\muaman.worktrees": 0
+      },
+      "utf8Occurrences": {
+        "C:\\dev\\muaman": 0,
+        "C:\\dev\\muaman.fresh\\m13f-a": 0,
+        "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b": 0,
+        "C:\\dev\\muaman.worktrees": 0
+      },
+      "utf16leOccurrences": {
+        "C:\\dev\\muaman": 0,
+        "C:\\dev\\muaman.fresh\\m13f-a": 0,
+        "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b": 0,
+        "C:\\dev\\muaman.worktrees": 0
+      },
+      "canonicalRootCount": 0
+    },
+    {
+      "path": "flutter_windows.dll",
+      "sizeBytes": 18181632,
+      "forbiddenOccurrences": {
+        "C:\\dev\\muaman": 0,
+        "C:\\dev\\muaman.fresh\\m13f-a": 0,
+        "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b": 0,
+        "C:\\dev\\muaman.worktrees": 0
+      },
+      "utf8Occurrences": {
+        "C:\\dev\\muaman": 0,
+        "C:\\dev\\muaman.fresh\\m13f-a": 0,
+        "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b": 0,
+        "C:\\dev\\muaman.worktrees": 0
+      },
+      "utf16leOccurrences": {
+        "C:\\dev\\muaman": 0,
+        "C:\\dev\\muaman.fresh\\m13f-a": 0,
+        "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b": 0,
+        "C:\\dev\\muaman.worktrees": 0
+      },
+      "canonicalRootCount": 0
+    },
+    {
+      "path": "pdfium.dll",
+      "sizeBytes": 4749824,
+      "forbiddenOccurrences": {
+        "C:\\dev\\muaman": 0,
+        "C:\\dev\\muaman.fresh\\m13f-a": 0,
+        "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b": 0,
+        "C:\\dev\\muaman.worktrees": 0
+      },
+      "utf8Occurrences": {
+        "C:\\dev\\muaman": 0,
+        "C:\\dev\\muaman.fresh\\m13f-a": 0,
+        "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b": 0,
+        "C:\\dev\\muaman.worktrees": 0
+      },
+      "utf16leOccurrences": {
+        "C:\\dev\\muaman": 0,
+        "C:\\dev\\muaman.fresh\\m13f-a": 0,
+        "C:\\dev\\muaman.fresh\\muaman-13f-independent-fresh-clone-committed-state-acceptance-b": 0,
+        "C:\\dev\\muaman.worktrees": 0
+      },
+      "canonicalRootCount": 0
+    }
+  ],
+  "totalForbiddenOccurrences": 0,
+  "allClear": true,
+  "packageUriCountInAppSo": 1
+}
