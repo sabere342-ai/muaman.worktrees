@@ -1,0 +1,31 @@
+MUAMAN-13H LOCKFILE INTEGRITY + POST-HYDRATION CACHE MANIFESTS
+===============================================================
+Captured: 2026-08-04 20:17:05 +03:00
+
+-- pubspec.lock integrity --
+Lock A SHA-256: EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A
+Lock B SHA-256: EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A
+Canonical MUAMAN-13G lockfile SHA-256: EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A
+A == canonical: True
+B == canonical: True
+A == B: True
+
+-- package graph equality (A vs B from pubspec.lock) --
+Package count A: 66 ; Package count B: 66
+  Package name sets identical: true
+
+-- version comparison per package --
+Version differences: 0
+
+-- post-hydration PUB_CACHE manifests --
+PUB_CACHE A: 9085 files, 128944943 bytes
+PUB_CACHE B: 9085 files, 128944943 bytes
+
+-- PUB_CACHE root equality check --
+PUB_CACHE A path: C:\m13h\a\pub
+PUB_CACHE B path: C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root\pub
+Distinct: True
+
+-- .dart_tool presence after hydration --
+A .dart_tool: True ; package_config: True
+B .dart_tool: True ; package_config: True

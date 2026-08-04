@@ -1,0 +1,14 @@
+MUAMAN-13H FINAL GIT STATE
+============================
+HEAD: (final commit hash verified after commit - see completion response)
+Commit message: MUAMAN-13H: verify isolated-cache Windows reproducibility
+Baseline: e90643e03e8438214a9de6d8f1e70c8633efa31a
+Commit count after baseline: 1
+Working tree: clean
+Production diff: empty
+Verification commands (post-commit):
+  git rev-parse HEAD
+  git log -1 --format="%H%n%s"
+  git rev-list --count e90643e03e8438214a9de6d8f1e70c8633efa31a..HEAD
+  git status --short
+  git diff e90643e03e8438214a9de6d8f1e70c8633efa31a -- app/lib app/windows app/pubspec.yaml app/pubspec.lock

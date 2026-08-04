@@ -1,0 +1,24 @@
+MUAMAN-13H SOURCE MANIFEST COMPARISON
+=======================================
+Manifest A root: C:\m13h\a\src
+Manifest A file count: 304
+Manifest A total bytes: 31647662
+Manifest B root: C:\dev\muaman-13h-environment-b-independent-source-extraction-root\src
+Manifest B file count: 304
+Manifest B total bytes: 31647662
+
+Canonical MUAMAN-13G source state required: 304 files, 31,647,662 bytes
+A matches canonical: True
+B matches canonical: True
+
+Relative-path differences: 0
+File-size differences: 0
+SHA-256 mismatches: 0
+
+pubspec.lock SHA-256 (env A): EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A
+pubspec.lock SHA-256 (env B): EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A
+pubspec.lock canonical: EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A
+A lockfile matches canonical: True
+B lockfile matches canonical: True
+
+Result: A and B source trees are byte-identical to each other and to the MUAMAN-13G canonical state.

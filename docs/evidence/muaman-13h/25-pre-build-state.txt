@@ -1,0 +1,18 @@
+MUAMAN-13H PRE-BUILD STATE CHECK (A and B)
+=============================================
+Captured (UTC): 2026-08-04 17:19:12
+
+Environment A
+  Release dir (build\windows\x64\runner\Release): False
+  build\windows exists: False
+  .dart_tool exists: True
+  flutter SDK bin\cache exists: True
+
+Environment B
+  Release dir (build\windows\x64\runner\Release): False
+  build\windows exists: False
+  .dart_tool exists: True
+  flutter SDK bin\cache exists: True
+
+Free disk space on C: 3.39 GB
+Available RAM (MB): 1141

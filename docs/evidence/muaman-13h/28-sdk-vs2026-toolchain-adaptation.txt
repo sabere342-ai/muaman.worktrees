@@ -1,0 +1,46 @@
+MUAMAN-13H FLUTTER_TOOLS VS2026 TOOLCHAIN ADAPTATION
+======================================================
+Captured (UTC): 2026-08-04 17:31:45
+
+Background: Flutter 3.24.5 (engine a18df97ca5) only special-cases the
+CMake generator for Visual Studio 2022 (major 17). On this host the sole
+usable Visual Studio installation is Build Tools 2026 (major 18, MSVC
+14.51.36231 / cl 19.51.36243). Unpatched flutter_tools therefore selects
+generator 'Visual Studio 16 2019', which CMake cannot match to any VS 18
+instance ('could not find any instance of Visual Studio').
+
+The canonical MUAMAN-13F/13G environment resolved this by applying a 3-line
+adaptation to flutter_tools/lib/src/windows/visual_studio.dart in the shared
+SDK at C:\src\flutter. MUAMAN-13H replicates that exact adaptation in both
+isolated SDK roots extracted from the immutable official SDK archive.
+
+File adapted (identical in all three SDKs):
+  packages\flutter_tools\lib\src\windows\visual_studio.dart
+
+Patch 1 (cmakeGenerator):
+  18 => 'Visual Studio 18 2026',   (inserted before existing 17 case)
+
+Patch 2+3 (_requiredComponents):
+  case 18:
+    cppToolchainDescription = 'MSVC v144 - VS 2026 C++ x64/x86 build tools';
+    (inserted before existing case 16)
+
+Verification (line-based Compare-Object against C:\src\flutter):
+  A vs patched-13G diffs: 0
+  B vs patched-13G diffs: 0
+  A vs B diffs: 0
+  SHA256 A: D08E9D71E978FDE1478FBF438DCEA6D16D26EA966D271F7D5108AC86E3CC5423
+  SHA256 B: D08E9D71E978FDE1478FBF438DCEA6D16D26EA966D271F7D5108AC86E3CC5423
+  (Hashes differ from C:\src\flutter only by CRLF/LF line endings;
+   the canonical shared SDK uses LF, fresh extractions use CRLF.)
+
+Engine artifacts (bin\cache\artifacts\engine\windows-x64-release and
+windows-x64) verified byte-identical between C:\src\flutter and fresh SDK A:
+  0 differences across all files.
+
+This is a disclosed, deterministic toolchain adaptation identical to the
+13G environment. It changes only the CMake generator string and a diagnostic
+message; it does not alter app source, dependency graph, compiler flags, or
+engine artifacts.
+
+Result: PASS - both SDKs adapted identically to canonical toolchain

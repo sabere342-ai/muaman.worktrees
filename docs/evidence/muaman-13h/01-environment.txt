@@ -1,0 +1,56 @@
+MUAMAN-13H ENVIRONMENT / TOOLCHAIN INVENTORY
+==============================================
+Date: 2026-08-04 20:06:09 +03:00
+
+-- OS --
+Caption: Microsoft Windows 11 Pro
+Version: 10.0.26200
+BuildNumber: 26200
+OSArchitecture: 64-bit
+Locale: 1033 / en-US
+TimeZone: Egypt Standard Time (UTC offset 03:00:00)
+CodePage: 1252 (ACP), OEM 437
+PowerShell: 5.1.26100.6584
+
+-- Hardware --
+System: Dell Inc. Latitude 5520
+CPU: 11th Gen Intel(R) Core(TM) i5-1145G7 @ 2.60GHz
+CPUArch: 9 / AddressWidth 64-bit
+LogicalProcessors: 8
+PhysicalMemoryMB: 7919
+AvailableMemoryMB: 1211
+
+-- Git (orchestration only) --
+git version 2.55.0.windows.2
+
+-- Visual Studio (global, shared) --
+Instance: Visual Studio Build Tools 2022 version=17.14.33 (May 2026) build=17.14.37314.3 path=C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools usable=False
+Instance: Visual Studio Build Tools 2026 version=18.6.0 build=18.6.11806.211 path=C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools usable=True
+
+-- MSVC toolset (global, shared) --
+Toolset version: 14.51.36231
+cl.exe path: C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Tools\MSVC\14.51.36231\bin\Hostx64\x64\cl.exe
+link.exe path: C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Tools\MSVC\14.51.36231\bin\Hostx64\x64\link.exe
+
+-- Windows SDK (global, shared) --
+Windows SDK version: 10.0.26100.0
+SDK root: C:\Program Files (x86)\Windows Kits\10
+rc.exe: C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\rc.exe
+
+-- CMake --
+Global CMake (on PATH, NOT used by flutter): C:\Program Files\CMake\bin\cmake.exe
+cmake version 4.3.3
+VS-bundled CMake (used by flutter build): C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe
+cmake version 4.2.3-msvc3
+
+-- Ninja --
+where.exe : INFO: Could not find files for the given pattern(s).
+At line:54 char:10
++ $out += (where.exe ninja 2>&1 | Out-String).Trim()
++          ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (INFO: Could not...ven pattern(s).:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+Note: Windows desktop build uses the Visual Studio generator, not Ninja.
+
+cl.exe full version: cl.exe : Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36243 for x64
+link.exe full version: Microsoft (R) Incremental Linker Version 14.51.36243.0

@@ -1,0 +1,23 @@
+MUAMAN-13H ENVIRONMENT VARIABLE SNAPSHOT - ENVIRONMENT B
+==========================================================
+Captured: 2026-08-04 20:12:13 +03:00
+PUB_CACHE = C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root\pub
+TEMP = C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root\tmp
+TMP = C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root\tmp
+HOME = C:\dev\muaman-13h-environment-b-independent-user-configuration-root\home
+APPDATA = C:\dev\muaman-13h-environment-b-independent-user-configuration-root\home\appdata\roaming
+LOCALAPPDATA = C:\dev\muaman-13h-environment-b-independent-user-configuration-root\home\appdata\local
+NUGET_PACKAGES = C:\dev\muaman-13h-environment-b-independent-user-configuration-root\home\appdata\local\NuGet\packages
+CI = true
+FLUTTER_SUPPRESS_ANALYTICS = true
+USERPROFILE = C:\dev\muaman-13h-environment-b-independent-user-configuration-root\home
+FLUTTER_ROOT =
+DART_HOME =
+FLUTTER_BIN =
+
+PATH entry count: 41
+PATH first entry: C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root\sdk\bin
+flutter-related PATH entries:
+  C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root\sdk\bin
+flutter.bat resolves to: C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root\sdk\bin\flutter.bat
+dart.bat resolves to: C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root\sdk\bin\dart.bat

@@ -1,0 +1,22 @@
+MUAMAN-13H SOURCE ARCHIVE HASH COMPARISON
+===========================================
+Generation command (documented MUAMAN-13G process):
+  git archive --format=tar --output=... 7890ba6ed6b0a8a17797b3d370acc662875fc79a
+  (the MUAMAN-13G canonical archive is the git archive of the 13F baseline 7890ba6e;
+   it excludes the 13G report/evidence/guard-test files, matching the canonical
+   extracted source state of 304 files / 31,647,662 bytes)
+
+Archive A path: C:\dev\muaman-src-arcs\muaman-13h\archive-a.tar
+Archive A SHA-256: 17A1DD24CE0DCBD1160BE3E66BDB3F89EB287173D5FCBE079A7C7A46F68DAF6F
+Archive A size: 31938560 bytes
+Archive B path: C:\dev\muaman-src-arcs\muaman-13h\archive-b.tar
+Archive B SHA-256: 17A1DD24CE0DCBD1160BE3E66BDB3F89EB287173D5FCBE079A7C7A46F68DAF6F
+Archive B size: 31938560 bytes
+
+Canonical MUAMAN-13G archive SHA-256: 17A1DD24CE0DCBD1160BE3E66BDB3F89EB287173D5FCBE079A7C7A46F68DAF6F
+Archive A matches canonical: True
+Archive B matches canonical: True
+Archive A == Archive B: True
+
+Both archives were created by independent git archive invocations (not copied).
+Each was extracted independently into its own source root (see source manifests).

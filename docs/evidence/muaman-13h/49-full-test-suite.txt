@@ -1,0 +1,12 @@
+MUAMAN-13H FULL TEST SUITE
+==============================
+Command: flutter test
+Working directory: C:\dev\muaman.worktrees\muaman-13h-isolated-cache-sdk-root-source-archive-reproducibility\app
+Total tests: 380
+Passed: 380 ; Failed: 0
+Preexisting baseline (through MUAMAN-13G): 355 tests
+MUAMAN-13H added guard checks: 25
+Result: All tests passed!
+Exit code: 0
+
+Result: PASS

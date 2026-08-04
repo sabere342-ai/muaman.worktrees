@@ -1,0 +1,228 @@
+{
+  "schema": "muaman-13f-leak-scan",
+  "releaseDir": "C:\\dev\\muaman-13h-environment-b-independent-source-extraction-root\\src\\app\\build\\windows\\x64\\runner\\Release",
+  "forbidden": [
+    "C:\\m13h\\a",
+    "C:\\m13h",
+    "C:\\dev\\muaman-13h-environment-b-independent-source-extraction-root",
+    "C:\\dev\\muaman-13h-environment-b-independent-flutter-sdk-installation-root",
+    "C:\\dev\\muaman-13h-environment-b-independent-dart-package-cache-root",
+    "C:\\dev\\muaman-13h-environment-b-independent-temporary-build-state-root",
+    "C:\\dev\\muaman-13h-environment-b-independent-user-configuration-root",
+    "C:\\dev\\muaman.worktrees",
+    "C:\\Program Files (x86)\\Microsoft Visual Studio",
+    "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode"
+  ],
+  "expectedPackageUri": "package:_muaman_registrant/flutter_build/dart_plugin_registrant.dart",
+  "files": [
+    {
+      "path": "data/app.so",
+      "sizeBytes": 7324576,
+      "forbiddenOccurrences": {
+        "C:\\m13h\\a": 0,
+        "C:\\m13h": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-source-extraction-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-flutter-sdk-installation-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-dart-package-cache-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-temporary-build-state-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-user-configuration-root": 0,
+        "C:\\dev\\muaman.worktrees": 0,
+        "C:\\Program Files (x86)\\Microsoft Visual Studio": 0,
+        "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode": 0
+      },
+      "utf8Occurrences": {
+        "C:\\m13h\\a": 0,
+        "C:\\m13h": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-source-extraction-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-flutter-sdk-installation-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-dart-package-cache-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-temporary-build-state-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-user-configuration-root": 0,
+        "C:\\dev\\muaman.worktrees": 0,
+        "C:\\Program Files (x86)\\Microsoft Visual Studio": 0,
+        "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode": 0
+      },
+      "utf16leOccurrences": {
+        "C:\\m13h\\a": 0,
+        "C:\\m13h": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-source-extraction-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-flutter-sdk-installation-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-dart-package-cache-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-temporary-build-state-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-user-configuration-root": 0,
+        "C:\\dev\\muaman.worktrees": 0,
+        "C:\\Program Files (x86)\\Microsoft Visual Studio": 0,
+        "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode": 0
+      },
+      "packageUriCount": 1,
+      "canonicalRootCount": 0
+    },
+    {
+      "path": "muaman_store.exe",
+      "sizeBytes": 90624,
+      "forbiddenOccurrences": {
+        "C:\\m13h\\a": 0,
+        "C:\\m13h": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-source-extraction-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-flutter-sdk-installation-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-dart-package-cache-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-temporary-build-state-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-user-configuration-root": 0,
+        "C:\\dev\\muaman.worktrees": 0,
+        "C:\\Program Files (x86)\\Microsoft Visual Studio": 0,
+        "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode": 0
+      },
+      "utf8Occurrences": {
+        "C:\\m13h\\a": 0,
+        "C:\\m13h": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-source-extraction-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-flutter-sdk-installation-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-dart-package-cache-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-temporary-build-state-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-user-configuration-root": 0,
+        "C:\\dev\\muaman.worktrees": 0,
+        "C:\\Program Files (x86)\\Microsoft Visual Studio": 0,
+        "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode": 0
+      },
+      "utf16leOccurrences": {
+        "C:\\m13h\\a": 0,
+        "C:\\m13h": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-source-extraction-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-flutter-sdk-installation-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-dart-package-cache-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-temporary-build-state-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-user-configuration-root": 0,
+        "C:\\dev\\muaman.worktrees": 0,
+        "C:\\Program Files (x86)\\Microsoft Visual Studio": 0,
+        "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode": 0
+      },
+      "canonicalRootCount": 0
+    },
+    {
+      "path": "printing_plugin.dll",
+      "sizeBytes": 138240,
+      "forbiddenOccurrences": {
+        "C:\\m13h\\a": 0,
+        "C:\\m13h": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-source-extraction-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-flutter-sdk-installation-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-dart-package-cache-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-temporary-build-state-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-user-configuration-root": 0,
+        "C:\\dev\\muaman.worktrees": 0,
+        "C:\\Program Files (x86)\\Microsoft Visual Studio": 0,
+        "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode": 0
+      },
+      "utf8Occurrences": {
+        "C:\\m13h\\a": 0,
+        "C:\\m13h": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-source-extraction-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-flutter-sdk-installation-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-dart-package-cache-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-temporary-build-state-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-user-configuration-root": 0,
+        "C:\\dev\\muaman.worktrees": 0,
+        "C:\\Program Files (x86)\\Microsoft Visual Studio": 0,
+        "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode": 0
+      },
+      "utf16leOccurrences": {
+        "C:\\m13h\\a": 0,
+        "C:\\m13h": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-source-extraction-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-flutter-sdk-installation-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-dart-package-cache-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-temporary-build-state-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-user-configuration-root": 0,
+        "C:\\dev\\muaman.worktrees": 0,
+        "C:\\Program Files (x86)\\Microsoft Visual Studio": 0,
+        "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode": 0
+      },
+      "canonicalRootCount": 0
+    },
+    {
+      "path": "flutter_windows.dll",
+      "sizeBytes": 18181632,
+      "forbiddenOccurrences": {
+        "C:\\m13h\\a": 0,
+        "C:\\m13h": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-source-extraction-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-flutter-sdk-installation-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-dart-package-cache-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-temporary-build-state-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-user-configuration-root": 0,
+        "C:\\dev\\muaman.worktrees": 0,
+        "C:\\Program Files (x86)\\Microsoft Visual Studio": 0,
+        "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode": 0
+      },
+      "utf8Occurrences": {
+        "C:\\m13h\\a": 0,
+        "C:\\m13h": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-source-extraction-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-flutter-sdk-installation-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-dart-package-cache-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-temporary-build-state-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-user-configuration-root": 0,
+        "C:\\dev\\muaman.worktrees": 0,
+        "C:\\Program Files (x86)\\Microsoft Visual Studio": 0,
+        "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode": 0
+      },
+      "utf16leOccurrences": {
+        "C:\\m13h\\a": 0,
+        "C:\\m13h": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-source-extraction-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-flutter-sdk-installation-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-dart-package-cache-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-temporary-build-state-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-user-configuration-root": 0,
+        "C:\\dev\\muaman.worktrees": 0,
+        "C:\\Program Files (x86)\\Microsoft Visual Studio": 0,
+        "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode": 0
+      },
+      "canonicalRootCount": 0
+    },
+    {
+      "path": "pdfium.dll",
+      "sizeBytes": 4749824,
+      "forbiddenOccurrences": {
+        "C:\\m13h\\a": 0,
+        "C:\\m13h": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-source-extraction-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-flutter-sdk-installation-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-dart-package-cache-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-temporary-build-state-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-user-configuration-root": 0,
+        "C:\\dev\\muaman.worktrees": 0,
+        "C:\\Program Files (x86)\\Microsoft Visual Studio": 0,
+        "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode": 0
+      },
+      "utf8Occurrences": {
+        "C:\\m13h\\a": 0,
+        "C:\\m13h": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-source-extraction-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-flutter-sdk-installation-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-dart-package-cache-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-temporary-build-state-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-user-configuration-root": 0,
+        "C:\\dev\\muaman.worktrees": 0,
+        "C:\\Program Files (x86)\\Microsoft Visual Studio": 0,
+        "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode": 0
+      },
+      "utf16leOccurrences": {
+        "C:\\m13h\\a": 0,
+        "C:\\m13h": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-source-extraction-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-flutter-sdk-installation-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-dart-package-cache-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-temporary-build-state-root": 0,
+        "C:\\dev\\muaman-13h-environment-b-independent-user-configuration-root": 0,
+        "C:\\dev\\muaman.worktrees": 0,
+        "C:\\Program Files (x86)\\Microsoft Visual Studio": 0,
+        "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode": 0
+      },
+      "canonicalRootCount": 0
+    }
+  ],
+  "totalForbiddenOccurrences": 0,
+  "allClear": true,
+  "packageUriCountInAppSo": 1
+}

@@ -1,0 +1,29 @@
+MUAMAN-13H GIT-METADATA-FREE PROOF - ENVIRONMENT A
+================================================
+Root: C:\m13h\a\src
+
+-- .git file at root --
+exists: False
+-- .git directory at root --
+exists: False
+
+-- recursive .git search (files and dirs) --
+NONE FOUND
+
+-- .gitmodules / alternates / worktree metadata search --
+NONE FOUND
+
+-- reparse points (junctions/symlinks) --
+NONE FOUND
+
+-- git commands (all must fail with not-a-repository) --
+  git -C root rev-parse --show-toplevel => exit 128
+    fatal: not a git repository (or any of the parent directories): .git
+  git -C root rev-parse --git-dir => exit 128
+    fatal: not a git repository (or any of the parent directories): .git
+  git -C root status --short => exit 128
+    fatal: not a git repository (or any of the parent directories): .git
+  git -C root rev-parse --is-inside-work-tree => exit 128
+    fatal: not a git repository (or any of the parent directories): .git
+
+Result: PASS - fully git-free

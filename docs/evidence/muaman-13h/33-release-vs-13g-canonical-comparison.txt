@@ -1,0 +1,11 @@
+MUAMAN-13H THREE-WAY RELEASE RECONCILIATION vs MUAMAN-13G CANONICAL
+====================================================================
+Canonical source: docs/evidence/muaman-13g/15-release-manifest-a.json
+  fileCount: 13
+  totalBytes: 33273462
+
+13G vs 13H-A differences: 0
+
+13G vs 13H-B differences: 0
+
+Result: PASS - 13H A and B both byte-identical to 13G canonical (13/13 files, 33273462 bytes)

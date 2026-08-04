@@ -1,0 +1,146 @@
+FILE: flutter_windows.dll (18181632 bytes) forbidden-total=0
+  C:\m13h\a	utf8=0	utf16=0
+  C:\m13h	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-source-extraction-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-user-configuration-root	utf8=0	utf16=0
+  C:\dev\muaman.worktrees	utf8=0	utf16=0
+  C:\Program Files (x86)\Microsoft Visual Studio	utf8=0	utf16=0
+  C:\Users\saber\AppData\Local\Temp\opencode	utf8=0	utf16=0
+FILE: muaman_store.exe (90624 bytes) forbidden-total=0
+  C:\m13h\a	utf8=0	utf16=0
+  C:\m13h	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-source-extraction-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-user-configuration-root	utf8=0	utf16=0
+  C:\dev\muaman.worktrees	utf8=0	utf16=0
+  C:\Program Files (x86)\Microsoft Visual Studio	utf8=0	utf16=0
+  C:\Users\saber\AppData\Local\Temp\opencode	utf8=0	utf16=0
+FILE: pdfium.dll (4749824 bytes) forbidden-total=0
+  C:\m13h\a	utf8=0	utf16=0
+  C:\m13h	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-source-extraction-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-user-configuration-root	utf8=0	utf16=0
+  C:\dev\muaman.worktrees	utf8=0	utf16=0
+  C:\Program Files (x86)\Microsoft Visual Studio	utf8=0	utf16=0
+  C:\Users\saber\AppData\Local\Temp\opencode	utf8=0	utf16=0
+FILE: printing_plugin.dll (138240 bytes) forbidden-total=0
+  C:\m13h\a	utf8=0	utf16=0
+  C:\m13h	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-source-extraction-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-user-configuration-root	utf8=0	utf16=0
+  C:\dev\muaman.worktrees	utf8=0	utf16=0
+  C:\Program Files (x86)\Microsoft Visual Studio	utf8=0	utf16=0
+  C:\Users\saber\AppData\Local\Temp\opencode	utf8=0	utf16=0
+FILE: data/app.so (7324576 bytes) forbidden-total=0
+  C:\m13h\a	utf8=0	utf16=0
+  C:\m13h	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-source-extraction-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-user-configuration-root	utf8=0	utf16=0
+  C:\dev\muaman.worktrees	utf8=0	utf16=0
+  C:\Program Files (x86)\Microsoft Visual Studio	utf8=0	utf16=0
+  C:\Users\saber\AppData\Local\Temp\opencode	utf8=0	utf16=0
+FILE: data/icudtl.dat (778864 bytes) forbidden-total=0
+  C:\m13h\a	utf8=0	utf16=0
+  C:\m13h	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-source-extraction-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-user-configuration-root	utf8=0	utf16=0
+  C:\dev\muaman.worktrees	utf8=0	utf16=0
+  C:\Program Files (x86)\Microsoft Visual Studio	utf8=0	utf16=0
+  C:\Users\saber\AppData\Local\Temp\opencode	utf8=0	utf16=0
+FILE: data/flutter_assets/AssetManifest.bin (117 bytes) forbidden-total=0
+  C:\m13h\a	utf8=0	utf16=0
+  C:\m13h	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-source-extraction-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-user-configuration-root	utf8=0	utf16=0
+  C:\dev\muaman.worktrees	utf8=0	utf16=0
+  C:\Program Files (x86)\Microsoft Visual Studio	utf8=0	utf16=0
+  C:\Users\saber\AppData\Local\Temp\opencode	utf8=0	utf16=0
+FILE: data/flutter_assets/AssetManifest.json (109 bytes) forbidden-total=0
+  C:\m13h\a	utf8=0	utf16=0
+  C:\m13h	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-source-extraction-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-user-configuration-root	utf8=0	utf16=0
+  C:\dev\muaman.worktrees	utf8=0	utf16=0
+  C:\Program Files (x86)\Microsoft Visual Studio	utf8=0	utf16=0
+  C:\Users\saber\AppData\Local\Temp\opencode	utf8=0	utf16=0
+FILE: data/flutter_assets/FontManifest.json (208 bytes) forbidden-total=0
+  C:\m13h\a	utf8=0	utf16=0
+  C:\m13h	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-source-extraction-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-user-configuration-root	utf8=0	utf16=0
+  C:\dev\muaman.worktrees	utf8=0	utf16=0
+  C:\Program Files (x86)\Microsoft Visual Studio	utf8=0	utf16=0
+  C:\Users\saber\AppData\Local\Temp\opencode	utf8=0	utf16=0
+FILE: data/flutter_assets/NOTICES.Z (89152 bytes) forbidden-total=0
+  C:\m13h\a	utf8=0	utf16=0
+  C:\m13h	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-source-extraction-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-user-configuration-root	utf8=0	utf16=0
+  C:\dev\muaman.worktrees	utf8=0	utf16=0
+  C:\Program Files (x86)\Microsoft Visual Studio	utf8=0	utf16=0
+  C:\Users\saber\AppData\Local\Temp\opencode	utf8=0	utf16=0
+FILE: data/flutter_assets/fonts/MaterialIcons-Regular.otf (1645184 bytes) forbidden-total=0
+  C:\m13h\a	utf8=0	utf16=0
+  C:\m13h	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-source-extraction-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-user-configuration-root	utf8=0	utf16=0
+  C:\dev\muaman.worktrees	utf8=0	utf16=0
+  C:\Program Files (x86)\Microsoft Visual Studio	utf8=0	utf16=0
+  C:\Users\saber\AppData\Local\Temp\opencode	utf8=0	utf16=0
+FILE: data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf (257628 bytes) forbidden-total=0
+  C:\m13h\a	utf8=0	utf16=0
+  C:\m13h	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-source-extraction-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-user-configuration-root	utf8=0	utf16=0
+  C:\dev\muaman.worktrees	utf8=0	utf16=0
+  C:\Program Files (x86)\Microsoft Visual Studio	utf8=0	utf16=0
+  C:\Users\saber\AppData\Local\Temp\opencode	utf8=0	utf16=0
+FILE: data/flutter_assets/shaders/ink_sparkle.frag (17304 bytes) forbidden-total=0
+  C:\m13h\a	utf8=0	utf16=0
+  C:\m13h	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-source-extraction-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root	utf8=0	utf16=0
+  C:\dev\muaman-13h-environment-b-independent-user-configuration-root	utf8=0	utf16=0
+  C:\dev\muaman.worktrees	utf8=0	utf16=0
+  C:\Program Files (x86)\Microsoft Visual Studio	utf8=0	utf16=0
+  C:\Users\saber\AppData\Local\Temp\opencode	utf8=0	utf16=0
+
+TOTAL FORBIDDEN OCCURRENCES (all 13 files, UTF-8+UTF-16LE, case-insensitive): 0
+RESULT: PASS - zero path leaks across all Release files

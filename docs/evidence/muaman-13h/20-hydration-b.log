@@ -1,0 +1,96 @@
+MUAMAN-13H DEPENDENCY HYDRATION - ENVIRONMENT B
+================================================
+Working directory: C:\dev\muaman-13h-environment-b-independent-source-extraction-root\src\app
+Flutter: C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root\sdk\bin\flutter.bat
+PUB_CACHE: C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root\pub
+Start: 2026-08-04 20:15:33 +03:00
+
+-- COMMAND: flutter clean --
+Exit code: 0 ; Duration: 39.2184952s
+
+  ΓòöΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòù
+  Γòæ                 Welcome to Flutter! - https://flutter.dev                  Γòæ
+  Γòæ                                                                            Γòæ
+  Γòæ The Flutter tool uses Google Analytics to anonymously report feature usage Γòæ
+  Γòæ statistics and basic crash reports. This data is used to help improve      Γòæ
+  Γòæ Flutter tools over time.                                                   Γòæ
+  Γòæ                                                                            Γòæ
+  Γòæ Flutter tool analytics are not sent on the very first run. To disable      Γòæ
+  Γòæ reporting, type 'flutter config --no-analytics'. To display the current    Γòæ
+  Γòæ setting, type 'flutter config'. If you opt out of analytics, an opt-out    Γòæ
+  Γòæ event will be sent, and then no further information will be sent by the    Γòæ
+  Γòæ Flutter tool.                                                              Γòæ
+  Γòæ                                                                            Γòæ
+  Γòæ By downloading the Flutter SDK, you agree to the Google Terms of Service.  Γòæ
+  Γòæ The Google Privacy Policy describes how data is handled in this service.   Γòæ
+  Γòæ                                                                            Γòæ
+  Γòæ Moreover, Flutter includes the Dart SDK, which may send usage metrics and  Γòæ
+  Γòæ crash reports to Google.                                                   Γòæ
+  Γòæ                                                                            Γòæ
+  Γòæ Read about data we send with crash reports:                                Γòæ
+  Γòæ https://flutter.dev/to/crash-reporting                                     Γòæ
+  Γòæ                                                                            Γòæ
+  Γòæ See Google's privacy policy:                                               Γòæ
+  Γòæ https://policies.google.com/privacy                                        Γòæ
+  Γòæ                                                                            Γòæ
+  Γòæ To disable animations in this tool, use                                    Γòæ
+  Γòæ 'flutter config --no-cli-animations'.                                      Γòæ
+  ΓòÜΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓò¥
+
+
+-- COMMAND: flutter pub get --
+Exit code: 0 ; Duration: 27.6180432s
+Resolving dependencies...
+Downloading packages...
+  archive 3.6.1 (4.0.9 available)
+  async 2.11.0 (2.13.1 available)
+  boolean_selector 2.1.1 (2.1.2 available)
+  characters 1.3.0 (1.4.1 available)
+  clock 1.1.1 (1.1.2 available)
+  collection 1.18.0 (1.19.1 available)
+  cupertino_icons 1.0.8 (1.0.9 available)
+  fake_async 1.3.1 (1.3.3 available)
+  ffi 2.1.3 (2.2.0 available)
+  file 7.0.0 (7.0.1 available)
+  flutter_lints 4.0.0 (6.0.0 available)
+  http_parser 4.0.2 (4.1.2 available)
+  image 4.3.0 (4.9.1 available)
+  intl 0.19.0 (0.20.3 available)
+  leak_tracker 10.0.5 (11.0.2 available)
+  leak_tracker_flutter_testing 3.0.5 (3.0.10 available)
+  leak_tracker_testing 3.0.1 (3.0.2 available)
+  lints 4.0.0 (6.1.0 available)
+  matcher 0.12.16+1 (0.12.20 available)
+  material_color_utilities 0.11.1 (0.13.0 available)
+  meta 1.15.0 (1.19.0 available)
+  path 1.9.0 (1.9.1 available)
+  pdf 3.11.3 (3.13.0 available)
+  petitparser 6.0.2 (7.0.2 available)
+  platform 3.1.5 (3.1.6 available)
+  printing 5.14.3 (5.15.0 available)
+  process 5.0.2 (5.0.5 available)
+  qr 3.0.2 (4.0.0 available)
+  source_span 1.10.0 (1.10.2 available)
+  sqflite 2.4.1 (2.4.3 available)
+  sqflite_android 2.4.0 (2.4.3 available)
+  sqflite_common 2.5.4+6 (2.5.11 available)
+  sqflite_common_ffi 2.3.4+4 (2.4.2 available)
+  sqflite_darwin 2.4.1+1 (2.4.3+1 available)
+  sqflite_platform_interface 2.4.0 (2.4.1 available)
+  sqlite3 2.9.4 (3.5.1 available)
+  stack_trace 1.11.1 (1.12.1 available)
+  stream_channel 2.1.2 (2.1.4 available)
+  string_scanner 1.2.0 (1.4.1 available)
+  synchronized 3.3.0+3 (3.4.1+1 available)
+  term_glyph 1.2.1 (1.2.2 available)
+  test_api 0.7.2 (0.7.13 available)
+  vector_math 2.1.4 (2.4.2 available)
+  vm_service 14.2.5 (15.2.0 available)
+  webdriver 3.0.3 (3.1.0 available)
+  xml 6.5.0 (7.0.1 available)
+Got dependencies!
+46 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+
+Hydration total duration: 66.8643649s ; End: 2026-08-04 20:16:40 +03:00
+Note: network use required for initial independent package download into the empty PUB_CACHE.

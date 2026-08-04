@@ -1,0 +1,30 @@
+MUAMAN-13H INITIAL COLD-STATE PROOF - ENVIRONMENT B
+==============================================
+Captured: 2026-08-04 20:10:13 +03:00
+Source root: C:\dev\muaman-13h-environment-b-independent-source-extraction-root\src
+PUB_CACHE root: C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root\pub
+TEMP/TMP root: C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root\tmp
+HOME root: C:\dev\muaman-13h-environment-b-independent-user-configuration-root\home
+
+-- PUB_CACHE --
+  path exists: True ; empty: True
+-- TEMP/TMP --
+  path exists: True ; empty: True
+-- HOME/APPDATA/LOCALAPPDATA --
+  C:\dev\muaman-13h-environment-b-independent-user-configuration-root\home -> exists: True ; empty: True
+  C:\dev\muaman-13h-environment-b-independent-user-configuration-root\home\appdata\roaming -> exists: False ; empty: True
+  C:\dev\muaman-13h-environment-b-independent-user-configuration-root\home\appdata\local -> exists: False ; empty: True
+-- NUGET_PACKAGES --
+  C:\dev\muaman-13h-environment-b-independent-user-configuration-root\home\appdata\local\NuGet\packages -> exists: False ; empty: True
+
+-- Source tree build artifacts --
+  app\.dart_tool exists: False
+  app\build exists: False
+  app\windows\flutter\ephemeral exists: False
+-- Windows Release dir --
+  exists: False
+
+-- Prior MUAMAN binaries under environment root --
+  found: 0
+
+Result: PASS - all isolated roots absent or empty, no build artifacts, no prior binaries

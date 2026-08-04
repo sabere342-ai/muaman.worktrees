@@ -1,0 +1,30 @@
+MUAMAN-13H FLUTTER SDK ARTIFACT EQUIVALENCE (build-relevant)
+==============================================================
+SDK A root: C:\m13h\a\sdk
+SDK B root: C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root\sdk
+SDK A exists: True ; SDK B exists: True
+Distinct SDK roots: True
+
+version                                                                sizeA=6         sizeB=6         hashMatch=True
+bin\cache\flutter.version.json                                         sizeA=393       sizeB=393       hashMatch=True
+bin\cache\dart-sdk\version                                             sizeA=7         sizeB=7         hashMatch=True
+bin\cache\artifacts\engine\windows-x64\flutter_windows.dll             sizeA=45091328  sizeB=45091328  hashMatch=True
+bin\cache\artifacts\engine\windows-x64\flutter_windows.dll.exp         sizeA=17854     sizeB=17854     hashMatch=True
+bin\cache\artifacts\engine\windows-x64\flutter_windows.dll.lib         sizeA=30828     sizeB=30828     hashMatch=True
+bin\cache\artifacts\engine\windows-x64\flutter_windows.dll.pdb         sizeA=252170240 sizeB=252170240 hashMatch=True
+bin\cache\artifacts\engine\windows-x64\gen_snapshot.exe                sizeA=5878272   sizeB=5878272   hashMatch=True
+bin\cache\artifacts\engine\windows-x64\flutter_tester.exe              sizeA=41149952  sizeB=41149952  hashMatch=True
+bin\cache\artifacts\engine\windows-x64\frontend_server_aot.dart.snapshot sizeA=15691576  sizeB=15691576  hashMatch=True
+bin\cache\artifacts\engine\windows-x64\icudtl.dat                      sizeA=778864    sizeB=778864    hashMatch=True
+bin\cache\artifacts\engine\windows-x64\const_finder.dart.snapshot      sizeA=3547248   sizeB=3547248   hashMatch=True
+bin\cache\artifacts\engine\windows-x64\vm_isolate_snapshot.bin         sizeA=12736     sizeB=12736     hashMatch=True
+bin\cache\artifacts\engine\windows-x64\isolate_snapshot.bin            sizeA=10518685  sizeB=10518685  hashMatch=True
+bin\cache\artifacts\engine\windows-x64\libtessellator.dll              sizeA=212480    sizeB=212480    hashMatch=True
+bin\cache\artifacts\engine\windows-x64\path_ops.dll                    sizeA=395264    sizeB=395264    hashMatch=True
+bin\cache\flutter_tools.snapshot                                       sizeA=38458800  sizeB=38458800  hashMatch=True
+packages\flutter_tools\pubspec.yaml                                    sizeA=6235      sizeB=6235      hashMatch=True
+packages\flutter\lib\material.dart                                     sizeA=8548      sizeB=8548      hashMatch=True
+
+File count compared: 19
+Missing: 0 ; Hash/size mismatches: 0
+Result: PASS - both SDKs contain identical build-relevant artifacts

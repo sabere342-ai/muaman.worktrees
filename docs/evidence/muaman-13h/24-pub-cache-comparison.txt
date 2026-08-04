@@ -1,0 +1,11 @@
+MUAMAN-13H PUB_CACHE DIRECTORY COMPARISON (A vs B)
+======================================================
+A: C:\m13h\a\pub\hosted\pub.dev
+B: C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root\pub\hosted\pub.dev
+
+Package dir count A: 127 ; B: 127
+Directory name differences: 0
+
+File count A: 9085 ; File count B: 9085 ; Byte count A: 128944943 ; Byte count B: 128944943
+
+Result: PASS - PUB_CACHE package sets identical

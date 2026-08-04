@@ -1,0 +1,18 @@
+=== MUAMAN-13H BUILD: 2026-08-04 20:35:22 +03:00 ===
+AppDir: C:\m13h\a\src\app
+SdkBin: C:\m13h\a\sdk\bin
+PUB_CACHE: C:\m13h\a\pub
+TEMP: C:\m13h\a\tmp
+HOME: C:\m13h\a\home
+USERPROFILE: C:\m13h\a\home
+CI: true ; FLUTTER_SUPPRESS_ANALYTICS: true
+PATH[0]: C:\m13h\a\sdk\bin C:\Program Files\Microsoft\jdk-21.0.11.10-hotspot\bin C:\Program Files\Microsoft\jdk-17.0.19.10-hotspot\bin C:\Program Files (x86)\Common Files\Oracle\Java\java8path C:\Program Files (x86)\Common Files\Oracle\Java\javapath C:\Python314\Scripts\ C:\Python314\ C:\WINDOWS\system32 C:\WINDOWS C:\WINDOWS\System32\Wbem C:\WINDOWS\System32\WindowsPowerShell\v1.0\ C:\WINDOWS\System32\OpenSSH\ C:\ProgramData\chocolatey\bin C:\Program Files\nodejs\ C:\Program Files\Rust stable MSVC 1.95\bin C:\Program Files\dotnet\ C:\Program Files\CMake\bin C:\Program Files\Docker\Docker\resources\bin C:\Program Files\Git\cmd C:\Program Files\Microsoft\jdk-21.0.11.10-hotspot\bin C:\Program Files\Microsoft\jdk-17.0.19.10-hotspot\bin C:\Program Files (x86)\Common Files\Oracle\Java\java8path C:\Program Files (x86)\Common Files\Oracle\Java\javapath C:\Python314\Scripts\ C:\Python314\ C:\WINDOWS\system32 C:\WINDOWS C:\WINDOWS\System32\Wbem C:\WINDOWS\System32\WindowsPowerShell\v1.0\ C:\WINDOWS\System32\OpenSSH\ C:\Program Files\Git\cmd C:\ProgramData\chocolatey\bin C:\Program Files\nodejs\ C:\Program Files\Rust stable MSVC 1.95\bin C:\Program Files\dotnet\ C:\Program Files\CMake\bin C:\Program Files\Docker\Docker\resources\bin C:\Program Files\PostgreSQL\18\bin C:\Users\saber\AppData\Roaming\npm C:\Users\saber\AppData\Local\Programs\Microsoft VS Code\bin C:\Users\saber\AppData\Local\Microsoft\WinGet\Links[0]
+flutter resolves to: C:\m13h\a\sdk\bin\flutter.bat
+===========================================
+
+Building Windows application...                                   118.6s
+ΓêÜ Built build\windows\x64\runner\Release\muaman_store.exe
+===========================================
+BUILD EXIT CODE: 0
+BUILD DURATION (seconds): 119.1
+COMPLETED: 2026-08-04 20:37:21 +03:00

@@ -1,0 +1,73 @@
+MUAMAN-13H COMMAND TRANSCRIPT
+===============================
+Phase 1: Preflight
+  git rev-parse HEAD
+  git status --short
+  git branch --show-current
+  git log -1 --format="%H%n%s"
+  git rev-list --count e90643e03e8438214a9de6d8f1e70c8633efa31a..HEAD
+  flutter --version
+  dart --version
+  git --version
+
+Phase 2: Branch creation
+  git checkout -b codex/muaman-13h-isolated-cache-sdk-root-source-archive-reproducibility e90643e03e8438214a9de6d8f1e70c8633efa31a
+
+Phase 3: Source archive preparation
+  git archive --format=tar --output=C:\dev\muaman-src-arcs\muaman-13h\archive-a.tar 7890ba6ed6b0a8a17797b3d370acc662875fc79a
+  git archive --format=tar --output=C:\dev\muaman-src-arcs\muaman-13h\archive-b.tar 7890ba6ed6b0a8a17797b3d370acc662875fc79a
+  sha256sum archive-a.tar / archive-b.tar  (both 17A1DD24...)
+
+Phase 4: Flutter SDK provisioning
+  Invoke-WebRequest https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.24.5-stable.zip
+  Get-FileHash (verified B8A7485A... against releases_windows.json)
+  tar xf flutter_windows_3.24.5-stable.zip -C C:\m13h\a --strip-components=1
+  tar xf flutter_windows_3.24.5-stable.zip -C C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root --strip-components=1
+
+Phase 5: Isolation root creation and extraction
+  New-Item C:\m13h\a\{src,sdk,pub,tmp,home}
+  New-Item C:\dev\muaman-13h-environment-b-independent-{source-extraction-root,flutter-sdk-installation-root,dart-package-cache-root,temporary-build-state-root,user-configuration-root}\{src,sdk,pub,tmp,home}
+  tar xf archive-a.tar -C C:\m13h\a\src
+  tar xf archive-b.tar -C C:\dev\muaman-13h-environment-b-independent-source-extraction-root\src
+
+Phase 6: Git-metadata absence proof
+  Get-ChildItem -LiteralPath <root> -Force -Recurse | Where-Object { $_.Name -eq '.git' }
+  git -C <root> rev-parse --is-inside-work-tree
+  git -C <root> rev-parse --show-toplevel
+
+Phase 7: Toolchain adaptation (VS2026)
+  Added 3 lines to packages\flutter_tools\lib\src\windows\visual_studio.dart (both SDKs):
+    18 => 'Visual Studio 18 2026',
+    case 18: cppToolchainDescription = 'MSVC v144 - VS 2026 C++ x64/x86 build tools';
+  Verified 0 line diffs vs C:\src\flutter and A vs B.
+  Removed bin\cache\flutter_tools.stamp; ran flutter --version (rebuilt flutter_tools snapshot).
+
+Phase 8: Dependency hydration (isolated empty caches)
+  A: flutter clean; flutter pub get   (PUB_CACHE=C:\m13h\a\pub, network download)
+  B: flutter clean; flutter pub get   (PUB_CACHE=C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root\pub, network download)
+
+Phase 9: Builds (sequential, isolated env vars per environment)
+  A: flutter build windows --release --no-pub   (119.1s, exit 0)
+  B: flutter build windows --release --no-pub   (128.9s, exit 0)
+
+Phase 10: Manifest + PE + path-leak + ZIP verification
+  dart run tool/repro_manifest.dart (per env)
+  dart run tool/pe_inspect.dart --run-id ... --out ... --file ... (per env)
+  dart run tool/leak_scan.dart --release-dir=... --forbidden=... --out=...
+  dart run tool/repro_zip.dart --release-dir ... --out ... (per env)
+
+Phase 11: Quality gates (worktree app, shared C:\src\flutter, PUB_CACHE=C:\m13h\a\pub)
+  dart format --output=none --set-exit-if-changed .
+  flutter analyze
+  flutter test
+  git diff --check
+  git diff e90643e03e8438214a9de6d8f1e70c8633efa31a -- app/lib app/windows app/pubspec.yaml app/pubspec.lock
+
+Phase 12: Commit
+  git add (guard test, evidence, report)
+  git commit -m "MUAMAN-13H: verify isolated-cache Windows reproducibility"
+
+Post-commit verification:
+  git rev-parse HEAD
+  git rev-list --count e90643e03e8438214a9de6d8f1e70c8633efa31a..HEAD
+  git status --short

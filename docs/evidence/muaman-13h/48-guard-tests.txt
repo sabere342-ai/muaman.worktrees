@@ -1,0 +1,17 @@
+MUAMAN-13H GUARD TESTS
+=========================
+Command: flutter test test\muaman13h_isolated_cache_sdk_root_guard_test.dart
+Working directory: C:\dev\muaman.worktrees\muaman-13h-isolated-cache-sdk-root-source-archive-reproducibility\app
+Guard test file: app\test\muaman13h_isolated_cache_sdk_root_guard_test.dart
+Checks: 25
+Result: All tests passed! (25/25)
+Exit code: 0
+
+Also included in the full-suite run (see 49). All 25 checks validate:
+  report file + baseline + outcome; evidence presence/non-emptiness/count (53 files);
+  source manifests (304 files); lockfile canonical SHA-256; A-vs-B and A-vs-13G release
+  comparisons; PE byte-identity; path-leak zero occurrences; deterministic ZIP canonical
+  SHA-256; cross-run contamination proof; VS2026 toolchain adaptation; build exit codes;
+  hydration exit codes; pub-cache comparison; production-diff emptiness; final git state.
+
+Result: PASS

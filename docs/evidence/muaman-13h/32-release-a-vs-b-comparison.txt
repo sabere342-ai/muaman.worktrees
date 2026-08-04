@@ -1,0 +1,13 @@
+MUAMAN-13H RELEASE A vs RELEASE B COMPARISON
+==============================================
+A: C:\m13h\a\src\app\build\windows\x64\runner\Release
+B: C:\dev\muaman-13h-environment-b-independent-source-extraction-root\src\app\build\windows\x64\runner\Release
+
+Canonical file entries differing (path/size/sha256): 0
+
+A fileCount: 13
+A totalBytes: 33273462
+B fileCount: 13
+B totalBytes: 33273462
+
+Result: PASS - Release A byte-identical to Release B (13/13 files)

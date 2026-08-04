@@ -1,0 +1,30 @@
+MUAMAN-13H ROOT PATH DIVERSITY (measured, not estimated)
+=========================================================
+
+A source:  13 chars  C:\m13h\a\src
+A sdk:    13 chars  C:\m13h\a\sdk
+A pub:    13 chars  C:\m13h\a\pub
+A tmp:    13 chars  C:\m13h\a\tmp
+A home:   14 chars  C:\m13h\a\home
+B source:  70 chars  C:\dev\muaman-13h-environment-b-independent-source-extraction-root\src
+B sdk:    77 chars  C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root\sdk
+B pub:    71 chars  C:\dev\muaman-13h-environment-b-independent-dart-package-cache-root\pub
+B tmp:    74 chars  C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root\tmp
+B home:   72 chars  C:\dev\muaman-13h-environment-b-independent-user-configuration-root\home
+
+Path-length deltas (B minus A):
+tmp:     delta = 61 chars (minimum required 50) => PASS
+sdk:     delta = 64 chars (minimum required 50) => PASS
+home:    delta = 58 chars (minimum required 50) => PASS
+source:  delta = 57 chars (minimum required 50) => PASS
+pub:     delta = 58 chars (minimum required 50) => PASS
+
+Derived per-environment roots:
+  A TEMP/TMP = C:\m13h\a\tmp ;  A NUGET_PACKAGES = C:\m13h\a\home\appdata\local\NuGet\packages
+  A APPDATA = C:\m13h\a\home\appdata\roaming ; A LOCALAPPDATA = C:\m13h\a\home\appdata\local
+  B TEMP/TMP = C:\dev\muaman-13h-environment-b-independent-temporary-build-state-root\tmp
+  B NUGET_PACKAGES = C:\dev\muaman-13h-environment-b-independent-user-configuration-root\home\appdata\local\NuGet\packages
+  B APPDATA = C:\dev\muaman-13h-environment-b-independent-user-configuration-root\home\appdata\roaming
+  B LOCALAPPDATA = C:\dev\muaman-13h-environment-b-independent-user-configuration-root\home\appdata\local
+
+All roots verified absent before creation on 2026-08-04 (see cold-state evidence).

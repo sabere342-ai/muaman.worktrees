@@ -1,0 +1,20 @@
+MUAMAN-13H FLUTTER SDK ARCHIVE PROVISIONING
+=============================================
+Official archive URL: https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.24.5-stable.zip
+Source of pinned version: docs/evidence/muaman-13g/01-environment.txt (Flutter 3.24.5 stable, Dart 3.5.4)
+Official sha256 from https://storage.googleapis.com/flutter_infra_release/releases/releases_windows.json: b8a7485acd3c6fb23a76b7ac09f89e8d93d62fbff7147c6f5f8c5686d949eeac
+Downloaded archive path: C:\dev\muaman-src-arcs\flutter_windows_3.24.5-stable.zip
+Downloaded archive size: 1033788155 bytes
+Downloaded archive SHA-256: B8A7485ACD3C6FB23A76B7AC09F89E8D93D62FBFF7147C6F5F8C5686D949EEAC
+Official hash match: True
+
+The single immutable archive is extracted independently into both SDK roots:
+  SDK root A: C:\m13h\a\sdk (extracted with tar --strip-components=1)
+  SDK root B: C:\dev\muaman-13h-environment-b-independent-flutter-sdk-installation-root\sdk
+
+Note: The official archive ships with an internal .git directory and .pub-preload-cache.
+These are toolchain metadata of the official Flutter distribution and are documented;
+the Git-free requirement applies to the MUAMAN source trees, not the Flutter SDK.
+
+First-run initialization: each SDK independently populates bin/cache from its own archive
+and from the network on first invocation. No cache directory is shared between A and B.

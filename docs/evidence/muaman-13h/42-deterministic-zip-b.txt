@@ -1,0 +1,9 @@
+MUAMAN-13H DETERMINISTIC ZIP B
+================================
+Release directory: C:\dev\muaman-13h-environment-b-independent-source-extraction-root\src\app\build\windows\x64\runner\Release
+ZIP output: C:\Users\saber\AppData\Local\Temp\opencode\m13h-deterministic-zip-b.zip
+SHA-256: DA9C4B0451A3F92FAE88431438518537B11C9ECDF7A6ED3AEE0C3E6204D01665
+Size: 14481448 bytes
+Entries: 13 (fixed timestamp 2000-01-01T00:00:00Z, deflate level 6, lexicographic order)
+Canonical SHA-256: DA9C4B0451A3F92FAE88431438518537B11C9ECDF7A6ED3AEE0C3E6204D01665
+Matches canonical: True

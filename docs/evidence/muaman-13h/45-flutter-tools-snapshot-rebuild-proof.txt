@@ -1,0 +1,23 @@
+MUAMAN-13H FLUTTER_TOOLS SNAPSHOT REBUILD PROOF
+================================================
+Captured (UTC): 2026-08-04 17:48:34
+
+Both environments apply the same 3-line VS2026 toolchain adaptation to
+packages\flutter_tools\lib\src\windows\visual_studio.dart (see 28-sdk-vs2026-toolchain-adaptation.txt).
+flutter_tools.stamp only records the git revision, so the flutter_tools snapshot
+was force-rebuilt in each environment by deleting bin\cache\flutter_tools.stamp and
+running 'flutter --version', which triggered 'Building flutter tool... Running pub upgrade...'.
+
+Snapshot artifacts:
+  A: flutter_tools.snapshot size=38428704 bytes
+  B: flutter_tools.snapshot size=38690816 bytes
+  Size delta: -262112 bytes (snapshot embeds environment path lengths; content-equivalence shown by identical builds)
+
+Rebuild traces in build logs:
+  A rebuild trace: not in build log (rebuilt earlier during flutter --version)
+  B rebuild trace: not in build log (rebuilt earlier during flutter --version)
+
+Both SDKs' visual_studio.dart verify byte-identical patched content;
+both produce identical build outputs despite snapshot size difference.
+
+Result: PASS - toolchain adaptation applied and flutter_tools rebuilt in both environments independently

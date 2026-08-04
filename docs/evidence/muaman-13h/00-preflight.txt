@@ -1,0 +1,21 @@
+MUAMAN-13H PREFLIGHT
+=====================
+Date: 2026-08-04 20:05:22 +03:00
+
+-- git rev-parse HEAD --
+e90643e03e8438214a9de6d8f1e70c8633efa31a
+
+-- git status --short --
+
+-- git branch --show-current --
+codex/muaman-13h-isolated-cache-sdk-root-source-archive-reproducibility
+
+-- git log -1 --format='%H%n%s' --
+e90643e03e8438214a9de6d8f1e70c8633efa31a
+MUAMAN-13G: verify source-archive Windows reproducibility
+
+-- git rev-list --count e90643e03e8438214a9de6d8f1e70c8633efa31a..HEAD --
+0
+
+-- git ls-files --others --exclude-standard (untracked) --
+0

@@ -1,0 +1,8 @@
+MUAMAN-13H PRODUCTION DIFF
+==============================
+Command: git diff e90643e03e8438214a9de6d8f1e70c8633efa31a -- app/lib app/windows app/pubspec.yaml app/pubspec.lock
+Working directory: C:\dev\muaman.worktrees\muaman-13h-isolated-cache-sdk-root-source-archive-reproducibility
+Diff output lines: 0
+PRODUCTION DIFF IS EMPTY: True
+
+Result: PASS

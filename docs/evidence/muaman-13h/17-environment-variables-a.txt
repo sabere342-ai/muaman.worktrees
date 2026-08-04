@@ -1,0 +1,23 @@
+MUAMAN-13H ENVIRONMENT VARIABLE SNAPSHOT - ENVIRONMENT A
+==========================================================
+Captured: 2026-08-04 20:12:01 +03:00
+PUB_CACHE = C:\m13h\a\pub
+TEMP = C:\m13h\a\tmp
+TMP = C:\m13h\a\tmp
+HOME = C:\m13h\a\home
+APPDATA = C:\m13h\a\home\appdata\roaming
+LOCALAPPDATA = C:\m13h\a\home\appdata\local
+NUGET_PACKAGES = C:\m13h\a\home\appdata\local\NuGet\packages
+CI = true
+FLUTTER_SUPPRESS_ANALYTICS = true
+USERPROFILE = C:\m13h\a\home
+FLUTTER_ROOT =
+DART_HOME =
+FLUTTER_BIN =
+
+PATH entry count: 41
+PATH first entry: C:\m13h\a\sdk\bin
+flutter-related PATH entries:
+  C:\m13h\a\sdk\bin
+flutter.bat resolves to: C:\m13h\a\sdk\bin\flutter.bat
+dart.bat resolves to: C:\m13h\a\sdk\bin\dart.bat

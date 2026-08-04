@@ -1,0 +1,9 @@
+MUAMAN-13H DART FORMAT
+========================
+Command: dart format --output=none --set-exit-if-changed .
+Working directory: C:\dev\muaman.worktrees\muaman-13h-isolated-cache-sdk-root-source-archive-reproducibility\app
+Files checked: 69
+Files changed: 0
+Exit code: 0
+
+Result: PASS

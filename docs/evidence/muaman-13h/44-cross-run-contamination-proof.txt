@@ -1,0 +1,29 @@
+MUAMAN-13H CROSS-RUN CONTAMINATION PROOF
+==========================================
+Captured (UTC): 2026-08-04 17:47:34
+
+Build timing (from build logs 26/29):
+  Build A: started 2026-08-04 20:35:22 +03:00, duration 119.10s, completed 20:37:21 +03:00
+  Build B: started 2026-08-04 20:39:11 +03:00, duration 128.87s, completed 20:41:20 +03:00
+  Executed strictly sequentially on one host; A completed before B began.
+
+Filesystem LastWriteTime (local) of Release outputs:
+  flutter_windows.dll : A=2024-11-13 17:15:00 B=2024-11-13 17:15:00 distinct=False (engine artifact copy preserves archive mtime)
+  muaman_store.exe : A=2026-08-04 20:37:20 B=2026-08-04 20:41:19 distinct=True
+  pdfium.dll : A=2026-08-04 20:35:52 B=2026-08-04 20:39:41 distinct=True
+  printing_plugin.dll : A=2026-08-04 20:37:15 B=2026-08-04 20:41:12 distinct=True
+  data\app.so : A=2026-08-04 20:36:52 B=2026-08-04 20:40:45 distinct=True
+  data\icudtl.dat : A=2024-11-13 17:13:36 B=2024-11-13 17:13:36 distinct=False (engine artifact copy preserves archive mtime)
+
+App-built outputs (muaman_store.exe, printing_plugin.dll, pdfium.dll, app.so)
+all carry distinct filesystem timestamps per environment, proving independent
+compilation rather than file copies.
+
+Release dir creation time:
+  A: 2026-08-04 20:37:15 ; B: 2026-08-04 20:41:12
+
+Reparse points / symlinks / junctions:
+  A: 0 ; B: 0
+
+Distinct physical release directories: A and B resolve to different paths; no junction.
+Result: PASS - independent builds; no copies, no links, distinct creation histories
