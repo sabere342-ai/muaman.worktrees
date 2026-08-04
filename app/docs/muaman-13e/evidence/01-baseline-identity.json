@@ -1,0 +1,9 @@
+﻿{
+    "branch":  "codex/muaman-13e-eliminate-absolute-path-dependence",
+    "countAfterBaseline":  "0",
+    "logLast":  "7fd869a MUAMAN-13D: accept committed Windows reproducibility",
+    "statusEmpty":  false,
+    "top":  "C:/dev/muaman.worktrees/muaman-13e-eliminate-absolute-path-dependence",
+    "status":  null,
+    "head":  "7fd869ae5d5ec510df020afac4c40126309d52d9"
+}

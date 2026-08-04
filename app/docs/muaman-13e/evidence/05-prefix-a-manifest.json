@@ -1,0 +1,78 @@
+{
+    "schema":  "muaman-13e-run-manifest",
+    "label":  "prefix-a",
+    "appRoot":  "C:\\dev\\muaman.repro\\baseline-a\\app",
+    "startedAt":  "2026-08-03T21:29:33.9017326Z",
+    "finishedAt":  "2026-08-03T21:31:11.6081290Z",
+    "durationSeconds":  97.7,
+    "pubspecLockSha256":  "EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A",
+    "fileCount":  13,
+    "totalBytes":  33273462,
+    "files":  [
+                  {
+                      "path":  "data/app.so",
+                      "sizeBytes":  7324576,
+                      "sha256":  "56D4B01025F819D221225B9318F62496259C643D1385B61F38E58FACAFE8DB94"
+                  },
+                  {
+                      "path":  "data/flutter_assets/AssetManifest.bin",
+                      "sizeBytes":  117,
+                      "sha256":  "00AF55AD3D6F21898FE77E0FF092D1A1CDA52C941B6860E9928D45C8AF8C095D"
+                  },
+                  {
+                      "path":  "data/flutter_assets/AssetManifest.json",
+                      "sizeBytes":  109,
+                      "sha256":  "4A9B3DE7EEC9BA46B279BBCCD132E32F52D6D555D79DDA4AA7F3BCB4E9BD651F"
+                  },
+                  {
+                      "path":  "data/flutter_assets/FontManifest.json",
+                      "sizeBytes":  208,
+                      "sha256":  "CD7E03645BC44B2DD47B7CB626F51C4ECBF55A197AB77241628B47AC165FBE21"
+                  },
+                  {
+                      "path":  "data/flutter_assets/fonts/MaterialIcons-Regular.otf",
+                      "sizeBytes":  1645184,
+                      "sha256":  "D9865B671A09D683D13A863089D8825E0F61A37696CE5D7D448BC8023AA62453"
+                  },
+                  {
+                      "path":  "data/flutter_assets/NOTICES.Z",
+                      "sizeBytes":  89152,
+                      "sha256":  "AB7675DAC8C7DCDF17A78E747C669C9BA13ED55306422F6D65F31BA98DA82DD6"
+                  },
+                  {
+                      "path":  "data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+                      "sizeBytes":  257628,
+                      "sha256":  "67C44FE9183B002E79DDE7F6977E2988661C9A3E4A3C5FCE968787EFDBED823C"
+                  },
+                  {
+                      "path":  "data/flutter_assets/shaders/ink_sparkle.frag",
+                      "sizeBytes":  17304,
+                      "sha256":  "3AA09424D1DC391FD59A9735EFE986FF43302B5E5BC310926AFE11C68626C3B2"
+                  },
+                  {
+                      "path":  "data/icudtl.dat",
+                      "sizeBytes":  778864,
+                      "sha256":  "C12537022EF818991A7BFED41A76D8D6AE962FFBC0E6511AC762A5D0845E7F7C"
+                  },
+                  {
+                      "path":  "flutter_windows.dll",
+                      "sizeBytes":  18181632,
+                      "sha256":  "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E"
+                  },
+                  {
+                      "path":  "muaman_store.exe",
+                      "sizeBytes":  90624,
+                      "sha256":  "44256C7D62D9F0BAC52D20D2BA5458F55D118CE20A509828EB658F7301DEC6D8"
+                  },
+                  {
+                      "path":  "pdfium.dll",
+                      "sizeBytes":  4749824,
+                      "sha256":  "0C88EBACC0393FD45FC3E7B35E31E72C9E55B633A846A7ECF4085694DBA68ABD"
+                  },
+                  {
+                      "path":  "printing_plugin.dll",
+                      "sizeBytes":  138240,
+                      "sha256":  "FD4EEBD713FC0C363E402CE040C542F14A6ACA1BCCDFD2F8BF761C913583A6E0"
+                  }
+              ]
+}

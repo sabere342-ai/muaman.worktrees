@@ -1,0 +1,9 @@
+﻿{
+    "schema":  "muaman-13e-canonical-manifest-3path",
+    "note":  "Full manifests differ by builtAt timestamp; canonical part (file hashes/sizes) is identical",
+    "canonicalManifestASha256":  "A66676A779BAF07D01E04F0CDC741564675443F6EEB6CA2EE4E1801766949EFF",
+    "canonicalManifestBSha256":  "A66676A779BAF07D01E04F0CDC741564675443F6EEB6CA2EE4E1801766949EFF",
+    "canonicalManifestIdentical":  true,
+    "manifestABuiltAt":  "2026-08-04T13:44:24.1005433Z",
+    "manifestBBuiltAt":  "2026-08-04T13:46:20.8344419Z"
+}

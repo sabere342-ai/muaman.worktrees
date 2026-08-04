@@ -1,0 +1,27 @@
+MUAMAN-13E pre-fix cross-path reproduction comparison (Run A vs Run B)
+=======================================================================
+Generated: 2026-08-04
+Run A path : C:\dev\muaman.repro\baseline-a\app           (label prefix-a)
+Run B path : C:\dev\muaman.repro\baseline-much-longer-b\app (label prefix-b)
+Both checkouts: detached at baseline commit 7fd869ae5d5ec510df020afac4c40126309d52d9
+Build: flutter clean -> pub get -> flutter build windows --release -v
+
+Result: 10 of 13 Release files are byte-identical across the two paths;
+3 files DIFFER.  This reproduces the MUAMAN-13D cross-path delta exactly.
+
+Per-file result (path | sizeBytes-A | sizeBytes-B | status):
+- data/app.so                                                            7324576  7324576 DIFFERS
+- data/flutter_assets/AssetManifest.bin                                     117      117 IDENTICAL
+- data/flutter_assets/AssetManifest.json                                    109      109 IDENTICAL
+- data/flutter_assets/FontManifest.json                                     208      208 IDENTICAL
+- data/flutter_assets/fonts/MaterialIcons-Regular.otf                   1645184  1645184 IDENTICAL
+- data/flutter_assets/NOTICES.Z                                           89152    89152 IDENTICAL
+- data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf  257628   257628 IDENTICAL
+- data/flutter_assets/shaders/ink_sparkle.frag                            17304    17304 IDENTICAL
+- data/icudtl.dat                                                        778864   778864 IDENTICAL
+- flutter_windows.dll                                                  18181632 18181632 IDENTICAL
+- muaman_store.exe                                                        90624    90624 DIFFERS
+- pdfium.dll                                                            4749824  4749824 IDENTICAL
+- printing_plugin.dll                                                    138240   138240 DIFFERS
+
+IDENTICAL: 10  DIFFERS: 3

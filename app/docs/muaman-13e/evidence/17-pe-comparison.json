@@ -1,0 +1,69 @@
+{
+  "schema": "muaman-13d-pe-comparison",
+  "files": [
+    {
+      "fileName": "flutter_windows.dll",
+      "relativePath": "flutter_windows.dll",
+      "machine": 34404,
+      "peType": "dll",
+      "coffTimeDateStampRun1": 1731463209,
+      "coffTimeDateStampRun2": 1731463209,
+      "sha256Run1": "b66713715a7aeaa2f88ba18838aa7c245556eaaeb31c82da3f5aebcb71a7715e",
+      "sha256Run2": "b66713715a7aeaa2f88ba18838aa7c245556eaaeb31c82da3f5aebcb71a7715e",
+      "sizeRun1": 18181632,
+      "sizeRun2": 18181632,
+      "byteIdentical": true,
+      "timestampEqual": true,
+      "inspectionErrors": []
+    },
+    {
+      "fileName": "muaman_store.exe",
+      "relativePath": "muaman_store.exe",
+      "machine": 34404,
+      "peType": "exe",
+      "coffTimeDateStampRun1": 1269388706,
+      "coffTimeDateStampRun2": 1269388706,
+      "sha256Run1": "194b46007e82d06936355c8c76b1e7db93f97df6691596097819e83a608bd6a9",
+      "sha256Run2": "194b46007e82d06936355c8c76b1e7db93f97df6691596097819e83a608bd6a9",
+      "sizeRun1": 90624,
+      "sizeRun2": 90624,
+      "byteIdentical": true,
+      "timestampEqual": true,
+      "inspectionErrors": []
+    },
+    {
+      "fileName": "pdfium.dll",
+      "relativePath": "pdfium.dll",
+      "machine": 34404,
+      "peType": "dll",
+      "coffTimeDateStampRun1": 1654405200,
+      "coffTimeDateStampRun2": 1654405200,
+      "sha256Run1": "0c88ebacc0393fd45fc3e7b35e31e72c9e55b633a846a7ecf4085694dba68abd",
+      "sha256Run2": "0c88ebacc0393fd45fc3e7b35e31e72c9e55b633a846a7ecf4085694dba68abd",
+      "sizeRun1": 4749824,
+      "sizeRun2": 4749824,
+      "byteIdentical": true,
+      "timestampEqual": true,
+      "inspectionErrors": []
+    },
+    {
+      "fileName": "printing_plugin.dll",
+      "relativePath": "printing_plugin.dll",
+      "machine": 34404,
+      "peType": "dll",
+      "coffTimeDateStampRun1": 3033572914,
+      "coffTimeDateStampRun2": 3033572914,
+      "sha256Run1": "959f1e85feec7d8ae02f97760608e8022cff3c3d556aadc824306ea1afe2a867",
+      "sha256Run2": "959f1e85feec7d8ae02f97760608e8022cff3c3d556aadc824306ea1afe2a867",
+      "sizeRun1": 138240,
+      "sizeRun2": 138240,
+      "byteIdentical": true,
+      "timestampEqual": true,
+      "inspectionErrors": []
+    }
+  ],
+  "allFilesByteIdentical": true,
+  "allTimestampsEqual": true,
+  "run1InspectionFile": "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13e-acceptance\\runs\\run-A\\run-A-pe-inspection.json",
+  "run2InspectionFile": "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13e-acceptance\\runs\\run-B\\run-B-pe-inspection.json"
+}

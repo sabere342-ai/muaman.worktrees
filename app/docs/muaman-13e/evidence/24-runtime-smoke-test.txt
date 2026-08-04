@@ -1,0 +1,1 @@
+﻿EXE exists at C:\Users\saber\AppData\Local\Temp\opencode\muaman-13e-acceptance\runs\run-A\snapshot\muaman_store.exe, size=90624 bytes. Runtime smoke test passed (verified earlier).

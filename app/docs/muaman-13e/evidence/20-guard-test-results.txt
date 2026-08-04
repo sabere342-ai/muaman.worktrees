@@ -1,0 +1,31 @@
+﻿00:00 +0: loading C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart
+00:00 +0: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap windows/CMakeLists.txt exists
+00:00 +1: C:/dev/muaman.repro/13e-a/app/test/inject_registrant_guard_test.dart: MUAMAN-13E: Dart plugin registrant injection windows/flutter/CMakeLists.txt contains muaman_inject_registrant target
+00:00 +2: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap MUAMAN_CANONICAL_ROOT is defined with value \muaman\src
+00:00 +3: C:/dev/muaman.repro/13e-a/app/test/inject_registrant_guard_test.dart: MUAMAN-13E: Dart plugin registrant injection uses file(TO_NATIVE_PATH ...) for both script and config paths
+00:00 +4: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap MUAMAN_CANONICAL_ROOT contains no drive letter or username
+00:00 +5: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap MUAMAN_CANONICAL_ROOT contains no drive letter or username
+00:00 +6: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap MUAMAN_SOURCE_ROOT is derived from CMAKE_CURRENT_SOURCE_DIR
+00:00 +7: C:/dev/muaman.repro/13e-a/app/test/inject_registrant_guard_test.dart: MUAMAN-13E: Dart plugin registrant injection tool/inject_registrant_package.ps1 exists
+00:00 +8: C:/dev/muaman.repro/13e-a/app/test/inject_registrant_guard_test.dart: MUAMAN-13E: Dart plugin registrant injection PS1 script contains _muaman_registrant package name
+00:00 +9: C:/dev/muaman.repro/13e-a/app/test/inject_registrant_guard_test.dart: MUAMAN-13E: Dart plugin registrant injection PS1 script contains _muaman_registrant package name
+00:00 +10: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /experimental:deterministic is set on RELEASE
+00:00 +11: C:/dev/muaman.repro/13e-a/app/test/inject_registrant_guard_test.dart: MUAMAN-13E: Dart plugin registrant injection PS1 script contains rootUri = ../.dart_tool
+00:00 +12: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /experimental:deterministic is set on PROFILE
+00:00 +13: C:/dev/muaman.repro/13e-a/app/test/inject_registrant_guard_test.dart: MUAMAN-13E: Dart plugin registrant injection PS1 script contains packageUri = .
+00:00 +14: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /experimental:deterministic is NOT set on DEBUG
+00:00 +15: C:/dev/muaman.repro/13e-a/app/test/inject_registrant_guard_test.dart: MUAMAN-13E: Dart plugin registrant injection PS1 script is idempotent: checks for already-present entry
+00:00 +16: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /experimental:deterministic is NOT set on RELWITHDEBINFO
+00:00 +17: C:/dev/muaman.repro/13e-a/app/test/inject_registrant_guard_test.dart: MUAMAN-13E: Dart plugin registrant injection windows/flutter/CMakeLists.txt contains MUAMAN-13E comment
+00:00 +18: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /pathmap: is appended to CMAKE_CXX_FLAGS_RELEASE
+00:00 +19: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /pathmap: is appended to CMAKE_CXX_FLAGS_PROFILE
+00:00 +20: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /pathmap: is NOT set on DEBUG
+00:00 +21: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap pathmap block is inside if(MSVC) / endif()
+00:00 +22: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap canonical root value contains no colon
+00:00 +23: C:/dev/muaman.repro/13e-a/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract windows/CMakeLists.txt exists
+00:00 +24: C:/dev/muaman.repro/13e-a/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract applies /Brepro to the Release EXE linker flags
+00:00 +25: C:/dev/muaman.repro/13e-a/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract applies /Brepro to the Release SHARED linker flags
+00:00 +26: C:/dev/muaman.repro/13e-a/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract applies /Brepro only inside the MSVC guard
+00:00 +27: C:/dev/muaman.repro/13e-a/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract does not add /Brepro to Debug or Profile linker flags
+00:00 +28: C:/dev/muaman.repro/13e-a/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract relies on linker flags, not post-build binary patching
+00:00 +29: All tests passed!

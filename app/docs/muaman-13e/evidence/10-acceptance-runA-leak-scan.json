@@ -1,0 +1,60 @@
+{
+  "schema": "muaman-13e-leak-scan",
+  "releaseDir": "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13e-acceptance\\runs\\run-A\\snapshot",
+  "forbidden": [
+    "C:\\dev\\muaman.repro\\13e-a\\app",
+    "C:\\dev\\muaman.repro\\13e-path-with-different-length-b\\app"
+  ],
+  "expectedPackageUri": "package:_muaman_registrant/flutter_build/dart_plugin_registrant.dart",
+  "files": [
+    {
+      "path": "data/app.so",
+      "sizeBytes": 7324576,
+      "forbiddenOccurrences": {
+        "C:\\dev\\muaman.repro\\13e-a\\app": 0,
+        "C:\\dev\\muaman.repro\\13e-path-with-different-length-b\\app": 0
+      },
+      "packageUriCount": 1,
+      "canonicalRootCount": 0
+    },
+    {
+      "path": "muaman_store.exe",
+      "sizeBytes": 90624,
+      "forbiddenOccurrences": {
+        "C:\\dev\\muaman.repro\\13e-a\\app": 0,
+        "C:\\dev\\muaman.repro\\13e-path-with-different-length-b\\app": 0
+      },
+      "canonicalRootCount": 0
+    },
+    {
+      "path": "printing_plugin.dll",
+      "sizeBytes": 138240,
+      "forbiddenOccurrences": {
+        "C:\\dev\\muaman.repro\\13e-a\\app": 0,
+        "C:\\dev\\muaman.repro\\13e-path-with-different-length-b\\app": 0
+      },
+      "canonicalRootCount": 0
+    },
+    {
+      "path": "flutter_windows.dll",
+      "sizeBytes": 18181632,
+      "forbiddenOccurrences": {
+        "C:\\dev\\muaman.repro\\13e-a\\app": 0,
+        "C:\\dev\\muaman.repro\\13e-path-with-different-length-b\\app": 0
+      },
+      "canonicalRootCount": 0
+    },
+    {
+      "path": "pdfium.dll",
+      "sizeBytes": 4749824,
+      "forbiddenOccurrences": {
+        "C:\\dev\\muaman.repro\\13e-a\\app": 0,
+        "C:\\dev\\muaman.repro\\13e-path-with-different-length-b\\app": 0
+      },
+      "canonicalRootCount": 0
+    }
+  ],
+  "totalForbiddenOccurrences": 0,
+  "allClear": true,
+  "packageUriCountInAppSo": 1
+}

@@ -1,0 +1,318 @@
+﻿00:00 +0: loading C:/dev/muaman.repro/13e-a/app/test/brepro_build_config_guard_test.dart
+00:00 +0: C:/dev/muaman.repro/13e-a/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract windows/CMakeLists.txt exists
+00:00 +1: C:/dev/muaman.repro/13e-a/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract applies /Brepro to the Release EXE linker flags
+00:00 +2: C:/dev/muaman.repro/13e-a/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract applies /Brepro to the Release SHARED linker flags
+00:00 +3: C:/dev/muaman.repro/13e-a/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract applies /Brepro only inside the MSVC guard
+00:00 +4: C:/dev/muaman.repro/13e-a/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract does not add /Brepro to Debug or Profile linker flags
+00:00 +5: C:/dev/muaman.repro/13e-a/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract relies on linker flags, not post-build binary patching
+00:01 +6: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap windows/CMakeLists.txt exists
+00:01 +7: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap MUAMAN_CANONICAL_ROOT is defined with value \muaman\src
+00:01 +8: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap MUAMAN_CANONICAL_ROOT contains no drive letter or username
+00:01 +9: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap MUAMAN_SOURCE_ROOT is derived from CMAKE_CURRENT_SOURCE_DIR
+00:01 +10: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap MUAMAN_SOURCE_ROOT does not hardcode checkout paths
+00:01 +11: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /experimental:deterministic is set on RELEASE
+00:01 +12: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /experimental:deterministic is set on PROFILE
+00:01 +13: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /experimental:deterministic is NOT set on DEBUG
+00:01 +14: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /experimental:deterministic is NOT set on RELWITHDEBINFO
+00:01 +15: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /pathmap: is appended to CMAKE_CXX_FLAGS_RELEASE
+00:01 +16: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /pathmap: is appended to CMAKE_CXX_FLAGS_PROFILE
+00:01 +17: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /pathmap: is NOT set on DEBUG
+00:01 +18: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap pathmap block is inside if(MSVC) / endif()
+00:01 +19: C:/dev/muaman.repro/13e-a/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap canonical root value contains no colon
+00:02 +20: C:/dev/muaman.repro/13e-a/app/test/database/inventory_count_transaction_test.dart: (setUpAll)
+00:03 +20: C:/dev/muaman.repro/13e-a/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 1: Downward reconciliation
+00:03 +21: C:/dev/muaman.repro/13e-a/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 2: Upward reconciliation
+00:03 +22: C:/dev/muaman.repro/13e-a/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 3: Exact count
+00:03 +23: C:/dev/muaman.repro/13e-a/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 4: Repeated identical count
+00:03 +24: C:/dev/muaman.repro/13e-a/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 5: Zero physical count
+00:03 +25: C:/dev/muaman.repro/13e-a/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 6: Negative count rejected
+00:03 +26: C:/dev/muaman.repro/13e-a/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 7: Rollback on product-update failure
+00:03 +27: C:/dev/muaman.repro/13e-a/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 8: Stale UI quantity
+00:03 +28: C:/dev/muaman.repro/13e-a/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 9: Sale after count
+00:03 +29: C:/dev/muaman.repro/13e-a/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 10: Consecutive counts around a sale
+00:03 +30: C:/dev/muaman.repro/13e-a/app/test/database/inventory_count_transaction_test.dart: (tearDownAll)
+00:03 +30: C:/dev/muaman.repro/13e-a/app/test/database/product_deletion_referential_test.dart: (setUpAll)
+00:03 +30: C:/dev/muaman.repro/13e-a/app/test/database/product_deletion_referential_test.dart: Product without references Unreferenced product can be deleted successfully
+00:04 +31: C:/dev/muaman.repro/13e-a/app/test/database/product_deletion_referential_test.dart: Product without references Other products remain after deleting one unreferenced product
+00:04 +32: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: (setUpAll)
+00:04 +33: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: (setUpAll)
+00:04 +34: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: (setUpAll)
+00:04 +35: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: (setUpAll)
+00:04 +36: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: (setUpAll)
+00:04 +37: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: (setUpAll)
+00:04 +37: C:/dev/muaman.repro/13e-a/app/test/database/product_deletion_referential_test.dart: Product with inventory_count references Product and count records remain intact after rejection
+00:04 +38: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Name normalization ΓÇö insertProduct Name with leading/trailing spaces is trimmed on insert
+00:04 +39: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Name normalization ΓÇö insertProduct Name with leading/trailing spaces is trimmed on insert
+00:04 +40: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Name normalization ΓÇö insertProduct Name with leading/trailing spaces is trimmed on insert
+00:04 +41: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Name normalization ΓÇö insertProduct Name with leading/trailing spaces is trimmed on insert
+00:04 +42: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Name normalization ΓÇö insertProduct Name with leading/trailing spaces is trimmed on insert
+00:04 +43: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Name normalization ΓÇö insertProduct Name with leading/trailing spaces is trimmed on insert
+00:04 +44: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Name normalization ΓÇö insertProduct Name with leading/trailing spaces is trimmed on insert
+00:04 +45: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Name normalization ΓÇö insertProduct Whitespace-only name is rejected on insert
+00:04 +46: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Name normalization ΓÇö insertProduct Empty name is rejected on insert
+00:04 +47: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Name normalization ΓÇö updateProduct Name with leading/trailing spaces is trimmed on update
+00:04 +48: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Name normalization ΓÇö updateProduct Whitespace-only name is rejected on update
+00:04 +49: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Barcode normalization ΓÇö insertProduct Barcode with leading/trailing spaces is trimmed on insert
+00:04 +50: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Barcode duplicate prevention with whitespace Insert with barcode that matches existing after trim is rejected
+00:04 +51: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Barcode duplicate prevention with whitespace Update with barcode that matches another product after trim is rejected
+00:04 +52: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Barcode duplicate prevention with whitespace Update with same barcode (whitespace variation) allowed for self
+00:04 +53: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: No partial write on rejection Product count unchanged after rejected insert
+00:04 +54: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: No partial write on rejection Product unchanged after rejected update
+00:04 +55: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Normalized values stored in DB Inserted name and barcode are stored trimmed
+00:04 +56: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Normalized values stored in DB Updated name and barcode are stored trimmed
+00:04 +57: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: Empty barcode validation Empty barcode after trim is rejected
+00:04 +58: C:/dev/muaman.repro/13e-a/app/test/database/product_normalization_test.dart: (tearDownAll)
+00:04 +58: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: (setUpAll)
+00:05 +58: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: ProductReferenceIntegrityException Exception carries Arabic message
+00:05 +59: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: ProductReferenceIntegrityException toString includes message
+00:05 +60: C:/dev/muaman.repro/13e-a/app/test/database/product_validation_test.dart: (setUpAll)
+00:05 +61: C:/dev/muaman.repro/13e-a/app/test/database/product_validation_test.dart: (setUpAll)
+00:05 +62: C:/dev/muaman.repro/13e-a/app/test/database/product_validation_test.dart: (setUpAll)
+00:05 +63: C:/dev/muaman.repro/13e-a/app/test/database/product_validation_test.dart: (setUpAll)
+00:05 +64: C:/dev/muaman.repro/13e-a/app/test/database/product_validation_test.dart: (setUpAll)
+00:05 +64: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: findProductReferenceIntegrityIssues Detects orphan inventory_count row
+00:05 +65: C:/dev/muaman.repro/13e-a/app/test/database/product_validation_test.dart: insertProduct ΓÇö cost price validation Zero cost price is rejected
+00:05 +66: C:/dev/muaman.repro/13e-a/app/test/database/product_validation_test.dart: insertProduct ΓÇö cost price validation Zero cost price is rejected
+00:05 +67: C:/dev/muaman.repro/13e-a/app/test/database/product_validation_test.dart: insertProduct ΓÇö cost price validation Zero cost price is rejected
+00:05 +68: C:/dev/muaman.repro/13e-a/app/test/database/product_validation_test.dart: insertProduct ΓÇö cost price validation Zero cost price is rejected
+00:05 +69: C:/dev/muaman.repro/13e-a/app/test/database/product_validation_test.dart: insertProduct ΓÇö cost price validation Zero cost price is rejected
+00:05 +70: C:/dev/muaman.repro/13e-a/app/test/database/product_validation_test.dart: insertProduct ΓÇö cost price validation Zero cost price is rejected
+00:05 +71: C:/dev/muaman.repro/13e-a/app/test/database/product_validation_test.dart: insertProduct ΓÇö cost price validation Zero cost price is rejected
+00:05 +72: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: insertSale guard Updates stock after valid sale
+00:05 +73: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: insertSale guard Updates stock after valid sale
+00:05 +74: C:/dev/muaman.repro/13e-a/app/test/database/product_validation_test.dart: insertProduct ΓÇö cost price validation Positive cost price is accepted
+00:05 +75: C:/dev/muaman.repro/13e-a/app/test/database/product_validation_test.dart: insertProduct ΓÇö cost price validation Positive cost price is accepted
+00:05 +76: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: insertReturn guard No return row written after rejection
+00:05 +77: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: insertReturn guard No return row written after rejection
+00:05 +78: C:/dev/muaman.repro/13e-a/app/test/database/product_validation_test.dart: updateProduct ΓÇö cost price validation Update with negative cost price is rejected
+00:05 +79: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: insertReturn guard Accepts return with valid product barcode
+00:05 +80: C:/dev/muaman.repro/13e-a/app/test/database/product_validation_test.dart: updateProduct ΓÇö cost price validation Update with positive cost price is accepted
+00:05 +81: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: insertReturn guard Updates stock after valid return
+00:05 +82: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: updateSale guard Rejects update when new barcode has no matching product
+00:05 +83: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: updateSale guard Old stock is preserved and no partial write after rejection
+00:05 +84: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: updateSale guard Accepts update when new barcode matches existing product
+00:05 +85: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: updateReturn guard Rejects update when new barcode has no matching product
+00:06 +86: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: updateReturn guard Accepts update when new barcode matches existing product
+00:06 +87: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: Existing guarded paths still work insertSaleAndDecrementStock still rejects missing product
+00:06 +88: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: Existing guarded paths still work saveInventoryCount still rejects missing product
+00:06 +89: C:/dev/muaman.repro/13e-a/app/test/database/product_reference_integrity_test.dart: Existing guarded paths still work insertSaleAndDecrementStock succeeds with valid product
+00:06 +90: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: (setUpAll)
+00:06 +91: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: (setUpAll)
+00:06 +92: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: (setUpAll)
+00:06 +93: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: (setUpAll)
+00:06 +94: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: (setUpAll)
+00:06 +94: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö same product 1: Increasing quantity updates stock correctly
+00:06 +95: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö same product 2: Increasing quantity above available stock is rejected
+00:06 +96: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö same product 3: Decreasing quantity restores difference to stock
+00:06 +97: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö same product 4: Keeping same quantity does not change stock
+00:06 +98: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: (setUpAll)
+00:06 +99: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: (setUpAll)
+00:06 +99: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö same product 6: Saving same values twice does not cause stock drift
+00:06 +100: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 1: Successful sale decrements stock
+00:06 +101: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 1: Successful sale decrements stock
+00:07 +102: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 1: Successful sale decrements stock
+00:07 +103: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 1: Successful sale decrements stock
+00:07 +104: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 1: Successful sale decrements stock
+00:07 +105: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 1: Successful sale decrements stock
+00:07 +106: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 1: Successful sale decrements stock
+00:07 +107: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 1: Successful sale decrements stock
+00:07 +108: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 1: Successful sale decrements stock
+00:07 +109: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 1: Successful sale decrements stock
+00:07 +110: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö change product 16: Insufficient stock in B causes full rollback
+00:07 +111: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 2: Exact stock sale succeeds and results in zero stock
+00:07 +112: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö change product 17: After rollback stock of A is unchanged
+00:07 +113: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 3: Insufficient stock rejects sale
+00:07 +114: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö change product 18: After rollback stock of B is unchanged
+00:07 +115: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö change product 18: After rollback stock of B is unchanged
+00:07 +116: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 5: Negative quantity rejects sale
+00:07 +117: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö change product 19: After rollback sale still points to A
+00:07 +118: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 6: Rollback when stock check fails after sale insert
+00:07 +119: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö change product 20: Barcode with spaces is normalized per MUAMAN-07
+00:07 +120: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö change product 20: Barcode with spaces is normalized per MUAMAN-07
+00:07 +121: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 9: Zero sale price is rejected
+00:07 +122: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö change product 21: Non-existent new product throws ProductReferenceIntegrityException
+00:07 +123: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 10: Negative sale price is rejected
+00:07 +124: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö change product 22: Non-existent old product rejection (no data repair)
+00:07 +125: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 11: Positive sale price still accepted
+00:07 +126: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö record and transaction 23: Non-existent sale id is rejected
+00:07 +127: C:/dev/muaman.repro/13e-a/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 8: Consecutive sales maintain correct stock
+00:07 +128: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö record and transaction 24: UPDATE affects exactly one row
+00:07 +129: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö record and transaction 25: Stored financial values are consistent with qty and price
+00:07 +130: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö record and transaction 26: No partial write if stock check fails after reversal
+00:07 +131: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö record and transaction 27: Transaction atomicity ΓÇö stock update commits only on success
+00:07 +132: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö record and transaction 28: InsufficientStockException has correct fields
+00:07 +133: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö same product 29: Increasing return quantity increases stock correctly
+00:07 +134: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö same product 30: Decreasing return quantity deducts correctly if possible
+00:07 +135: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö same product 31: Keeping same quantity does not change stock
+00:07 +136: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: (setUpAll)
+00:07 +137: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: (setUpAll)
+00:07 +138: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: (setUpAll)
+00:07 +139: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: (setUpAll)
+00:07 +140: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: (setUpAll)
+00:07 +141: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: (setUpAll)
+00:07 +141: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö reversal conflict 37: Return update succeeds when stock allows reversal
+00:07 +142: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 1. Create users table in new database
+00:07 +143: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 1. Create users table in new database
+00:07 +144: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 1. Create users table in new database
+00:07 +145: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 1. Create users table in new database
+00:07 +146: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 1. Create users table in new database
+00:07 +147: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 1. Create users table in new database
+00:07 +148: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 1. Create users table in new database
+00:07 +149: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 1. Create users table in new database
+00:07 +150: C:/dev/muaman.repro/13e-a/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö change product 45: If old return cannot be reversed, full rollback occurs
+00:07 +151: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 2. Create first owner
+00:07 +152: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 2. Create first owner
+00:07 +153: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 2. Create first owner
+00:08 +154: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 2. Create first owner
+00:08 +155: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 2. Create first owner
+00:08 +156: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 2. Create first owner
+00:08 +157: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 2. Create first owner
+00:08 +158: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 2. Create first owner
+00:08 +159: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 2. Create first owner
+00:08 +160: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 2. Create first owner
+00:09 +161: C:/dev/muaman.repro/13e-a/app/test/database/workbook_import_test.dart: XlsxReader - workbook structure 1. Reads all 6 expected sheets
+00:09 +162: C:/dev/muaman.repro/13e-a/app/test/database/workbook_import_test.dart: XlsxReader - workbook structure 1. Reads all 6 expected sheets
+00:09 +163: C:/dev/muaman.repro/13e-a/app/test/database/workbook_import_test.dart: XlsxReader - workbook structure 1. Reads all 6 expected sheets
+00:09 +164: C:/dev/muaman.repro/13e-a/app/test/database/workbook_import_test.dart: XlsxReader - workbook structure 1. Reads all 6 expected sheets
+00:09 +165: C:/dev/muaman.repro/13e-a/app/test/database/workbook_import_test.dart: XlsxReader - workbook structure 1. Reads all 6 expected sheets
+00:09 +166: C:/dev/muaman.repro/13e-a/app/test/database/workbook_import_test.dart: XlsxReader - workbook structure 1. Reads all 6 expected sheets
+00:09 +167: C:/dev/muaman.repro/13e-a/app/test/database/workbook_import_test.dart: XlsxReader - workbook structure 1. Reads all 6 expected sheets
+00:10 +168: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:10 +169: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:10 +170: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:11 +171: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:11 +172: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:11 +173: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:11 +174: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:12 +175: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:12 +176: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:12 +177: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:13 +178: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:13 +179: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:13 +180: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:13 +181: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:13 +182: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:13 +183: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:13 +184: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:14 +185: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:14 +186: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:14 +187: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:15 +188: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:15 +189: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:15 +190: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:16 +191: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:16 +192: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:16 +193: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:17 +194: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:17 +195: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:17 +196: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:17 +197: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:17 +198: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 11. Update display name
+00:18 +199: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 11. Update display name
+00:18 +200: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 11. Update display name
+00:18 +201: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 11. Update display name
+00:18 +202: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 11. Update display name
+00:18 +203: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:19 +204: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:19 +205: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:19 +206: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:20 +207: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:20 +208: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:20 +209: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:20 +210: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:20 +211: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:20 +212: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:21 +213: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:21 +214: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:21 +215: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:21 +216: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:21 +217: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:21 +218: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:21 +219: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:21 +220: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:21 +221: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:21 +222: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:21 +223: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:22 +224: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:22 +225: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:22 +226: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:22 +227: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:22 +228: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:22 +229: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:22 +230: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:22 +231: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:22 +232: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:22 +233: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:23 +234: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:23 +235: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:23 +236: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:23 +237: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:23 +238: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:23 +239: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:23 +240: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:23 +241: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:24 +242: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:24 +243: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:24 +244: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:24 +245: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:24 +246: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:24 +247: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:24 +248: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:24 +249: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:24 +250: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:24 +251: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:24 +252: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:24 +253: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:24 +254: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:24 +255: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:25 +256: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Create user dialog Enter key Enter on confirm field creates exactly one user
+00:25 +257: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Create user dialog Enter key Enter on confirm field creates exactly one user
+00:25 +258: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Create user dialog Enter key Enter on confirm field creates exactly one user
+00:25 +259: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Create user dialog Enter key Enter on confirm field creates exactly one user
+00:25 +260: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Create user dialog Enter key Enter on confirm field creates exactly one user
+00:25 +261: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Create user dialog Enter key Enter on confirm field creates exactly one user
+00:25 +262: C:/dev/muaman.repro/13e-a/app/test/features/enter_key_behavior_test.dart: Create user dialog Enter key Enter on confirm field creates exactly one user
+00:25 +263: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 15. Reactivate user
+00:26 +264: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 15. Reactivate user
+00:26 +265: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 15. Reactivate user
+00:26 +266: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 15. Reactivate user
+00:26 +267: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 15. Reactivate user
+00:26 +268: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 15. Reactivate user
+00:26 +269: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 15. Reactivate user
+00:26 +270: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 15. Reactivate user
+00:26 +271: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 15. Reactivate user
+00:27 +272: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 15. Reactivate user
+00:27 +273: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 15. Reactivate user
+00:28 +274: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 16. Reset password
+00:30 +275: C:/dev/muaman.repro/13e-a/app/test/widget_test.dart: App renders first-owner setup when no users exist
+00:31 +276: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 17. Password not stored as plain text
+00:31 +277: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 17. Password not stored as plain text
+00:31 +278: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 18. Old password invalid after reset
+00:35 +279: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 19. Cannot disable last active owner
+00:36 +280: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 20. Cannot downgrade last active owner role
+00:37 +281: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 21. Can disable owner when another active owner exists
+00:39 +282: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 22. Cannot disable self
+00:41 +283: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 23. Reject update of non-existent user
+00:41 +284: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 24. Reject password reset for non-existent user
+00:41 +285: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: UserRepository - Database Operations 25. Verify affected row count on update
+00:42 +286: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Authentication 26. Owner login succeeds
+00:44 +287: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Authentication 27. Employee login succeeds
+00:45 +288: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Authentication 28. SalesOnly login succeeds
+00:47 +289: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Authentication 29. Reject non-existent username
+00:47 +290: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Authentication 30. Reject wrong password
+00:49 +291: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Authentication 31. Reject disabled account
+00:50 +292: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Authentication 32. Update lastLoginAt on success
+00:52 +293: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Authentication 33. lastLoginAt remains null on failed auth
+00:57 +294: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Permissions 36. Owner has all permissions
+00:57 +295: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Permissions 37. Employee cannot manage users
+00:57 +296: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Permissions 38. Employee can access operational screens
+00:57 +297: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Permissions 39. SalesOnly can access sales
+00:57 +298: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Permissions 40. SalesOnly cannot access dashboard
+00:57 +299: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Permissions 41. SalesOnly cannot access inventory
+00:57 +300: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Permissions 42. SalesOnly cannot access returns
+00:57 +301: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Permissions 43. SalesOnly cannot access expenses
+00:57 +302: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Permissions 44. SalesOnly cannot access analytics
+00:57 +303: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Permissions 45. SalesOnly cannot access stocktake
+00:57 +304: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: Permissions 46. SalesOnly cannot manage users
+00:57 +305: C:/dev/muaman.repro/13e-a/app/test/database/user_repository_test.dart: (tearDownAll)
+00:57 +305: All tests passed!

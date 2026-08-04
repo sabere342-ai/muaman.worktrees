@@ -1,0 +1,19 @@
+﻿{
+    "schema":  "muaman-13e-environment",
+    "platform":  "win32",
+    "date":  "2026-08-04 17:00:46",
+    "flutterVersion":  "Flutter 3.24.5 ΓÇó channel stable ΓÇó https://github.com/flutter/flutter.git",
+    "dartVersion":  "Dart SDK version: 3.5.4 (stable) (Wed Oct 16 16:18:51 2024 +0000) on \"windows_x64\"",
+    "msvcVersion":  "14.51.36231",
+    "cmakeVersion":  "cmake version 4.3.3",
+    "gitVersion":  "git version 2.55.0.windows.2",
+    "pathA":  "C:\\dev\\muaman.repro\\13e-a\\app",
+    "pathALength":  29,
+    "pathB":  "C:\\dev\\muaman.repro\\13e-path-with-different-length-b\\app",
+    "pathBLength":  56,
+    "pathC":  "C:\\dev\\muaman.repro\\13e-third-verification-path\\app",
+    "pathCLength":  51,
+    "baselineCommit":  "7fd869ae5d5ec510df020afac4c40126309d52d9",
+    "branch":  "codex/muaman-13e-eliminate-absolute-path-dependence",
+    "canonicalRoot":  "\\muaman\\src"
+}

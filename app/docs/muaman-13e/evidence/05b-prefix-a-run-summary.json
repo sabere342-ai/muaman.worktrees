@@ -1,0 +1,13 @@
+{
+    "label":  "prefix-a",
+    "appRoot":  "C:\\dev\\muaman.repro\\baseline-a\\app",
+    "startedAt":  "2026-08-03T21:29:33.9017326Z",
+    "finishedAt":  "2026-08-03T21:31:11.6081290Z",
+    "durationSeconds":  97.7,
+    "buildOk":  true,
+    "fileCount":  13,
+    "totalBytes":  33273462,
+    "manifestSha256":  "53AF4F38BBC79904E914C5123336028B46377D8DD66D7EDE35AC85CA475D8B5D",
+    "pubspecLockSha256":  "EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A",
+    "error":  null
+}

@@ -1,0 +1,137 @@
+{
+  "schema": "muaman-pe-inspection",
+  "schemaVersion": 1,
+  "runId": "run-A",
+  "files": [
+    {
+      "fileName": "muaman_store.exe",
+      "path": "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13e-acceptance\\runs\\run-A\\snapshot\\muaman_store.exe",
+      "sizeBytes": 90624,
+      "sha256": "194b46007e82d06936355c8c76b1e7db93f97df6691596097819e83a608bd6a9",
+      "pe": {
+        "peOffset": 272,
+        "machine": 34404,
+        "coffTimeDateStamp": 1269388706,
+        "coffTimeDateStampOffset": 280,
+        "numberOfSections": 6,
+        "checksum": 0,
+        "sizeOfImage": 102400,
+        "linkerVersion": 13070,
+        "osVersion": "6.0",
+        "debugEntries": [
+          {
+            "type": 13,
+            "timeDateStamp": 1269388706,
+            "timeDateStampOffset": 37572,
+            "fileOffset": 37568
+          },
+          {
+            "type": 16,
+            "timeDateStamp": 1269388706,
+            "timeDateStampOffset": 37600,
+            "fileOffset": 37596
+          }
+        ]
+      }
+    },
+    {
+      "fileName": "printing_plugin.dll",
+      "path": "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13e-acceptance\\runs\\run-A\\snapshot\\printing_plugin.dll",
+      "sizeBytes": 138240,
+      "sha256": "959f1e85feec7d8ae02f97760608e8022cff3c3d556aadc824306ea1afe2a867",
+      "pe": {
+        "peOffset": 280,
+        "machine": 34404,
+        "coffTimeDateStamp": 3033572914,
+        "coffTimeDateStampOffset": 288,
+        "numberOfSections": 6,
+        "checksum": 0,
+        "sizeOfImage": 155648,
+        "linkerVersion": 13070,
+        "osVersion": "6.0",
+        "debugEntries": [
+          {
+            "type": 13,
+            "timeDateStamp": 3033572914,
+            "timeDateStampOffset": 101540,
+            "fileOffset": 101536
+          },
+          {
+            "type": 16,
+            "timeDateStamp": 3033572914,
+            "timeDateStampOffset": 101568,
+            "fileOffset": 101564
+          }
+        ]
+      }
+    },
+    {
+      "fileName": "flutter_windows.dll",
+      "path": "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13e-acceptance\\runs\\run-A\\snapshot\\flutter_windows.dll",
+      "sizeBytes": 18181632,
+      "sha256": "b66713715a7aeaa2f88ba18838aa7c245556eaaeb31c82da3f5aebcb71a7715e",
+      "pe": {
+        "peOffset": 264,
+        "machine": 34404,
+        "coffTimeDateStamp": 1731463209,
+        "coffTimeDateStampOffset": 272,
+        "numberOfSections": 6,
+        "checksum": 0,
+        "sizeOfImage": 18276352,
+        "linkerVersion": 8718,
+        "osVersion": "5.2",
+        "debugEntries": [
+          {
+            "type": 2,
+            "timeDateStamp": 1731463209,
+            "timeDateStampOffset": 17082004,
+            "fileOffset": 17082000
+          },
+          {
+            "type": 12,
+            "timeDateStamp": 1731463209,
+            "timeDateStampOffset": 17082032,
+            "fileOffset": 17082028
+          },
+          {
+            "type": 13,
+            "timeDateStamp": 1731463209,
+            "timeDateStampOffset": 17082060,
+            "fileOffset": 17082056
+          }
+        ]
+      }
+    },
+    {
+      "fileName": "pdfium.dll",
+      "path": "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman-13e-acceptance\\runs\\run-A\\snapshot\\pdfium.dll",
+      "sizeBytes": 4749824,
+      "sha256": "0c88ebacc0393fd45fc3e7b35e31e72c9e55b633a846a7ecf4085694dba68abd",
+      "pe": {
+        "peOffset": 120,
+        "machine": 34404,
+        "coffTimeDateStamp": 1654405200,
+        "coffTimeDateStampOffset": 128,
+        "numberOfSections": 13,
+        "checksum": 0,
+        "sizeOfImage": 4829184,
+        "linkerVersion": 14,
+        "osVersion": "5.2",
+        "debugEntries": [
+          {
+            "type": 2,
+            "timeDateStamp": 1654405200,
+            "timeDateStampOffset": 4536672,
+            "fileOffset": 4536668
+          },
+          {
+            "type": 20,
+            "timeDateStamp": 1654405200,
+            "timeDateStampOffset": 4536700,
+            "fileOffset": 4536696
+          }
+        ]
+      }
+    }
+  ]
+}
