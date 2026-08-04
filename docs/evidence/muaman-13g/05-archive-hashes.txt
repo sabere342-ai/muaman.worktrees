@@ -1,0 +1,11 @@
+MUAMAN-13G ARCHIVE HASH COMPARISON
+====================================
+Archive A SHA-256: 17A1DD24CE0DCBD1160BE3E66BDB3F89EB287173D5FCBE079A7C7A46F68DAF6F
+Archive B SHA-256: 17A1DD24CE0DCBD1160BE3E66BDB3F89EB287173D5FCBE079A7C7A46F68DAF6F
+Archive A size: 31,938,560 bytes
+Archive B size: 31,938,560 bytes
+Hashes match: true
+Sizes match: true
+Note: Byte-identical archives are expected from git archive on the same tree.
+Both were generated independently as separate git archive invocations.
+Archive identity does NOT substitute for independent builds.

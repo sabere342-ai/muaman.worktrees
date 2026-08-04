@@ -1,0 +1,10 @@
+MUAMAN-13G GUARD TESTS
+========================
+Test file: app/test/muaman13g_source_archive_guard_test.dart
+Also includes: app/test/muaman13f_fresh_clone_guard_test.dart (existing)
+Also includes: all existing MUAMAN-13E/13D reproducibility guard tests
+
+Dedicated MUAMAN-13G guard test: 15 tests, all passed.
+Full suite includes all 340 preexisting tests + 15 MUAMAN-13G guard tests = 355.
+
+All guard tests passed.

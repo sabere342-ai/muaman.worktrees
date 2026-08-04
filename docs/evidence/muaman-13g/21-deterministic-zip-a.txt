@@ -1,0 +1,6 @@
+MUAMAN-13G DETERMINISTIC ZIP A
+================================
+Release directory: C:\src\m13ga\app\build\windows\x64\runner\Release
+ZIP output: C:\dev\muaman-src-arcs\deterministic-zip-a.zip
+SHA-256: DA9C4B0451A3F92FAE88431438518537B11C9ECDF7A6ED3AEE0C3E6204D01665
+Size: 14,481,448 bytes

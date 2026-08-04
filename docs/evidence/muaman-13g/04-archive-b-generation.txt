@@ -1,0 +1,10 @@
+MUAMAN-13G ARCHIVE B GENERATION
+================================
+Command: git archive --format=tar --output=C:\dev\muaman-src-arcs\archive-b.tar 7890ba6ed6b0a8a17797b3d370acc662875fc79a
+Exit code: 0
+Working directory: C:\dev\muaman
+Archive: C:\dev\muaman-src-arcs\archive-b.tar
+SHA-256: 17A1DD24CE0DCBD1160BE3E66BDB3F89EB287173D5FCBE079A7C7A46F68DAF6F
+Size: 31,938,560 bytes
+Note: Archive byte identity is expected from identical git archive commands on the same commit.
+Both archives were generated independently with separate git archive invocations.

@@ -1,0 +1,18 @@
+MUAMAN-13G SOURCE MANIFEST COMPARISON
+=======================================
+File count A: 304
+File count B: 304
+File count match: true
+
+Total bytes A: 31,647,662
+Total bytes B: 31,647,662
+Total bytes match: true
+
+Path sets identical: true
+SHA-256 mismatches: 0
+
+pubspec.lock SHA-256 A: EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A
+pubspec.lock SHA-256 B: EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A
+pubspec.lock match: true
+
+Result: Source trees are byte-identical before any build commands were executed.

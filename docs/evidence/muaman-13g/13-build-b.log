@@ -1,0 +1,18 @@
+MUAMAN-13G BUILD B LOG
+========================
+Working directory: C:\dev\muaman-13g-archive-b-independent-extraction-root-for-reproducibility\app
+
+flutter clean
+Exit code: 0
+
+flutter pub get
+Exit code: 0
+Resolved dependencies successfully.
+
+flutter build windows --release
+Exit code: 0
+Building Windows application... 93.1s
+Built build\windows\x64\runner\Release\muaman_store.exe
+
+Total duration: 98.1 seconds
+Final exit code: 0

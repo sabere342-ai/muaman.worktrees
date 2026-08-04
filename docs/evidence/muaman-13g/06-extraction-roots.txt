@@ -1,0 +1,13 @@
+MUAMAN-13G EXTRACTION ROOTS
+============================
+Root A: C:\src\m13ga
+Root A path length: 12 characters
+Root B: C:\dev\muaman-13g-archive-b-independent-extraction-root-for-reproducibility
+Root B path length: 75 characters
+Path-length delta: 63 characters (minimum required: 50)
+Resolved physical path A: C:\src\m13ga
+Resolved physical path B: C:\dev\muaman-13g-archive-b-independent-extraction-root-for-reproducibility
+Volume A: C:\
+Volume B: C:\
+Note: Both paths are outside every Git repository.
+Neither path is a symlink, junction, or alias.

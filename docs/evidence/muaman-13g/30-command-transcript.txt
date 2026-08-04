@@ -1,0 +1,74 @@
+MUAMAN-13G COMMAND TRANSCRIPT
+===============================
+Phase 1: Preflight
+  git rev-parse HEAD
+  git status --short
+  git branch --show-current
+  git log -1 --format="%H%n%s"
+  git rev-list --count 7890ba6ed6b0a8a17797b3d370acc662875fc79a..HEAD
+  flutter --version
+  dart --version
+  cmake --version
+  git --version
+
+Phase 2: Branch creation
+  git checkout -b codex/muaman-13g-git-metadata-free-source-archive-reproducibility 7890ba6ed6b0a8a17797b3d370acc662875fc79a
+
+Phase 3: Source archive creation
+  git archive --format=tar --output=C:\dev\muaman-src-arcs\archive-a.tar 7890ba6ed6b0a8a17797b3d370acc662875fc79a
+  git archive --format=tar --output=C:\dev\muaman-src-arcs\archive-b.tar 7890ba6ed6b0a8a17797b3d370acc662875fc79a
+
+Phase 4: Extraction
+  mkdir C:\src\m13ga
+  mkdir C:\dev\muaman-13g-archive-b-independent-extraction-root-for-reproducibility
+  tar xf archive-a.tar -C C:\src\m13ga
+  tar xf archive-b.tar -C C:\dev\muaman-13g-archive-b-independent-extraction-root-for-reproducibility
+
+Phase 5: Git-metadata absence proof
+  Get-ChildItem -LiteralPath <root> -Force -Recurse | Where-Object { $_.Name -eq '.git' }
+  git -C <root> rev-parse --is-inside-work-tree
+  git -C <root> rev-parse --show-toplevel
+  git -C <root> status
+
+Phase 6: Source manifests
+  (PowerShell script to generate SHA-256 manifest for all files)
+  Compare-Object $pathsA $pathsB
+  Per-file SHA-256 comparison
+
+Phase 7: Build A
+  flutter clean
+  flutter pub get
+  flutter build windows --release
+
+Phase 8: Build B
+  flutter clean
+  flutter pub get
+  flutter build windows --release
+
+Phase 9: Lockfile integrity
+  Get-FileHash pubspec.lock -Algorithm SHA256
+
+Phase 10: Release manifests
+  dart run tool/repro_manifest.dart --release-dir <dir> --out <json>
+  Per-file comparison
+
+Phase 11: PE inspection
+  dart run tool/pe_inspect.dart --run-id A --out <json> --file <files>
+  dart run tool/pe_inspect.dart --run-id B --out <json> --file <files>
+  dart run tool/pe_inspect.dart --compare <a.json> <b.json> --out <json>
+
+Phase 12: Path-leak scan
+  dart run tool/leak_scan.dart --release-dir <dir> --forbidden=<paths> --out <json>
+
+Phase 13: Deterministic ZIP
+  dart run tool/repro_zip.dart --release-dir <dir> --out <zip>
+  Get-FileHash <zip> -Algorithm SHA256
+
+Phase 14: Quality gates
+  dart format --output=none --set-exit-if-changed .
+  flutter analyze
+  flutter test
+
+Phase 15: Commit
+  git add <evidence files>
+  git commit -m "MUAMAN-13G: verify source-archive Windows reproducibility"

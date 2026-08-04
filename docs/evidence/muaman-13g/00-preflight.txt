@@ -1,0 +1,8 @@
+MUAMAN-13G PREFLIGHT
+====================
+Baseline: 7890ba6ed6b0a8a17797b3d370acc662875fc79a
+Baseline message: MUAMAN-13F: verify fresh-clone Windows reproducibility
+Branch: codex/muaman-13g-git-metadata-free-source-archive-reproducibility
+HEAD at start: 7890ba6ed6b0a8a17797b3d370acc662875fc79a
+Working tree at start: clean
+Commit count after baseline: 0 (before work began)

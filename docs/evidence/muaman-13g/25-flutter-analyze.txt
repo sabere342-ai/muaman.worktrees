@@ -1,0 +1,8 @@
+MUAMAN-13G FLUTTER ANALYZE
+============================
+Command: flutter analyze
+Working directory: C:\dev\muaman\app
+Result: No issues found! (ran in 49.7s)
+Exit code: 0
+
+Result: PASS

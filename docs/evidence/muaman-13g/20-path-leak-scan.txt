@@ -1,0 +1,22 @@
+MUAMAN-13G PATH-LEAK SCAN
+===========================
+Scanner: app/tool/leak_scan.dart
+Forbidden patterns scanned:
+  1. C:\src\m13ga
+  2. C:\dev\muaman-13g-archive-b-independent-extraction-root-for-reproducibility
+  3. C:\dev\muaman
+  4. C:\dev\muaman.fresh
+
+Encodings scanned: UTF-8 and UTF-16LE
+
+Release A scan:
+  Files scanned: 5 (data/app.so, muaman_store.exe, printing_plugin.dll, flutter_windows.dll, pdfium.dll)
+  Total forbidden occurrences: 0
+  allClear: true
+
+Release B scan:
+  Files scanned: 5 (data/app.so, muaman_store.exe, printing_plugin.dll, flutter_windows.dll, pdfium.dll)
+  Total forbidden occurrences: 0
+  allClear: true
+
+Result: ZERO path-leak occurrences in both Release directories.

@@ -1,0 +1,11 @@
+MUAMAN-13G LOCKFILE INTEGRITY
+==============================
+Original pubspec.lock SHA-256 (from source archive): EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A
+
+After flutter pub get (Build A): EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A
+Match: true
+
+After flutter pub get (Build B): EBDDB5D8E4B4A2128AFD255677B64B7815B884EAB30070D2B6C47CC358D3331A
+Match: true
+
+Conclusion: Lockfile remained byte-identical through both builds. No dependency resolution drift.

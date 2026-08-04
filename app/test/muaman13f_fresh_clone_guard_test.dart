@@ -30,10 +30,8 @@ void main() {
     });
 
     test('checks Git HEAD in both clones', () {
-      expect(content, contains('Clone A'),
-          reason: 'must reference Clone A');
-      expect(content, contains('Clone B'),
-          reason: 'must reference Clone B');
+      expect(content, contains('Clone A'), reason: 'must reference Clone A');
+      expect(content, contains('Clone B'), reason: 'must reference Clone B');
       expect(content, contains('rev-parse HEAD'),
           reason: 'must verify HEAD via rev-parse');
     });
@@ -51,8 +49,7 @@ void main() {
     });
 
     test('runs flutter pub get', () {
-      expect(content, contains('pub get'),
-          reason: 'must run flutter pub get');
+      expect(content, contains('pub get'), reason: 'must run flutter pub get');
     });
 
     test('runs flutter build windows --release', () {
@@ -101,8 +98,7 @@ void main() {
     });
 
     test('runs PE inspection', () {
-      expect(content, contains('pe_inspect'),
-          reason: 'must inspect PE files');
+      expect(content, contains('pe_inspect'), reason: 'must inspect PE files');
     });
 
     test('runs path leak scan', () {
@@ -154,8 +150,7 @@ void main() {
       final tool = File('tool/muaman13f_fresh_clone_reproducibility.ps1');
       if (tool.existsSync()) {
         final content = tool.readAsStringSync();
-        expect(content,
-            contains('47f95000db103194e67e90795cf3b55652df1d64'),
+        expect(content, contains('47f95000db103194e67e90795cf3b55652df1d64'),
             reason: 'baseline SHA must be the full 40-character hash');
       }
     });
@@ -213,7 +208,8 @@ void main() {
         expect(content, contains('ErrorActionPreference'),
             reason: 'must set ErrorActionPreference');
         expect(content, contains(RegExp(r'\bContinue\b')),
-            reason: 'must use Continue to avoid stderr-2>&1 terminating on git output');
+            reason:
+                'must use Continue to avoid stderr-2>&1 terminating on git output');
       }
     });
 

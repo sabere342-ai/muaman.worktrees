@@ -1,0 +1,81 @@
+{
+  "files": [
+    {
+      "fileName": "flutter_windows.dll",
+      "sizeEqual": true,
+      "sha256Equal": true,
+      "byteIdentical": true,
+      "coffTimeDateStampEqual": true,
+      "coffTimeDateStampRun1": 1731463209,
+      "coffTimeDateStampRun2": 1731463209,
+      "debugTimeDateStampsEqual": true,
+      "debugTimeDateStampsRun1": [
+        1731463209,
+        1731463209,
+        1731463209
+      ],
+      "debugTimeDateStampsRun2": [
+        1731463209,
+        1731463209,
+        1731463209
+      ]
+    },
+    {
+      "fileName": "muaman_store.exe",
+      "sizeEqual": true,
+      "sha256Equal": true,
+      "byteIdentical": true,
+      "coffTimeDateStampEqual": true,
+      "coffTimeDateStampRun1": 1269388706,
+      "coffTimeDateStampRun2": 1269388706,
+      "debugTimeDateStampsEqual": true,
+      "debugTimeDateStampsRun1": [
+        1269388706,
+        1269388706
+      ],
+      "debugTimeDateStampsRun2": [
+        1269388706,
+        1269388706
+      ]
+    },
+    {
+      "fileName": "pdfium.dll",
+      "sizeEqual": true,
+      "sha256Equal": true,
+      "byteIdentical": true,
+      "coffTimeDateStampEqual": true,
+      "coffTimeDateStampRun1": 1654405200,
+      "coffTimeDateStampRun2": 1654405200,
+      "debugTimeDateStampsEqual": true,
+      "debugTimeDateStampsRun1": [
+        1654405200,
+        1654405200
+      ],
+      "debugTimeDateStampsRun2": [
+        1654405200,
+        1654405200
+      ]
+    },
+    {
+      "fileName": "printing_plugin.dll",
+      "sizeEqual": true,
+      "sha256Equal": true,
+      "byteIdentical": true,
+      "coffTimeDateStampEqual": true,
+      "coffTimeDateStampRun1": 3033572914,
+      "coffTimeDateStampRun2": 3033572914,
+      "debugTimeDateStampsEqual": true,
+      "debugTimeDateStampsRun1": [
+        3033572914,
+        3033572914
+      ],
+      "debugTimeDateStampsRun2": [
+        3033572914,
+        3033572914
+      ]
+    }
+  ],
+  "allFilesByteIdentical": true,
+  "run1File": "C:\\dev\\muaman-src-arcs\\pe-inspection-a.json",
+  "run2File": "C:\\dev\\muaman-src-arcs\\pe-inspection-b.json"
+}
