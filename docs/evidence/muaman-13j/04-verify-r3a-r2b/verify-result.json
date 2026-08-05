@@ -1,0 +1,24 @@
+﻿{
+    "label":  "r3a-vs-r2b",
+    "capturedAtUtc":  "2026-08-05T17:46:25.285Z",
+    "releaseA":  "C:\\m13i\\a\\src\\app\\build\\windows\\x64\\runner\\Release",
+    "releaseB":  "C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\runner\\Release",
+    "fileCountA":  13,
+    "fileCountB":  13,
+    "totalBytesA":  33273462,
+    "totalBytesB":  33273462,
+    "identical":  true,
+    "diffFiles":  [
+
+                  ],
+    "onlyInA":  [
+
+                ],
+    "onlyInB":  [
+
+                ],
+    "leakCount":  0,
+    "leaks":  [
+
+              ]
+}

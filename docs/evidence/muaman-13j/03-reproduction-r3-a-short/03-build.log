@@ -1,0 +1,564 @@
+[  +97 ms] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[        ] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[   +2 ms] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[  +36 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
+[        ] Artifact Instance of 'GradleWrapper' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[        ] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterSdk' is not required, skipping update.
+[   +3 ms] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FontSubsetArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'PubDependencies' is not required, skipping update.
+[  +51 ms] Skipping pub get: version match.
+[  +66 ms] Found plugin printing at C:\m13i\a\pub\hosted\pub.dev\printing-5.14.3\
+[  +11 ms] Found plugin sqflite at C:\m13i\a\pub\hosted\pub.dev\sqflite-2.4.1\
+[   +2 ms] Found plugin sqflite_android at C:\m13i\a\pub\hosted\pub.dev\sqflite_android-2.4.0\
+[   +6 ms] Found plugin sqflite_darwin at C:\m13i\a\pub\hosted\pub.dev\sqflite_darwin-2.4.1+1\
+[  +41 ms] Found plugin integration_test at C:\m13i\a\sdk\packages\integration_test\
+[  +70 ms] Found plugin printing at C:\m13i\a\pub\hosted\pub.dev\printing-5.14.3\
+[   +7 ms] Found plugin sqflite at C:\m13i\a\pub\hosted\pub.dev\sqflite-2.4.1\
+[   +2 ms] Found plugin sqflite_android at C:\m13i\a\pub\hosted\pub.dev\sqflite_android-2.4.0\
+[   +5 ms] Found plugin sqflite_darwin at C:\m13i\a\pub\hosted\pub.dev\sqflite_darwin-2.4.1+1\
+[  +41 ms] Found plugin integration_test at C:\m13i\a\sdk\packages\integration_test\
+[  +56 ms] Found plugin printing at C:\m13i\a\pub\hosted\pub.dev\printing-5.14.3\
+[   +3 ms] Found plugin sqflite at C:\m13i\a\pub\hosted\pub.dev\sqflite-2.4.1\
+[   +1 ms] Found plugin sqflite_android at C:\m13i\a\pub\hosted\pub.dev\sqflite_android-2.4.0\
+[   +2 ms] Found plugin sqflite_darwin at C:\m13i\a\pub\hosted\pub.dev\sqflite_darwin-2.4.1+1\
+[  +19 ms] Found plugin integration_test at C:\m13i\a\sdk\packages\integration_test\
+[   +4 ms] Generating C:\m13i\a\src\app\android\app\src\main\java\io\flutter\plugins\GeneratedPluginRegistrant.java
+[  +71 ms] executing: C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe -format json -products * -utf8 -latest -version 16 -requires Microsoft.VisualStudio.Workload.NativeDesktop Microsoft.VisualStudio.Component.VC.Tools.x86.x64 Microsoft.VisualStudio.Component.VC.CMake.Project
+[  +51 ms] Exit code 0 from: C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe -format json -products * -utf8 -latest -version 16 -requires Microsoft.VisualStudio.Workload.NativeDesktop Microsoft.VisualStudio.Component.VC.Tools.x86.x64 Microsoft.VisualStudio.Component.VC.CMake.Project
+[        ] []
+[        ] executing: C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe -format json -products * -utf8 -latest -version 16 -requires Microsoft.VisualStudio.Workload.VCTools Microsoft.VisualStudio.Component.VC.Tools.x86.x64 Microsoft.VisualStudio.Component.VC.CMake.Project
+[  +44 ms] Exit code 0 from: C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe -format json -products * -utf8 -latest -version 16 -requires Microsoft.VisualStudio.Workload.VCTools Microsoft.VisualStudio.Component.VC.Tools.x86.x64 Microsoft.VisualStudio.Component.VC.CMake.Project
+[        ] [
+             {
+               "instanceId": "f0522534",
+               "installDate": "2026-05-15T15:33:58Z",
+               "installationName": "VisualStudio/18.6.0+11806.211",
+               "installationPath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools",
+               "installationVersion": "18.6.11806.211",
+               "productId": "Microsoft.VisualStudio.Product.BuildTools",
+               "productPath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\Tools\\LaunchDevCmd.bat",
+               "state": 4294967295,
+               "isComplete": true,
+               "isLaunchable": true,
+               "isPrerelease": false,
+               "isRebootRequired": false,
+               "displayName": "Visual Studio Build Tools 2026",
+               "description": "Essential MSBuild and compiler tools – no IDE required.",
+               "channelId": "VisualStudio.18.Release",
+               "channelUri": "https://aka.ms/vs/18/stable/channel",
+               "enginePath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\Installer\\resources\\app\\ServiceHub\\Services\\Microsoft.VisualStudio.Setup.Service",
+               "installedChannelId": "VisualStudio.18.Release",
+               "installedChannelUri": "https://aka.ms/vs/18/stable/channel",
+               "releaseNotes": "https://docs.microsoft.com/en-us/visualstudio/releases/18/release-notes-v18.6#18.6.0",
+               "resolvedInstallationPath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools",
+               "thirdPartyNotices": "https://go.microsoft.com/fwlink/?LinkId=661480",
+               "updateDate": "2026-05-15T15:33:58.4356134Z",
+               "catalog": {
+                 "buildBranch": "stable",
+                 "buildVersion": "18.6.11806.211",
+                 "featureReleaseMonth": "05",
+                 "featureReleaseYear": "2026",
+                 "id": "VisualStudio/18.6.0+11806.211",
+                 "includeBuildVersionInDisplayVersion": "False",
+                 "localBuild": "build-lab",
+                 "manifestName": "VisualStudio",
+                 "manifestType": "installer",
+                 "productDisplayVersion": "18.6.0",
+                 "productLine": "Dev18",
+                 "productLineVersion": "18",
+                 "productMilestone": "RTW",
+                 "productMilestoneIsPreRelease": "False",
+                 "productName": "Visual Studio",
+                 "productPatchVersion": "0",
+                 "productPreReleaseMilestoneSuffix": "4.0",
+                 "productRelease": "RTW",
+                 "productSemanticVersion": "18.6.0+11806.211",
+                 "requiredEngineVersion": "4.6.58.48107"
+               },
+               "properties": {
+                 "campaignId": "",
+                 "channelManifestId": "VisualStudio.18.Release/18.6.0+11806.211",
+                 "includeRecommended": "0",
+                 "nickname": "",
+                 "setupEngineFilePath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\Installer\\setup.exe"
+               }
+             }
+           ]
+[   +3 ms] Building Windows application...
+[   +3 ms] executing: C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe -S C:\m13i\a\src\app\windows -B C:\m13i\a\src\app\build\windows\x64 -G Visual Studio 18 2026 -A x64 -DFLUTTER_TARGET_PLATFORM=windows-x64
+[  +58 ms] -- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26200.
+[+1197 ms] -- The CXX compiler identification is MSVC 19.51.36243.0
+[  +39 ms] -- Detecting CXX compiler ABI info
+[ +902 ms] -- Detecting CXX compiler ABI info - done
+[  +60 ms] -- Check for working CXX compiler: C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe - skipped
+[   +1 ms] -- Detecting CXX compile features
+[   +1 ms] -- Detecting CXX compile features - done
+[  +23 ms] -- Downloading/updating pdfium
+[  +57 ms] -- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26200.
+[ +471 ms] -- Configuring done (0.5s)
+[ +112 ms] -- Generating done (0.1s)
+[  +18 ms] -- Build files have been written to: C:/m13i/a/src/app/build/windows/x64/pdfium-download
+[ +164 ms] MSBuild version 18.6.3+84d3e95b4 for .NET Framework
+[ +301 ms]   1>Checking Build System
+[ +191 ms]   Creating directories for 'pdfium-download'
+[  +63 ms]   Building Custom Rule C:/m13i/a/src/app/build/windows/x64/pdfium-download/CMakeLists.txt
+[  +35 ms]   Performing download step (download, verify and extract) for 'pdfium-download'
+[  +49 ms]   -- Downloading...
+[        ]      dst='C:/m13i/a/src/app/build/windows/x64/pdfium-download/pdfium-download-prefix/src/pdfium-win-x64.tgz'
+[        ]      timeout='none'
+[        ]      inactivity timeout='none'
+[        ]   -- Using src='https://github.com/bblanchon/pdfium-binaries/releases/download/chromium/5200/pdfium-win-x64.tgz'
+[ +745 ms]   -- [download 0% complete]
+[   +7 ms]   -- [download 1% complete]
+[ +109 ms]   -- [download 2% complete]
+[ +311 ms]   -- [download 3% complete]
+[  +69 ms]   -- [download 4% complete]
+[   +8 ms]   -- [download 5% complete]
+[  +87 ms]   -- [download 6% complete]
+[ +100 ms]   -- [download 7% complete]
+[  +75 ms]   -- [download 8% complete]
+[  +14 ms]   -- [download 9% complete]
+[  +42 ms]   -- [download 10% complete]
+[  +27 ms]   -- [download 11% complete]
+[  +88 ms]   -- [download 12% complete]
+[        ]   -- [download 13% complete]
+[  +56 ms]   -- [download 14% complete]
+[   +1 ms]   -- [download 15% complete]
+[  +32 ms]   -- [download 16% complete]
+[ +104 ms]   -- [download 17% complete]
+[ +102 ms]   -- [download 18% complete]
+[   +1 ms]   -- [download 19% complete]
+[  +84 ms]   -- [download 20% complete]
+[  +16 ms]   -- [download 21% complete]
+[  +92 ms]   -- [download 22% complete]
+[  +40 ms]   -- [download 23% complete]
+[  +49 ms]   -- [download 24% complete]
+[  +66 ms]   -- [download 25% complete]
+[   +3 ms]   -- [download 26% complete]
+[  +62 ms]   -- [download 27% complete]
+[  +35 ms]   -- [download 28% complete]
+[  +53 ms]   -- [download 29% complete]
+[  +25 ms]   -- [download 30% complete]
+[  +45 ms]   -- [download 31% complete]
+[  +31 ms]   -- [download 32% complete]
+[  +36 ms]   -- [download 33% complete]
+[  +27 ms]   -- [download 34% complete]
+[  +59 ms]   -- [download 35% complete]
+[ +219 ms]   -- [download 36% complete]
+[        ]   -- [download 37% complete]
+[  +62 ms]   -- [download 38% complete]
+[  +32 ms]   -- [download 39% complete]
+[  +43 ms]   -- [download 40% complete]
+[  +42 ms]   -- [download 41% complete]
+[  +21 ms]   -- [download 42% complete]
+[  +40 ms]   -- [download 43% complete]
+[  +27 ms]   -- [download 44% complete]
+[  +81 ms]   -- [download 45% complete]
+[   +2 ms]   -- [download 46% complete]
+[ +146 ms]   -- [download 47% complete]
+[   +2 ms]   -- [download 48% complete]
+[  +80 ms]   -- [download 49% complete]
+[  +36 ms]   -- [download 50% complete]
+[  +48 ms]   -- [download 51% complete]
+[  +19 ms]   -- [download 52% complete]
+[  +95 ms]   -- [download 53% complete]
+[        ]   -- [download 54% complete]
+[ +204 ms]   -- [download 55% complete]
+[        ]   -- [download 56% complete]
+[        ]   -- [download 57% complete]
+[  +13 ms]   -- [download 58% complete]
+[  +76 ms]   -- [download 59% complete]
+[  +59 ms]   -- [download 60% complete]
+[  +80 ms]   -- [download 61% complete]
+[  +70 ms]   -- [download 62% complete]
+[  +52 ms]   -- [download 63% complete]
+[  +49 ms]   -- [download 64% complete]
+[  +23 ms]   -- [download 65% complete]
+[ +103 ms]   -- [download 66% complete]
+[ +132 ms]   -- [download 67% complete]
+[        ]   -- [download 68% complete]
+[  +75 ms]   -- [download 69% complete]
+[  +59 ms]   -- [download 70% complete]
+[ +134 ms]   -- [download 71% complete]
+[   +5 ms]   -- [download 72% complete]
+[  +78 ms]   -- [download 73% complete]
+[ +135 ms]   -- [download 74% complete]
+[        ]   -- [download 75% complete]
+[  +94 ms]   -- [download 76% complete]
+[  +62 ms]   -- [download 77% complete]
+[  +16 ms]   -- [download 78% complete]
+[  +90 ms]   -- [download 79% complete]
+[   +3 ms]   -- [download 80% complete]
+[ +125 ms]   -- [download 81% complete]
+[        ]   -- [download 82% complete]
+[ +111 ms]   -- [download 83% complete]
+[        ]   -- [download 84% complete]
+[  +76 ms]   -- [download 85% complete]
+[  +33 ms]   -- [download 86% complete]
+[  +32 ms]   -- [download 87% complete]
+[  +25 ms]   -- [download 88% complete]
+[  +34 ms]   -- [download 89% complete]
+[  +35 ms]   -- [download 90% complete]
+[  +31 ms]   -- [download 91% complete]
+[  +40 ms]   -- [download 92% complete]
+[  +25 ms]   -- [download 93% complete]
+[  +37 ms]   -- [download 94% complete]
+[  +26 ms]   -- [download 95% complete]
+[  +34 ms]   -- [download 96% complete]
+[  +25 ms]   -- [download 97% complete]
+[  +38 ms]   -- [download 98% complete]
+[  +39 ms]   -- [download 99% complete]
+[  +26 ms]   -- [download 100% complete]
+[  +14 ms]   -- Downloading... done
+[  +74 ms]   -- extracting...
+[        ]        src='C:/m13i/a/src/app/build/windows/x64/pdfium-download/pdfium-download-prefix/src/pdfium-win-x64.tgz'
+[        ]        dst='C:/m13i/a/src/app/build/windows/x64/pdfium-src'
+[        ]   -- extracting... [tar xf]
+[ +197 ms]   -- extracting... [analysis]
+[        ]   -- extracting... [rename]
+[   +2 ms]   -- extracting... [clean up]
+[        ]   -- extracting... done
+[  +44 ms]   No update step for 'pdfium-download'
+[  +68 ms]   No patch step for 'pdfium-download'
+[  +60 ms]   No configure step for 'pdfium-download'
+[  +61 ms]   No build step for 'pdfium-download'
+[  +62 ms]   No install step for 'pdfium-download'
+[  +62 ms]   No test step for 'pdfium-download'
+[  +59 ms]   Completed 'pdfium-download'
+[ +248 ms]   Building Custom Rule C:/m13i/a/src/app/build/windows/x64/pdfium-download/CMakeLists.txt
+[ +111 ms] -- Found PDFium: C:/m13i/a/src/app/build/windows/x64/pdfium-src/bin/pdfium.dll (found version "106.0.5200.0")
+[   +2 ms] -- Configuring done (10.9s)
+[ +340 ms] -- Generating done (0.3s)
+[  +62 ms] -- Build files have been written to: C:/m13i/a/src/app/build/windows/x64
+[  +14 ms] executing: C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe --build C:\m13i\a\src\app\build\windows\x64 --config Release --target INSTALL --verbose
+[ +133 ms] Change Dir: 'C:/m13i/a/src/app/build/windows/x64'
+[   +7 ms] Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" INSTALL.vcxproj /p:Configuration=Release /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+[  +91 ms] MSBuild version 18.6.3+84d3e95b4 for .NET Framework
+[  +78 ms] Build started 8/5/2026 8:44:43 PM.
+[ +153 ms] Project "C:\m13i\a\src\app\build\windows\x64\INSTALL.vcxproj" on node 1 (default targets).
+[        ] Project "C:\m13i\a\src\app\build\windows\x64\INSTALL.vcxproj" (1) is building "C:\m13i\a\src\app\build\windows\x64\ZERO_CHECK.vcxproj" (2) on node 1 (default targets).
+[        ] PrepareForBuild:
+[        ]   Creating directory "x64\Release\ZERO_CHECK\".
+[   +3 ms]   Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+[        ]   Creating directory "x64\Release\ZERO_CHECK\ZERO_CHECK.tlog\".
+[   +5 ms] InitializeBuildStatus:
+[        ]   Creating "x64\Release\ZERO_CHECK\ZERO_CHECK.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+[        ]   Touching "x64\Release\ZERO_CHECK\ZERO_CHECK.tlog\unsuccessfulbuild".
+[  +97 ms] CustomBuild:
+[        ]   1>Checking Build System
+[  +76 ms] FinalizeBuildStatus:
+[        ]   Deleting file "x64\Release\ZERO_CHECK\ZERO_CHECK.tlog\unsuccessfulbuild".
+[        ]   Touching "x64\Release\ZERO_CHECK\ZERO_CHECK.tlog\ZERO_CHECK.lastbuildstate".
+[        ] Done Building Project "C:\m13i\a\src\app\build\windows\x64\ZERO_CHECK.vcxproj" (default targets).
+[  +97 ms] Project "C:\m13i\a\src\app\build\windows\x64\INSTALL.vcxproj" (1) is building "C:\m13i\a\src\app\build\windows\x64\ALL_BUILD.vcxproj" (3) on node 1 (default targets).
+[        ] Project "C:\m13i\a\src\app\build\windows\x64\ALL_BUILD.vcxproj" (3) is building "C:\m13i\a\src\app\build\windows\x64\flutter\flutter_wrapper_app.vcxproj" (4) on node 1 (default targets).
+[        ] Project "C:\m13i\a\src\app\build\windows\x64\flutter\flutter_wrapper_app.vcxproj" (4) is building "C:\m13i\a\src\app\build\windows\x64\flutter\flutter_assemble.vcxproj" (5) on node 1 (default targets).
+[        ] Project "C:\m13i\a\src\app\build\windows\x64\flutter\flutter_assemble.vcxproj" (5) is building "C:\m13i\a\src\app\build\windows\x64\flutter\muaman_inject_registrant.vcxproj" (6) on node 1 (default targets).
+[        ] PrepareForBuild:
+[        ]   Creating directory "x64\Release\muaman_inject_registrant\".
+[   +1 ms]   Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+[        ]   Creating directory "x64\Release\muaman_inject_registrant\muaman_i.0EC67E87.tlog\".
+[   +2 ms] InitializeBuildStatus:
+[        ]   Creating "x64\Release\muaman_inject_registrant\muaman_i.0EC67E87.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+[        ]   Touching "x64\Release\muaman_inject_registrant\muaman_i.0EC67E87.tlog\unsuccessfulbuild".
+[  +58 ms] CustomBuild:
+[        ]   MUAMAN-13E: injecting canonical dart plugin registrant package mapping
+[ +324 ms]   injected '_muaman_registrant' into C:\m13i\a\src\app\.dart_tool\package_config.json
+[  +23 ms]   Building Custom Rule C:/m13i/a/src/app/windows/flutter/CMakeLists.txt
+[  +49 ms] FinalizeBuildStatus:
+[        ]   Deleting file "x64\Release\muaman_inject_registrant\muaman_i.0EC67E87.tlog\unsuccessfulbuild".
+[        ]   Touching "x64\Release\muaman_inject_registrant\muaman_i.0EC67E87.tlog\muaman_inject_registrant.lastbuildstate".
+[        ] Done Building Project "C:\m13i\a\src\app\build\windows\x64\flutter\muaman_inject_registrant.vcxproj" (default targets).
+[   +4 ms] PrepareForBuild:
+[        ]   Creating directory "x64\Release\flutter_assemble\".
+[   +1 ms]   Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+[        ]   Creating directory "x64\Release\flutter_assemble\flutter_assemble.tlog\".
+[   +2 ms] InitializeBuildStatus:
+[        ]   Creating "x64\Release\flutter_assemble\flutter_assemble.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+[        ]   Touching "x64\Release\flutter_assemble\flutter_assemble.tlog\unsuccessfulbuild".
+[        ] ComputeCustomBuildOutput:
+[        ]   Creating directory "C:\m13i\a\src\app\windows\flutter\ephemeral\cpp_client_wrapper\".
+[   +1 ms] CustomBuild:
+[        ]   "The build of 'C:\m13i\a\src\app\build\windows\x64\CMakeFiles\8f8e779f460d00f7bd01f5929cce94e1\flutter_assemble.rule' depends on 'C:\M13I\A\SRC\APP\WINDOWS\FLUTTER\EPHEMERAL\FLUTTER_WINDOWS.DLL' which is produced by the build of 'C:\m13i\a\src\app\build\windows\x64\CMakeFiles\6f0c1e6bfc6fe7b6d7123a80f7cb4927\flutter_windows.dll.rule'. The items cannot be built in parallel."
+[  +49 ms]   Generating C:/m13i/a/src/app/windows/flutter/ephemeral/flutter_windows.dll, C:/m13i/a/src/app/windows/flutter/ephemeral/flutter_export.h, C:/m13i/a/src/app/windows/flutter/ephemeral/flutter_windows.h, C:/m13i/a/src/app/windows/flutter/ephemeral/flutter_messenger.h, C:/m13i/a/src/app/windows/flutter/ephemeral/flutter_plugin_registrar.h, C:/m13i/a/src/app/windows/flutter/ephemeral/flutter_texture_registrar.h, C:/m13i/a/src/app/windows/flutter/ephemeral/cpp_client_wrapper/core_implementations.cc, C:/m13i/a/src/app/windows/flutter/ephemeral/cpp_client_wrapper/standard_codec.cc, C:/m13i/a/src/app/windows/flutter/ephemeral/cpp_client_wrapper/plugin_registrar.cc, C:/m13i/a/src/app/windows/flutter/ephemeral/cpp_client_wrapper/flutter_engine.cc, C:/m13i/a/src/app/windows/flutter/ephemeral/cpp_client_wrapper/flutter_view_controller.cc, _phony_
+[+1148 ms]   [  +27 ms] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[        ]   [   +2 ms] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[  +51 ms]   [  +66 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'GradleWrapper' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterSdk' is not required, skipping update.
+[   +2 ms]   [   +2 ms] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FontSubsetArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'PubDependencies' is not required, skipping update.
+[  +20 ms]   [  +20 ms] Initializing file store
+[  +14 ms]   [  +14 ms] Skipping target: gen_localizations
+[   +9 ms]   [   +8 ms] gen_dart_plugin_registrant: Starting due to {InvalidatedReasonKind.inputChanged: The following inputs have updated contents: C:\m13i\a\src\app\.dart_tool\package_config_subset}
+[   +4 ms]   [   +5 ms] unpack_windows: Starting due to {}
+[+1562 ms]   [+1561 ms] unpack_windows: Complete
+[+3354 ms]   [+3354 ms] Found plugin printing at C:\m13i\a\pub\hosted\pub.dev\printing-5.14.3\
+[  +10 ms]   [  +10 ms] Found plugin sqflite at C:\m13i\a\pub\hosted\pub.dev\sqflite-2.4.1\
+[   +2 ms]   [   +2 ms] Found plugin sqflite_android at C:\m13i\a\pub\hosted\pub.dev\sqflite_android-2.4.0\
+[   +7 ms]   [   +8 ms] Found plugin sqflite_darwin at C:\m13i\a\pub\hosted\pub.dev\sqflite_darwin-2.4.1+1\
+[  +35 ms]   [  +35 ms] Found plugin integration_test at C:\m13i\a\sdk\packages\integration_test\
+[  +34 ms]   [  +34 ms] gen_dart_plugin_registrant: Complete
+[   +2 ms]   [   +2 ms] kernel_snapshot_program: Starting due to {}
+[   +7 ms]   [   +7 ms] C:\m13i\a\sdk\bin\cache\dart-sdk\bin\dartaotruntime.exe --disable-dart-dev C:\m13i\a\sdk\bin\cache\dart-sdk\bin\snapshots\frontend_server_aot.dart.snapshot --sdk-root C:\m13i\a\sdk\bin\cache\artifacts\engine\common\flutter_patched_sdk_product/ --target=flutter --no-print-incremental-dependencies -Ddart.vm.profile=false -Ddart.vm.product=true --delete-tostring-package-uri=dart:ui --delete-tostring-package-uri=package:flutter --aot --tfa --target-os windows --packages C:\m13i\a\src\app\.dart_tool\package_config.json --output-dill C:\m13i\a\src\app\.dart_tool\flutter_build\789834648e16fa394dcd7eae97fb800c\program.dill --depfile C:\m13i\a\src\app\.dart_tool\flutter_build\789834648e16fa394dcd7eae97fb800c\kernel_snapshot_program.d --source package:_muaman_registrant/flutter_build/dart_plugin_registrant.dart --source package:flutter/src/dart_plugin_registrant.dart -Dflutter.dart_plugin_registrant=package:_muaman_registrant/flutter_build/dart_plugin_registrant.dart --verbosity=error package:muaman_store/main.dart
+[+34054 ms]   [+34053 ms] kernel_snapshot_program: Complete
+[+1236 ms]   [+1237 ms] native_assets: Starting due to {}
+[  +74 ms]   [  +73 ms] No packages with native assets. Skipping native assets compilation.
+[        ]   [   +1 ms] Writing native_assets.yaml.
+[  +29 ms]   [  +29 ms] Writing C:\m13i\a\src\app\.dart_tool\flutter_build\789834648e16fa394dcd7eae97fb800c\native_assets.yaml done.
+[   +4 ms]   [   +4 ms] native_assets: Complete
+[  +51 ms]   [  +50 ms] kernel_snapshot_native_assets: Starting due to {InvalidatedReasonKind.inputChanged: The following inputs have updated contents: C:\m13i\a\src\app\.dart_tool\flutter_build\789834648e16fa394dcd7eae97fb800c\native_assets.yaml,C:\m13i\a\src\app\.dart_tool\package_config_subset,C:\m13i\a\sdk\packages\flutter_tools\lib\src\build_system\targets\common.dart,C:\m13i\a\sdk\bin\internal\engine.version,C:\m13i\a\sdk\bin\internal\engine.version,C:\m13i\a\sdk\bin\internal\engine.version,C:\m13i\a\sdk\bin\internal\engine.version}
+[   +4 ms]   [   +4 ms] kernel_snapshot_native_assets: Complete
+[   +2 ms]   [   +2 ms] kernel_snapshot: Starting due to {InvalidatedReasonKind.inputChanged: The following inputs have updated contents: C:\m13i\a\src\app\.dart_tool\flutter_build\789834648e16fa394dcd7eae97fb800c\program.dill,C:\m13i\a\src\app\.dart_tool\flutter_build\789834648e16fa394dcd7eae97fb800c\native_assets.dill}
+[  +36 ms]   [  +36 ms] kernel_snapshot: Complete
+[ +294 ms]   [ +294 ms] aot_elf_release: Starting due to {InvalidatedReasonKind.inputChanged: The following inputs have updated contents: C:\m13i\a\sdk\packages\flutter_tools\lib\src\build_system\targets\common.dart,C:\m13i\a\sdk\bin\internal\engine.version,C:\m13i\a\sdk\bin\internal\engine.version,C:\m13i\a\sdk\bin\internal\engine.version,C:\m13i\a\src\app\.dart_tool\flutter_build\789834648e16fa394dcd7eae97fb800c\app.dill}
+[   +4 ms]   [   +4 ms] targetingApplePlatform = false
+[        ]   [        ] extractAppleDebugSymbols = true
+[        ]   [        ] Will strip AOT snapshot during build.
+[   +1 ms]   [   +1 ms] executing: C:\m13i\a\sdk\bin\cache\artifacts\engine\windows-x64-release\gen_snapshot --deterministic --snapshot_kind=app-aot-elf --elf=C:\m13i\a\src\app\.dart_tool\flutter_build\789834648e16fa394dcd7eae97fb800c\app.so --strip C:\m13i\a\src\app\.dart_tool\flutter_build\789834648e16fa394dcd7eae97fb800c\app.dill
+[+12013 ms]   [+12012 ms] aot_elf_release: Complete
+[  +77 ms]   [  +77 ms] windows_aot_bundle: Starting due to {InvalidatedReasonKind.inputChanged: The following inputs have updated contents: C:\m13i\a\src\app\.dart_tool\flutter_build\789834648e16fa394dcd7eae97fb800c\app.so}
+[  +11 ms]   [  +11 ms] windows_aot_bundle: Complete
+[  +71 ms]   [  +71 ms] release_bundle_windows-x64_assets: Starting due to {}
+[ +633 ms]   [ +633 ms] shaderc command: [C:\m13i\a\sdk\bin\cache\artifacts\engine\windows-x64\impellerc.exe, --sksl, --runtime-stage-gles, --runtime-stage-vulkan, --iplr, --sl=C:\m13i\a\src\app\build\flutter_assets\shaders/ink_sparkle.frag, --spirv=C:\m13i\a\src\app\build\flutter_assets\shaders/ink_sparkle.frag.spirv, --input=C:\m13i\a\sdk\packages\flutter\lib\src\material\shaders\ink_sparkle.frag, --input-type=frag, --include=C:\m13i\a\sdk\packages\flutter\lib\src\material\shaders, --include=C:\m13i\a\sdk\bin\cache\artifacts\engine\windows-x64\shader_lib]
+[ +768 ms]   [ +768 ms] release_bundle_windows-x64_assets: Complete
+[ +170 ms]   [ +170 ms] Persisting file store
+[  +28 ms]   [  +28 ms] Done persisting file store
+[  +15 ms]   [  +15 ms] build succeeded.
+[  +15 ms]   [  +15 ms] "flutter assemble" took 54,739ms.
+[   +2 ms]   [   +2 ms] ensureAnalyticsSent: 0ms
+[        ]   [        ] Running 1 shutdown hook
+[        ]   [        ] Shutdown hooks complete
+[        ]   [        ] exiting with code 0
+[ +129 ms]   Building Custom Rule C:/m13i/a/src/app/windows/flutter/CMakeLists.txt
+[  +83 ms] FinalizeBuildStatus:
+[        ]   Deleting file "x64\Release\flutter_assemble\flutter_assemble.tlog\unsuccessfulbuild".
+[        ]   Touching "x64\Release\flutter_assemble\flutter_assemble.tlog\flutter_assemble.lastbuildstate".
+[   +1 ms] Done Building Project "C:\m13i\a\src\app\build\windows\x64\flutter\flutter_assemble.vcxproj" (default targets).
+[  +13 ms] PrepareForBuild:
+[        ]   Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+[        ]   Creating directory "C:\m13i\a\src\app\build\windows\x64\flutter\Release\".
+[        ]   Creating directory "flutter_wrapper_app.dir\Release\flutter_.BE03A1ED.tlog\".
+[   +5 ms] InitializeBuildStatus:
+[        ]   Creating "flutter_wrapper_app.dir\Release\flutter_.BE03A1ED.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+[        ]   Touching "flutter_wrapper_app.dir\Release\flutter_.BE03A1ED.tlog\unsuccessfulbuild".
+[  +59 ms] CustomBuild:
+[        ]   Building Custom Rule C:/m13i/a/src/app/windows/flutter/CMakeLists.txt
+[ +168 ms] ClCompile:
+[        ]   C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Tools\MSVC\14.51.36231\bin\HostX64\x64\CL.exe /c /IC:\m13i\a\src\app\windows\flutter\ephemeral\cpp_client_wrapper\include /IC:\m13i\a\src\app\windows\flutter\ephemeral /nologo /W4 /WX /diagnostics:column /O2 /Ob2 /D _UNICODE /D UNICODE /D WIN32 /D _WINDOWS /D NDEBUG /D _HAS_EXCEPTIONS=0 /D UNICODE /D _UNICODE /D "CMAKE_INTDIR=\"Release\"" /EHsc /MD /GR /std:c++17 /Fo"flutter_wrapper_app.dir\Release\\" /Fd"C:\m13i\a\src\app\build\windows\x64\flutter\Release\flutter_wrapper_app.pdb" /external:W4 /TP /wd4100 /errorReport:queue  /experimental:deterministic /pathmap:C:\m13i\a\src\app=\muaman\src C:\m13i\a\src\app\windows\flutter\ephemeral\cpp_client_wrapper\core_implementations.cc C:\m13i\a\src\app\windows\flutter\ephemeral\cpp_client_wrapper\standard_codec.cc C:\m13i\a\src\app\windows\flutter\ephemeral\cpp_client_wrapper\flutter_engine.cc C:\m13i\a\src\app\windows\flutter\ephemeral\cpp_client_wrapper\flutter_view_controller.cc
+[ +108 ms]   core_implementations.cc
+[ +977 ms]   standard_codec.cc
+[ +897 ms]   flutter_engine.cc
+[ +916 ms]   flutter_view_controller.cc
+[ +833 ms]   Generating Code...
+[+1428 ms] Lib:
+[        ]   C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Tools\MSVC\14.51.36231\bin\HostX64\x64\Lib.exe /OUT:"C:\m13i\a\src\app\build\windows\x64\flutter\Release\flutter_wrapper_app.lib" /NOLOGO /MACHINE:X64  /machine:x64 flutter_wrapper_app.dir\Release\core_implementations.obj
+[        ]   flutter_wrapper_app.dir\Release\standard_codec.obj
+[        ]   flutter_wrapper_app.dir\Release\flutter_engine.obj
+[        ]   flutter_wrapper_app.dir\Release\flutter_view_controller.obj
+[ +133 ms]   flutter_wrapper_app.vcxproj -> C:\m13i\a\src\app\build\windows\x64\flutter\Release\flutter_wrapper_app.lib
+[  +41 ms] FinalizeBuildStatus:
+[        ]   Deleting file "flutter_wrapper_app.dir\Release\flutter_.BE03A1ED.tlog\unsuccessfulbuild".
+[        ]   Touching "flutter_wrapper_app.dir\Release\flutter_.BE03A1ED.tlog\flutter_wrapper_app.lastbuildstate".
+[   +2 ms] Done Building Project "C:\m13i\a\src\app\build\windows\x64\flutter\flutter_wrapper_app.vcxproj" (default targets).
+[  +62 ms] Project "C:\m13i\a\src\app\build\windows\x64\ALL_BUILD.vcxproj" (3) is building "C:\m13i\a\src\app\build\windows\x64\flutter\flutter_wrapper_plugin.vcxproj" (7) on node 1 (default targets).
+[        ] PrepareForBuild:
+[        ]   Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+[        ]   Creating directory "flutter_wrapper_plugin.dir\Release\flutter_.835C4C94.tlog\".
+[   +6 ms] InitializeBuildStatus:
+[        ]   Creating "flutter_wrapper_plugin.dir\Release\flutter_.835C4C94.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+[        ]   Touching "flutter_wrapper_plugin.dir\Release\flutter_.835C4C94.tlog\unsuccessfulbuild".
+[  +54 ms] CustomBuild:
+[        ]   Building Custom Rule C:/m13i/a/src/app/windows/flutter/CMakeLists.txt
+[  +51 ms] ClCompile:
+[        ]   C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Tools\MSVC\14.51.36231\bin\HostX64\x64\CL.exe /c /IC:\m13i\a\src\app\windows\flutter\ephemeral\cpp_client_wrapper\include /IC:\m13i\a\src\app\windows\flutter\ephemeral /nologo /W4 /WX /diagnostics:column /O2 /Ob2 /D _UNICODE /D UNICODE /D WIN32 /D _WINDOWS /D NDEBUG /D _HAS_EXCEPTIONS=0 /D UNICODE /D _UNICODE /D "CMAKE_INTDIR=\"Release\"" /EHsc /MD /GR /std:c++17 /Fo"flutter_wrapper_plugin.dir\Release\\" /Fd"C:\m13i\a\src\app\build\windows\x64\flutter\Release\flutter_wrapper_plugin.pdb" /external:W4 /TP /wd4100 /errorReport:queue  /experimental:deterministic /pathmap:C:\m13i\a\src\app=\muaman\src C:\m13i\a\src\app\windows\flutter\ephemeral\cpp_client_wrapper\core_implementations.cc C:\m13i\a\src\app\windows\flutter\ephemeral\cpp_client_wrapper\standard_codec.cc C:\m13i\a\src\app\windows\flutter\ephemeral\cpp_client_wrapper\plugin_registrar.cc
+[  +53 ms]   core_implementations.cc
+[ +756 ms]   standard_codec.cc
+[ +877 ms]   plugin_registrar.cc
+[ +489 ms]   Generating Code...
+[+1391 ms] Lib:
+[        ]   C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Tools\MSVC\14.51.36231\bin\HostX64\x64\Lib.exe /OUT:"C:\m13i\a\src\app\build\windows\x64\flutter\Release\flutter_wrapper_plugin.lib" /NOLOGO /MACHINE:X64  /machine:x64 flutter_wrapper_plugin.dir\Release\core_implementations.obj
+[        ]   flutter_wrapper_plugin.dir\Release\standard_codec.obj
+[        ]   flutter_wrapper_plugin.dir\Release\plugin_registrar.obj
+[ +104 ms]   flutter_wrapper_plugin.vcxproj -> C:\m13i\a\src\app\build\windows\x64\flutter\Release\flutter_wrapper_plugin.lib
+[  +19 ms] FinalizeBuildStatus:
+[        ]   Deleting file "flutter_wrapper_plugin.dir\Release\flutter_.835C4C94.tlog\unsuccessfulbuild".
+[        ]   Touching "flutter_wrapper_plugin.dir\Release\flutter_.835C4C94.tlog\flutter_wrapper_plugin.lastbuildstate".
+[   +2 ms] Done Building Project "C:\m13i\a\src\app\build\windows\x64\flutter\flutter_wrapper_plugin.vcxproj" (default targets).
+[ +108 ms] Project "C:\m13i\a\src\app\build\windows\x64\ALL_BUILD.vcxproj" (3) is building "C:\m13i\a\src\app\build\windows\x64\runner\muaman_store.vcxproj" (8) on node 1 (default targets).
+[        ] Project "C:\m13i\a\src\app\build\windows\x64\runner\muaman_store.vcxproj" (8) is building "C:\m13i\a\src\app\build\windows\x64\plugins\printing\printing_plugin.vcxproj" (9) on node 1 (default targets).
+[        ] PrepareForBuild:
+[        ]   Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+[        ]   Creating directory "C:\m13i\a\src\app\build\windows\x64\plugins\printing\Release\".
+[        ]   Creating directory "printing_plugin.dir\Release\printing_plugin.tlog\".
+[   +5 ms] InitializeBuildStatus:
+[        ]   Creating "printing_plugin.dir\Release\printing_plugin.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+[        ]   Touching "printing_plugin.dir\Release\printing_plugin.tlog\unsuccessfulbuild".
+[  +59 ms] CustomBuild:
+[        ]   Building Custom Rule C:/m13i/a/src/app/windows/flutter/ephemeral/.plugin_symlinks/printing/windows/CMakeLists.txt
+[  +52 ms] ClCompile:
+[        ]   C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Tools\MSVC\14.51.36231\bin\HostX64\x64\CL.exe /c /IC:\m13i\a\src\app\windows\flutter\ephemeral /IC:\m13i\a\src\app\windows\flutter\ephemeral\cpp_client_wrapper\include /nologo /W4 /WX /diagnostics:column /O2 /Ob2 /D _WINDLL /D _UNICODE /D UNICODE /D WIN32 /D _WINDOWS /D NDEBUG /D _HAS_EXCEPTIONS=0 /D FLUTTER_PLUGIN_IMPL /D UNICODE /D _UNICODE /D "CMAKE_INTDIR=\"Release\"" /D printing_plugin_EXPORTS /EHsc /MD /GR /std:c++17 /Fo"printing_plugin.dir\Release\\" /Fd"printing_plugin.dir\Release\vc145.pdb" /external:W0 /TP /wd4100 /errorReport:queue  /external:I "C:/m13i/a/src/app/build/windows/x64/pdfium-src/include" /external:I "C:/m13i/a/src/app/build/windows/x64/pdfium-src/include/cpp" /experimental:deterministic /pathmap:C:\m13i\a\src\app=\muaman\src C:\m13i\a\src\app\windows\flutter\ephemeral\.plugin_symlinks\printing\windows\printing.cpp C:\m13i\a\src\app\windows\flutter\ephemeral\.plugin_symlinks\printing\windows\printing_plugin.cpp C:\m13i\a\src\app\windows\flutter\ephemeral\.plugin_symlinks\printing\windows\print_job.cpp
+[  +57 ms]   printing.cpp
+[+1154 ms]   printing_plugin.cpp
+[+1292 ms]   print_job.cpp
+[+1197 ms]   Generating Code...
+[+1896 ms] Link:
+[        ]   C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Tools\MSVC\14.51.36231\bin\HostX64\x64\link.exe /OUT:"C:\m13i\a\src\app\build\windows\x64\plugins\printing\Release\printing_plugin.dll" /INCREMENTAL:NO /NOLOGO "..\..\pdfium-src\lib\pdfium.dll.lib" ..\..\flutter\Release\flutter_wrapper_plugin.lib C:\m13i\a\src\app\windows\flutter\ephemeral\flutter_windows.dll.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"C:/m13i/a/src/app/build/windows/x64/plugins/printing/Release/printing_plugin.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/m13i/a/src/app/build/windows/x64/plugins/printing/Release/printing_plugin.lib" /MACHINE:X64  /machine:x64 /Brepro /DLL printing_plugin.dir\Release\printing.obj
+[        ]   printing_plugin.dir\Release\printing_plugin.obj
+[        ]   printing_plugin.dir\Release\print_job.obj
+[ +115 ms]      Creating library C:/m13i/a/src/app/build/windows/x64/plugins/printing/Release/printing_plugin.lib and object C:/m13i/a/src/app/build/windows/x64/plugins/printing/Release/printing_plugin.exp
+[ +108 ms]   printing_plugin.vcxproj -> C:\m13i\a\src\app\build\windows\x64\plugins\printing\Release\printing_plugin.dll
+[  +10 ms] FinalizeBuildStatus:
+[        ]   Deleting file "printing_plugin.dir\Release\printing_plugin.tlog\unsuccessfulbuild".
+[        ]   Touching "printing_plugin.dir\Release\printing_plugin.tlog\printing_plugin.lastbuildstate".
+[        ] Done Building Project "C:\m13i\a\src\app\build\windows\x64\plugins\printing\printing_plugin.vcxproj" (default targets).
+[  +13 ms] PrepareForBuild:
+[        ]   Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+[        ]   Creating directory "C:\m13i\a\src\app\build\windows\x64\runner\Release\".
+[   +1 ms]   Creating directory "muaman_store.dir\Release\muaman_store.tlog\".
+[   +5 ms] InitializeBuildStatus:
+[        ]   Creating "muaman_store.dir\Release\muaman_store.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+[        ]   Touching "muaman_store.dir\Release\muaman_store.tlog\unsuccessfulbuild".
+[  +62 ms] CustomBuild:
+[        ]   Building Custom Rule C:/m13i/a/src/app/windows/runner/CMakeLists.txt
+[  +64 ms] ClCompile:
+[        ]   C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Tools\MSVC\14.51.36231\bin\HostX64\x64\CL.exe /c /IC:\m13i\a\src\app\windows /IC:\m13i\a\src\app\windows\flutter\ephemeral /IC:\m13i\a\src\app\windows\flutter\ephemeral\cpp_client_wrapper\include /IC:\m13i\a\src\app\windows\flutter\ephemeral\.plugin_symlinks\printing\windows\include /nologo /W4 /WX /diagnostics:column /O2 /Ob2 /D _UNICODE /D UNICODE /D WIN32 /D _WINDOWS /D NDEBUG /D _HAS_EXCEPTIONS=0 /D "FLUTTER_VERSION=\"1.0.0+1\"" /D FLUTTER_VERSION_MAJOR=1 /D FLUTTER_VERSION_MINOR=0 /D FLUTTER_VERSION_PATCH=0 /D FLUTTER_VERSION_BUILD=1 /D NOMINMAX /D UNICODE /D _UNICODE /D "CMAKE_INTDIR=\"Release\"" /EHsc /MD /GR /std:c++17 /Fo"muaman_store.dir\Release\\" /Fd"muaman_store.dir\Release\vc145.pdb" /external:W4 /TP /wd4100 /errorReport:queue  /experimental:deterministic /pathmap:C:\m13i\a\src\app=\muaman\src C:\m13i\a\src\app\windows\runner\flutter_window.cpp C:\m13i\a\src\app\windows\runner\main.cpp C:\m13i\a\src\app\windows\runner\utils.cpp C:\m13i\a\src\app\windows\runner\win32_window.cpp C:\m13i\a\src\app\windows\flutter\generated_plugin_registrant.cc
+[  +52 ms]   flutter_window.cpp
+[ +855 ms]   main.cpp
+[ +873 ms]   utils.cpp
+[ +728 ms]   win32_window.cpp
+[ +599 ms]   generated_plugin_registrant.cc
+[ +238 ms]   Generating Code...
+[ +343 ms] ResourceCompile:
+[        ]   C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\rc.exe /D _UNICODE /D UNICODE /D WIN32 /D _WINDOWS /D NDEBUG /D _HAS_EXCEPTIONS=0 /D "FLUTTER_VERSION=\\\"1.0.0+1\\\"" /D FLUTTER_VERSION_MAJOR=1 /D FLUTTER_VERSION_MINOR=0 /D FLUTTER_VERSION_PATCH=0 /D FLUTTER_VERSION_BUILD=1 /D NOMINMAX /D UNICODE /D _UNICODE /D "CMAKE_INTDIR=\\\"Release\\\"" /l"0x0409" /IC:\m13i\a\src\app\windows /IC:\m13i\a\src\app\windows\flutter\ephemeral /IC:\m13i\a\src\app\windows\flutter\ephemeral\cpp_client_wrapper\include /IC:\m13i\a\src\app\windows\flutter\ephemeral\.plugin_symlinks\printing\windows\include /nologo /fo"muaman_store.dir\Release\Runner.res" C:\m13i\a\src\app\windows\runner\Runner.rc 
+[  +79 ms] Link:
+[        ]   C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Tools\MSVC\14.51.36231\bin\HostX64\x64\link.exe /OUT:"C:\m13i\a\src\app\build\windows\x64\runner\Release\muaman_store.exe" /INCREMENTAL:NO /NOLOGO ..\flutter\Release\flutter_wrapper_app.lib dwmapi.lib ..\plugins\printing\Release\printing_plugin.lib C:\m13i\a\src\app\windows\flutter\ephemeral\flutter_windows.dll.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:C:\m13i\a\src\app\windows\runner\runner.exe.manifest /PDB:"C:/m13i/a/src/app/build/windows/x64/runner/Release/muaman_store.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /IMPLIB:"C:/m13i/a/src/app/build/windows/x64/runner/Release/muaman_store.lib" /MACHINE:X64  /machine:x64 /Brepro muaman_store.dir\Release\Runner.res
+[        ]   muaman_store.dir\Release\flutter_window.obj
+[        ]   muaman_store.dir\Release\main.obj
+[        ]   muaman_store.dir\Release\utils.obj
+[        ]   muaman_store.dir\Release\win32_window.obj
+[        ]   muaman_store.dir\Release\generated_plugin_registrant.obj
+[ +240 ms]   muaman_store.vcxproj -> C:\m13i\a\src\app\build\windows\x64\runner\Release\muaman_store.exe
+[  +18 ms] FinalizeBuildStatus:
+[        ]   Deleting file "muaman_store.dir\Release\muaman_store.tlog\unsuccessfulbuild".
+[        ]   Touching "muaman_store.dir\Release\muaman_store.tlog\muaman_store.lastbuildstate".
+[   +3 ms] Done Building Project "C:\m13i\a\src\app\build\windows\x64\runner\muaman_store.vcxproj" (default targets).
+[  +13 ms] PrepareForBuild:
+[        ]   Creating directory "x64\Release\ALL_BUILD\".
+[   +4 ms]   Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+[        ]   Creating directory "x64\Release\ALL_BUILD\ALL_BUILD.tlog\".
+[   +4 ms] InitializeBuildStatus:
+[        ]   Creating "x64\Release\ALL_BUILD\ALL_BUILD.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+[        ]   Touching "x64\Release\ALL_BUILD\ALL_BUILD.tlog\unsuccessfulbuild".
+[  +98 ms] CustomBuild:
+[        ]   Building Custom Rule C:/m13i/a/src/app/windows/CMakeLists.txt
+[  +67 ms] FinalizeBuildStatus:
+[        ]   Deleting file "x64\Release\ALL_BUILD\ALL_BUILD.tlog\unsuccessfulbuild".
+[        ]   Touching "x64\Release\ALL_BUILD\ALL_BUILD.tlog\ALL_BUILD.lastbuildstate".
+[   +1 ms] Done Building Project "C:\m13i\a\src\app\build\windows\x64\ALL_BUILD.vcxproj" (default targets).
+[  +11 ms] PrepareForBuild:
+[        ]   Creating directory "x64\Release\INSTALL\".
+[   +4 ms]   Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+[        ]   Creating directory "x64\Release\INSTALL\INSTALL.tlog\".
+[   +4 ms] InitializeBuildStatus:
+[        ]   Creating "x64\Release\INSTALL\INSTALL.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+[        ]   Touching "x64\Release\INSTALL\INSTALL.tlog\unsuccessfulbuild".
+[  +48 ms] CustomBuild:
+[        ]   1>
+[  +26 ms] PostBuildEvent:
+[        ]   setlocal
+[        ]   "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -DBUILD_TYPE=Release -P cmake_install.cmake
+[        ]   if %errorlevel% neq 0 goto :cmEnd
+[        ]   :cmEnd
+[        ]   endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+[        ]   :cmErrorLevel
+[        ]   exit /b %1
+[        ]   :cmDone
+[        ]   if %errorlevel% neq 0 goto :VCEnd
+[        ]   :VCEnd
+[  +84 ms]   -- Install configuration: "Release"
+[  +90 ms]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/data/icudtl.dat
+[   +4 ms]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/flutter_windows.dll
+[  +84 ms]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/printing_plugin.dll
+[  +85 ms]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/pdfium.dll
+[  +18 ms]   -- Up-to-date: C:/m13i/a/src/app/build/windows/x64/runner/Release
+[        ]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/data/flutter_assets
+[   +1 ms]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/data/flutter_assets/AssetManifest.bin
+[   +1 ms]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/data/flutter_assets/AssetManifest.json
+[   +1 ms]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/data/flutter_assets/FontManifest.json
+[   +2 ms]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/data/flutter_assets/fonts
+[   +1 ms]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+[   +3 ms]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/data/flutter_assets/NOTICES.Z
+[   +2 ms]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/data/flutter_assets/packages
+[   +1 ms]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/data/flutter_assets/packages/cupertino_icons
+[   +1 ms]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/data/flutter_assets/packages/cupertino_icons/assets
+[        ]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+[   +1 ms]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/data/flutter_assets/shaders
+[        ]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/data/flutter_assets/shaders/ink_sparkle.frag
+[   +1 ms]   -- Installing: C:/m13i/a/src/app/build/windows/x64/runner/Release/data/app.so
+[  +37 ms] FinalizeBuildStatus:
+[        ]   Deleting file "x64\Release\INSTALL\INSTALL.tlog\unsuccessfulbuild".
+[        ]   Touching "x64\Release\INSTALL\INSTALL.tlog\INSTALL.lastbuildstate".
+[   +1 ms] Done Building Project "C:\m13i\a\src\app\build\windows\x64\INSTALL.vcxproj" (default targets).
+[  +30 ms] Build succeeded.
+[        ]     0 Warning(s)
+[        ]     0 Error(s)
+[        ] Time Elapsed 00:01:17.52
+[  +89 ms] Building Windows application... (completed in 89.3s)
+[   +9 ms] √ Built build\windows\x64\runner\Release\muaman_store.exe
+[   +2 ms] "flutter windows" took 89,954ms.
+[   +5 ms] ensureAnalyticsSent: 0ms
+[        ] Running 1 shutdown hook
+[   +2 ms] Shutdown hooks complete
+[   +1 ms] exiting with code 0

@@ -1,0 +1,589 @@
+﻿00:00 +0: loading C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/brepro_build_config_guard_test.dart
+00:00 +0: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract windows/CMakeLists.txt exists
+00:00 +1: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap windows/CMakeLists.txt exists
+00:00 +2: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract applies /Brepro to the Release EXE linker flags
+00:00 +3: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap MUAMAN_CANONICAL_ROOT is defined with value \muaman\src
+00:00 +4: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract applies /Brepro to the Release SHARED linker flags
+00:00 +5: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap MUAMAN_CANONICAL_ROOT contains no drive letter or username
+00:00 +6: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract applies /Brepro only inside the MSVC guard
+00:00 +7: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap MUAMAN_SOURCE_ROOT is derived from CMAKE_CURRENT_SOURCE_DIR
+00:00 +8: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract does not add /Brepro to Debug or Profile linker flags
+00:00 +9: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap MUAMAN_SOURCE_ROOT does not hardcode checkout paths
+00:00 +10: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/brepro_build_config_guard_test.dart: reproducible linking: source build-config contract relies on linker flags, not post-build binary patching
+00:00 +11: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /experimental:deterministic is set on RELEASE
+00:00 +12: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /experimental:deterministic is set on PROFILE
+00:00 +13: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /experimental:deterministic is NOT set on DEBUG
+00:00 +14: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /experimental:deterministic is NOT set on RELWITHDEBINFO
+00:00 +15: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /pathmap: is appended to CMAKE_CXX_FLAGS_RELEASE
+00:00 +16: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /pathmap: is appended to CMAKE_CXX_FLAGS_PROFILE
+00:00 +17: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap /pathmap: is NOT set on DEBUG
+00:00 +18: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap pathmap block is inside if(MSVC) / endif()
+00:00 +19: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/cmake_pathmap_guard_test.dart: MUAMAN-13E: reproducible compilation via /pathmap canonical root value contains no colon
+00:00 +20: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/inventory_count_transaction_test.dart: (setUpAll)
+00:00 +20: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 1: Downward reconciliation
+00:00 +21: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 2: Upward reconciliation
+00:00 +22: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 3: Exact count
+00:00 +23: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 4: Repeated identical count
+00:01 +24: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 5: Zero physical count
+00:01 +25: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 6: Negative count rejected
+00:01 +26: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 7: Rollback on product-update failure
+00:01 +27: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 8: Stale UI quantity
+00:01 +28: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 9: Sale after count
+00:01 +29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/inventory_count_transaction_test.dart: insertInventoryCountAndReconcileStock Test 10: Consecutive counts around a sale
+00:01 +30: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/inventory_count_transaction_test.dart: (tearDownAll)
+00:01 +30: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_deletion_referential_test.dart: (setUpAll)
+00:01 +30: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_deletion_referential_test.dart: Product without references Unreferenced product can be deleted successfully
+00:01 +31: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_deletion_referential_test.dart: Product without references Other products remain after deleting one unreferenced product
+00:01 +32: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_deletion_referential_test.dart: Product with sales references Deleting product with sales is rejected
+00:01 +33: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_deletion_referential_test.dart: Product with sales references Product and sales remain intact after rejection
+00:01 +34: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_deletion_referential_test.dart: Product with returns references Deleting product with returns is rejected
+00:01 +35: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_deletion_referential_test.dart: Product with returns references Product and returns remain intact after rejection
+00:01 +36: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_deletion_referential_test.dart: Product with inventory_count references Deleting product with inventory count is rejected
+00:01 +37: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_deletion_referential_test.dart: Product with inventory_count references Product and count records remain intact after rejection
+00:01 +38: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_deletion_referential_test.dart: Product with zero quantity but history Product with zero current quantity but sale history cannot be deleted
+00:01 +39: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: (setUpAll)
+00:01 +40: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: (setUpAll)
+00:01 +41: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: (setUpAll)
+00:01 +42: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: (setUpAll)
+00:01 +43: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: (setUpAll)
+00:01 +44: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: (setUpAll)
+00:01 +44: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: Name normalization ΓÇö insertProduct Name with leading/trailing spaces is trimmed on insert
+00:01 +45: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: Name normalization ΓÇö insertProduct Whitespace-only name is rejected on insert
+00:01 +46: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: Name normalization ΓÇö insertProduct Empty name is rejected on insert
+00:01 +47: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: Name normalization ΓÇö updateProduct Name with leading/trailing spaces is trimmed on update
+00:01 +48: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: Name normalization ΓÇö updateProduct Whitespace-only name is rejected on update
+00:01 +49: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: Barcode normalization ΓÇö insertProduct Barcode with leading/trailing spaces is trimmed on insert
+00:01 +50: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: Barcode duplicate prevention with whitespace Insert with barcode that matches existing after trim is rejected
+00:01 +51: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: Barcode duplicate prevention with whitespace Update with barcode that matches another product after trim is rejected
+00:01 +52: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: Barcode duplicate prevention with whitespace Update with same barcode (whitespace variation) allowed for self
+00:01 +53: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: No partial write on rejection Product count unchanged after rejected insert
+00:01 +54: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: No partial write on rejection Product unchanged after rejected update
+00:01 +55: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: Normalized values stored in DB Inserted name and barcode are stored trimmed
+00:01 +56: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: Normalized values stored in DB Updated name and barcode are stored trimmed
+00:01 +57: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: Empty barcode validation Empty barcode after trim is rejected
+00:01 +58: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_normalization_test.dart: (tearDownAll)
+00:02 +58: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: (setUpAll)
+00:02 +58: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: ProductReferenceIntegrityException Exception carries Arabic message
+00:02 +59: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: ProductReferenceIntegrityException toString includes message
+00:02 +60: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: IntegrityIssueReport hasIssues false when all lists empty
+00:02 +61: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: IntegrityIssueReport hasIssues true when any list non-empty
+00:02 +62: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: IntegrityIssueReport totalOrphans sums all lists
+00:02 +63: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: findProductReferenceIntegrityIssues Empty database produces no orphans
+00:02 +64: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: findProductReferenceIntegrityIssues Detects orphan inventory_count row
+00:02 +65: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: findProductReferenceIntegrityIssues Detects orphan sales row
+00:02 +66: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: findProductReferenceIntegrityIssues Detects orphan returns row
+00:02 +67: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: findProductReferenceIntegrityIssues Rows with valid product references are not reported
+00:02 +68: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: insertSale guard Rejects sale with non-existent product barcode
+00:02 +69: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: insertSale guard No sale row written after rejection
+00:02 +70: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: insertSale guard Accepts sale with valid product barcode
+00:02 +71: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_validation_test.dart: (setUpAll)
+00:02 +72: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_validation_test.dart: (setUpAll)
+00:02 +73: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_validation_test.dart: (setUpAll)
+00:02 +74: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_validation_test.dart: (setUpAll)
+00:02 +75: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_validation_test.dart: (setUpAll)
+00:02 +76: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_validation_test.dart: (setUpAll)
+00:02 +77: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_validation_test.dart: (setUpAll)
+00:02 +77: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: updateSale guard Old stock is preserved and no partial write after rejection
+00:02 +78: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_validation_test.dart: insertProduct ΓÇö cost price validation Zero cost price is rejected
+00:02 +79: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_validation_test.dart: insertProduct ΓÇö cost price validation Zero cost price is rejected
+00:02 +80: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: updateReturn guard Rejects update when new barcode has no matching product
+00:02 +81: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: updateReturn guard Rejects update when new barcode has no matching product
+00:02 +82: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: updateReturn guard Rejects update when new barcode has no matching product
+00:02 +83: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: updateReturn guard Rejects update when new barcode has no matching product
+00:02 +84: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: updateReturn guard Rejects update when new barcode has no matching product
+00:02 +85: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: updateReturn guard Rejects update when new barcode has no matching product
+00:02 +86: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_validation_test.dart: (tearDownAll)
+00:02 +86: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: updateReturn guard Accepts update when new barcode matches existing product
+00:02 +87: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: Existing guarded paths still work insertSaleAndDecrementStock still rejects missing product
+00:02 +88: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: Existing guarded paths still work saveInventoryCount still rejects missing product
+00:02 +89: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: Existing guarded paths still work insertSaleAndDecrementStock succeeds with valid product
+00:02 +90: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: Transaction atomicity on guard rejection No partial write when sale product missing and sale insert is guarded
+00:02 +91: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: Transaction atomicity on guard rejection No partial write when return product missing
+00:02 +92: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: Defense in depth Direct insertSaleAndDecrementStock already has product check
+00:02 +93: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/product_reference_integrity_test.dart: Defense in depth Direct saveInventoryCount already has product check
+00:02 +94: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: (setUpAll)
+00:03 +94: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö same product 1: Increasing quantity updates stock correctly
+00:03 +95: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö same product 2: Increasing quantity above available stock is rejected
+00:03 +96: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö same product 3: Decreasing quantity restores difference to stock
+00:03 +97: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö same product 4: Keeping same quantity does not change stock
+00:03 +98: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö same product 5: Changing price only does not affect stock
+00:03 +99: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö same product 6: Saving same values twice does not cause stock drift
+00:03 +100: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: (setUpAll)
+00:03 +101: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: (setUpAll)
+00:03 +102: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: (setUpAll)
+00:03 +103: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: (setUpAll)
+00:03 +103: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö same product 10: Infinity price is rejected
+00:03 +104: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 1: Successful sale decrements stock
+00:03 +105: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 1: Successful sale decrements stock
+00:03 +106: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 1: Successful sale decrements stock
+00:03 +107: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 1: Successful sale decrements stock
+00:03 +108: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 1: Successful sale decrements stock
+00:03 +109: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 1: Successful sale decrements stock
+00:03 +110: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 1: Successful sale decrements stock
+00:03 +111: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö change product 17: After rollback stock of A is unchanged
+00:03 +112: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 2: Exact stock sale succeeds and results in zero stock
+00:03 +113: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö change product 18: After rollback stock of B is unchanged
+00:03 +114: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 3: Insufficient stock rejects sale
+00:03 +115: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 3: Insufficient stock rejects sale
+00:03 +116: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö change product 20: Barcode with spaces is normalized per MUAMAN-07
+00:03 +117: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö change product 20: Barcode with spaces is normalized per MUAMAN-07
+00:03 +118: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 5: Negative quantity rejects sale
+00:03 +119: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö change product 21: Non-existent new product throws ProductReferenceIntegrityException
+00:03 +120: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 6: Rollback when stock check fails after sale insert
+00:03 +121: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö change product 22: Non-existent old product rejection (no data repair)
+00:03 +122: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 7: Stale UI quantity ΓÇö method reads fresh stock from DB
+00:03 +123: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö record and transaction 23: Non-existent sale id is rejected
+00:03 +124: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 9: Zero sale price is rejected
+00:03 +125: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö record and transaction 24: UPDATE affects exactly one row
+00:03 +126: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö record and transaction 24: UPDATE affects exactly one row
+00:03 +127: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö record and transaction 25: Stored financial values are consistent with qty and price
+00:03 +128: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö record and transaction 25: Stored financial values are consistent with qty and price
+00:03 +129: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: insertSaleAndDecrementStock Test 8: Consecutive sales maintain correct stock
+00:03 +130: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö record and transaction 26: No partial write if stock check fails after reversal
+00:03 +131: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_transaction_test.dart: (tearDownAll)
+00:03 +131: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö record and transaction 27: Transaction atomicity ΓÇö stock update commits only on success
+00:03 +132: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateSale ΓÇö record and transaction 28: InsufficientStockException has correct fields
+00:03 +133: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö same product 29: Increasing return quantity increases stock correctly
+00:03 +134: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö same product 30: Decreasing return quantity deducts correctly if possible
+00:03 +135: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö same product 31: Keeping same quantity does not change stock
+00:03 +136: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö same product 32: Changing price only does not affect stock
+00:03 +137: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö same product 33: Saving same values twice does not cause stock drift
+00:03 +138: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö same product 34: Zero quantity is rejected
+00:03 +139: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö same product 35: Negative quantity is rejected
+00:03 +140: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö same product 36: Zero price is rejected
+00:03 +141: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö reversal conflict 37: Return update succeeds when stock allows reversal
+00:03 +142: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö reversal conflict 38: Return update is rejected if reversal would make stock negative
+00:03 +143: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö reversal conflict 39: Rejected reversal does not change product stock
+00:03 +144: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö reversal conflict 40: Rejected reversal does not change return record
+00:03 +145: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö reversal conflict 41: Rejected reversal does not change financial value
+00:03 +146: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö reversal conflict 42: Correct exception is thrown for reversal conflict
+00:03 +147: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö change product 43: Changing from A to B removes old return effect from A
+00:03 +148: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö change product 44: Changing from A to B adds new return effect to B
+00:03 +149: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö change product 45: If old return cannot be reversed, full rollback occurs
+00:03 +150: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö change product 46: After rollback return stock of A is unchanged
+00:03 +151: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö change product 47: After rollback stock of B is unchanged
+00:03 +152: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö change product 48: After rollback return still points to A
+00:04 +153: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö change product 49: Non-existent new product throws ProductReferenceIntegrityException
+00:04 +154: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö change product 50: Non-existent old product rejection (no data repair)
+00:04 +155: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö record 51: Non-existent return id is rejected
+00:04 +156: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö record 52: UPDATE affects exactly one row
+00:04 +157: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/sale_return_update_consistency_test.dart: updateReturn ΓÇö record 53: Stored financial values remain consistent
+00:04 +158: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: (setUpAll)
+00:04 +159: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: (setUpAll)
+00:04 +159: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 1. Create users table in new database
+00:04 +160: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 2. Create first owner
+00:05 +160 -1: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 2. Create first owner
+00:05 +160 -1: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: XlsxReader - workbook structure 1. Reads all 6 expected sheets [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -1: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: XlsxReader - workbook structure 2. ╪º┘ä┘à╪«╪▓┘å sheet has product rows with barcodes
+00:05 +161 -2: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -2: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: XlsxReader - workbook structure 2. ╪º┘ä┘à╪«╪▓┘å sheet has product rows with barcodes [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -3: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -3: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: XlsxReader - workbook structure 3. ╪º┘ä┘à╪¿┘è╪╣╪º╪¬ sheet has 0 sales records in the current workbook [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -4: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -4: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: XlsxReader - workbook structure 4. ╪º┘ä┘à╪▒╪¬╪¼╪╣╪º╪¬ sheet has 0 return records in the current workbook [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -5: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -5: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: XlsxReader - workbook structure 5. ╪º┘ä┘à╪╡╪▒┘ê┘ü╪º╪¬ sheet has 0 expense records in the current workbook [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -6: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -6: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: XlsxReader - workbook structure 6. ╪º┘ä╪¼╪▒╪» sheet has 71 adjustment records [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -7: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -7: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Preflight validation 7. Preflight detects all sheets [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -8: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -8: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Preflight validation 8. Preflight detects missing sheet [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -9: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -9: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Preflight validation 9. Preflight blocks zero-cost product without override [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -10: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -10: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Preflight validation 10. Preflight allows zero-cost with override [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -11: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -11: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Full import 11. Import workbook with allowZeroCost succeeds [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -12: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -12: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Full import 12. Import produces correct sales count [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -13: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -13: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Full import 13. Import produces correct returns count [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -14: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -14: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Full import 14. Import produces correct expenses count [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -15: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -15: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Full import 15. Import produces correct adjustments count [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -16: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -16: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Full import 16. Import creates import_batches record [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -17: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -17: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Full import 17. Re-import is rejected (idempotency) [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -18: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -18: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Full import 18. Import without zeroCost override is rejected [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -19: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -19: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Full import 19. Import with skipShaCheck false passes (correct SHA) [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -20: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -20: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Full import 20. Financial gates match expected values [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -21: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -21: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Full import 21. Total quantity from import equals 241 [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -22: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -22: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Full import 22. Total inventory value is approximately 79625 [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -23: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -23: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Product data integrity 23. Product ╪¬╪¡╪▓┘è╪⌐ exists with zero cost [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -23: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -24: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -24: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Product data integrity 24. Product ╪¬╪¡╪▓┘è╪⌐ has currentQuantity 1 [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -25: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -25: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Product data integrity 25. Non-existent barcode test removed (not all barcodes in workbook) [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -26: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -26: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Sales data integrity 26. No sales are imported from template-style workbook rows [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -27: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -27: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Transaction rollback 27. Import rollback on missing file [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -28: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -28: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Reconciliation report 28. Reconciliation report has all expected fields [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +161 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/workbook_import_test.dart: Reconciliation report 29. toJson produces valid map [E]
+  Bad state: Expected workbook file not found at C:\dev\muaman-13i-environment-b-independent-source-extraction-root\app\╪┤┘ç╪▒ 8\╪┤┘è╪¬_╪º╪»╪º╪▒╪⌐_┘à╪¡┘ä_┘à╪ñ┘à┘å_╪┤┘ç╪▒8.xlsx
+  test\database\workbook_import_test.dart 26:7  main.<fn>
+  
+  LateInitializationError: Local 'testDb' has not been initialized.
+  dart:_internal                           LateError._throwLocalNotInitialized
+  test\database\workbook_import_test.dart  main.<fn>
+  
+00:05 +161 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +162 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +163 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +164 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +165 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +166 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:05 +167 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 3. Prevent duplicate username
+00:06 +168 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:06 +169 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:06 +170 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:06 +171 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:06 +172 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:06 +173 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:06 +174 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:06 +175 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:06 +176 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:06 +177 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:06 +178 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:06 +179 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:06 +180 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:06 +181 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:06 +182 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:07 +183 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:07 +184 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:07 +185 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:07 +186 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:07 +187 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:07 +188 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:07 +189 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:07 +190 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:07 +191 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +192 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +193 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +194 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +195 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +196 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +197 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +198 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +199 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +200 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +201 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +202 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +203 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +204 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +205 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +206 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +207 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +208 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +209 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +210 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +211 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +212 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +213 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +214 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +215 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +216 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +217 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +218 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +219 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +220 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +221 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +222 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +223 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +224 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +225 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +226 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +227 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +228 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:08 +229 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:09 +230 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:09 +231 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:09 +232 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:09 +233 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:09 +234 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:09 +235 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:09 +236 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:09 +237 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:09 +238 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter on password field performs login
+00:09 +239 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 12. Update username
+00:10 +240 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 12. Update username
+00:10 +241 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 12. Update username
+00:10 +242 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 12. Update username
+00:10 +243 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 12. Update username
+00:10 +244 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:10 +245 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:10 +246 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:10 +247 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:10 +248 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:10 +249 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:10 +250 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:10 +251 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:11 +252 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:11 +253 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:11 +254 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:11 +255 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:11 +256 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:11 +257 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:11 +258 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:11 +259 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:11 +260 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:11 +261 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:11 +262 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:11 +263 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:11 +264 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:11 +265 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:11 +266 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:12 +267 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:12 +268 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:12 +269 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:12 +270 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:12 +271 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:12 +272 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:12 +273 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Login screen Enter key Enter does not submit login twice
+00:12 +274 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 14. Disable user
+00:13 +275 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/features/enter_key_behavior_test.dart: Create user dialog Enter key Enter on confirm field creates exactly one user
+00:15 +276 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 15. Reactivate user
+00:15 +277 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 15. Reactivate user
+00:15 +278 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 15. Reactivate user
+00:15 +279 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 15. Reactivate user
+00:16 +280 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 15. Reactivate user
+00:16 +281 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 15. Reactivate user
+00:17 +282 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 16. Reset password
+00:19 +283 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 17. Password not stored as plain text
+00:21 +284 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 18. Old password invalid after reset
+00:26 +285 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 19. Cannot disable last active owner
+00:27 +286 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 20. Cannot downgrade last active owner role
+00:29 +287 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 21. Can disable owner when another active owner exists
+00:31 +288 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 22. Cannot disable self
+00:34 +289 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 23. Reject update of non-existent user
+00:34 +290 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 24. Reject password reset for non-existent user
+00:34 +291 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: UserRepository - Database Operations 25. Verify affected row count on update
+00:35 +292 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Authentication 26. Owner login succeeds
+00:38 +293 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Authentication 27. Employee login succeeds
+00:40 +294 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Authentication 28. SalesOnly login succeeds
+00:43 +295 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Authentication 29. Reject non-existent username
+00:43 +296 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Authentication 30. Reject wrong password
+00:46 +297 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Authentication 31. Reject disabled account
+00:47 +298 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Authentication 32. Update lastLoginAt on success
+00:49 +299 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Authentication 33. lastLoginAt remains null on failed auth
+00:52 +300 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Permissions 36. Owner has all permissions
+00:52 +301 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Permissions 37. Employee cannot manage users
+00:52 +302 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Permissions 38. Employee can access operational screens
+00:52 +303 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Permissions 39. SalesOnly can access sales
+00:52 +304 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Permissions 40. SalesOnly cannot access dashboard
+00:52 +305 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Permissions 41. SalesOnly cannot access inventory
+00:52 +306 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Permissions 42. SalesOnly cannot access returns
+00:52 +307 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Permissions 43. SalesOnly cannot access expenses
+00:52 +308 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Permissions 44. SalesOnly cannot access analytics
+00:52 +309 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Permissions 45. SalesOnly cannot access stocktake
+00:52 +310 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: Permissions 46. SalesOnly cannot manage users
+00:52 +311 -29: C:/dev/muaman-13i-environment-b-independent-source-extraction-root/app/test/database/user_repository_test.dart: (tearDownAll)
+00:52 +311 -29: Some tests failed.
