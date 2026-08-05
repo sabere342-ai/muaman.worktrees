@@ -1,0 +1,99 @@
+{
+    "schemaVersion":  "1.0",
+    "runId":  "13N-run-2026-08-06",
+    "capturedAtUtc":  "2026-08-05T23:11:06.590Z",
+    "extractDir":  "C:\\mu13n-consumer\\20260806\\extract-run1",
+    "entryCount":  13,
+    "expectedEntryCount":  13,
+    "unsafeEntries":  [
+
+                      ],
+    "duplicateEntries":  [
+
+                         ],
+    "distinctEntryTimestamps":  [
+                                    "2024-01-01T00:00:00"
+                                ],
+    "expectedEntryTimestamp":  "2024-01-01T00:00:00",
+    "verdict":  "PASS",
+    "entries":  [
+                    {
+                        "rel":  "data/app.so",
+                        "size":  7324576,
+                        "timestamp":  "2024-01-01T00:00:00",
+                        "unsafe":  false
+                    },
+                    {
+                        "rel":  "data/flutter_assets/AssetManifest.bin",
+                        "size":  117,
+                        "timestamp":  "2024-01-01T00:00:00",
+                        "unsafe":  false
+                    },
+                    {
+                        "rel":  "data/flutter_assets/AssetManifest.json",
+                        "size":  109,
+                        "timestamp":  "2024-01-01T00:00:00",
+                        "unsafe":  false
+                    },
+                    {
+                        "rel":  "data/flutter_assets/FontManifest.json",
+                        "size":  208,
+                        "timestamp":  "2024-01-01T00:00:00",
+                        "unsafe":  false
+                    },
+                    {
+                        "rel":  "data/flutter_assets/NOTICES.Z",
+                        "size":  89152,
+                        "timestamp":  "2024-01-01T00:00:00",
+                        "unsafe":  false
+                    },
+                    {
+                        "rel":  "data/flutter_assets/fonts/MaterialIcons-Regular.otf",
+                        "size":  1645184,
+                        "timestamp":  "2024-01-01T00:00:00",
+                        "unsafe":  false
+                    },
+                    {
+                        "rel":  "data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+                        "size":  257628,
+                        "timestamp":  "2024-01-01T00:00:00",
+                        "unsafe":  false
+                    },
+                    {
+                        "rel":  "data/flutter_assets/shaders/ink_sparkle.frag",
+                        "size":  17304,
+                        "timestamp":  "2024-01-01T00:00:00",
+                        "unsafe":  false
+                    },
+                    {
+                        "rel":  "data/icudtl.dat",
+                        "size":  778864,
+                        "timestamp":  "2024-01-01T00:00:00",
+                        "unsafe":  false
+                    },
+                    {
+                        "rel":  "flutter_windows.dll",
+                        "size":  18181632,
+                        "timestamp":  "2024-01-01T00:00:00",
+                        "unsafe":  false
+                    },
+                    {
+                        "rel":  "muaman_store.exe",
+                        "size":  90624,
+                        "timestamp":  "2024-01-01T00:00:00",
+                        "unsafe":  false
+                    },
+                    {
+                        "rel":  "pdfium.dll",
+                        "size":  4749824,
+                        "timestamp":  "2024-01-01T00:00:00",
+                        "unsafe":  false
+                    },
+                    {
+                        "rel":  "printing_plugin.dll",
+                        "size":  138240,
+                        "timestamp":  "2024-01-01T00:00:00",
+                        "unsafe":  false
+                    }
+                ]
+}

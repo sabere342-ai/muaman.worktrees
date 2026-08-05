@@ -1,0 +1,9 @@
+{
+    "observationSeconds":  20,
+    "survived":  true,
+    "mainWindowHandle":  13174174,
+    "mainWindowTitle":  "muaman_store",
+    "responding":  true,
+    "hasMainWindow":  true,
+    "detail":  "alive with main window"
+}

@@ -1,0 +1,59 @@
+{
+    "schemaVersion":  "1.0",
+    "runId":  "13N-run-2026-08-06",
+    "mode":  "run2",
+    "startedAtUtc":  "2026-08-05T23:11:27.747Z",
+    "finishedAtUtc":  "2026-08-05T23:11:49.245Z",
+    "observationSeconds":  20,
+    "guards":  {
+                   "N1":  {
+                              "status":  "PASS",
+                              "detail":  "ok"
+                          },
+                   "N2":  {
+                              "status":  "PASS",
+                              "detail":  "ok"
+                          },
+                   "N3":  {
+                              "status":  "PASS",
+                              "detail":  "ok"
+                          },
+                   "N4":  {
+                              "status":  "PASS",
+                              "detail":  "ok"
+                          },
+                   "N5":  {
+                              "status":  "PASS",
+                              "detail":  "ok"
+                          },
+                   "N6":  {
+                              "status":  "PASS",
+                              "detail":  "ok"
+                          },
+                   "N7":  {
+                              "status":  "PASS",
+                              "detail":  "ok"
+                          },
+                   "N8":  {
+                              "status":  "PASS",
+                              "detail":  "ok"
+                          },
+                   "N9":  {
+                              "status":  "PASS",
+                              "detail":  "ok"
+                          },
+                   "N10":  {
+                               "status":  "PASS",
+                               "detail":  "ok"
+                           },
+                   "N11":  {
+                               "status":  "PASS",
+                               "detail":  "ok"
+                           }
+               },
+    "verdict":  "PASS",
+    "failedGuards":  [
+
+                     ],
+    "exitCode":  0
+}

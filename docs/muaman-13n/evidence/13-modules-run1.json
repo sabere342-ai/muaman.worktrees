@@ -1,0 +1,403 @@
+{
+    "schemaVersion":  "1.0",
+    "runId":  "13N-run-2026-08-06",
+    "capturedAtUtc":  "2026-08-05T23:11:27.446Z",
+    "extractDir":  "C:\\mu13n-consumer\\20260806\\extract-run1",
+    "moduleCount":  78,
+    "violations":  [
+
+                   ],
+    "modules":  [
+                    {
+                        "path":  "C:\\mu13n-consumer\\20260806\\extract-run1\\flutter_windows.dll",
+                        "system":  false,
+                        "fromExtractDir":  true
+                    },
+                    {
+                        "path":  "C:\\mu13n-consumer\\20260806\\extract-run1\\muaman_store.exe",
+                        "system":  false,
+                        "fromExtractDir":  true
+                    },
+                    {
+                        "path":  "C:\\mu13n-consumer\\20260806\\extract-run1\\pdfium.dll",
+                        "system":  false,
+                        "fromExtractDir":  true
+                    },
+                    {
+                        "path":  "C:\\mu13n-consumer\\20260806\\extract-run1\\printing_plugin.dll",
+                        "system":  false,
+                        "fromExtractDir":  true
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\ADVAPI32.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\apphelp.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\bcrypt.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\bcryptPrimitives.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\cfgmgr32.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\clbcatq.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\combase.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\COMDLG32.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\CoreMessaging.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\CoreUIComponents.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\CRYPT32.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\CRYPTBASE.DLL",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\cryptsp.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\d3d11.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\d3d9.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\d3dcompiler_47.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\dbghelp.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\dcomp.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\system32\\directmanipulation.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\directxdatabasehelper.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\iigd_dch.inf_amd64_b20bdb7dfb36a7ef\\igc64.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\iigd_dch.inf_amd64_b20bdb7dfb36a7ef\\igd10iumd64.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\iigd_dch.inf_amd64_b20bdb7dfb36a7ef\\igd10um64xe.DLL",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\iigd_dch.inf_amd64_b20bdb7dfb36a7ef\\igdgmm2_64.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\iigd_dch.inf_amd64_b20bdb7dfb36a7ef\\igdgmm64.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\iigd_dch.inf_amd64_b20bdb7dfb36a7ef\\IntelControlLib.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\dwmapi.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\dwrite.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\dxcore.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\dxgi.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\GDI32.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\gdi32full.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\GLU32.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\IMM32.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\IPHLPAPI.DLL",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\kernel.appcore.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\KERNEL32.DLL",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\KERNELBASE.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\Microsoft.Internal.WarpPal.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\MSCTF.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\msvcp_win.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\MSVCP140.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\msvcrt.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\ntdll.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\ole32.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\OLEACC.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\OLEAUT32.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\OPENGL32.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\powrprof.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\profapi.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\PROPSYS.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\PSAPI.DLL",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\RPCRT4.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\sechost.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\shcore.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\SHELL32.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\SHLWAPI.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\textinputframework.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\ucrtbase.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\UIAutomationCore.DLL",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\UMPDC.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\USER32.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\system32\\uxtheme.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\VCRUNTIME140.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\VCRUNTIME140_1.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\VERSION.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\win32u.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\windows.storage.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\WINMM.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\WINSPOOL.DRV",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\SYSTEM32\\winsqlite3.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\wintypes.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\System32\\WS2_32.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    },
+                    {
+                        "path":  "C:\\WINDOWS\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_5.82.26100.5074_none_87eb64a37a300c6e\\COMCTL32.dll",
+                        "system":  true,
+                        "fromExtractDir":  false
+                    }
+                ],
+    "verdict":  "PASS"
+}

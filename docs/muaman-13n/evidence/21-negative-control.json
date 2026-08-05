@@ -1,0 +1,44 @@
+{
+    "schemaVersion":  "1.0",
+    "runId":  "13N-run-2026-08-06",
+    "mode":  "negative",
+    "startedAtUtc":  "2026-08-05T23:11:49.261Z",
+    "finishedAtUtc":  "2026-08-05T23:11:50.429Z",
+    "guards":  {
+                   "N1":  {
+                              "status":  "PASS",
+                              "detail":  "ok"
+                          },
+                   "N5":  {
+                              "status":  "PASS",
+                              "detail":  "ok"
+                          },
+                   "N3":  {
+                              "status":  "PASS",
+                              "detail":  "ok"
+                          },
+                   "N4":  {
+                              "status":  "PASS",
+                              "detail":  "ok"
+                          },
+                   "N6":  {
+                              "status":  "FAIL",
+                              "detail":  "size: flutter_windows.dll act=4096 exp=18181632; hash: flutter_windows.dll"
+                          }
+               },
+    "tamper":  {
+                   "target":  "flutter_windows.dll",
+                   "method":  "overwrite with corrupt bytes",
+                   "originalSha256":  "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E",
+                   "tampered":  true
+               },
+    "observed":  {
+                     "manifestGuardExpected":  "FAIL",
+                     "manifestGuardObserved":  "FAIL",
+                     "tamperDetected":  true
+                 },
+    "verdict":  "REJECTED",
+    "detail":  "tampered package rejected by pre-launch manifest guard",
+    "pass":  true,
+    "exitCode":  0
+}

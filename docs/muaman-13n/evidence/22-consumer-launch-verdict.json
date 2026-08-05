@@ -1,0 +1,143 @@
+{
+    "schemaVersion":  "1.0",
+    "runId":  "13N-run-2026-08-06",
+    "repositoryRoot":  "C:\\dev\\muaman",
+    "consumerRoot":  "C:\\mu13n-consumer\\20260806",
+    "evidenceDir":  "C:\\mu13n-consumer\\20260806\\evidence",
+    "modesExecuted":  [
+                          "run1",
+                          "run2",
+                          "negative"
+                      ],
+    "completedAtUtc":  "2026-08-05T23:11:50.438Z",
+    "expectedZipSha256":  "57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+    "expectedCrossHash":  "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9",
+    "modes":  {
+                  "run1":  {
+                               "verdict":  "PASS",
+                               "guards":  {
+                                              "N1":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N2":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N3":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N4":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N5":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N6":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N7":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N8":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N9":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N10":  {
+                                                          "status":  "PASS",
+                                                          "detail":  "ok"
+                                                      },
+                                              "N11":  {
+                                                          "status":  "PASS",
+                                                          "detail":  "ok"
+                                                      }
+                                          }
+                           },
+                  "run2":  {
+                               "verdict":  "PASS",
+                               "guards":  {
+                                              "N1":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N2":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N3":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N4":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N5":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N6":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N7":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N8":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N9":  {
+                                                         "status":  "PASS",
+                                                         "detail":  "ok"
+                                                     },
+                                              "N10":  {
+                                                          "status":  "PASS",
+                                                          "detail":  "ok"
+                                                      },
+                                              "N11":  {
+                                                          "status":  "PASS",
+                                                          "detail":  "ok"
+                                                      }
+                                          }
+                           },
+                  "negative":  {
+                                   "verdict":  "REJECTED",
+                                   "guards":  {
+                                                  "N1":  {
+                                                             "status":  "PASS",
+                                                             "detail":  "ok"
+                                                         },
+                                                  "N5":  {
+                                                             "status":  "PASS",
+                                                             "detail":  "ok"
+                                                         },
+                                                  "N3":  {
+                                                             "status":  "PASS",
+                                                             "detail":  "ok"
+                                                         },
+                                                  "N4":  {
+                                                             "status":  "PASS",
+                                                             "detail":  "ok"
+                                                         },
+                                                  "N6":  {
+                                                             "status":  "FAIL",
+                                                             "detail":  "size: flutter_windows.dll act=4096 exp=18181632; hash: flutter_windows.dll"
+                                                         }
+                                              },
+                                   "pass":  true
+                               }
+              },
+    "overall":  "PASS",
+    "exitCode":  0
+}

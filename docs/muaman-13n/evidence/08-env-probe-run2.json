@@ -1,0 +1,16 @@
+{
+    "launchPath":  "C:\\Windows\\System32;C:\\Windows",
+    "forbiddenTokensPresentInPath":  [
+
+                                     ],
+    "toolVarsCleared":  [
+                            "PUB_CACHE",
+                            "FLUTTER_ROOT",
+                            "DART_HOME",
+                            "DART_SDK"
+                        ],
+    "toolVarsPresent":  [
+
+                        ],
+    "independent":  true
+}

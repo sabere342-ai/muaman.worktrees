@@ -1,0 +1,16 @@
+{
+    "exe":  "C:\\mu13n-consumer\\20260806\\extract-run2\\muaman_store.exe",
+    "workingDirectory":  "C:\\mu13n-consumer\\20260806\\extract-run2",
+    "pid":  10860,
+    "environment":  {
+                        "APPDATA":  "C:\\mu13n-consumer\\20260806\\profile-run2\\appdata\\roaming",
+                        "LOCALAPPDATA":  "C:\\mu13n-consumer\\20260806\\profile-run2\\appdata\\local",
+                        "TEMP":  "C:\\mu13n-consumer\\20260806\\profile-run2\\temp",
+                        "USERPROFILE":  "C:\\mu13n-consumer\\20260806\\profile-run2\\home",
+                        "PATH":  "C:\\Windows\\System32;C:\\Windows",
+                        "PUB_CACHE":  "",
+                        "FLUTTER_ROOT":  "",
+                        "DART_HOME":  "",
+                        "DART_SDK":  ""
+                    }
+}
