@@ -1,0 +1,30 @@
+﻿{
+    "capturedAtUtc":  "2026-08-05T21:57:18.186Z",
+    "releaseDir":  "C:\\m13m\\b1\\src\\app\\build\\windows\\x64\\runner\\Release",
+    "legalManifest":  "C:\\dev\\muaman.worktrees\\muaman-13m-canonical-deterministic-release-package\\docs\\evidence\\muaman-13k\\04-k1-source-a-sdk-a-shorttemp\\release-manifest.json",
+    "fileCountNew":  13,
+    "fileCountLegal":  13,
+    "totalBytesNew":  33273462,
+    "totalBytesLegal":  33273462,
+    "expectedFileCount":  13,
+    "expectedTotalBytes":  33273462,
+    "fileCountMatch":  true,
+    "totalBytesMatch":  true,
+    "crossHashNew":  "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9",
+    "crossHashLegal":  "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9",
+    "crossHashExpected":  "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9",
+    "crossHashMatch":  true,
+    "diffCount":  0,
+    "diffs":  [
+
+              ],
+    "onlyInLegalCount":  0,
+    "onlyInLegal":  [
+
+                    ],
+    "onlyInNewCount":  0,
+    "onlyInNew":  [
+
+                  ],
+    "identical":  true
+}

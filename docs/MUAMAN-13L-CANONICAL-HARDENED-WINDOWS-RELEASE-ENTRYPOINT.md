@@ -345,3 +345,35 @@ entrypoint is adopted, CWD-independent, fail-closed, secret-clean,
 scope-limited, historically guard-compatible, and produces a fresh-clone Release
 byte-identical to the 13K legal payload. The deliverable branch contains exactly
 one commit after baseline `4556c84…` with a clean tree.
+
+## 16. Release packaging (MUAMAN-13M, sole official entrypoint)
+
+Packaging a verified Release into the distributable deterministic ZIP is the
+job of the **sole official packaging entrypoint**
+`tools/release/package_windows_release.ps1` (accepted in MUAMAN-13M, report
+`docs/MUAMAN-13M-CANONICAL-DETERMINISTIC-WINDOWS-RELEASE-PACKAGE-ACCEPTANCE.md`).
+
+The complete operator flow is **build -> verify -> package -> checksum**:
+
+1. **build** the Release with the canonical entrypoint above
+   (`tools/release/build_windows_release.ps1`; this doc, sections 6-9);
+2. **verify** the Release with `tools/release/verify_release.ps1` against the
+   committed 13K legal manifest (the packager re-runs this automatically);
+3. **package** with `tools/release/package_windows_release.ps1`:
+
+   ```
+   powershell -NoProfile -ExecutionPolicy Bypass -File tools/release/package_windows_release.ps1 -RepoRoot <repo> -ReleaseDir <release-dir> -OutputDir <out> -EvidenceDir <evidence>
+   ```
+
+   It re-verifies the release in a fresh process, fails closed with exit 1 and
+   no ZIP on any mismatch, never modifies the release directory, and writes a
+   byte-deterministic ZIP (ordinal entry order, forward slashes,
+   archive-relative paths, constant entry timestamp, no comment);
+4. **checksum** - the packager writes `muaman-windows-release.zip.sha256`
+   (sha256sum style) next to the ZIP, plus `package-manifest.json` and
+   `package-result.json`.
+
+The four outputs are distinct and documented in the 13M report (section 8):
+Release directory (build), verification JSON (verify), and the ZIP + `.sha256` +
+manifests (package). No ad hoc `Compress-Archive` packaging is documented or
+supported; use the sole official packaging entrypoint above.

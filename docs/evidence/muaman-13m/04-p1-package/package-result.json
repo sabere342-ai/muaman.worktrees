@@ -1,0 +1,35 @@
+﻿{
+    "schemaVersion":  "1.0",
+    "run":  {
+                "startedAtUtc":  "2026-08-05T21:57:17.268Z",
+                "finishedAtUtc":  "2026-08-05T21:57:20.101Z",
+                "exitCode":  0
+            },
+    "verification":  {
+                         "verdict":  "PASS",
+                         "identical":  true,
+                         "verifierExitCode":  0,
+                         "fileCount":  13,
+                         "totalBytes":  33273462,
+                         "crossHash":  "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9"
+                     },
+    "packaging":  {
+                      "verdict":  "PASS",
+                      "zipFilename":  "muaman-windows-release.zip",
+                      "zipSha256":  "57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                      "zipSize":  14485278,
+                      "entryCount":  13,
+                      "constantEntryTimestampLocal":  "2024-01-01T00:00:00",
+                      "constantEntryTimestampDos":  "0x58210000"
+                  },
+    "outputs":  {
+                    "outputDir":  "C:\\m13m\\p1\\out",
+                    "evidenceDir":  "C:\\m13m\\p1\\evidence",
+                    "zipPath":  "C:\\m13m\\p1\\out\\muaman-windows-release.zip",
+                    "sha256Path":  "C:\\m13m\\p1\\out\\muaman-windows-release.zip.sha256",
+                    "packageManifestPath":  "C:\\m13m\\p1\\out\\package-manifest.json",
+                    "packageResultPath":  "C:\\m13m\\p1\\out\\package-result.json",
+                    "releaseVerificationPath":  "C:\\m13m\\p1\\evidence\\release-verification.json"
+                },
+    "failureReason":  null
+}

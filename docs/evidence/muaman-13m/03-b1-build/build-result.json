@@ -1,0 +1,19 @@
+﻿{
+    "runId":  "B1",
+    "capturedAtUtc":  "2026-08-05T21:54:34.125Z",
+    "startedAtUtc":  "2026-08-05T21:53:16.666Z",
+    "endedAtUtc":  "2026-08-05T21:54:34.125Z",
+    "durationSeconds":  77.4,
+    "repositoryRoot":  "C:\\m13m\\b1\\src",
+    "appRoot":  "C:\\m13m\\b1\\src\\app",
+    "sdkRoot":  "C:\\m13i\\a\\sdk",
+    "pubCache":  "C:\\Users\\saber\\AppData\\Local\\Pub\\Cache",
+    "msBuildBinDir":  "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Current\\Bin\\amd64",
+    "stageRoot":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-B1",
+    "evidenceDir":  "C:\\m13m\\b1\\evidence",
+    "preflightExitCode":  0,
+    "buildExitCode":  0,
+    "releaseDir":  "C:\\m13m\\b1\\src\\app\\build\\windows\\x64\\runner\\Release",
+    "releaseExists":  true,
+    "status":  "PASS"
+}

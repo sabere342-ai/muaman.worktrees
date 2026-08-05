@@ -1,0 +1,15 @@
+baseline-commit=ea80321f218bc0fd74c8ccc3a7e8621d79325a0b
+branch=codex/muaman-13m-canonical-deterministic-release-package
+status-porcelain:
+?? tools/muaman13m/
+?? tools/release/package_windows_release.ps1
+log-oneline:
+ea80321 MUAMAN-13L: adopt canonical hardened Windows release entrypoint
+4556c84 MUAMAN-13K: accept hardened build determinism
+e426710 MUAMAN-13J: prove and eliminate MSBuild FileTracker empty-path crash (outcome B)
+4849351 MUAMAN-13I: verify isolated dual-SDK VS2026 reproducibility
+303dbb0 MUAMAN-13H: verify isolated-cache Windows reproducibility
+diff-HEAD-stat:
+new-untracked-tools:
+$WT\tools\release\package_windows_release.ps1
+$WT\tools\muaman13m\guard_tests_13m.ps1

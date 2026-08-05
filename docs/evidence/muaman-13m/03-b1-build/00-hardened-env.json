@@ -1,0 +1,15 @@
+﻿{
+    "experimentId":  "B1",
+    "capturedAtUtc":  "2026-08-05T21:53:17.630Z",
+    "hardening":  {
+                      "temp":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-B1\\tmp",
+                      "tmp":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-B1\\tmp",
+                      "appdata":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-B1\\home\\appdata\\roaming",
+                      "localappdata":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-B1\\home\\appdata\\local",
+                      "userprofile":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-B1\\home",
+                      "home":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-B1\\home",
+                      "programdata":  "C:\\ProgramData",
+                      "pubCache":  "C:\\Users\\saber\\AppData\\Local\\Pub\\Cache",
+                      "msbuildDisableNodeReuse":  "1"
+                  }
+}

@@ -1,0 +1,1 @@
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\m13m\b1\src\tools\release\build_windows_release.ps1 -SdkRoot C:\m13i\a\sdk -ExperimentId B1 -EvidenceDir C:\m13m\b1\evidence

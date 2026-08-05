@@ -1,0 +1,33 @@
+﻿os=Microsoft Windows 11 Pro
+os-version=10.0.26200
+ps=5.1.26100.6584 (Edition=Desktop)
+git=git version 2.55.0.windows.2
+powershell-exe=C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe
+pwsh-exe=
+flutter=C:\src\flutter\bin\flutter.bat
+flutter-version={
+  "frameworkVersion": "3.24.5",
+  "channel": "stable",
+  "repositoryUrl": "https://github.com/flutter/flutter.git",
+  "frameworkRevision": "dec2ee5c1f98f8e84a7d5380c05eb8a3d0a81668",
+  "frameworkCommitDate": "2024-11-13 11:13:06 -0800",
+  "engineRevision": "a18df97ca57a249df5d8d68cd0820600223ce262",
+  "dartSdkVersion": "3.5.4",
+  "devToolsVersion": "2.37.3",
+  "flutterVersion": "3.24.5",
+  "flutterRoot": "C:\\src\\flutter"
+}
+
+sdkA-root=C:\m13i\a\sdk
+sdkA-patch-file-exists=False
+dotnetfx=4.0.30319.42000
+machine=ISLAM
+processor=AMD64
+systemdrive=C:
+windir=C:\WINDOWS
+username=saber
+temp=C:\Users\saber\AppData\Local\Temp
+sdkA-visual-studio-dart-sha256=D08E9D71E978FDE1478FBF438DCEA6D16D26EA966D271F7D5108AC86E3CC5423
+vswhere-found=True
+vs-install=C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools
+msbuild-bin-dir=C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\MSBuild\Current\Bin\amd64 (auto-discovered by 13L entrypoint)

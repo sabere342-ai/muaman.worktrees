@@ -1,0 +1,19 @@
+﻿{
+    "guard":  "M6 secret \u0026 environment hygiene",
+    "capturedAtUtc":  "2026-08-05T22:20:55.427Z",
+    "scannedFiles":  55,
+    "findingCount":  0,
+    "findings":  [
+
+                 ],
+    "zipScan":  {
+                    "p1":  [
+
+                           ],
+                    "p2":  [
+
+                           ]
+                },
+    "clean":  true,
+    "pass":  true
+}

@@ -1,0 +1,230 @@
+﻿{
+    "phase":  "MUAMAN-13M guard-point verification",
+    "capturedAtUtc":  "2026-08-05T22:20:56.236Z",
+    "allPass":  false,
+    "verdicts":  {
+                     "M1":  {
+                                "guard":  "M1 static delegation integrity (no build/verify re-implementation)",
+                                "pass":  true,
+                                "failures":  [
+
+                                             ],
+                                "usesCanonicalVerifier":  true
+                            },
+                     "M2":  {
+                                "guard":  "M2 CWD independence (repo root / sub-folder / external dir)",
+                                "pass":  true,
+                                "runs":  {
+                                             "repositoryRoot":  {
+                                                                    "cwd":  "C:\\dev\\muaman.worktrees\\muaman-13m-canonical-deterministic-release-package",
+                                                                    "useRepoRoot":  true,
+                                                                    "exitCode":  0,
+                                                                    "zipProduced":  true,
+                                                                    "zipSha256":  "57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                                                    "stdout":  "[MUAMAN-13M] verifying release C:\\m13m\\b1\\src\\app\\build\\windows\\x64\\runner\\Release against C:\\dev\\muaman.worktrees\\muaman-13m-canonical-deterministic-release-package\\docs\\evidence\\muaman-13k\\04-k1-source-a-sdk-a-shorttemp\\release-manifest.json\nMUAMAN-13L verify: new=13/33273462B legal=13/33273462B identical=True diffs=0 crossNew=EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9\r\n[MUAMAN-13M] release verification PASS (exit 0); files=13 bytes=33273462 cross=EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9\n[MUAMAN-13M] creating deterministic ZIP with 13 entries (constant entry timestamp 2024-01-01T00:00:00)\n[MUAMAN-13M] ZIP created: 14485278 bytes, SHA-256 57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008\n[MUAMAN-13M] ZIP finalized: C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-repositoryRoot-out\\muaman-windows-release.zip\n[MUAMAN-13M] RESULT: PASS (exit 0)\n[MUAMAN-13M] ZIP: C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-repositoryRoot-out\\muaman-windows-release.zip (14485278 bytes)\n[MUAMAN-13M] SHA-256: 57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                                                    "stderr":  ""
+                                                                },
+                                             "repositorySubFolder":  {
+                                                                         "cwd":  "C:\\dev\\muaman.worktrees\\muaman-13m-canonical-deterministic-release-package\\tools\\release",
+                                                                         "useRepoRoot":  true,
+                                                                         "exitCode":  0,
+                                                                         "zipProduced":  true,
+                                                                         "zipSha256":  "57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                                                         "stdout":  "[MUAMAN-13M] verifying release C:\\m13m\\b1\\src\\app\\build\\windows\\x64\\runner\\Release against C:\\dev\\muaman.worktrees\\muaman-13m-canonical-deterministic-release-package\\docs\\evidence\\muaman-13k\\04-k1-source-a-sdk-a-shorttemp\\release-manifest.json\nMUAMAN-13L verify: new=13/33273462B legal=13/33273462B identical=True diffs=0 crossNew=EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9\r\n[MUAMAN-13M] release verification PASS (exit 0); files=13 bytes=33273462 cross=EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9\n[MUAMAN-13M] creating deterministic ZIP with 13 entries (constant entry timestamp 2024-01-01T00:00:00)\n[MUAMAN-13M] ZIP created: 14485278 bytes, SHA-256 57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008\n[MUAMAN-13M] ZIP finalized: C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-repositorySubFolder-out\\muaman-windows-release.zip\n[MUAMAN-13M] RESULT: PASS (exit 0)\n[MUAMAN-13M] ZIP: C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-repositorySubFolder-out\\muaman-windows-release.zip (14485278 bytes)\n[MUAMAN-13M] SHA-256: 57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                                                         "stderr":  ""
+                                                                     },
+                                             "outsideRepository":  {
+                                                                       "cwd":  "C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-outside",
+                                                                       "useRepoRoot":  true,
+                                                                       "exitCode":  0,
+                                                                       "zipProduced":  true,
+                                                                       "zipSha256":  "57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                                                       "stdout":  "[MUAMAN-13M] verifying release C:\\m13m\\b1\\src\\app\\build\\windows\\x64\\runner\\Release against C:\\dev\\muaman.worktrees\\muaman-13m-canonical-deterministic-release-package\\docs\\evidence\\muaman-13k\\04-k1-source-a-sdk-a-shorttemp\\release-manifest.json\nMUAMAN-13L verify: new=13/33273462B legal=13/33273462B identical=True diffs=0 crossNew=EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9\r\n[MUAMAN-13M] release verification PASS (exit 0); files=13 bytes=33273462 cross=EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9\n[MUAMAN-13M] creating deterministic ZIP with 13 entries (constant entry timestamp 2024-01-01T00:00:00)\n[MUAMAN-13M] ZIP created: 14485278 bytes, SHA-256 57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008\n[MUAMAN-13M] ZIP finalized: C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-outsideRepository-out\\muaman-windows-release.zip\n[MUAMAN-13M] RESULT: PASS (exit 0)\n[MUAMAN-13M] ZIP: C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-outsideRepository-out\\muaman-windows-release.zip (14485278 bytes)\n[MUAMAN-13M] SHA-256: 57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                                                       "stderr":  ""
+                                                                   },
+                                             "outsideRepositoryDerivedRepoRoot":  {
+                                                                                      "cwd":  "C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-outside",
+                                                                                      "useRepoRoot":  false,
+                                                                                      "exitCode":  0,
+                                                                                      "zipProduced":  true,
+                                                                                      "zipSha256":  "57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                                                                      "stdout":  "[MUAMAN-13M] verifying release C:\\m13m\\b1\\src\\app\\build\\windows\\x64\\runner\\Release against C:\\dev\\muaman.worktrees\\muaman-13m-canonical-deterministic-release-package\\docs\\evidence\\muaman-13k\\04-k1-source-a-sdk-a-shorttemp\\release-manifest.json\nMUAMAN-13L verify: new=13/33273462B legal=13/33273462B identical=True diffs=0 crossNew=EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9\r\n[MUAMAN-13M] release verification PASS (exit 0); files=13 bytes=33273462 cross=EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9\n[MUAMAN-13M] creating deterministic ZIP with 13 entries (constant entry timestamp 2024-01-01T00:00:00)\n[MUAMAN-13M] ZIP created: 14485278 bytes, SHA-256 57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008\n[MUAMAN-13M] ZIP finalized: C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-outsideRepositoryDerivedRepoRoot-out\\muaman-windows-release.zip\n[MUAMAN-13M] RESULT: PASS (exit 0)\n[MUAMAN-13M] ZIP: C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-outsideRepositoryDerivedRepoRoot-out\\muaman-windows-release.zip (14485278 bytes)\n[MUAMAN-13M] SHA-256: 57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                                                                      "stderr":  ""
+                                                                                  }
+                                         },
+                                "allExitZero":  true,
+                                "allProduced":  true,
+                                "allZipShaIdentical":  true,
+                                "uniqueZipSha":  [
+                                                     "57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008"
+                                                 ]
+                            },
+                     "M3static":  {
+                                      "guard":  "M3 static verify-before-package order",
+                                      "pass":  true,
+                                      "failures":  [
+
+                                                   ],
+                                      "verifyInvocationLine":  231,
+                                      "zipCreationLine":  260,
+                                      "verificationBeforeZip":  true
+                                  },
+                     "M3":  {
+                                "guard":  "M3 dynamic fail-closed (N1..N4 negative controls)",
+                                "pass":  true,
+                                "allPass":  true,
+                                "evidence":  "08-negative-controls/negative-control-results.json"
+                            },
+                     "M4":  {
+                                "guard":  "M4 deterministic package identity (P1 vs P2)",
+                                "capturedAtUtc":  "2026-08-05T22:20:44.421Z",
+                                "pass":  true,
+                                "packageSha256P1":  "57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                "packageSha256P2":  "57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                "byteLengthP1":  14485278,
+                                "byteLengthP2":  14485278,
+                                "bytesIdentical":  true,
+                                "entryCountP1":  13,
+                                "entryCountP2":  13,
+                                "entryOrderIdentical":  true,
+                                "entryMetadataDiffCount":  0,
+                                "entryMetadataDiffs":  [
+
+                                                       ],
+                                "failureReasons":  [
+
+                                                   ]
+                            },
+                     "M5":  {
+                                "guard":  "M5 extraction equivalence",
+                                "capturedAtUtc":  "2026-08-05T22:20:47.566Z",
+                                "pass":  true,
+                                "acceptedFileCount":  13,
+                                "acceptedTotalBytes":  33273462,
+                                "acceptedCrossHash":  "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9",
+                                "releaseDir":  "C:\\m13m\\b1\\src\\app\\build\\windows\\x64\\runner\\Release",
+                                "p1":  {
+                                           "zip":  "C:\\m13m\\p1\\out\\muaman-windows-release.zip",
+                                           "extractedRoot":  "C:\\m13m\\guard-tmp\\m13m-guard-18976\\extract-p1",
+                                           "problems":  [
+
+                                                        ],
+                                           "fileCount":  13,
+                                           "totalBytes":  33273462,
+                                           "crossHash":  "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9",
+                                           "fileCountOk":  true,
+                                           "totalBytesOk":  true,
+                                           "crossHashOk":  true,
+                                           "missingCount":  0,
+                                           "missing":  [
+
+                                                       ],
+                                           "extraCount":  0,
+                                           "extra":  [
+
+                                                     ],
+                                           "differingCount":  0,
+                                           "differing":  [
+
+                                                         ],
+                                           "pathSafetyProblems":  true,
+                                           "pass":  true
+                                       },
+                                "p2":  {
+                                           "zip":  "C:\\m13m\\p2\\out\\muaman-windows-release.zip",
+                                           "extractedRoot":  "C:\\m13m\\guard-tmp\\m13m-guard-18976\\extract-p2",
+                                           "problems":  [
+
+                                                        ],
+                                           "fileCount":  13,
+                                           "totalBytes":  33273462,
+                                           "crossHash":  "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9",
+                                           "fileCountOk":  true,
+                                           "totalBytesOk":  true,
+                                           "crossHashOk":  true,
+                                           "missingCount":  0,
+                                           "missing":  [
+
+                                                       ],
+                                           "extraCount":  0,
+                                           "extra":  [
+
+                                                     ],
+                                           "differingCount":  0,
+                                           "differing":  [
+
+                                                         ],
+                                           "pathSafetyProblems":  true,
+                                           "pass":  true
+                                       },
+                                "p1EqualsP2":  true
+                            },
+                     "M6":  {
+                                "guard":  "M6 secret \u0026 environment hygiene",
+                                "capturedAtUtc":  "2026-08-05T22:20:55.427Z",
+                                "scannedFiles":  55,
+                                "findingCount":  0,
+                                "findings":  [
+
+                                             ],
+                                "zipScan":  {
+                                                "p1":  [
+
+                                                       ],
+                                                "p2":  [
+
+                                                       ]
+                                            },
+                                "clean":  true,
+                                "pass":  true
+                            },
+                     "M7":  {
+                                "guard":  "M7 active documentation (sole official packaging entrypoint)",
+                                "pass":  true,
+                                "failures":  [
+
+                                             ],
+                                "report":  "C:\\dev\\muaman.worktrees\\muaman-13m-canonical-deterministic-release-package\\docs\\MUAMAN-13M-CANONICAL-DETERMINISTIC-WINDOWS-RELEASE-PACKAGE-ACCEPTANCE.md",
+                                "documentsPackagingEntrypoint":  true,
+                                "declaresSoleOfficialEntrypoint":  true,
+                                "adHocCompressArchiveInstructions":  [
+
+                                                                     ]
+                            },
+                     "M8":  {
+                                "guard":  "M8 repository \u0026 lineage integrity",
+                                "pass":  false,
+                                "expectedBaseline":  "ea80321f218bc0fd74c8ccc3a7e8621d79325a0b",
+                                "expectedBranch":  "codex/muaman-13m-canonical-deterministic-release-package",
+                                "branch":  "codex/muaman-13m-canonical-deterministic-release-package",
+                                "head":  "ea80321f218bc0fd74c8ccc3a7e8621d79325a0b",
+                                "parent":  "4556c84c3ca6a22c9a14e91cc5c5bdefe77fe259",
+                                "descendsFromBaseline":  true,
+                                "revListCountAfterBaseline":  "0",
+                                "workingTreeClean":  false,
+                                "mergeCommitCount":  0,
+                                "tagAtHead":  "",
+                                "hasUpstream":  false,
+                                "upstream":  "",
+                                "changedFileCount":  0,
+                                "changedFiles":  [
+
+                                                 ],
+                                "scopeViolations":  [
+
+                                                    ],
+                                "productionDiff":  [
+
+                                                   ],
+                                "dependencyDiff":  [
+
+                                                   ],
+                                "sdkDiff":  [
+
+                                            ],
+                                "pluginDiff":  [
+
+                                               ]
+                            }
+                 }
+}

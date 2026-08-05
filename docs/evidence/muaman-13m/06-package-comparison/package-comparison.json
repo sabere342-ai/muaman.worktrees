@@ -1,0 +1,20 @@
+﻿{
+    "guard":  "M4 deterministic package identity (P1 vs P2)",
+    "capturedAtUtc":  "2026-08-05T22:20:44.421Z",
+    "pass":  true,
+    "packageSha256P1":  "57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+    "packageSha256P2":  "57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+    "byteLengthP1":  14485278,
+    "byteLengthP2":  14485278,
+    "bytesIdentical":  true,
+    "entryCountP1":  13,
+    "entryCountP2":  13,
+    "entryOrderIdentical":  true,
+    "entryMetadataDiffCount":  0,
+    "entryMetadataDiffs":  [
+
+                           ],
+    "failureReasons":  [
+
+                       ]
+}

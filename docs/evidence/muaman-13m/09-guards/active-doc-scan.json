@@ -1,0 +1,13 @@
+﻿{
+    "guard":  "M7 active documentation (sole official packaging entrypoint)",
+    "pass":  true,
+    "failures":  [
+
+                 ],
+    "report":  "C:\\dev\\muaman.worktrees\\muaman-13m-canonical-deterministic-release-package\\docs\\MUAMAN-13M-CANONICAL-DETERMINISTIC-WINDOWS-RELEASE-PACKAGE-ACCEPTANCE.md",
+    "documentsPackagingEntrypoint":  true,
+    "declaresSoleOfficialEntrypoint":  true,
+    "adHocCompressArchiveInstructions":  [
+
+                                         ]
+}

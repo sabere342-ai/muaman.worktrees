@@ -1,0 +1,48 @@
+﻿{
+    "guard":  "M2 CWD independence (repo root / sub-folder / external dir)",
+    "pass":  true,
+    "runs":  {
+                 "repositoryRoot":  {
+                                        "cwd":  "C:\\dev\\muaman.worktrees\\muaman-13m-canonical-deterministic-release-package",
+                                        "useRepoRoot":  true,
+                                        "exitCode":  0,
+                                        "zipProduced":  true,
+                                        "zipSha256":  "57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                        "stdout":  "[MUAMAN-13M] verifying release C:\\m13m\\b1\\src\\app\\build\\windows\\x64\\runner\\Release against C:\\dev\\muaman.worktrees\\muaman-13m-canonical-deterministic-release-package\\docs\\evidence\\muaman-13k\\04-k1-source-a-sdk-a-shorttemp\\release-manifest.json\nMUAMAN-13L verify: new=13/33273462B legal=13/33273462B identical=True diffs=0 crossNew=EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9\r\n[MUAMAN-13M] release verification PASS (exit 0); files=13 bytes=33273462 cross=EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9\n[MUAMAN-13M] creating deterministic ZIP with 13 entries (constant entry timestamp 2024-01-01T00:00:00)\n[MUAMAN-13M] ZIP created: 14485278 bytes, SHA-256 57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008\n[MUAMAN-13M] ZIP finalized: C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-repositoryRoot-out\\muaman-windows-release.zip\n[MUAMAN-13M] RESULT: PASS (exit 0)\n[MUAMAN-13M] ZIP: C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-repositoryRoot-out\\muaman-windows-release.zip (14485278 bytes)\n[MUAMAN-13M] SHA-256: 57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                        "stderr":  ""
+                                    },
+                 "repositorySubFolder":  {
+                                             "cwd":  "C:\\dev\\muaman.worktrees\\muaman-13m-canonical-deterministic-release-package\\tools\\release",
+                                             "useRepoRoot":  true,
+                                             "exitCode":  0,
+                                             "zipProduced":  true,
+                                             "zipSha256":  "57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                             "stdout":  "[MUAMAN-13M] verifying release C:\\m13m\\b1\\src\\app\\build\\windows\\x64\\runner\\Release against C:\\dev\\muaman.worktrees\\muaman-13m-canonical-deterministic-release-package\\docs\\evidence\\muaman-13k\\04-k1-source-a-sdk-a-shorttemp\\release-manifest.json\nMUAMAN-13L verify: new=13/33273462B legal=13/33273462B identical=True diffs=0 crossNew=EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9\r\n[MUAMAN-13M] release verification PASS (exit 0); files=13 bytes=33273462 cross=EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9\n[MUAMAN-13M] creating deterministic ZIP with 13 entries (constant entry timestamp 2024-01-01T00:00:00)\n[MUAMAN-13M] ZIP created: 14485278 bytes, SHA-256 57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008\n[MUAMAN-13M] ZIP finalized: C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-repositorySubFolder-out\\muaman-windows-release.zip\n[MUAMAN-13M] RESULT: PASS (exit 0)\n[MUAMAN-13M] ZIP: C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-repositorySubFolder-out\\muaman-windows-release.zip (14485278 bytes)\n[MUAMAN-13M] SHA-256: 57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                             "stderr":  ""
+                                         },
+                 "outsideRepository":  {
+                                           "cwd":  "C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-outside",
+                                           "useRepoRoot":  true,
+                                           "exitCode":  0,
+                                           "zipProduced":  true,
+                                           "zipSha256":  "57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                           "stdout":  "[MUAMAN-13M] verifying release C:\\m13m\\b1\\src\\app\\build\\windows\\x64\\runner\\Release against C:\\dev\\muaman.worktrees\\muaman-13m-canonical-deterministic-release-package\\docs\\evidence\\muaman-13k\\04-k1-source-a-sdk-a-shorttemp\\release-manifest.json\nMUAMAN-13L verify: new=13/33273462B legal=13/33273462B identical=True diffs=0 crossNew=EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9\r\n[MUAMAN-13M] release verification PASS (exit 0); files=13 bytes=33273462 cross=EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9\n[MUAMAN-13M] creating deterministic ZIP with 13 entries (constant entry timestamp 2024-01-01T00:00:00)\n[MUAMAN-13M] ZIP created: 14485278 bytes, SHA-256 57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008\n[MUAMAN-13M] ZIP finalized: C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-outsideRepository-out\\muaman-windows-release.zip\n[MUAMAN-13M] RESULT: PASS (exit 0)\n[MUAMAN-13M] ZIP: C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-outsideRepository-out\\muaman-windows-release.zip (14485278 bytes)\n[MUAMAN-13M] SHA-256: 57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                           "stderr":  ""
+                                       },
+                 "outsideRepositoryDerivedRepoRoot":  {
+                                                          "cwd":  "C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-outside",
+                                                          "useRepoRoot":  false,
+                                                          "exitCode":  0,
+                                                          "zipProduced":  true,
+                                                          "zipSha256":  "57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                                          "stdout":  "[MUAMAN-13M] verifying release C:\\m13m\\b1\\src\\app\\build\\windows\\x64\\runner\\Release against C:\\dev\\muaman.worktrees\\muaman-13m-canonical-deterministic-release-package\\docs\\evidence\\muaman-13k\\04-k1-source-a-sdk-a-shorttemp\\release-manifest.json\nMUAMAN-13L verify: new=13/33273462B legal=13/33273462B identical=True diffs=0 crossNew=EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9\r\n[MUAMAN-13M] release verification PASS (exit 0); files=13 bytes=33273462 cross=EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9\n[MUAMAN-13M] creating deterministic ZIP with 13 entries (constant entry timestamp 2024-01-01T00:00:00)\n[MUAMAN-13M] ZIP created: 14485278 bytes, SHA-256 57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008\n[MUAMAN-13M] ZIP finalized: C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-outsideRepositoryDerivedRepoRoot-out\\muaman-windows-release.zip\n[MUAMAN-13M] RESULT: PASS (exit 0)\n[MUAMAN-13M] ZIP: C:\\m13m\\guard-tmp\\m13m-guard-18976\\m2-outsideRepositoryDerivedRepoRoot-out\\muaman-windows-release.zip (14485278 bytes)\n[MUAMAN-13M] SHA-256: 57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+                                                          "stderr":  ""
+                                                      }
+             },
+    "allExitZero":  true,
+    "allProduced":  true,
+    "allZipShaIdentical":  true,
+    "uniqueZipSha":  [
+                         "57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008"
+                     ]
+}

@@ -1,0 +1,64 @@
+﻿{
+    "guard":  "M5 extraction equivalence",
+    "capturedAtUtc":  "2026-08-05T22:20:47.566Z",
+    "pass":  true,
+    "acceptedFileCount":  13,
+    "acceptedTotalBytes":  33273462,
+    "acceptedCrossHash":  "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9",
+    "releaseDir":  "C:\\m13m\\b1\\src\\app\\build\\windows\\x64\\runner\\Release",
+    "p1":  {
+               "zip":  "C:\\m13m\\p1\\out\\muaman-windows-release.zip",
+               "extractedRoot":  "C:\\m13m\\guard-tmp\\m13m-guard-18976\\extract-p1",
+               "problems":  [
+
+                            ],
+               "fileCount":  13,
+               "totalBytes":  33273462,
+               "crossHash":  "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9",
+               "fileCountOk":  true,
+               "totalBytesOk":  true,
+               "crossHashOk":  true,
+               "missingCount":  0,
+               "missing":  [
+
+                           ],
+               "extraCount":  0,
+               "extra":  [
+
+                         ],
+               "differingCount":  0,
+               "differing":  [
+
+                             ],
+               "pathSafetyProblems":  true,
+               "pass":  true
+           },
+    "p2":  {
+               "zip":  "C:\\m13m\\p2\\out\\muaman-windows-release.zip",
+               "extractedRoot":  "C:\\m13m\\guard-tmp\\m13m-guard-18976\\extract-p2",
+               "problems":  [
+
+                            ],
+               "fileCount":  13,
+               "totalBytes":  33273462,
+               "crossHash":  "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9",
+               "fileCountOk":  true,
+               "totalBytesOk":  true,
+               "crossHashOk":  true,
+               "missingCount":  0,
+               "missing":  [
+
+                           ],
+               "extraCount":  0,
+               "extra":  [
+
+                         ],
+               "differingCount":  0,
+               "differing":  [
+
+                             ],
+               "pathSafetyProblems":  true,
+               "pass":  true
+           },
+    "p1EqualsP2":  true
+}

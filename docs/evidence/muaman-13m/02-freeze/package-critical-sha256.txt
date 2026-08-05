@@ -1,0 +1,23 @@
+MUAMAN-13M freeze: package/build-critical script hashes + git state
+Recorded before any authoritative B1/P1/P2 run. Frozen at baseline ea80321.
+No package/build/verify/guard script may change after this point.
+
+git-diff-HEAD-stat:
+
+git-status-porcelain:
+?? docs/evidence/muaman-13m/
+?? tools/muaman13m/
+?? tools/release/package_windows_release.ps1
+
+SHA256  tracking  path
+19B911DB6ACEEB6347AAF5EC7C99E74FB302119DDD8E4B8783BCD0C576C8F8DA  tracked  tools\release\build_windows_release.ps1
+8DCFE24A0523E291D42199E73FCBABAB0AFF94EECB2D59EC8E09BCD861E200A5  tracked  tools\release\verify_release.ps1
+BF72C6DCC5D41D2FD353B01FAD0CC7F6B414E575155A69FEBA17540CA3DFF452  untracked-new  tools\release\package_windows_release.ps1  (updated after sha256-format fix)
+E42729D6640CCA5B814BCA91DFAFC56B28D3D91F2E7ECDBC001E497A940968EE  tracked  tools\muaman13i\run_experiment.ps1
+1FD42351E5FC0D06ABC61CCA0BD6E111CD18626C42FF7337AAF345FED40F5761  tracked  tools\muaman13j\build_hardened.ps1
+4772BBFDF77363205E2D8FB1F614A9A968776E34DB9BE2DE7F2F64EE7570028D  tracked  tools\muaman13j\check_filetracker_state.ps1
+D6D4107647AFD2F221461CA28C16048E95D821DF303A648C9EB38EB6F714B200  tracked  tools\muaman13k\compare_release.ps1
+A2034753F81AC45AB9C3DE6A26070ED7F4256F255A66671CD0539AF358D2E90B  tracked  tools\muaman13k\guard_tests.ps1
+ABD87422222D2962451A1BFD9406DDC8363E870BA297D532401C352EFFD96654  tracked  tools\muaman13k\leak_scan_13k.ps1
+05DED7D39BA41ED4FE983A4B5CC97C96463299AEBE1E7C3F369F8380830EACA1  tracked  tools\muaman13k\make_release_manifest.ps1
+E61DA1C576CF59E63445D343BC3714A2FD7934A730EA372D27F5450426594EDC  untracked-new  tools\muaman13m\guard_tests_13m.ps1  (updated after LF normalization)

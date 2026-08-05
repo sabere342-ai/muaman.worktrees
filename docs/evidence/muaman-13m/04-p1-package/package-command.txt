@@ -1,0 +1,27 @@
+﻿MUAMAN-13M canonical deterministic Windows release packaging command
+======================================================================
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "
+C:\dev\muaman.worktrees\muaman-13m-canonical-deterministic-release-package\tools\release\package_windows_release.ps1
+"
+  -RepoRoot "
+C:\dev\muaman.worktrees\muaman-13m-canonical-deterministic-release-package
+"
+  -ReleaseDir "
+C:\m13m\b1\src\app\build\windows\x64\runner\Release
+"
+  -OutputDir "
+C:\m13m\p1\out
+"
+  -EvidenceDir "
+C:\m13m\p1\evidence
+"
+resolved verifier     : 
+C:\dev\muaman.worktrees\muaman-13m-canonical-deterministic-release-package\tools\release\verify_release.ps1
+resolved legal manifest: 
+C:\dev\muaman.worktrees\muaman-13m-canonical-deterministic-release-package\docs\evidence\muaman-13k\04-k1-source-a-sdk-a-shorttemp\release-manifest.json
+zip name              : 
+muaman-windows-release.zip
+constant entry stamp  : 
+2024-01-01T00:00:00
+ (DOS 0x58210000)
+captured command line : 

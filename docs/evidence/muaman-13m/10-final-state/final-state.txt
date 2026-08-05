@@ -1,0 +1,21 @@
+MUAMAN-13M final state note
+===========================
+subject : MUAMAN-13M: accept canonical deterministic Windows release package
+branch  : codex/muaman-13m-canonical-deterministic-release-package
+baseline: ea80321f218bc0fd74c8ccc3a7e8621d79325a0b (MUAMAN-13L accept)
+
+rev-list count after baseline : 1 (exactly one commit)
+final commit sha              : recorded in the controller closing response and
+                                verifiable as `git rev-parse HEAD` on this branch
+                                at review time (a commit cannot contain its own
+                                hash, so it is not embedded here).
+post-commit proofs            : HEAD^ = baseline, `git status --porcelain` empty,
+                                `git diff --check` clean, no push/tag/merge,
+                                scope limited to tools/release/**, tools/muaman13m/**,
+                                docs/**. Guards re-run from final HEAD with
+                                results reported in the closing response
+                                (evidence is not re-committed after the single
+                                commit so the tree stays clean).
+
+frozen package-critical sha256s : recorded in 02-freeze/package-critical-sha256.txt
+                                and re-computed after the commit (match expected).
