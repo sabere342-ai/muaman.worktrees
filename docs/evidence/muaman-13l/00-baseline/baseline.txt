@@ -1,0 +1,6 @@
+MUAMAN-13L baseline identity
+============================
+baseline commit (13K accept) : 4556c84c3ca6a22c9a14e91cc5c5bdefe77fe259
+baseline subject            : MUAMAN-13K: accept hardened build determinism
+baseline parent             : e426710 MUAMAN-13J: prove and eliminate MSBuild FileTracker empty-path crash (outcome B)
+rev count at HEAD (baseline) : 24

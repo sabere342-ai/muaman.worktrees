@@ -1,0 +1,9 @@
+MUAMAN-13L initial state (baseline 4556c84)
+===========================================
+At start of the 13L phase the worktree was clean at the 13K accept commit.
+Only new files were present: the tools/release scripts (written during this
+phase) and the docs/evidence/muaman-13l tree. Nothing had been committed yet.
+git status --short at phase start:
+  ?? docs/evidence/muaman-13l/
+  ?? tools/release/
+tracked files at HEAD : 832

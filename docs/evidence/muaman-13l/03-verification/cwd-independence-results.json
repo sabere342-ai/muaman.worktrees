@@ -1,0 +1,32 @@
+﻿{
+    "guard":  "L2 CWD independence",
+    "expectedRepositoryRoot":  "C:\\dev\\muaman.worktrees\\muaman-13l-canonical-hardened-release-entrypoint",
+    "runs":  {
+                 "repositoryRoot":  {
+                                        "cwd":  "C:\\dev\\muaman.worktrees\\muaman-13l-canonical-hardened-release-entrypoint",
+                                        "exitCode":  0,
+                                        "detectedRepositoryRoot":  "C:\\dev\\muaman.worktrees\\muaman-13l-canonical-hardened-release-entrypoint",
+                                        "output":  "[MUAMAN-13L] canonical Windows release build, run id L-20260805-203740-15964\n[MUAMAN-13L] repository root : C:\\dev\\muaman.worktrees\\muaman-13l-canonical-hardened-release-entrypoint\n[MUAMAN-13L] app root        : C:\\dev\\muaman.worktrees\\muaman-13l-canonical-hardened-release-entrypoint\\app\n[MUAMAN-13L] preflight        : running committed preflight (fresh process)...\n[MUAMAN-13L] preflight        : PASS (exit 0)\n[MUAMAN-13L] PreflightOnly   : yes; build not started.\n[MUAMAN-13L] preflight status: PASS"
+                                    },
+                 "subFolder":  {
+                                   "cwd":  "C:\\dev\\muaman.worktrees\\muaman-13l-canonical-hardened-release-entrypoint\\tools\\release",
+                                   "exitCode":  0,
+                                   "detectedRepositoryRoot":  "C:\\dev\\muaman.worktrees\\muaman-13l-canonical-hardened-release-entrypoint",
+                                   "output":  "[MUAMAN-13L] canonical Windows release build, run id L-20260805-203742-21760\n[MUAMAN-13L] repository root : C:\\dev\\muaman.worktrees\\muaman-13l-canonical-hardened-release-entrypoint\n[MUAMAN-13L] app root        : C:\\dev\\muaman.worktrees\\muaman-13l-canonical-hardened-release-entrypoint\\app\n[MUAMAN-13L] preflight        : running committed preflight (fresh process)...\n[MUAMAN-13L] preflight        : PASS (exit 0)\n[MUAMAN-13L] PreflightOnly   : yes; build not started.\n[MUAMAN-13L] preflight status: PASS"
+                               },
+                 "outsideRepository":  {
+                                           "cwd":  "C:\\Users\\saber\\AppData\\Local\\Temp\\l2-cwd-outside",
+                                           "exitCode":  0,
+                                           "detectedRepositoryRoot":  "C:\\dev\\muaman.worktrees\\muaman-13l-canonical-hardened-release-entrypoint",
+                                           "output":  "[MUAMAN-13L] canonical Windows release build, run id L-20260805-203743-28688\n[MUAMAN-13L] repository root : C:\\dev\\muaman.worktrees\\muaman-13l-canonical-hardened-release-entrypoint\n[MUAMAN-13L] app root        : C:\\dev\\muaman.worktrees\\muaman-13l-canonical-hardened-release-entrypoint\\app\n[MUAMAN-13L] preflight        : running committed preflight (fresh process)...\n[MUAMAN-13L] preflight        : PASS (exit 0)\n[MUAMAN-13L] PreflightOnly   : yes; build not started.\n[MUAMAN-13L] preflight status: PASS"
+                                       }
+             },
+    "detectedRoots":  [
+                          "C:\\dev\\muaman.worktrees\\muaman-13l-canonical-hardened-release-entrypoint",
+                          "C:\\dev\\muaman.worktrees\\muaman-13l-canonical-hardened-release-entrypoint",
+                          "C:\\dev\\muaman.worktrees\\muaman-13l-canonical-hardened-release-entrypoint"
+                      ],
+    "allResolvedSameRoot":  true,
+    "allPreflightExitZero":  true,
+    "pass":  true
+}

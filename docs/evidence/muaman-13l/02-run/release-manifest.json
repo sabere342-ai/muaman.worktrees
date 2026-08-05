@@ -1,0 +1,87 @@
+﻿{
+    "runId":  "L6",
+    "capturedAtUtc":  "2026-08-05T20:26:52.893Z",
+    "releaseDir":  "C:\\m13l\\src\\app\\build\\windows\\x64\\runner\\Release",
+    "fileCount":  13,
+    "totalBytes":  33273462,
+    "files":  [
+                  {
+                      "rel":  "data/app.so",
+                      "size":  7324576,
+                      "sha256":  "8278EC7131C921D480AFEAF69B0D27624B11DF3E9E74180BB80273A09E1E2D3D",
+                      "ext":  ".so"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/AssetManifest.bin",
+                      "size":  117,
+                      "sha256":  "00AF55AD3D6F21898FE77E0FF092D1A1CDA52C941B6860E9928D45C8AF8C095D",
+                      "ext":  ".bin"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/AssetManifest.json",
+                      "size":  109,
+                      "sha256":  "4A9B3DE7EEC9BA46B279BBCCD132E32F52D6D555D79DDA4AA7F3BCB4E9BD651F",
+                      "ext":  ".json"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/FontManifest.json",
+                      "size":  208,
+                      "sha256":  "CD7E03645BC44B2DD47B7CB626F51C4ECBF55A197AB77241628B47AC165FBE21",
+                      "ext":  ".json"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/fonts/MaterialIcons-Regular.otf",
+                      "size":  1645184,
+                      "sha256":  "D9865B671A09D683D13A863089D8825E0F61A37696CE5D7D448BC8023AA62453",
+                      "ext":  ".otf"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/NOTICES.Z",
+                      "size":  89152,
+                      "sha256":  "AB7675DAC8C7DCDF17A78E747C669C9BA13ED55306422F6D65F31BA98DA82DD6",
+                      "ext":  ".Z"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+                      "size":  257628,
+                      "sha256":  "67C44FE9183B002E79DDE7F6977E2988661C9A3E4A3C5FCE968787EFDBED823C",
+                      "ext":  ".ttf"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/shaders/ink_sparkle.frag",
+                      "size":  17304,
+                      "sha256":  "3AA09424D1DC391FD59A9735EFE986FF43302B5E5BC310926AFE11C68626C3B2",
+                      "ext":  ".frag"
+                  },
+                  {
+                      "rel":  "data/icudtl.dat",
+                      "size":  778864,
+                      "sha256":  "C12537022EF818991A7BFED41A76D8D6AE962FFBC0E6511AC762A5D0845E7F7C",
+                      "ext":  ".dat"
+                  },
+                  {
+                      "rel":  "flutter_windows.dll",
+                      "size":  18181632,
+                      "sha256":  "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E",
+                      "ext":  ".dll"
+                  },
+                  {
+                      "rel":  "muaman_store.exe",
+                      "size":  90624,
+                      "sha256":  "194B46007E82D06936355C8C76B1E7DB93F97DF6691596097819E83A608BD6A9",
+                      "ext":  ".exe"
+                  },
+                  {
+                      "rel":  "pdfium.dll",
+                      "size":  4749824,
+                      "sha256":  "0C88EBACC0393FD45FC3E7B35E31E72C9E55B633A846A7ECF4085694DBA68ABD",
+                      "ext":  ".dll"
+                  },
+                  {
+                      "rel":  "printing_plugin.dll",
+                      "size":  138240,
+                      "sha256":  "959F1E85FEEC7D8AE02F97760608E8022CFF3C3D556AADC824306EA1AFE2A867",
+                      "ext":  ".dll"
+                  }
+              ]
+}

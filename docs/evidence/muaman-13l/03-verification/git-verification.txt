@@ -1,0 +1,37 @@
+MUAMAN-13L post-commit gates
+============================
+subject           : MUAMAN-13L: adopt canonical hardened Windows release entrypoint
+parent (baseline) : 4556c84c3ca6a22c9a14e91cc5c5bdefe77fe259 (MUAMAN-13K accept)
+branch            : codex/muaman-13l-canonical-hardened-release-entrypoint-adoption
+final commit sha  : recorded in the controller closing report and verifiable as
+                    `git rev-parse HEAD` on this branch at review time (a commit
+                    cannot contain its own hash, so it is not embedded here)
+
+gate results (all PASS)
+-----------------------
+1. git diff HEAD^ --check          : clean (exit 0, no whitespace errors)
+2. git status --short              : empty (clean working tree)
+3. git rev-list --count HEAD       : 25 (exactly one commit after baseline 24)
+4. git diff-tree --no-commit-id --name-only -r HEAD
+   - 22 files, all under tools/release/ or docs/ (report + evidence/muaman-13l)
+   - 0 files outside the tools/docs allowlist
+   - 0 production/dependency/windows/lib/pubspec changes
+5. full guard pass (L1-L8)         : allPass=true
+   - L1 static delegation          : pass (no second FileTracker/build impl)
+   - L2 CWD independence           : pass (same repo root from repo/sub/outside)
+   - L3 preflight ordering/fail-close : pass (dynamic refusal, exit 2, no artifacts)
+   - L4 secret hygiene             : pass (855 files scanned, 0 findings)
+   - L5 historical 13K guards      : pass (allPass=true, exit 0)
+   - L7 release verification       : pass (13 files / 33,273,462 B, cross-hash
+     EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9, 0 diffs,
+     legal-tool compare identical)
+   - L8 active-docs guard          : pass (canonical command documented)
+6. secrecy scan                    : findingCount=0 (no OPENCODE_SERVER_PASSWORD value)
+7. scope audit                     : pass (22 additions, all under tools/docs)
+
+commit-flow note: the deliverable branch carries exactly one commit after the 13K
+baseline. A throwaway probe branch was used to commit the tools/docs so a fresh
+clone (L6) could be built from a committed state; that branch was deleted and is
+not part of this branch's history. This file and final-commit.txt were captured
+after the commit and folded into the same single commit via
+`git commit --amend --no-edit`, preserving exactly one commit after baseline.

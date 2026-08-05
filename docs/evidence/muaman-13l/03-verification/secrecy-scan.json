@@ -1,0 +1,10 @@
+﻿{
+    "guard":  "L4 secret hygiene",
+    "scannedFiles":  856,
+    "findingCount":  0,
+    "findings":  [
+
+                 ],
+    "clean":  true,
+    "pass":  true
+}

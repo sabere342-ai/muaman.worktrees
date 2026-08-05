@@ -1,0 +1,27 @@
+MUAMAN-13L canonical hardened Windows release command
+=====================================================
+The canonical, supported release build command is the committed entrypoint:
+
+  powershell -NoProfile -ExecutionPolicy Bypass \
+    -File tools/release/build_windows_release.ps1
+
+Optional switches (documented in the governing report):
+  -SdkRoot <dir>      : pin the Flutter SDK (otherwise SDK discovery order:
+                        -SdkRoot, $env:FLUTTER_ROOT, flutter on PATH)
+  -PubCache <dir>     : pin PUB_CACHE (otherwise $env:PUB_CACHE then
+                        %LOCALAPPDATA%\Pub\Cache)
+  -MsBuildBinDir <dir>: pin the MSBuild bin dir (otherwise auto-discovery
+                        via vswhere / well-known locations)
+  -StageRoot <dir>    : override the scratch/staging root (default TEMP)
+  -EvidenceDir <dir>  : override where run evidence JSON/logs are written
+  -PreflightOnly      : run the committed FileTracker preflight and exit
+                        without building (used by the CWD-independence guard)
+
+The entrypoint resolves the repository root from its own script location
+($PSScriptRoot), so it is safe to invoke from any working directory.
+
+It NEVER runs `flutter build windows --release` itself; that would duplicate
+hardened build logic. It runs the committed preflight
+tools/muaman13j/check_filetracker_state.ps1 in a fresh process first (fail
+closed with exit 1) and then delegates the hardened build to the committed
+source of truth tools/muaman13j/build_hardened.ps1.

@@ -1,0 +1,14 @@
+MUAMAN-13L L6 fresh-clone canonical command (as executed)
+=========================================================
+Controller CWD was C:\m13l (OUTSIDE the clone root C:\m13l\src).
+
+  powershell -NoProfile -ExecutionPolicy Bypass `
+    -File C:\m13l\src\tools\release\build_windows_release.ps1 `
+    -SdkRoot C:\m13i\a\sdk -ExperimentId L6 -EvidenceDir C:\m13l\evidence
+
+The entrypoint resolved the repository root from its own script location to
+C:\m13l\src (the fresh clone) and ran the committed preflight first (fresh
+process, PASS, exit 0), then delegated the hardened build to the committed
+source of truth, then generated the canonical release manifest.
+
+Base canonical command (no switches) is documented in canonical-command.txt.

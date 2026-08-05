@@ -1,0 +1,23 @@
+{
+    "phase": "MUAMAN-13L fresh-clone canonical build (L6)",
+    "cloneRoot": "C:\\m13l\\src",
+    "origin": "C:\\dev\\muaman (git clone --no-local)",
+    "clonedBranch": "codex/muaman-13l-probe",
+    "checkoutCommit": "773dc956aa3e616885c458d11409808df6dc4faf",
+    "checkoutSubject": "MUAMAN-13L: adopt canonical hardened Windows release entrypoint",
+    "cloneUtc": "2026-08-05T20:22:25Z",
+    "controllerCwd": "C:\\m13l",
+    "controllerCwdIsOutsideClone": true,
+    "command": "powershell -NoProfile -ExecutionPolicy Bypass -File C:\\m13l\\src\\tools\\release\\build_windows_release.ps1 -SdkRoot C:\\m13i\\a\\sdk -ExperimentId L6 -EvidenceDir C:\\m13l\\evidence",
+    "sdkRoot": "C:\\m13i\\a\\sdk",
+    "pubCache": "C:\\Users\\saber\\AppData\\Local\\Pub\\Cache",
+    "msBuildBinDir": "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Current\\Bin\\amd64",
+    "startedAtUtc": "2026-08-05T20:22:49.132Z",
+    "endedAtUtc": "2026-08-05T20:26:51.498Z",
+    "durationSeconds": 242.3,
+    "preflightExitCode": 0,
+    "buildExitCode": 0,
+    "releaseDir": "C:\\m13l\\src\\app\\build\\windows\\x64\\runner\\Release",
+    "status": "PASS",
+    "note": "Repository root was resolved from the script location inside the clone while the controller CWD was outside the clone. SDK pinned to the committed 13I/13K SDK A carrying the VS2026 generator patch postimage D08E9D71; MSBuild and PUB_CACHE were auto-discovered by the entrypoint."
+}

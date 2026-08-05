@@ -1,0 +1,4 @@
+MUAMAN-13L branch
+=================
+worktree : C:\dev\muaman.worktrees\muaman-13l-canonical-hardened-release-entrypoint
+branch   : codex/muaman-13l-canonical-hardened-release-entrypoint-adoption

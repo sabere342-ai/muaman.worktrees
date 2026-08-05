@@ -1,0 +1,40 @@
+{
+    "phase": "MUAMAN-13L scope audit vs baseline",
+    "baselineCommit": "4556c84c3ca6a22c9a14e91cc5c5bdefe77fe259",
+    "baselineSubject": "MUAMAN-13K: accept hardened build determinism",
+    "auditType": "pre-commit staged set (final committed diff verified in git-verification.txt)",
+    "totalChangedFiles": 20,
+    "additionsUnderTools": [
+        "tools/release/build_windows_release.ps1",
+        "tools/release/guard_tests_13l.ps1",
+        "tools/release/verify_release.ps1"
+    ],
+    "additionsUnderDocs": [
+        "docs/MUAMAN-13L-CANONICAL-HARDENED-WINDOWS-RELEASE-ENTRYPOINT.md",
+        "docs/evidence/muaman-13l/00-baseline/baseline.txt",
+        "docs/evidence/muaman-13l/00-baseline/branch.txt",
+        "docs/evidence/muaman-13l/00-baseline/initial-state.txt",
+        "docs/evidence/muaman-13l/01-clone/canonical-command.txt",
+        "docs/evidence/muaman-13l/01-clone/clone-metadata.json",
+        "docs/evidence/muaman-13l/02-run/build-result.json",
+        "docs/evidence/muaman-13l/02-run/preflight-result.json",
+        "docs/evidence/muaman-13l/02-run/release-dir.txt",
+        "docs/evidence/muaman-13l/02-run/release-manifest.json",
+        "docs/evidence/muaman-13l/03-verification/cwd-independence-results.json",
+        "docs/evidence/muaman-13l/03-verification/guard-results-13k-fresh.json",
+        "docs/evidence/muaman-13l/03-verification/guard-results.json",
+        "docs/evidence/muaman-13l/03-verification/release-comparison-legal-tool.json",
+        "docs/evidence/muaman-13l/03-verification/release-comparison.json",
+        "docs/evidence/muaman-13l/03-verification/secrecy-scan.json",
+        "docs/evidence/muaman-13l/canonical-command.txt"
+    ],
+    "outsideToolsOrDocs": 0,
+    "productionDependencyChanges": 0,
+    "appLibChanges": 0,
+    "windowsChanges": 0,
+    "pubspecChanges": 0,
+    "modificationsToBaselineFiles": 0,
+    "deletions": 0,
+    "forbiddenPathsTouched": [],
+    "pass": true
+}

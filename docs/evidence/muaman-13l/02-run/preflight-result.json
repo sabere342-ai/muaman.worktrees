@@ -1,0 +1,10 @@
+﻿{
+    "runId":  "L6",
+    "capturedAtUtc":  "2026-08-05T20:22:49.916Z",
+    "stage":  "entrypoint-first-gate",
+    "preflightScript":  "C:\\m13l\\src\\tools\\muaman13j\\check_filetracker_state.ps1",
+    "msBuildBinDir":  "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Current\\Bin\\amd64",
+    "log":  "C:\\m13l\\evidence\\00-entrypoint-preflight.log",
+    "exitCode":  0,
+    "status":  "PASS"
+}
