@@ -1,0 +1,15 @@
+﻿{
+    "experimentId":  "K1",
+    "capturedAtUtc":  "2026-08-05T18:56:02.995Z",
+    "hardening":  {
+                      "temp":  "C:\\m13k\\a\\tmp",
+                      "tmp":  "C:\\m13k\\a\\tmp",
+                      "appdata":  "C:\\m13k\\a\\home\\appdata\\roaming",
+                      "localappdata":  "C:\\m13k\\a\\home\\appdata\\local",
+                      "userprofile":  "C:\\m13k\\a\\home",
+                      "home":  "C:\\m13k\\a\\home",
+                      "programdata":  "C:\\ProgramData",
+                      "pubCache":  "C:\\m13k\\a\\pub",
+                      "msbuildDisableNodeReuse":  "1"
+                  }
+}

@@ -1,0 +1,31 @@
+﻿{
+    "phase":  "K4",
+    "capturedAtUtc":  "2026-08-05T18:53:03.189Z",
+    "msBuildBinDir":  "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Current\\Bin\\amd64",
+    "probeFile":  "C:\\dev\\muaman-13i-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CMakeCXXCompilerId.cpp",
+    "checks":  {
+                   "A_s_applicationDataPath":  {
+                                                   "exitCode":  1,
+                                                   "detectedEmptyStatic":  true
+                                               },
+                   "A_s_tempPath":  {
+                                        "exitCode":  1,
+                                        "detectedEmptyStatic":  true
+                                    },
+                   "B_wrapper_refuses_build":  {
+                                                   "exitCode":  1,
+                                                   "preflightFailed":  true,
+                                                   "diagnosticNamesEmptyStatic":  true,
+                                                   "buildInvoked_pubgetPresent":  false,
+                                                   "buildInvoked_buildLogPresent":  false,
+                                                   "buildInvoked_analysisPresent":  false,
+                                                   "buildRefused":  true,
+                                                   "seamRemoved":  true
+                                               },
+                   "C_recovery_positive_preflight":  {
+                                                         "exitCode":  0,
+                                                         "preflightOk":  true
+                                                     }
+               },
+    "k4Pass":  true
+}

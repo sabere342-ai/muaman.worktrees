@@ -1,0 +1,94 @@
+﻿{
+    "guard":  "MUAMAN-13K guard-point verification",
+    "capturedAtUtc":  "2026-08-05T19:11:36.123Z",
+    "allPass":  true,
+    "verdicts":  {
+                     "G1":  {
+                                "guard":  "G1 no production-source change (git layer)",
+                                "status":  "deferred-to-git",
+                                "detail":  "final git diff/status checked at commit time (00-baseline + final-state)"
+                            },
+                     "G2":  {
+                                "guard":  "G2 committed scripts unchanged",
+                                "buildSha256Recorded":  "7627DC43E6779FCE7F0713C58DBD06BF7D635CEFD4D3CFD6B450C1A0093A37A5",
+                                "buildSha256Expected":  "7627DC43E6779FCE7F0713C58DBD06BF7D635CEFD4D3CFD6B450C1A0093A37A5",
+                                "buildMatch":  true,
+                                "preflightSha256Recorded":  "88D4908532F2F6862B77A89FFFD3B86097C2646BE861117D0BB95B745B397CB7",
+                                "preflightSha256Expected":  "88D4908532F2F6862B77A89FFFD3B86097C2646BE861117D0BB95B745B397CB7",
+                                "preflightMatch":  true
+                            },
+                     "G3":  {
+                                "guard":  "G3 SDKs unmodified (patch hash matches 13I/13J evidence)",
+                                "vsDartAHash":  "D08E9D71E978FDE1478FBF438DCEA6D16D26EA966D271F7D5108AC86E3CC5423",
+                                "vsDartBHash":  "D08E9D71E978FDE1478FBF438DCEA6D16D26EA966D271F7D5108AC86E3CC5423",
+                                "aMatch":  true,
+                                "bMatch":  true
+                            },
+                     "G4":  {
+                                "guard":  "G4 release payload not copied into evidence (no new Release artifacts under docs/evidence)",
+                                "evidencePayloadCount":  0,
+                                "status":  "verified-by-artifact-comparison"
+                            },
+                     "G6":  {
+                                "guard":  "G6 no single reused PowerShell process",
+                                "pids":  [
+                                             6928,
+                                             11424,
+                                             15120
+                                         ],
+                                "distinct":  true,
+                                "allPresent":  true
+                            },
+                     "G7":  {
+                                "guard":  "G7 no silent fallback to non-hardened path",
+                                "runs":  {
+                                             "04-k1-source-a-sdk-a-shorttemp":  {
+                                                                                    "preflightLogPresent":  true,
+                                                                                    "preflightOk":  true
+                                                                                },
+                                             "05-k2-source-b-sdk-b-longtemp":  {
+                                                                                   "preflightLogPresent":  true,
+                                                                                   "preflightOk":  true
+                                                                               },
+                                             "06-k3-source-b-sdk-b-shorttemp":  {
+                                                                                    "preflightLogPresent":  true,
+                                                                                    "preflightOk":  true
+                                                                                }
+                                         },
+                                "allOk":  true
+                            },
+                     "G8":  {
+                                "guard":  "G8 no stale-output success (fresh artifacts)",
+                                "runs":  {
+                                             "04-k1-source-a-sdk-a-shorttemp":  {
+                                                                                    "artifactsFresh":  true
+                                                                                },
+                                             "05-k2-source-b-sdk-b-longtemp":  {
+                                                                                   "artifactsFresh":  true
+                                                                               },
+                                             "06-k3-source-b-sdk-b-shorttemp":  {
+                                                                                    "artifactsFresh":  true
+                                                                                }
+                                         },
+                                "allOk":  true
+                            },
+                     "G9":  {
+                                "guard":  "G9 deterministic payload (13 files / 33,273,462 bytes each, byte-identical)",
+                                "runs":  {
+                                             "04-k1-source-a-sdk-a-shorttemp":  {
+                                                                                    "fileCount":  13,
+                                                                                    "totalBytes":  33273462
+                                                                                },
+                                             "05-k2-source-b-sdk-b-longtemp":  {
+                                                                                   "fileCount":  13,
+                                                                                   "totalBytes":  33273462
+                                                                               },
+                                             "06-k3-source-b-sdk-b-shorttemp":  {
+                                                                                    "fileCount":  13,
+                                                                                    "totalBytes":  33273462
+                                                                                }
+                                         },
+                                "allMatch":  true
+                            }
+                 }
+}

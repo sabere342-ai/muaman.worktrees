@@ -1,0 +1,120 @@
+﻿{
+    "experimentId":  "K1",
+    "capturedAtUtc":  "2026-08-05T18:58:46.293Z",
+    "startedAtUtc":  "2026-08-05T18:57:04.659Z",
+    "endedAtUtc":  "2026-08-05T18:58:45.854Z",
+    "elapsedSeconds":  101.2,
+    "cleanExitCode":  0,
+    "pubGetExitCode":  0,
+    "buildExitCode":  0,
+    "responseFileObserved":  false,
+    "fileTrackerCrash":  false,
+    "crashDetail":  "",
+    "compilerIdSuccess":  true,
+    "configureSuccess":  true,
+    "releaseBuildSuccess":  true,
+    "clCommands":  [
+
+                   ],
+    "rspCaptures":  [
+                        {
+                            "path":  "C:\\m13k\\a\\tmp\\MSBuildTemp80d7abb7f3be412780892390f731c462\\tmp7fa0eaa4816a4edf8dad9f97714342a2.rsp",
+                            "pathLen":  97,
+                            "lengthBytes":  456,
+                            "sha256":  "02748D5998A10F3D4E96D49C0204A77835A92843644A49BA4B531C22C7065C4F",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\m13k\\a\\tmp\\MSBuildTemp80d7abb7f3be412780892390f731c462\\tmpaf69a9c90cb8414384d05fb331846a8b.rsp",
+                            "pathLen":  97,
+                            "lengthBytes":  836,
+                            "sha256":  "B2B0B5F68D21E6CBBA44222B63ABC30BB20B53CCF19653EF5FAC8BD88D6BFAB8",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\m13k\\a\\tmp\\MSBuildTempad21c6890ae845f285e63a1ad4bb5180\\tmp268dd027603042ea8ea9701e1dbc24ef.rsp",
+                            "pathLen":  97,
+                            "lengthBytes":  790,
+                            "sha256":  "9577F88D925423A9E362F113CF2A01D358EAC27CDED4388BE5035E65616E8AAB",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\m13k\\a\\tmp\\MSBuildTempad21c6890ae845f285e63a1ad4bb5180\\tmp3cc82676f087431b822446cb7e02f0b2.rsp",
+                            "pathLen":  97,
+                            "lengthBytes":  1370,
+                            "sha256":  "C7D5CADADDE45099EF21041D6751FD088DCDE988D9137B24675F122E57532A97",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\m13k\\a\\tmp\\MSBuildTemp6457c3f48a4149329960189801e9677d\\tmpa15315eee382420f8fb2678eb6dbb7b4.rsp",
+                            "pathLen":  97,
+                            "lengthBytes":  1782,
+                            "sha256":  "C727753ADD923E43CE4EB449C02F957EFCC70550488B76670AEAE46A7FEBDBE3",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\m13k\\a\\tmp\\MSBuildTemp6457c3f48a4149329960189801e9677d\\tmp6ceb8760c52c44389c710fae79a596ed.rsp",
+                            "pathLen":  97,
+                            "lengthBytes":  680,
+                            "sha256":  "1D40DAD023737CAD4C5F3B098546C1E1D473DD0EFB26C724C03FFCA5A4A5A4E9",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\m13k\\a\\tmp\\MSBuildTemp6457c3f48a4149329960189801e9677d\\tmpc201fcf1df2145e8a8eed74be78a9360.rsp",
+                            "pathLen":  97,
+                            "lengthBytes":  1618,
+                            "sha256":  "3F5708E0BBB08EB437A1BE2F400D0278AD85738D842C2DDF540CC043B9435A73",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\m13k\\a\\tmp\\MSBuildTemp6457c3f48a4149329960189801e9677d\\tmp6fee999494b842fbab0e26bf7cfb9fb3.rsp",
+                            "pathLen":  97,
+                            "lengthBytes":  586,
+                            "sha256":  "705A30094C06AC6B5A7FA5AA44648B0A11922DEAA2EAF3CAEB1E46174DAE1595",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\m13k\\a\\tmp\\MSBuildTemp6457c3f48a4149329960189801e9677d\\tmp8fae68916bfd4e55b0ce3df31bb41fd9.rsp",
+                            "pathLen":  97,
+                            "lengthBytes":  1988,
+                            "sha256":  "FB60EB95464565FFCC7F81E7131D419692087C41AA24020DBEDB7C014D2CA611",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\m13k\\a\\tmp\\MSBuildTemp6457c3f48a4149329960189801e9677d\\tmp546566ea9b12437fa581118eec8c589a.rsp",
+                            "pathLen":  97,
+                            "lengthBytes":  1680,
+                            "sha256":  "592B98F95DF45B4BB108B3F1C8FB76FC481BF7126F4ED691A80224C1733736A5",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\m13k\\a\\tmp\\MSBuildTemp6457c3f48a4149329960189801e9677d\\tmpedbe9721878e441db4a1fec8cc7a56cb.rsp",
+                            "pathLen":  97,
+                            "lengthBytes":  2050,
+                            "sha256":  "0981CF511A82F8CE016C73F259E9FCD98D6BFE663D09E858853982C8127DDA7F",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\m13k\\a\\tmp\\MSBuildTemp6457c3f48a4149329960189801e9677d\\tmpbf7b71d530a54ea5909bc4b94da1fcca.rsp",
+                            "pathLen":  97,
+                            "lengthBytes":  1998,
+                            "sha256":  "25CA9283F6E7612E90010EF4037E7351FFCDBAF096001B9619C1FB9D66A38485",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        }
+                    ],
+    "rspCaptureCount":  12,
+    "buildLogBytes":  51040,
+    "releaseDir":  13
+}

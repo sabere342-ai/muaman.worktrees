@@ -1,0 +1,20 @@
+﻿{
+    "label":  "K1-release",
+    "capturedAtUtc":  "2026-08-05T19:14:14.922Z",
+    "releaseDir":  "C:\\m13k\\a\\src\\app\\build\\windows\\x64\\runner\\Release",
+    "rootsScanned":  [
+                         "C:\\m13k",
+                         "C:\\m13i",
+                         "C:\\dev\\muaman-13k-environment-b-independent-source-extraction-root",
+                         "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root",
+                         "C:\\dev\\muaman-13k-environment-b-independent-temp-root",
+                         "C:\\t\\m13k-b",
+                         "C:\\dev\\muaman-13k-environment-b-independent-pub-cache-root"
+                     ],
+    "filesScanned":  13,
+    "findingCount":  0,
+    "findings":  [
+
+                 ],
+    "leakFree":  true
+}

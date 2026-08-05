@@ -1,0 +1,7 @@
+﻿pub-cache-a = C:\m13k\a\pub	len=13	exists=True	entries=0
+pub-cache-b = C:\dev\muaman-13k-environment-b-independent-pub-cache-root	len=58	exists=True	entries=0
+temp-a = C:\m13k\a\tmp	len=13	exists=True	entries=0
+temp-b-long = C:\dev\muaman-13k-environment-b-independent-temp-root	len=53	exists=True	entries=0
+temp-b-short = C:\t\m13k-b	len=11	exists=True	entries=0
+home-a = C:\m13k\a\home	len=14	exists=True	entries=0
+home-b = C:\dev\muaman-13k-environment-b-independent-home-root	len=53	exists=True	entries=0

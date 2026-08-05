@@ -1,0 +1,94 @@
+{
+  "acceptance": "MUAMAN-13K",
+  "subject": "Hardened fresh-process Windows release build determinism across independent source trees, SDK installations, pub caches, HOME roots, and TEMP lengths",
+  "committedBaseline": "e426710 (MUAMAN-13J)",
+  "capturedAtUtc": "2026-08-05T19:14:00.000Z",
+  "runs": {
+    "K1": {
+      "runDir": "04-k1-source-a-sdk-a-shorttemp",
+      "sourceTree": "A (C:\\m13k\\a\\src\\app)",
+      "sdkRoot": "A (C:\\m13i\\a\\sdk)",
+      "pubCache": "A (cold)",
+      "homeRoot": "A (C:\\m13k\\a\\home)",
+      "tempRoot": "C:\\m13k\\a\\tmp (short, len=13)",
+      "freshPid": 6928,
+      "outerDurationSeconds": 165.4,
+      "analysisElapsedSeconds": 101.2,
+      "cleanExitCode": 0,
+      "pubGetExitCode": 0,
+      "buildExitCode": 0,
+      "fileTrackerCrash": false,
+      "compilerIdSuccess": true,
+      "configureSuccess": true,
+      "releaseBuildSuccess": true,
+      "rspCaptureCount": 12,
+      "buildLogBytes": 51040
+    },
+    "K2": {
+      "runDir": "05-k2-source-b-sdk-b-longtemp",
+      "sourceTree": "B (C:\\dev\\muaman-13k-environment-b-independent-source-extraction-root\\app)",
+      "sdkRoot": "B (C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk)",
+      "pubCache": "B (cold)",
+      "homeRoot": "B (C:\\dev\\muaman-13k-environment-b-independent-home-root)",
+      "tempRoot": "C:\\dev\\muaman-13k-environment-b-independent-temp-root (long, len=53)",
+      "freshPid": 11424,
+      "outerDurationSeconds": 162.5,
+      "analysisElapsedSeconds": 107.6,
+      "cleanExitCode": 0,
+      "pubGetExitCode": 0,
+      "buildExitCode": 0,
+      "fileTrackerCrash": false,
+      "compilerIdSuccess": true,
+      "configureSuccess": true,
+      "releaseBuildSuccess": true,
+      "rspCaptureCount": 12,
+      "buildLogBytes": 61334
+    },
+    "K3": {
+      "runDir": "06-k3-source-b-sdk-b-shorttemp",
+      "sourceTree": "B (C:\\dev\\muaman-13k-environment-b-independent-source-extraction-root\\app)",
+      "sdkRoot": "B (C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk)",
+      "pubCache": "B (cold)",
+      "homeRoot": "B (C:\\dev\\muaman-13k-environment-b-independent-home-root)",
+      "tempRoot": "C:\\t\\m13k-b (short, len=11)",
+      "freshPid": 15120,
+      "outerDurationSeconds": 169.8,
+      "analysisElapsedSeconds": 107.6,
+      "cleanExitCode": 0,
+      "pubGetExitCode": 0,
+      "buildExitCode": 0,
+      "fileTrackerCrash": false,
+      "compilerIdSuccess": true,
+      "configureSuccess": true,
+      "releaseBuildSuccess": true,
+      "rspCaptureCount": 12,
+      "buildLogBytes": 61334
+    }
+  },
+  "payload": {
+    "fileCountPerRun": 13,
+    "totalBytesPerRun": 33273462,
+    "crossHash": "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9",
+    "allPairsFileDiffs": {
+      "K1-vs-K2": 0,
+      "K2-vs-K3": 0,
+      "K1-vs-K3": 0
+    }
+  },
+  "leakScan": {
+    "filesScanned": 13,
+    "findingCount": 0,
+    "leakFree": true
+  },
+  "negativeControl": {
+    "k4Pass": true,
+    "emptyStaticDetected": true,
+    "wrapperRefusedBuild": true,
+    "recoveryPositivePreflight": true
+  },
+  "guardTests": {
+    "allPass": true,
+    "verdictsFile": "guard-results.json"
+  },
+  "outcome": "PASS"
+}

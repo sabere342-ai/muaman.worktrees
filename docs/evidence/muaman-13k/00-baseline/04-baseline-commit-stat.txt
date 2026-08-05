@@ -1,0 +1,107 @@
+﻿e426710 MUAMAN-13J: prove and eliminate MSBuild FileTracker empty-path crash (outcome B)
+ ...N-13J-ELIMINATE-FILETRACKER-EMPTY-PATH-CRASH.md |  454 ++++++
+ .../01-reproduction-r1-b-long/00-pre.json          |   24 +
+ .../01-reproduction-r1-b-long/01-clean.log         |    9 +
+ .../01-reproduction-r1-b-long/02-pubget.log        | 1464 ++++++++++++++++++++
+ .../01-reproduction-r1-b-long/03-build.log         |  564 ++++++++
+ .../01-reproduction-r1-b-long/05-analysis.json     |  120 ++
+ .../06-watcher-stderr.log                          |    0
+ ...659398Z_tmpd8e7d41be290434f9c9f393ba6b77bca.rsp |  Bin 0 -> 456 bytes
+ ...162837Z_tmp7eeb19d9a3c443b9a1e1482d781f7c7a.rsp |  Bin 0 -> 836 bytes
+ ...867103Z_tmpb6b71a6e653a4492ae351d6616c878b6.rsp |  Bin 0 -> 790 bytes
+ ...134307Z_tmpc059c77f77eb46e593854aa9bbdb9850.rsp |  Bin 0 -> 1688 bytes
+ ...691345Z_tmp0929a0c505a84e7fba83c584ae96e787.rsp |  Bin 0 -> 2654 bytes
+ ...042846Z_tmp5fc8576c8d5c49ec94fbd308a6eda6bd.rsp |  Bin 0 -> 786 bytes
+ ...539714Z_tmpd623de8db471435e9cb396232f05b65d.rsp |  Bin 0 -> 2380 bytes
+ ...226956Z_tmp6d0a4fa6f4bc4044acbfb3ec57334542.rsp |  Bin 0 -> 692 bytes
+ ...169507Z_tmp37c1a9c2cb054f7484e7b4933136c9a1.rsp |  Bin 0 -> 2856 bytes
+ ...437469Z_tmpbd48c6a25ff14c77829e602a70bf1e56.rsp |  Bin 0 -> 2108 bytes
+ ...587502Z_tmpb004c504eb374ff3b0f6655af52fa269.rsp |  Bin 0 -> 3146 bytes
+ ...798410Z_tmpe1323d764beb447b969ef92609445047.rsp |  Bin 0 -> 2536 bytes
+ .../rsp-capture/capture.jsonl                      |   12 +
+ .../rsp-capture/watcher.started                    |    1 +
+ .../01-reproduction-r1-b-long/watcher.stop         |    1 +
+ .../02-reproduction-r2-b-short/00-pre.json         |   24 +
+ .../02-reproduction-r2-b-short/01-clean.log        |    9 +
+ .../02-reproduction-r2-b-short/02-pubget.log       | 1464 ++++++++++++++++++++
+ .../02-reproduction-r2-b-short/03-build.log        |  563 ++++++++
+ .../02-reproduction-r2-b-short/05-analysis.json    |  120 ++
+ .../06-watcher-stderr.log                          |    0
+ ...984110Z_tmp5ea5da654d5c4665a26819c1242537e4.rsp |  Bin 0 -> 456 bytes
+ ...489594Z_tmpe7bb5bcdf22d45b58029b2d745dff427.rsp |  Bin 0 -> 836 bytes
+ ...796053Z_tmp7d3d38c1b3ee414693bb4d79d50e60d6.rsp |  Bin 0 -> 790 bytes
+ ...067975Z_tmpef121b1609da4701bc6e6c38b65fbb80.rsp |  Bin 0 -> 1688 bytes
+ ...170534Z_tmp31cf980e1cab4bdfb99743f1d172a3c1.rsp |  Bin 0 -> 2654 bytes
+ ...009010Z_tmpe4111653277a4d29829c8d742c887144.rsp |  Bin 0 -> 786 bytes
+ ...819759Z_tmp5cc6187e176049c99e3a9904056c6186.rsp |  Bin 0 -> 2380 bytes
+ ...770565Z_tmpaa64c4342ee7461d9e45ebbb61be0fcd.rsp |  Bin 0 -> 692 bytes
+ ...273597Z_tmp719849b5ea7744e19ab82201112d1207.rsp |  Bin 0 -> 2856 bytes
+ ...006344Z_tmp0c18fea5a3fe4e1cbd84337d1c74e3e7.rsp |  Bin 0 -> 2108 bytes
+ ...508312Z_tmp88bb466826cb4849a2dde12b082dc3f6.rsp |  Bin 0 -> 3146 bytes
+ ...703261Z_tmp044baae0d5794ed2bbb2cad4a3e1d918.rsp |  Bin 0 -> 2536 bytes
+ .../rsp-capture/capture.jsonl                      |   12 +
+ .../rsp-capture/watcher.started                    |    1 +
+ .../02-reproduction-r2-b-short/watcher.stop        |    1 +
+ .../03-reproduction-r3-a-short/00-pre.json         |   24 +
+ .../03-reproduction-r3-a-short/01-clean.log        |    9 +
+ .../03-reproduction-r3-a-short/02-pubget.log       | 1464 ++++++++++++++++++++
+ .../03-reproduction-r3-a-short/03-build.log        |  564 ++++++++
+ .../03-reproduction-r3-a-short/05-analysis.json    |  120 ++
+ .../06-watcher-stderr.log                          |    0
+ ...775097Z_tmpc0c883fa1306407d884e19e6eba374c8.rsp |  Bin 0 -> 456 bytes
+ ...351730Z_tmp2ef8b31473194bf8b8a99a48bdc811d6.rsp |  Bin 0 -> 836 bytes
+ ...130748Z_tmp0232fe854579435d8ba1df6f015b147d.rsp |  Bin 0 -> 790 bytes
+ ...582928Z_tmpeb387dadb4244ef9a188dfd0d1f9d012.rsp |  Bin 0 -> 1370 bytes
+ ...303895Z_tmp46ee2354821e485abb14eaa672ab4561.rsp |  Bin 0 -> 1782 bytes
+ ...008810Z_tmp1510e30f385f45d8b943f98f0d3ab547.rsp |  Bin 0 -> 680 bytes
+ ...434567Z_tmpa8430e3aa00f455fb0bd06aa94282f14.rsp |  Bin 0 -> 1618 bytes
+ ...277714Z_tmp82e0f94c3bac49d59871d1aa2bd49036.rsp |  Bin 0 -> 586 bytes
+ ...777869Z_tmp91a0d88c9b0a461797c20218e8f0bd48.rsp |  Bin 0 -> 1988 bytes
+ ...877984Z_tmpcde20320245d4278b45071663fce86ac.rsp |  Bin 0 -> 1680 bytes
+ ...688373Z_tmp3a2a5c475b334eb1a94138504331d86a.rsp |  Bin 0 -> 2050 bytes
+ ...459704Z_tmpbd47c3fb5bb34bb2973b5b78767971ee.rsp |  Bin 0 -> 1998 bytes
+ .../rsp-capture/capture.jsonl                      |   12 +
+ .../rsp-capture/watcher.started                    |    1 +
+ .../03-reproduction-r3-a-short/watcher.stop        |    1 +
+ .../muaman-13j/04-verify-r3a-r2b/manifest-A.json   |   67 +
+ .../muaman-13j/04-verify-r3a-r2b/manifest-B.json   |   67 +
+ .../04-verify-r3a-r2b/verify-result.json           |   24 +
+ docs/evidence/muaman-13j/05-lineage/README.md      |   54 +
+ .../06-hardened-h1-b-short/00-hardened-env.json    |   15 +
+ .../muaman-13j/06-hardened-h1-b-short/00-pre.json  |   24 +
+ .../muaman-13j/06-hardened-h1-b-short/01-clean.log |    9 +
+ .../06-hardened-h1-b-short/01-preflight.log        |  Bin 0 -> 2452 bytes
+ .../06-hardened-h1-b-short/02-pubget.log           | 1464 ++++++++++++++++++++
+ .../muaman-13j/06-hardened-h1-b-short/03-build.log |  563 ++++++++
+ .../06-hardened-h1-b-short/05-analysis.json        |  120 ++
+ .../06-hardened-h1-b-short/06-watcher-stderr.log   |    0
+ ...278283Z_tmp1aa2b6d1d39049baac98418073093486.rsp |  Bin 0 -> 456 bytes
+ ...798065Z_tmpc8d4df468dfb492f990385245fa96dd1.rsp |  Bin 0 -> 836 bytes
+ ...563524Z_tmp20b7b54b53b2420a8d5555c00105d17c.rsp |  Bin 0 -> 790 bytes
+ ...142443Z_tmpcac02295d1c54f60a97f730796b3dbe0.rsp |  Bin 0 -> 1688 bytes
+ ...471303Z_tmp760bff4aa18a4209816671d3e9473f9b.rsp |  Bin 0 -> 2654 bytes
+ ...023882Z_tmpe07170b4e0774c95a67456ff3a50b286.rsp |  Bin 0 -> 786 bytes
+ ...501972Z_tmp9792ea46c0bf49c39982529615a3effc.rsp |  Bin 0 -> 2380 bytes
+ ...900664Z_tmp0e946af32ac043bf9f4814cc4aec4a28.rsp |  Bin 0 -> 692 bytes
+ ...398395Z_tmpe89ddf3e608846ecae2912fd2b0a1a51.rsp |  Bin 0 -> 2856 bytes
+ ...035666Z_tmp5e4b52cd256a4465bf87a1c6cf27bb45.rsp |  Bin 0 -> 2108 bytes
+ ...767603Z_tmpd9739abc39e64dd183734e01ab888297.rsp |  Bin 0 -> 3146 bytes
+ ...693435Z_tmpcf76b3c94871409c8e36c0c81b5bb7ee.rsp |  Bin 0 -> 2536 bytes
+ .../rsp-capture/capture.jsonl                      |   12 +
+ .../rsp-capture/watcher.started                    |    1 +
+ .../muaman-13j/06-hardened-h1-b-short/watcher.stop |    1 +
+ .../muaman-13j/07-verify-r3a-h1b/manifest-A.json   |   67 +
+ .../muaman-13j/07-verify-r3a-h1b/manifest-B.json   |   67 +
+ .../07-verify-r3a-h1b/verify-result.json           |   24 +
+ .../muaman-13j/08-quality-gates/01-format.log      |    2 +
+ .../muaman-13j/08-quality-gates/02-analyze.log     |    2 +
+ .../muaman-13j/08-quality-gates/03-test.log        |  589 ++++++++
+ .../muaman-13j/08-quality-gates/SUMMARY.md         |   24 +
+ .../09-root-cause-probes/01-empty-static-probe.log |  Bin 0 -> 10280 bytes
+ .../02-getfolderpath-probe.log                     |  182 +++
+ .../09-root-cause-probes/03-probe13j-full.log      |  Bin 0 -> 12920 bytes
+ .../09-root-cause-probes/empty_static_probe.cs     |   69 +
+ .../09-root-cause-probes/getfolderpath_probe.cs    |   97 ++
+ tools/muaman13j/build_hardened.ps1                 |   98 ++
+ tools/muaman13j/check_filetracker_state.ps1        |   98 ++
+ 105 files changed, 10778 insertions(+)

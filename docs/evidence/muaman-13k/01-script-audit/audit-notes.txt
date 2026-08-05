@@ -1,0 +1,133 @@
+MUAMAN-13K script audit: committed MUAMAN-13J hardened build path
+=================================================================
+Audited files:
+  tools\muaman13j\build_hardened.ps1            (SHA256 7627DC43E6779FCE7F0713C58DBD06BF7D635CEFD4D3CFD6B450C1A0093A37A5)
+  tools\muaman13j\check_filetracker_state.ps1   (SHA256 88D4908532F2F6862B77A89FFFD3B86097C2646BE861117D0BB95B745B397CB7)
+Audit basis: full source read of both committed files at baseline e426710,
+as resolved in the controller worktree and in both independent source clones.
+
+1. build_hardened.ps1 - structural audit
+----------------------------------------
+[1.1] Parameters (lines 21-30): Mandatory ExperimentId, AppRoot, SdkRoot,
+      PubCache, TmpRoot, HomeRoot, EvidenceDir; optional MsBuildBinDir defaulting
+      to the VS 18 Build Tools amd64 MSBuild bin dir.
+      -> Independent roots are injected; nothing is hard-coded to the controller
+         worktree. OK.
+
+[1.2] EvidenceDir creation (lines 33-34) and required-root existence check for
+      AppRoot/SdkRoot/PubCache (lines 36-38). Any missing root aborts exit 1
+      BEFORE any build is attempted. OK.
+
+[1.3] Environment hardening (lines 44-63):
+      - creates TmpRoot, HomeRoot, <home>\appdata\roaming, <home>\appdata\local
+      - sets PUB_CACHE, TEMP, TMP, HOME, USERPROFILE, APPDATA, LOCALAPPDATA,
+        NUGET_PACKAGES (under local), CI, FLUTTER_SUPPRESS_ANALYTICS,
+        MSBUILDDISABLENODEREUSE=1
+      - PROGRAMDATA left at C:\ProgramData if unset
+      - PATH prefixed with <sdk>\bin
+      -> Every FileTracker-relevant producer (GetTempPath, ApplicationData,
+         LocalApplicationData, CommonApplicationData, UserProfile) is forced to
+         an existing, resolvable root. MSBUILDDISABLENODEREUSE=1 forces fresh
+         MSBuild node processes so no stale node with a different environment
+         block can be reused. OK.
+
+[1.4] Hardened-env evidence (lines 65-77): writes 00-hardened-env.json into the
+      evidence dir capturing TEMP/TMP/APPDATA/LOCALAPPDATA/USERPROFILE/HOME/
+      PROGRAMDATA/PUB_CACHE/MSBUILDDISABLENODEREUSE at hardening time. OK.
+
+[1.5] Preflight invocation (lines 79-88): spawns a FRESH powershell.exe process
+      (`& powershell.exe -NoProfile -ExecutionPolicy Bypass -File
+      check_filetracker_state.ps1 -MsBuildBinDir <dir> *> <evidence>\01-preflight.log`).
+      The preflight therefore runs in a process whose statics are fresh and can
+      only observe the hardened environment. If the preflight exits non-zero the
+      wrapper aborts (exit preflight code) WITHOUT invoking the 13I runner - the
+      negative-control property exercised by K4-B. OK.
+
+[1.6] Build delegation (lines 90-98): only after a passing preflight does the
+      wrapper delegate to tools\muaman13i\run_experiment.ps1 (13I isolated
+      runner) in a fresh powershell.exe process, inheriting the hardened env.
+      The wrapper's own exit code is the runner's exit code.
+      -> There is NO fallback path: if the runner fails, the wrapper exits
+         non-zero. There is no silent re-run on a non-hardened path. OK.
+
+[1.7] Observations (no changes made):
+      - The wrapper relies on check_filetracker_state.ps1 (same dir) and the
+        13I runner (..\muaman13i). Both are committed at the same baseline.
+      - The `*>` redirect to 01-preflight.log plus the wrapper's own
+        $ErrorActionPreference='Stop' means a Write-Error-terminated preflight
+        routes the diagnostic to the wrapper stderr rather than to the log;
+        K4-B therefore asserts the wrapper-level refusal via exit code + absent
+        build evidence + seam preflight log, and the committed empty-static path
+        (which exits 1 via Write-Output diagnostics) does populate the log.
+      - Default MsBuildBinDir points at the machine's VS18 Build Tools; this is
+        an environment dependency shared with the preflight default, and is
+        passed through consistently.
+
+2. check_filetracker_state.ps1 - structural audit
+--------------------------------------------------
+[2.1] Parameters (lines 16-19): optional MsBuildBinDir (same default) and
+      ProbeFile (defaults to the 13I source-B CompilerIdCXX probe that still
+      exists on this machine). OK.
+
+[2.2] DLL existence check (lines 22-26): aborts exit 1 with a clear message if
+      Microsoft.Build.Utilities.Core.dll is absent from MsBuildBinDir. OK.
+
+[2.3] Raw producers (lines 29-41): reads and prints GetTempPath, GetFolderPath
+      (ApplicationData, LocalApplicationData, CommonApplicationData,
+      UserProfile); any empty producer is added to $bad. OK.
+
+[2.4] FileTracker statics (lines 44-72): loads Microsoft.Build.Utilities.Core
+      (LoadFrom), resolves Microsoft.Build.Utilities.FileTracker, and reads the
+      seven exclusion-path statics: s_tempPath, s_tempShortPath, s_tempLongPath,
+      s_applicationDataPath, s_localApplicationDataPath,
+      s_localLowApplicationDataPath, s_commonApplicationDataPaths.
+      - Missing field, empty string, or empty list entry is added to $bad with a
+        per-field diagnostic line. This is exactly the state that provokes the
+        proven FileTracker FileIsUnderNormalizedPath IndexOutOfRangeException.
+      OK.
+
+[2.5] Optional live probe (lines 74-88): when ProbeFile exists, invokes the
+      real static method FileIsExcludedFromDependencies on the probe file and
+      records "no exception" or the thrown exception type/message. This directly
+      reproduces the tracked-input post-step call under the hardened statics.
+      OK.
+
+[2.6] Result (lines 90-98): any $bad entry yields "PREFLIGHT: FAILED" plus each
+      failure line and exit 1; otherwise "PREFLIGHT: OK ..." and exit 0.
+      OK.
+
+[2.7] K4 harness compatibility: the harness and the K4-B seam inject an empty
+      static in-process before running this script, and the script's own
+      validation logic detects the injected field and exits 1 (verified by
+      K4-A and K4-B). This confirms the preflight is a faithful, self-contained
+      guard that is not weakened or bypassed by the 13K test seams.
+
+3. Acceptance-relevant guard summary
+------------------------------------
+  G1 no production-source change          -> wrapper/preflight/runner are the
+                                            committed 13I/13J tools; no lib or
+                                            pubspec touched by them.
+  G2 committed scripts unchanged          -> hashes above (13J baseline).
+  G3 SDK unmodified                       -> visual_studio.dart patch hash
+                                            identical in both SDKs; no write to
+                                            SDK by the wrapper.
+  G4 no artifact copying                  -> evidence dir contains only logs,
+                                            JSON, manifests; Release payload is
+                                            left in <app>\build\windows\x64\
+                                            runner\Release per run.
+  G5 no PE/post-processing binaries       -> only the committed PowerShell +
+                                            Dart tools run; no binary munging.
+  G6 no single reused PowerShell process  -> controller -> runner -> wrapper ->
+                                            preflight -> 13I runner each spawn a
+                                            fresh powershell.exe.
+  G7 no silent fallback                   -> preflight failure aborts build
+                                            (K4-B); no non-hardened fallback.
+  G8 no stale-output success              -> each run uses a clean source clone
+                                            (no build/.dart_tool) + fresh
+                                            hardened env; artifacts validated as
+                                            newly written (guard_tests G8).
+  G9 deterministic payload                -> 13 files / 33,273,462 bytes
+                                            expected per run; byte-for-byte
+                                            cross-run equality required.
+
+No changes were made to either committed script by MUAMAN-13K.

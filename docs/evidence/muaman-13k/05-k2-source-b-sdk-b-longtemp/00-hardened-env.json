@@ -1,0 +1,15 @@
+﻿{
+    "experimentId":  "K2",
+    "capturedAtUtc":  "2026-08-05T19:00:33.437Z",
+    "hardening":  {
+                      "temp":  "C:\\dev\\muaman-13k-environment-b-independent-temp-root",
+                      "tmp":  "C:\\dev\\muaman-13k-environment-b-independent-temp-root",
+                      "appdata":  "C:\\dev\\muaman-13k-environment-b-independent-home-root\\appdata\\roaming",
+                      "localappdata":  "C:\\dev\\muaman-13k-environment-b-independent-home-root\\appdata\\local",
+                      "userprofile":  "C:\\dev\\muaman-13k-environment-b-independent-home-root",
+                      "home":  "C:\\dev\\muaman-13k-environment-b-independent-home-root",
+                      "programdata":  "C:\\ProgramData",
+                      "pubCache":  "C:\\dev\\muaman-13k-environment-b-independent-pub-cache-root",
+                      "msbuildDisableNodeReuse":  "1"
+                  }
+}

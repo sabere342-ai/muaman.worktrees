@@ -1,0 +1,15 @@
+﻿{
+    "experimentId":  "K4B",
+    "capturedAtUtc":  "2026-08-05T18:53:04.778Z",
+    "hardening":  {
+                      "temp":  "C:\\dev\\muaman.worktrees\\muaman-13j-eliminate-filetracker-empty-path-crash\\docs\\evidence\\muaman-13k\\07-k4-negative-preflight-control\\b-scratch\\tmp",
+                      "tmp":  "C:\\dev\\muaman.worktrees\\muaman-13j-eliminate-filetracker-empty-path-crash\\docs\\evidence\\muaman-13k\\07-k4-negative-preflight-control\\b-scratch\\tmp",
+                      "appdata":  "C:\\dev\\muaman.worktrees\\muaman-13j-eliminate-filetracker-empty-path-crash\\docs\\evidence\\muaman-13k\\07-k4-negative-preflight-control\\b-scratch\\home\\appdata\\roaming",
+                      "localappdata":  "C:\\dev\\muaman.worktrees\\muaman-13j-eliminate-filetracker-empty-path-crash\\docs\\evidence\\muaman-13k\\07-k4-negative-preflight-control\\b-scratch\\home\\appdata\\local",
+                      "userprofile":  "C:\\dev\\muaman.worktrees\\muaman-13j-eliminate-filetracker-empty-path-crash\\docs\\evidence\\muaman-13k\\07-k4-negative-preflight-control\\b-scratch\\home",
+                      "home":  "C:\\dev\\muaman.worktrees\\muaman-13j-eliminate-filetracker-empty-path-crash\\docs\\evidence\\muaman-13k\\07-k4-negative-preflight-control\\b-scratch\\home",
+                      "programdata":  "C:\\ProgramData",
+                      "pubCache":  "C:\\dev\\muaman.worktrees\\muaman-13j-eliminate-filetracker-empty-path-crash\\docs\\evidence\\muaman-13k\\07-k4-negative-preflight-control\\b-scratch\\pub",
+                      "msbuildDisableNodeReuse":  "1"
+                  }
+}

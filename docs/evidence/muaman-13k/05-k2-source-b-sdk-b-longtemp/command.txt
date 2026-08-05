@@ -1,0 +1,13 @@
+﻿{
+    "runId":  "K2",
+    "capturedAtUtc":  "2026-08-05T19:00:31.688Z",
+    "commandLine":  "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:\\dev\\muaman.worktrees\\muaman-13j-eliminate-filetracker-empty-path-crash\\docs\\evidence\\muaman-13k\\05-k2-source-b-sdk-b-longtemp\\runner.ps1\"",
+    "wrapperSha256":  "1FD42351E5FC0D06ABC61CCA0BD6E111CD18626C42FF7337AAF345FED40F5761",
+    "preflightSha256":  "4772BBFDF77363205E2D8FB1F614A9A968776E34DB9BE2DE7F2F64EE7570028D",
+    "appRoot":  "C:\\dev\\muaman-13k-environment-b-independent-source-extraction-root\\app",
+    "sdkRoot":  "C:\\dev\\muaman-13i-environment-b-independent-flutter-sdk-installation-root\\sdk",
+    "pubCache":  "C:\\dev\\muaman-13k-environment-b-independent-pub-cache-root",
+    "tmpRoot":  "C:\\dev\\muaman-13k-environment-b-independent-temp-root",
+    "homeRoot":  "C:\\dev\\muaman-13k-environment-b-independent-home-root",
+    "msBuildBinDir":  "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Current\\Bin\\amd64"
+}

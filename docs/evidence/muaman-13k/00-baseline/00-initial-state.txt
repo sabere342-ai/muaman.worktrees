@@ -1,0 +1,2 @@
+﻿ git status --short; "---"; git branch --show-current; "---"; git rev-parse HEAD; "---"; git log -1 --oneline; "---";
+git rev-list --count e426710..HEAD; "---"; git diff --stat; "---"; git diff --name-only

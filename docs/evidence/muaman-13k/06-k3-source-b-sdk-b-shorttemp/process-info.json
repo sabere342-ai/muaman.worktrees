@@ -1,0 +1,9 @@
+﻿{
+    "runId":  "K3",
+    "pid":  15120,
+    "parentPid":  27772,
+    "psVersion":  "5.1.26100.6584",
+    "psExePath":  "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "commandLine":  "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\dev\\muaman.worktrees\\muaman-13j-eliminate-filetracker-empty-path-crash\\docs\\evidence\\muaman-13k\\06-k3-source-b-sdk-b-shorttemp\\runner.ps1 ",
+    "startUtc":  "2026-08-05T19:05:57.473Z"
+}

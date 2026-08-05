@@ -1,0 +1,25 @@
+﻿{
+    "label":  "K1-vs-K2",
+    "capturedAtUtc":  "2026-08-05T19:04:20.449Z",
+    "releaseA":  "C:\\m13k\\a\\src\\app\\build\\windows\\x64\\runner\\Release",
+    "releaseB":  "C:\\dev\\muaman-13k-environment-b-independent-source-extraction-root\\app\\build\\windows\\x64\\runner\\Release",
+    "fileCountA":  13,
+    "fileCountB":  13,
+    "totalBytesA":  33273462,
+    "totalBytesB":  33273462,
+    "identical":  true,
+    "diffCount":  0,
+    "diffs":  [
+
+              ],
+    "onlyInACount":  0,
+    "onlyInA":  [
+
+                ],
+    "onlyInBCount":  0,
+    "onlyInB":  [
+
+                ],
+    "crossHashA":  "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9",
+    "crossHashB":  "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9"
+}

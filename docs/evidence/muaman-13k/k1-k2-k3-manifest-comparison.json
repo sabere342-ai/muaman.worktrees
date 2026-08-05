@@ -1,0 +1,21 @@
+﻿{
+    "capturedAtUtc":  "2026-08-05T19:11:50.644Z",
+    "crossHash":  "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9",
+    "pairs":  {
+                  "K1-vs-K2":  {
+                                   "fileDiffs":  0,
+                                   "onlyInA":  0,
+                                   "onlyInB":  0
+                               },
+                  "K2-vs-K3":  {
+                                   "fileDiffs":  0,
+                                   "onlyInA":  0,
+                                   "onlyInB":  0
+                               },
+                  "K1-vs-K3":  {
+                                   "fileDiffs":  0,
+                                   "onlyInA":  0,
+                                   "onlyInB":  0
+                               }
+              }
+}

@@ -1,0 +1,2 @@
+﻿e426710f152a04c18eb43541f2385b30e5ff06f0
+MUAMAN-13J: prove and eliminate MSBuild FileTracker empty-path crash (outcome B)

@@ -1,0 +1,4 @@
+﻿source A .git\objects\info\alternates exists: False
+source B .git\objects\info\alternates exists: False
+origin A: C:\dev\muaman
+origin B: C:\dev\muaman

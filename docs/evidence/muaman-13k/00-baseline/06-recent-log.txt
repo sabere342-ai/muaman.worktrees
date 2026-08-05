@@ -1,0 +1,5 @@
+﻿e426710 MUAMAN-13J: prove and eliminate MSBuild FileTracker empty-path crash (outcome B)
+4849351 MUAMAN-13I: verify isolated dual-SDK VS2026 reproducibility
+303dbb0 MUAMAN-13H: verify isolated-cache Windows reproducibility
+e90643e MUAMAN-13G: verify source-archive Windows reproducibility
+7890ba6 MUAMAN-13F: verify fresh-clone Windows reproducibility

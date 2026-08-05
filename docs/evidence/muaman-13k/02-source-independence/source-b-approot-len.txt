@@ -1,0 +1,1 @@
+﻿app root: C:\dev\muaman-13k-environment-b-independent-source-extraction-root\app  len=70
