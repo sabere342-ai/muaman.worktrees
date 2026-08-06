@@ -1,0 +1,11 @@
+﻿MUAMAN-13O BASELINE PREFLIGHT
+==============================
+capturedAtUtc        = 2026-08-06T16:11:08.210Z
+repoRoot             = C:/dev/muaman
+initialBranch        = codex/muaman-13o-deterministic-windows-installer-local-acceptance
+initialHead          = bacac28e63148063f47dae73c808bfb53b6394da
+expectedHead         = bacac28e63148063f47dae73c808bfb53b6394da
+headMatchesExpected  = True
+baselineExists       = True
+worktreeClean        = False
+diffCheckClean       = True

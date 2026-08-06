@@ -1,0 +1,22 @@
+﻿{
+    "schemaVersion":  "1.0",
+    "capturedAtUtc":  "2026-08-06T16:10:54.898Z",
+    "os":  {
+               "caption":  "Microsoft Windows 11 Pro",
+               "version":  "10.0.26200",
+               "osArchitecture":  "64-bit",
+               "buildNumber":  "26200"
+           },
+    "machine":  {
+                    "manufacturer":  "Dell Inc.",
+                    "model":  "Latitude 5520",
+                    "architecture":  "x64-based PC"
+                },
+    "userName":  "saber",
+    "path":  "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin;C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin;C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path;C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath;C:\\Python314\\Scripts\\;C:\\Python314\\;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\nodejs\\;C:\\Program Files\\Rust stable MSVC 1.95\\bin;C:\\Program Files\\dotnet\\;C:\\Program Files\\CMake\\bin;C:\\Program Files\\Docker\\Docker\\resources\\bin;C:\\Program Files\\Git\\cmd;C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin;C:\\Program Files\\Microsoft\\jdk-17.0.19.10-hotspot\\bin;C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path;C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath;C:\\Python314\\Scripts\\;C:\\Python314\\;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\Program Files\\Git\\cmd;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\nodejs\\;C:\\Program Files\\Rust stable MSVC 1.95\\bin;C:\\Program Files\\dotnet\\;C:\\Program Files\\CMake\\bin;C:\\Program Files\\Docker\\Docker\\resources\\bin;C:\\Program Files\\PostgreSQL\\18\\bin;C:\\src\\flutter\\bin;C:\\Users\\saber\\AppData\\Roaming\\npm;C:\\Users\\saber\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\saber\\AppData\\Local\\Microsoft\\WinGet\\Links;",
+    "flutterRoot":  null,
+    "pubCache":  null,
+    "dartSdk":  null,
+    "workingDirectory":  "C:\\dev\\muaman",
+    "repoRoot":  "C:\\dev\\muaman"
+}

@@ -1,0 +1,23 @@
+{
+    "failureReason":  null,
+    "buildA":  {
+                   "path":  "C:\\mu13o-acceptance\\run1\\out\\build-a\\muaman-windows-installer.exe",
+                   "sha256":  "05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB",
+                   "sizeBytes":  12528766
+               },
+    "passed":  true,
+    "schemaVersion":  "1.0",
+    "run":  {
+                "startedAtUtc":  "2026-08-06T16:30:10.872Z",
+                "finishedAtUtc":  "2026-08-06T16:30:21.769Z",
+                "exitCode":  0
+            },
+    "mode":  "Compare",
+    "phase":  "MUAMAN-13O",
+    "buildB":  {
+                   "path":  "C:\\mu13o-acceptance\\run1\\out\\build-b\\muaman-windows-installer.exe",
+                   "sha256":  "05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB",
+                   "sizeBytes":  12528766
+               },
+    "byteIdentical":  true
+}

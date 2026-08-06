@@ -1,0 +1,21 @@
+﻿{
+    "schemaVersion":  "1.0",
+    "capturedAtUtc":  "2026-08-06T16:13:48.479Z",
+    "installerTechnology":  "Inno Setup 6",
+    "compilerPath":  "C:\\m13o\\toolchain\\inno-6.7.3\\ISCC.exe",
+    "compilerSizeBytes":  1456272,
+    "compilerSha256":  "0A8757031B33777E4C9CBFFEE40F11A5062B36D25CBE144C1DB73B6102B80AD7",
+    "fileVersion":  "0.0.0.0",
+    "productVersion":  "0.0.0.0",
+    "fileDescription":  "Inno Setup Command-Line Compiler",
+    "productName":  "Inno Setup",
+    "companyName":  "Jordan Russell",
+    "legalCopyright":  "Copyright (C) 1997-2026 Jordan Russell. Portions Copyright (C) 2000-2026 Martijn Laan.",
+    "originalFilename":  "",
+    "machineArchitecture":  "x86 (Inno Setup 6 compiler is 32-bit, builds both 32/64-bit installers)",
+    "authenticodeStatus":  0,
+    "signerSubject":  "CN=Pyrsys B.V., O=Pyrsys B.V., S=Noord-Holland, C=NL",
+    "discoveryMethod":  "official jrsoftware.org immutable GitHub release is-6_7_3, SHA-256 verified against official signed .issig file, Authenticode verified (Pyrsys B.V.), installed per-user (no elevation) into C:\\m13o\\toolchain\\inno-6.7.3",
+    "installerSha256":  "9C73C3BAE7ED48D44112A0F48E66742C00090BDB5BEF71D9D3C056C66E97B732",
+    "installerSizeBytes":  10592232
+}

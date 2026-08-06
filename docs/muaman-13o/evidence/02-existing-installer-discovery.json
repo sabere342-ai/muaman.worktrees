@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0",
+  "capturedAtUtc": "2026-08-06T16:11:00.000Z",
+  "repositoryRoot": "C:/dev/muaman",
+  "existingInstallerInfrastructure": "NONE",
+  "searchedLocations": [
+    "installer/ (repo root)",
+    "tools/release/",
+    "windows/",
+    "docs/",
+    "CI scripts (.github, .gitlab, azure-pipelines)"
+  ],
+  "existingInstallerFiles": {
+    "iss": [],
+    "wxs": [],
+    "nsi": [],
+    "nsh": [],
+    "msi": [],
+    "wixproj": [],
+    "wapproj": [],
+    "appxmanifest": []
+  },
+  "findings": [
+    "No installer/ directory exists in the repository.",
+    "No .iss / .wxs / .nsi / .nsh / .msi / .wixproj / .wapproj / .appxmanifest files exist anywhere in the repository tree.",
+    "No CI configuration directories (.github/.gitlab/azure-pipelines) exist.",
+    "No MSIX or WiX configuration was found.",
+    "The only packaging entrypoint is tools/release/package_windows_release.ps1 (ZIP packaging, not an installer).",
+    "No NSIS, Inno Setup, or WiX scripts were found."
+  ],
+  "decision": "No existing official installer exists; MUAMAN-13O introduces the installer path from scratch using Inno Setup 6 as the phase-default installer technology per the governing prompt.",
+  "releaseToolingPresent": [
+    "tools/release/build_windows_release.ps1",
+    "tools/release/verify_release.ps1",
+    "tools/release/package_windows_release.ps1",
+    "tools/release/guard_tests_13l.ps1"
+  ],
+  "historicalGuardHarnessesPresent": [
+    "tools/muaman13k/guard_tests.ps1",
+    "tools/muaman13m/guard_tests_13m.ps1",
+    "tools/muaman13n/verify_consumer_launch.ps1"
+  ]
+}
