@@ -1,0 +1,44 @@
+{
+  "phase": "MUAMAN-13P",
+  "branchName": "codex/muaman-13p-independent-fresh-user-install-first-launch-acceptance",
+  "baselineCommit": "ee8ca497fef1ef9b4d31f47422a3a52fdc83e91e",
+  "allowedChangedPrefixes": ["tools/muaman13p/", "docs/muaman-13p/"],
+  "accountName": "CodexMuaman13P",
+  "installer": {
+    "filename": "muaman-windows-installer.exe",
+    "sha256": "05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB",
+    "sizeBytes": 12528766
+  },
+  "application": {
+    "appDirName": "muaman_store",
+    "mainExecutable": "muaman_store.exe",
+    "exeSizeBytes": 90624,
+    "exeSha256": "194B46007E82D06936355C8C76B1E7DB93F97DF6691596097819E83A608BD6A9",
+    "flutterWindowsDllSha256": "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E",
+    "appId": "299ADF2A-0E9E-4A25-916C-1CB8328D0E5E",
+    "payloadFileCount": 13,
+    "payloadTotalBytes": 33273462,
+    "payloadCrossHash": "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9"
+  },
+  "data": {
+    "ffiDbRelDir": ".dart_tool/sqflite_common_ffi/databases",
+    "dbFileName": "muaman_store.db"
+  },
+  "shortcut": {
+    "startMenuName": "muaman_store.lnk",
+    "startMenuDir": "Microsoft\\Windows\\Start Menu\\Programs",
+    "machineStartMenuDir": "ProgramData\\Microsoft\\Windows\\Start Menu\\Programs"
+  },
+  "referenceFiles": {
+    "manifest13k": "docs/evidence/muaman-13k/04-k1-source-a-sdk-a-shorttemp/release-manifest.json",
+    "contract13n": "docs/muaman-13o/evidence/03-muaman13n-release-contract.json"
+  },
+  "restrictedPath": "%SystemRoot%\\System32;%SystemRoot%",
+  "uiStrings": "tools/muaman13p/ui_strings.json",
+  "launchTimeoutsSec": {
+    "windowFirst": 180,
+    "windowSubsequent": 60,
+    "screenTransition": 60,
+    "close": 30
+  }
+}

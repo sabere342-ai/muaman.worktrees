@@ -1,0 +1,26 @@
+{
+    "runId":  "20260808-225059",
+    "startedAtUtc":  "2026-08-08T19:50:59.755Z",
+    "phase":  "MUAMAN-13P",
+    "worktreePath":  "C:\\dev\\muaman.worktrees\\muaman-13p-independent-fresh-user-install-first-launch-acceptance",
+    "mainRepoPath":  "C:\\dev\\muaman",
+    "accountName":  "CodexMuaman13P",
+    "domain":  "ISLAM",
+    "installerSource":  "C:\\mu13o-acceptance\\run1\\consumer\\inbound\\muaman-windows-installer.exe",
+    "acceptanceRoot":  "C:\\mu13o-acceptance\\m13p",
+    "gitHead":  "ee8ca497fef1ef9b4d31f47422a3a52fdc83e91e",
+    "gitClean":  true,
+    "accountSid":  "S-1-5-21-2052787611-3211508837-1074070108-1027",
+    "accountGroups":  [
+
+                      ],
+    "installerSha256":  "05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB",
+    "installerSize":  12528766,
+    "workerExitCode":  1,
+    "workerTimedOut":  false,
+    "workerPid":  23048,
+    "workerAllStepsPassed":  true,
+    "workerFailedSteps":  [
+
+                          ]
+}

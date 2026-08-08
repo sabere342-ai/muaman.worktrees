@@ -1,0 +1,40 @@
+{
+    "localAppDataDelta":  {
+                              "added":  {
+
+                                        },
+                              "removed":  {
+
+                                          },
+                              "changed":  {
+
+                                          },
+                              "unchangedCount":  65
+                          },
+    "appDataDelta":  {
+                         "added":  {
+
+                                   },
+                         "removed":  {
+
+                                     },
+                         "changed":  {
+
+                                     },
+                         "unchangedCount":  30
+                     },
+    "machineWide":  {
+                        "hklmUninstallHits":  [
+
+                                              ],
+                        "hklmSoftwareMuaman":  [
+
+                                               ],
+                        "programDataMuamanHits":  [
+
+                                                  ]
+                    },
+    "dbWithinUserProfile":  true,
+    "userProfile":  "C:\\Users\\CodexMuaman13P.Islam",
+    "userProfileDirCreatedAtUtc":  "2026-08-08T12:30:57.847Z"
+}

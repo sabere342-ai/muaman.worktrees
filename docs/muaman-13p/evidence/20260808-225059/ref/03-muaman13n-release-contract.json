@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0",
+  "source": "docs/muaman-13n/MUAMAN-13N-FINAL-REPORT.md",
+  "capturedAtUtc": "2026-08-06T16:11:30.000Z",
+  "package": {
+    "filename": "muaman-windows-release.zip",
+    "sha256": "57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008",
+    "sizeBytes": 14485278,
+    "entryCount": 13,
+    "entryTimestamp": "2024-01-01T00:00:00",
+    "archiveFormat": "ZIP (deterministic, ordinal entry order, forward slashes)"
+  },
+  "release": {
+    "fileCount": 13,
+    "totalBytes": 33273462,
+    "crossHash": "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9"
+  },
+  "application": {
+    "mainExecutable": "muaman_store.exe",
+    "executableSize": 90624,
+    "executableSha256": "194B46007E82D06936355C8C76B1E7DB93F97DF6691596097819E83A608BD6A9",
+    "flutterWindowsDll": "flutter_windows.dll",
+    "flutterWindowsDllSize": 18181632,
+    "runtimeDlls": ["flutter_windows.dll", "pdfium.dll", "printing_plugin.dll"]
+  },
+  "legalManifest": "docs/evidence/muaman-13k/04-k1-source-a-sdk-a-shorttemp/release-manifest.json",
+  "consumerRunRootUsedBy13N": "C:\\mu13n-consumer\\20260806",
+  "productionDiffBaseline13N": "empty",
+  "priorGuards": {
+    "N1..N12": "PASS run1 and run2; negative control REJECTED as expected",
+    "L1..L8": "allPass=true",
+    "M1..M7": "pass=true",
+    "M8": "EXPECTED_PHASE_BOUND_FAILURE (branch/baseline phase expectations)"
+  },
+  "testBaseline": { "analyze": "PASS (No issues found)", "testCount": 380 }
+}

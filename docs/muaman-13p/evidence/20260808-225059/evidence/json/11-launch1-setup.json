@@ -1,0 +1,42 @@
+{
+    "screenshot":  "C:\\mu13o-acceptance\\m13p\\run\\20260808-225059\\evidence\\shots\\11-launch1-setup-initial.png",
+    "captureNote":  "own-capture sd=59.08",
+    "ocrDumpFile":  "11-launch1-setup-initial.txt",
+    "wordCount":  22,
+    "setupTitleFound":  true,
+    "fieldsFound":  true,
+    "fields":  {
+                   "name":  {
+                                "label":  "الاسم",
+                                "matchedRow":  "ي الاسم",
+                                "x":  1320,
+                                "y":  377,
+                                "w":  82,
+                                "h":  24
+                            },
+                   "user":  {
+                                "label":  "اسم المستخدم",
+                                "matchedRow":  "اسم المستخدم",
+                                "x":  1243,
+                                "y":  454,
+                                "w":  161,
+                                "h":  27
+                            },
+                   "pass":  {
+                                "label":  "كلمة المرور",
+                                "matchedRow":  "ق المرور كلمة",
+                                "x":  1272,
+                                "y":  533,
+                                "w":  129,
+                                "h":  26
+                            },
+                   "confirm":  {
+                                   "label":  "تأكيد كلمة المرور",
+                                   "matchedRow":  "ق تأكيد المرور كلمة",
+                                   "x":  1225,
+                                   "y":  613,
+                                   "w":  177,
+                                   "h":  27
+                               }
+               }
+}

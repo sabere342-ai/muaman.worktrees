@@ -1,0 +1,18 @@
+{
+    "loginTitleFound":  true,
+    "loginButtonFound":  true,
+    "methods":  {
+                    "اسم المستخدم":  "RowTarget+FocusVerify try=1 x=1183 y=499 band-verified probe=13p",
+                    "كلمة المرور":  "RowTarget+FocusVerify try=1 x=1212 y=576 masked-verified",
+                    "تسجيل الدخول":  "ClickAt+TypeText(تسجيل) try=1"
+                },
+    "button":  {
+                   "clicked":  true,
+                   "try":  1,
+                   "screenX":  811,
+                   "screenY":  670,
+                   "word":  "تسجيل"
+               },
+    "ocrDumpFile":  "13-launch1-login.txt",
+    "screenshot":  "C:\\mu13o-acceptance\\m13p\\run\\20260808-225059\\evidence\\shots\\13-launch1-login.png"
+}
