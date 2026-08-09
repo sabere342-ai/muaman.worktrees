@@ -1,0 +1,50 @@
+﻿2026-08-09 15:10:49.188   Log opened. (Time zone: UTC+03:00)
+2026-08-09 15:10:49.188   Setup version: Inno Setup version 6.7.3
+2026-08-09 15:10:49.188   Original Uninstall EXE: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\unins000.exe
+2026-08-09 15:10:49.188   Uninstall DAT: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\unins000.dat
+2026-08-09 15:10:49.188   Current Uninstall EXE: C:\Users\CODEXM~1\AppData\Local\Temp\is-KX8CBM5JT0-uninstall.tmp\_unins.tmp
+2026-08-09 15:10:49.188   Uninstall command line: /SECONDPHASE="C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\unins000.exe" /FIRSTPHASEWND=$9210758 /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="C:\mu13o-acceptance\m13q\run\20260809-150945\evidence\logs\uninstall.log"
+2026-08-09 15:10:49.188   Windows version: 10.0.26200
+2026-08-09 15:10:49.188   Windows architecture: x64 (64-bit)
+2026-08-09 15:10:49.188   Machine types supported by system: x86 x64
+2026-08-09 15:10:49.188   User privileges: None
+2026-08-09 15:10:49.188   Administrative install mode: No
+2026-08-09 15:10:49.188   Install mode root key: HKEY_CURRENT_USER
+2026-08-09 15:10:49.188   RedirectionGuard status for current process: Enabled in enforcing mode
+2026-08-09 15:10:49.188   Cleaning up any residual temporary files from previous Uninstall runs.
+2026-08-09 15:10:49.188   Deleted file: C:\Users\CODEXM~1\AppData\Local\Temp\is-3STPDYDSSB-uninstall.tmp\_unins.tmp
+2026-08-09 15:10:49.190   Cleanup finished (2 directories found, 2 directories checked, 1 files deleted).
+2026-08-09 15:10:49.190   Created temporary directory: C:\Users\CODEXM~1\AppData\Local\Temp\is-1M4NM63ST4.tmp
+2026-08-09 15:10:49.220   Starting the uninstallation process.
+2026-08-09 15:10:49.248   Deleting registry key: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall\{299ADF2A-0E9E-4A25-916C-1CB8328D0E5E}_is1
+2026-08-09 15:10:49.356   Deleting file: C:\Users\CodexMuaman13Q\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\muaman_store.lnk
+2026-08-09 15:10:49.356   Deleting file: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\data\flutter_assets\shaders\ink_sparkle.frag
+2026-08-09 15:10:49.356   Deleting directory: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\data\flutter_assets\shaders
+2026-08-09 15:10:49.356   Deleting file: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\data\flutter_assets\packages\cupertino_icons\assets\CupertinoIcons.ttf
+2026-08-09 15:10:49.358   Deleting directory: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\data\flutter_assets\packages\cupertino_icons\assets
+2026-08-09 15:10:49.358   Deleting directory: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\data\flutter_assets\packages\cupertino_icons
+2026-08-09 15:10:49.358   Deleting directory: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\data\flutter_assets\packages
+2026-08-09 15:10:49.358   Deleting file: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\data\flutter_assets\fonts\MaterialIcons-Regular.otf
+2026-08-09 15:10:49.358   Deleting directory: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\data\flutter_assets\fonts
+2026-08-09 15:10:49.358   Deleting file: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\data\flutter_assets\NOTICES.Z
+2026-08-09 15:10:49.358   Deleting file: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\data\flutter_assets\FontManifest.json
+2026-08-09 15:10:49.358   Deleting file: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\data\flutter_assets\AssetManifest.json
+2026-08-09 15:10:49.358   Deleting file: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\data\flutter_assets\AssetManifest.bin
+2026-08-09 15:10:49.360   Deleting directory: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\data\flutter_assets
+2026-08-09 15:10:49.360   Deleting file: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\data\icudtl.dat
+2026-08-09 15:10:49.360   Deleting file: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\data\app.so
+2026-08-09 15:10:49.360   Deleting directory: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\data
+2026-08-09 15:10:49.360   Deleting file: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\printing_plugin.dll
+2026-08-09 15:10:49.362   Deleting file: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\pdfium.dll
+2026-08-09 15:10:49.362   Deleting file: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\flutter_windows.dll
+2026-08-09 15:10:49.362   Deleting file: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store\muaman_store.exe
+2026-08-09 15:10:49.362   Deleting directory: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store
+2026-08-09 15:10:49.362   Failed to delete directory (145). Will retry later.
+2026-08-09 15:10:49.362   Deleting Uninstall data files.
+2026-08-09 15:10:49.362   Creating "_unins-done.tmp" file.
+2026-08-09 15:10:49.887   Deleting directory: C:\Users\CodexMuaman13Q\AppData\Local\Programs\muaman_store
+2026-08-09 15:10:49.887   Failed to delete directory (145).
+2026-08-09 15:10:49.887   Uninstallation process succeeded.
+2026-08-09 15:10:49.887   Removed all? Yes
+2026-08-09 15:10:49.887   Need to restart Windows? No
+2026-08-09 15:10:49.887   Log closed.

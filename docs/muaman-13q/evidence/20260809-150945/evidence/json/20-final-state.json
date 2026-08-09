@@ -1,0 +1,97 @@
+{
+    "appProcessIds":  [
+
+                      ],
+    "uninstallerProcessIds":  [
+
+                              ],
+    "installDirExists":  true,
+    "appExeExists":  true,
+    "dbStillPresent":  true,
+    "hkcuMuamanUninstallKeys":  [
+                                    "{299ADF2A-0E9E-4A25-916C-1CB8328D0E5E}_is1"
+                                ],
+    "installRootListing":  [
+                               {
+                                   "rel":  "flutter_windows.dll",
+                                   "size":  18181632,
+                                   "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                               },
+                               {
+                                   "rel":  "muaman_store.exe",
+                                   "size":  90624,
+                                   "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                               },
+                               {
+                                   "rel":  "pdfium.dll",
+                                   "size":  4749824,
+                                   "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                               },
+                               {
+                                   "rel":  "printing_plugin.dll",
+                                   "size":  138240,
+                                   "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                               },
+                               {
+                                   "rel":  "unins000.dat",
+                                   "size":  6003,
+                                   "lastWriteTimeUtc":  "2026-08-09T12:10:54.380Z"
+                               },
+                               {
+                                   "rel":  "unins000.exe",
+                                   "size":  4452610,
+                                   "lastWriteTimeUtc":  "2026-08-09T12:10:52.521Z"
+                               },
+                               {
+                                   "rel":  ".dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db",
+                                   "size":  94208,
+                                   "lastWriteTimeUtc":  "2026-08-09T12:11:14.014Z"
+                               },
+                               {
+                                   "rel":  "data\\app.so",
+                                   "size":  7324576,
+                                   "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                               },
+                               {
+                                   "rel":  "data\\icudtl.dat",
+                                   "size":  778864,
+                                   "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                               },
+                               {
+                                   "rel":  "data\\flutter_assets\\AssetManifest.bin",
+                                   "size":  117,
+                                   "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                               },
+                               {
+                                   "rel":  "data\\flutter_assets\\AssetManifest.json",
+                                   "size":  109,
+                                   "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                               },
+                               {
+                                   "rel":  "data\\flutter_assets\\FontManifest.json",
+                                   "size":  208,
+                                   "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                               },
+                               {
+                                   "rel":  "data\\flutter_assets\\NOTICES.Z",
+                                   "size":  89152,
+                                   "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                               },
+                               {
+                                   "rel":  "data\\flutter_assets\\fonts\\MaterialIcons-Regular.otf",
+                                   "size":  1645184,
+                                   "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                               },
+                               {
+                                   "rel":  "data\\flutter_assets\\packages\\cupertino_icons\\assets\\CupertinoIcons.ttf",
+                                   "size":  257628,
+                                   "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                               },
+                               {
+                                   "rel":  "data\\flutter_assets\\shaders\\ink_sparkle.frag",
+                                   "size":  17304,
+                                   "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                               }
+                           ],
+    "capturedAtUtc":  "2026-08-09T12:11:17.593Z"
+}

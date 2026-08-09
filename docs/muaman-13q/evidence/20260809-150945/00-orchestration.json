@@ -1,0 +1,31 @@
+{
+    "runId":  "20260809-150945",
+    "startedAtUtc":  "2026-08-09T12:09:46.282Z",
+    "phase":  "MUAMAN-13Q",
+    "worktreePath":  "C:\\dev\\muaman.worktrees\\muaman-13q-independent-fresh-user-uninstall-reinstall-acceptance",
+    "mainRepoPath":  "C:\\dev\\muaman",
+    "accountName":  "CodexMuaman13Q",
+    "domain":  "ISLAM",
+    "installerSource":  "C:\\mu13o-acceptance\\run1\\consumer\\inbound\\muaman-windows-installer.exe",
+    "acceptanceRoot":  "C:\\mu13o-acceptance\\m13q",
+    "gitHead":  "20211407d033c68a9ce28201f4bdca254056d178",
+    "gitClean":  true,
+    "accountSid":  "S-1-5-21-2052787611-3211508837-1074070108-1028",
+    "accountGroups":  [
+
+                      ],
+    "sweptStaleProcesses":  [
+
+                            ],
+    "installerSha256":  "05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB",
+    "installerSize":  12528766,
+    "workerExitCode":  1,
+    "workerTimedOut":  false,
+    "workerPid":  15312,
+    "workerAllStepsPassed":  true,
+    "workerFailedSteps":  [
+
+                          ],
+    "guardsExitCode":  0,
+    "gatesAllPass":  true
+}

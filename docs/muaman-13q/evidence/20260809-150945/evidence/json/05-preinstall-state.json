@@ -1,0 +1,425 @@
+{
+    "os":  {
+               "caption":  "Microsoft Windows 11 Pro",
+               "version":  "10.0.26200",
+               "build":  "26200",
+               "osArchitecture":  "64-bit",
+               "processArchitecture":  "AMD64"
+           },
+    "user":  {
+                 "localAppData":  "C:\\Users\\CodexMuaman13Q\\AppData\\Local",
+                 "appData":  "C:\\Users\\CodexMuaman13Q\\AppData\\Roaming",
+                 "userProfile":  "C:\\Users\\CodexMuaman13Q",
+                 "userProfileDirExists":  true
+             },
+    "install":  {
+                    "installDir":  "C:\\Users\\CodexMuaman13Q\\AppData\\Local\\Programs\\muaman_store",
+                    "installDirExistsBefore":  false,
+                    "appExeExistsBefore":  false,
+                    "hkcuMuamanUninstallKeys":  [
+
+                                                ],
+                    "uninstallRegistrationAbsent":  true
+                },
+    "processes":  {
+                      "appProcessIdsBefore":  [
+
+                                              ],
+                      "uninstallerProcessIdsBefore":  [
+
+                                                      ]
+                  },
+    "osAccountPicturePlaceholder":  {
+                                        "path":  "C:\\ProgramData\\Microsoft\\User Account Pictures\\CodexMuaman13Q.dat",
+                                        "exists":  true
+                                    },
+    "localAppDataListing":  [
+                                {
+                                    "rel":  "Microsoft\\Windows\\UsrClass.dat",
+                                    "size":  8192,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:24:14.007Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\UsrClass.dat.LOG1",
+                                    "size":  8192,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:24:08.496Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\UsrClass.dat.LOG2",
+                                    "size":  16384,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:24:08.496Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\UsrClass.dat{071b6dd5-93e2-11f1-a697-60e32bebda7e}.TM.blf",
+                                    "size":  65536,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:24:14.003Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\UsrClass.dat{071b6dd5-93e2-11f1-a697-60e32bebda7e}.TMContainer00000000000000000001.regtrans-ms",
+                                    "size":  524288,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:24:08.496Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\UsrClass.dat{071b6dd5-93e2-11f1-a697-60e32bebda7e}.TMContainer00000000000000000002.regtrans-ms",
+                                    "size":  524288,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:24:08.496Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_1280.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:32:15.770Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_16.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:32:15.768Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_1920.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:32:15.770Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_256.db",
+                                    "size":  1048576,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:32:15.769Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_2560.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:32:15.770Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_32.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:32:15.768Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_48.db",
+                                    "size":  1048576,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:32:15.768Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_768.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:32:15.769Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_96.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:32:15.769Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_custom_stream.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:32:15.772Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_exif.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:32:15.771Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_idx.db",
+                                    "size":  7416,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:32:15.767Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_sr.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:32:15.770Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_wide.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:32:15.771Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_wide_alternate.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:32:15.771Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\PowerShell\\ModuleAnalysisCache",
+                                    "size":  33724,
+                                    "lastWriteTimeUtc":  "2026-08-09T11:32:24.535Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\PowerShell\\StartupProfileData-NonInteractive",
+                                    "size":  1668,
+                                    "lastWriteTimeUtc":  "2026-08-09T12:09:29.644Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\SFAP\\cache1.bin",
+                                    "size":  566,
+                                    "lastWriteTimeUtc":  "2026-08-09T12:09:48.486Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Shell\\DefaultLayouts.xml",
+                                    "size":  64707,
+                                    "lastWriteTimeUtc":  "2025-12-26T04:05:14.485Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group1\\1 - Desktop.lnk",
+                                    "size":  1109,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:49.153Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group1\\desktop.ini",
+                                    "size":  75,
+                                    "lastWriteTimeUtc":  "2025-12-26T04:05:18.600Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group2\\1 - Run.lnk",
+                                    "size":  1109,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:47.997Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group2\\2 - Search.lnk",
+                                    "size":  1109,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:48.278Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group2\\3 - Windows Explorer.lnk",
+                                    "size":  1109,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:48.450Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group2\\4 - Control Panel.lnk",
+                                    "size":  1492,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:48.575Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group2\\5 - Task Manager.lnk",
+                                    "size":  1021,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:48.841Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group2\\desktop.ini",
+                                    "size":  325,
+                                    "lastWriteTimeUtc":  "2025-12-26T04:05:18.617Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\01a - Windows PowerShell.lnk",
+                                    "size":  1127,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:44.559Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\02a - Windows PowerShell.lnk",
+                                    "size":  1171,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:45.466Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\03 - Computer Management.lnk",
+                                    "size":  1015,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:45.841Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\04 - Disk Management.lnk",
+                                    "size":  1015,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:46.184Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\04-1 - NetworkStatus.lnk",
+                                    "size":  1582,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:46.497Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\05 - Device Manager.lnk",
+                                    "size":  1075,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:46.794Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\06 - SystemAbout.lnk",
+                                    "size":  1562,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:47.028Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\07 - Event Viewer.lnk",
+                                    "size":  1015,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:47.263Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\08 - PowerAndSleep.lnk",
+                                    "size":  1578,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:47.481Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\09 - Mobility Center.lnk",
+                                    "size":  1015,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:47.653Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\10 - AppsAndFeatures.lnk",
+                                    "size":  1578,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:47.841Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\desktop.ini",
+                                    "size":  807,
+                                    "lastWriteTimeUtc":  "2025-12-26T04:05:18.617Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows Sidebar\\settings.ini",
+                                    "size":  80,
+                                    "lastWriteTimeUtc":  "2025-12-26T04:05:14.485Z"
+                                },
+                                {
+                                    "rel":  "Temp\\is-3STPDYDSSB-uninstall.tmp\\_unins-done.tmp",
+                                    "size":  0,
+                                    "lastWriteTimeUtc":  "2026-08-09T12:07:53.488Z"
+                                },
+                                {
+                                    "rel":  "Temp\\is-3STPDYDSSB-uninstall.tmp\\_unins.tmp",
+                                    "size":  4452610,
+                                    "lastWriteTimeUtc":  "2026-08-09T12:06:58.082Z"
+                                },
+                                {
+                                    "rel":  "UnrealEngine\\4.27\\Saved\\Config\\WindowsClient\\Manifest.ini",
+                                    "size":  25,
+                                    "lastWriteTimeUtc":  "2025-12-27T04:31:11.931Z"
+                                }
+                            ],
+    "appDataListing":  [
+                           {
+                               "rel":  "Microsoft\\Internet Explorer\\Quick Launch\\desktop.ini",
+                               "size":  148,
+                               "lastWriteTimeUtc":  "2025-12-26T04:05:18.617Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Internet Explorer\\Quick Launch\\Shows Desktop.lnk",
+                               "size":  352,
+                               "lastWriteTimeUtc":  "2024-04-01T07:22:42.138Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Internet Explorer\\Quick Launch\\Window Switcher.lnk",
+                               "size":  334,
+                               "lastWriteTimeUtc":  "2024-04-01T07:22:43.450Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Protect\\CREDHIST",
+                               "size":  24,
+                               "lastWriteTimeUtc":  "2026-08-09T11:24:09.260Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Protect\\S-1-5-21-2052787611-3211508837-1074070108-1028\\f0f95062-0238-4901-9616-8112efe653bc",
+                               "size":  468,
+                               "lastWriteTimeUtc":  "2026-08-09T11:24:09.276Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Protect\\S-1-5-21-2052787611-3211508837-1074070108-1028\\Preferred",
+                               "size":  24,
+                               "lastWriteTimeUtc":  "2026-08-09T11:24:09.280Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Recent\\AutomaticDestinations\\71b2f76d4114ce9b.automaticDestinations-ms",
+                               "size":  2560,
+                               "lastWriteTimeUtc":  "2026-08-09T12:07:53.472Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\SendTo\\Compressed (zipped) Folder.ZFSendToTarget",
+                               "size":  3,
+                               "lastWriteTimeUtc":  "2025-12-26T04:05:14.485Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\SendTo\\Desktop (create shortcut).DeskLink",
+                               "size":  7,
+                               "lastWriteTimeUtc":  "2025-12-26T04:05:14.485Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\SendTo\\Desktop.ini",
+                               "size":  440,
+                               "lastWriteTimeUtc":  "2025-12-26T04:05:14.485Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\SendTo\\Mail Recipient.MAPIMail",
+                               "size":  4,
+                               "lastWriteTimeUtc":  "2025-12-26T04:05:14.485Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Start Menu\\Programs\\Administrative Tools.lnk",
+                               "size":  1281,
+                               "lastWriteTimeUtc":  "2024-04-01T07:22:07.044Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Start Menu\\Programs\\desktop.ini",
+                               "size":  153,
+                               "lastWriteTimeUtc":  "2025-12-26T04:05:18.617Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Start Menu\\Programs\\File Explorer.lnk",
+                               "size":  407,
+                               "lastWriteTimeUtc":  "2024-04-01T07:22:07.044Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Start Menu\\Programs\\Accessibility\\Desktop.ini",
+                               "size":  806,
+                               "lastWriteTimeUtc":  "2025-12-26T04:05:18.617Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Start Menu\\Programs\\Accessibility\\LiveCaptions.lnk",
+                               "size":  1116,
+                               "lastWriteTimeUtc":  "2024-04-01T07:22:33.278Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Start Menu\\Programs\\Accessibility\\Magnify.lnk",
+                               "size":  1106,
+                               "lastWriteTimeUtc":  "2024-04-01T07:22:39.497Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Start Menu\\Programs\\Accessibility\\Narrator.lnk",
+                               "size":  1108,
+                               "lastWriteTimeUtc":  "2024-04-01T07:22:39.497Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Start Menu\\Programs\\Accessibility\\On-Screen Keyboard.lnk",
+                               "size":  1106,
+                               "lastWriteTimeUtc":  "2024-04-01T07:22:33.294Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Start Menu\\Programs\\Accessibility\\VoiceAccess.lnk",
+                               "size":  1114,
+                               "lastWriteTimeUtc":  "2024-04-01T07:22:33.309Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Start Menu\\Programs\\Accessories\\Desktop.ini",
+                               "size":  170,
+                               "lastWriteTimeUtc":  "2025-12-26T04:05:14.485Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Start Menu\\Programs\\Maintenance\\Desktop.ini",
+                               "size":  170,
+                               "lastWriteTimeUtc":  "2025-12-26T04:05:14.485Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Start Menu\\Programs\\System Tools\\Command Prompt.lnk",
+                               "size":  1142,
+                               "lastWriteTimeUtc":  "2024-04-01T07:22:07.856Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Start Menu\\Programs\\System Tools\\Control Panel.lnk",
+                               "size":  405,
+                               "lastWriteTimeUtc":  "2024-04-01T07:22:39.403Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Start Menu\\Programs\\System Tools\\Desktop.ini",
+                               "size":  566,
+                               "lastWriteTimeUtc":  "2025-12-26T04:05:18.617Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Start Menu\\Programs\\System Tools\\Run.lnk",
+                               "size":  409,
+                               "lastWriteTimeUtc":  "2024-04-01T07:22:32.731Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Start Menu\\Programs\\Windows PowerShell\\Windows PowerShell (x86).lnk",
+                               "size":  1849,
+                               "lastWriteTimeUtc":  "2025-12-26T04:05:14.485Z"
+                           },
+                           {
+                               "rel":  "Microsoft\\Windows\\Start Menu\\Programs\\Windows PowerShell\\Windows PowerShell.lnk",
+                               "size":  1849,
+                               "lastWriteTimeUtc":  "2025-12-26T04:05:14.485Z"
+                           }
+                       ]
+}
