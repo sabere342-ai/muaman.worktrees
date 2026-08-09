@@ -1,0 +1,14 @@
+{
+    "step":  "S7-install-from-delivery",
+    "commandLine":  "\"C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows\\Muaman-Setup.exe\" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /LOG=\"C:\\m13s-acceptance\\run\\20260809-200523\\evidence\\logs\\install.log\"",
+    "installerPath":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows\\Muaman-Setup.exe",
+    "installerWithinExtractedDelivery":  true,
+    "installerSha256":  "05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB",
+    "exitCode":  0,
+    "timedOut":  false,
+    "durationSec":  2.5,
+    "installLogPath":  "C:\\m13s-acceptance\\run\\20260809-200523\\evidence\\logs\\install.log",
+    "installLogBytes":  8560,
+    "appExeExists":  true,
+    "installDir":  "C:\\Users\\CodexMuaman13S\\AppData\\Local\\Programs\\muaman_store"
+}

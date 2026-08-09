@@ -1,0 +1,35 @@
+{
+    "runId":  "20260809-200523",
+    "startedAtUtc":  "2026-08-09T17:05:24.267Z",
+    "phase":  "MUAMAN-13S",
+    "worktreePath":  "C:\\dev\\muaman.worktrees\\muaman-13s-independent-real-user-delivery-to-launch-acceptance",
+    "mainRepoPath":  "C:\\dev\\muaman",
+    "accountName":  "CodexMuaman13S",
+    "domain":  "ISLAM",
+    "acceptanceRoot":  "C:\\m13s-acceptance",
+    "expectedHead":  "f9a0f70150053d5d59f5106741d052d92e19d6d0",
+    "expectedFinalHead":  "f9a0f70150053d5d59f5106741d052d92e19d6d0",
+    "repoZip":  "C:\\dev\\muaman.worktrees\\muaman-13s-independent-real-user-delivery-to-launch-acceptance\\delivery\\Muaman-1.0.0-Windows.zip",
+    "gitHead":  "f9a0f70150053d5d59f5106741d052d92e19d6d0",
+    "gitClean":  true,
+    "accountSid":  "S-1-5-21-2052787611-3211508837-1074070108-1029",
+    "accountGroups":  [
+
+                      ],
+    "sweptStaleProcesses":  [
+
+                            ],
+    "repoZipSha256":  "5633775FF7808FD0437F4FC3835A6ED8147455220A7A5CD33974850999C62127",
+    "stagedZip":  "C:\\m13s-acceptance\\run\\20260809-200523\\stage\\Muaman-1.0.0-Windows.zip",
+    "workerExitCode":  0,
+    "workerTimedOut":  false,
+    "workerPid":  25224,
+    "workerAllStepsPassed":  true,
+    "workerFailedSteps":  [
+
+                          ],
+    "guardsExitCode":  0,
+    "gatesAllPass":  true,
+    "negativeControlsExitCode":  0,
+    "negativeControlsAllPass":  true
+}

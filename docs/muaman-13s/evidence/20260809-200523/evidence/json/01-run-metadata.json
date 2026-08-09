@@ -1,0 +1,15 @@
+{
+    "runId":  "20260809-200523",
+    "phase":  "MUAMAN-13S",
+    "startedAtUtc":  "2026-08-09T17:05:27.195Z",
+    "consumerWorkspace":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S",
+    "receivedZip":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\received\\Muaman-1.0.0-Windows.zip",
+    "extractRoot":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted",
+    "installDir":  "C:\\Users\\CodexMuaman13S\\AppData\\Local\\Programs\\muaman_store",
+    "dbPath":  "C:\\Users\\CodexMuaman13S\\AppData\\Local\\Programs\\muaman_store\\.dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db",
+    "commandLine":  "\"powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File \"C:\\m13s-acceptance\\run\\20260809-200523\\worker-run.ps1\" -SecretsFile \"C:\\m13s-acceptance\\run\\20260809-200523\\worker-secrets.json\" -RunId \"20260809-200523\" -ExpectedUserName \"CodexMuaman13S\" -ConsumerWorkspace \"C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\" -StagedZip \"C:\\m13s-acceptance\\run\\20260809-200523\\stage\\Muaman-1.0.0-Windows.zip\" -EvidenceRoot \"C:\\m13s-acceptance\\run\\20260809-200523\\evidence\" -UiStringsPath \"C:\\m13s-acceptance\\run\\20260809-200523\\ref\\ui_strings.json\" -ConfigPath \"C:\\m13s-acceptance\\run\\20260809-200523\\ref\\acceptance-config.json\"",
+    "priorStateReset":  {
+                            "installDir":  "removed",
+                            "consumerWorkspace":  "removed"
+                        }
+}

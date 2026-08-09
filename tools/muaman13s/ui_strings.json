@@ -1,0 +1,37 @@
+{
+  "setup": {
+    "title": "إعداد النظام",
+    "subtitle": "يرجى إنشاء حساب المالك الأول",
+    "fieldName": "الاسم",
+    "fieldUsername": "اسم المستخدم",
+    "fieldPassword": "كلمة المرور",
+    "fieldConfirmPassword": "تأكيد كلمة المرور",
+    "buttonCreateOwner": "إنشاء حساب المالك",
+    "errorNameRequired": "الاسم مطلوب"
+  },
+  "login": {
+    "title": "إدارة محل مؤمن",
+    "subtitle": "تسجيل الدخول",
+    "fieldUsername": "اسم المستخدم",
+    "fieldPassword": "كلمة المرور",
+    "buttonLogin": "تسجيل الدخول",
+    "errorBadCredentials": "اسم المستخدم أو كلمة المرور غير صحيحة"
+  },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "navInventory": "المخزن",
+    "navSales": "المبيعات",
+    "navReturns": "المرتجعات",
+    "navExpenses": "المصروفات",
+    "navStocktake": "الجرد",
+    "userManagement": "إدارة المستخدمين",
+    "settings": "الإعدادات"
+  },
+  "loading": {
+    "text": "جاري التحميل..."
+  },
+  "owner": {
+    "displayName": "مالك 13S",
+    "username": "owner13s"
+  }
+}

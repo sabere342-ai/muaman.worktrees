@@ -1,0 +1,43 @@
+{
+    "allPass":  true,
+    "fixtureRoot":  "C:\\m13s-acceptance\\negatives\\20260809-200523",
+    "controls":  {
+                     "NC00-pristine-passes":  {
+                                                  "pass":  true,
+                                                  "detail":  "pristine official delivery passes all validation"
+                                              },
+                     "NC01-zip-tamper-rejected":  {
+                                                      "pass":  true,
+                                                      "detail":  "flipped-byte ZIP must fail identity (sha=73295753267D54F778377D9CAAC16A8784E19BC3B8CF820D7E29ADDDC68CF427)"
+                                                  },
+                     "NC02-wrong-expected-hash-rejected":  {
+                                                               "pass":  true,
+                                                               "detail":  "incorrect expected hash must fail identity"
+                                                           },
+                     "NC03-missing-installer-rejected":  {
+                                                             "pass":  true,
+                                                             "detail":  "missing Muaman-Setup.exe rejected (exact=True, failedStep=exactFileSet)"
+                                                         },
+                     "NC04-extra-file-rejected":  {
+                                                      "pass":  true,
+                                                      "detail":  "extra file rejected (exact=True, unexpected=1)"
+                                                  },
+                     "NC05-tampered-installer-rejected":  {
+                                                              "pass":  true,
+                                                              "detail":  "flipped-byte installer rejected (identity=True, failedStep=installer)"
+                                                          },
+                     "NC06-wrong-manifest-rejected":  {
+                                                          "pass":  true,
+                                                          "detail":  "modified SHA256SUMS rejected (identity=True, failedStep=manifest)"
+                                                      },
+                     "NC07-missing-readme-rejected":  {
+                                                          "pass":  true,
+                                                          "detail":  "missing README.txt rejected (exact=True, failedStep=exactFileSet)"
+                                                      },
+                     "NC08-dev-path-readme-rejected":  {
+                                                           "pass":  true,
+                                                           "detail":  "README containing dev path rejected (content=True, failedStep=readme)"
+                                                       }
+                 },
+    "computedAtUtc":  "2026-08-09T17:06:49.712Z"
+}

@@ -1,0 +1,108 @@
+﻿2026-08-09 20:05:29.470   Log opened. (Time zone: UTC+03:00)
+2026-08-09 20:05:29.470   Setup version: Inno Setup version 6.7.3
+2026-08-09 20:05:29.470   Original Setup EXE: C:\Users\CodexMuaman13S\Downloads\Muaman-13S\extracted\Muaman-1.0.0-Windows\Muaman-Setup.exe
+2026-08-09 20:05:29.470   Setup command line: /SL5="$10904CE,11325151,893952,C:\Users\CodexMuaman13S\Downloads\Muaman-13S\extracted\Muaman-1.0.0-Windows\Muaman-Setup.exe" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /LOG="C:\m13s-acceptance\run\20260809-200523\evidence\logs\install.log"
+2026-08-09 20:05:29.470   Windows version: 10.0.26200
+2026-08-09 20:05:29.470   Windows architecture: x64 (64-bit)
+2026-08-09 20:05:29.470   Machine types supported by system: x86 x64
+2026-08-09 20:05:29.470   User privileges: None
+2026-08-09 20:05:29.473   Administrative install mode: No
+2026-08-09 20:05:29.473   Install mode root key: HKEY_CURRENT_USER
+2026-08-09 20:05:29.473   64-bit install mode: Yes
+2026-08-09 20:05:29.473   RedirectionGuard status for current process: Enabled in enforcing mode
+2026-08-09 20:05:29.473   Created temporary directory: C:\Users\CODEXM~2\AppData\Local\Temp\is-W8PI0ZJD21.tmp
+2026-08-09 20:05:29.705   Starting the installation process.
+2026-08-09 20:05:29.722   Directory for uninstall files: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store
+2026-08-09 20:05:29.722   Creating new uninstall log: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\unins000.dat
+2026-08-09 20:05:29.733   -- File entry --
+2026-08-09 20:05:29.733   Dest filename: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\unins000.exe
+2026-08-09 20:05:29.733   Non-default bitness: 32-bit
+2026-08-09 20:05:29.747   Time stamp of our file: 2026-08-09 20:05:28.990
+2026-08-09 20:05:29.747   Installing the file.
+2026-08-09 20:05:29.769   Successfully installed the file.
+2026-08-09 20:05:29.769   -- File entry --
+2026-08-09 20:05:29.771   Dest filename: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\muaman_store.exe
+2026-08-09 20:05:29.771   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-09 20:05:29.771   Installing the file.
+2026-08-09 20:05:29.777   Successfully installed the file.
+2026-08-09 20:05:29.777   -- File entry --
+2026-08-09 20:05:29.777   Dest filename: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\flutter_windows.dll
+2026-08-09 20:05:29.777   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-09 20:05:29.777   Installing the file.
+2026-08-09 20:05:30.315   Successfully installed the file.
+2026-08-09 20:05:30.315   -- File entry --
+2026-08-09 20:05:30.315   Dest filename: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\pdfium.dll
+2026-08-09 20:05:30.315   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-09 20:05:30.315   Installing the file.
+2026-08-09 20:05:30.470   Successfully installed the file.
+2026-08-09 20:05:30.470   -- File entry --
+2026-08-09 20:05:30.470   Dest filename: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\printing_plugin.dll
+2026-08-09 20:05:30.472   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-09 20:05:30.472   Installing the file.
+2026-08-09 20:05:30.478   Successfully installed the file.
+2026-08-09 20:05:30.478   -- File entry --
+2026-08-09 20:05:30.478   Dest filename: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\data\app.so
+2026-08-09 20:05:30.478   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-09 20:05:30.478   Installing the file.
+2026-08-09 20:05:30.478   Creating directory: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\data
+2026-08-09 20:05:30.685   Successfully installed the file.
+2026-08-09 20:05:30.685   -- File entry --
+2026-08-09 20:05:30.685   Dest filename: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\data\icudtl.dat
+2026-08-09 20:05:30.685   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-09 20:05:30.685   Installing the file.
+2026-08-09 20:05:30.717   Successfully installed the file.
+2026-08-09 20:05:30.717   -- File entry --
+2026-08-09 20:05:30.717   Dest filename: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\data\flutter_assets\AssetManifest.bin
+2026-08-09 20:05:30.717   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-09 20:05:30.717   Installing the file.
+2026-08-09 20:05:30.717   Creating directory: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\data\flutter_assets
+2026-08-09 20:05:30.717   Successfully installed the file.
+2026-08-09 20:05:30.717   -- File entry --
+2026-08-09 20:05:30.717   Dest filename: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\data\flutter_assets\AssetManifest.json
+2026-08-09 20:05:30.717   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-09 20:05:30.717   Installing the file.
+2026-08-09 20:05:30.721   Successfully installed the file.
+2026-08-09 20:05:30.721   -- File entry --
+2026-08-09 20:05:30.721   Dest filename: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\data\flutter_assets\FontManifest.json
+2026-08-09 20:05:30.721   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-09 20:05:30.721   Installing the file.
+2026-08-09 20:05:30.723   Successfully installed the file.
+2026-08-09 20:05:30.723   -- File entry --
+2026-08-09 20:05:30.723   Dest filename: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\data\flutter_assets\NOTICES.Z
+2026-08-09 20:05:30.723   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-09 20:05:30.723   Installing the file.
+2026-08-09 20:05:30.723   Successfully installed the file.
+2026-08-09 20:05:30.723   -- File entry --
+2026-08-09 20:05:30.723   Dest filename: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\data\flutter_assets\fonts\MaterialIcons-Regular.otf
+2026-08-09 20:05:30.723   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-09 20:05:30.723   Installing the file.
+2026-08-09 20:05:30.723   Creating directory: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\data\flutter_assets\fonts
+2026-08-09 20:05:30.765   Successfully installed the file.
+2026-08-09 20:05:30.765   -- File entry --
+2026-08-09 20:05:30.765   Dest filename: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\data\flutter_assets\packages\cupertino_icons\assets\CupertinoIcons.ttf
+2026-08-09 20:05:30.765   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-09 20:05:30.765   Installing the file.
+2026-08-09 20:05:30.765   Creating directory: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\data\flutter_assets\packages
+2026-08-09 20:05:30.765   Creating directory: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\data\flutter_assets\packages\cupertino_icons
+2026-08-09 20:05:30.765   Creating directory: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\data\flutter_assets\packages\cupertino_icons\assets
+2026-08-09 20:05:30.781   Successfully installed the file.
+2026-08-09 20:05:30.781   -- File entry --
+2026-08-09 20:05:30.781   Dest filename: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\data\flutter_assets\shaders\ink_sparkle.frag
+2026-08-09 20:05:30.783   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-09 20:05:30.783   Installing the file.
+2026-08-09 20:05:30.783   Creating directory: C:\Users\CodexMuaman13S\AppData\Local\Programs\muaman_store\data\flutter_assets\shaders
+2026-08-09 20:05:30.783   Successfully installed the file.
+2026-08-09 20:05:30.783   -- Icon entry --
+2026-08-09 20:05:30.783   Dest filename: C:\Users\CodexMuaman13S\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\muaman_store.lnk
+2026-08-09 20:05:30.785   Creating the icon.
+2026-08-09 20:05:30.870   Successfully created the icon.
+2026-08-09 20:05:30.873   Saving uninstall information.
+2026-08-09 20:05:30.873   Deleting uninstall key left over from previous non administrative install.
+2026-08-09 20:05:30.873   Creating new uninstall key: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall\{299ADF2A-0E9E-4A25-916C-1CB8328D0E5E}_is1
+2026-08-09 20:05:30.873   Writing uninstall key values.
+2026-08-09 20:05:30.873   Detected previous administrative 64-bit install? No
+2026-08-09 20:05:30.876   Detected previous administrative 32-bit install? No
+2026-08-09 20:05:30.884   Installation process succeeded.
+2026-08-09 20:05:30.884   Need to restart Windows? No
+2026-08-09 20:05:30.888   Deinitializing Setup.
+2026-08-09 20:05:30.895   Log closed.

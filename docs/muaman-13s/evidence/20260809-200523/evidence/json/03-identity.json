@@ -1,0 +1,35 @@
+{
+    "whoamiUser":  "islam\\codexmuaman13s",
+    "tokenName":  "Islam\\CodexMuaman13S",
+    "tokenSid":  "S-1-5-21-2052787611-3211508837-1074070108-1029",
+    "expectedUserName":  "CodexMuaman13S",
+    "tokenNameMatchesExpected":  true,
+    "localUserExists":  true,
+    "localUserSid":  "S-1-5-21-2052787611-3211508837-1074070108-1029",
+    "groupMembership":  [
+
+                        ],
+    "inAdministrators":  false,
+    "integrity":  {
+                      "level":  "Medium Mandatory Level",
+                      "sid":  "S-1-16-8192"
+                  },
+    "elevation":  {
+                      "isInAdministrators":  false,
+                      "note":  "IsInRole(Administrator) false for a plain standard user"
+                  },
+    "session":  {
+                    "sessionId":  5,
+                    "processId":  25224,
+                    "processName":  "powershell"
+                },
+    "isInteractive":  true,
+    "forbiddenEnabledPrivilegesPresent":  [
+
+                                          ],
+    "restrictedPath":  "C:\\WINDOWS\\System32;C:\\WINDOWS",
+    "repoSentinelHits":  [
+
+                         ],
+    "repoPathIsolated":  true
+}

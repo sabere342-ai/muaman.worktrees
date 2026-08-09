@@ -1,0 +1,133 @@
+{
+    "stepS2":  "S2-extract",
+    "stepS3":  "S3-exact-three-files",
+    "stepS4":  "S4-file-identities",
+    "stepS5":  "S5-readme-content",
+    "stepS6":  "S6-manifest-crosscheck",
+    "zipCopy":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\received\\Muaman-1.0.0-Windows.zip",
+    "expand":  {
+                   "name":  "Expand-DeliveryArchive",
+                   "pass":  true,
+                   "zipPath":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\received\\Muaman-1.0.0-Windows.zip",
+                   "destRoot":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted",
+                   "extractDir":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows"
+               },
+    "exactFileSet":  {
+                         "name":  "Test-ExactFileSet",
+                         "pass":  true,
+                         "extractRoot":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows",
+                         "actualFiles":  [
+                                             "Muaman-Setup.exe",
+                                             "README.txt",
+                                             "SHA256SUMS.txt"
+                                         ],
+                         "expectedFiles":  [
+                                               "Muaman-Setup.exe",
+                                               "README.txt",
+                                               "SHA256SUMS.txt"
+                                           ],
+                         "actualCount":  3,
+                         "expectedCount":  3,
+                         "unexpected":  [
+
+                                        ],
+                         "missing":  [
+
+                                     ]
+                     },
+    "packageValidation":  {
+                              "name":  "Invoke-DeliveryPackageValidation",
+                              "pass":  true,
+                              "extractRoot":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows",
+                              "checks":  {
+                                             "exactFileSet":  {
+                                                                  "name":  "Test-ExactFileSet",
+                                                                  "pass":  true,
+                                                                  "extractRoot":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows",
+                                                                  "actualFiles":  [
+                                                                                      "Muaman-Setup.exe",
+                                                                                      "README.txt",
+                                                                                      "SHA256SUMS.txt"
+                                                                                  ],
+                                                                  "expectedFiles":  [
+                                                                                        "Muaman-Setup.exe",
+                                                                                        "README.txt",
+                                                                                        "SHA256SUMS.txt"
+                                                                                    ],
+                                                                  "actualCount":  3,
+                                                                  "expectedCount":  3,
+                                                                  "unexpected":  [
+
+                                                                                 ],
+                                                                  "missing":  [
+
+                                                                              ]
+                                                              },
+                                             "installer":  {
+                                                               "name":  "Test-FileIdentity:installer",
+                                                               "pass":  true,
+                                                               "path":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows\\Muaman-Setup.exe",
+                                                               "sha256":  "05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB",
+                                                               "size":  12528766,
+                                                               "expectedSha256":  "05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB",
+                                                               "expectedSize":  12528766,
+                                                               "shaMatch":  true,
+                                                               "sizeMatch":  true
+                                                           },
+                                             "readme":  {
+                                                            "name":  "Test-FileIdentity:readme",
+                                                            "pass":  true,
+                                                            "path":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows\\README.txt",
+                                                            "sha256":  "849964EAF83C36DDDDDA0AEA1BA5D80A0292FACB987223109272B99209D1E22C",
+                                                            "size":  2228,
+                                                            "expectedSha256":  "849964EAF83C36DDDDDA0AEA1BA5D80A0292FACB987223109272B99209D1E22C",
+                                                            "expectedSize":  2228,
+                                                            "shaMatch":  true,
+                                                            "sizeMatch":  true
+                                                        },
+                                             "manifest":  {
+                                                              "name":  "Test-DeliveryManifest",
+                                                              "pass":  true,
+                                                              "manifestPath":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows\\SHA256SUMS.txt",
+                                                              "manifestIdentity":  {
+                                                                                       "name":  "Test-FileIdentity:SHA256SUMS",
+                                                                                       "pass":  true,
+                                                                                       "path":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows\\SHA256SUMS.txt",
+                                                                                       "sha256":  "13AC53E029F9586FEC7085594B2B0E228346EF23C6F7859D3CFE07EAF31B5A7C",
+                                                                                       "size":  84,
+                                                                                       "expectedSha256":  "13AC53E029F9586FEC7085594B2B0E228346EF23C6F7859D3CFE07EAF31B5A7C",
+                                                                                       "expectedSize":  84,
+                                                                                       "shaMatch":  true,
+                                                                                       "sizeMatch":  true
+                                                                                   },
+                                                              "entryCount":  1,
+                                                              "entries":  [
+                                                                              {
+                                                                                  "file":  "Muaman-Setup.exe",
+                                                                                  "listedHash":  "05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB",
+                                                                                  "actualHash":  "05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB",
+                                                                                  "present":  true,
+                                                                                  "pass":  true
+                                                                              }
+                                                                          ],
+                                                              "allEntriesPass":  true
+                                                          },
+                                             "readmeContent":  {
+                                                                   "name":  "Test-ReadmeContent",
+                                                                   "pass":  true,
+                                                                   "path":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows\\README.txt",
+                                                                   "bytes":  2228,
+                                                                   "decodedOk":  true,
+                                                                   "chars":  1397,
+                                                                   "forbiddenHits":  [
+
+                                                                                     ],
+                                                                   "missingRequired":  [
+
+                                                                                       ]
+                                                               }
+                                         }
+                          },
+    "extractDir":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows",
+    "extractedInstaller":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows\\Muaman-Setup.exe"
+}

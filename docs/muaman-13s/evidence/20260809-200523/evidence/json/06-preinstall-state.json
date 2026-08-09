@@ -1,0 +1,12 @@
+{
+    "installDir":  "C:\\Users\\CodexMuaman13S\\AppData\\Local\\Programs\\muaman_store",
+    "installDirExistsBefore":  false,
+    "appExeExistsBefore":  false,
+    "hkcuMuamanUninstallKeys":  [
+                                    "{299ADF2A-0E9E-4A25-916C-1CB8328D0E5E}_is1"
+                                ],
+    "uninstallRegistrationAbsent":  false,
+    "appProcessIdsBefore":  [
+
+                            ]
+}
