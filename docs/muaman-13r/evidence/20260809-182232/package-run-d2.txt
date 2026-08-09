@@ -1,0 +1,20 @@
+﻿MUAMAN-13R independent package build D2
+=========================================
+exitCode  : 0
+zipPath   : C:\Users\saber\AppData\Local\Temp\m13r-guard-6676\d2-out\Muaman-1.0.0-Windows.zip
+zipExists : True
+zipSha256 : 5633775FF7808FD0437F4FC3835A6ED8147455220A7A5CD33974850999C62127
+zipSize   : 11971503
+cwd       : C:\Users\saber\AppData\Local\Temp\m13r-guard-6676\d2-outside-cwd
+stdout:
+[MUAMAN-13R] verifying canonical installer identity: C:\dev\muaman.worktrees\muaman-13p-independent-fresh-user-install-first-launch-acceptance\docs\muaman-13p\evidence\20260808-225059\installer\muaman-windows-installer.exe
+[MUAMAN-13R] canonical installer identity PASS sha=05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB size=12528766
+[MUAMAN-13R] delivery tree verified: 3 files, installer sha=05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB size=12528766
+[MUAMAN-13R] creating deterministic ZIP with 3 entries (constant entry timestamp 2024-01-01T00:00:00)
+[MUAMAN-13R] ZIP created: 11971503 bytes, SHA-256 5633775FF7808FD0437F4FC3835A6ED8147455220A7A5CD33974850999C62127
+[MUAMAN-13R] ZIP finalized: C:\Users\saber\AppData\Local\Temp\m13r-guard-6676\d2-out\Muaman-1.0.0-Windows.zip
+[MUAMAN-13R] RESULT: PASS (exit 0)
+[MUAMAN-13R] DELIVERY: C:\Users\saber\AppData\Local\Temp\m13r-guard-6676\d2-out\Muaman-1.0.0-Windows
+[MUAMAN-13R] ZIP: C:\Users\saber\AppData\Local\Temp\m13r-guard-6676\d2-out\Muaman-1.0.0-Windows.zip (11971503 bytes)
+[MUAMAN-13R] ZIP SHA-256: 5633775FF7808FD0437F4FC3835A6ED8147455220A7A5CD33974850999C62127
+stderr:

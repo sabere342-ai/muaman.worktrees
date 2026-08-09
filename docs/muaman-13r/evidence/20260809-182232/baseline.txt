@@ -1,0 +1,9 @@
+﻿MUAMAN-13R governed baseline
+============================
+phase     : MUAMAN-13R
+baseline  : 680102bb029e67a6d931a9daa154902a3a7d799d
+head      : 680102bb029e67a6d931a9daa154902a3a7d799d
+branch    : codex/muaman-13r-final-governed-windows-delivery-package-acceptance
+mode      : pre-commit
+expectedFinalHead : (post-commit run)
+runTag    : 20260809-190105

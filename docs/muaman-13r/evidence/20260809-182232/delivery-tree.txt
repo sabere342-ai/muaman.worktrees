@@ -1,0 +1,15 @@
+﻿MUAMAN-13R governed delivery tree
+==================================
+packageDir : Muaman-1.0.0-Windows
+Muaman-Setup.exe|12528766|05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB
+README.txt|2228|849964EAF83C36DDDDDA0AEA1BA5D80A0292FACB987223109272B99209D1E22C
+SHA256SUMS.txt|84|13AC53E029F9586FEC7085594B2B0E228346EF23C6F7859D3CFE07EAF31B5A7C
+
+deliveryRoot entries:
+  Muaman-1.0.0-Windows
+  Muaman-1.0.0-Windows.zip
+  Muaman-1.0.0-Windows.zip.sha256
+
+zip        : C:\dev\muaman.worktrees\muaman-13r-final-governed-windows-delivery-package-acceptance\delivery\Muaman-1.0.0-Windows.zip
+zipSha256  : 5633775FF7808FD0437F4FC3835A6ED8147455220A7A5CD33974850999C62127
+zipSize    : 11971503

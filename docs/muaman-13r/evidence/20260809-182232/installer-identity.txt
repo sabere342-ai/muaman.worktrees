@@ -1,0 +1,11 @@
+﻿MUAMAN-13R governed delivery installer identity
+================================================
+acceptedSha256     : 05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB
+acceptedSizeBytes  : 12528766
+canonicalInstaller : C:\dev\muaman.worktrees\muaman-13p-independent-fresh-user-install-first-launch-acceptance\docs\muaman-13p\evidence\20260808-225059\installer\muaman-windows-installer.exe
+canonicalSha256    : 05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB
+canonicalSize      : 12528766
+deliveryInstaller  : C:\dev\muaman.worktrees\muaman-13r-final-governed-windows-delivery-package-acceptance\delivery\Muaman-1.0.0-Windows\Muaman-Setup.exe
+deliverySha256     : 05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB
+deliverySize       : 12528766
+zipInstallerShaMatches : True

@@ -1,0 +1,7 @@
+﻿git status --short (at guard end)
+==================================
+HEAD  : 680102bb029e67a6d931a9daa154902a3a7d799d
+branch: codex/muaman-13r-final-governed-windows-delivery-package-acceptance
+?? delivery/
+?? docs/muaman-13r/
+?? tools/muaman13r/

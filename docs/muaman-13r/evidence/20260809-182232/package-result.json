@@ -1,0 +1,54 @@
+﻿{
+    "schemaVersion":  "1.0",
+    "run":  {
+                "startedAtUtc":  "2026-08-09T15:22:47.696Z",
+                "finishedAtUtc":  "2026-08-09T15:22:49.193Z",
+                "exitCode":  0,
+                "runTag":  "m13r-package"
+            },
+    "installerIdentity":  {
+                              "verdict":  "PASS",
+                              "canonicalInstaller":  "C:\\dev\\muaman.worktrees\\muaman-13p-independent-fresh-user-install-first-launch-acceptance\\docs\\muaman-13p\\evidence\\20260808-225059\\installer\\muaman-windows-installer.exe",
+                              "sha256":  "05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB",
+                              "sizeBytes":  12528766,
+                              "expectedSha256":  "05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB",
+                              "expectedSizeBytes":  12528766,
+                              "sha256Match":  true,
+                              "sizeMatch":  true
+                          },
+    "delivery":  {
+                     "verdict":  "PASS",
+                     "packageDirName":  "Muaman-1.0.0-Windows",
+                     "setupExeName":  "Muaman-Setup.exe",
+                     "fileCount":  3,
+                     "minimalFileNames":  [
+                                              "Muaman-Setup.exe",
+                                              "README.txt",
+                                              "SHA256SUMS.txt"
+                                          ],
+                     "checksumManifestCorrect":  true,
+                     "readmeNonEmpty":  true
+                 },
+    "packaging":  {
+                      "verdict":  "PASS",
+                      "zipFilename":  "Muaman-1.0.0-Windows.zip",
+                      "zipSha256":  "5633775FF7808FD0437F4FC3835A6ED8147455220A7A5CD33974850999C62127",
+                      "zipSize":  11971503,
+                      "entryCount":  3,
+                      "constantEntryTimestampLocal":  "2024-01-01T00:00:00",
+                      "constantEntryTimestampDos":  "0x58210000"
+                  },
+    "outputs":  {
+                    "outputRoot":  "C:\\dev\\muaman.worktrees\\muaman-13r-final-governed-windows-delivery-package-acceptance\\delivery",
+                    "evidenceDir":  "C:\\dev\\muaman.worktrees\\muaman-13r-final-governed-windows-delivery-package-acceptance\\docs\\muaman-13r\\evidence\\20260809-182232",
+                    "deliveryPackageDir":  "C:\\dev\\muaman.worktrees\\muaman-13r-final-governed-windows-delivery-package-acceptance\\delivery\\Muaman-1.0.0-Windows",
+                    "zipPath":  "C:\\dev\\muaman.worktrees\\muaman-13r-final-governed-windows-delivery-package-acceptance\\delivery\\Muaman-1.0.0-Windows.zip",
+                    "zipChecksumPath":  "C:\\dev\\muaman.worktrees\\muaman-13r-final-governed-windows-delivery-package-acceptance\\delivery\\Muaman-1.0.0-Windows.zip.sha256"
+                },
+    "packagingTool":  {
+                          "name":  "tools/muaman13r/package_final_delivery.ps1",
+                          "version":  "1.0",
+                          "sha256":  "AD971F2F374969024D6ECEDFFED3F1056F474D4188CB04FACA5D427EE055FF09"
+                      },
+    "failureReason":  null
+}

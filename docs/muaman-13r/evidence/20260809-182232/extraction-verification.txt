@@ -1,0 +1,9 @@
+﻿MUAMAN-13R extraction verification
+====================================
+zip              : C:\dev\muaman.worktrees\muaman-13r-final-governed-windows-delivery-package-acceptance\delivery\Muaman-1.0.0-Windows.zip
+extractedRoot    : C:\Users\saber\AppData\Local\Temp\m13r-guard-6676\extract-final-verify
+pathSafetyProblems: 0
+extractedFileCount: 3
+Muaman-Setup.exe|12528766|05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB|match=True
+README.txt|2228|849964EAF83C36DDDDDA0AEA1BA5D80A0292FACB987223109272B99209D1E22C|match=True
+SHA256SUMS.txt|84|13AC53E029F9586FEC7085594B2B0E228346EF23C6F7859D3CFE07EAF31B5A7C|match=True
