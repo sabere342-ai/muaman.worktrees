@@ -1,0 +1,13 @@
+Font license notice for the bundled fonts.
+
+These fonts are bundled to render Arabic text in generated PDF documents:
+
+  NotoSansArabic-Regular.ttf
+  NotoSansArabic-Bold.ttf
+
+Copyright 2016 The Noto Project Authors (https://github.com/notofonts/arabic)
+
+Licensed under the SIL Open Font License, Version 1.1
+(https://opensource.org/licenses/OFL-1.1).
+The license text may be obtained at:
+https://scripts.sil.org/OFL

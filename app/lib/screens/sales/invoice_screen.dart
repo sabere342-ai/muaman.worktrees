@@ -4,9 +4,14 @@ import '../../models/product.dart';
 import '../../models/sale.dart';
 import '../../models/invoice.dart';
 import '../../services/app_settings.dart';
+import '../../services/permissions.dart';
+import '../../services/session_state.dart';
+import '../invoices/invoice_preview_screen.dart';
 
 class InvoiceScreen extends StatefulWidget {
-  const InvoiceScreen({super.key});
+  const InvoiceScreen({super.key, this.sessionState});
+
+  final SessionState? sessionState;
 
   @override
   State<InvoiceScreen> createState() => _InvoiceScreenState();
@@ -522,8 +527,26 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
 
     setState(() => _isSaving = true);
     try {
-      await DatabaseHelper.instance.insertInvoiceWithItems(invoice, items);
+      final savedInvoiceId =
+          await DatabaseHelper.instance.insertInvoiceWithItems(invoice, items);
       if (!mounted) return;
+      final canViewHistory = widget.sessionState
+              ?.hasPermission(AppPermission.canViewSalesHistory) ??
+          false;
+      if (canViewHistory) {
+        // Post-sale action: let an authorized user preview and print/export the
+        // invoice they just created, then return to the sales screen.
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => InvoicePreviewScreen(
+              invoiceId: savedInvoiceId,
+              sessionState: widget.sessionState,
+            ),
+          ),
+        );
+        if (!mounted) return;
+      }
       Navigator.pop(context, true);
     } catch (e) {
       if (!mounted) return;

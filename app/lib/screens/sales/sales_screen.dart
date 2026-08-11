@@ -7,6 +7,7 @@ import 'sales_report_screen.dart';
 
 import '../../services/session_state.dart';
 import '../../services/permissions.dart';
+import '../invoices/invoice_preview_screen.dart';
 
 class SalesScreen extends StatefulWidget {
   final bool showAppBar;
@@ -239,30 +240,45 @@ class _SalesScreenState extends State<SalesScreen> {
                 fontSize: 14,
               ),
             ),
-            IconButton(
-              icon: const Icon(Icons.delete, size: 18, color: Colors.red),
-              onPressed: () {
-                final canDelete = widget.sessionState
-                        ?.hasPermission(AppPermission.canDeleteSales) ??
-                    false;
-                if (!canDelete) {
-                  showDialog(
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                            title: const Text('غير مصرح'),
-                            content: const Text('لا يمكنك حذف عمليات البيع.'),
-                            actions: [
-                              TextButton(
-                                  onPressed: () => Navigator.pop(ctx),
-                                  child: const Text('حسناً'))
-                            ],
-                          ));
-                  return;
-                }
-                _confirmDeleteSale(sale);
-              },
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (sale.invoiceId != null)
+                  IconButton(
+                    icon: const Icon(Icons.receipt_long,
+                        size: 18, color: Color(0xFF0D47A1)),
+                    tooltip: 'عرض الفاتورة',
+                    onPressed: () => _openInvoicePreview(sale.invoiceId!),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                IconButton(
+                  icon: const Icon(Icons.delete, size: 18, color: Colors.red),
+                  onPressed: () {
+                    final canDelete = widget.sessionState
+                            ?.hasPermission(AppPermission.canDeleteSales) ??
+                        false;
+                    if (!canDelete) {
+                      showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                                title: const Text('غير مصرح'),
+                                content:
+                                    const Text('لا يمكنك حذف عمليات البيع.'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () => Navigator.pop(ctx),
+                                      child: const Text('حسناً'))
+                                ],
+                              ));
+                      return;
+                    }
+                    _confirmDeleteSale(sale);
+                  },
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                ),
+              ],
             ),
           ],
         ),
@@ -274,12 +290,24 @@ class _SalesScreenState extends State<SalesScreen> {
     final result = await Navigator.push<bool>(
       context,
       MaterialPageRoute(
-        builder: (context) => const InvoiceScreen(),
+        builder: (context) => InvoiceScreen(sessionState: widget.sessionState),
       ),
     );
     if (result == true && _canViewSalesHistory) {
       _loadData();
     }
+  }
+
+  void _openInvoicePreview(int invoiceId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => InvoicePreviewScreen(
+          invoiceId: invoiceId,
+          sessionState: widget.sessionState,
+        ),
+      ),
+    );
   }
 
   Widget _buildCreateSaleEntry(BuildContext context) {

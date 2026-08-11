@@ -600,6 +600,29 @@ class DatabaseHelper {
     return maps.map((map) => Sale.fromMap(map)).toList();
   }
 
+  /// Loads a single invoice header. Gated by [canViewSalesHistory] like every
+  /// other sales-history read, so a previous invoice can never be loaded for an
+  /// unauthorized role even through a direct route.
+  Future<Invoice?> getInvoiceById(int id, {UserRole? currentRole}) async {
+    _requireSalesHistoryAccess(currentRole);
+    final db = await database;
+    final maps =
+        await db.query('invoices', where: 'id = ?', whereArgs: [id], limit: 1);
+    if (maps.isEmpty) return null;
+    return Invoice.fromMap(maps.first);
+  }
+
+  /// Loads the sale rows of an invoice in insertion order. Gated by
+  /// [canViewSalesHistory].
+  Future<List<Sale>> getSalesByInvoiceId(int invoiceId,
+      {UserRole? currentRole}) async {
+    _requireSalesHistoryAccess(currentRole);
+    final db = await database;
+    final maps = await db.query('sales',
+        where: 'invoiceId = ?', whereArgs: [invoiceId], orderBy: 'id ASC');
+    return maps.map((map) => Sale.fromMap(map)).toList();
+  }
+
   Future<List<Sale>> getSalesByDateRange(DateTime start, DateTime end,
       {UserRole? currentRole}) async {
     _requireSalesHistoryAccess(currentRole);
