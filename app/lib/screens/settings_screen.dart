@@ -1,11 +1,14 @@
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../database/database_helper.dart';
 import '../database/workbook_importer.dart';
+import '../models/shop_profile.dart';
 import '../services/app_settings.dart';
 import '../services/permissions.dart';
 import '../services/session_state.dart';
+import '../services/shop_profile_service.dart';
 import 'admin/roles_permissions_screen.dart';
 import 'admin/user_management_screen.dart';
 
@@ -21,17 +24,28 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   final _licenseController = TextEditingController();
   final _workbookPathController = TextEditingController();
+  final _shopNameController = TextEditingController();
+  final _ownerNameController = TextEditingController();
+  final _shopPhoneController = TextEditingController();
+  final _shopAddressController = TextEditingController();
+  final _logoPathController = TextEditingController();
   String _buttonStyle = 'filled';
   String _supportPhone = AppSettings.defaultSupportPhone;
   String _licenseStatus = 'inactive';
   bool _isSaving = false;
   bool _isImporting = false;
+  bool _isSavingProfile = false;
+  String _currentLogoPath = '';
 
   @override
   void initState() {
     super.initState();
     _loadSettings();
+    _loadShopProfile();
   }
+
+  bool get _canEditShopProfile =>
+      widget.sessionState.hasPermission(AppPermission.canAccessSettings);
 
   Future<void> _loadSettings() async {
     await AppSettings.initializeDefaults();
@@ -49,6 +63,80 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
+  Future<void> _loadShopProfile() async {
+    await ShopProfileService.instance.load();
+    final profile = ShopProfileService.instance.current;
+    if (!mounted) return;
+    setState(() {
+      _shopNameController.text = profile.shopName;
+      _ownerNameController.text = profile.ownerOrManagerName;
+      _shopPhoneController.text = profile.phone;
+      _shopAddressController.text = profile.address;
+      _logoPathController.text = profile.logoPath;
+      _currentLogoPath = profile.logoPath;
+    });
+  }
+
+  Future<void> _pickLogo() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: const ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'],
+    );
+    if (result == null || result.files.isEmpty || !mounted) return;
+    final path = result.files.single.path;
+    if (path == null) return;
+    setState(() => _logoPathController.text = path);
+  }
+
+  Future<void> _saveShopProfile() async {
+    final shopName = _shopNameController.text.trim();
+    if (shopName.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('اسم المحل مطلوب'), backgroundColor: Colors.red),
+      );
+      return;
+    }
+    setState(() => _isSavingProfile = true);
+    try {
+      await ShopProfileService.instance.save(
+        ShopProfile(
+          shopName: shopName,
+          ownerOrManagerName: _ownerNameController.text.trim(),
+          phone: _shopPhoneController.text.trim(),
+          address: _shopAddressController.text.trim(),
+          logoPath: _currentLogoPath,
+        ),
+        actorRole: widget.sessionState.currentRole,
+        logoSourcePath: _logoPathController.text.trim(),
+      );
+      if (!mounted) return;
+      final saved = ShopProfileService.instance.current;
+      setState(() {
+        _isSavingProfile = false;
+        _logoPathController.text = saved.logoPath;
+        _currentLogoPath = saved.logoPath;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('تم حفظ بيانات المحل بنجاح')),
+      );
+    } on PermissionDeniedException catch (e) {
+      if (!mounted) return;
+      setState(() => _isSavingProfile = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message), backgroundColor: Colors.red),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _isSavingProfile = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text('فشل حفظ بيانات المحل: $e'),
+            backgroundColor: Colors.red),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,6 +151,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
+            const Text('هوية المتجر',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            const SizedBox(height: 8),
+            _buildShopProfileSection(),
+            const SizedBox(height: 24),
             const Text('الأمان والصلاحيات',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             const SizedBox(height: 8),
@@ -226,6 +319,154 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  Widget _buildShopProfileSection() {
+    if (!_canEditShopProfile) {
+      return Card(
+        elevation: 1,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: const ListTile(
+          leading: Icon(Icons.store, color: Color(0xFF0D47A1)),
+          title: Text('بيانات المتجر'),
+          subtitle: Text('غير مصرح لك بتعديل بيانات المتجر'),
+        ),
+      );
+    }
+    return Card(
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                _buildLogoPreview(),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    'اسم المحل والبيانات التعريفية التي تظهر في التطبيق',
+                    style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _shopNameController,
+              decoration: const InputDecoration(
+                labelText: 'اسم المتجر',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.storefront),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _ownerNameController,
+              decoration: const InputDecoration(
+                labelText: 'اسم المالك / المسؤول',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.person),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _shopPhoneController,
+              keyboardType: TextInputType.phone,
+              decoration: const InputDecoration(
+                labelText: 'رقم الهاتف',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.phone),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _shopAddressController,
+              decoration: const InputDecoration(
+                labelText: 'العنوان',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.location_on),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _logoPathController,
+                    decoration: const InputDecoration(
+                      labelText: 'مسار صورة الشعار',
+                      hintText:
+                          'اختر صورة شعار لتُحفظ نسخة منها داخل بيانات التطبيق',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.image),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                IconButton.filled(
+                  onPressed: _isSavingProfile ? null : _pickLogo,
+                  icon: const Icon(Icons.folder_open),
+                  tooltip: 'اختيار الشعار',
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton.icon(
+              onPressed: _isSavingProfile ? null : _saveShopProfile,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF0D47A1),
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+              ),
+              icon: _isSavingProfile
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(
+                          strokeWidth: 2, color: Colors.white),
+                    )
+                  : const Icon(Icons.save),
+              label: const Text('حفظ بيانات المتجر',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLogoPreview() {
+    final path = _currentLogoPath;
+    if (path.isNotEmpty && File(path).existsSync()) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Image.file(
+          File(path),
+          width: 72,
+          height: 72,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) => _logoPlaceholder(),
+        ),
+      );
+    }
+    return _logoPlaceholder();
+  }
+
+  Widget _logoPlaceholder() {
+    return Container(
+      width: 72,
+      height: 72,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Icon(Icons.store, size: 32, color: Colors.grey.shade500),
+    );
+  }
+
   void _openRolesPermissions(BuildContext context) {
     Navigator.push(
       context,
@@ -323,6 +564,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void dispose() {
     _licenseController.dispose();
     _workbookPathController.dispose();
+    _shopNameController.dispose();
+    _ownerNameController.dispose();
+    _shopPhoneController.dispose();
+    _shopAddressController.dispose();
+    _logoPathController.dispose();
     super.dispose();
   }
 }

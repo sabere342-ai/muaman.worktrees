@@ -3,6 +3,10 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'package:muaman_store/main.dart';
 import 'package:muaman_store/database/database_helper.dart';
+import 'package:muaman_store/models/shop_profile.dart';
+import 'package:muaman_store/models/user_role.dart';
+import 'package:muaman_store/services/permission_resolver.dart';
+import 'package:muaman_store/services/shop_profile_service.dart';
 
 void main() {
   sqfliteFfiInit();
@@ -13,6 +17,8 @@ void main() {
         await databaseFactoryFfiNoIsolate.openDatabase(inMemoryDatabasePath);
     await _createWidgetTestTables(db);
     DatabaseHelper.setTestDatabase(db);
+    ShopProfileService.instance.invalidate();
+    PermissionResolver.instance.invalidate();
   });
 
   tearDown(() async {
@@ -50,6 +56,32 @@ void main() {
     await tester.pump();
 
     expect(find.text('إدارة محل مؤمن'), findsOneWidget);
+    expect(find.text('اسم المستخدم'), findsOneWidget);
+  });
+
+  testWidgets('Login screen reflects a persisted custom shop profile',
+      (WidgetTester tester) async {
+    final db = await DatabaseHelper.instance.database;
+    await db.insert('users', {
+      'displayName': 'Test Owner',
+      'username': 'owner',
+      'passwordHash': 'dummy:dummy',
+      'role': 'owner',
+      'isActive': 1,
+      'createdAt': DateTime.now().toIso8601String(),
+      'updatedAt': DateTime.now().toIso8601String(),
+    });
+
+    await ShopProfileService.instance.save(
+        const ShopProfile(shopName: 'متجر النور'),
+        actorRole: UserRole.owner);
+
+    await tester.pumpWidget(const MyApp());
+
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.text('إدارة متجر النور'), findsOneWidget);
     expect(find.text('اسم المستخدم'), findsOneWidget);
   });
 }

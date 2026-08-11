@@ -9,6 +9,8 @@ import 'services/session_state.dart';
 import 'services/permissions.dart';
 import 'services/permission_resolver.dart';
 import 'services/app_settings.dart';
+import 'services/shop_profile_service.dart';
+import 'models/shop_profile.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/first_owner_setup_screen.dart';
 import 'screens/admin/user_management_screen.dart';
@@ -31,13 +33,36 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    ShopProfileService.instance.addListener(_onProfileChanged);
+  }
+
+  @override
+  void dispose() {
+    ShopProfileService.instance.removeListener(_onProfileChanged);
+    super.dispose();
+  }
+
+  void _onProfileChanged() {
+    if (mounted) setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final shopName = ShopProfileService.instance.current.shopName.trim();
     return MaterialApp(
-      title: 'إدارة محل مؤمن',
+      title:
+          'إدارة ${shopName.isEmpty ? ShopProfile.neutralShopName : shopName}',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.teal,
@@ -94,6 +119,7 @@ class _AuthGateState extends State<AuthGate> {
     await DatabaseHelper.instance.database;
     await AppSettings.initializeDefaults();
     await PermissionResolver.instance.refresh();
+    await ShopProfileService.instance.load();
     final hasUsers = await _userRepo.hasAnyUser();
     if (mounted) {
       setState(() {

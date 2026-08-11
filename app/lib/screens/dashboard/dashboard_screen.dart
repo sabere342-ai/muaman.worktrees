@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../database/database_helper.dart';
+import '../../models/shop_profile.dart';
 import '../../services/permissions.dart';
 import '../../services/session_state.dart';
+import '../../services/shop_profile_service.dart';
+import '../../widgets/shop_logo.dart';
 import '../sales/sales_report_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -92,24 +95,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
         borderRadius: BorderRadius.circular(16),
       ),
-      child: const Column(
-        children: [
-          Icon(Icons.store, size: 48, color: Colors.white),
-          SizedBox(height: 8),
-          Text(
-            'لوحة تحكم محل مؤمن',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(height: 4),
-          Text(
-            'كل الأرقام محدثة تلقائيًا',
-            style: TextStyle(fontSize: 12, color: Colors.white70),
-          ),
-        ],
+      child: ListenableBuilder(
+        listenable: ShopProfileService.instance,
+        builder: (context, _) {
+          final shopName = ShopProfileService.instance.current.shopName.trim();
+          return Column(
+            children: [
+              const ShopLogo(size: 48, fallbackColor: Colors.white),
+              const SizedBox(height: 8),
+              Text(
+                'لوحة تحكم ${shopName.isEmpty ? ShopProfile.neutralShopName : shopName}',
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 4),
+              const Text(
+                'كل الأرقام محدثة تلقائيًا',
+                style: TextStyle(fontSize: 12, color: Colors.white70),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

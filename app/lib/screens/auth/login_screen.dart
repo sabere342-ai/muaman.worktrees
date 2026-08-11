@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../database/user_repository.dart';
+import '../../models/shop_profile.dart';
 import '../../services/session_state.dart';
+import '../../services/shop_profile_service.dart';
+import '../../widgets/shop_logo.dart';
 
 class LoginScreen extends StatefulWidget {
   final SessionState sessionState;
@@ -103,13 +106,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.store, size: 80, color: Colors.teal.shade700),
+                    const ShopLogo(size: 80),
                     const SizedBox(height: 16),
-                    Text('إدارة محل مؤمن',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall
-                            ?.copyWith(fontWeight: FontWeight.bold)),
+                    ListenableBuilder(
+                      listenable: ShopProfileService.instance,
+                      builder: (context, _) {
+                        final shopName =
+                            ShopProfileService.instance.current.shopName.trim();
+                        return Text(
+                          'إدارة ${shopName.isEmpty ? ShopProfile.neutralShopName : shopName}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        );
+                      },
+                    ),
                     const SizedBox(height: 8),
                     Text('تسجيل الدخول',
                         style: Theme.of(context)
