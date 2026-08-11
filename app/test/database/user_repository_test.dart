@@ -4,6 +4,7 @@ import 'package:muaman_store/database/user_repository.dart';
 import 'package:muaman_store/database/database_helper.dart';
 import 'package:muaman_store/models/user_role.dart';
 import 'package:muaman_store/services/permissions.dart';
+import 'package:muaman_store/services/permission_resolver.dart';
 
 void main() {
   setUpAll(() {
@@ -490,163 +491,99 @@ void main() {
   });
 
   group('Permissions', () {
+    // A resolver with no persisted configuration must reproduce the MUAMAN-14
+    // baseline defaults exactly (fail-safe fallback).
+    final resolver = PermissionResolver();
+
     test('36. Owner has all permissions', () {
-      expect(
-          Permissions.hasPermission(
-              UserRole.owner, AppPermission.canAccessDashboard),
-          true);
-      expect(
-          Permissions.hasPermission(
-              UserRole.owner, AppPermission.canAccessInventory),
-          true);
-      expect(
-          Permissions.hasPermission(
-              UserRole.owner, AppPermission.canAccessSales),
-          true);
-      expect(
-          Permissions.hasPermission(
-              UserRole.owner, AppPermission.canCreateSales),
-          true);
-      expect(
-          Permissions.hasPermission(
-              UserRole.owner, AppPermission.canViewSalesHistory),
-          true);
-      expect(
-          Permissions.hasPermission(
-              UserRole.owner, AppPermission.canAccessReturns),
-          true);
-      expect(
-          Permissions.hasPermission(
-              UserRole.owner, AppPermission.canAccessExpenses),
-          true);
-      expect(
-          Permissions.hasPermission(
-              UserRole.owner, AppPermission.canAccessAnalytics),
-          true);
-      expect(
-          Permissions.hasPermission(
-              UserRole.owner, AppPermission.canAccessStocktake),
-          true);
-      expect(
-          Permissions.hasPermission(
-              UserRole.owner, AppPermission.canManageUsers),
-          true);
+      for (final permission in AppPermission.values) {
+        expect(resolver.can(UserRole.owner, permission), true,
+            reason: 'Owner should always hold ${permission.id}');
+      }
     });
 
-    test('37. Employee cannot manage users', () {
+    test('36b. Owner is never reduced by a persisted configuration', () async {
+      final fresh = PermissionResolver();
+      await fresh.refresh();
+      for (final permission in AppPermission.values) {
+        expect(fresh.can(UserRole.owner, permission), true,
+            reason: 'Owner should always hold ${permission.id}');
+      }
+    });
+
+    test('37. Employee cannot manage users or permissions or settings', () {
       expect(
-          Permissions.hasPermission(
-              UserRole.employee, AppPermission.canManageUsers),
+          resolver.can(UserRole.employee, AppPermission.canManageUsers), false);
+      expect(
+          resolver.can(UserRole.employee, AppPermission.canManagePermissions),
+          false);
+      expect(resolver.can(UserRole.employee, AppPermission.canAccessSettings),
           false);
     });
 
-    test('38. Employee can access operational screens', () {
-      expect(
-          Permissions.hasPermission(
-              UserRole.employee, AppPermission.canAccessDashboard),
-          true);
-      expect(
-          Permissions.hasPermission(
-              UserRole.employee, AppPermission.canAccessInventory),
-          true);
-      expect(
-          Permissions.hasPermission(
-              UserRole.employee, AppPermission.canAccessSales),
-          true);
-      expect(
-          Permissions.hasPermission(
-              UserRole.employee, AppPermission.canCreateSales),
-          true);
-      expect(
-          Permissions.hasPermission(
-              UserRole.employee, AppPermission.canViewSalesHistory),
-          true);
-      expect(
-          Permissions.hasPermission(
-              UserRole.employee, AppPermission.canAccessReturns),
-          true);
-      expect(
-          Permissions.hasPermission(
-              UserRole.employee, AppPermission.canAccessExpenses),
-          true);
-      expect(
-          Permissions.hasPermission(
-              UserRole.employee, AppPermission.canAccessAnalytics),
-          true);
-      expect(
-          Permissions.hasPermission(
-              UserRole.employee, AppPermission.canAccessStocktake),
-          true);
+    test('38. Employee can access operational screens and create/edit', () {
+      for (final permission in {
+        AppPermission.canAccessDashboard,
+        AppPermission.canAccessInventory,
+        AppPermission.canEditProducts,
+        AppPermission.canAccessSales,
+        AppPermission.canCreateSales,
+        AppPermission.canViewSalesHistory,
+        AppPermission.canAccessReturns,
+        AppPermission.canCreateReturns,
+        AppPermission.canAccessExpenses,
+        AppPermission.canCreateExpenses,
+        AppPermission.canAccessStocktake,
+      }) {
+        expect(resolver.can(UserRole.employee, permission), true,
+            reason: 'Employee should hold ${permission.id}');
+      }
     });
 
-    test('39. SalesOnly can access sales', () {
-      expect(
-          Permissions.hasPermission(
-              UserRole.salesOnly, AppPermission.canAccessSales),
-          true);
+    test('38b. Employee cannot delete (owner-only in baseline)', () {
+      for (final permission in {
+        AppPermission.canDeleteProducts,
+        AppPermission.canDeleteSales,
+        AppPermission.canDeleteReturns,
+        AppPermission.canDeleteExpenses,
+      }) {
+        expect(resolver.can(UserRole.employee, permission), false,
+            reason: 'Employee should not hold ${permission.id}');
+      }
     });
 
-    test('39b. SalesOnly can create sales', () {
+    test('39. SalesOnly can access and create sales', () {
       expect(
-          Permissions.hasPermission(
-              UserRole.salesOnly, AppPermission.canCreateSales),
-          true);
+          resolver.can(UserRole.salesOnly, AppPermission.canAccessSales), true);
+      expect(
+          resolver.can(UserRole.salesOnly, AppPermission.canCreateSales), true);
     });
 
     test('39c. SalesOnly cannot view sales history', () {
       expect(
-          Permissions.hasPermission(
-              UserRole.salesOnly, AppPermission.canViewSalesHistory),
+          resolver.can(UserRole.salesOnly, AppPermission.canViewSalesHistory),
           false);
     });
 
-    test('40. SalesOnly cannot access dashboard', () {
-      expect(
-          Permissions.hasPermission(
-              UserRole.salesOnly, AppPermission.canAccessDashboard),
+    test('39d. SalesOnly cannot delete sales', () {
+      expect(resolver.can(UserRole.salesOnly, AppPermission.canDeleteSales),
           false);
     });
 
-    test('41. SalesOnly cannot access inventory', () {
-      expect(
-          Permissions.hasPermission(
-              UserRole.salesOnly, AppPermission.canAccessInventory),
-          false);
-    });
-
-    test('42. SalesOnly cannot access returns', () {
-      expect(
-          Permissions.hasPermission(
-              UserRole.salesOnly, AppPermission.canAccessReturns),
-          false);
-    });
-
-    test('43. SalesOnly cannot access expenses', () {
-      expect(
-          Permissions.hasPermission(
-              UserRole.salesOnly, AppPermission.canAccessExpenses),
-          false);
-    });
-
-    test('44. SalesOnly cannot access analytics', () {
-      expect(
-          Permissions.hasPermission(
-              UserRole.salesOnly, AppPermission.canAccessAnalytics),
-          false);
-    });
-
-    test('45. SalesOnly cannot access stocktake', () {
-      expect(
-          Permissions.hasPermission(
-              UserRole.salesOnly, AppPermission.canAccessStocktake),
-          false);
-    });
-
-    test('46. SalesOnly cannot manage users', () {
-      expect(
-          Permissions.hasPermission(
-              UserRole.salesOnly, AppPermission.canManageUsers),
-          false);
+    test('40-45. SalesOnly cannot access other screens or admin powers', () {
+      for (final permission in {
+        AppPermission.canAccessDashboard,
+        AppPermission.canAccessInventory,
+        AppPermission.canAccessReturns,
+        AppPermission.canAccessExpenses,
+        AppPermission.canAccessStocktake,
+        AppPermission.canManageUsers,
+        AppPermission.canManagePermissions,
+        AppPermission.canAccessSettings,
+      }) {
+        expect(resolver.can(UserRole.salesOnly, permission), false,
+            reason: 'SalesOnly should not hold ${permission.id}');
+      }
     });
   });
 }
@@ -746,6 +683,13 @@ Future<void> createTestTables(Database db) async {
       total_expenses REAL DEFAULT 0,
       net_profit REAL DEFAULT 0,
       reconciliation_json TEXT
+    )
+  ''');
+  await db.execute('''
+    CREATE TABLE role_permissions (
+      role TEXT PRIMARY KEY,
+      permissions TEXT NOT NULL,
+      updatedAt TEXT NOT NULL
     )
   ''');
 }

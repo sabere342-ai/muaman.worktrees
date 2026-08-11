@@ -135,15 +135,21 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _showAddExpenseDialog(context),
-        icon: const Icon(Icons.add),
-        label: const Text('مصروف جديد'),
-        backgroundColor: const Color(0xFFE65100),
-        foregroundColor: Colors.white,
-      ),
+      floatingActionButton: _canCreateExpenses
+          ? FloatingActionButton.extended(
+              onPressed: () => _showAddExpenseDialog(context),
+              icon: const Icon(Icons.add),
+              label: const Text('مصروف جديد'),
+              backgroundColor: const Color(0xFFE65100),
+              foregroundColor: Colors.white,
+            )
+          : null,
     );
   }
+
+  bool get _canCreateExpenses =>
+      widget.sessionState?.hasPermission(AppPermission.canCreateExpenses) ??
+      false;
 
   void _showAddExpenseDialog(BuildContext context) {
     final descController = TextEditingController();
@@ -251,7 +257,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () async {
               final canDelete = widget.sessionState
-                      ?.hasPermission(AppPermission.canManageUsers) ??
+                      ?.hasPermission(AppPermission.canDeleteExpenses) ??
                   false;
               if (!canDelete) {
                 if (context.mounted) {
@@ -260,8 +266,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                       context: context,
                       builder: (ctx) => AlertDialog(
                             title: const Text('غير مصرح'),
-                            content: const Text(
-                                'لا يمكنك حذف العمليات. هذه الخاصية متاحة للمالك فقط.'),
+                            content: const Text('لا يمكنك حذف المصروفات.'),
                             actions: [
                               TextButton(
                                   onPressed: () => Navigator.pop(ctx),

@@ -4,6 +4,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'package:muaman_store/database/database_helper.dart';
 import 'package:muaman_store/database/user_repository.dart';
+import 'package:muaman_store/models/user.dart';
 import 'package:muaman_store/models/user_role.dart';
 import 'package:muaman_store/screens/admin/user_management_screen.dart';
 import 'package:muaman_store/screens/auth/login_screen.dart';
@@ -35,6 +36,19 @@ void main() {
         matching: find.byType(TextField),
       )
       .at(index);
+
+  SessionState ownerSession() {
+    final session = SessionState();
+    session.login(User(
+      displayName: 'المالك',
+      username: 'owner',
+      passwordHash: 'dummy',
+      role: UserRole.owner,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    ));
+    return session;
+  }
 
   group('Login screen Enter key', () {
     testWidgets('Enter on password field performs login',
@@ -160,7 +174,9 @@ void main() {
   group('Inventory add/edit dialog Enter key', () {
     testWidgets('Enter on quantity field adds the product',
         (WidgetTester tester) async {
-      await tester.pumpWidget(const MaterialApp(home: InventoryScreen()));
+      await tester.pumpWidget(
+        MaterialApp(home: InventoryScreen(sessionState: ownerSession())),
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('إضافة صنف'));
@@ -195,7 +211,9 @@ void main() {
         'inventoryAdjustment': 0,
       });
 
-      await tester.pumpWidget(const MaterialApp(home: InventoryScreen()));
+      await tester.pumpWidget(
+        MaterialApp(home: InventoryScreen(sessionState: ownerSession())),
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.byIcon(Icons.more_vert));

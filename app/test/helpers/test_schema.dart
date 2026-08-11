@@ -115,4 +115,11 @@ Future<void> createTestSchema(Database db) async {
       createdAt TEXT NOT NULL
     )
   ''');
+  await db.execute('''
+    CREATE TABLE IF NOT EXISTS role_permissions (
+      role TEXT PRIMARY KEY,
+      permissions TEXT NOT NULL,
+      updatedAt TEXT NOT NULL
+    )
+  ''');
 }

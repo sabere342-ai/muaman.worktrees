@@ -37,6 +37,14 @@ enum UserRole {
         throw InvalidUserRoleException(value);
     }
   }
+
+  static UserRole? fromStringOrNull(String? value) {
+    if (value == null) return null;
+    for (final role in UserRole.values) {
+      if (role.value == value) return role;
+    }
+    return null;
+  }
 }
 
 class InvalidUserRoleException implements Exception {

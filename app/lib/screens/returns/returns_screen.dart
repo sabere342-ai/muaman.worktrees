@@ -143,15 +143,21 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _showAddReturnDialog(context),
-        icon: const Icon(Icons.assignment_return),
-        label: const Text('إرجاع'),
-        backgroundColor: const Color(0xFFB71C1C),
-        foregroundColor: Colors.white,
-      ),
+      floatingActionButton: _canCreateReturns
+          ? FloatingActionButton.extended(
+              onPressed: () => _showAddReturnDialog(context),
+              icon: const Icon(Icons.assignment_return),
+              label: const Text('إرجاع'),
+              backgroundColor: const Color(0xFFB71C1C),
+              foregroundColor: Colors.white,
+            )
+          : null,
     );
   }
+
+  bool get _canCreateReturns =>
+      widget.sessionState?.hasPermission(AppPermission.canCreateReturns) ??
+      false;
 
   void _showAddReturnDialog(BuildContext context) {
     Product? selectedProduct;
@@ -287,7 +293,7 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () async {
               final canDelete = widget.sessionState
-                      ?.hasPermission(AppPermission.canManageUsers) ??
+                      ?.hasPermission(AppPermission.canDeleteReturns) ??
                   false;
               if (!canDelete) {
                 if (context.mounted) {
@@ -296,8 +302,7 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
                       context: context,
                       builder: (ctx) => AlertDialog(
                             title: const Text('غير مصرح'),
-                            content: const Text(
-                                'لا يمكنك حذف العمليات. هذه الخاصية متاحة للمالك فقط.'),
+                            content: const Text('لا يمكنك حذف المرتجعات.'),
                             actions: [
                               TextButton(
                                   onPressed: () => Navigator.pop(ctx),

@@ -7,6 +7,7 @@ import 'database/user_repository.dart';
 import 'models/user_role.dart';
 import 'services/session_state.dart';
 import 'services/permissions.dart';
+import 'services/permission_resolver.dart';
 import 'services/app_settings.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/first_owner_setup_screen.dart';
@@ -92,6 +93,7 @@ class _AuthGateState extends State<AuthGate> {
   Future<void> _initialize() async {
     await DatabaseHelper.instance.database;
     await AppSettings.initializeDefaults();
+    await PermissionResolver.instance.refresh();
     final hasUsers = await _userRepo.hasAnyUser();
     if (mounted) {
       setState(() {
@@ -314,7 +316,8 @@ class _FullAppShellState extends State<FullAppShell> {
                 tooltip: 'إدارة المستخدمين',
                 onPressed: () => _openUserManagement(context),
               ),
-            if (widget.sessionState.hasPermission(AppPermission.canManageUsers))
+            if (widget.sessionState
+                .hasPermission(AppPermission.canAccessSettings))
               IconButton(
                 icon: const Icon(Icons.settings),
                 tooltip: 'الإعدادات',
@@ -372,9 +375,9 @@ class _FullAppShellState extends State<FullAppShell> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const Directionality(
+        builder: (context) => Directionality(
           textDirection: TextDirection.rtl,
-          child: SettingsScreen(),
+          child: SettingsScreen(sessionState: widget.sessionState),
         ),
       ),
     );

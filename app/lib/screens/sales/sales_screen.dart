@@ -34,6 +34,9 @@ class _SalesScreenState extends State<SalesScreen> {
       widget.sessionState?.hasPermission(AppPermission.canViewSalesHistory) ??
       false;
 
+  bool get _canCreateSales =>
+      widget.sessionState?.hasPermission(AppPermission.canCreateSales) ?? false;
+
   @override
   void initState() {
     super.initState();
@@ -195,7 +198,7 @@ class _SalesScreenState extends State<SalesScreen> {
           ),
         ],
       ),
-      floatingActionButton: widget.showFab
+      floatingActionButton: widget.showFab && _canCreateSales
           ? FloatingActionButton.extended(
               onPressed: () => _openInvoiceScreen(context),
               icon: const Icon(Icons.add_shopping_cart),
@@ -239,17 +242,15 @@ class _SalesScreenState extends State<SalesScreen> {
             IconButton(
               icon: const Icon(Icons.delete, size: 18, color: Colors.red),
               onPressed: () {
-                // Only owner may delete operations
                 final canDelete = widget.sessionState
-                        ?.hasPermission(AppPermission.canManageUsers) ??
+                        ?.hasPermission(AppPermission.canDeleteSales) ??
                     false;
                 if (!canDelete) {
                   showDialog(
                       context: context,
                       builder: (ctx) => AlertDialog(
                             title: const Text('غير مصرح'),
-                            content: const Text(
-                                'لا يمكنك حذف العمليات. هذه الخاصية متاحة للمالك فقط.'),
+                            content: const Text('لا يمكنك حذف عمليات البيع.'),
                             actions: [
                               TextButton(
                                   onPressed: () => Navigator.pop(ctx),
@@ -299,20 +300,26 @@ class _SalesScreenState extends State<SalesScreen> {
               style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
             ),
             const SizedBox(height: 24),
-            ElevatedButton.icon(
-              onPressed: () => _openInvoiceScreen(context),
-              icon: const Icon(Icons.add_shopping_cart),
-              label: const Text('فاتورة جديدة',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0D47A1),
-                foregroundColor: Colors.white,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
+            if (_canCreateSales)
+              ElevatedButton.icon(
+                onPressed: () => _openInvoiceScreen(context),
+                icon: const Icon(Icons.add_shopping_cart),
+                label: const Text('فاتورة جديدة',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF0D47A1),
+                  foregroundColor: Colors.white,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                ),
+              )
+            else
+              Text(
+                'لا تملك صلاحية تسجيل فواتير بيع.',
+                style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
               ),
-            ),
           ],
         ),
       ),

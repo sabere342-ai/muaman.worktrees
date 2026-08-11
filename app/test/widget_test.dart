@@ -158,6 +158,13 @@ Future<void> _createWidgetTestTables(Database db) async {
     )
   ''');
   await db.execute('''
+    CREATE TABLE IF NOT EXISTS role_permissions (
+      role TEXT PRIMARY KEY,
+      permissions TEXT NOT NULL,
+      updatedAt TEXT NOT NULL
+    )
+  ''');
+  await db.execute('''
     CREATE TABLE IF NOT EXISTS invoices (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       invoiceNumber TEXT NOT NULL UNIQUE,

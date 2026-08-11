@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../database/database_helper.dart';
+import '../../services/permissions.dart';
 import '../../services/session_state.dart';
 import '../sales/sales_report_screen.dart';
 
@@ -16,6 +17,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Map<String, double> _financialData = {};
   Map<String, dynamic> _inventoryData = {};
   bool _isLoading = true;
+
+  bool get _canViewSalesHistory =>
+      widget.sessionState?.hasPermission(AppPermission.canViewSalesHistory) ??
+      false;
 
   @override
   void initState() {
@@ -60,8 +65,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   children: [
                     _buildHeader(),
                     const SizedBox(height: 16),
-                    _buildFinancialSection(),
-                    const SizedBox(height: 16),
+                    if (_canViewSalesHistory) ...[
+                      _buildFinancialSection(),
+                      const SizedBox(height: 16),
+                    ],
                     _buildInventorySection(),
                     const SizedBox(height: 16),
                     _buildOperationsSection(),
@@ -169,29 +176,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
         _buildStatRow(
             'سجلات المصروفات', '${_inventoryData['expensesCount'] ?? 0}'),
         const Divider(height: 16),
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton.icon(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        SalesReportScreen(sessionState: widget.sessionState)),
-              );
-            },
-            icon: const Icon(Icons.assessment, size: 18),
-            label: const Text('تقارير المبيعات التفصيلية',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF0D47A1),
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
+        if (_canViewSalesHistory)
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          SalesReportScreen(sessionState: widget.sessionState)),
+                );
+              },
+              icon: const Icon(Icons.assessment, size: 18),
+              label: const Text('تقارير المبيعات التفصيلية',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF0D47A1),
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+              ),
             ),
           ),
-        ),
       ],
     );
   }

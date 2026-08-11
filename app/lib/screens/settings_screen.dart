@@ -4,9 +4,15 @@ import 'package:flutter/services.dart';
 import '../database/database_helper.dart';
 import '../database/workbook_importer.dart';
 import '../services/app_settings.dart';
+import '../services/permissions.dart';
+import '../services/session_state.dart';
+import 'admin/roles_permissions_screen.dart';
+import 'admin/user_management_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  final SessionState sessionState;
+
+  const SettingsScreen({super.key, required this.sessionState});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -57,6 +63,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
+            const Text('الأمان والصلاحيات',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            const SizedBox(height: 8),
+            Card(
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              child: Column(
+                children: [
+                  if (widget.sessionState
+                      .hasPermission(AppPermission.canManagePermissions))
+                    ListTile(
+                      leading: const Icon(Icons.admin_panel_settings,
+                          color: Color(0xFF0D47A1)),
+                      title: const Text('صلاحيات الأدوار'),
+                      subtitle:
+                          const Text('التحكم في صلاحيات كل دور من الأدوار'),
+                      trailing: const Icon(Icons.chevron_left),
+                      onTap: () => _openRolesPermissions(context),
+                    ),
+                  if (widget.sessionState
+                      .hasPermission(AppPermission.canManagePermissions))
+                    const Divider(height: 1),
+                  if (widget.sessionState
+                      .hasPermission(AppPermission.canManageUsers))
+                    ListTile(
+                      leading:
+                          const Icon(Icons.people, color: Color(0xFF0D47A1)),
+                      title: const Text('إدارة المستخدمين'),
+                      subtitle: const Text('إنشاء وتعديل حسابات المستخدمين'),
+                      trailing: const Icon(Icons.chevron_left),
+                      onTap: () => _openUserManagement(context),
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
             const Text('مظهر الأزرار',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             const SizedBox(height: 8),
@@ -178,6 +221,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Text(
                 'حالة الترخيص: ${_licenseStatus == 'active' ? 'نشطة' : 'غير نشطة'}'),
           ],
+        ),
+      ),
+    );
+  }
+
+  void _openRolesPermissions(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Directionality(
+          textDirection: TextDirection.rtl,
+          child: RolesPermissionsScreen(sessionState: widget.sessionState),
+        ),
+      ),
+    );
+  }
+
+  void _openUserManagement(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Directionality(
+          textDirection: TextDirection.rtl,
+          child: UserManagementScreen(sessionState: widget.sessionState),
         ),
       ),
     );

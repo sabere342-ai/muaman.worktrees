@@ -7,11 +7,16 @@ import '../models/expense.dart';
 import '../models/invoice.dart';
 import '../models/user_role.dart';
 import '../services/permissions.dart';
+import '../services/permission_resolver.dart';
 import 'data_importer.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
   static Database? _database;
+
+  /// Central permission source used by the data-layer guards. Tests may swap
+  /// this with a fresh resolver.
+  PermissionResolver permissionResolver = PermissionResolver.instance;
 
   DatabaseHelper._init();
 
@@ -36,6 +41,9 @@ class DatabaseHelper {
       await db.execute('ALTER TABLE sales ADD COLUMN invoiceId INTEGER');
       await _createAppSettingsTable(db);
     }
+    if (oldVersion < 6) {
+      await _createRolePermissionsTable(db);
+    }
   }
 
   Future<Database> get database async {
@@ -52,7 +60,7 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
     return await openDatabase(path,
-        version: 5, onCreate: _createDB, onUpgrade: _onUpgrade);
+        version: 6, onCreate: _createDB, onUpgrade: _onUpgrade);
   }
 
   Future<void> _createDB(Database db, int version) async {
@@ -124,6 +132,7 @@ class DatabaseHelper {
     await _createImportBatchesTable(db);
     await _createInvoicesTable(db);
     await _createAppSettingsTable(db);
+    await _createRolePermissionsTable(db);
     await DataImporter.importData(db);
   }
 
@@ -175,6 +184,16 @@ class DatabaseHelper {
       CREATE TABLE IF NOT EXISTS app_settings (
         key TEXT PRIMARY KEY,
         value TEXT NOT NULL
+      )
+    ''');
+  }
+
+  Future<void> _createRolePermissionsTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS role_permissions (
+        role TEXT PRIMARY KEY,
+        permissions TEXT NOT NULL,
+        updatedAt TEXT NOT NULL
       )
     ''');
   }
@@ -281,10 +300,14 @@ class DatabaseHelper {
         where: 'id = ?', whereArgs: [product.id]);
   }
 
-  void _requireOwner(UserRole? currentRole) {
-    if (currentRole != UserRole.owner) {
-      throw StateError(
-          'غير مصرح بحذف هذه العملية. هذه الخاصية متاحة للمالك فقط.');
+  /// Throws [PermissionDeniedException] unless [currentRole] holds
+  /// [permission]. This is the data-layer authorization gate for sensitive
+  /// mutations, enforced even if a screen is reached through a direct route.
+  void _requirePermission(UserRole? currentRole, AppPermission permission) {
+    if (currentRole == null ||
+        !permissionResolver.can(currentRole, permission)) {
+      throw const PermissionDeniedException(
+          'غير مصرح بهذه العملية. هذه الخاصية غير متاحة لدورك.');
     }
   }
 
@@ -295,14 +318,14 @@ class DatabaseHelper {
   /// through a direct/unexpected route.
   void _requireSalesHistoryAccess(UserRole? currentRole) {
     if (currentRole == null ||
-        !Permissions.hasPermission(
+        !permissionResolver.can(
             currentRole, AppPermission.canViewSalesHistory)) {
       throw const SalesHistoryAccessDeniedException();
     }
   }
 
   Future<int> deleteProduct(int id, {UserRole? currentRole}) async {
-    _requireOwner(currentRole);
+    _requirePermission(currentRole, AppPermission.canDeleteProducts);
     final db = await database;
     return await db.transaction((txn) async {
       final productMaps =
@@ -729,7 +752,7 @@ class DatabaseHelper {
   }
 
   Future<int> deleteSale(int id, {UserRole? currentRole}) async {
-    _requireOwner(currentRole);
+    _requirePermission(currentRole, AppPermission.canDeleteSales);
     final db = await database;
     final saleData = await db.query('sales', where: 'id = ?', whereArgs: [id]);
     if (saleData.isNotEmpty) {
@@ -932,7 +955,7 @@ class DatabaseHelper {
   }
 
   Future<int> deleteReturn(int id, {UserRole? currentRole}) async {
-    _requireOwner(currentRole);
+    _requirePermission(currentRole, AppPermission.canDeleteReturns);
     final db = await database;
     final data = await db.query('returns', where: 'id = ?', whereArgs: [id]);
     if (data.isNotEmpty) {
@@ -975,7 +998,7 @@ class DatabaseHelper {
   }
 
   Future<int> deleteExpense(int id, {UserRole? currentRole}) async {
-    _requireOwner(currentRole);
+    _requirePermission(currentRole, AppPermission.canDeleteExpenses);
     final db = await database;
     return await db.delete('expenses', where: 'id = ?', whereArgs: [id]);
   }

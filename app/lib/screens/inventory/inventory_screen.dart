@@ -119,15 +119,25 @@ class _InventoryScreenState extends State<InventoryScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _showAddEditDialog(context),
-        icon: const Icon(Icons.add),
-        label: const Text('إضافة صنف'),
-        backgroundColor: const Color(0xFF1A237E),
-        foregroundColor: Colors.white,
-      ),
+      floatingActionButton: _canEditProducts
+          ? FloatingActionButton.extended(
+              onPressed: () => _showAddEditDialog(context),
+              icon: const Icon(Icons.add),
+              label: const Text('إضافة صنف'),
+              backgroundColor: const Color(0xFF1A237E),
+              foregroundColor: Colors.white,
+            )
+          : null,
     );
   }
+
+  bool get _canEditProducts =>
+      widget.sessionState?.hasPermission(AppPermission.canEditProducts) ??
+      false;
+
+  bool get _canDeleteProducts =>
+      widget.sessionState?.hasPermission(AppPermission.canDeleteProducts) ??
+      false;
 
   Widget _buildProductCard(Product product) {
     final isLowStock =
@@ -167,8 +177,10 @@ class _InventoryScreenState extends State<InventoryScreen> {
         isThreeLine: true,
         trailing: PopupMenuButton(
           itemBuilder: (context) => [
-            const PopupMenuItem(value: 'edit', child: Text('تعديل')),
-            const PopupMenuItem(value: 'delete', child: Text('حذف')),
+            if (_canEditProducts)
+              const PopupMenuItem(value: 'edit', child: Text('تعديل')),
+            if (_canDeleteProducts)
+              const PopupMenuItem(value: 'delete', child: Text('حذف')),
           ],
           onSelected: (value) {
             if (value == 'edit') {
@@ -345,7 +357,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () async {
               final canDelete = widget.sessionState
-                      ?.hasPermission(AppPermission.canManageUsers) ??
+                      ?.hasPermission(AppPermission.canDeleteProducts) ??
                   false;
               if (!canDelete) {
                 if (context.mounted) {
@@ -354,8 +366,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                       context: context,
                       builder: (ctx) => AlertDialog(
                             title: const Text('غير مصرح'),
-                            content: const Text(
-                                'لا يمكنك حذف العمليات. هذه الخاصية متاحة للمالك فقط.'),
+                            content: const Text('لا يمكنك حذف الأصناف.'),
                             actions: [
                               TextButton(
                                   onPressed: () => Navigator.pop(ctx),
