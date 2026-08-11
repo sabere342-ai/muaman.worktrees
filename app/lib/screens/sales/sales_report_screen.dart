@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../database/database_helper.dart';
 import '../../models/sale.dart';
+import '../../services/permissions.dart';
+import '../../services/session_state.dart';
 
 class SalesReportScreen extends StatefulWidget {
-  const SalesReportScreen({super.key});
+  final SessionState? sessionState;
+
+  const SalesReportScreen({super.key, this.sessionState});
 
   @override
   State<SalesReportScreen> createState() => _SalesReportScreenState();
@@ -19,6 +23,10 @@ class _SalesReportScreenState extends State<SalesReportScreen>
   List<Sale> _allSales = [];
   bool _isLoading = true;
 
+  bool get _canViewSalesHistory =>
+      widget.sessionState?.hasPermission(AppPermission.canViewSalesHistory) ??
+      false;
+
   @override
   void initState() {
     super.initState();
@@ -27,18 +35,32 @@ class _SalesReportScreenState extends State<SalesReportScreen>
   }
 
   Future<void> _loadData() async {
+    if (!_canViewSalesHistory) {
+      setState(() => _isLoading = false);
+      return;
+    }
     setState(() => _isLoading = true);
-    final summary = await DatabaseHelper.instance.getSalesSummary();
-    final byDate = await DatabaseHelper.instance.getSalesGroupByDate();
-    final byProduct = await DatabaseHelper.instance.getSalesGroupByProduct();
-    final allSales = await DatabaseHelper.instance.getAllSales();
-    setState(() {
-      _summary = summary;
-      _byDate = byDate;
-      _byProduct = byProduct;
-      _allSales = allSales.reversed.toList();
-      _isLoading = false;
-    });
+    try {
+      final summary = await DatabaseHelper.instance
+          .getSalesSummary(currentRole: widget.sessionState?.currentRole);
+      final byDate = await DatabaseHelper.instance
+          .getSalesGroupByDate(currentRole: widget.sessionState?.currentRole);
+      final byProduct = await DatabaseHelper.instance.getSalesGroupByProduct(
+          currentRole: widget.sessionState?.currentRole);
+      final allSales = await DatabaseHelper.instance
+          .getAllSales(currentRole: widget.sessionState?.currentRole);
+      if (!mounted) return;
+      setState(() {
+        _summary = summary;
+        _byDate = byDate;
+        _byProduct = byProduct;
+        _allSales = allSales.reversed.toList();
+        _isLoading = false;
+      });
+    } on SalesHistoryAccessDeniedException {
+      if (!mounted) return;
+      setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -65,23 +87,27 @@ class _SalesReportScreenState extends State<SalesReportScreen>
           IconButton(icon: const Icon(Icons.refresh), onPressed: _loadData),
         ],
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                _buildSummaryCards(),
-                Expanded(
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: [
-                      _buildAllSalesTab(),
-                      _buildByDateTab(),
-                      _buildByProductTab(),
-                    ],
-                  ),
+      body: !_canViewSalesHistory
+          ? const Center(
+              child: Text('غير مصرح بمشاهدة تقارير المبيعات'),
+            )
+          : _isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : Column(
+                  children: [
+                    _buildSummaryCards(),
+                    Expanded(
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: [
+                          _buildAllSalesTab(),
+                          _buildByDateTab(),
+                          _buildByProductTab(),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
     );
   }
 

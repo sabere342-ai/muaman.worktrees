@@ -30,6 +30,10 @@ class _SalesScreenState extends State<SalesScreen> {
   bool _isLoading = true;
   DateTime _filterDate = DateTime.now();
 
+  bool get _canViewSalesHistory =>
+      widget.sessionState?.hasPermission(AppPermission.canViewSalesHistory) ??
+      false;
+
   @override
   void initState() {
     super.initState();
@@ -37,13 +41,27 @@ class _SalesScreenState extends State<SalesScreen> {
   }
 
   Future<void> _loadData() async {
+    if (!_canViewSalesHistory) {
+      return;
+    }
     setState(() => _isLoading = true);
-    final sales = await DatabaseHelper.instance.getAllSales();
-    setState(() {
-      _sales = sales.reversed.toList();
-      _filteredSales = _sales;
-      _isLoading = false;
-    });
+    try {
+      final sales = await DatabaseHelper.instance
+          .getAllSales(currentRole: widget.sessionState?.currentRole);
+      if (!mounted) return;
+      setState(() {
+        _sales = sales.reversed.toList();
+        _filteredSales = _sales;
+        _isLoading = false;
+      });
+    } on SalesHistoryAccessDeniedException {
+      if (!mounted) return;
+      setState(() {
+        _sales = [];
+        _filteredSales = [];
+        _isLoading = false;
+      });
+    }
   }
 
   void _filterSales(String query) {
@@ -58,6 +76,20 @@ class _SalesScreenState extends State<SalesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (!_canViewSalesHistory) {
+      return Scaffold(
+        appBar: widget.showAppBar
+            ? AppBar(
+                title: const Text('المبيعات',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                centerTitle: true,
+                backgroundColor: const Color(0xFF0D47A1),
+                foregroundColor: Colors.white,
+              )
+            : null,
+        body: _buildCreateSaleEntry(context),
+      );
+    }
     return Scaffold(
       appBar: widget.showAppBar
           ? AppBar(
@@ -74,7 +106,8 @@ class _SalesScreenState extends State<SalesScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const SalesReportScreen()),
+                          builder: (context) => SalesReportScreen(
+                              sessionState: widget.sessionState)),
                     );
                   },
                 ),
@@ -243,9 +276,47 @@ class _SalesScreenState extends State<SalesScreen> {
         builder: (context) => const InvoiceScreen(),
       ),
     );
-    if (result == true) {
+    if (result == true && _canViewSalesHistory) {
       _loadData();
     }
+  }
+
+  Widget _buildCreateSaleEntry(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.add_shopping_cart,
+                size: 72, color: Color(0xFF0D47A1)),
+            const SizedBox(height: 16),
+            const Text('إنشاء فاتورة بيع جديدة',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            Text(
+              'سجل المبيعات متاح للمالك فقط',
+              style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: () => _openInvoiceScreen(context),
+              icon: const Icon(Icons.add_shopping_cart),
+              label: const Text('فاتورة جديدة',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF0D47A1),
+                foregroundColor: Colors.white,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _selectDate() async {

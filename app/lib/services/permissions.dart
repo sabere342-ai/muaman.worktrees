@@ -4,6 +4,8 @@ enum AppPermission {
   canAccessDashboard,
   canAccessInventory,
   canAccessSales,
+  canCreateSales,
+  canViewSalesHistory,
   canAccessReturns,
   canAccessExpenses,
   canAccessAnalytics,
@@ -25,6 +27,8 @@ class Permissions {
       AppPermission.canAccessDashboard,
       AppPermission.canAccessInventory,
       AppPermission.canAccessSales,
+      AppPermission.canCreateSales,
+      AppPermission.canViewSalesHistory,
       AppPermission.canAccessReturns,
       AppPermission.canAccessExpenses,
       AppPermission.canAccessAnalytics,
@@ -35,6 +39,8 @@ class Permissions {
       AppPermission.canAccessDashboard,
       AppPermission.canAccessInventory,
       AppPermission.canAccessSales,
+      AppPermission.canCreateSales,
+      AppPermission.canViewSalesHistory,
       AppPermission.canAccessReturns,
       AppPermission.canAccessExpenses,
       AppPermission.canAccessAnalytics,
@@ -42,6 +48,7 @@ class Permissions {
     },
     UserRole.salesOnly: {
       AppPermission.canAccessSales,
+      AppPermission.canCreateSales,
     },
   };
 }

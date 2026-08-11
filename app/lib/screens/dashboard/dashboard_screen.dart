@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../database/database_helper.dart';
+import '../../services/session_state.dart';
 import '../sales/sales_report_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+  final SessionState? sessionState;
+
+  const DashboardScreen({super.key, this.sessionState});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -173,7 +176,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const SalesReportScreen()),
+                    builder: (context) =>
+                        SalesReportScreen(sessionState: widget.sessionState)),
               );
             },
             icon: const Icon(Icons.assessment, size: 18),

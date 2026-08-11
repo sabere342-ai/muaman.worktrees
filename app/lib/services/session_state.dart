@@ -21,6 +21,9 @@ class SessionState extends ChangeNotifier {
   }
 
   void logout() {
+    if (_currentUser == null) {
+      return;
+    }
     _currentUser = null;
     notifyListeners();
   }

@@ -505,6 +505,14 @@ void main() {
           true);
       expect(
           Permissions.hasPermission(
+              UserRole.owner, AppPermission.canCreateSales),
+          true);
+      expect(
+          Permissions.hasPermission(
+              UserRole.owner, AppPermission.canViewSalesHistory),
+          true);
+      expect(
+          Permissions.hasPermission(
               UserRole.owner, AppPermission.canAccessReturns),
           true);
       expect(
@@ -547,6 +555,14 @@ void main() {
           true);
       expect(
           Permissions.hasPermission(
+              UserRole.employee, AppPermission.canCreateSales),
+          true);
+      expect(
+          Permissions.hasPermission(
+              UserRole.employee, AppPermission.canViewSalesHistory),
+          true);
+      expect(
+          Permissions.hasPermission(
               UserRole.employee, AppPermission.canAccessReturns),
           true);
       expect(
@@ -568,6 +584,20 @@ void main() {
           Permissions.hasPermission(
               UserRole.salesOnly, AppPermission.canAccessSales),
           true);
+    });
+
+    test('39b. SalesOnly can create sales', () {
+      expect(
+          Permissions.hasPermission(
+              UserRole.salesOnly, AppPermission.canCreateSales),
+          true);
+    });
+
+    test('39c. SalesOnly cannot view sales history', () {
+      expect(
+          Permissions.hasPermission(
+              UserRole.salesOnly, AppPermission.canViewSalesHistory),
+          false);
     });
 
     test('40. SalesOnly cannot access dashboard', () {

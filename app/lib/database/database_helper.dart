@@ -6,6 +6,7 @@ import '../models/return_item.dart';
 import '../models/expense.dart';
 import '../models/invoice.dart';
 import '../models/user_role.dart';
+import '../services/permissions.dart';
 import 'data_importer.dart';
 
 class DatabaseHelper {
@@ -287,6 +288,19 @@ class DatabaseHelper {
     }
   }
 
+  /// Throws [SalesHistoryAccessDeniedException] unless [currentRole] holds the
+  /// [AppPermission.canViewSalesHistory] permission. This is the data-layer
+  /// gate that prevents sales history (list, reports, previous invoices) from
+  /// ever being loaded for an unauthorized role — even if a screen is reached
+  /// through a direct/unexpected route.
+  void _requireSalesHistoryAccess(UserRole? currentRole) {
+    if (currentRole == null ||
+        !Permissions.hasPermission(
+            currentRole, AppPermission.canViewSalesHistory)) {
+      throw const SalesHistoryAccessDeniedException();
+    }
+  }
+
   Future<int> deleteProduct(int id, {UserRole? currentRole}) async {
     _requireOwner(currentRole);
     final db = await database;
@@ -556,13 +570,16 @@ class DatabaseHelper {
     });
   }
 
-  Future<List<Sale>> getAllSales() async {
+  Future<List<Sale>> getAllSales({UserRole? currentRole}) async {
+    _requireSalesHistoryAccess(currentRole);
     final db = await database;
     final maps = await db.query('sales', orderBy: 'id ASC');
     return maps.map((map) => Sale.fromMap(map)).toList();
   }
 
-  Future<List<Sale>> getSalesByDateRange(DateTime start, DateTime end) async {
+  Future<List<Sale>> getSalesByDateRange(DateTime start, DateTime end,
+      {UserRole? currentRole}) async {
+    _requireSalesHistoryAccess(currentRole);
     final db = await database;
     final maps = await db.query('sales',
         where: 'date BETWEEN ? AND ?',
@@ -1142,7 +1159,9 @@ class DatabaseHelper {
   }
 
   // =================== SALES REPORTS ===================
-  Future<List<Map<String, dynamic>>> getSalesGroupByDate() async {
+  Future<List<Map<String, dynamic>>> getSalesGroupByDate(
+      {UserRole? currentRole}) async {
+    _requireSalesHistoryAccess(currentRole);
     final db = await database;
     return await db.rawQuery('''
       SELECT date,
@@ -1157,7 +1176,9 @@ class DatabaseHelper {
     ''');
   }
 
-  Future<List<Map<String, dynamic>>> getSalesGroupByProduct() async {
+  Future<List<Map<String, dynamic>>> getSalesGroupByProduct(
+      {UserRole? currentRole}) async {
+    _requireSalesHistoryAccess(currentRole);
     final db = await database;
     return await db.rawQuery('''
       SELECT productName,
@@ -1174,7 +1195,8 @@ class DatabaseHelper {
     ''');
   }
 
-  Future<Map<String, dynamic>> getSalesSummary() async {
+  Future<Map<String, dynamic>> getSalesSummary({UserRole? currentRole}) async {
+    _requireSalesHistoryAccess(currentRole);
     final db = await database;
     final totalSalesResult = await db.rawQuery(
         'SELECT SUM(totalSaleValue) as total, SUM(quantity) as qty, COUNT(*) as count FROM sales');
@@ -1273,6 +1295,17 @@ class ReturnStockReversalException implements Exception {
   @override
   String toString() =>
       'ReturnStockReversalException: $message (returnId=$returnId, currentStock=$currentStock, requiredReversal=$requiredReversalQuantity)';
+}
+
+/// Thrown when a sales-history read is attempted by a role without the
+/// [AppPermission.canViewSalesHistory] permission.
+class SalesHistoryAccessDeniedException implements Exception {
+  const SalesHistoryAccessDeniedException();
+
+  String get message => 'غير مصرح بمشاهدة سجل المبيعات';
+
+  @override
+  String toString() => 'SalesHistoryAccessDeniedException: $message';
 }
 
 /// Report returned by [DatabaseHelper.findProductReferenceIntegrityIssues].

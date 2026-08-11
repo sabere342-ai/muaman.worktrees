@@ -231,8 +231,12 @@ class _FullAppShellState extends State<FullAppShell> {
   int _currentIndex = 0;
 
   late final List<_NavItem> _allNavItems = [
-    _NavItem(0, 'لوحة التحكم', Icons.dashboard,
-        AppPermission.canAccessDashboard, const DashboardScreen()),
+    _NavItem(
+        0,
+        'لوحة التحكم',
+        Icons.dashboard,
+        AppPermission.canAccessDashboard,
+        DashboardScreen(sessionState: widget.sessionState)),
     _NavItem(1, 'المخزن', Icons.inventory_2, AppPermission.canAccessInventory,
         InventoryScreen(sessionState: widget.sessionState)),
     _NavItem(
