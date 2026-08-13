@@ -1,0 +1,442 @@
+﻿[
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c001",
+        "cycle":  1,
+        "startedUtc":  "2026-08-13T15:58:15.312Z",
+        "durationSec":  304.4,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c002",
+        "cycle":  2,
+        "startedUtc":  "2026-08-13T16:03:24.994Z",
+        "durationSec":  303.2,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c003",
+        "cycle":  3,
+        "startedUtc":  "2026-08-13T16:08:33.240Z",
+        "durationSec":  302.2,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c004",
+        "cycle":  4,
+        "startedUtc":  "2026-08-13T16:13:40.523Z",
+        "durationSec":  303.2,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c005",
+        "cycle":  5,
+        "startedUtc":  "2026-08-13T16:18:48.754Z",
+        "durationSec":  303.2,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c006",
+        "cycle":  6,
+        "startedUtc":  "2026-08-13T16:23:56.987Z",
+        "durationSec":  303.4,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c007",
+        "cycle":  7,
+        "startedUtc":  "2026-08-13T16:29:05.401Z",
+        "durationSec":  303.3,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c008",
+        "cycle":  8,
+        "startedUtc":  "2026-08-13T16:34:13.732Z",
+        "durationSec":  303.2,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c009",
+        "cycle":  9,
+        "startedUtc":  "2026-08-13T16:39:21.965Z",
+        "durationSec":  303.3,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c010",
+        "cycle":  10,
+        "startedUtc":  "2026-08-13T16:44:30.379Z",
+        "durationSec":  304.2,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c011",
+        "cycle":  11,
+        "startedUtc":  "2026-08-13T16:49:39.611Z",
+        "durationSec":  303.1,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c012",
+        "cycle":  12,
+        "startedUtc":  "2026-08-13T16:54:47.774Z",
+        "durationSec":  303.2,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c013",
+        "cycle":  13,
+        "startedUtc":  "2026-08-13T16:59:56.073Z",
+        "durationSec":  303.1,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c014",
+        "cycle":  14,
+        "startedUtc":  "2026-08-13T17:05:04.255Z",
+        "durationSec":  303.2,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c015",
+        "cycle":  15,
+        "startedUtc":  "2026-08-13T17:10:12.520Z",
+        "durationSec":  304.3,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c016",
+        "cycle":  16,
+        "startedUtc":  "2026-08-13T17:15:21.902Z",
+        "durationSec":  303.2,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c017",
+        "cycle":  17,
+        "startedUtc":  "2026-08-13T17:20:30.184Z",
+        "durationSec":  304.1,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c018",
+        "cycle":  18,
+        "startedUtc":  "2026-08-13T17:25:39.330Z",
+        "durationSec":  302.2,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c019",
+        "cycle":  19,
+        "startedUtc":  "2026-08-13T17:30:46.646Z",
+        "durationSec":  304.1,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    },
+    {
+        "runId":  "STRESS-FIX-20260813-155815-c020",
+        "cycle":  20,
+        "startedUtc":  "2026-08-13T17:35:55.810Z",
+        "durationSec":  302.2,
+        "workerExited":  true,
+        "timedOut":  false,
+        "aborted":  false,
+        "s12Close":  {
+                         "method":  "WM_CLOSE",
+                         "exited":  true,
+                         "exitCode":  0,
+                         "seconds":  0.3
+                     },
+        "crashCode":  null,
+        "dumpWritten":  0,
+        "orphanPids":  [
+
+                       ],
+        "forcedKill":  false,
+        "ok":  true
+    }
+]

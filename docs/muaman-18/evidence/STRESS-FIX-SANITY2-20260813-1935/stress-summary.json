@@ -1,0 +1,17 @@
+﻿{
+    "runIdPrefix":  "STRESS-FIX",
+    "startedUtc":  "2026-08-13T15:52:39.088Z",
+    "finishedUtc":  "2026-08-13T15:57:47.669Z",
+    "cyclesRequested":  1,
+    "cyclesExecuted":  1,
+    "passed":  1,
+    "hang":  0,
+    "crashDumps":  0,
+    "badExit":  0,
+    "orphanCycles":  0,
+    "forcedKills":  0,
+    "crashCodes":  [
+
+                   ],
+    "status":  "PASS"
+}

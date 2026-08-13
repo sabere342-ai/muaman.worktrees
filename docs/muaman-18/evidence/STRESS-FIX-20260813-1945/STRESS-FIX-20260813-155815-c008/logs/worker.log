@@ -1,0 +1,59 @@
+﻿2026-08-13T16:34:16.584Z runId=STRESS-FIX-20260813-155815-c008 metadata saved
+2026-08-13T16:34:16.616Z STEP S01-launch start
+2026-08-13T16:34:22.590Z STEP S01-launch PASS
+2026-08-13T16:34:22.595Z STEP S02-setup-owner start
+2026-08-13T16:34:23.596Z Fill-Field setup-name try=1 row=left:1320 right:1402 top:377 bottom:401
+2026-08-13T16:34:30.756Z Fill-Field setup-user try=1 row=left:1243 right:1404 top:454 bottom:481
+2026-08-13T16:34:35.385Z Fill-Field setup-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-13T16:34:39.604Z Fill-Field setup-confirm try=1 row=left:1225 right:1402 top:613 bottom:640
+2026-08-13T16:34:43.769Z Click-OcrExact setup-b try=1 words=28 btn=True {part=[إنشاء] hits=2}
+2026-08-13T16:34:45.829Z STEP S02-setup-owner PASS
+2026-08-13T16:34:45.833Z STEP S03-login-owner start
+2026-08-13T16:34:46.714Z Fill-Field login-user try=1 row=left:1243 right:1402 top:457 bottom:481
+2026-08-13T16:34:51.193Z Fill-Field login-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-13T16:34:55.280Z Click-OcrExact login-b try=1 words=14 btn=True {part=[تسجيل] hits=2}
+2026-08-13T16:34:57.681Z STEP S03-login-owner PASS
+2026-08-13T16:34:57.684Z STEP S04-add-product start
+2026-08-13T16:34:58.722Z Click-NavTileByRank nav-inv rank=1 try=1 word='المخدن' screen=(1150,852)
+2026-08-13T16:35:06.610Z Fill-Field prod-name try=1 row=left:787 right:878 top:351 bottom:373
+2026-08-13T16:35:11.328Z Fill-Field prod-cost try=1 row=left:781 right:879 top:426 bottom:446
+2026-08-13T16:35:16.103Z Fill-Field prod-qty try=1 row=left:777 right:880 top:471 bottom:486
+2026-08-13T16:35:23.352Z STEP S04-add-product PASS
+2026-08-13T16:35:23.354Z STEP S05-create-sale start
+2026-08-13T16:35:24.349Z Click-NavTileByRank nav-sales rank=2 try=1 word='المبيعات' screen=(902,851)
+2026-08-13T16:35:28.056Z Click-OcrCropped fab-inv try=1 hit='جديدة' imgX=74 imgY=725 screen=(104,755) exact=True
+2026-08-13T16:36:12.716Z Fill-FloatingLabelField sale-customer try=1 probe=17W NOT in band [571,646)
+2026-08-13T16:36:20.277Z Click-OcrExact save-inv try=1 words=87 btn=True {part=[حفظ] hits=1}
+2026-08-13T16:36:22.514Z STEP S05-create-sale PASS
+2026-08-13T16:36:22.518Z STEP S06-save-pdf start
+2026-08-13T16:36:23.530Z Click-OcrExact save-pdf try=1 words=38 btn=True {part=[حفظ] hits=1}
+2026-08-13T16:36:44.637Z STEP S06-save-pdf PASS
+2026-08-13T16:36:44.640Z STEP S07-open-pdf start
+2026-08-13T16:37:17.587Z STEP S07-open-pdf PASS
+2026-08-13T16:37:17.596Z STEP S08-print-dialog start
+2026-08-13T16:37:18.576Z Click-OcrExact print try=1 words=38 btn=True {part=[طباعة] hits=1}
+2026-08-13T16:37:52.664Z STEP S08-print-dialog PASS
+2026-08-13T16:37:52.667Z STEP S09-sales-history start
+2026-08-13T16:37:58.436Z receipt icon color-scan clusters=13 top=(X=98 Y=303 N=35)
+2026-08-13T16:38:02.159Z STEP S09-sales-history PASS
+2026-08-13T16:38:02.164Z STEP S10-add-cashier start
+2026-08-13T16:38:03.296Z Click-AppBarIcon users dx=0 name=[69..247]@y=75 screen=(349,105)
+2026-08-13T16:38:09.987Z Fill-Field newuser-name try=1 row=left:834 right:878 top:239 bottom:261
+2026-08-13T16:38:14.662Z Fill-Field newuser-user try=1 row=left:757 right:879 top:314 bottom:336
+2026-08-13T16:38:19.258Z Fill-Field newuser-pass try=1 row=left:786 right:880 top:389 bottom:408
+2026-08-13T16:38:23.535Z Fill-Field newuser-confirm try=1 row=left:739 right:879 top:459 bottom:483
+2026-08-13T16:38:33.709Z Click-OcrExact create-user-1 try=1 words=33 btn=True {part=[إنشاء] hits=2}
+2026-08-13T16:38:39.046Z STEP S10-add-cashier PASS
+2026-08-13T16:38:39.049Z STEP S11-cashier-denied start
+2026-08-13T16:38:40.129Z Click-AppBarIcon logout dx=0 name=[69..247]@y=75 screen=(75,105)
+2026-08-13T16:38:44.238Z Fill-Field cashier-login-user try=1 row=left:1243 right:1402 top:457 bottom:481
+2026-08-13T16:38:48.789Z Fill-Field cashier-login-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-13T16:38:52.883Z Click-OcrExact cashier-login-b try=1 words=14 btn=True {part=[تسجيل] hits=2}
+2026-08-13T16:38:55.003Z STEP S11-cashier-denied PASS
+2026-08-13T16:38:55.007Z STEP S12-logout-close start
+2026-08-13T16:38:55.916Z Click-AppBarIcon logout dx=0 name=[21..280]@y=75 screen=(27,105)
+2026-08-13T16:39:11.726Z Click-AppBarIcon logout dx=16 name=[21..280]@y=75 screen=(43,105)
+2026-08-13T16:39:16.105Z STEP S12-logout-close PASS
+2026-08-13T16:39:16.105Z STEP S13-final-evidence start
+2026-08-13T16:39:16.120Z STEP S13-final-evidence PASS
+2026-08-13T16:39:16.137Z WORKER DONE aborted=False

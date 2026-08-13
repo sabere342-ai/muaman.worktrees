@@ -1,0 +1,9 @@
+{
+    "runId":  "ACCEPT-FIX-DUMP-20260813-125620",
+    "startUtc":  "2026-08-13T12:56:23.200Z",
+    "machine":  "ISLAM",
+    "user":  "saber",
+    "releaseDir":  "C:\\dev\\muaman.worktrees\\muaman-18-graceful-windows-shutdown-wm-close-hardening\\app\\build\\windows\\x64\\runner\\Release",
+    "headSha":  "5af7bc31b795963a4f637e1dd7d05da7760a226e",
+    "os":  "Microsoft Windows 11 Pro"
+}

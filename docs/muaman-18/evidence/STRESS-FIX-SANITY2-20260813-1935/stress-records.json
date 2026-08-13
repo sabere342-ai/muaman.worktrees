@@ -1,0 +1,22 @@
+﻿{
+    "runId":  "STRESS-FIX-20260813-155239-c001",
+    "cycle":  1,
+    "startedUtc":  "2026-08-13T15:52:39.088Z",
+    "durationSec":  303.3,
+    "workerExited":  true,
+    "timedOut":  false,
+    "aborted":  false,
+    "s12Close":  {
+                     "method":  "WM_CLOSE",
+                     "exited":  true,
+                     "exitCode":  0,
+                     "seconds":  0.3
+                 },
+    "crashCode":  null,
+    "dumpWritten":  0,
+    "orphanPids":  [
+
+                   ],
+    "forcedKill":  false,
+    "ok":  true
+}
