@@ -1,0 +1,57 @@
+{
+    "roleOpen":  {
+                     "label":  "الدور",
+                     "clicked":  true,
+                     "method":  "click x=874 y=420 (click-only)"
+                 },
+    "menuOpenAfterItem":  true,
+    "nav":  {
+                "clicked":  true,
+                "target":  "users",
+                "dx":  0,
+                "screenX":  349,
+                "screenY":  105,
+                "nameBand":  "69..247"
+            },
+    "menuOpenAfterEnter":  true,
+    "fab":  {
+                "clicked":  true,
+                "try":  1,
+                "screenX":  109,
+                "screenY":  832,
+                "word":  "جديد"
+            },
+    "methods":  {
+                    "name":  {
+                                 "label":  "الاسم",
+                                 "clicked":  true,
+                                 "verify":  "band-verified probe=17W",
+                                 "method":  "click x=886 y=305"
+                             },
+                    "user":  {
+                                 "label":  "اسم المستخدم",
+                                 "clicked":  true,
+                                 "verify":  "band-verified probe=17w",
+                                 "method":  "click x=848 y=380"
+                             },
+                    "pass":  {
+                                 "label":  "كلمة المرور",
+                                 "clicked":  true,
+                                 "masked":  true,
+                                 "method":  "click x=863 y=452 masked-verified"
+                             },
+                    "confirm":  {
+                                    "label":  "تأكيد كلمة المرور",
+                                    "clicked":  true,
+                                    "masked":  true,
+                                    "method":  "click x=839 y=527 masked-verified"
+                                }
+                },
+    "item":  {
+                 "clicked":  true,
+                 "try":  1,
+                 "screenX":  882,
+                 "screenY":  578,
+                 "word":  "موظف"
+             }
+}

@@ -1,0 +1,30 @@
+﻿2026-08-12T00:56:17.617Z runId=PROBE-role-20260812-014000 metadata saved
+2026-08-12T00:56:17.668Z STEP S01-launch start
+2026-08-12T00:56:23.732Z STEP S01-launch PASS
+2026-08-12T00:56:23.738Z STEP S02-setup-owner start
+2026-08-12T00:56:24.831Z Fill-Field setup-name try=1 row=left:1320 right:1402 top:377 bottom:401
+2026-08-12T00:56:32.085Z Fill-Field setup-user try=1 row=left:1243 right:1404 top:454 bottom:481
+2026-08-12T00:56:36.647Z Fill-Field setup-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-12T00:56:40.900Z Fill-Field setup-confirm try=1 row=left:1225 right:1402 top:613 bottom:640
+2026-08-12T00:56:45.114Z Click-OcrExact setup-b try=1 words=28 btn=True {part=[إنشاء] hits=2}
+2026-08-12T00:56:47.188Z STEP S02-setup-owner PASS
+2026-08-12T00:56:47.192Z STEP S03-login-owner start
+2026-08-12T00:56:48.118Z Fill-Field login-user try=1 row=left:1243 right:1402 top:457 bottom:481
+2026-08-12T00:56:52.608Z Fill-Field login-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-12T00:56:56.727Z Click-OcrExact login-b try=1 words=14 btn=True {part=[تسجيل] hits=2}
+2026-08-12T00:56:59.157Z STEP S03-login-owner PASS
+2026-08-12T00:56:59.162Z STEP S04-probe-role start
+2026-08-12T00:57:01.447Z Click-AppBarIcon users dx=0 name=[69..247]@y=75 screen=(349,105)
+2026-08-12T00:57:03.841Z PROBE-ROLE users-nav clicked=True reason=n/a
+2026-08-12T00:57:08.155Z Fill-Field probe-role-fill-name try=1 row=left:834 right:878 top:239 bottom:261
+2026-08-12T00:57:12.774Z Fill-Field probe-role-fill-user try=1 row=left:757 right:879 top:314 bottom:336
+2026-08-12T00:57:17.437Z Fill-Field probe-role-fill-pass try=1 row=left:786 right:880 top:389 bottom:408
+2026-08-12T00:57:21.640Z Fill-Field probe-role-fill-confirm try=1 row=left:739 right:879 top:459 bottom:483
+2026-08-12T00:57:25.864Z Fill-Field probe-role-open try=1 row=left:809 right:880 top:361 bottom:376
+2026-08-12T00:57:36.264Z PROBE-ROLE roleOpen=True item=True word=موظف screen=(882,578) menuOpenAfterItem=True menuOpenAfterEnter=True
+2026-08-12T00:57:36.270Z STEP S04-probe-role PASS
+2026-08-12T00:57:36.275Z STEP S05-cleanup-probe start
+2026-08-12T00:57:43.537Z STEP S05-cleanup-probe PASS
+2026-08-12T00:57:43.540Z STEP S13-final-evidence start
+2026-08-12T00:57:43.550Z STEP S13-final-evidence PASS
+2026-08-12T00:57:43.568Z WORKER DONE aborted=False

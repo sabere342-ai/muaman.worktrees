@@ -1,0 +1,43 @@
+﻿2026-08-11T22:37:36.892Z runId=PROBE-navmap-20260812-013720 metadata saved
+2026-08-11T22:37:37.291Z STEP S01-launch start
+2026-08-11T22:37:48.502Z STEP S01-launch PASS
+2026-08-11T22:37:48.511Z STEP S02-setup-owner start
+2026-08-11T22:37:50.787Z Fill-Field setup-name try=1 row=left:1320 right:1402 top:377 bottom:401
+2026-08-11T22:38:00.043Z Fill-Field setup-user try=1 row=left:1243 right:1404 top:454 bottom:481
+2026-08-11T22:38:06.168Z Fill-Field setup-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-11T22:38:11.831Z Fill-Field setup-confirm try=1 row=left:1225 right:1402 top:613 bottom:640
+2026-08-11T22:38:18.256Z Click-OcrExact setup-b try=1 words=27 btn=True {part=[إنشاء] hits=2}
+2026-08-11T22:38:21.143Z STEP S02-setup-owner PASS
+2026-08-11T22:38:21.151Z STEP S03-login-owner start
+2026-08-11T22:38:22.726Z Fill-Field login-user try=1 row=left:1243 right:1402 top:457 bottom:481
+2026-08-11T22:38:28.695Z Fill-Field login-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-11T22:38:33.952Z Click-OcrExact login-b try=1 words=15 btn=True {part=[تسجيل] hits=2}
+2026-08-11T22:38:41.991Z STEP S03-login-owner PASS
+2026-08-11T22:38:42.014Z STEP S04-probe-navmap start
+2026-08-11T22:38:44.670Z PROBE nav map rect=left:30 top:30 w:1500 h:850
+2026-08-11T22:38:44.681Z PROBE click imgX=125 screen=(155,850)
+2026-08-11T22:38:48.373Z PROBE imgX=125 -> title='الجرد'
+2026-08-11T22:38:48.383Z PROBE click imgX=375 screen=(405,850)
+2026-08-11T22:38:51.041Z PROBE imgX=375 -> title='المصروفات'
+2026-08-11T22:38:51.045Z PROBE click imgX=625 screen=(655,850)
+2026-08-11T22:38:53.972Z PROBE imgX=625 -> title='المرتجعات'
+2026-08-11T22:38:53.975Z PROBE click imgX=875 screen=(905,850)
+2026-08-11T22:38:56.762Z PROBE imgX=875 -> title='المبيعات'
+2026-08-11T22:38:56.766Z PROBE click imgX=1125 screen=(1155,850)
+2026-08-11T22:38:59.599Z PROBE imgX=1125 -> title='المخزن'
+2026-08-11T22:38:59.602Z PROBE click imgX=1375 screen=(1405,850)
+2026-08-11T22:39:02.411Z PROBE imgX=1375 -> title='التحكم لوحة'
+2026-08-11T22:39:02.415Z PROBE click imgX=850 screen=(880,850)
+2026-08-11T22:39:05.078Z PROBE imgX=850 -> title='المبيعات'
+2026-08-11T22:39:05.081Z PROBE click imgX=900 screen=(930,850)
+2026-08-11T22:39:07.670Z PROBE imgX=900 -> title='المبيعات'
+2026-08-11T22:39:07.673Z PROBE click imgX=950 screen=(980,850)
+2026-08-11T22:39:10.208Z PROBE imgX=950 -> title='المبيعات'
+2026-08-11T22:39:10.211Z PROBE click imgX=1000 screen=(1030,850)
+2026-08-11T22:39:12.790Z PROBE imgX=1000 -> title='المخزن'
+2026-08-11T22:39:12.807Z STEP S04-probe-navmap PASS
+2026-08-11T22:39:12.822Z STEP S05-cleanup-probe start
+2026-08-11T22:40:03.512Z STEP S05-cleanup-probe PASS
+2026-08-11T22:40:03.761Z STEP S13-final-evidence start
+2026-08-11T22:40:03.965Z STEP S13-final-evidence PASS
+2026-08-11T22:40:04.082Z WORKER DONE aborted=False

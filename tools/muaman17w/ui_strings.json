@@ -1,0 +1,99 @@
+{
+  "setup": {
+    "title": "إعداد النظام",
+    "subtitle": "يرجى إنشاء حساب المالك الأول",
+    "fieldName": "الاسم",
+    "fieldUsername": "اسم المستخدم",
+    "fieldPassword": "كلمة المرور",
+    "fieldConfirmPassword": "تأكيد كلمة المرور",
+    "buttonCreateOwner": "إنشاء حساب المالك"
+  },
+  "login": {
+    "title": "تسجيل الدخول",
+    "fieldUsername": "اسم المستخدم",
+    "fieldPassword": "كلمة المرور",
+    "buttonLogin": "تسجيل الدخول"
+  },
+  "owner": {
+    "displayName": "مالك 17W",
+    "username": "owner17w",
+    "password": "W17Pass@2026"
+  },
+  "cashier": {
+    "displayName": "كاشير 17W",
+    "username": "cashier17w",
+    "password": "W17Pass@2026"
+  },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "navInventory": "المخزن",
+    "navSales": "المبيعات",
+    "navReturns": "المرتجعات",
+    "navExpenses": "المصروفات",
+    "navStocktake": "الجرد",
+    "userManagement": "إدارة المستخدمين",
+    "settings": "الإعدادات",
+    "logout": "تسجيل الخروج"
+  },
+  "inventory": {
+    "title": "المخزن",
+    "fabAddProduct": "إضافة صنف",
+    "dialogTitleAdd": "إضافة صنف جديد",
+    "fieldName": "اسم المنتج",
+    "fieldCost": "سعر التكلفة",
+    "fieldQty": "الكمية الافتتاحية",
+    "buttonAdd": "إضافة",
+    "buttonCancel": "إلغاء"
+  },
+  "product": {
+    "name": "منتج اختبار 17W",
+    "barcode": "TEST-17W-001",
+    "cost": "50",
+    "qty": "20",
+    "price": "100",
+    "customer": "عميل تجريبي 17W"
+  },
+  "invoice": {
+    "title": "إنشاء فاتورة جديدة",
+    "labelProducts": "منتجات المخزن",
+    "labelCart": "سلة الفاتورة",
+    "fieldPrice": "سعر البيع",
+    "fieldCustomer": "اسم العميل",
+    "fieldPayment": "طريقة الدفع",
+    "buttonSave": "حفظ الفاتورة",
+    "labelTotal": "إجمالي الفاتورة",
+    "labelCount": "عدد المنتجات"
+  },
+  "preview": {
+    "title": "عرض الفاتورة",
+    "buttonPrint": "طباعة",
+    "buttonSavePdf": "حفظ PDF",
+    "buttonOpenPdf": "فتح PDF",
+    "labelInvoiceNo": "رقم الفاتورة",
+    "labelTotal": "إجمالي الفاتورة",
+    "labelCustomer": "العميل",
+    "labelPayment": "طريقة الدفع",
+    "snackSaved": "تم حفظ الفاتورة في"
+  },
+  "sales": {
+    "title": "المبيعات",
+    "fabNewInvoice": "فاتورة جديدة",
+    "labelCount": "عدد العمليات",
+    "tooltipReceipt": "عرض الفاتورة",
+    "historyDenied": "سجل المبيعات متاح للمالك فقط",
+    "createSale": "إنشاء فاتورة بيع جديدة"
+  },
+  "users": {
+    "fabNewUser": "مستخدم جديد",
+    "dialogTitle": "إنشاء مستخدم جديد",
+    "fieldName": "الاسم",
+    "fieldUsername": "اسم المستخدم",
+    "fieldPassword": "كلمة المرور",
+    "fieldConfirm": "تأكيد كلمة المرور",
+    "fieldRole": "الدور",
+    "itemSalesOnly": "موظف مبيعات فقط",
+    "itemEmployee": "موظف",
+    "buttonCreate": "إنشاء",
+    "buttonCancel": "إلغاء"
+  }
+}

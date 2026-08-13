@@ -1,0 +1,29 @@
+MUAMAN-17W phase-start preflight (recorded at phase start, before any build)
+
+Commands executed:
+  git status --short
+  git branch --show-current
+  git rev-parse HEAD
+  git log -1 --oneline
+  git diff --check
+
+Results (all at phase start):
+  git status --short        : (empty) - clean tree, no tracked modifications
+  git branch --show-current : codex/muaman-17-invoice-printing-pdf-delivery
+  git rev-parse HEAD        : 8362f4d003b2f65a20940a629b98edd5adc3c9cb
+  git log -1 --oneline      : 8362f4d MUAMAN-17: add governed invoice printing and PDF delivery
+  git diff --check          : clean
+
+Phase start state satisfies the requirement: HEAD = 8362f4d, no unexpected tracked modifications.
+
+Note on evidence creation:
+- No tracked files existed for this phase at start; all new files will be created under
+  docs/muaman-17w/evidence/L-20260811-205743-3088/ (this acceptance phase only).
+- The governed Release build (run L-20260811-205743-3088) regenerates Flutter plugin
+  registrant files under app/{linux,macos,windows}/flutter. These are build side-effects,
+  not user changes; they were inspected and restored to HEAD after the build (macOS gained
+  a file_picker registrant entry that is irrelevant to the Windows Release; linux/windows
+  changes were pure CRLF line-ending normalization). The tree is clean again after restore.
+- The app database (sqflite_common_ffi) is created at <CWD>\.dart_tool\sqflite_common_ffi\
+  databases\muaman_store.db. Running the Release EXE with CWD = Release dir creates a fresh
+  isolated database there (under build output, gitignored). No existing store data is touched.

@@ -1,0 +1,30 @@
+﻿2026-08-12T01:07:18.222Z runId=PROBE-role-20260812-040715 metadata saved
+2026-08-12T01:07:18.237Z STEP S01-launch start
+2026-08-12T01:07:24.383Z STEP S01-launch PASS
+2026-08-12T01:07:24.387Z STEP S02-setup-owner start
+2026-08-12T01:07:25.484Z Fill-Field setup-name try=1 row=left:1320 right:1402 top:377 bottom:401
+2026-08-12T01:07:32.755Z Fill-Field setup-user try=1 row=left:1243 right:1404 top:454 bottom:481
+2026-08-12T01:07:37.360Z Fill-Field setup-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-12T01:07:41.550Z Fill-Field setup-confirm try=1 row=left:1225 right:1402 top:613 bottom:640
+2026-08-12T01:07:45.737Z Click-OcrExact setup-b try=1 words=28 btn=True {part=[إنشاء] hits=2}
+2026-08-12T01:07:47.837Z STEP S02-setup-owner PASS
+2026-08-12T01:07:47.840Z STEP S03-login-owner start
+2026-08-12T01:07:48.786Z Fill-Field login-user try=1 row=left:1243 right:1402 top:457 bottom:481
+2026-08-12T01:07:53.278Z Fill-Field login-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-12T01:07:57.453Z Click-OcrExact login-b try=1 words=14 btn=True {part=[تسجيل] hits=2}
+2026-08-12T01:07:59.928Z STEP S03-login-owner PASS
+2026-08-12T01:07:59.933Z STEP S04-probe-role start
+2026-08-12T01:08:02.258Z Click-AppBarIcon users dx=0 name=[69..247]@y=75 screen=(349,105)
+2026-08-12T01:08:04.666Z PROBE-ROLE users-nav clicked=True reason=n/a
+2026-08-12T01:08:09.005Z Fill-Field probe-role-fill-name try=1 row=left:834 right:878 top:239 bottom:261
+2026-08-12T01:08:13.636Z Fill-Field probe-role-fill-user try=1 row=left:757 right:879 top:314 bottom:336
+2026-08-12T01:08:18.293Z Fill-Field probe-role-fill-pass try=1 row=left:786 right:880 top:389 bottom:408
+2026-08-12T01:08:22.539Z Fill-Field probe-role-fill-confirm try=1 row=left:739 right:879 top:459 bottom:483
+2026-08-12T01:08:34.803Z Click-OcrExact probe-role-create try=1 words=33 btn=True {part=[إنشاء] hits=2}
+2026-08-12T01:08:52.434Z PROBE-ROLE roleOpen=True item=True word=مبيعات screen=(832,638) menuOpenAfterItem=True createClicked=True dialogClosed=False cashierVisible=False
+2026-08-12T01:08:52.443Z STEP S04-probe-role PASS
+2026-08-12T01:08:52.445Z STEP S05-cleanup-probe start
+2026-08-12T01:09:29.820Z STEP S05-cleanup-probe PASS
+2026-08-12T01:09:29.824Z STEP S13-final-evidence start
+2026-08-12T01:09:29.857Z STEP S13-final-evidence PASS
+2026-08-12T01:09:29.870Z WORKER DONE aborted=False

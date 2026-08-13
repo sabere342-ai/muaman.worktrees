@@ -1,0 +1,2 @@
+Print|x=38 y=28 w=27 h=10
+Setup|x=69 y=28 w=34 h=13

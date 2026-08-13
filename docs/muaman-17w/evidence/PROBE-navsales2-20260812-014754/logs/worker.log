@@ -1,0 +1,22 @@
+﻿2026-08-11T22:48:01.102Z runId=PROBE-navsales2-20260812-014754 metadata saved
+2026-08-11T22:48:01.129Z STEP S01-launch start
+2026-08-11T22:48:09.292Z STEP S01-launch PASS
+2026-08-11T22:48:09.298Z STEP S02-setup-owner start
+2026-08-11T22:48:10.763Z Fill-Field setup-name try=1 row=left:1320 right:1402 top:377 bottom:401
+2026-08-11T22:48:18.628Z Fill-Field setup-user try=1 row=left:1243 right:1404 top:454 bottom:481
+2026-08-11T22:48:23.346Z Fill-Field setup-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-11T22:48:27.851Z Fill-Field setup-confirm try=1 row=left:1225 right:1402 top:613 bottom:640
+2026-08-11T22:48:32.445Z Click-OcrExact setup-b try=1 words=27 btn=True {part=[إنشاء] hits=2}
+2026-08-11T22:48:34.720Z STEP S02-setup-owner PASS
+2026-08-11T22:48:34.723Z STEP S03-login-owner start
+2026-08-11T22:48:35.724Z Fill-Field login-user try=1 row=left:1243 right:1402 top:457 bottom:481
+2026-08-11T22:48:40.543Z Fill-Field login-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-11T22:48:44.884Z Click-OcrExact login-b try=1 words=14 btn=True {part=[تسجيل] hits=2}
+2026-08-11T22:48:47.894Z STEP S03-login-owner PASS
+2026-08-11T22:48:47.902Z STEP S04-add-product start
+2026-08-11T22:48:57.458Z Click-OcrCropped FAIL nav-inv (last strip OCR 8 words)
+2026-08-11T22:48:57.495Z STEP S04-add-product FAIL: inventory nav not found
+2026-08-11T22:48:57.846Z cleanup close: WM_CLOSE
+2026-08-11T22:48:57.860Z STEP S13-final-evidence start
+2026-08-11T22:48:57.923Z STEP S13-final-evidence PASS
+2026-08-11T22:48:57.943Z WORKER DONE aborted=True

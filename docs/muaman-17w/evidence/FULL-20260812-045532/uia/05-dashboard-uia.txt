@@ -1,0 +1,2 @@
+ControlType.Window | Name="muaman_store" | AutomationId="" | enabled=True | offscreen=False | x=30 y=30 w=1500 h=850
+  ControlType.Pane | Name="FLUTTERVIEW" | AutomationId="" | enabled=True | offscreen=False | x=39 y=68 w=1482 h=803

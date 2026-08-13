@@ -1,0 +1,257 @@
+{
+    "runId":  "PROBE-navmap-20260812-013720",
+    "finishedUtc":  "2026-08-11T22:40:04.055Z",
+    "aborted":  false,
+    "steps":  {
+                  "S01-launch":  {
+                                     "ok":  true,
+                                     "at":  "2026-08-11T22:37:48.496Z",
+                                     "result":  {
+                                                    "exe":  "C:\\dev\\muaman.worktrees\\muaman-17-invoice-printing-pdf-delivery\\app\\build\\windows\\x64\\runner\\Release\\muaman_store.exe",
+                                                    "processId":  19024,
+                                                    "handle":  "0x2960982",
+                                                    "windowFound":  true,
+                                                    "setupScreenRecognized":  true,
+                                                    "screenshot":  "C:\\dev\\muaman.worktrees\\muaman-17-invoice-printing-pdf-delivery\\docs\\muaman-17w\\evidence\\PROBE-navmap-20260812-013720\\shots\\04-app-launch.png",
+                                                    "captureNote":  "own-capture sd=57.14"
+                                                }
+                                 },
+                  "S02-setup-owner":  {
+                                          "ok":  true,
+                                          "at":  "2026-08-11T22:38:21.142Z",
+                                          "result":  {
+                                                         "ownerCreated":  true,
+                                                         "loginReached":  true,
+                                                         "loginScreenshot":  "C:\\dev\\muaman.worktrees\\muaman-17-invoice-printing-pdf-delivery\\docs\\muaman-17w\\evidence\\PROBE-navmap-20260812-013720\\shots\\04b-login.png",
+                                                         "createButton":  {
+                                                                              "clicked":  true,
+                                                                              "try":  1,
+                                                                              "screenX":  839,
+                                                                              "screenY":  750,
+                                                                              "word":  "إنشاء"
+                                                                          },
+                                                         "methods":  {
+                                                                         "name":  {
+                                                                                      "label":  "الاسم",
+                                                                                      "clicked":  true,
+                                                                                      "verify":  "band-verified probe=17W",
+                                                                                      "method":  "click x=1391 y=445"
+                                                                                  },
+                                                                         "user":  {
+                                                                                      "label":  "اسم المستخدم",
+                                                                                      "clicked":  true,
+                                                                                      "verify":  "band-verified probe=17w",
+                                                                                      "method":  "click x=1354 y=525"
+                                                                                  },
+                                                                         "pass":  {
+                                                                                      "label":  "كلمة المرور",
+                                                                                      "clicked":  true,
+                                                                                      "masked":  true,
+                                                                                      "method":  "click x=1366 y=603 masked-verified"
+                                                                                  },
+                                                                         "confirm":  {
+                                                                                         "label":  "تأكيد كلمة المرور",
+                                                                                         "clicked":  true,
+                                                                                         "masked":  true,
+                                                                                         "method":  "click x=1344 y=684 masked-verified"
+                                                                                     }
+                                                                     }
+                                                     }
+                                      },
+                  "S03-login-owner":  {
+                                          "ok":  true,
+                                          "at":  "2026-08-11T22:38:41.991Z",
+                                          "result":  {
+                                                         "loginMethods":  {
+                                                                              "user":  {
+                                                                                           "label":  "اسم المستخدم",
+                                                                                           "clicked":  true,
+                                                                                           "verify":  "band-verified probe=17w",
+                                                                                           "method":  "click x=1352 y=525"
+                                                                                       },
+                                                                              "pass":  {
+                                                                                           "label":  "كلمة المرور",
+                                                                                           "clicked":  true,
+                                                                                           "masked":  true,
+                                                                                           "method":  "click x=1366 y=603 masked-verified"
+                                                                                       }
+                                                                          },
+                                                         "loginButton":  {
+                                                                             "clicked":  true,
+                                                                             "try":  1,
+                                                                             "screenX":  811,
+                                                                             "screenY":  670,
+                                                                             "word":  "تسجيل"
+                                                                         },
+                                                         "dashboardReached":  true,
+                                                         "dashboardScreenshot":  "C:\\dev\\muaman.worktrees\\muaman-17-invoice-printing-pdf-delivery\\docs\\muaman-17w\\evidence\\PROBE-navmap-20260812-013720\\shots\\05-dashboard.png"
+                                                     }
+                                      },
+                  "S04-probe-navmap":  {
+                                           "ok":  true,
+                                           "at":  "2026-08-11T22:39:12.806Z",
+                                           "result":  [
+                                                          "2026-08-11T22:38:44.670Z PROBE nav map rect=left:30 top:30 w:1500 h:850",
+                                                          "2026-08-11T22:38:44.681Z PROBE click imgX=125 screen=(155,850)",
+                                                          "2026-08-11T22:38:48.373Z PROBE imgX=125 -\u003e title=\u0027الجرد\u0027",
+                                                          "2026-08-11T22:38:48.383Z PROBE click imgX=375 screen=(405,850)",
+                                                          "2026-08-11T22:38:51.041Z PROBE imgX=375 -\u003e title=\u0027المصروفات\u0027",
+                                                          "2026-08-11T22:38:51.045Z PROBE click imgX=625 screen=(655,850)",
+                                                          "2026-08-11T22:38:53.972Z PROBE imgX=625 -\u003e title=\u0027المرتجعات\u0027",
+                                                          "2026-08-11T22:38:53.975Z PROBE click imgX=875 screen=(905,850)",
+                                                          "2026-08-11T22:38:56.762Z PROBE imgX=875 -\u003e title=\u0027المبيعات\u0027",
+                                                          "2026-08-11T22:38:56.766Z PROBE click imgX=1125 screen=(1155,850)",
+                                                          "2026-08-11T22:38:59.599Z PROBE imgX=1125 -\u003e title=\u0027المخزن\u0027",
+                                                          "2026-08-11T22:38:59.602Z PROBE click imgX=1375 screen=(1405,850)",
+                                                          "2026-08-11T22:39:02.411Z PROBE imgX=1375 -\u003e title=\u0027التحكم لوحة\u0027",
+                                                          "2026-08-11T22:39:02.415Z PROBE click imgX=850 screen=(880,850)",
+                                                          "2026-08-11T22:39:05.078Z PROBE imgX=850 -\u003e title=\u0027المبيعات\u0027",
+                                                          "2026-08-11T22:39:05.081Z PROBE click imgX=900 screen=(930,850)",
+                                                          "2026-08-11T22:39:07.670Z PROBE imgX=900 -\u003e title=\u0027المبيعات\u0027",
+                                                          "2026-08-11T22:39:07.673Z PROBE click imgX=950 screen=(980,850)",
+                                                          "2026-08-11T22:39:10.208Z PROBE imgX=950 -\u003e title=\u0027المبيعات\u0027",
+                                                          "2026-08-11T22:39:10.211Z PROBE click imgX=1000 screen=(1030,850)",
+                                                          "2026-08-11T22:39:12.790Z PROBE imgX=1000 -\u003e title=\u0027المخزن\u0027",
+                                                          {
+                                                              "rect":  {
+                                                                           "Left":  30,
+                                                                           "Top":  30,
+                                                                           "Width":  1500,
+                                                                           "Height":  850
+                                                                       },
+                                                              "rows":  [
+                                                                           {
+                                                                               "imgX":  125,
+                                                                               "screenX":  155,
+                                                                               "screenY":  850,
+                                                                               "title":  "الجرد"
+                                                                           },
+                                                                           {
+                                                                               "imgX":  375,
+                                                                               "screenX":  405,
+                                                                               "screenY":  850,
+                                                                               "title":  "المصروفات"
+                                                                           },
+                                                                           {
+                                                                               "imgX":  625,
+                                                                               "screenX":  655,
+                                                                               "screenY":  850,
+                                                                               "title":  "المرتجعات"
+                                                                           },
+                                                                           {
+                                                                               "imgX":  875,
+                                                                               "screenX":  905,
+                                                                               "screenY":  850,
+                                                                               "title":  "المبيعات"
+                                                                           },
+                                                                           {
+                                                                               "imgX":  1125,
+                                                                               "screenX":  1155,
+                                                                               "screenY":  850,
+                                                                               "title":  "المخزن"
+                                                                           },
+                                                                           {
+                                                                               "imgX":  1375,
+                                                                               "screenX":  1405,
+                                                                               "screenY":  850,
+                                                                               "title":  "التحكم لوحة"
+                                                                           },
+                                                                           {
+                                                                               "imgX":  850,
+                                                                               "screenX":  880,
+                                                                               "screenY":  850,
+                                                                               "title":  "المبيعات"
+                                                                           },
+                                                                           {
+                                                                               "imgX":  900,
+                                                                               "screenX":  930,
+                                                                               "screenY":  850,
+                                                                               "title":  "المبيعات"
+                                                                           },
+                                                                           {
+                                                                               "imgX":  950,
+                                                                               "screenX":  980,
+                                                                               "screenY":  850,
+                                                                               "title":  "المبيعات"
+                                                                           },
+                                                                           {
+                                                                               "imgX":  1000,
+                                                                               "screenX":  1030,
+                                                                               "screenY":  850,
+                                                                               "title":  "المخزن"
+                                                                           }
+                                                                       ]
+                                                          }
+                                                      ]
+                                       },
+                  "S05-cleanup-probe":  {
+                                            "ok":  true,
+                                            "at":  "2026-08-11T22:40:03.437Z",
+                                            "result":  {
+                                                           "logoutClick":  {
+                                                                               "via":  "none",
+                                                                               "name":  "تسجيل الخروج",
+                                                                               "found":  false
+                                                                           },
+                                                           "loginScreenBack":  false,
+                                                           "loginScreenshot":  "C:\\dev\\muaman.worktrees\\muaman-17-invoice-printing-pdf-delivery\\docs\\muaman-17w\\evidence\\PROBE-navmap-20260812-013720\\shots\\15-login-final.png",
+                                                           "close":  {
+                                                                         "method":  "WM_CLOSE",
+                                                                         "exited":  true,
+                                                                         "exitCode":  0,
+                                                                         "seconds":  1.4
+                                                                     },
+                                                           "exited":  true
+                                                       }
+                                        },
+                  "S13-final-evidence":  {
+                                             "ok":  true,
+                                             "at":  "2026-08-11T22:40:03.965Z",
+                                             "result":  {
+                                                            "runId":  "PROBE-navmap-20260812-013720",
+                                                            "releaseDir":  "C:\\dev\\muaman.worktrees\\muaman-17-invoice-printing-pdf-delivery\\app\\build\\windows\\x64\\runner\\Release",
+                                                            "dbFile":  "C:\\dev\\muaman.worktrees\\muaman-17-invoice-printing-pdf-delivery\\app\\build\\windows\\x64\\runner\\Release\\.dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db",
+                                                            "dbExists":  true,
+                                                            "dbSizeBytes":  110592,
+                                                            "evidenceScreenshots":  [
+                                                                                        "04-app-launch.png",
+                                                                                        "04b-login.png",
+                                                                                        "05-dashboard.png",
+                                                                                        "15-login-final.png",
+                                                                                        "login-pass-field-b1.png",
+                                                                                        "login-user-field-b1.png",
+                                                                                        "probe-nav-x1000-title.png",
+                                                                                        "probe-nav-x1000.png",
+                                                                                        "probe-nav-x1125-title.png",
+                                                                                        "probe-nav-x1125.png",
+                                                                                        "probe-nav-x125-title.png",
+                                                                                        "probe-nav-x125.png",
+                                                                                        "probe-nav-x1375-title.png",
+                                                                                        "probe-nav-x1375.png",
+                                                                                        "probe-nav-x375-title.png",
+                                                                                        "probe-nav-x375.png",
+                                                                                        "probe-nav-x625-title.png",
+                                                                                        "probe-nav-x625.png",
+                                                                                        "probe-nav-x850-title.png",
+                                                                                        "probe-nav-x850.png",
+                                                                                        "probe-nav-x875-title.png",
+                                                                                        "probe-nav-x875.png",
+                                                                                        "probe-nav-x900-title.png",
+                                                                                        "probe-nav-x900.png",
+                                                                                        "probe-nav-x950-title.png",
+                                                                                        "probe-nav-x950.png",
+                                                                                        "setup-confirm-field-b1.png",
+                                                                                        "setup-name-field-b1.png",
+                                                                                        "setup-name-field-post1.png",
+                                                                                        "setup-pass-field-b1.png",
+                                                                                        "setup-user-field-b1.png",
+                                                                                        "setup-user-field-post1.png"
+                                                                                    ],
+                                                            "evidencePdfFiles":  [
+
+                                                                                 ],
+                                                            "screenshotCount":  32
+                                                        }
+                                         }
+              }
+}

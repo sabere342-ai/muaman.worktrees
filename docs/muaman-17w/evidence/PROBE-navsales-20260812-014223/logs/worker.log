@@ -1,0 +1,28 @@
+﻿2026-08-11T22:42:39.912Z runId=PROBE-navsales-20260812-014223 metadata saved
+2026-08-11T22:42:39.973Z STEP S01-launch start
+2026-08-11T22:42:51.937Z STEP S01-launch PASS
+2026-08-11T22:42:51.946Z STEP S02-setup-owner start
+2026-08-11T22:42:53.643Z Fill-Field setup-name try=1 row=left:1320 right:1402 top:377 bottom:401
+2026-08-11T22:43:02.170Z Fill-Field setup-user try=1 row=left:1243 right:1404 top:454 bottom:481
+2026-08-11T22:43:07.379Z Fill-Field setup-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-11T22:43:12.317Z Fill-Field setup-confirm try=1 row=left:1225 right:1402 top:613 bottom:640
+2026-08-11T22:43:17.305Z Click-OcrExact setup-b try=1 words=27 btn=True {part=[إنشاء] hits=2}
+2026-08-11T22:43:20.000Z STEP S02-setup-owner PASS
+2026-08-11T22:43:20.022Z STEP S03-login-owner start
+2026-08-11T22:43:21.163Z Fill-Field login-user try=1 row=left:1243 right:1402 top:457 bottom:481
+2026-08-11T22:43:26.481Z Fill-Field login-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-11T22:43:31.514Z Click-OcrExact login-b try=1 words=15 btn=True {part=[تسجيل] hits=2}
+2026-08-11T22:43:37.874Z STEP S03-login-owner PASS
+2026-08-11T22:43:37.879Z STEP S04-add-product start
+2026-08-11T22:43:50.580Z Fill-Field prod-name try=1 row=left:787 right:878 top:351 bottom:373
+2026-08-11T22:43:56.360Z Fill-Field prod-cost try=1 row=left:781 right:879 top:426 bottom:446
+2026-08-11T22:44:02.556Z Fill-Field prod-qty try=1 row=left:777 right:880 top:471 bottom:486
+2026-08-11T22:44:13.455Z STEP S04-add-product PASS
+2026-08-11T22:44:13.460Z STEP S05-probe-navsales start
+2026-08-11T22:44:18.917Z PROBE nav-sales clicked=True screenX=656 screenY=852 word=المرنحعات
+2026-08-11T22:44:22.987Z STEP S05-probe-navsales PASS
+2026-08-11T22:44:22.991Z STEP S06-cleanup-probe start
+2026-08-11T22:45:11.285Z STEP S06-cleanup-probe PASS
+2026-08-11T22:45:11.291Z STEP S13-final-evidence start
+2026-08-11T22:45:11.393Z STEP S13-final-evidence PASS
+2026-08-11T22:45:11.418Z WORKER DONE aborted=False

@@ -1,0 +1,243 @@
+{
+    "runId":  "probe-appbar",
+    "finishedUtc":  "2026-08-12T00:33:52.282Z",
+    "aborted":  false,
+    "steps":  {
+                  "S01-launch":  {
+                                     "ok":  true,
+                                     "at":  "2026-08-12T00:31:51.581Z",
+                                     "result":  {
+                                                    "exe":  "C:\\dev\\muaman.worktrees\\muaman-17-invoice-printing-pdf-delivery\\app\\build\\windows\\x64\\runner\\Release\\muaman_store.exe",
+                                                    "processId":  7456,
+                                                    "handle":  "0x920684",
+                                                    "windowFound":  true,
+                                                    "setupScreenRecognized":  true,
+                                                    "screenshot":  "C:\\dev\\muaman.worktrees\\muaman-17-invoice-printing-pdf-delivery\\docs\\muaman-17w\\evidence\\probe-appbar\\shots\\04-app-launch.png",
+                                                    "captureNote":  "own-capture sd=57.14"
+                                                }
+                                 },
+                  "S02-setup-owner":  {
+                                          "ok":  true,
+                                          "at":  "2026-08-12T00:32:15.139Z",
+                                          "result":  {
+                                                         "ownerCreated":  true,
+                                                         "loginReached":  true,
+                                                         "loginScreenshot":  "C:\\dev\\muaman.worktrees\\muaman-17-invoice-printing-pdf-delivery\\docs\\muaman-17w\\evidence\\probe-appbar\\shots\\04b-login.png",
+                                                         "createButton":  {
+                                                                              "clicked":  true,
+                                                                              "try":  1,
+                                                                              "screenX":  839,
+                                                                              "screenY":  750,
+                                                                              "word":  "إنشاء"
+                                                                          },
+                                                         "methods":  {
+                                                                         "name":  {
+                                                                                      "label":  "الاسم",
+                                                                                      "clicked":  true,
+                                                                                      "verify":  "band-verified probe=17W",
+                                                                                      "method":  "click x=1391 y=445"
+                                                                                  },
+                                                                         "user":  {
+                                                                                      "label":  "اسم المستخدم",
+                                                                                      "clicked":  true,
+                                                                                      "verify":  "band-verified probe=17w",
+                                                                                      "method":  "click x=1354 y=525"
+                                                                                  },
+                                                                         "pass":  {
+                                                                                      "label":  "كلمة المرور",
+                                                                                      "clicked":  true,
+                                                                                      "masked":  true,
+                                                                                      "method":  "click x=1366 y=603 masked-verified"
+                                                                                  },
+                                                                         "confirm":  {
+                                                                                         "label":  "تأكيد كلمة المرور",
+                                                                                         "clicked":  true,
+                                                                                         "masked":  true,
+                                                                                         "method":  "click x=1344 y=684 masked-verified"
+                                                                                     }
+                                                                     }
+                                                     }
+                                      },
+                  "S03-login-owner":  {
+                                          "ok":  true,
+                                          "at":  "2026-08-12T00:32:27.344Z",
+                                          "result":  {
+                                                         "loginMethods":  {
+                                                                              "user":  {
+                                                                                           "label":  "اسم المستخدم",
+                                                                                           "clicked":  true,
+                                                                                           "verify":  "band-verified probe=17w",
+                                                                                           "method":  "click x=1352 y=525"
+                                                                                       },
+                                                                              "pass":  {
+                                                                                           "label":  "كلمة المرور",
+                                                                                           "clicked":  true,
+                                                                                           "masked":  true,
+                                                                                           "method":  "click x=1366 y=603 masked-verified"
+                                                                                       }
+                                                                          },
+                                                         "loginButton":  {
+                                                                             "clicked":  true,
+                                                                             "try":  1,
+                                                                             "screenX":  811,
+                                                                             "screenY":  670,
+                                                                             "word":  "تسجيل"
+                                                                         },
+                                                         "dashboardReached":  true,
+                                                         "dashboardScreenshot":  "C:\\dev\\muaman.worktrees\\muaman-17-invoice-printing-pdf-delivery\\docs\\muaman-17w\\evidence\\probe-appbar\\shots\\05-dashboard.png"
+                                                     }
+                                      },
+                  "S04-probe-appbar":  {
+                                           "ok":  true,
+                                           "at":  "2026-08-12T00:33:46.802Z",
+                                           "result":  {
+                                                          "rect":  {
+                                                                       "Left":  30,
+                                                                       "Top":  30,
+                                                                       "Width":  1500,
+                                                                       "Height":  850
+                                                                   },
+                                                          "nameBand":  "69..247",
+                                                          "nameY":  75,
+                                                          "rows":  [
+                                                                       {
+                                                                           "imgX":  29,
+                                                                           "screen":  "logout"
+                                                                       },
+                                                                       {
+                                                                           "imgX":  45,
+                                                                           "screen":  "logout"
+                                                                       },
+                                                                       {
+                                                                           "imgX":  69,
+                                                                           "screen":  "none"
+                                                                       },
+                                                                       {
+                                                                           "imgX":  93,
+                                                                           "screen":  "none"
+                                                                       },
+                                                                       {
+                                                                           "imgX":  117,
+                                                                           "screen":  "none"
+                                                                       },
+                                                                       {
+                                                                           "imgX":  141,
+                                                                           "screen":  "none"
+                                                                       },
+                                                                       {
+                                                                           "imgX":  165,
+                                                                           "screen":  "none"
+                                                                       },
+                                                                       {
+                                                                           "imgX":  189,
+                                                                           "screen":  "none"
+                                                                       },
+                                                                       {
+                                                                           "imgX":  213,
+                                                                           "screen":  "none"
+                                                                       },
+                                                                       {
+                                                                           "imgX":  247,
+                                                                           "screen":  "none"
+                                                                       },
+                                                                       {
+                                                                           "imgX":  271,
+                                                                           "screen":  "settings"
+                                                                       },
+                                                                       {
+                                                                           "imgX":  295,
+                                                                           "screen":  "settings"
+                                                                       },
+                                                                       {
+                                                                           "imgX":  319,
+                                                                           "screen":  "users"
+                                                                       },
+                                                                       {
+                                                                           "imgX":  343,
+                                                                           "screen":  "users"
+                                                                       },
+                                                                       {
+                                                                           "imgX":  367,
+                                                                           "screen":  "none"
+                                                                       }
+                                                                   ]
+                                                      }
+                                       },
+                  "S05-cleanup-probe":  {
+                                            "ok":  true,
+                                            "at":  "2026-08-12T00:33:52.253Z",
+                                            "result":  {
+                                                           "logoutClick":  {
+                                                                               "clicked":  true,
+                                                                               "target":  "logout",
+                                                                               "dx":  0,
+                                                                               "screenX":  75,
+                                                                               "screenY":  105,
+                                                                               "nameBand":  "69..247"
+                                                                           },
+                                                           "loginScreenBack":  true,
+                                                           "loginScreenshot":  "C:\\dev\\muaman.worktrees\\muaman-17-invoice-printing-pdf-delivery\\docs\\muaman-17w\\evidence\\probe-appbar\\shots\\15-login-final.png",
+                                                           "close":  {
+                                                                         "method":  "WM_CLOSE",
+                                                                         "exited":  true,
+                                                                         "exitCode":  0,
+                                                                         "seconds":  0.3
+                                                                     },
+                                                           "exited":  true
+                                                       }
+                                        },
+                  "S13-final-evidence":  {
+                                             "ok":  true,
+                                             "at":  "2026-08-12T00:33:52.274Z",
+                                             "result":  {
+                                                            "runId":  "probe-appbar",
+                                                            "releaseDir":  "C:\\dev\\muaman.worktrees\\muaman-17-invoice-printing-pdf-delivery\\app\\build\\windows\\x64\\runner\\Release",
+                                                            "dbFile":  "C:\\dev\\muaman.worktrees\\muaman-17-invoice-printing-pdf-delivery\\app\\build\\windows\\x64\\runner\\Release\\.dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db",
+                                                            "dbExists":  true,
+                                                            "dbSizeBytes":  110592,
+                                                            "evidenceScreenshots":  [
+                                                                                        "04-app-launch.png",
+                                                                                        "04b-login.png",
+                                                                                        "05-dashboard.png",
+                                                                                        "15-login-final.png",
+                                                                                        "login-pass-field-b1.png",
+                                                                                        "login-user-field-b1.png",
+                                                                                        "login-user-field-post1.png",
+                                                                                        "logout-cashier-pos-1.png",
+                                                                                        "logout-cashier-verify-0.png",
+                                                                                        "probe-appbar-back.png",
+                                                                                        "probe-appbar-base.png",
+                                                                                        "probe-appbar-relogin.png",
+                                                                                        "probe-appbar-x117.png",
+                                                                                        "probe-appbar-x141.png",
+                                                                                        "probe-appbar-x165.png",
+                                                                                        "probe-appbar-x189.png",
+                                                                                        "probe-appbar-x213.png",
+                                                                                        "probe-appbar-x247.png",
+                                                                                        "probe-appbar-x271.png",
+                                                                                        "probe-appbar-x29.png",
+                                                                                        "probe-appbar-x295.png",
+                                                                                        "probe-appbar-x319.png",
+                                                                                        "probe-appbar-x343.png",
+                                                                                        "probe-appbar-x367.png",
+                                                                                        "probe-appbar-x45.png",
+                                                                                        "probe-appbar-x69.png",
+                                                                                        "probe-appbar-x93.png",
+                                                                                        "probe-relogin-pass-field-b1.png",
+                                                                                        "probe-relogin-user-field-b1.png",
+                                                                                        "probe-relogin-user-field-post1.png",
+                                                                                        "setup-confirm-field-b1.png",
+                                                                                        "setup-name-field-b1.png",
+                                                                                        "setup-name-field-post1.png",
+                                                                                        "setup-pass-field-b1.png",
+                                                                                        "setup-user-field-b1.png",
+                                                                                        "setup-user-field-post1.png"
+                                                                                    ],
+                                                            "evidencePdfFiles":  [
+
+                                                                                 ],
+                                                            "screenshotCount":  36
+                                                        }
+                                         }
+              }
+}

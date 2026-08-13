@@ -1,0 +1,60 @@
+﻿2026-08-12T00:31:45.373Z runId=probe-appbar metadata saved
+2026-08-12T00:31:45.426Z STEP S01-launch start
+2026-08-12T00:31:51.584Z STEP S01-launch PASS
+2026-08-12T00:31:51.591Z STEP S02-setup-owner start
+2026-08-12T00:31:52.698Z Fill-Field setup-name try=1 row=left:1320 right:1402 top:377 bottom:401
+2026-08-12T00:31:59.982Z Fill-Field setup-user try=1 row=left:1243 right:1404 top:454 bottom:481
+2026-08-12T00:32:04.624Z Fill-Field setup-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-12T00:32:08.832Z Fill-Field setup-confirm try=1 row=left:1225 right:1402 top:613 bottom:640
+2026-08-12T00:32:13.034Z Click-OcrExact setup-b try=1 words=28 btn=True {part=[إنشاء] hits=2}
+2026-08-12T00:32:15.139Z STEP S02-setup-owner PASS
+2026-08-12T00:32:15.141Z STEP S03-login-owner start
+2026-08-12T00:32:16.045Z Fill-Field login-user try=1 row=left:1243 right:1402 top:457 bottom:481
+2026-08-12T00:32:20.599Z Fill-Field login-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-12T00:32:24.734Z Click-OcrExact login-b try=1 words=14 btn=True {part=[تسجيل] hits=2}
+2026-08-12T00:32:27.345Z STEP S03-login-owner PASS
+2026-08-12T00:32:27.349Z STEP S04-probe-appbar start
+2026-08-12T00:32:29.892Z PROBE appbar name=[69..247] y=75
+2026-08-12T00:32:29.898Z PROBE appbar click imgX=29 screen=(59,105)
+2026-08-12T00:32:32.349Z PROBE appbar imgX=29 -> logout
+2026-08-12T00:32:33.243Z Fill-Field probe-relogin-user try=1 row=left:1243 right:1402 top:457 bottom:481
+2026-08-12T00:32:37.767Z Fill-Field probe-relogin-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-12T00:32:41.910Z Click-OcrExact probe-relogin-b try=1 words=14 btn=True {part=[تسجيل] hits=2}
+2026-08-12T00:32:45.165Z PROBE appbar click imgX=45 screen=(75,105)
+2026-08-12T00:32:47.559Z PROBE appbar imgX=45 -> logout
+2026-08-12T00:32:48.456Z Fill-Field probe-relogin-user try=1 row=left:1243 right:1402 top:457 bottom:481
+2026-08-12T00:32:52.930Z Fill-Field probe-relogin-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-12T00:32:57.137Z Click-OcrExact probe-relogin-b try=1 words=14 btn=True {part=[تسجيل] hits=2}
+2026-08-12T00:33:00.395Z PROBE appbar click imgX=69 screen=(99,105)
+2026-08-12T00:33:03.142Z PROBE appbar imgX=69 -> none
+2026-08-12T00:33:03.145Z PROBE appbar click imgX=93 screen=(123,105)
+2026-08-12T00:33:05.802Z PROBE appbar imgX=93 -> none
+2026-08-12T00:33:05.804Z PROBE appbar click imgX=117 screen=(147,105)
+2026-08-12T00:33:08.442Z PROBE appbar imgX=117 -> none
+2026-08-12T00:33:08.444Z PROBE appbar click imgX=141 screen=(171,105)
+2026-08-12T00:33:11.099Z PROBE appbar imgX=141 -> none
+2026-08-12T00:33:11.105Z PROBE appbar click imgX=165 screen=(195,105)
+2026-08-12T00:33:13.842Z PROBE appbar imgX=165 -> none
+2026-08-12T00:33:13.845Z PROBE appbar click imgX=189 screen=(219,105)
+2026-08-12T00:33:16.421Z PROBE appbar imgX=189 -> none
+2026-08-12T00:33:16.424Z PROBE appbar click imgX=213 screen=(243,105)
+2026-08-12T00:33:19.049Z PROBE appbar imgX=213 -> none
+2026-08-12T00:33:19.051Z PROBE appbar click imgX=247 screen=(277,105)
+2026-08-12T00:33:21.605Z PROBE appbar imgX=247 -> none
+2026-08-12T00:33:21.611Z PROBE appbar click imgX=271 screen=(301,105)
+2026-08-12T00:33:24.194Z PROBE appbar imgX=271 -> settings
+2026-08-12T00:33:27.311Z PROBE appbar click imgX=295 screen=(325,105)
+2026-08-12T00:33:29.839Z PROBE appbar imgX=295 -> settings
+2026-08-12T00:33:32.963Z PROBE appbar click imgX=319 screen=(349,105)
+2026-08-12T00:33:35.467Z PROBE appbar imgX=319 -> users
+2026-08-12T00:33:38.650Z PROBE appbar click imgX=343 screen=(373,105)
+2026-08-12T00:33:41.127Z PROBE appbar imgX=343 -> users
+2026-08-12T00:33:44.212Z PROBE appbar click imgX=367 screen=(397,105)
+2026-08-12T00:33:46.796Z PROBE appbar imgX=367 -> none
+2026-08-12T00:33:46.802Z STEP S04-probe-appbar PASS
+2026-08-12T00:33:46.807Z STEP S05-cleanup-probe start
+2026-08-12T00:33:47.865Z Click-AppBarIcon logout dx=0 name=[69..247]@y=75 screen=(75,105)
+2026-08-12T00:33:52.254Z STEP S05-cleanup-probe PASS
+2026-08-12T00:33:52.257Z STEP S13-final-evidence start
+2026-08-12T00:33:52.274Z STEP S13-final-evidence PASS
+2026-08-12T00:33:52.291Z WORKER DONE aborted=False

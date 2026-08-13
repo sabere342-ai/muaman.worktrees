@@ -1,0 +1,70 @@
+{
+    "rows":  [
+                 {
+                     "imgX":  125,
+                     "screenX":  155,
+                     "screenY":  850,
+                     "title":  "الجرد"
+                 },
+                 {
+                     "imgX":  375,
+                     "screenX":  405,
+                     "screenY":  850,
+                     "title":  "المصروفات"
+                 },
+                 {
+                     "imgX":  625,
+                     "screenX":  655,
+                     "screenY":  850,
+                     "title":  "المرتجعات"
+                 },
+                 {
+                     "imgX":  875,
+                     "screenX":  905,
+                     "screenY":  850,
+                     "title":  "المبيعات"
+                 },
+                 {
+                     "imgX":  1125,
+                     "screenX":  1155,
+                     "screenY":  850,
+                     "title":  "المخزن"
+                 },
+                 {
+                     "imgX":  1375,
+                     "screenX":  1405,
+                     "screenY":  850,
+                     "title":  "التحكم لوحة"
+                 },
+                 {
+                     "imgX":  850,
+                     "screenX":  880,
+                     "screenY":  850,
+                     "title":  "المبيعات"
+                 },
+                 {
+                     "imgX":  900,
+                     "screenX":  930,
+                     "screenY":  850,
+                     "title":  "المبيعات"
+                 },
+                 {
+                     "imgX":  950,
+                     "screenX":  980,
+                     "screenY":  850,
+                     "title":  "المبيعات"
+                 },
+                 {
+                     "imgX":  1000,
+                     "screenX":  1030,
+                     "screenY":  850,
+                     "title":  "المخزن"
+                 }
+             ],
+    "rect":  {
+                 "Left":  30,
+                 "Top":  30,
+                 "Width":  1500,
+                 "Height":  850
+             }
+}

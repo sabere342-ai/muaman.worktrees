@@ -1,0 +1,44 @@
+MUAMAN-17W governed Release build record
+
+Build command:
+  powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\release\build_windows_release.ps1
+  (run from repository root C:\dev\muaman.worktrees\muaman-17-invoice-printing-pdf-delivery)
+
+Exit code: 0 (PASS)
+Run ID   : L-20260811-205743-3088
+Duration : 173.5s
+
+Evidence root (build): %LOCALAPPDATA%\Temp\muaman-release-L-20260811-205743-3088\evidence
+  - preflight-result.json : PASS (exit 0)
+  - build-result.json     : PASS (exit 0)
+  - release-manifest.json : 16 files, total 35,785,284 bytes
+
+Output location: app\build\windows\x64\runner\Release
+EXE path       : C:\dev\muaman.worktrees\muaman-17-invoice-printing-pdf-delivery\app\build\windows\x64\runner\Release\muaman_store.exe
+EXE size       : 90,624 bytes
+EXE SHA-256    : 194B46007E82D06936355C8C76B1E7DB93F97DF6691596097819E83A608BD6A9
+
+Runtime dependencies verified present:
+  pdfium.dll            : 4,749,824 bytes  SHA-256 0C88EBACC0393FD45FC3E7B35E31E72C9E55B633A846A7ECF4085694DBA68ABD
+  printing_plugin.dll   :   138,240 bytes  SHA-256 959F1E85FEEC7D8AE02F97760608E8022CFF3C3D556AADC824306EA1AFE2A867
+  flutter_windows.dll   : 18,181,632 bytes  SHA-256 B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E
+  data\app.so           :  9,323,424 bytes  SHA-256 441A967B531F5DC948CC7798BEC14F00DB99CA3A029B19D19F8A50ABCACBA6F8
+  data\flutter_assets\assets\fonts\NotoSansArabic-Bold.ttf    : 260,904 bytes  SHA-256 457926CB001AC787DC7415C89E6F5B1C4CE3A0F2C91D0CABC1BC19A05638E7DE
+  data\flutter_assets\assets\fonts\NotoSansArabic-Regular.ttf : 250,880 bytes  SHA-256 D6EFA4C9FAC8ECEFD2DE19676ACC3A396BA7AEE99BA7A2D513950246841B6725
+  data\flutter_assets\FontManifest.json                        : 208 bytes
+
+Provenance (determinism) check:
+  The freshly built Release from clean HEAD 8362f4d is byte-identical to the MUAMAN-17
+  governed run L-20260811-200804-15224 manifest for every key binary:
+    muaman_store.exe     194B46007E82D06936355C8C76B1E7DB93F97DF6691596097819E83A608BD6A9 (match)
+    pdfium.dll           0C88EBACC0393FD45FC3E7B35E31E72C9E55B633A846A7ECF4085694DBA68ABD (match)
+    printing_plugin.dll  959F1E85FEEC7D8AE02F97760608E8022CFF3C3D556AADC824306EA1AFE2A867 (match)
+    flutter_windows.dll  B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E (match)
+    data\app.so          441A967B531F5DC948CC7798BEC14F00DB99CA3A029B19D19F8A50ABCACBA6F8 (match)
+  => The governed Release is a faithful build of 8362f4d (MUAMAN-17 final commit).
+
+Build side-effect note:
+  flutter pub get regenerated plugin registrant files under app/{linux,macos,windows}.
+  Only app/macos/Flutter/GeneratedPluginRegistrant.swift gained a real entry (file_picker,
+  irrelevant to the Windows target); linux/windows changes were CRLF-only. All were restored
+  to HEAD so the tree returns clean. See 01-preflight.txt.

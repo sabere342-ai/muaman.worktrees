@@ -1,0 +1,30 @@
+﻿2026-08-11T22:50:16.040Z runId=PROBE-navsales3-20260812-015009 metadata saved
+2026-08-11T22:50:16.064Z STEP S01-launch start
+2026-08-11T22:50:22.889Z STEP S01-launch PASS
+2026-08-11T22:50:22.894Z STEP S02-setup-owner start
+2026-08-11T22:50:24.188Z Fill-Field setup-name try=1 row=left:1320 right:1402 top:377 bottom:401
+2026-08-11T22:50:31.973Z Fill-Field setup-user try=1 row=left:1243 right:1404 top:454 bottom:481
+2026-08-11T22:50:36.791Z Fill-Field setup-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-11T22:50:41.426Z Fill-Field setup-confirm try=1 row=left:1225 right:1402 top:613 bottom:640
+2026-08-11T22:50:45.766Z Click-OcrExact setup-b try=1 words=28 btn=True {part=[إنشاء] hits=2}
+2026-08-11T22:50:48.009Z STEP S02-setup-owner PASS
+2026-08-11T22:50:48.016Z STEP S03-login-owner start
+2026-08-11T22:50:48.996Z Fill-Field login-user try=1 row=left:1243 right:1402 top:457 bottom:481
+2026-08-11T22:50:53.658Z Fill-Field login-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-11T22:50:57.948Z Click-OcrExact login-b try=1 words=14 btn=True {part=[تسجيل] hits=2}
+2026-08-11T22:51:00.954Z STEP S03-login-owner PASS
+2026-08-11T22:51:00.958Z STEP S04-add-product start
+2026-08-11T22:51:02.302Z Click-NavTileByRank nav-inv rank=1 try=1 word='المخدن' screen=(1150,852)
+2026-08-11T22:51:10.849Z Fill-Field prod-name try=1 row=left:787 right:878 top:351 bottom:373
+2026-08-11T22:51:15.861Z Fill-Field prod-cost try=1 row=left:781 right:879 top:426 bottom:446
+2026-08-11T22:51:21.337Z Fill-Field prod-qty try=1 row=left:777 right:880 top:471 bottom:486
+2026-08-11T22:51:29.732Z STEP S04-add-product PASS
+2026-08-11T22:51:29.736Z STEP S05-probe-navsales start
+2026-08-11T22:51:32.309Z Click-NavTileByRank nav-sales-probe rank=2 try=1 word='المبيعات' screen=(902,851)
+2026-08-11T22:51:33.595Z PROBE nav-sales clicked=True screenX=902 screenY=851 word=المبيعات
+2026-08-11T22:51:37.392Z STEP S05-probe-navsales PASS
+2026-08-11T22:51:37.397Z STEP S06-cleanup-probe start
+2026-08-11T22:52:24.745Z STEP S06-cleanup-probe PASS
+2026-08-11T22:52:24.751Z STEP S13-final-evidence start
+2026-08-11T22:52:24.804Z STEP S13-final-evidence PASS
+2026-08-11T22:52:24.829Z WORKER DONE aborted=False
