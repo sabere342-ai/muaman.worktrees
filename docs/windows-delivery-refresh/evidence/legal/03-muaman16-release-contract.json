@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1.0",
+  "source": "docs/windows-delivery-refresh/FINAL-REPORT.md",
+  "capturedAtUtc": "2026-08-14T13:45:06.551Z",
+  "package": {
+    "filename": "muaman-windows-release.zip",
+    "sha256": "FEC8B79BA57FEB01EE12561AD21A32183073BFFFD8054E5AE1CCB62F83683355",
+    "sizeBytes": 15555975,
+    "entryCount": 16,
+    "entryTimestamp": "2024-01-01T00:00:00",
+    "archiveFormat": "ZIP (deterministic, ordinal entry order, forward slashes)"
+  },
+  "release": {
+    "fileCount": 16,
+    "totalBytes": 35753553,
+    "crossHash": "7BC418546CABA55A3389C22A277B327D32683ABC91DA6CAF75FDA163E7204D6F"
+  },
+  "application": {
+    "mainExecutable": "muaman_store.exe",
+    "executableSize": 91648,
+    "executableSha256": "9FF10A35BA134412E9070D262D8E723B5F9B56B614ED9998CFF75297A602AC2A",
+    "flutterWindowsDll": "flutter_windows.dll",
+    "flutterWindowsDllSize": 18181632,
+    "runtimeDlls": ["flutter_windows.dll", "pdfium.dll", "printing_plugin.dll"]
+  },
+  "legalManifest": "docs/windows-delivery-refresh/evidence/legal/release-manifest.json",
+  "successorTo": "docs/muaman-13o/evidence/03-muaman13n-release-contract.json"
+}

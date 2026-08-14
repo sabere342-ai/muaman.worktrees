@@ -281,7 +281,7 @@ try {
 try {
     $gitViolations = $null
     $scopeOk = Test-GitCleanScope -RepoPath $WorktreePath -ExpectedHead $cfg.baselineCommit -AllowedPrefixes $cfg.allowedChangedPrefixes -Violations ([ref]$gitViolations)
-    $prodDiff = & git -C $WorktreePath diff --name-only 20211407d033c68a9ce28201f4bdca254056d178 2>$null
+    $prodDiff = & git -C $WorktreePath diff --name-only $cfg.baselineCommit 2>$null
     $prodViolations = @($prodDiff | Where-Object {
         $_ -notmatch '^tools/muaman13q/' -and $_ -notmatch '^docs/muaman-13q/' -and $_ -ne ''
     })

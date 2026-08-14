@@ -1,7 +1,7 @@
 {
   "phase": "MUAMAN-13Q",
   "branchName": "codex/muaman-13q-independent-fresh-user-uninstall-reinstall-acceptance",
-  "baselineCommit": "20211407d033c68a9ce28201f4bdca254056d178",
+  "baselineCommit": "6d293099c1b80d66417d907b3b19e1216d159e88",
   "allowedChangedPrefixes": ["tools/muaman13q/", "docs/muaman-13q/"],
   "accountName": "CodexMuaman13Q",
   "installer": {
@@ -38,8 +38,8 @@
     "silentFlags": "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-"
   },
   "referenceFiles": {
-    "manifest13k": "docs/evidence/muaman-13k/04-k1-source-a-sdk-a-shorttemp/release-manifest.json",
-    "contract13n": "docs/muaman-13o/evidence/03-muaman13n-release-contract.json"
+    "manifest13k": "docs/windows-delivery-refresh/evidence/legal/release-manifest.json",
+    "contract13n": "docs/windows-delivery-refresh/evidence/legal/03-muaman16-release-contract.json"
   },
   "restrictedPath": "%SystemRoot%\\System32;%SystemRoot%",
   "uiStrings": "tools/muaman13q/ui_strings.json",

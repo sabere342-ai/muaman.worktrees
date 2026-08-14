@@ -1,7 +1,7 @@
 {
   "phase": "MUAMAN-13P",
   "branchName": "codex/muaman-13p-independent-fresh-user-install-first-launch-acceptance",
-  "baselineCommit": "ee8ca497fef1ef9b4d31f47422a3a52fdc83e91e",
+  "baselineCommit": "6d293099c1b80d66417d907b3b19e1216d159e88",
   "allowedChangedPrefixes": ["tools/muaman13p/", "docs/muaman-13p/"],
   "accountName": "CodexMuaman13P",
   "installer": {
@@ -30,8 +30,8 @@
     "machineStartMenuDir": "ProgramData\\Microsoft\\Windows\\Start Menu\\Programs"
   },
   "referenceFiles": {
-    "manifest13k": "docs/evidence/muaman-13k/04-k1-source-a-sdk-a-shorttemp/release-manifest.json",
-    "contract13n": "docs/muaman-13o/evidence/03-muaman13n-release-contract.json"
+    "manifest13k": "docs/windows-delivery-refresh/evidence/legal/release-manifest.json",
+    "contract13n": "docs/windows-delivery-refresh/evidence/legal/03-muaman16-release-contract.json"
   },
   "restrictedPath": "%SystemRoot%\\System32;%SystemRoot%",
   "uiStrings": "tools/muaman13p/ui_strings.json",
