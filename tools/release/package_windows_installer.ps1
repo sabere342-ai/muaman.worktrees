@@ -70,14 +70,15 @@ Add-Type -AssemblyName System.IO.Compression | Out-Null
 Add-Type -AssemblyName System.IO.Compression.FileSystem | Out-Null
 
 # ---------------------------------------------------------------------------
-# frozen MUAMAN-13N / MUAMAN-13O contract constants
+# governed delivery-package refresh contract constants (accepted MUAMAN-19
+# canonical release; supersedes the frozen MUAMAN-13N / MUAMAN-13O identity)
 # ---------------------------------------------------------------------------
-$ExpectedZipSha256        = '57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008'
-$ExpectedZipSize          = 14485278
-$ExpectedZipEntryCount    = 13
-$ExpectedCrossHash        = 'EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9'
-$ExpectedFileCount        = 13
-$ExpectedTotalBytes       = 33273462
+$ExpectedZipSha256        = 'FEC8B79BA57FEB01EE12561AD21A32183073BFFFD8054E5AE1CCB62F83683355'
+$ExpectedZipSize          = 15555975
+$ExpectedZipEntryCount    = 16
+$ExpectedCrossHash        = '7BC418546CABA55A3389C22A277B327D32683ABC91DA6CAF75FDA163E7204D6F'
+$ExpectedFileCount        = 16
+$ExpectedTotalBytes       = 35753553
 $ExpectedCompilerVersion  = '6.7.3'
 $ExpectedCompilerSha256   = '0A8757031B33777E4C9CBFFEE40F11A5062B36D25CBE144C1DB73B6102B80AD7'
 $ApplicationVersion       = '1.0.0'
@@ -164,7 +165,7 @@ try {
   $InstallerDefinition = Join-Path $RepoRoot 'installer\muaman.iss'
   $PackageEntrypoint = Join-Path $RepoRoot 'tools\release\package_windows_release.ps1'
   $Verifier = Join-Path $RepoRoot 'tools\release\verify_release.ps1'
-  $LegalManifest = Join-Path $RepoRoot 'docs\evidence\muaman-13k\04-k1-source-a-sdk-a-shorttemp\release-manifest.json'
+  $LegalManifest = Join-Path $RepoRoot 'docs\windows-delivery-refresh\evidence\legal\release-manifest.json'
 
   if (-not (Test-Path -LiteralPath $ReleaseDir -PathType Container)) {
     Write-Host ("[MUAMAN-13O] ERROR ReleaseDir does not exist: {0}" -f $ReleaseDir); exit 2

@@ -124,7 +124,7 @@ if ([string]::IsNullOrWhiteSpace($Verifier)) {
   $Verifier = Join-Path $RepoRoot 'tools\release\verify_release.ps1'
 }
 if ([string]::IsNullOrWhiteSpace($LegalManifest)) {
-  $LegalManifest = Join-Path $RepoRoot 'docs\evidence\muaman-13k\04-k1-source-a-sdk-a-shorttemp\release-manifest.json'
+  $LegalManifest = Join-Path $RepoRoot 'docs\windows-delivery-refresh\evidence\legal\release-manifest.json'
 }
 
 foreach ($marker in @(

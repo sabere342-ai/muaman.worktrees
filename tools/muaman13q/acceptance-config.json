@@ -6,19 +6,19 @@
   "accountName": "CodexMuaman13Q",
   "installer": {
     "filename": "muaman-windows-installer.exe",
-    "sha256": "05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB",
-    "sizeBytes": 12528766
+    "sha256": "9A3AEFDD9188BD9A5D25D1D95324BE48C546DBB78BEC4B6998ECA4D4F1BAE0E1",
+    "sizeBytes": 13225828
   },
   "application": {
     "appDirName": "muaman_store",
     "mainExecutable": "muaman_store.exe",
-    "exeSizeBytes": 90624,
-    "exeSha256": "194B46007E82D06936355C8C76B1E7DB93F97DF6691596097819E83A608BD6A9",
+    "exeSizeBytes": 91648,
+    "exeSha256": "9FF10A35BA134412E9070D262D8E723B5F9B56B614ED9998CFF75297A602AC2A",
     "flutterWindowsDllSha256": "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E",
     "appId": "299ADF2A-0E9E-4A25-916C-1CB8328D0E5E",
-    "payloadFileCount": 13,
-    "payloadTotalBytes": 33273462,
-    "payloadCrossHash": "EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9"
+    "payloadFileCount": 16,
+    "payloadTotalBytes": 35753553,
+    "payloadCrossHash": "7BC418546CABA55A3389C22A277B327D32683ABC91DA6CAF75FDA163E7204D6F"
   },
   "data": {
     "ffiDbRelDir": ".dart_tool/sqflite_common_ffi/databases",

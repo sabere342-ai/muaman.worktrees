@@ -1,7 +1,8 @@
-# MUAMAN-13L release verification against the accepted MUAMAN-13K legal manifest.
+# MUAMAN-13L release verification (refreshed for the governed delivery package
+# refresh of the accepted MUAMAN-19 canonical release).
 #
 # Compares a freshly produced Windows Release directory against the committed
-# legal MUAMAN-13K manifest (docs/evidence/muaman-13k/04-k1-source-a-sdk-a-shorttemp
+# legal release manifest (docs/windows-delivery-refresh/evidence/legal
 # /release-manifest.json) on the exact same relative-path set, per-file size and
 # per-file SHA-256, plus the canonical cross-run hash.
 #
@@ -100,9 +101,9 @@ foreach ($k in $newMap.Keys) {
 $crossNew = Get-CrossHashFromRoot $ReleaseDir
 $crossLegal = Get-CrossHashFromManifest $legal
 
-$fileCountMatch = ($newCount -eq $legalCount -and $newCount -eq 13)
-$totalBytesMatch = ($newTotal -eq $legalTotal -and $newTotal -eq 33273462)
-$crossHashMatch = ($crossNew -eq $crossLegal) -and ($crossNew -eq 'EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9')
+$fileCountMatch = ($newCount -eq $legalCount -and $newCount -eq 16)
+$totalBytesMatch = ($newTotal -eq $legalTotal -and $newTotal -eq 35753553)
+$crossHashMatch = ($crossNew -eq $crossLegal) -and ($crossNew -eq '7BC418546CABA55A3389C22A277B327D32683ABC91DA6CAF75FDA163E7204D6F')
 $identical = ($diffs.Count -eq 0 -and $onlyLegal.Count -eq 0 -and $onlyNew.Count -eq 0) -and
              $fileCountMatch -and $totalBytesMatch -and $crossHashMatch
 
@@ -114,13 +115,13 @@ $result = [ordered]@{
   fileCountLegal = $legalCount
   totalBytesNew = $newTotal
   totalBytesLegal = $legalTotal
-  expectedFileCount = 13
-  expectedTotalBytes = 33273462
+  expectedFileCount = 16
+  expectedTotalBytes = 35753553
   fileCountMatch = $fileCountMatch
   totalBytesMatch = $totalBytesMatch
   crossHashNew = $crossNew
   crossHashLegal = $crossLegal
-  crossHashExpected = 'EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9'
+  crossHashExpected = '7BC418546CABA55A3389C22A277B327D32683ABC91DA6CAF75FDA163E7204D6F'
   crossHashMatch = $crossHashMatch
   diffCount = $diffs.Count
   diffs = $diffs

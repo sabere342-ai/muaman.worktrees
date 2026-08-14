@@ -1,0 +1,58 @@
+{
+    "runId": "WR1-RUNTIME-ACCEPTANCE",
+    "capturedAtUtc": "2026-08-14T13:58:00Z",
+    "phase": "windows-delivery-package-refresh",
+    "installer": {
+        "path": "C:\\dev\\muaman.worktrees\\windows-delivery-package-refresh\\delivery\\Muaman-1.0.0-Windows\\Muaman-Setup.exe",
+        "sizeBytes": 13225828,
+        "sha256": "9A3AEFDD9188BD9A5D25D1D95324BE48C546DBB78BEC4B6998ECA4D4F1BAE0E1"
+    },
+    "preInstall": {
+        "priorInstallPresent": true,
+        "priorExeSha256": "194B46007E82D06936355C8C76B1E7DB93F97DF6691596097819E83A608BD6A9",
+        "priorRemovedViaSilentUninstall": true,
+        "priorUninstallExitCode": 0
+    },
+    "install": {
+        "exitCode": 0,
+        "silentFlags": "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-",
+        "installRoot": "C:\\Users\\saber\\AppData\\Local\\Programs\\muaman_store",
+        "installedFileCount": 16,
+        "arabicFontsPresent": ["data/flutter_assets/assets/fonts/NotoSansArabic-Bold.ttf", "data/flutter_assets/assets/fonts/NotoSansArabic-Regular.ttf"],
+        "thirdPartyNoticesPresent": "data/flutter_assets/assets/fonts/THIRD_PARTY_NOTICES.txt",
+        "installedExeMatchesCanonical": true,
+        "installedAppSoMatchesCanonical": true
+    },
+    "launch": {
+        "workingDirectory": "C:\\Users\\saber\\AppData\\Local\\Programs\\muaman_store",
+        "windowFound": true,
+        "windowTitle": "muaman_store",
+        "responding": true,
+        "screenshot": "launch-window.png",
+        "processAliveAfter25s": true
+    },
+    "freshDatabase": {
+        "path": "C:\\Users\\saber\\AppData\\Local\\Programs\\muaman_store\\.dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db",
+        "dbExists": true,
+        "sizeBytes": 81920,
+        "tables": ["app_settings", "expenses", "import_batches", "inventory_count", "invoices", "products", "returns", "role_permissions", "sales", "users"],
+        "rowcounts": {"app_settings": 4, "expenses": 0, "import_batches": 0, "inventory_count": 0, "invoices": 0, "products": 0, "returns": 0, "role_permissions": 0, "sales": 0, "users": 0},
+        "demoBarcodeProducts": 0,
+        "demoSeeded": false,
+        "appSettingKeys": ["buttonStyle", "defaultCustomerName", "licenseStatus", "supportPhone"],
+        "conclusion": "production-clean-start-through-installer: PASS"
+    },
+    "shutdown": {
+        "method": "WM_CLOSE",
+        "gracefulExitObserved": [true, true]
+    },
+    "uninstall": {
+        "exitCode": 0,
+        "registryKeyRemoved": true,
+        "startMenuLinkRemoved": true,
+        "programFilesRemoved": true,
+        "businessDataPreserved": true,
+        "leftoverAfterUninstall": [".dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db"]
+    },
+    "verdict": "PASS"
+}

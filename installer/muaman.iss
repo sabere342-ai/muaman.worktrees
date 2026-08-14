@@ -3,7 +3,7 @@
 ; This script is compiled exclusively by tools/release/package_windows_installer.ps1
 ; against a VERIFIED release payload staged from the canonical deterministic ZIP
 ; (produced by tools/release/package_windows_release.ps1). The script itself
-; never runs a build; it consumes only the verified 13-file release payload.
+; never runs a build; it consumes only the verified 16-file release payload.
 ;
 ; Determinism: the same compiler binary (ISCC.exe 6.7.3, SHA-256 pinned in
 ; tools/muaman13o/installer_contract.json) plus the same verified payload
@@ -87,6 +87,9 @@ Source: "{#AppSourceDir}\data\flutter_assets\AssetManifest.bin"; DestDir: "{app}
 Source: "{#AppSourceDir}\data\flutter_assets\AssetManifest.json"; DestDir: "{app}\data\flutter_assets"; Flags: ignoreversion
 Source: "{#AppSourceDir}\data\flutter_assets\FontManifest.json"; DestDir: "{app}\data\flutter_assets"; Flags: ignoreversion
 Source: "{#AppSourceDir}\data\flutter_assets\NOTICES.Z"; DestDir: "{app}\data\flutter_assets"; Flags: ignoreversion
+Source: "{#AppSourceDir}\data\flutter_assets\assets\fonts\NotoSansArabic-Bold.ttf"; DestDir: "{app}\data\flutter_assets\assets\fonts"; Flags: ignoreversion
+Source: "{#AppSourceDir}\data\flutter_assets\assets\fonts\NotoSansArabic-Regular.ttf"; DestDir: "{app}\data\flutter_assets\assets\fonts"; Flags: ignoreversion
+Source: "{#AppSourceDir}\data\flutter_assets\assets\fonts\THIRD_PARTY_NOTICES.txt"; DestDir: "{app}\data\flutter_assets\assets\fonts"; Flags: ignoreversion
 Source: "{#AppSourceDir}\data\flutter_assets\fonts\MaterialIcons-Regular.otf"; DestDir: "{app}\data\flutter_assets\fonts"; Flags: ignoreversion
 Source: "{#AppSourceDir}\data\flutter_assets\packages\cupertino_icons\assets\CupertinoIcons.ttf"; DestDir: "{app}\data\flutter_assets\packages\cupertino_icons\assets"; Flags: ignoreversion
 Source: "{#AppSourceDir}\data\flutter_assets\shaders\ink_sparkle.frag"; DestDir: "{app}\data\flutter_assets\shaders"; Flags: ignoreversion
