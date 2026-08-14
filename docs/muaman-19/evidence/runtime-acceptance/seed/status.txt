@@ -1,0 +1,1 @@
+﻿status=DB_CREATED_AND_STOPPED

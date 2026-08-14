@@ -1,0 +1,376 @@
+﻿{
+    "experimentId":  "L-20260814-122054-26960",
+    "capturedAtUtc":  "2026-08-14T12:23:34.347Z",
+    "startedAtUtc":  "2026-08-14T12:21:14.495Z",
+    "endedAtUtc":  "2026-08-14T12:23:34.007Z",
+    "elapsedSeconds":  139.5,
+    "cleanExitCode":  0,
+    "pubGetExitCode":  0,
+    "buildExitCode":  0,
+    "responseFileObserved":  false,
+    "fileTrackerCrash":  false,
+    "crashDetail":  "",
+    "compilerIdSuccess":  true,
+    "configureSuccess":  true,
+    "releaseBuildSuccess":  true,
+    "clCommands":  [
+
+                   ],
+    "rspCaptures":  [
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempeffda56853d94df7974f864dfd6ed579\\tmpcde0ae0b36134a938a08d05c4ec44148.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  456,
+                            "sha256":  "02748D5998A10F3D4E96D49C0204A77835A92843644A49BA4B531C22C7065C4F",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempeffda56853d94df7974f864dfd6ed579\\tmpdeda027b4f1e4057bbc0ef7fca13f69a.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  836,
+                            "sha256":  "B2B0B5F68D21E6CBBA44222B63ABC30BB20B53CCF19653EF5FAC8BD88D6BFAB8",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp29ea67d775a643188773d99a45494084\\tmp5865102c85c9465b80ede30ff092d3aa.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  790,
+                            "sha256":  "D5479464926C1147B96C02F51FFB2F66CAA3093259F92EC41CB7D8750AF3C511",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp29ea67d775a643188773d99a45494084\\tmp29b55fe63ab146cf9bc4d94048cb367e.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  1736,
+                            "sha256":  "7E377502F39096D98041075EB3B1F1B69ADE4BB28D76ED21A3BD931E08790491",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempe688a84943c54891a0b96febba7a38b8\\tmp449a1610c55e416399725015a4e77d4b.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  456,
+                            "sha256":  "02748D5998A10F3D4E96D49C0204A77835A92843644A49BA4B531C22C7065C4F",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempe688a84943c54891a0b96febba7a38b8\\tmpa07f0aa1582148cdbea61babdeac2212.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  836,
+                            "sha256":  "B2B0B5F68D21E6CBBA44222B63ABC30BB20B53CCF19653EF5FAC8BD88D6BFAB8",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp0d17885bd4ba4afdb98e2a7b4bd7f2a4\\tmp6f72ec34633d4e5e830408814546369d.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  790,
+                            "sha256":  "5160BEE87A751C89D0D4F9C222E402A6060B55B7C0500E872F8EE177E6EA8DDC",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp0d17885bd4ba4afdb98e2a7b4bd7f2a4\\tmpd6e39869a7274454aef93a045d29103d.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  1736,
+                            "sha256":  "0ACB3EDA8CBA49845A3FC85DC1A8A34099B719A9FF13102E2C6FC2612B775934",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp06219869e72a480990ad63dc7bb90634\\tmp11c885dec8fc40e3ab6ba73102b9914d.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  2782,
+                            "sha256":  "F3B2F580DE8F20686DEADA353579EE8C3266B44513DC02034E5AEA2A1B54E53F",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp06219869e72a480990ad63dc7bb90634\\tmpf3fd9c15f57242f3a4f4cc9afc75ec34.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  802,
+                            "sha256":  "2A3823BE7DA9F963E8B127614B41C853F208AD94314BCE3617E05B0B7DD88083",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp06219869e72a480990ad63dc7bb90634\\tmpc59f6419bca944dca823a7231d4d94a2.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  2492,
+                            "sha256":  "43266226BC68E043A13BF762FCA00A3E2CC79C11262D6D74F40D3AC65BA234E1",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp06219869e72a480990ad63dc7bb90634\\tmp304648221da648d7ac2e6487ad20b14e.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  708,
+                            "sha256":  "F52029FF6905249DC7E46FB4B7C2AD062D5F71374556F37335E885BC72D7FEA0",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp06219869e72a480990ad63dc7bb90634\\tmp08d4888a6cc1471ead0de573d30b13c0.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  2984,
+                            "sha256":  "40EC251316C58E91EA414D81785567730F640106AD1CD8568E442BB821AAB375",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp06219869e72a480990ad63dc7bb90634\\tmp41f2cf7b7af8466f8c699c28ca748048.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  2172,
+                            "sha256":  "E25195D89A2605601A63EFDC7E7125CFEE89F0B4148C57B658E84AA47F836CCD",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp06219869e72a480990ad63dc7bb90634\\tmp5be1a1b8548345c5a2e266c7d5cadf26.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  3306,
+                            "sha256":  "88D9F0EF5A1F8A549203C20C9797D7D6C8F22A5D35ABDF24B0281449C062F7DF",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp06219869e72a480990ad63dc7bb90634\\tmpabba971acaeb4d5d988534c89043c2b4.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  2616,
+                            "sha256":  "DABACFE498257469121979C3E80B24CA9A0C89665748F0D0F01A33D6F1F4106B",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp47e57b8cf91f4cfda4da06d77bea0131\\tmp658b2ffbdda346528ed8fd027fd09b02.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  456,
+                            "sha256":  "02748D5998A10F3D4E96D49C0204A77835A92843644A49BA4B531C22C7065C4F",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp47e57b8cf91f4cfda4da06d77bea0131\\tmp91340717b0cf42dba10d1186d4094799.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  836,
+                            "sha256":  "B2B0B5F68D21E6CBBA44222B63ABC30BB20B53CCF19653EF5FAC8BD88D6BFAB8",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp5cb5769f884b479ea115cd2c3e8f0e72\\tmpab6dd62fa7634f3bac226f7af1b1e808.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  790,
+                            "sha256":  "DAD43F7779C9BC3E9AC3F23EDC14BDD5E273A5C925A5B5264F0A3A0B7BF96637",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp5cb5769f884b479ea115cd2c3e8f0e72\\tmpa8149075c9f3413eb5f6d80380903c06.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  1736,
+                            "sha256":  "D3B58261FB9E626F4D630D78167D03D7B9800242C10C3C8EE4923C8790B2E6A1",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp826f1c187044449083b4554e07eb397d\\tmp1b0845d5ba584f71ac211d3200b7274b.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  2782,
+                            "sha256":  "F3B2F580DE8F20686DEADA353579EE8C3266B44513DC02034E5AEA2A1B54E53F",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp826f1c187044449083b4554e07eb397d\\tmp6fa01b825c704526bef3c225e2fe7968.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  802,
+                            "sha256":  "2A3823BE7DA9F963E8B127614B41C853F208AD94314BCE3617E05B0B7DD88083",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp826f1c187044449083b4554e07eb397d\\tmp445c457546484050a819c533c2d3577c.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  2492,
+                            "sha256":  "43266226BC68E043A13BF762FCA00A3E2CC79C11262D6D74F40D3AC65BA234E1",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp826f1c187044449083b4554e07eb397d\\tmp09db27d6cb3842c582f416109c2818a5.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  708,
+                            "sha256":  "F52029FF6905249DC7E46FB4B7C2AD062D5F71374556F37335E885BC72D7FEA0",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp826f1c187044449083b4554e07eb397d\\tmp466b33113fa049e1886b9ad6ab525c01.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  2984,
+                            "sha256":  "40EC251316C58E91EA414D81785567730F640106AD1CD8568E442BB821AAB375",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp826f1c187044449083b4554e07eb397d\\tmp403ce666e61948d2bd84ca44e401f8b6.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  2172,
+                            "sha256":  "E25195D89A2605601A63EFDC7E7125CFEE89F0B4148C57B658E84AA47F836CCD",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp826f1c187044449083b4554e07eb397d\\tmp49bb146640a14730892faf2d2abde4fa.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  3306,
+                            "sha256":  "88D9F0EF5A1F8A549203C20C9797D7D6C8F22A5D35ABDF24B0281449C062F7DF",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp826f1c187044449083b4554e07eb397d\\tmpd60f6ba406154bb2819540878b93cc7c.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  2616,
+                            "sha256":  "DABACFE498257469121979C3E80B24CA9A0C89665748F0D0F01A33D6F1F4106B",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempe9ac7d8643dd40e797e70389aae86618\\tmp3a5f50bbdabf4bf0aba16a0cf43972c2.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  456,
+                            "sha256":  "02748D5998A10F3D4E96D49C0204A77835A92843644A49BA4B531C22C7065C4F",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempe9ac7d8643dd40e797e70389aae86618\\tmp815ce75cb48f412fbae8b4872a9ffa40.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  836,
+                            "sha256":  "B2B0B5F68D21E6CBBA44222B63ABC30BB20B53CCF19653EF5FAC8BD88D6BFAB8",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp7b53045276af4cd0813c1701cc9e8c60\\tmpbb9adf8ca1e64547b405890e02104fea.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  790,
+                            "sha256":  "9AFB51BEE652A8435D368E591B2252D21184F108518BCEA8872411860B290D99",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTemp7b53045276af4cd0813c1701cc9e8c60\\tmpc0766fb982e644d593d80f17a2f3c28d.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  1736,
+                            "sha256":  "7203B8E82CAB28C54AA40E6F2A899FFC852D4399F84A7574A1191C5A8E19B92B",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempe4439a5479ca499e9275f1144f01c63c\\tmp522e96b5b01049d799e2f0056c1a9732.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  456,
+                            "sha256":  "02748D5998A10F3D4E96D49C0204A77835A92843644A49BA4B531C22C7065C4F",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempe4439a5479ca499e9275f1144f01c63c\\tmpe799739d19674bd491197b6eec14d23d.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  836,
+                            "sha256":  "B2B0B5F68D21E6CBBA44222B63ABC30BB20B53CCF19653EF5FAC8BD88D6BFAB8",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempda318dbd73464decabc744b9b070d031\\tmp30a46aff2dc247d09c14937d4597dd47.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  790,
+                            "sha256":  "F10011C9F8D55A32598B9B751BDD4F7A8D980B6374604575EDDC3E89469A2658",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempda318dbd73464decabc744b9b070d031\\tmpd61f6081549646d3b8477b1a8d89d0e1.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  1736,
+                            "sha256":  "C799ECADD0FBBF61C087279F736E088DEA4E7FAFB29214A81A6E1DB9F1F56627",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempdce054a364cb490bb32dc4d8fa9b3137\\tmp27530790a53b4a148d6aae067ce8b330.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  2782,
+                            "sha256":  "F3B2F580DE8F20686DEADA353579EE8C3266B44513DC02034E5AEA2A1B54E53F",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempdce054a364cb490bb32dc4d8fa9b3137\\tmpbd8df245645841aba554f6fd9007cd9f.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  802,
+                            "sha256":  "2A3823BE7DA9F963E8B127614B41C853F208AD94314BCE3617E05B0B7DD88083",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempdce054a364cb490bb32dc4d8fa9b3137\\tmp288bc92eeaa54dc6a1373d953d1633ff.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  2492,
+                            "sha256":  "43266226BC68E043A13BF762FCA00A3E2CC79C11262D6D74F40D3AC65BA234E1",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempdce054a364cb490bb32dc4d8fa9b3137\\tmpc6c52573469c43cfa4a308b9f4c74dc6.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  708,
+                            "sha256":  "F52029FF6905249DC7E46FB4B7C2AD062D5F71374556F37335E885BC72D7FEA0",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempdce054a364cb490bb32dc4d8fa9b3137\\tmp9f950585ecb141d294aa53367e3dafa0.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  2984,
+                            "sha256":  "40EC251316C58E91EA414D81785567730F640106AD1CD8568E442BB821AAB375",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempdce054a364cb490bb32dc4d8fa9b3137\\tmp2dd9c891b2764a10b4a4548efb66e601.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  2172,
+                            "sha256":  "E25195D89A2605601A63EFDC7E7125CFEE89F0B4148C57B658E84AA47F836CCD",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempdce054a364cb490bb32dc4d8fa9b3137\\tmpb499917999e34714916d665559cc2abd.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  3306,
+                            "sha256":  "88D9F0EF5A1F8A549203C20C9797D7D6C8F22A5D35ABDF24B0281449C062F7DF",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp\\MSBuildTempdce054a364cb490bb32dc4d8fa9b3137\\tmp15a77d37c6d149369f55cd5977837747.rsp",
+                            "pathLen":  153,
+                            "lengthBytes":  2616,
+                            "sha256":  "DABACFE498257469121979C3E80B24CA9A0C89665748F0D0F01A33D6F1F4106B",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        }
+                    ],
+    "rspCaptureCount":  44,
+    "buildLogBytes":  63100,
+    "releaseDir":  16
+}

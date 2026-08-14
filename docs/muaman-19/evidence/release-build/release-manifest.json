@@ -1,0 +1,105 @@
+﻿{
+    "runId":  "L-20260814-122054-26960",
+    "capturedAtUtc":  "2026-08-14T12:23:38.118Z",
+    "releaseDir":  "C:\\dev\\muaman.worktrees\\muaman-19-safe-demo-data-commissioning-clean-start\\app\\build\\windows\\x64\\runner\\Release",
+    "fileCount":  16,
+    "totalBytes":  35753553,
+    "files":  [
+                  {
+                      "rel":  "data/app.so",
+                      "size":  9290656,
+                      "sha256":  "9BC4C95EA5901C4A8F04E350D8B7060F868B761D22D7B1BB2C2B527E4EFE1113",
+                      "ext":  ".so"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/AssetManifest.bin",
+                      "size":  384,
+                      "sha256":  "BE650FCA6D81184EE20F7DAFEE0231E17BD16952521CC93D513F1952324BEE15",
+                      "ext":  ".bin"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/AssetManifest.json",
+                      "size":  355,
+                      "sha256":  "3CF68F7B749716CF8E184C01D9257F4A7A0252168D9BBF70457643C73E808482",
+                      "ext":  ".json"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/assets/fonts/NotoSansArabic-Bold.ttf",
+                      "size":  260904,
+                      "sha256":  "457926CB001AC787DC7415C89E6F5B1C4CE3A0F2C91D0CABC1BC19A05638E7DE",
+                      "ext":  ".ttf"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/assets/fonts/NotoSansArabic-Regular.ttf",
+                      "size":  250880,
+                      "sha256":  "D6EFA4C9FAC8ECEFD2DE19676ACC3A396BA7AEE99BA7A2D513950246841B6725",
+                      "ext":  ".ttf"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/assets/fonts/THIRD_PARTY_NOTICES.txt",
+                      "size":  429,
+                      "sha256":  "D4349DA9B9E3CB9D3E0F89F1A1133F7468F5812DC557248F5A8A2CE80BB077F8",
+                      "ext":  ".txt"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/FontManifest.json",
+                      "size":  208,
+                      "sha256":  "CD7E03645BC44B2DD47B7CB626F51C4ECBF55A197AB77241628B47AC165FBE21",
+                      "ext":  ".json"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/fonts/MaterialIcons-Regular.otf",
+                      "size":  1645184,
+                      "sha256":  "D9865B671A09D683D13A863089D8825E0F61A37696CE5D7D448BC8023AA62453",
+                      "ext":  ".otf"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/NOTICES.Z",
+                      "size":  89413,
+                      "sha256":  "7A5222CA2B4300D1845CD9E08E982EF32C6B682C84FAB043700CCB6928B48FEA",
+                      "ext":  ".Z"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+                      "size":  257628,
+                      "sha256":  "67C44FE9183B002E79DDE7F6977E2988661C9A3E4A3C5FCE968787EFDBED823C",
+                      "ext":  ".ttf"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/shaders/ink_sparkle.frag",
+                      "size":  17304,
+                      "sha256":  "3AA09424D1DC391FD59A9735EFE986FF43302B5E5BC310926AFE11C68626C3B2",
+                      "ext":  ".frag"
+                  },
+                  {
+                      "rel":  "data/icudtl.dat",
+                      "size":  778864,
+                      "sha256":  "C12537022EF818991A7BFED41A76D8D6AE962FFBC0E6511AC762A5D0845E7F7C",
+                      "ext":  ".dat"
+                  },
+                  {
+                      "rel":  "flutter_windows.dll",
+                      "size":  18181632,
+                      "sha256":  "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E",
+                      "ext":  ".dll"
+                  },
+                  {
+                      "rel":  "muaman_store.exe",
+                      "size":  91648,
+                      "sha256":  "9FF10A35BA134412E9070D262D8E723B5F9B56B614ED9998CFF75297A602AC2A",
+                      "ext":  ".exe"
+                  },
+                  {
+                      "rel":  "pdfium.dll",
+                      "size":  4749824,
+                      "sha256":  "0C88EBACC0393FD45FC3E7B35E31E72C9E55B633A846A7ECF4085694DBA68ABD",
+                      "ext":  ".dll"
+                  },
+                  {
+                      "rel":  "printing_plugin.dll",
+                      "size":  138240,
+                      "sha256":  "959F1E85FEEC7D8AE02F97760608E8022CFF3C3D556AADC824306EA1AFE2A867",
+                      "ext":  ".dll"
+                  }
+              ]
+}

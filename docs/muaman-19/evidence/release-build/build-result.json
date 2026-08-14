@@ -1,0 +1,19 @@
+﻿{
+    "runId":  "L-20260814-122054-26960",
+    "capturedAtUtc":  "2026-08-14T12:23:34.619Z",
+    "startedAtUtc":  "2026-08-14T12:20:54.524Z",
+    "endedAtUtc":  "2026-08-14T12:23:34.619Z",
+    "durationSeconds":  160.1,
+    "repositoryRoot":  "C:\\dev\\muaman.worktrees\\muaman-19-safe-demo-data-commissioning-clean-start",
+    "appRoot":  "C:\\dev\\muaman.worktrees\\muaman-19-safe-demo-data-commissioning-clean-start\\app",
+    "sdkRoot":  "C:\\src\\flutter",
+    "pubCache":  "C:\\Users\\saber\\AppData\\Local\\Pub\\Cache",
+    "msBuildBinDir":  "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Current\\Bin\\amd64",
+    "stageRoot":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage",
+    "evidenceDir":  "C:\\dev\\muaman.worktrees\\muaman-19-safe-demo-data-commissioning-clean-start\\docs\\muaman-19\\evidence\\release-build",
+    "preflightExitCode":  0,
+    "buildExitCode":  0,
+    "releaseDir":  "C:\\dev\\muaman.worktrees\\muaman-19-safe-demo-data-commissioning-clean-start\\app\\build\\windows\\x64\\runner\\Release",
+    "releaseExists":  true,
+    "status":  "PASS"
+}

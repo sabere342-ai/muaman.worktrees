@@ -8,6 +8,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'package:muaman_store/database/database_helper.dart';
 import 'package:muaman_store/database/user_repository.dart';
+import 'package:muaman_store/models/product.dart';
 import 'package:muaman_store/models/user_role.dart';
 import 'package:muaman_store/main.dart' as app;
 
@@ -53,6 +54,18 @@ void main() {
       role: UserRole.owner,
     );
 
+    // MUAMAN-19: production databases start empty. The smoke test must be
+    // self-sufficient and seed its own product instead of relying on the
+    // dev-only demo data importer.
+    const testBarcode = '9000000000001';
+    await DatabaseHelper.instance.insertProduct(Product(
+      name: 'تي شيرت 2سوستة تركي',
+      barcode: testBarcode,
+      openingQuantity: 5,
+      currentQuantity: 5,
+      costPrice: 360.0,
+    ));
+
     app.main();
     await pumpUntil(
         tester, () => find.text('تسجيل الدخول').evaluate().isNotEmpty);
@@ -97,7 +110,7 @@ void main() {
     final invoicesBefore = (await db.query('invoices')).length;
     final salesBefore = (await db.query('sales')).length;
     final prodBefore = (await db.query('products',
-            where: 'barcode = ?', whereArgs: ['2000000000001']))
+            where: 'barcode = ?', whereArgs: ['9000000000001']))
         .first;
 
     // Saving with an empty price must be rejected with no DB writes.
@@ -124,7 +137,7 @@ void main() {
     expect((await db.query('sales')).length, salesBefore + 1);
 
     final prodAfter = (await db.query('products',
-            where: 'barcode = ?', whereArgs: ['2000000000001']))
+            where: 'barcode = ?', whereArgs: ['9000000000001']))
         .first;
     expect(prodAfter['currentQuantity'],
         (prodBefore['currentQuantity'] as int) - 1);

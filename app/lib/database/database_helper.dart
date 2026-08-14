@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/product.dart';
@@ -13,6 +14,13 @@ import 'data_importer.dart';
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
   static Database? _database;
+
+  /// Whether demo/trial data is auto-seeded on a fresh database creation.
+  ///
+  /// Production (release) builds MUST start empty: this flag defaults to
+  /// `false` and is only enabled in dev/demo builds via
+  /// `--dart-define=MUAMAN_SEED_DEMO=true`. Tests may override it directly.
+  static bool seedDemoEnabled = const bool.fromEnvironment('MUAMAN_SEED_DEMO');
 
   /// Central permission source used by the data-layer guards. Tests may swap
   /// this with a fresh resolver.
@@ -54,6 +62,14 @@ class DatabaseHelper {
 
   static Future<void> setTestDatabase(Database db) async {
     _database = db;
+  }
+
+  /// Test-only seam: runs the real `_createDB` (schema + conditional demo
+  /// seeding) against the given database so seed gating can be verified
+  /// without touching a real database file.
+  @visibleForTesting
+  static Future<void> runCreateDbForTest(Database db) async {
+    await DatabaseHelper.instance._createDB(db, 6);
   }
 
   Future<Database> _initDB(String filePath) async {
@@ -133,7 +149,9 @@ class DatabaseHelper {
     await _createInvoicesTable(db);
     await _createAppSettingsTable(db);
     await _createRolePermissionsTable(db);
-    await DataImporter.importData(db);
+    if (seedDemoEnabled) {
+      await DataImporter.importData(db);
+    }
   }
 
   Future<void> _createImportBatchesTable(Database db) async {

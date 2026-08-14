@@ -1,0 +1,12 @@
+{
+  "prod-app": {
+    "bytes": 9290656,
+    "barcode_2000000000001_ascii_hits": 0,
+    "barcode_2000000000001_utf8_hits": 0
+  },
+  "seed-app": {
+    "bytes": 9372576,
+    "barcode_2000000000001_ascii_hits": 1,
+    "barcode_2000000000001_utf8_hits": 1
+  }
+}

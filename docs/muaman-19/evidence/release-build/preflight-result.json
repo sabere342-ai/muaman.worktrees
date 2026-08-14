@@ -1,0 +1,10 @@
+﻿{
+    "runId":  "L-20260814-122054-26960",
+    "capturedAtUtc":  "2026-08-14T12:20:58.635Z",
+    "stage":  "entrypoint-first-gate",
+    "preflightScript":  "C:\\dev\\muaman.worktrees\\muaman-19-safe-demo-data-commissioning-clean-start\\tools\\muaman13j\\check_filetracker_state.ps1",
+    "msBuildBinDir":  "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Current\\Bin\\amd64",
+    "log":  "C:\\dev\\muaman.worktrees\\muaman-19-safe-demo-data-commissioning-clean-start\\docs\\muaman-19\\evidence\\release-build\\00-entrypoint-preflight.log",
+    "exitCode":  0,
+    "status":  "PASS"
+}

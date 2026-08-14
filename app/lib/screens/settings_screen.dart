@@ -5,7 +5,9 @@ import 'package:flutter/services.dart';
 import '../database/database_helper.dart';
 import '../database/workbook_importer.dart';
 import '../models/shop_profile.dart';
+import '../models/user_role.dart';
 import '../services/app_settings.dart';
+import '../services/clean_start_service.dart';
 import '../services/permissions.dart';
 import '../services/session_state.dart';
 import '../services/shop_profile_service.dart';
@@ -46,6 +48,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   bool get _canEditShopProfile =>
       widget.sessionState.hasPermission(AppPermission.canAccessSettings);
+
+  bool get _isOwner => widget.sessionState.currentRole == UserRole.owner;
 
   Future<void> _loadSettings() async {
     await AppSettings.initializeDefaults();
@@ -308,6 +312,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ],
             ),
             const SizedBox(height: 24),
+            if (_isOwner) ..._buildCleanStartSection(),
+            const SizedBox(height: 24),
             const Text('تفاصيل الترخيص',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             const SizedBox(height: 8),
@@ -317,6 +323,241 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
     );
+  }
+
+  List<Widget> _buildCleanStartSection() {
+    return [
+      const Text('البيانات التجريبية',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+      const SizedBox(height: 8),
+      Card(
+        elevation: 1,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'مسح جميع بيانات العمليات (الأصناف والمبيعات والمرتجعات '
+                'والمصروفات والجرد والفواتير وسجلات الاستيراد) لبدء تشغيل نظيف. '
+                'يتم الاحتفاظ بحسابات المستخدمين وصلاحياتهم وبيانات المتجر. '
+                'تُنشأ نسخة احتياطية كاملة قبل المسح.',
+                style: TextStyle(fontSize: 13, color: Colors.grey.shade700),
+              ),
+              const SizedBox(height: 12),
+              ElevatedButton.icon(
+                onPressed: _confirmCleanStart,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFB71C1C),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+                icon: const Icon(Icons.cleaning_services),
+                label: const Text('بدء تشغيل نظيف',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ];
+  }
+
+  Future<void> _confirmCleanStart() async {
+    String? backupDirectory;
+    final confirmationController = TextEditingController();
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (dialogContext, setDialogState) {
+          String? getError() {
+            if (backupDirectory == null) {
+              return 'اختر مجلد النسخة الاحتياطية أولًا';
+            }
+            if (confirmationController.text.trim() !=
+                CleanStartService.confirmationPhrase) {
+              return 'اكتب عبارة التأكيد بدقة';
+            }
+            return null;
+          }
+
+          Future<void> pickDirectory() async {
+            final picked = await FilePicker.platform
+                .getDirectoryPath(dialogTitle: 'مجلد النسخة الاحتياطية');
+            if (picked != null && picked.isNotEmpty) {
+              setDialogState(() => backupDirectory = picked);
+            }
+          }
+
+          return AlertDialog(
+            title: const Text('بدء تشغيل نظيف'),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text(
+                      'سيتم حذف جميع بيانات العمليات نهائيًا. يجب إنشاء نسخة '
+                      'احتياطية كاملة قبل المسح.'),
+                  const SizedBox(height: 12),
+                  OutlinedButton.icon(
+                    onPressed: pickDirectory,
+                    icon: const Icon(Icons.folder_open),
+                    label: Text(
+                        backupDirectory ?? 'اختيار مجلد النسخة الاحتياطية'),
+                  ),
+                  if (backupDirectory != null) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      'نسخة احتياطية: $backupDirectory',
+                      style:
+                          TextStyle(fontSize: 12, color: Colors.grey.shade700),
+                    ),
+                  ],
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: confirmationController,
+                    onChanged: (_) => setDialogState(() {}),
+                    decoration: const InputDecoration(
+                      labelText: 'عبارة التأكيد',
+                      hintText: CleanStartService.confirmationPhrase,
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'اكتب: "${CleanStartService.confirmationPhrase}"',
+                    style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext, false),
+                child: const Text('إلغاء'),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFB71C1C),
+                  foregroundColor: Colors.white,
+                ),
+                onPressed: getError() == null
+                    ? () => Navigator.pop(dialogContext, true)
+                    : null,
+                child: const Text('مسح البيانات'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+
+    if (confirmed != true || !mounted) return;
+    await _runCleanStart(backupDirectory!);
+  }
+
+  Future<void> _runCleanStart(String backupDirectory) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+    try {
+      final report = await CleanStartService().run(
+        actorRole: widget.sessionState.currentRole,
+        backupDirectory: backupDirectory,
+        confirmation: CleanStartService.confirmationPhrase,
+      );
+      if (!mounted) return;
+      Navigator.pop(context);
+      await _showCleanStartResult(report);
+    } on PermissionDeniedException catch (e) {
+      if (!mounted) return;
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message), backgroundColor: Colors.red),
+      );
+    } on CleanStartConfirmationException catch (e) {
+      if (!mounted) return;
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message), backgroundColor: Colors.red),
+      );
+    } on CleanStartBackupFailedException catch (e) {
+      if (!mounted) return;
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message), backgroundColor: Colors.red),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text('فشل بدء التشغيل النظيف: $e'),
+            backgroundColor: Colors.red),
+      );
+    }
+  }
+
+  Future<void> _showCleanStartResult(CleanStartReport report) async {
+    final lines = report.deletedCounts.entries
+        .map((e) => '${_tableLabel(e.key)}: ${e.value}')
+        .join('\n');
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('تم بدء التشغيل النظيف'),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('تم مسح البيانات التالية:'),
+              const SizedBox(height: 8),
+              Text(lines),
+              const SizedBox(height: 12),
+              Text(
+                'النسخة الاحتياطية: ${report.backupPath}',
+                style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('حسنًا'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _tableLabel(String table) {
+    switch (table) {
+      case 'products':
+        return 'الأصناف';
+      case 'sales':
+        return 'المبيعات';
+      case 'returns':
+        return 'المرتجعات';
+      case 'expenses':
+        return 'المصروفات';
+      case 'inventory_count':
+        return 'سجلات الجرد';
+      case 'invoices':
+        return 'الفواتير';
+      case 'import_batches':
+        return 'سجلات الاستيراد';
+      default:
+        return table;
+    }
   }
 
   Widget _buildShopProfileSection() {

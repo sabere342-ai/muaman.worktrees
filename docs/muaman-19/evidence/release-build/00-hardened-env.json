@@ -1,0 +1,15 @@
+﻿{
+    "experimentId":  "L-20260814-122054-26960",
+    "capturedAtUtc":  "2026-08-14T12:21:01.138Z",
+    "hardening":  {
+                      "temp":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp",
+                      "tmp":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\tmp",
+                      "appdata":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\home\\appdata\\roaming",
+                      "localappdata":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\home\\appdata\\local",
+                      "userprofile":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\home",
+                      "home":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\muaman19-release-stage\\home",
+                      "programdata":  "C:\\ProgramData",
+                      "pubCache":  "C:\\Users\\saber\\AppData\\Local\\Pub\\Cache",
+                      "msbuildDisableNodeReuse":  "1"
+                  }
+}
