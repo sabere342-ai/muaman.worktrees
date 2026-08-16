@@ -1,0 +1,799 @@
+{
+    "runId":  "20260816-011204",
+    "phase":  "MUAMAN-13P",
+    "startedAtUtc":  "2026-08-15T22:12:07.889Z",
+    "finishedAtUtc":  "2026-08-15T22:12:15.896Z",
+    "workerUser":  "Islam\\CodexMuaman13P",
+    "allStepsPassed":  false,
+    "failedSteps":  [
+                        "launch1Setup"
+                    ],
+    "fatalError":  "first-owner setup screen not recognized via OCR",
+    "steps":  {
+                  "identity":  {
+                                   "ok":  true,
+                                   "at":  "2026-08-15T22:12:08.816Z",
+                                   "result":  {
+                                                  "whoamiUser":  "islam\\codexmuaman13p",
+                                                  "tokenName":  "Islam\\CodexMuaman13P",
+                                                  "tokenSid":  "S-1-5-21-2052787611-3211508837-1074070108-1027",
+                                                  "expectedUserName":  "CodexMuaman13P",
+                                                  "tokenNameMatchesExpected":  true,
+                                                  "localUserExists":  true,
+                                                  "localUserSid":  "S-1-5-21-2052787611-3211508837-1074070108-1027",
+                                                  "localUserEnabled":  true,
+                                                  "groupMembership":  [
+
+                                                                      ],
+                                                  "inAdministrators":  false,
+                                                  "integrity":  {
+                                                                    "level":  "Medium Mandatory Level",
+                                                                    "sid":  "S-1-16-8192"
+                                                                },
+                                                  "elevation":  {
+                                                                    "isInAdministrators":  false,
+                                                                    "note":  "IsInRole(Administrator) false for a plain standard user"
+                                                                },
+                                                  "session":  {
+                                                                  "sessionId":  1,
+                                                                  "processId":  28224,
+                                                                  "processName":  "powershell"
+                                                              },
+                                                  "isInteractive":  true,
+                                                  "privilegeSummary":  {
+                                                                           "fullText":  "\r\nPRIVILEGES INFORMATION\r\n----------------------\r\n\r\nPrivilege Name                Description                          State   \r\n============================= ==================================== ========\r\nSeShutdownPrivilege           Shut down the system                 Disabled\r\nSeChangeNotifyPrivilege       Bypass traverse checking             Enabled \r\nSeUndockPrivilege             Remove computer from docking station Disabled\r\nSeIncreaseWorkingSetPrivilege Increase a process working set       Disabled\r\nSeTimeZonePrivilege           Change the time zone                 Disabled\r\n",
+                                                                           "forbiddenEnabledPresent":  [
+
+                                                                                                       ]
+                                                                       },
+                                                  "groupsText":  "\r\nGROUP INFORMATION\r\n-----------------\r\n\r\nGroup Name                             Type             SID          Attributes                                        \r\n====================================== ================ ============ ==================================================\r\nEveryone                               Well-known group S-1-1-0      Mandatory group, Enabled by default, Enabled group\r\nBUILTIN\\Users                          Alias            S-1-5-32-545 Mandatory group, Enabled by default, Enabled group\r\nNT AUTHORITY\\INTERACTIVE               Well-known group S-1-5-4      Mandatory group, Enabled by default, Enabled group\r\nCONSOLE LOGON                          Well-known group S-1-2-1      Mandatory group, Enabled by default, Enabled group\r\nNT AUTHORITY\\Authenticated Users       Well-known group S-1-5-11     Mandatory group, Enabled by default, Enabled group\r\nNT AUTHORITY\\This Organization         Well-known group S-1-5-15     Mandatory group, Enabled by default, Enabled group\r\nNT AUTHORITY\\Local account             Well-known group S-1-5-113    Mandatory group, Enabled by default, Enabled group\r\nLOCAL                                  Well-known group S-1-2-0      Mandatory group, Enabled by default, Enabled group\r\nNT AUTHORITY\\NTLM Authentication       Well-known group S-1-5-64-10  Mandatory group, Enabled by default, Enabled group\r\nMandatory Label\\Medium Mandatory Level Label            S-1-16-8192                                                    \r\n"
+                                              }
+                               },
+                  "toolIsolation":  {
+                                        "ok":  true,
+                                        "at":  "2026-08-15T22:12:09.556Z",
+                                        "result":  {
+                                                       "restrictedPathUsed":  "C:\\WINDOWS\\System32;C:\\WINDOWS",
+                                                       "normalEnvironmentResolved":  {
+                                                                                         "java":  "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin\\java.exe",
+                                                                                         "where":  "",
+                                                                                         "reg":  "C:\\WINDOWS\\system32\\reg.exe",
+                                                                                         "node":  "C:\\Program Files\\nodejs\\node.exe",
+                                                                                         "dotnet":  "C:\\Program Files\\dotnet\\dotnet.exe",
+                                                                                         "python":  "C:\\Python314\\python.exe",
+                                                                                         "git":  "C:\\Program Files\\Git\\cmd\\git.exe",
+                                                                                         "msiexec":  "C:\\WINDOWS\\system32\\msiexec.exe",
+                                                                                         "cmake":  "C:\\Program Files\\CMake\\bin\\cmake.exe",
+                                                                                         "npm":  "C:\\Program Files\\nodejs\\npm.ps1",
+                                                                                         "cscript":  "C:\\WINDOWS\\system32\\cscript.exe"
+                                                                                     },
+                                                       "restrictedEnvironmentResolved":  {
+                                                                                             "where":  "",
+                                                                                             "reg":  "C:\\WINDOWS\\System32\\reg.exe",
+                                                                                             "cscript":  "C:\\WINDOWS\\System32\\cscript.exe",
+                                                                                             "msiexec":  "C:\\WINDOWS\\System32\\msiexec.exe"
+                                                                                         },
+                                                       "devToolsPresentOnMachineButNotOnRestrictedPath":  {
+                                                                                                              "java":  "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin\\java.exe",
+                                                                                                              "node":  "C:\\Program Files\\nodejs\\node.exe",
+                                                                                                              "dotnet":  "C:\\Program Files\\dotnet\\dotnet.exe",
+                                                                                                              "python":  "C:\\Python314\\python.exe",
+                                                                                                              "git":  "C:\\Program Files\\Git\\cmd\\git.exe",
+                                                                                                              "cmake":  "C:\\Program Files\\CMake\\bin\\cmake.exe",
+                                                                                                              "npm":  "C:\\Program Files\\nodejs\\npm.ps1"
+                                                                                                          },
+                                                       "appRuntimeToolDeps":  [
+
+                                                                              ]
+                                                   }
+                                    },
+                  "prestate":  {
+                                   "ok":  true,
+                                   "at":  "2026-08-15T22:12:09.637Z",
+                                   "result":  {
+                                                  "installDirExistsBeforeInstall":  true,
+                                                  "localAppData":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local",
+                                                  "appData":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Roaming",
+                                                  "userProfile":  "C:\\Users\\CodexMuaman13P.Islam",
+                                                  "userProfileDirExists":  true,
+                                                  "installDirListing":  [
+                                                                            {
+                                                                                "rel":  "flutter_windows.dll",
+                                                                                "size":  18181632,
+                                                                                "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  "muaman_store.exe",
+                                                                                "size":  91648,
+                                                                                "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  "pdfium.dll",
+                                                                                "size":  4749824,
+                                                                                "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  "printing_plugin.dll",
+                                                                                "size":  138240,
+                                                                                "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  "unins000.dat",
+                                                                                "size":  7573,
+                                                                                "lastWriteTimeUtc":  "2026-08-14T16:07:48.090Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  "unins000.exe",
+                                                                                "size":  4452610,
+                                                                                "lastWriteTimeUtc":  "2026-08-14T16:07:45.671Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  ".dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db",
+                                                                                "size":  81920,
+                                                                                "lastWriteTimeUtc":  "2026-08-14T16:08:56.102Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  "data\\app.so",
+                                                                                "size":  9290656,
+                                                                                "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  "data\\icudtl.dat",
+                                                                                "size":  778864,
+                                                                                "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  "data\\flutter_assets\\AssetManifest.bin",
+                                                                                "size":  384,
+                                                                                "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  "data\\flutter_assets\\AssetManifest.json",
+                                                                                "size":  355,
+                                                                                "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  "data\\flutter_assets\\FontManifest.json",
+                                                                                "size":  208,
+                                                                                "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  "data\\flutter_assets\\NOTICES.Z",
+                                                                                "size":  89413,
+                                                                                "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  "data\\flutter_assets\\assets\\fonts\\NotoSansArabic-Bold.ttf",
+                                                                                "size":  260904,
+                                                                                "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  "data\\flutter_assets\\assets\\fonts\\NotoSansArabic-Regular.ttf",
+                                                                                "size":  250880,
+                                                                                "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  "data\\flutter_assets\\assets\\fonts\\THIRD_PARTY_NOTICES.txt",
+                                                                                "size":  429,
+                                                                                "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  "data\\flutter_assets\\fonts\\MaterialIcons-Regular.otf",
+                                                                                "size":  1645184,
+                                                                                "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  "data\\flutter_assets\\packages\\cupertino_icons\\assets\\CupertinoIcons.ttf",
+                                                                                "size":  257628,
+                                                                                "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                            },
+                                                                            {
+                                                                                "rel":  "data\\flutter_assets\\shaders\\ink_sparkle.frag",
+                                                                                "size":  17304,
+                                                                                "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                            }
+                                                                        ],
+                                                  "localAppDataListing":  [
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\UsrClass.dat",
+                                                                                  "size":  16384,
+                                                                                  "lastWriteTimeUtc":  "2026-08-10T22:05:42.970Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\UsrClass.dat.LOG1",
+                                                                                  "size":  16384,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:30:58.045Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\UsrClass.dat.LOG2",
+                                                                                  "size":  8192,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:30:58.045Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\UsrClass.dat{f905766b-91d6-11f1-a697-60e32bebda7e}.TM.blf",
+                                                                                  "size":  65536,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:30:58.372Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\UsrClass.dat{f905766b-91d6-11f1-a697-60e32bebda7e}.TMContainer00000000000000000001.regtrans-ms",
+                                                                                  "size":  524288,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:30:58.052Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\UsrClass.dat{f905766b-91d6-11f1-a697-60e32bebda7e}.TMContainer00000000000000000002.regtrans-ms",
+                                                                                  "size":  524288,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:30:58.051Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\Explorer\\iconcache_1280.db",
+                                                                                  "size":  24,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\Explorer\\iconcache_16.db",
+                                                                                  "size":  24,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\Explorer\\iconcache_1920.db",
+                                                                                  "size":  24,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\Explorer\\iconcache_256.db",
+                                                                                  "size":  1048576,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\Explorer\\iconcache_2560.db",
+                                                                                  "size":  24,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\Explorer\\iconcache_32.db",
+                                                                                  "size":  24,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\Explorer\\iconcache_48.db",
+                                                                                  "size":  1048576,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\Explorer\\iconcache_768.db",
+                                                                                  "size":  24,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\Explorer\\iconcache_96.db",
+                                                                                  "size":  24,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\Explorer\\iconcache_custom_stream.db",
+                                                                                  "size":  24,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:38:42.656Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\Explorer\\iconcache_exif.db",
+                                                                                  "size":  24,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:38:42.656Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\Explorer\\iconcache_idx.db",
+                                                                                  "size":  7416,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:38:42.648Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\Explorer\\iconcache_sr.db",
+                                                                                  "size":  24,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\Explorer\\iconcache_wide.db",
+                                                                                  "size":  24,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\Explorer\\iconcache_wide_alternate.db",
+                                                                                  "size":  24,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:38:42.656Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\PowerShell\\ModuleAnalysisCache",
+                                                                                  "size":  83146,
+                                                                                  "lastWriteTimeUtc":  "2026-08-08T12:55:26.387Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\PowerShell\\StartupProfileData-NonInteractive",
+                                                                                  "size":  2424,
+                                                                                  "lastWriteTimeUtc":  "2026-08-14T16:08:59.134Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\SFAP\\cache1.bin",
+                                                                                  "size":  566,
+                                                                                  "lastWriteTimeUtc":  "2026-08-15T22:12:06.787Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\Shell\\DefaultLayouts.xml",
+                                                                                  "size":  64707,
+                                                                                  "lastWriteTimeUtc":  "2025-12-26T04:05:14.485Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group1\\1 - Desktop.lnk",
+                                                                                  "size":  1109,
+                                                                                  "lastWriteTimeUtc":  "2024-04-01T07:22:49.153Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group1\\desktop.ini",
+                                                                                  "size":  75,
+                                                                                  "lastWriteTimeUtc":  "2025-12-26T04:05:18.600Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group2\\1 - Run.lnk",
+                                                                                  "size":  1109,
+                                                                                  "lastWriteTimeUtc":  "2024-04-01T07:22:47.997Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group2\\2 - Search.lnk",
+                                                                                  "size":  1109,
+                                                                                  "lastWriteTimeUtc":  "2024-04-01T07:22:48.278Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group2\\3 - Windows Explorer.lnk",
+                                                                                  "size":  1109,
+                                                                                  "lastWriteTimeUtc":  "2024-04-01T07:22:48.450Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group2\\4 - Control Panel.lnk",
+                                                                                  "size":  1492,
+                                                                                  "lastWriteTimeUtc":  "2024-04-01T07:22:48.575Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group2\\5 - Task Manager.lnk",
+                                                                                  "size":  1021,
+                                                                                  "lastWriteTimeUtc":  "2024-04-01T07:22:48.841Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group2\\desktop.ini",
+                                                                                  "size":  325,
+                                                                                  "lastWriteTimeUtc":  "2025-12-26T04:05:18.617Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group3\\01a - Windows PowerShell.lnk",
+                                                                                  "size":  1127,
+                                                                                  "lastWriteTimeUtc":  "2024-04-01T07:22:44.559Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group3\\02a - Windows PowerShell.lnk",
+                                                                                  "size":  1171,
+                                                                                  "lastWriteTimeUtc":  "2024-04-01T07:22:45.466Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group3\\03 - Computer Management.lnk",
+                                                                                  "size":  1015,
+                                                                                  "lastWriteTimeUtc":  "2024-04-01T07:22:45.841Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group3\\04 - Disk Management.lnk",
+                                                                                  "size":  1015,
+                                                                                  "lastWriteTimeUtc":  "2024-04-01T07:22:46.184Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group3\\04-1 - NetworkStatus.lnk",
+                                                                                  "size":  1582,
+                                                                                  "lastWriteTimeUtc":  "2024-04-01T07:22:46.497Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group3\\05 - Device Manager.lnk",
+                                                                                  "size":  1075,
+                                                                                  "lastWriteTimeUtc":  "2024-04-01T07:22:46.794Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group3\\06 - SystemAbout.lnk",
+                                                                                  "size":  1562,
+                                                                                  "lastWriteTimeUtc":  "2024-04-01T07:22:47.028Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group3\\07 - Event Viewer.lnk",
+                                                                                  "size":  1015,
+                                                                                  "lastWriteTimeUtc":  "2024-04-01T07:22:47.263Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group3\\08 - PowerAndSleep.lnk",
+                                                                                  "size":  1578,
+                                                                                  "lastWriteTimeUtc":  "2024-04-01T07:22:47.481Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group3\\09 - Mobility Center.lnk",
+                                                                                  "size":  1015,
+                                                                                  "lastWriteTimeUtc":  "2024-04-01T07:22:47.653Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group3\\10 - AppsAndFeatures.lnk",
+                                                                                  "size":  1578,
+                                                                                  "lastWriteTimeUtc":  "2024-04-01T07:22:47.841Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows\\WinX\\Group3\\desktop.ini",
+                                                                                  "size":  807,
+                                                                                  "lastWriteTimeUtc":  "2025-12-26T04:05:18.617Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Microsoft\\Windows Sidebar\\settings.ini",
+                                                                                  "size":  80,
+                                                                                  "lastWriteTimeUtc":  "2025-12-26T04:05:14.485Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\flutter_windows.dll",
+                                                                                  "size":  18181632,
+                                                                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\muaman_store.exe",
+                                                                                  "size":  91648,
+                                                                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\pdfium.dll",
+                                                                                  "size":  4749824,
+                                                                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\printing_plugin.dll",
+                                                                                  "size":  138240,
+                                                                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\unins000.dat",
+                                                                                  "size":  7573,
+                                                                                  "lastWriteTimeUtc":  "2026-08-14T16:07:48.090Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\unins000.exe",
+                                                                                  "size":  4452610,
+                                                                                  "lastWriteTimeUtc":  "2026-08-14T16:07:45.671Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\.dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db",
+                                                                                  "size":  81920,
+                                                                                  "lastWriteTimeUtc":  "2026-08-14T16:08:56.102Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\data\\app.so",
+                                                                                  "size":  9290656,
+                                                                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\data\\icudtl.dat",
+                                                                                  "size":  778864,
+                                                                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\data\\flutter_assets\\AssetManifest.bin",
+                                                                                  "size":  384,
+                                                                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\data\\flutter_assets\\AssetManifest.json",
+                                                                                  "size":  355,
+                                                                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\data\\flutter_assets\\FontManifest.json",
+                                                                                  "size":  208,
+                                                                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\data\\flutter_assets\\NOTICES.Z",
+                                                                                  "size":  89413,
+                                                                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\data\\flutter_assets\\assets\\fonts\\NotoSansArabic-Bold.ttf",
+                                                                                  "size":  260904,
+                                                                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\data\\flutter_assets\\assets\\fonts\\NotoSansArabic-Regular.ttf",
+                                                                                  "size":  250880,
+                                                                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\data\\flutter_assets\\assets\\fonts\\THIRD_PARTY_NOTICES.txt",
+                                                                                  "size":  429,
+                                                                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\data\\flutter_assets\\fonts\\MaterialIcons-Regular.otf",
+                                                                                  "size":  1645184,
+                                                                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\data\\flutter_assets\\packages\\cupertino_icons\\assets\\CupertinoIcons.ttf",
+                                                                                  "size":  257628,
+                                                                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Programs\\muaman_store\\data\\flutter_assets\\shaders\\ink_sparkle.frag",
+                                                                                  "size":  17304,
+                                                                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Temp\\is-XOSYH6Y3E2-uninstall.tmp\\_unins-done.tmp",
+                                                                                  "size":  0,
+                                                                                  "lastWriteTimeUtc":  "2026-08-14T16:06:53.088Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "Temp\\is-XOSYH6Y3E2-uninstall.tmp\\_unins.tmp",
+                                                                                  "size":  4452610,
+                                                                                  "lastWriteTimeUtc":  "2026-08-14T15:31:19.718Z"
+                                                                              },
+                                                                              {
+                                                                                  "rel":  "UnrealEngine\\4.27\\Saved\\Config\\WindowsClient\\Manifest.ini",
+                                                                                  "size":  25,
+                                                                                  "lastWriteTimeUtc":  "2025-12-27T04:31:11.931Z"
+                                                                              }
+                                                                          ]
+                                              }
+                               },
+                  "install":  {
+                                  "ok":  true,
+                                  "at":  "2026-08-15T22:12:11.844Z",
+                                  "result":  {
+                                                 "commandLine":  "\"C:\\mu13o-acceptance\\m13p\\run\\20260816-011204\\installer\\muaman-windows-installer.exe\" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /LOG=\"C:\\mu13o-acceptance\\m13p\\run\\20260816-011204\\evidence\\logs\\install.log\"",
+                                                 "exitCode":  0,
+                                                 "timedOut":  false,
+                                                 "durationSec":  2.1,
+                                                 "installLogPath":  "C:\\mu13o-acceptance\\m13p\\run\\20260816-011204\\evidence\\logs\\install.log",
+                                                 "installLogBytes":  11213,
+                                                 "appExeExists":  true,
+                                                 "installDir":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store"
+                                             }
+                              },
+                  "installedState":  {
+                                         "ok":  true,
+                                         "at":  "2026-08-15T22:12:12.318Z",
+                                         "result":  {
+                                                        "uninstallKeyPath":  "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\299ADF2A-0E9E-4A25-916C-1CB8328D0E5E_is1",
+                                                        "uninstallKeyMatched":  "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{299ADF2A-0E9E-4A25-916C-1CB8328D0E5E}_is1",
+                                                        "hkcuUninstallPresent":  true,
+                                                        "hkcuUninstall":  {
+                                                                              "Inno Setup: Setup Version":  "6.7.3",
+                                                                              "Inno Setup: App Path":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store",
+                                                                              "InstallLocation":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store\\",
+                                                                              "Inno Setup: Icon Group":  "muaman_store",
+                                                                              "Inno Setup: User":  "CodexMuaman13P",
+                                                                              "Inno Setup: Selected Tasks":  "",
+                                                                              "Inno Setup: Deselected Tasks":  "desktopicon",
+                                                                              "Inno Setup: Language":  "english",
+                                                                              "DisplayName":  "I-TECH للتكنولوجيا",
+                                                                              "DisplayIcon":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store\\muaman_store.exe",
+                                                                              "UninstallString":  "\"C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store\\unins000.exe\"",
+                                                                              "QuietUninstallString":  "\"C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store\\unins000.exe\" /SILENT",
+                                                                              "DisplayVersion":  "1.0.0",
+                                                                              "Publisher":  "I-TECH للتكنولوجيا",
+                                                                              "NoModify":  "1",
+                                                                              "NoRepair":  "1",
+                                                                              "InstallDate":  "20260816",
+                                                                              "MajorVersion":  "1",
+                                                                              "MinorVersion":  "0",
+                                                                              "VersionMajor":  "1",
+                                                                              "VersionMinor":  "0",
+                                                                              "EstimatedSize":  "39239"
+                                                                          },
+                                                        "hklmUninstallHits":  [
+
+                                                                              ],
+                                                        "startMenuLink":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\I-TECH للتكنولوجيا.lnk",
+                                                        "startMenuLinkExists":  true,
+                                                        "machineStartMenuLink":  "C:\\ProgramData\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\I-TECH للتكنولوجيا.lnk",
+                                                        "machineStartMenuLinkExists":  false,
+                                                        "startMenuShortcutTarget":  "",
+                                                        "autorun":  {
+                                                                        "HKLM\\Run":  [
+
+                                                                                      ],
+                                                                        "HKLM\\RunOnce":  [
+
+                                                                                          ],
+                                                                        "HKCU\\Run":  [
+
+                                                                                      ],
+                                                                        "HKCU\\RunOnce":  [
+
+                                                                                          ]
+                                                                    },
+                                                        "startupFolderHits":  [
+
+                                                                              ]
+                                                    }
+                                     },
+                  "installedPayload":  {
+                                           "ok":  true,
+                                           "at":  "2026-08-15T22:12:12.801Z",
+                                           "result":  {
+                                                          "installDir":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store",
+                                                          "payloadFileCountExpected":  16,
+                                                          "payloadFileCountInstalled":  16,
+                                                          "payloadAllMatch":  true,
+                                                          "payload":  [
+                                                                          {
+                                                                              "rel":  "data/app.so",
+                                                                              "expectedSize":  9290656,
+                                                                              "expectedSha256":  "86369AA8DFD530AD15C90F394FFB7D9F29A5AA67AB06A6C7F5A42516B212ED93",
+                                                                              "installedSize":  9290656,
+                                                                              "installedSha256":  "86369AA8DFD530AD15C90F394FFB7D9F29A5AA67AB06A6C7F5A42516B212ED93",
+                                                                              "match":  true
+                                                                          },
+                                                                          {
+                                                                              "rel":  "data/flutter_assets/AssetManifest.bin",
+                                                                              "expectedSize":  384,
+                                                                              "expectedSha256":  "BE650FCA6D81184EE20F7DAFEE0231E17BD16952521CC93D513F1952324BEE15",
+                                                                              "installedSize":  384,
+                                                                              "installedSha256":  "BE650FCA6D81184EE20F7DAFEE0231E17BD16952521CC93D513F1952324BEE15",
+                                                                              "match":  true
+                                                                          },
+                                                                          {
+                                                                              "rel":  "data/flutter_assets/AssetManifest.json",
+                                                                              "expectedSize":  355,
+                                                                              "expectedSha256":  "3CF68F7B749716CF8E184C01D9257F4A7A0252168D9BBF70457643C73E808482",
+                                                                              "installedSize":  355,
+                                                                              "installedSha256":  "3CF68F7B749716CF8E184C01D9257F4A7A0252168D9BBF70457643C73E808482",
+                                                                              "match":  true
+                                                                          },
+                                                                          {
+                                                                              "rel":  "data/flutter_assets/assets/fonts/NotoSansArabic-Bold.ttf",
+                                                                              "expectedSize":  260904,
+                                                                              "expectedSha256":  "457926CB001AC787DC7415C89E6F5B1C4CE3A0F2C91D0CABC1BC19A05638E7DE",
+                                                                              "installedSize":  260904,
+                                                                              "installedSha256":  "457926CB001AC787DC7415C89E6F5B1C4CE3A0F2C91D0CABC1BC19A05638E7DE",
+                                                                              "match":  true
+                                                                          },
+                                                                          {
+                                                                              "rel":  "data/flutter_assets/assets/fonts/NotoSansArabic-Regular.ttf",
+                                                                              "expectedSize":  250880,
+                                                                              "expectedSha256":  "D6EFA4C9FAC8ECEFD2DE19676ACC3A396BA7AEE99BA7A2D513950246841B6725",
+                                                                              "installedSize":  250880,
+                                                                              "installedSha256":  "D6EFA4C9FAC8ECEFD2DE19676ACC3A396BA7AEE99BA7A2D513950246841B6725",
+                                                                              "match":  true
+                                                                          },
+                                                                          {
+                                                                              "rel":  "data/flutter_assets/assets/fonts/THIRD_PARTY_NOTICES.txt",
+                                                                              "expectedSize":  429,
+                                                                              "expectedSha256":  "D4349DA9B9E3CB9D3E0F89F1A1133F7468F5812DC557248F5A8A2CE80BB077F8",
+                                                                              "installedSize":  429,
+                                                                              "installedSha256":  "D4349DA9B9E3CB9D3E0F89F1A1133F7468F5812DC557248F5A8A2CE80BB077F8",
+                                                                              "match":  true
+                                                                          },
+                                                                          {
+                                                                              "rel":  "data/flutter_assets/FontManifest.json",
+                                                                              "expectedSize":  208,
+                                                                              "expectedSha256":  "CD7E03645BC44B2DD47B7CB626F51C4ECBF55A197AB77241628B47AC165FBE21",
+                                                                              "installedSize":  208,
+                                                                              "installedSha256":  "CD7E03645BC44B2DD47B7CB626F51C4ECBF55A197AB77241628B47AC165FBE21",
+                                                                              "match":  true
+                                                                          },
+                                                                          {
+                                                                              "rel":  "data/flutter_assets/fonts/MaterialIcons-Regular.otf",
+                                                                              "expectedSize":  1645184,
+                                                                              "expectedSha256":  "D9865B671A09D683D13A863089D8825E0F61A37696CE5D7D448BC8023AA62453",
+                                                                              "installedSize":  1645184,
+                                                                              "installedSha256":  "D9865B671A09D683D13A863089D8825E0F61A37696CE5D7D448BC8023AA62453",
+                                                                              "match":  true
+                                                                          },
+                                                                          {
+                                                                              "rel":  "data/flutter_assets/NOTICES.Z",
+                                                                              "expectedSize":  89413,
+                                                                              "expectedSha256":  "7A5222CA2B4300D1845CD9E08E982EF32C6B682C84FAB043700CCB6928B48FEA",
+                                                                              "installedSize":  89413,
+                                                                              "installedSha256":  "7A5222CA2B4300D1845CD9E08E982EF32C6B682C84FAB043700CCB6928B48FEA",
+                                                                              "match":  true
+                                                                          },
+                                                                          {
+                                                                              "rel":  "data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+                                                                              "expectedSize":  257628,
+                                                                              "expectedSha256":  "67C44FE9183B002E79DDE7F6977E2988661C9A3E4A3C5FCE968787EFDBED823C",
+                                                                              "installedSize":  257628,
+                                                                              "installedSha256":  "67C44FE9183B002E79DDE7F6977E2988661C9A3E4A3C5FCE968787EFDBED823C",
+                                                                              "match":  true
+                                                                          },
+                                                                          {
+                                                                              "rel":  "data/flutter_assets/shaders/ink_sparkle.frag",
+                                                                              "expectedSize":  17304,
+                                                                              "expectedSha256":  "3AA09424D1DC391FD59A9735EFE986FF43302B5E5BC310926AFE11C68626C3B2",
+                                                                              "installedSize":  17304,
+                                                                              "installedSha256":  "3AA09424D1DC391FD59A9735EFE986FF43302B5E5BC310926AFE11C68626C3B2",
+                                                                              "match":  true
+                                                                          },
+                                                                          {
+                                                                              "rel":  "data/icudtl.dat",
+                                                                              "expectedSize":  778864,
+                                                                              "expectedSha256":  "C12537022EF818991A7BFED41A76D8D6AE962FFBC0E6511AC762A5D0845E7F7C",
+                                                                              "installedSize":  778864,
+                                                                              "installedSha256":  "C12537022EF818991A7BFED41A76D8D6AE962FFBC0E6511AC762A5D0845E7F7C",
+                                                                              "match":  true
+                                                                          },
+                                                                          {
+                                                                              "rel":  "flutter_windows.dll",
+                                                                              "expectedSize":  18181632,
+                                                                              "expectedSha256":  "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E",
+                                                                              "installedSize":  18181632,
+                                                                              "installedSha256":  "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E",
+                                                                              "match":  true
+                                                                          },
+                                                                          {
+                                                                              "rel":  "muaman_store.exe",
+                                                                              "expectedSize":  92160,
+                                                                              "expectedSha256":  "134918133777C779890CA3BD4EC9CFFFD990AE04B48BE3A71DE8142B2F2FAEA1",
+                                                                              "installedSize":  92160,
+                                                                              "installedSha256":  "134918133777C779890CA3BD4EC9CFFFD990AE04B48BE3A71DE8142B2F2FAEA1",
+                                                                              "match":  true
+                                                                          },
+                                                                          {
+                                                                              "rel":  "pdfium.dll",
+                                                                              "expectedSize":  4749824,
+                                                                              "expectedSha256":  "0C88EBACC0393FD45FC3E7B35E31E72C9E55B633A846A7ECF4085694DBA68ABD",
+                                                                              "installedSize":  4749824,
+                                                                              "installedSha256":  "0C88EBACC0393FD45FC3E7B35E31E72C9E55B633A846A7ECF4085694DBA68ABD",
+                                                                              "match":  true
+                                                                          },
+                                                                          {
+                                                                              "rel":  "printing_plugin.dll",
+                                                                              "expectedSize":  138240,
+                                                                              "expectedSha256":  "959F1E85FEEC7D8AE02F97760608E8022CFF3C3D556AADC824306EA1AFE2A867",
+                                                                              "installedSize":  138240,
+                                                                              "installedSha256":  "959F1E85FEEC7D8AE02F97760608E8022CFF3C3D556AADC824306EA1AFE2A867",
+                                                                              "match":  true
+                                                                          }
+                                                                      ],
+                                                          "innoUninstallerExtrasPresent":  [
+                                                                                               "unins000.exe",
+                                                                                               "unins000.dat"
+                                                                                           ],
+                                                          "unexpectedFiles":  [
+                                                                                  ".dart_tool/sqflite_common_ffi/databases/muaman_store.db"
+                                                                              ],
+                                                          "mainExecutable":  "muaman_store.exe",
+                                                          "exeSizeMatch":  true,
+                                                          "exeSha256Match":  true,
+                                                          "exeInstalledSize":  92160,
+                                                          "exeInstalledSha256":  "134918133777C779890CA3BD4EC9CFFFD990AE04B48BE3A71DE8142B2F2FAEA1",
+                                                          "flutterWindowsDllSha256":  "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E"
+                                                      }
+                                       },
+                  "launch1":  {
+                                  "ok":  true,
+                                  "at":  "2026-08-15T22:12:14.461Z",
+                                  "result":  {
+                                                 "launch":  {
+                                                                "exe":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store\\muaman_store.exe",
+                                                                "workingDirectory":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store",
+                                                                "restrictedPath":  "C:\\WINDOWS\\System32;C:\\WINDOWS",
+                                                                "startedAtUtc":  "2026-08-15T22:12:14.454Z",
+                                                                "processId":  18612,
+                                                                "sessionId":  1,
+                                                                "secondsToWindow":  1.6,
+                                                                "windowFound":  true,
+                                                                "window":  {
+                                                                               "handle":  "0xAB0896",
+                                                                               "title":  "muaman_store",
+                                                                               "className":  "FLUTTER_RUNNER_WIN32_WINDOW",
+                                                                               "rect":  {
+                                                                                            "Left":  30,
+                                                                                            "Top":  30,
+                                                                                            "Width":  1500,
+                                                                                            "Height":  850
+                                                                                        },
+                                                                               "firstScreenshot":  "C:\\mu13o-acceptance\\m13p\\run\\20260816-011204\\evidence\\shots\\10-launch1-first-window.png"
+                                                                           }
+                                                            }
+                                             }
+                              },
+                  "launch1Setup":  {
+                                       "ok":  false,
+                                       "at":  "2026-08-15T22:12:15.886Z",
+                                       "error":  "first-owner setup screen not recognized via OCR"
+                                   }
+              }
+}

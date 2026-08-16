@@ -1,0 +1,38 @@
+{
+    "businessDataBeforeUninstall":  [
+                                        ".dart_tool/sqflite_common_ffi/databases/muaman_store.db"
+                                    ],
+    "uninstallExitCode":  0,
+    "schemaVersion":  "1.0",
+    "run":  {
+                "startedAtUtc":  "2026-08-15T22:08:34.863Z",
+                "finishedAtUtc":  "2026-08-15T22:08:49.228Z",
+                "exitCode":  0
+            },
+    "mode":  "Uninstall",
+    "phase":  "MUAMAN-13O",
+    "checks":  {
+                   "installedPayloadRemoved":  true,
+                   "payloadRemaining":  [
+
+                                        ],
+                   "uninstallerRemoved":  true,
+                   "startMenuShortcutRemoved":  true,
+                   "uninstallRegistryRemoved":  true,
+                   "noProcessRunning":  true,
+                   "businessDataPreserved":  true,
+                   "businessDataMissingAfter":  [
+
+                                                ],
+                   "userProfilePreserved":  true,
+                   "preservedProfileFileCount":  0,
+                   "installRootState":  "present"
+               },
+    "uninstallCommand":  {
+                             "uninstaller":  "C:\\mu13o-acceptance\\T0-20260815-e\\consumer\\install-root\\unins000.exe",
+                             "arguments":  "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG=C:\\mu13o-acceptance\\T0-20260815-e\\consumer\\logs\\uninstall.log",
+                             "log":  "C:\\mu13o-acceptance\\T0-20260815-e\\consumer\\logs\\uninstall.log"
+                         },
+    "passed":  true,
+    "failureReason":  null
+}

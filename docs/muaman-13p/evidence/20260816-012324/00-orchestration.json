@@ -1,0 +1,26 @@
+{
+    "runId":  "20260816-012324",
+    "startedAtUtc":  "2026-08-15T22:23:24.571Z",
+    "phase":  "MUAMAN-13P",
+    "worktreePath":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0",
+    "mainRepoPath":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0",
+    "accountName":  "CodexMuaman13P",
+    "domain":  "ISLAM",
+    "installerSource":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\t0-installer-out\\muaman-windows-installer.exe",
+    "acceptanceRoot":  "C:\\mu13o-acceptance\\m13p",
+    "gitHead":  "fdf2d33762635dc89e5fb0cffd765649c402e078",
+    "gitClean":  true,
+    "accountSid":  "S-1-5-21-2052787611-3211508837-1074070108-1027",
+    "accountGroups":  [
+
+                      ],
+    "installerSha256":  "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
+    "installerSize":  13223003,
+    "workerExitCode":  1,
+    "workerTimedOut":  false,
+    "workerPid":  28640,
+    "workerAllStepsPassed":  false,
+    "workerFailedSteps":  [
+                              "accountReset"
+                          ]
+}

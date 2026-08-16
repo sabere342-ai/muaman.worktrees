@@ -1,0 +1,11 @@
+﻿MUAMAN-13R governed delivery installer identity
+================================================
+acceptedSha256     : 94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831
+acceptedSizeBytes  : 13223003
+canonicalInstaller : C:\Users\saber\AppData\Local\Temp\opencode\t0-installer-out\muaman-windows-installer.exe
+canonicalSha256    : 94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831
+canonicalSize      : 13223003
+deliveryInstaller  : C:\dev\muaman.worktrees\i-tech-productization-t0\delivery\Muaman-1.0.0-Windows\I-TECH-Setup.exe
+deliverySha256     : 94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831
+deliverySize       : 13223003
+zipInstallerShaMatches : True

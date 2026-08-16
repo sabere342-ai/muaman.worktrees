@@ -1,0 +1,1 @@
+﻿dbFile=C:\Users\saber\AppData\Local\Temp\opencode\m19a-acceptance\prod\20260816-050107\.dart_tool\sqflite_common_ffi\databases\muaman_store.db

@@ -147,9 +147,9 @@ function New-PassingEvidence {
     Write-JsonUtf8 -Path (Join-Path $jsonDir '08-installed-state.json') -Object ([ordered]@{
         uninstallKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\{$($cfg.application.appId)}_is1"
         hkcuUninstallPresent = $true
-        hkcuUninstall = [ordered]@{ DisplayName = 'muaman_store'; UninstallString = "`"$installDir\unins000.exe`"" }
+        hkcuUninstall = [ordered]@{ DisplayName = $cfg.uninstall.displayName; UninstallString = "`"$installDir\unins000.exe`"" }
         hkcuMuamanUninstallKeys = @("{$($cfg.application.appId)}_is1")
-        startMenuLink = "C:\Users\CodexMuaman13Q\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\muaman_store.lnk"
+        startMenuLink = ("C:\Users\CodexMuaman13Q\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\" + $cfg.shortcut.startMenuName)
         startMenuLinkExists = $true
         machineStartMenuLinkExists = $false
         startMenuShortcutTarget = $exeFull
@@ -159,12 +159,12 @@ function New-PassingEvidence {
     Write-JsonUtf8 -Path (Join-Path $jsonDir '09-first-launch-result.json') -Object $l1
     Write-JsonUtf8 -Path (Join-Path $jsonDir '09-first-launch-close.json') -Object $close1
     Write-JsonUtf8 -Path (Join-Path $jsonDir '10-preuninstall-snapshot.json') -Object ([ordered]@{
-        processIds = @(); installRoot = @(); uninstallKey = 'x'; hkcuUninstall = [ordered]@{ DisplayName = 'muaman_store' }
+        processIds = @(); installRoot = @(); uninstallKey = 'x'; hkcuUninstall = [ordered]@{ DisplayName = $cfg.uninstall.displayName }
         db = $l1.databaseAfterSetup; startMenuLinkExists = $true; localAppDataListingBeforeUninstall = @(); appDataListingBeforeUninstall = @()
     })
     Write-JsonUtf8 -Path (Join-Path $jsonDir '11-uninstall-registration.json') -Object ([ordered]@{
         registrationKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\{$($cfg.application.appId)}_is1"
-        displayName = 'muaman_store'; publisher = $cfg.uninstall.publisher; displayVersion = '1.0.0'; installLocation = $installDir
+        displayName = $cfg.uninstall.displayName; publisher = $cfg.uninstall.publisher; displayVersion = '1.0.0'; installLocation = $installDir
         uninstallString = "`"$installDir\unins000.exe`" /VERYSILENT"
         uninstallerPath = "$installDir\unins000.exe"; uninstallerExists = $true
         expectedUninstaller = "$installDir\unins000.exe"; uninstallerMatchesExpected = $true
@@ -202,13 +202,13 @@ function New-PassingEvidence {
     Write-JsonUtf8 -Path (Join-Path $jsonDir '16-reinstalled-state.json') -Object ([ordered]@{
         uninstallKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\{$($cfg.application.appId)}_is1"
         hkcuUninstallPresent = $true
-        hkcuUninstall = [ordered]@{ DisplayName = 'muaman_store'; UninstallString = "`"$installDir\unins000.exe`"" }
+        hkcuUninstall = [ordered]@{ DisplayName = $cfg.uninstall.displayName; UninstallString = "`"$installDir\unins000.exe`"" }
         hkcuMuamanUninstallKeys = @("{$($cfg.application.appId)}_is1")
         duplicateUninstallRegistrations = @()
         installRoots = @($installDir); duplicateInstallRoots = @()
-        startMenuLink = "C:\Users\CodexMuaman13Q\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\muaman_store.lnk"
+        startMenuLink = ("C:\Users\CodexMuaman13Q\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\" + $cfg.shortcut.startMenuName)
         startMenuLinkExists = $true; machineStartMenuLinkExists = $false
-        startMenuShortcutTarget = $exeFull; startMenuHits = @("C:\Users\CodexMuaman13Q\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\muaman_store.lnk")
+        startMenuShortcutTarget = $exeFull; startMenuHits = @("C:\Users\CodexMuaman13Q\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\" + $cfg.shortcut.startMenuName)
         payload = $payload
         dbRetainedAfterReinstall = $true
     })
@@ -442,7 +442,7 @@ try {
     # decoy unrelated key: no _is1 suffix, different DisplayName -> must NOT match
     New-Item -Path (Join-Path $testRoot 'SomeOtherApp') -Force | Out-Null
     New-ItemProperty -Path (Join-Path $testRoot 'SomeOtherApp') -Name DisplayName -Value 'SomeOtherApp' -PropertyType String -Force | Out-Null
-    $hits = Get-HkcuUninstallMuamanKeys -Root $testRoot -DisplayName 'muaman_store' -Publisher $cfg.uninstall.publisher -KeySuffix '_is1'
+    $hits = Get-HkcuUninstallMuamanKeys -Root $testRoot -DisplayName $cfg.uninstall.displayName -Publisher $cfg.uninstall.publisher -KeySuffix '_is1'
     $malformedNoThrow = $true
     $matchedOnlyExpected = (@($hits).Count -eq 1) -and (@($hits) -contains '{299ADF2A-0E9E-4A25-916C-1CB8328D0E5E}_is1')
     Assert-Control 'NC10-malformed-key-scan-safe' ($malformedNoThrow -and $matchedOnlyExpected) "malformed key scanned without error; hits=$(@($hits) -join ',') (expected the muaman suffix key only)"

@@ -1,0 +1,15 @@
+{
+    "before":  {
+                   "installDirExists":  true,
+                   "dbExists":  true,
+                   "hkcuUninstallKeyExists":  true,
+                   "startMenuLinkExists":  false
+               },
+    "after":  {
+                  "installDirExists":  false,
+                  "dbExists":  false,
+                  "hkcuUninstallKeyExists":  false,
+                  "startMenuLinkExists":  false
+              },
+    "resetOk":  true
+}

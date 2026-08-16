@@ -1,0 +1,62 @@
+{
+    "commandLine":  "\"C:\\Users\\CodexMuaman13Q\\AppData\\Local\\Programs\\muaman_store\\unins000.exe\" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG=\"C:\\mu13o-acceptance\\m13q\\run\\20260816-014426\\evidence\\logs\\uninstall.log\"",
+    "uninstallerPath":  "C:\\Users\\CodexMuaman13Q\\AppData\\Local\\Programs\\muaman_store\\unins000.exe",
+    "exitCode":  0,
+    "timedOut":  false,
+    "durationSec":  0.7,
+    "uninstallLogPath":  "C:\\mu13o-acceptance\\m13q\\run\\20260816-014426\\evidence\\logs\\uninstall.log",
+    "uninstallLogBytes":  6169,
+    "registrationRemoved":  {
+                                "ok":  true,
+                                "seconds":  0,
+                                "polls":  [
+                                              {
+                                                  "at":  "2026-08-15T22:45:23.312Z",
+                                                  "ok":  true,
+                                                  "note":  ""
+                                              }
+                                          ],
+                                "what":  "uninstall-registration-disappears"
+                            },
+    "installedExeRemoved":  {
+                                "ok":  true,
+                                "seconds":  0,
+                                "polls":  [
+                                              {
+                                                  "at":  "2026-08-15T22:45:23.323Z",
+                                                  "ok":  true,
+                                                  "note":  ""
+                                              }
+                                          ],
+                                "what":  "installed-exe-disappears"
+                            },
+    "uninstallerRemoved":  {
+                               "ok":  true,
+                               "seconds":  0.5,
+                               "polls":  [
+                                             {
+                                                 "at":  "2026-08-15T22:45:23.340Z",
+                                                 "ok":  false,
+                                                 "note":  ""
+                                             },
+                                             {
+                                                 "at":  "2026-08-15T22:45:23.883Z",
+                                                 "ok":  true,
+                                                 "note":  ""
+                                             }
+                                         ],
+                               "what":  "uninstaller-disappears"
+                           },
+    "processesGone":  {
+                          "ok":  true,
+                          "seconds":  0,
+                          "polls":  [
+                                        {
+                                            "at":  "2026-08-15T22:45:23.883Z",
+                                            "ok":  true,
+                                            "note":  ""
+                                        }
+                                    ],
+                          "what":  "processes-gone"
+                      }
+}

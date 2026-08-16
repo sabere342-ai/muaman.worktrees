@@ -1,0 +1,9 @@
+{
+    "step":  "S0-receive-zip",
+    "stagedZip":  "C:\\m13s-acceptance\\run\\20260816-024237\\stage\\Muaman-1.0.0-Windows.zip",
+    "receivedZip":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\received\\Muaman-1.0.0-Windows.zip",
+    "stagedSha256":  "4258E9105116D0D73281C4CD5027ECC478517D662FCA3E6D70F25418E7204C8A",
+    "receivedSha256":  "4258E9105116D0D73281C4CD5027ECC478517D662FCA3E6D70F25418E7204C8A",
+    "copyPreservedBytes":  true,
+    "receivedDirExists":  true
+}

@@ -1,0 +1,30 @@
+{
+    "dbPath":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store\\.dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db",
+    "dbExists":  true,
+    "closeBeforeDb":  {
+                          "method":  "WM_CLOSE",
+                          "exited":  true,
+                          "exitCode":  0,
+                          "seconds":  0.3
+                      },
+    "db":  {
+               "path":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store\\.dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db",
+               "sizeBytes":  81920,
+               "sha256":  "534DA3741FEC388F38862159214FCDF1E745106723686A610DEF781737C48A49",
+               "sqliteHeaderValid":  true,
+               "tablesFound":  [
+                                   "products",
+                                   "sales",
+                                   "returns",
+                                   "expenses",
+                                   "inventory_count",
+                                   "users",
+                                   "import_batches",
+                                   "invoices",
+                                   "app_settings"
+                               ],
+               "ownerUsernameTextPresent":  true,
+               "ownerDisplayNameTextPresent":  false,
+               "lastWriteTimeUtc":  "2026-08-15T22:26:05.049Z"
+           }
+}

@@ -1,0 +1,133 @@
+{
+    "stepS2":  "S2-extract",
+    "stepS3":  "S3-exact-three-files",
+    "stepS4":  "S4-file-identities",
+    "stepS5":  "S5-readme-content",
+    "stepS6":  "S6-manifest-crosscheck",
+    "zipCopy":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\received\\Muaman-1.0.0-Windows.zip",
+    "expand":  {
+                   "name":  "Expand-DeliveryArchive",
+                   "pass":  true,
+                   "zipPath":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\received\\Muaman-1.0.0-Windows.zip",
+                   "destRoot":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted",
+                   "extractDir":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows"
+               },
+    "exactFileSet":  {
+                         "name":  "Test-ExactFileSet",
+                         "pass":  true,
+                         "extractRoot":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows",
+                         "actualFiles":  [
+                                             "I-TECH-Setup.exe",
+                                             "README.txt",
+                                             "SHA256SUMS.txt"
+                                         ],
+                         "expectedFiles":  [
+                                               "I-TECH-Setup.exe",
+                                               "README.txt",
+                                               "SHA256SUMS.txt"
+                                           ],
+                         "actualCount":  3,
+                         "expectedCount":  3,
+                         "unexpected":  [
+
+                                        ],
+                         "missing":  [
+
+                                     ]
+                     },
+    "packageValidation":  {
+                              "name":  "Invoke-DeliveryPackageValidation",
+                              "pass":  true,
+                              "extractRoot":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows",
+                              "checks":  {
+                                             "exactFileSet":  {
+                                                                  "name":  "Test-ExactFileSet",
+                                                                  "pass":  true,
+                                                                  "extractRoot":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows",
+                                                                  "actualFiles":  [
+                                                                                      "I-TECH-Setup.exe",
+                                                                                      "README.txt",
+                                                                                      "SHA256SUMS.txt"
+                                                                                  ],
+                                                                  "expectedFiles":  [
+                                                                                        "I-TECH-Setup.exe",
+                                                                                        "README.txt",
+                                                                                        "SHA256SUMS.txt"
+                                                                                    ],
+                                                                  "actualCount":  3,
+                                                                  "expectedCount":  3,
+                                                                  "unexpected":  [
+
+                                                                                 ],
+                                                                  "missing":  [
+
+                                                                              ]
+                                                              },
+                                             "installer":  {
+                                                               "name":  "Test-FileIdentity:installer",
+                                                               "pass":  true,
+                                                               "path":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows\\I-TECH-Setup.exe",
+                                                               "sha256":  "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
+                                                               "size":  13223003,
+                                                               "expectedSha256":  "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
+                                                               "expectedSize":  13223003,
+                                                               "shaMatch":  true,
+                                                               "sizeMatch":  true
+                                                           },
+                                             "readme":  {
+                                                            "name":  "Test-FileIdentity:readme",
+                                                            "pass":  true,
+                                                            "path":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows\\README.txt",
+                                                            "sha256":  "13AA05AB795D9C47C3071B29CB1EF867BAC022F73D436A83B7EFE38625D877B2",
+                                                            "size":  2313,
+                                                            "expectedSha256":  "13AA05AB795D9C47C3071B29CB1EF867BAC022F73D436A83B7EFE38625D877B2",
+                                                            "expectedSize":  2313,
+                                                            "shaMatch":  true,
+                                                            "sizeMatch":  true
+                                                        },
+                                             "manifest":  {
+                                                              "name":  "Test-DeliveryManifest",
+                                                              "pass":  true,
+                                                              "manifestPath":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows\\SHA256SUMS.txt",
+                                                              "manifestIdentity":  {
+                                                                                       "name":  "Test-FileIdentity:SHA256SUMS",
+                                                                                       "pass":  true,
+                                                                                       "path":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows\\SHA256SUMS.txt",
+                                                                                       "sha256":  "B853725F302F5B0053E75B8D3A781A289A0891433C70300C448F907E6C07C573",
+                                                                                       "size":  84,
+                                                                                       "expectedSha256":  "B853725F302F5B0053E75B8D3A781A289A0891433C70300C448F907E6C07C573",
+                                                                                       "expectedSize":  84,
+                                                                                       "shaMatch":  true,
+                                                                                       "sizeMatch":  true
+                                                                                   },
+                                                              "entryCount":  1,
+                                                              "entries":  [
+                                                                              {
+                                                                                  "file":  "I-TECH-Setup.exe",
+                                                                                  "listedHash":  "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
+                                                                                  "actualHash":  "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
+                                                                                  "present":  true,
+                                                                                  "pass":  true
+                                                                              }
+                                                                          ],
+                                                              "allEntriesPass":  true
+                                                          },
+                                             "readmeContent":  {
+                                                                   "name":  "Test-ReadmeContent",
+                                                                   "pass":  true,
+                                                                   "path":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows\\README.txt",
+                                                                   "bytes":  2313,
+                                                                   "decodedOk":  true,
+                                                                   "chars":  1432,
+                                                                   "forbiddenHits":  [
+
+                                                                                     ],
+                                                                   "missingRequired":  [
+
+                                                                                       ]
+                                                               }
+                                         }
+                          },
+    "extractDir":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows",
+    "extractedInstaller":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows\\I-TECH-Setup.exe"
+}

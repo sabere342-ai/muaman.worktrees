@@ -1,0 +1,104 @@
+{
+    "installDirListingAfterAll":  [
+                                      {
+                                          "rel":  "flutter_windows.dll",
+                                          "size":  18181632,
+                                          "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                      },
+                                      {
+                                          "rel":  "muaman_store.exe",
+                                          "size":  92160,
+                                          "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                      },
+                                      {
+                                          "rel":  "pdfium.dll",
+                                          "size":  4749824,
+                                          "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                      },
+                                      {
+                                          "rel":  "printing_plugin.dll",
+                                          "size":  138240,
+                                          "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                      },
+                                      {
+                                          "rel":  "unins000.dat",
+                                          "size":  7597,
+                                          "lastWriteTimeUtc":  "2026-08-15T22:29:34.042Z"
+                                      },
+                                      {
+                                          "rel":  "unins000.exe",
+                                          "size":  4452610,
+                                          "lastWriteTimeUtc":  "2026-08-15T22:29:32.119Z"
+                                      },
+                                      {
+                                          "rel":  ".dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db",
+                                          "size":  81920,
+                                          "lastWriteTimeUtc":  "2026-08-15T22:30:38.017Z"
+                                      },
+                                      {
+                                          "rel":  "data\\app.so",
+                                          "size":  9290656,
+                                          "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                      },
+                                      {
+                                          "rel":  "data\\icudtl.dat",
+                                          "size":  778864,
+                                          "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                      },
+                                      {
+                                          "rel":  "data\\flutter_assets\\AssetManifest.bin",
+                                          "size":  384,
+                                          "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                      },
+                                      {
+                                          "rel":  "data\\flutter_assets\\AssetManifest.json",
+                                          "size":  355,
+                                          "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                      },
+                                      {
+                                          "rel":  "data\\flutter_assets\\FontManifest.json",
+                                          "size":  208,
+                                          "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                      },
+                                      {
+                                          "rel":  "data\\flutter_assets\\NOTICES.Z",
+                                          "size":  89413,
+                                          "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                      },
+                                      {
+                                          "rel":  "data\\flutter_assets\\assets\\fonts\\NotoSansArabic-Bold.ttf",
+                                          "size":  260904,
+                                          "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                      },
+                                      {
+                                          "rel":  "data\\flutter_assets\\assets\\fonts\\NotoSansArabic-Regular.ttf",
+                                          "size":  250880,
+                                          "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                      },
+                                      {
+                                          "rel":  "data\\flutter_assets\\assets\\fonts\\THIRD_PARTY_NOTICES.txt",
+                                          "size":  429,
+                                          "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                      },
+                                      {
+                                          "rel":  "data\\flutter_assets\\fonts\\MaterialIcons-Regular.otf",
+                                          "size":  1645184,
+                                          "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                      },
+                                      {
+                                          "rel":  "data\\flutter_assets\\packages\\cupertino_icons\\assets\\CupertinoIcons.ttf",
+                                          "size":  257628,
+                                          "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                      },
+                                      {
+                                          "rel":  "data\\flutter_assets\\shaders\\ink_sparkle.frag",
+                                          "size":  17304,
+                                          "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                      }
+                                  ],
+    "appProcessesRunning":  [
+
+                            ],
+    "dbStillPresent":  true,
+    "capturedAtUtc":  "2026-08-15T22:30:41.770Z"
+}

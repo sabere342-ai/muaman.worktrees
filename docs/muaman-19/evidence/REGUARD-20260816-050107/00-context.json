@@ -1,0 +1,26 @@
+{
+  "ticket": "MUAMAN-19",
+  "guard": "historical re-guard on Productized I-TECH build",
+  "governance": "I-TECH-PRODUCTIZATION-SUPER-PROMPT.md",
+  "runId": "REGUARD-20260816-050107",
+  "capturedAtUtc": "2026-08-16T02:01:07.200Z",
+  "worktree": "C:\\dev\\muaman.worktrees\\i-tech-productization-t0",
+  "branch": "codex/i-tech-productization-t0",
+  "headCommit": "fdf2d33762635dc89e5fb0cffd765649c402e078",
+  "muaman19Commit": "697a9f974cf7433dac30fe4f09940076d923fa2f",
+  "muaman18Commit": "23cb92e64bbc7b1761457335626641aace8b0951",
+  "muaman19AncestorOfHead": true,
+  "muaman18AncestorOfHead": true,
+  "lastAcceptedPhases": {
+    "13S": "PASS (re-guard 20260816-024237, allPass=true, NC 8/8)",
+    "MUAMAN-18": "PASS (re-guard 20260816: NC 4/4, launch-close 20/20, stress 20/20)",
+    "MUAMAN-19": "this re-guard"
+  },
+  "productionArtifact": {
+    "path": "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\app\\build\\windows\\x64\\runner\\Release\\muaman_store.exe",
+    "sha256": "134918133777C779890CA3BD4EC9CFFFD990AE04B48BE3A71DE8142B2F2FAEA1",
+    "sizeBytes": 92160,
+    "mtimeLocal": "2026-08-15T23:48:57.5321599+03:00"
+  },
+  "scope": "verification-only re-guard of Safe Demo-Data / Commissioning Clean-Start; no production code change; no frozen identity change; no commit/push/tag/merge"
+}

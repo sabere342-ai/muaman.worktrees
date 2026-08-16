@@ -1,0 +1,41 @@
+{
+    "payloadFilesUnchangedAfterLaunch":  true,
+    "fullTreeDiffs":  [
+                          "only-in-b: .dart_tool/sqflite_common_ffi/databases/muaman_store.db"
+                      ],
+    "isolatedEnvironment":  {
+                                "APPDATA":  "C:\\mu13o-acceptance\\T0-20260815-e\\consumer\\profile",
+                                "LOCALAPPDATA":  "C:\\mu13o-acceptance\\T0-20260815-e\\consumer\\profile",
+                                "TEMP":  "C:\\mu13o-acceptance\\T0-20260815-e\\consumer\\temp",
+                                "TMP":  "C:\\mu13o-acceptance\\T0-20260815-e\\consumer\\temp",
+                                "USERPROFILE":  "C:\\mu13o-acceptance\\T0-20260815-e\\consumer\\profile"
+                            },
+    "process":  {
+                    "pid":  22028,
+                    "aliveAfterSeconds":  true,
+                    "mainWindowVisible":  true,
+                    "mainWindowTitle":  "muaman_store",
+                    "modulesLoaded":  78,
+                    "moduleOriginIssues":  [
+
+                                           ],
+                    "shutdownMethod":  "CloseMainWindow",
+                    "cleanShutdown":  true
+                },
+    "schemaVersion":  "1.0",
+    "run":  {
+                "startedAtUtc":  "2026-08-15T22:08:14.276Z",
+                "finishedAtUtc":  "2026-08-15T22:08:34.846Z",
+                "exitCode":  0
+            },
+    "mode":  "Launch",
+    "phase":  "MUAMAN-13O",
+    "runtimeDataCreatedInInstallDir":  [
+                                           ".dart_tool/sqflite_common_ffi/databases/muaman_store.db"
+                                       ],
+    "failureReason":  null,
+    "payloadDiffDetails":  [
+
+                           ],
+    "passed":  true
+}

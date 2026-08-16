@@ -1,0 +1,56 @@
+﻿git status --short (at guard start)
+===================================
+HEAD  : fdf2d33762635dc89e5fb0cffd765649c402e078
+branch: codex/i-tech-productization-t0
+M app/windows/runner/Runner.rc
+ M delivery/Muaman-1.0.0-Windows.zip
+ M delivery/Muaman-1.0.0-Windows.zip.sha256
+ D delivery/Muaman-1.0.0-Windows/Muaman-Setup.exe
+ M delivery/Muaman-1.0.0-Windows/README.txt
+ M delivery/Muaman-1.0.0-Windows/SHA256SUMS.txt
+ M docs/windows-delivery-refresh/evidence/legal/03-muaman16-release-contract.json
+ M docs/windows-delivery-refresh/evidence/legal/release-manifest.json
+ M installer/muaman.iss
+ M tools/muaman13o/guard_tests_13o.ps1
+ M tools/muaman13o/installer_contract.json
+ M tools/muaman13o/verify_installer_acceptance.ps1
+ M tools/muaman13p/acceptance-config.json
+ M tools/muaman13p/fresh_user_worker.ps1
+ M tools/muaman13p/lib/common.ps1
+ M tools/muaman13p/verify_fresh_user_install.ps1
+ M tools/muaman13q/acceptance-config.json
+ M tools/muaman13q/fresh_user_worker.ps1
+ M tools/muaman13q/guard_negative_controls.ps1
+ M tools/muaman13q/guard_tests_13q.ps1
+ M tools/muaman13q/lib/common.ps1
+ M tools/muaman13q/verify_fresh_user_uninstall_reinstall.ps1
+ M tools/muaman13r/README.txt
+ M tools/muaman13r/guard_tests_13r.ps1
+ M tools/muaman13r/package_final_delivery.ps1
+ M tools/muaman13s/acceptance-config.json
+ M tools/muaman13s/consumer_worker.ps1
+ M tools/muaman13s/guard_tests_13s.ps1
+ M tools/muaman13s/lib/common.ps1
+ M tools/muaman13s/orchestrator_13s.ps1
+ M tools/release/guard_tests_13l.ps1
+ M tools/release/package_windows_installer.ps1
+ M tools/release/verify_release.ps1
+?? delivery/Muaman-1.0.0-Windows/I-TECH-Setup.exe
+?? docs/muaman-13l/
+?? docs/muaman-13o/evidence/06-acceptance-run-T0/
+?? docs/muaman-13p/evidence/20260816-011204/
+?? docs/muaman-13p/evidence/20260816-012324/
+?? docs/muaman-13p/evidence/20260816-012517/
+?? docs/muaman-13p/evidence/20260816-012927/
+?? docs/muaman-13q/evidence/20260816-014426/
+?? docs/muaman-13r/evidence/20260815-T0-packaging/
+?? docs/muaman-13r/evidence/20260816-020227/
+?? docs/muaman-13r/evidence/20260816-020508/
+?? docs/muaman-13r/evidence/20260816-020823/
+?? docs/muaman-13s/evidence/20260816-024237/
+?? docs/muaman-18/evidence/REGUARD-20260816/
+?? docs/muaman-18/evidence/REGUARD-LC-20260816/
+?? docs/muaman-18/evidence/REGUARD-STRESS-20260816-B/
+?? docs/muaman-18/evidence/REGUARD-STRESS-20260816-C/
+?? docs/muaman-18/evidence/REGUARD-STRESS-20260816/
+?? docs/muaman-19/evidence/REGUARD-20260816-050107/

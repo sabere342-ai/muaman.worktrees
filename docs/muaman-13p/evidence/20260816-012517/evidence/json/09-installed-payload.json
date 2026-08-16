@@ -1,0 +1,149 @@
+{
+    "installDir":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store",
+    "payloadFileCountExpected":  16,
+    "payloadFileCountInstalled":  16,
+    "payloadAllMatch":  true,
+    "payload":  [
+                    {
+                        "rel":  "data/app.so",
+                        "expectedSize":  9290656,
+                        "expectedSha256":  "86369AA8DFD530AD15C90F394FFB7D9F29A5AA67AB06A6C7F5A42516B212ED93",
+                        "installedSize":  9290656,
+                        "installedSha256":  "86369AA8DFD530AD15C90F394FFB7D9F29A5AA67AB06A6C7F5A42516B212ED93",
+                        "match":  true
+                    },
+                    {
+                        "rel":  "data/flutter_assets/AssetManifest.bin",
+                        "expectedSize":  384,
+                        "expectedSha256":  "BE650FCA6D81184EE20F7DAFEE0231E17BD16952521CC93D513F1952324BEE15",
+                        "installedSize":  384,
+                        "installedSha256":  "BE650FCA6D81184EE20F7DAFEE0231E17BD16952521CC93D513F1952324BEE15",
+                        "match":  true
+                    },
+                    {
+                        "rel":  "data/flutter_assets/AssetManifest.json",
+                        "expectedSize":  355,
+                        "expectedSha256":  "3CF68F7B749716CF8E184C01D9257F4A7A0252168D9BBF70457643C73E808482",
+                        "installedSize":  355,
+                        "installedSha256":  "3CF68F7B749716CF8E184C01D9257F4A7A0252168D9BBF70457643C73E808482",
+                        "match":  true
+                    },
+                    {
+                        "rel":  "data/flutter_assets/assets/fonts/NotoSansArabic-Bold.ttf",
+                        "expectedSize":  260904,
+                        "expectedSha256":  "457926CB001AC787DC7415C89E6F5B1C4CE3A0F2C91D0CABC1BC19A05638E7DE",
+                        "installedSize":  260904,
+                        "installedSha256":  "457926CB001AC787DC7415C89E6F5B1C4CE3A0F2C91D0CABC1BC19A05638E7DE",
+                        "match":  true
+                    },
+                    {
+                        "rel":  "data/flutter_assets/assets/fonts/NotoSansArabic-Regular.ttf",
+                        "expectedSize":  250880,
+                        "expectedSha256":  "D6EFA4C9FAC8ECEFD2DE19676ACC3A396BA7AEE99BA7A2D513950246841B6725",
+                        "installedSize":  250880,
+                        "installedSha256":  "D6EFA4C9FAC8ECEFD2DE19676ACC3A396BA7AEE99BA7A2D513950246841B6725",
+                        "match":  true
+                    },
+                    {
+                        "rel":  "data/flutter_assets/assets/fonts/THIRD_PARTY_NOTICES.txt",
+                        "expectedSize":  429,
+                        "expectedSha256":  "D4349DA9B9E3CB9D3E0F89F1A1133F7468F5812DC557248F5A8A2CE80BB077F8",
+                        "installedSize":  429,
+                        "installedSha256":  "D4349DA9B9E3CB9D3E0F89F1A1133F7468F5812DC557248F5A8A2CE80BB077F8",
+                        "match":  true
+                    },
+                    {
+                        "rel":  "data/flutter_assets/FontManifest.json",
+                        "expectedSize":  208,
+                        "expectedSha256":  "CD7E03645BC44B2DD47B7CB626F51C4ECBF55A197AB77241628B47AC165FBE21",
+                        "installedSize":  208,
+                        "installedSha256":  "CD7E03645BC44B2DD47B7CB626F51C4ECBF55A197AB77241628B47AC165FBE21",
+                        "match":  true
+                    },
+                    {
+                        "rel":  "data/flutter_assets/fonts/MaterialIcons-Regular.otf",
+                        "expectedSize":  1645184,
+                        "expectedSha256":  "D9865B671A09D683D13A863089D8825E0F61A37696CE5D7D448BC8023AA62453",
+                        "installedSize":  1645184,
+                        "installedSha256":  "D9865B671A09D683D13A863089D8825E0F61A37696CE5D7D448BC8023AA62453",
+                        "match":  true
+                    },
+                    {
+                        "rel":  "data/flutter_assets/NOTICES.Z",
+                        "expectedSize":  89413,
+                        "expectedSha256":  "7A5222CA2B4300D1845CD9E08E982EF32C6B682C84FAB043700CCB6928B48FEA",
+                        "installedSize":  89413,
+                        "installedSha256":  "7A5222CA2B4300D1845CD9E08E982EF32C6B682C84FAB043700CCB6928B48FEA",
+                        "match":  true
+                    },
+                    {
+                        "rel":  "data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+                        "expectedSize":  257628,
+                        "expectedSha256":  "67C44FE9183B002E79DDE7F6977E2988661C9A3E4A3C5FCE968787EFDBED823C",
+                        "installedSize":  257628,
+                        "installedSha256":  "67C44FE9183B002E79DDE7F6977E2988661C9A3E4A3C5FCE968787EFDBED823C",
+                        "match":  true
+                    },
+                    {
+                        "rel":  "data/flutter_assets/shaders/ink_sparkle.frag",
+                        "expectedSize":  17304,
+                        "expectedSha256":  "3AA09424D1DC391FD59A9735EFE986FF43302B5E5BC310926AFE11C68626C3B2",
+                        "installedSize":  17304,
+                        "installedSha256":  "3AA09424D1DC391FD59A9735EFE986FF43302B5E5BC310926AFE11C68626C3B2",
+                        "match":  true
+                    },
+                    {
+                        "rel":  "data/icudtl.dat",
+                        "expectedSize":  778864,
+                        "expectedSha256":  "C12537022EF818991A7BFED41A76D8D6AE962FFBC0E6511AC762A5D0845E7F7C",
+                        "installedSize":  778864,
+                        "installedSha256":  "C12537022EF818991A7BFED41A76D8D6AE962FFBC0E6511AC762A5D0845E7F7C",
+                        "match":  true
+                    },
+                    {
+                        "rel":  "flutter_windows.dll",
+                        "expectedSize":  18181632,
+                        "expectedSha256":  "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E",
+                        "installedSize":  18181632,
+                        "installedSha256":  "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E",
+                        "match":  true
+                    },
+                    {
+                        "rel":  "muaman_store.exe",
+                        "expectedSize":  92160,
+                        "expectedSha256":  "134918133777C779890CA3BD4EC9CFFFD990AE04B48BE3A71DE8142B2F2FAEA1",
+                        "installedSize":  92160,
+                        "installedSha256":  "134918133777C779890CA3BD4EC9CFFFD990AE04B48BE3A71DE8142B2F2FAEA1",
+                        "match":  true
+                    },
+                    {
+                        "rel":  "pdfium.dll",
+                        "expectedSize":  4749824,
+                        "expectedSha256":  "0C88EBACC0393FD45FC3E7B35E31E72C9E55B633A846A7ECF4085694DBA68ABD",
+                        "installedSize":  4749824,
+                        "installedSha256":  "0C88EBACC0393FD45FC3E7B35E31E72C9E55B633A846A7ECF4085694DBA68ABD",
+                        "match":  true
+                    },
+                    {
+                        "rel":  "printing_plugin.dll",
+                        "expectedSize":  138240,
+                        "expectedSha256":  "959F1E85FEEC7D8AE02F97760608E8022CFF3C3D556AADC824306EA1AFE2A867",
+                        "installedSize":  138240,
+                        "installedSha256":  "959F1E85FEEC7D8AE02F97760608E8022CFF3C3D556AADC824306EA1AFE2A867",
+                        "match":  true
+                    }
+                ],
+    "innoUninstallerExtrasPresent":  [
+                                         "unins000.exe",
+                                         "unins000.dat"
+                                     ],
+    "unexpectedFiles":  [
+
+                        ],
+    "mainExecutable":  "muaman_store.exe",
+    "exeSizeMatch":  true,
+    "exeSha256Match":  true,
+    "exeInstalledSize":  92160,
+    "exeInstalledSha256":  "134918133777C779890CA3BD4EC9CFFFD990AE04B48BE3A71DE8142B2F2FAEA1",
+    "flutterWindowsDllSha256":  "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E"
+}

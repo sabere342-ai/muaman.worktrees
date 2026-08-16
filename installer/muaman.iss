@@ -1,4 +1,4 @@
-; MUAMAN-13O deterministic Windows installer definition.
+﻿; MUAMAN-13O deterministic Windows installer definition.
 ;
 ; This script is compiled exclusively by tools/release/package_windows_installer.ps1
 ; against a VERIFIED release payload staged from the canonical deterministic ZIP
@@ -27,11 +27,11 @@
 ; NEVER regenerated. Drives the per-user uninstall registry key and upgrade identity.
 AppId={{299ADF2A-0E9E-4A25-916C-1CB8328D0E5E}
 
-AppName=muaman_store
+AppName=I-TECH للتكنولوجيا
 AppVersion=1.0.0
-AppPublisher=com.almuaman
-AppCopyright=Copyright (C) 2026 com.almuaman. All rights reserved.
-AppVerName=muaman_store 1.0.0
+AppPublisher=I-TECH للتكنولوجيا
+AppCopyright=Copyright (C) 2026 I-TECH للتكنولوجيا. All rights reserved.
+AppVerName=I-TECH للتكنولوجيا 1.0.0
 
 ; Per-user installation, no administrator requirement, no elevation.
 PrivilegesRequired=lowest
@@ -43,13 +43,13 @@ ArchitecturesInstallIn64BitMode=x64compatible
 
 ; Canonical per-user default location: %LOCALAPPDATA%\Programs\muaman_store.
 DefaultDirName={localappdata}\Programs\muaman_store
-DefaultGroupName=muaman_store
+DefaultGroupName=I-TECH للتكنولوجيا
 DisableProgramGroupPage=yes
 
 ; Single flat Start Menu shortcut (no group folder).
 ; No Startup shortcut is created.
 UninstallDisplayIcon={app}\muaman_store.exe
-UninstallDisplayName=muaman_store
+UninstallDisplayName=I-TECH للتكنولوجيا
 
 ; No restart requests, no close-app interference, no run-after-install.
 CloseApplications=no
@@ -74,7 +74,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-; The 13 canonical release files, mapped explicitly from the verified staging
+; The 16 canonical release files, mapped explicitly from the verified staging
 ; root. No wildcards: the packaging entrypoint rejects any staging tree that
 ; does not exactly match the legal release manifest.
 Source: "{#AppSourceDir}\muaman_store.exe"; DestDir: "{app}"; Flags: ignoreversion
@@ -97,8 +97,8 @@ Source: "{#AppSourceDir}\data\flutter_assets\shaders\ink_sparkle.frag"; DestDir:
 [Icons]
 ; Inno Setup appends the .lnk extension itself, so the names are given WITHOUT
 ; an extension (specifying one explicitly produces "<name>.lnk.lnk").
-Name: "{autoprograms}\muaman_store"; Filename: "{app}\muaman_store.exe"; WorkingDir: "{app}"
-Name: "{autodesktop}\muaman_store"; Filename: "{app}\muaman_store.exe"; WorkingDir: "{app}"; Tasks: desktopicon
+Name: "{autoprograms}\I-TECH للتكنولوجيا"; Filename: "{app}\muaman_store.exe"; WorkingDir: "{app}"
+Name: "{autodesktop}\I-TECH للتكنولوجيا"; Filename: "{app}\muaman_store.exe"; WorkingDir: "{app}"; Tasks: desktopicon
 
 ; No [Run] section: the application is never launched automatically at install time.
 

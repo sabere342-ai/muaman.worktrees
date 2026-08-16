@@ -54,7 +54,7 @@ param(
   [string]$EvidenceDir = '',
   [string]$RunTag = '',
   [string]$PackageDirName = 'Muaman-1.0.0-Windows',
-  [string]$SetupExeName = 'Muaman-Setup.exe',
+  [string]$SetupExeName = 'I-TECH-Setup.exe',
   [string]$ZipName = 'Muaman-1.0.0-Windows.zip',
   [string]$ConstantZipTimestamp = '2024-01-01T00:00:00'
 )
@@ -68,8 +68,8 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem | Out-Null
 # ---------------------------------------------------------------------------
 # frozen, previously accepted installer identity (governing)
 # ---------------------------------------------------------------------------
-$ExpectedInstallerSha256 = '05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB'
-$ExpectedInstallerSize = [int64]12528766
+$ExpectedInstallerSha256 = '94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831'
+$ExpectedInstallerSize = [int64]13223003
 $ExpectedZipEntryCount = 3
 
 # ---------------------------------------------------------------------------

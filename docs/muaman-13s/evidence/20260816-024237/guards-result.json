@@ -1,0 +1,150 @@
+{
+    "allPass":  true,
+    "failedGates":  [
+
+                    ],
+    "gateCount":  20,
+    "gates":  {
+                  "S01-independence":  {
+                                           "gate":  "S01-independence",
+                                           "pass":  true,
+                                           "detail":  "worker is the fresh standard user, not elevated, repo-path isolated, restricted PATH",
+                                           "expected":  "user=CodexMuaman13S admin=no repoHits=0 sid=S-1-5-21-2052787611-3211508837-1074070108-1029",
+                                           "actual":  "user=Islam\\CodexMuaman13S admin=False repoHits=0 sid=S-1-5-21-2052787611-3211508837-1074070108-1029 elevAdmins=False"
+                                       },
+                  "S02-received-delivery":  {
+                                                "gate":  "S02-received-delivery",
+                                                "pass":  true,
+                                                "detail":  "consumer ZIP copy sha256+size match official; byte-preserved receive",
+                                                "expected":  "4258E9105116D0D73281C4CD5027ECC478517D662FCA3E6D70F25418E7204C8A / 12665973",
+                                                "actual":  "sha=4258E9105116D0D73281C4CD5027ECC478517D662FCA3E6D70F25418E7204C8A size=12665973 copyPreserved=True"
+                                            },
+                  "S03-verify-executed":  {
+                                              "gate":  "S03-verify-executed",
+                                              "pass":  true,
+                                              "detail":  "recipient-side verify step recorded and passed",
+                                              "expected":  "pass=true",
+                                              "actual":  "step=S1-verify-received-zip pass=True"
+                                          },
+                  "S04-extract":  {
+                                      "gate":  "S04-extract",
+                                      "pass":  true,
+                                      "detail":  "archive extracted into consumer workspace, correct top-level dir",
+                                      "expected":  "Muaman-1.0.0-Windows",
+                                      "actual":  "Muaman-1.0.0-Windows"
+                                  },
+                  "S05-exact-three-files":  {
+                                                "gate":  "S05-exact-three-files",
+                                                "pass":  true,
+                                                "detail":  "extraction contains exactly the three documented delivery files",
+                                                "expected":  "I-TECH-Setup.exe, README.txt, SHA256SUMS.txt",
+                                                "actual":  "I-TECH-Setup.exe, README.txt, SHA256SUMS.txt"
+                                            },
+                  "S06-installer-identity":  {
+                                                 "gate":  "S06-installer-identity",
+                                                 "pass":  true,
+                                                 "detail":  "extracted I-TECH-Setup.exe identity",
+                                                 "expected":  "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831 / 13223003",
+                                                 "actual":  "sha=94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831 size=13223003"
+                                             },
+                  "S07-readme-identity":  {
+                                              "gate":  "S07-readme-identity",
+                                              "pass":  true,
+                                              "detail":  "extracted README.txt identity",
+                                              "expected":  "13AA05AB795D9C47C3071B29CB1EF867BAC022F73D436A83B7EFE38625D877B2 / 2313",
+                                              "actual":  "sha=13AA05AB795D9C47C3071B29CB1EF867BAC022F73D436A83B7EFE38625D877B2 size=2313"
+                                          },
+                  "S08-manifest-identity":  {
+                                                "gate":  "S08-manifest-identity",
+                                                "pass":  true,
+                                                "detail":  "extracted SHA256SUMS.txt identity",
+                                                "expected":  "B853725F302F5B0053E75B8D3A781A289A0891433C70300C448F907E6C07C573 / 84",
+                                                "actual":  "sha=B853725F302F5B0053E75B8D3A781A289A0891433C70300C448F907E6C07C573 size=84"
+                                            },
+                  "S09-readme-content":  {
+                                             "gate":  "S09-readme-content",
+                                             "pass":  true,
+                                             "detail":  "README decodes as UTF-8, no dev/placeholder/secret sentinels, contains product+version",
+                                             "expected":  "forbidden=0 missing=0",
+                                             "actual":  "forbidden=0 missing=0 bytes=2313"
+                                         },
+                  "S10-manifest-crosscheck":  {
+                                                  "gate":  "S10-manifest-crosscheck",
+                                                  "pass":  true,
+                                                  "detail":  "SHA256SUMS entry matches actual extracted installer hash",
+                                                  "expected":  "all entries match",
+                                                  "actual":  "entries=1 allPass=True"
+                                              },
+                  "S11-install-from-delivery":  {
+                                                    "gate":  "S11-install-from-delivery",
+                                                    "pass":  true,
+                                                    "detail":  "silent install from extracted delivery only; exit 0; installed",
+                                                    "expected":  "exit=0 timeout=no within-extract=yes sha=94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
+                                                    "actual":  "exit=0 timeout=False within=True sha=94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831 exe=True"
+                                                },
+                  "S12-installed-payload":  {
+                                                "gate":  "S12-installed-payload",
+                                                "pass":  true,
+                                                "detail":  "13-file payload matches manifest; exe + flutter dll hashes; registration present",
+                                                "expected":  "payload=13 allMatch=yes unexpected=0 reg=yes",
+                                                "actual":  "payload=16 allMatch=True unexpected=0 reg=True"
+                                            },
+                  "S13-first-launch":  {
+                                           "gate":  "S13-first-launch",
+                                           "pass":  true,
+                                           "detail":  "main window appeared, process alive, module is installed exe",
+                                           "expected":  "window=yes alive=yes module=installed-exe",
+                                           "actual":  "window=True alive=True module=True sec=45.5"
+                                       },
+                  "S14-setup-login-dashboard":  {
+                                                    "gate":  "S14-setup-login-dashboard",
+                                                    "pass":  true,
+                                                    "detail":  "first-owner setup completed; login reached; dashboard reached",
+                                                    "expected":  "setup=yes login=yes dashboard=yes",
+                                                    "actual":  "setup=True login=True dashboard=True"
+                                                },
+                  "S15-business-db":  {
+                                          "gate":  "S15-business-db",
+                                          "pass":  true,
+                                          "detail":  "SQLite DB created with users table and owner username",
+                                          "expected":  "exists=yes sqlite=yes users=yes owner=yes",
+                                          "actual":  "exists=True sqlite=True tables=9 owner=True"
+                                      },
+                  "S16-clean-close":  {
+                                          "gate":  "S16-clean-close",
+                                          "pass":  true,
+                                          "detail":  "WM_CLOSE exited, no orphans, DB retained",
+                                          "expected":  "exited=yes orphans=0 db=yes",
+                                          "actual":  "exited=True orphans=0 db=True"
+                                      },
+                  "S17-relaunch-persists":  {
+                                                "gate":  "S17-relaunch-persists",
+                                                "pass":  true,
+                                                "detail":  "relaunch shows login directly (no setup); login -\u003e dashboard works",
+                                                "expected":  "setupNever=yes login=yes dashboard=yes",
+                                                "actual":  "setupNever=True login=True dashboard=True"
+                                            },
+                  "S18-final-state":  {
+                                          "gate":  "S18-final-state",
+                                          "pass":  true,
+                                          "detail":  "final close clean; DB persisted; all worker steps passed; no secrets in evidence",
+                                          "expected":  "close=yes orphans=0 db=yes allPassed=yes secrets=0",
+                                          "actual":  "close=True orphans=0 db=True allPassed=True secrets=0"
+                                      },
+                  "S19-repo-delivery-identity":  {
+                                                     "gate":  "S19-repo-delivery-identity",
+                                                     "pass":  true,
+                                                     "detail":  "repository delivery ZIP matches official identity",
+                                                     "expected":  "4258E9105116D0D73281C4CD5027ECC478517D662FCA3E6D70F25418E7204C8A / 12665973",
+                                                     "actual":  "sha=4258E9105116D0D73281C4CD5027ECC478517D662FCA3E6D70F25418E7204C8A size=12665973"
+                                                 },
+                  "S20-git-contract":  {
+                                           "gate":  "S20-git-contract",
+                                           "pass":  true,
+                                           "detail":  "worktree clean at expected HEAD with allowed scope only",
+                                           "expected":  "clean=yes head=fdf2d33762635dc89e5fb0cffd765649c402e078",
+                                           "actual":  "clean=True head=fdf2d33762635dc89e5fb0cffd765649c402e078"
+                                       }
+              },
+    "computedAtUtc":  "2026-08-15T23:43:55.487Z"
+}

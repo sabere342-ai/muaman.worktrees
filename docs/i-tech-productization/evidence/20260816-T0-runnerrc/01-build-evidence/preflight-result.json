@@ -1,0 +1,10 @@
+﻿{
+    "runId":  "I-TECH-T0-RUNNERRC-REBUILD",
+    "capturedAtUtc":  "2026-08-16T03:17:03.859Z",
+    "stage":  "entrypoint-first-gate",
+    "preflightScript":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\tools\\muaman13j\\check_filetracker_state.ps1",
+    "msBuildBinDir":  "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\MSBuild\\Current\\Bin\\amd64",
+    "log":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\evidence\\00-entrypoint-preflight.log",
+    "exitCode":  0,
+    "status":  "PASS"
+}

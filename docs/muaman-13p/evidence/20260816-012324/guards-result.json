@@ -1,0 +1,74 @@
+{
+    "phase":  "MUAMAN-13P",
+    "capturedAtUtc":  "2026-08-15T22:24:40.790Z",
+    "allPass":  false,
+    "gateCount":  16,
+    "gates":  {
+                  "P1":  {
+                             "pass":  true,
+                             "reason":  "fresh independent standard user context (SID S-1-5-21-2052787611-3211508837-1074070108-1027, groups=, integrity=Medium Mandatory Level, no admin privileges)"
+                         },
+                  "P2":  {
+                             "pass":  true,
+                             "reason":  "frozen installer identity (from run evidence) sha=94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831 size=13223003 expected=94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831/13223003"
+                         },
+                  "P3":  {
+                             "pass":  false,
+                             "reason":  "evidence missing: 07-install-run.json"
+                         },
+                  "P4":  {
+                             "pass":  false,
+                             "reason":  "evidence missing: 07-install-run.json"
+                         },
+                  "P5":  {
+                             "pass":  false,
+                             "reason":  "evidence missing: 09-installed-payload.json"
+                         },
+                  "P6":  {
+                             "pass":  false,
+                             "reason":  "evidence missing: 08-install-registry.json"
+                         },
+                  "P7":  {
+                             "pass":  false,
+                             "reason":  "evidence missing: 10-launch1-window.json"
+                         },
+                  "P8":  {
+                             "pass":  false,
+                             "reason":  "evidence missing: 11-launch1-setup.json"
+                         },
+                  "P9":  {
+                             "pass":  false,
+                             "reason":  "evidence missing: 10-launch1-window.json"
+                         },
+                  "P10":  {
+                              "pass":  false,
+                              "reason":  "evidence missing: 16-data-locations.json"
+                          },
+                  "P11":  {
+                              "pass":  false,
+                              "reason":  "evidence missing: 17-close1.json"
+                          },
+                  "P12":  {
+                              "pass":  false,
+                              "reason":  "evidence missing: 18-launch2.json"
+                          },
+                  "P13":  {
+                              "pass":  false,
+                              "reason":  "evidence missing: 19-uninstall-registration.json"
+                          },
+                  "P14":  {
+                              "pass":  true,
+                              "reason":  "analyzeClean=True testPass=True scopeOk=True gitViolations="
+                          },
+                  "P15":  {
+                              "pass":  false,
+                              "reason":  "setup screenshot missing from evidence"
+                          },
+                  "P16":  {
+                              "pass":  true,
+                              "reason":  "row-target/focus/value/post-secret unit gates (resolve=True ordered=True uniqueUser=True sharedPw=True failClosed=True/True focus=True/False/True/False band=True distinct=True leakDetect=True secretOk=True plainFail=True probeLeak=True missingUser=True contam=True evidenceSecretScan=True leakFiles=0)"
+                          }
+              },
+    "evidenceRoot":  "C:\\mu13o-acceptance\\m13p\\run\\20260816-012324\\evidence",
+    "worktreePath":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0"
+}

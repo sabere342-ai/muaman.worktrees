@@ -1,0 +1,30 @@
+﻿{
+    "capturedAtUtc":  "2026-08-16T03:19:49.726Z",
+    "releaseDir":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\app\\build\\windows\\x64\\runner\\Release",
+    "legalManifest":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\docs\\windows-delivery-refresh\\evidence\\legal\\release-manifest.json",
+    "fileCountNew":  16,
+    "fileCountLegal":  16,
+    "totalBytesNew":  35754065,
+    "totalBytesLegal":  35754065,
+    "expectedFileCount":  16,
+    "expectedTotalBytes":  35754065,
+    "fileCountMatch":  true,
+    "totalBytesMatch":  true,
+    "crossHashNew":  "3A8CFA42656EABC8B06EEF835FB9222F95006E5B490D9B837AE76673A87794B0",
+    "crossHashLegal":  "3A8CFA42656EABC8B06EEF835FB9222F95006E5B490D9B837AE76673A87794B0",
+    "crossHashExpected":  "3A8CFA42656EABC8B06EEF835FB9222F95006E5B490D9B837AE76673A87794B0",
+    "crossHashMatch":  true,
+    "diffCount":  0,
+    "diffs":  [
+
+              ],
+    "onlyInLegalCount":  0,
+    "onlyInLegal":  [
+
+                    ],
+    "onlyInNewCount":  0,
+    "onlyInNew":  [
+
+                  ],
+    "identical":  true
+}

@@ -281,10 +281,21 @@ try {
 try {
     $gitViolations = $null
     $scopeOk = Test-GitCleanScope -RepoPath $WorktreePath -ExpectedHead $cfg.baselineCommit -AllowedPrefixes $cfg.allowedChangedPrefixes -Violations ([ref]$gitViolations)
-    $prodDiff = & git -C $WorktreePath diff --name-only $cfg.baselineCommit 2>$null
-    $prodViolations = @($prodDiff | Where-Object {
-        $_ -notmatch '^tools/muaman13q/' -and $_ -notmatch '^docs/muaman-13q/' -and $_ -ne ''
-    })
+    # Suppress native stderr via cmd: PowerShell 5.1 converts git warnings on
+    # stderr (e.g. CRLF normalization notes) into terminating errors when
+    # $ErrorActionPreference=Stop, regardless of PS-level redirection.
+    $prodDiff = @(& cmd /c "git -C `"$WorktreePath`" diff --name-only $($cfg.baselineCommit) 2>nul")
+    # Any path outside the governed campaign scope (cfg.allowedChangedPrefixes)
+    # is a production-scope violation; changes inside the allowed prefixes are
+    # the governed acceptance/tooling state of this campaign worktree.
+    $prodViolations = @()
+    foreach ($line in $prodDiff) {
+        $allowed = $false
+        foreach ($p in $cfg.allowedChangedPrefixes) {
+            if ($line.StartsWith($p, [System.StringComparison]::Ordinal)) { $allowed = $true; break }
+        }
+        if (-not $allowed -and $line -ne '') { $prodViolations += $line }
+    }
     $q18 = $scopeOk -and ($prodViolations.Count -eq 0)
     Add-Gate 'Q18' $q18 "repository integrity at gate time: scopeOk=$scopeOk prodDiffViolations=$($prodViolations.Count) ($($prodViolations -join ';'))"
 } catch { Add-Gate 'Q18' $false $_.Exception.Message }

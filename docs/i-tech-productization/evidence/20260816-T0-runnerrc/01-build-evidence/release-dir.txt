@@ -1,0 +1,1 @@
+﻿C:\dev\muaman.worktrees\i-tech-productization-t0\app\build\windows\x64\runner\Release

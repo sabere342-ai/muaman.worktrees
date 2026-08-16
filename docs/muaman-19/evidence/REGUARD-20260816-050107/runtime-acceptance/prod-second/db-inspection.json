@@ -1,0 +1,36 @@
+{
+  "database": "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\m19a-acceptance\\prod2\\20260816-050107\\.dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db",
+  "inspectedAtUtc": "2026-08-16T02:08:44.083062+00:00",
+  "integrity_check": "ok",
+  "row_counts": {
+    "app_settings": 4,
+    "expenses": 0,
+    "import_batches": 0,
+    "inventory_count": 0,
+    "invoices": 0,
+    "products": 0,
+    "returns": 0,
+    "role_permissions": 0,
+    "sales": 0,
+    "users": 0
+  },
+  "first_product_samples": [],
+  "app_settings": [
+    [
+      "buttonStyle",
+      "filled"
+    ],
+    [
+      "supportPhone",
+      "+201014900211"
+    ],
+    [
+      "defaultCustomerName",
+      "عميل نقدي"
+    ],
+    [
+      "licenseStatus",
+      "inactive"
+    ]
+  ]
+}

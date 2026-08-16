@@ -1,0 +1,55 @@
+{
+    "expectedRetainedUserData":  [
+                                     {
+                                         "path":  ".dart_tool/sqflite_common_ffi/databases/muaman_store.db",
+                                         "classification":  "expected-retained-user-data",
+                                         "detail":  "business SQLite database (installer preserves user data; {app} removed only when empty)"
+                                     }
+                                 ],
+    "osAccountPicturePlaceholder":  {
+                                        "path":  "C:\\ProgramData\\Microsoft\\User Account Pictures\\CodexMuaman13Q.dat",
+                                        "exists":  true,
+                                        "classifiedAs":  "os-account-picture-placeholder"
+                                    },
+    "unknownInstallerLeftovers":  [
+
+                                  ],
+    "localAppDataDelta":  {
+                              "added":  [
+                                            "Programs\\muaman_store\\.dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db",
+                                            "Temp\\is-MT72IFAIR8-uninstall.tmp\\_unins.tmp",
+                                            "Temp\\is-MT72IFAIR8-uninstall.tmp\\_unins-done.tmp"
+                                        ],
+                              "removed":  [
+                                              "Temp\\is-KX8CBM5JT0-uninstall.tmp\\_unins.tmp",
+                                              "Temp\\is-KX8CBM5JT0-uninstall.tmp\\_unins-done.tmp"
+                                          ],
+                              "changed":  {
+
+                                          },
+                              "unchangedCount":  47
+                          },
+    "appDataDelta":  {
+                         "added":  {
+
+                                   },
+                         "removed":  {
+
+                                     },
+                         "changed":  {
+
+                                     },
+                         "unchangedCount":  31
+                     },
+    "deltaChurnInformational":  [
+                                    "Temp\\is-MT72IFAIR8-uninstall.tmp\\_unins.tmp",
+                                    "Temp\\is-MT72IFAIR8-uninstall.tmp\\_unins-done.tmp"
+                                ],
+    "hklmMuamanHits":  [
+
+                       ],
+    "programDataMuamanHitsExcludingAccountPictures":  [
+
+                                                      ],
+    "classificationComplete":  true
+}

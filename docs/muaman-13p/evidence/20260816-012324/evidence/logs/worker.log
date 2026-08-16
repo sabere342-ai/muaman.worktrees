@@ -1,0 +1,5 @@
+﻿2026-08-15T22:23:27.360Z RUN BEGIN runId=20260816-012324 user=Islam\CodexMuaman13P installDir=C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store
+2026-08-15T22:23:27.932Z [STEP:OK] identity
+2026-08-15T22:23:28.700Z [STEP:OK] toolIsolation
+2026-08-15T22:23:28.788Z [STEP:FAIL] accountReset :: The process cannot access the file 'muaman_store.db' because it is being used by another process.
+2026-08-15T22:23:28.816Z RUN FAILED fatal=The process cannot access the file 'muaman_store.db' because it is being used by another process.

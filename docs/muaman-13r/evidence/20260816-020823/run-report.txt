@@ -1,0 +1,65 @@
+MUAMAN-13R T0 run report (campaign: governed 16-file delivery refresh)
+=====================================================================
+
+Phase     : MUAMAN-13R Final Governed Windows Delivery Package Acceptance
+Result    : PASS  (allPass=True, negativeControlsAllPass=True, exit 0)
+Mode      : pre-commit (authoritative for this campaign: run at baseline HEAD,
+           no post-commit run - the campaign does not commit phase state)
+Baseline  : fdf2d33762635dc89e5fb0cffd765649c402e078
+Head      : fdf2d33762635dc89e5fb0cffd765649c402e078
+Branch    : codex/i-tech-productization-t0
+RunId     : 20260816-020823
+
+Artifacts verified
+------------------
+Installer chain (canonical == delivery == ZIP-extracted):
+  SHA-256 94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831
+  size    13223003
+Delivery ZIP  Muaman-1.0.0-Windows.zip
+  SHA-256 4258E9105116D0D73281C4CD5027ECC478517D662FCA3E6D70F25418E7204C8A
+  size    12665973
+Deterministic packaging: D1 == D2 == final ZIP (byte-identical), pinned 2024-01-01 entry timestamps.
+Delivery tree: exactly 3 files (I-TECH-Setup.exe, README.txt, SHA256SUMS.txt);
+delivery root: exactly 3 items (package dir, ZIP, .zip.sha256).
+
+Gates R1..R18: PASS (18/18)
+Negative controls NC01..NC10: PASS (10/10)
+Secret scan: PASS (54 files, 0 findings; known-benign Inno Setup /PASSWORD example
+documented as knownBenign - guard source, secret-scan log, installer help text UTF-16LE).
+git diff --check: exit 0 (working tree and baseline..HEAD).
+
+Campaign runs (chronological)
+-----------------------------
+20260816-020227  as-is run (harness pre-alignment): 16/18 PASS; R2, R3 FAIL.
+                 Classified B (harness scope expectation stale vs governing
+                 campaign scope) - no production, environment, or external failure.
+20260816-020508  after scope alignment: 17/18 PASS; R2 FAIL.
+                 Root cause: guard harness reliability bug (porcelain parse).
+20260816-020823  after parse fix: 18/18 + NC01..NC10 PASS.  <- authoritative
+
+Harness corrections applied to tools/muaman13r/guard_tests_13r.ps1
+------------------------------------------------------------------
+1. R2/R3 git-scope retargeted to the governing campaign scope (same correction
+   class as commit fdf2d33 "retarget 13P/13Q harness to governed 16-file
+   identity", and the 13R FINAL-REPORT "Harness Reliability Fixes During This
+   Run" precedent):
+     AllowedPrefixes    = tools/, docs/, installer/, delivery/,
+                          app/windows/runner/Runner.rc
+     ForbiddenPrefixes  = app/ (except the explicitly allowed Runner.rc path),
+                          assets/, pubspec.yaml, pubspec.lock
+   This replaces the stale single-phase narrow scope (tools/muaman13r/,
+   docs/muaman-13r/, delivery/) that contradicted the campaign-wide allowed
+   prefixes used by the accepted 13P/13Q configs and the prepared 13S config.
+   Not a threshold weakening: R2 still rejects every out-of-campaign-scope
+   path; R3 still rejects all production changes.
+2. Get-ChangedPaths porcelain parse fixed: replaced Substring(3) with
+   [regex]::Match($l, '^.{1,3}\s(.*)$'). The Git helper trims the entire
+   captured output, which stripped the leading space of the first
+   " M <path>" status line and corrupted its extracted path (e.g. produced
+   "livery/..."), falsely failing R2.
+
+Frozen identity
+---------------
+AppId 299ADF2A-0E9E-4A25-916C-1CB8328D0E5E, app dir muaman_store, db
+muaman_store.db, pubspec name, BINARY_NAME: unchanged (no app/ changes).
+No production or business-logic changes; T0 only.

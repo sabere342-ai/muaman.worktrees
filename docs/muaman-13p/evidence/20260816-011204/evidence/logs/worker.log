@@ -1,0 +1,10 @@
+﻿2026-08-15T22:12:08.288Z RUN BEGIN runId=20260816-011204 user=Islam\CodexMuaman13P installDir=C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store
+2026-08-15T22:12:08.818Z [STEP:OK] identity
+2026-08-15T22:12:09.556Z [STEP:OK] toolIsolation
+2026-08-15T22:12:09.637Z [STEP:OK] prestate
+2026-08-15T22:12:11.844Z [STEP:OK] install
+2026-08-15T22:12:12.318Z [STEP:OK] installedState
+2026-08-15T22:12:12.817Z [STEP:OK] installedPayload
+2026-08-15T22:12:14.461Z [STEP:OK] launch1
+2026-08-15T22:12:15.889Z [STEP:FAIL] launch1Setup :: first-owner setup screen not recognized via OCR
+2026-08-15T22:12:15.902Z RUN FAILED fatal=first-owner setup screen not recognized via OCR

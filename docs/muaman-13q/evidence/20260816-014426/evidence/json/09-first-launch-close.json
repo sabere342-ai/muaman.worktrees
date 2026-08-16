@@ -1,0 +1,12 @@
+{
+    "close":  {
+                  "method":  "WM_CLOSE",
+                  "exited":  true,
+                  "exitCode":  0,
+                  "seconds":  0.3
+              },
+    "dbStillPresentAfterClose":  true,
+    "orphanProcessIds":  [
+
+                         ]
+}

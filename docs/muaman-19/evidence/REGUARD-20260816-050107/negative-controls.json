@@ -1,0 +1,102 @@
+{
+  "runId": "REGUARD-20260816-050107",
+  "capturedAtUtc": "2026-08-16T02:09:09.111434+00:00",
+  "controls": [
+    {
+      "id": "NC1-no-demo-marker-in-prod-db",
+      "expected": "fresh prod DB products == 0",
+      "actual": "products=0",
+      "pass": true,
+      "detail": "fresh production DB has products=0; integrity=ok"
+    },
+    {
+      "id": "NC2-seed-flag-absent-in-prod-invocation",
+      "expected": "no MUAMAN_SEED_DEMO reference in tools/release build entrypoints",
+      "actual": "seedDefineRefs=0",
+      "pass": true,
+      "detail": "canonical entrypoint tools/release/build_windows_release.ps1 and whole tools/release dir contain no MUAMAN_SEED_DEMO / --dart-define; bool.fromEnvironment defaults to false -> production path never seeds."
+    },
+    {
+      "id": "NC3-marker-absent-in-prod-artifacts",
+      "expected": "prod app.so and prod exe have 0 barcode hits and 0 seed-define refs",
+      "actual": "app.so hits=0, exe hits=0, define refs app.so=0",
+      "pass": true,
+      "detail": "production data/app.so 9290656 bytes and muaman_store.exe 92160 bytes carry no demo barcode; demo dataset is AOT-tree-shaken out of the define-free production build."
+    },
+    {
+      "id": "NC4-seeded-dataset-absent-in-prod-db",
+      "expected": "all business tables empty in fresh prod DB",
+      "actual": {
+        "products": 0,
+        "sales": 0,
+        "returns": 0,
+        "expenses": 0,
+        "invoices": 0,
+        "import_batches": 0,
+        "inventory_count": 0,
+        "users": 0,
+        "role_permissions": 0
+      },
+      "pass": true,
+      "detail": "business tables all 0 (products=0, sales=0, returns=0, expenses=0); app_settings=4 runtime defaults only."
+    },
+    {
+      "id": "NC5-prod-seed-db-isolation",
+      "expected": "prod DB path != seed DB path",
+      "actual": {
+        "prodDb": "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\m19a-acceptance\\prod\\20260816-050107\\.dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db",
+        "seedDb": "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\m19a-acceptance\\seed\\20260816-050107\\.dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db"
+      },
+      "pass": true,
+      "detail": "each runtime run staged an isolated copy of the Release tree under a distinct stage dir (m19a-acceptance\\prod vs m19a-acceptance\\seed), stripped copied .dart_tool, and created a fresh DB via onCreate; the two DBs are distinct files at distinct locations."
+    },
+    {
+      "id": "NC6-stale-evidence-detection",
+      "expected": "this run's DBs are freshly created and evidence is not stale/historical",
+      "actual": {
+        "prodStatus": "status=DB_CREATED_AND_STOPPED",
+        "seedStatus": "status=DB_CREATED_AND_STOPPED"
+      },
+      "pass": true,
+      "detail": "harness removes the stage dir before each run (no pre-existing DB is reused) and this evidence directory (REGUARD-20260816-050107) is unique; historical MUAMAN-19 evidence lives under docs/muaman-19/evidence/ root, not here."
+    },
+    {
+      "id": "NC7-seed-marker-only-in-explicit-seed-build",
+      "expected": "seed build differs from prod build; only seed app.so carries the marker",
+      "actual": {
+        "prodAppSoSize": 9290656,
+        "seedAppSoSize": 9372576,
+        "prodAppSoHits": 0,
+        "seedAppSoHits": 1
+      },
+      "pass": true,
+      "detail": "identical committed app source built WITHOUT the define yields a 9,290,656-byte marker-free app.so; built WITH MUAMAN_SEED_DEMO=true yields a 9,372,576-byte app.so with 1 barcode occurrence. Explicit opt-in only."
+    },
+    {
+      "id": "NC8-installer-payload-clean",
+      "expected": "current installer == 13O-accepted installer; its payload is the 16 canonical production files (marker-free app.so)",
+      "actual": {
+        "currentInstallerSha256": "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
+        "m13oAcceptedInstallerSha256": "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
+        "installedAppSoSha256": "86369AA8DFD530AD15C90F394FFB7D9F29A5AA67AB06A6C7F5A42516B212ED93",
+        "installedAppSoSize": 9290656,
+        "zipMarkerHits": 0,
+        "installerRawMarkerHits": 0
+      },
+      "pass": true,
+      "detail": "the current I-TECH-Setup.exe is byte-identical to the MUAMAN-13O acceptance installer whose real install was verified to place exactly the 16 canonical production files (payload fileCount=16, unexpectedFiles=[]), including the marker-free production data/app.so; the installer script maps exactly those 16 files and ships no .dart_tool / no DB; zip and raw installer scans show 0 demo-barcode hits."
+    },
+    {
+      "id": "NC9-repeated-fresh-prod-run-clean",
+      "expected": "second fresh prod run also clean (products==0)",
+      "actual": "second prod run products==0",
+      "pass": true,
+      "detail": "second fresh production run products=0, sales=0"
+    }
+  ],
+  "total": 9,
+  "passed": 9,
+  "failed": 0,
+  "allPass": true,
+  "status": "PASS"
+}

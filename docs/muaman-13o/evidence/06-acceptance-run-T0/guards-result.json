@@ -1,0 +1,14 @@
+{
+    "run":  {
+                "startedAtUtc":  "2026-08-15T22:09:21.883Z",
+                "finishedAtUtc":  "2026-08-15T22:09:23.149Z",
+                "exitCode":  0
+            },
+    "guardsOutput":  "C:\\mu13o-acceptance\\T0-20260815-e\\evidence\\guards-verdicts.json",
+    "failureReason":  null,
+    "guardsExitCode":  0,
+    "passed":  true,
+    "phase":  "MUAMAN-13O",
+    "mode":  "Guards",
+    "schemaVersion":  "1.0"
+}

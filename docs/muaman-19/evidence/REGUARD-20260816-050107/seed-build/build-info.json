@@ -1,0 +1,18 @@
+{
+  "runId": "REGUARD-20260816-050107",
+  "build": "flutter build windows --release --dart-define=MUAMAN_SEED_DEMO=true",
+  "worktree": "muaman-19-safe-demo-data-commissioning-clean-start",
+  "headCommit": "697a9f974cf7433dac30fe4f09940076d923fa2f",
+  "capturedAtUtc": "2026-08-16T02:06:44.053923+00:00",
+  "exe": {
+    "sha256": "9FF10A35BA134412E9070D262D8E723B5F9B56B614ED9998CFF75297A602AC2A",
+    "sizeBytes": 91648
+  },
+  "appSo": {
+    "sha256": "96D45E7CB97D69D80563FF7D5047DBF7C1D8C176F1355DC953FE4B3FCBCEAC73",
+    "sizeBytes": 9372576
+  },
+  "barcodeMarker": "2000000000001",
+  "asciiHits": 1,
+  "utf8Hits": 1
+}

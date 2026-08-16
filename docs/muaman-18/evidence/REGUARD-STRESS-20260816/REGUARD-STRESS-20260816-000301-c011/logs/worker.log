@@ -1,0 +1,34 @@
+﻿2026-08-16T00:49:55.023Z runId=REGUARD-STRESS-20260816-000301-c011 metadata saved
+2026-08-16T00:49:55.081Z STEP S01-launch start
+2026-08-16T00:50:01.889Z STEP S01-launch PASS
+2026-08-16T00:50:01.898Z STEP S02-setup-owner start
+2026-08-16T00:50:03.551Z Fill-Field setup-name try=1 row=left:1320 right:1402 top:377 bottom:401
+2026-08-16T00:50:11.919Z Fill-Field setup-user try=1 row=left:1243 right:1404 top:454 bottom:481
+2026-08-16T00:50:17.270Z Fill-Field setup-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-16T00:50:22.266Z Fill-Field setup-confirm try=1 row=left:1225 right:1402 top:613 bottom:640
+2026-08-16T00:50:27.409Z Click-OcrExact setup-b try=1 words=27 btn=True {part=[إنشاء] hits=2}
+2026-08-16T00:50:29.814Z STEP S02-setup-owner PASS
+2026-08-16T00:50:29.819Z STEP S03-login-owner start
+2026-08-16T00:50:31.038Z Fill-Field login-user try=1 row=left:1243 right:1402 top:457 bottom:481
+2026-08-16T00:50:36.123Z Fill-Field login-pass try=1 row=left:1272 right:1401 top:533 bottom:559
+2026-08-16T00:50:40.877Z Click-OcrExact login-b try=1 words=15 btn=True {part=[تسجيل] hits=2}
+2026-08-16T00:50:44.171Z STEP S03-login-owner PASS
+2026-08-16T00:50:44.179Z STEP S04-add-product start
+2026-08-16T00:50:45.845Z Click-NavTileByRank nav-inv rank=1 try=1 word='المخدن' screen=(1150,852)
+2026-08-16T00:50:54.844Z Fill-Field prod-name try=1 row=left:787 right:878 top:351 bottom:373
+2026-08-16T00:51:00.386Z Fill-Field prod-cost try=1 row=left:781 right:879 top:426 bottom:446
+2026-08-16T00:51:05.960Z Fill-Field prod-qty try=1 row=left:777 right:880 top:471 bottom:486
+2026-08-16T00:51:14.228Z STEP S04-add-product PASS
+2026-08-16T00:51:14.233Z STEP S05-create-sale start
+2026-08-16T00:51:15.628Z Click-NavTileByRank nav-sales rank=2 try=1 word='المبيعات' screen=(902,851)
+2026-08-16T00:51:19.864Z Click-OcrCropped fab-inv try=1 hit='جديدة' imgX=75 imgY=716 screen=(105,746) exact=True
+2026-08-16T00:51:37.531Z Fill-FloatingLabelField sale-customer try=1 probe=17W NOT in band [571,646)
+2026-08-16T00:51:46.850Z Click-OcrExact save-inv try=1 words=54 btn=True {part=[حفظ] hits=1}
+2026-08-16T00:51:49.571Z STEP S05-create-sale PASS
+2026-08-16T00:51:49.581Z STEP S06-save-pdf start
+2026-08-16T00:51:51.106Z Click-OcrExact save-pdf try=1 words=38 btn=True {part=[حفظ] hits=1}
+2026-08-16T00:52:13.185Z STEP S06-save-pdf PASS
+2026-08-16T00:52:13.189Z STEP S07-open-pdf start
+2026-08-16T00:52:46.829Z STEP S07-open-pdf PASS
+2026-08-16T00:52:46.835Z STEP S08-print-dialog start
+2026-08-16T00:52:48.333Z Click-OcrExact print try=1 words=38 btn=True {part=[طباعة] hits=1}

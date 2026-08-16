@@ -1,4 +1,4 @@
-# MUAMAN-13O deterministic Windows installer local acceptance harness.
+﻿# MUAMAN-13O deterministic Windows installer local acceptance harness.
 #
 # Reproducible, fail-closed driver for the full local acceptance sequence:
 #
@@ -52,7 +52,7 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem | Out-Null
 # frozen contract constants
 # ---------------------------------------------------------------------------
 $ExpectedInstallerSha      = ''   # filled from BuildA result at Compare/Install time
-$ExpectedZipSha256         = '57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008'
+$ExpectedZipSha256         = 'FDEE3AF699570561FC401F6FD908A0FF6EB78539F43EE072F45871F9485D2A3E'
 $ExpectedInstallerFilename = 'muaman-windows-installer.exe'
 $LaunchAliveSeconds        = 20
 $MainWindowTimeoutSeconds  = 30
@@ -109,14 +109,14 @@ function Test-PreExistingInstallation() {
   $installDirDefault = Join-Path $env:LOCALAPPDATA 'Programs\muaman_store'
   if (Test-Path -LiteralPath $installDirDefault) { $problems += "default install dir exists: $installDirDefault" }
 
-  $startMenuShortcut = Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\muaman_store.lnk'
+  $startMenuShortcut = Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\I-TECH للتكنولوجيا.lnk'
   if (Test-Path -LiteralPath $startMenuShortcut) { $problems += "start menu shortcut exists: $startMenuShortcut" }
 
   $uninstallKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall'
   if (Test-Path -LiteralPath $uninstallKey) {
     foreach ($child in Get-ChildItem -LiteralPath $uninstallKey -ErrorAction SilentlyContinue) {
       $disp = (Get-ItemProperty -LiteralPath $child.PSPath -ErrorAction SilentlyContinue).DisplayName
-      if ($disp -eq 'muaman_store') {
+      if ($disp -eq 'I-TECH للتكنولوجيا') {
         $problems += ("uninstall registry key present: {0}" -f $child.PSChildName)
       }
     }
@@ -277,8 +277,9 @@ function Invoke-Build([string]$label, [string]$workRoot, [string]$outDir, [strin
   )
   if ($KeepWorkingFiles) { $entryArgs += '-KeepWorkingFiles' }
 
-  & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $Entrypoint @entryArgs
+  $childOutput = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $Entrypoint @entryArgs
   $exit = $LASTEXITCODE
+  $childOutput | ForEach-Object { Write-Host $_ }
 
   $exists = Test-Path -LiteralPath $installerOut -PathType Leaf
   $pass = ($exit -eq 0) -and $exists
@@ -422,7 +423,7 @@ function Invoke-Install() {
   $unexpected = @($actualRels | Where-Object { $_ -notin (@($payloadFiles | ForEach-Object { $_.rel }) + $allowedExtras) })
   if ($unexpected.Count -gt 0) { $payloadIssues += ("unexpected-installed-files: " + ($unexpected -join ', ')) }
 
-  $startMenuShortcut = Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\muaman_store.lnk'
+  $startMenuShortcut = Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\I-TECH للتكنولوجيا.lnk'
   $shortcutPresent = Test-Path -LiteralPath $startMenuShortcut -PathType Leaf
 
   $uninstallKeyPresent = $false
@@ -431,7 +432,7 @@ function Invoke-Install() {
   if (Test-Path -LiteralPath $uninstallKey) {
     foreach ($child in Get-ChildItem -LiteralPath $uninstallKey -ErrorAction SilentlyContinue) {
       $p = Get-ItemProperty -LiteralPath $child.PSPath -ErrorAction SilentlyContinue
-      if ($p.DisplayName -eq 'muaman_store') {
+      if ($p.DisplayName -eq 'I-TECH للتكنولوجيا') {
         $uninstallKeyPresent = $true
         $uninstallKeyInstallLocation = [string]$p.InstallLocation
       }
@@ -619,20 +620,20 @@ function Invoke-Uninstall() {
     $installRootGone = -not (Test-Path -LiteralPath $InstallRoot)
   }
   $uninsGone = -not (Test-Path -LiteralPath (Join-Path $InstallRoot 'unins000.exe'))
-  $startMenuShortcutGone = -not (Test-Path -LiteralPath (Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\muaman_store.lnk'))
+  $startMenuShortcutGone = -not (Test-Path -LiteralPath (Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\I-TECH للتكنولوجيا.lnk'))
 
   $uninstallKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall'
   $registryGone = $true
   if (Test-Path -LiteralPath $uninstallKey) {
     foreach ($child in Get-ChildItem -LiteralPath $uninstallKey -ErrorAction SilentlyContinue) {
       $disp = (Get-ItemProperty -LiteralPath $child.PSPath -ErrorAction SilentlyContinue).DisplayName
-      if ($disp -eq 'muaman_store') { $registryGone = $false }
+      if ($disp -eq 'I-TECH للتكنولوجيا') { $registryGone = $false }
     }
   }
 
   $procRunning = $null -ne (Get-Process -Name 'muaman_store' -ErrorAction SilentlyContinue)
 
-  # All 13 shipped payload files must be gone.
+  # All 16 shipped payload files must be gone.
   $payloadAllGone = $true
   $payloadRemaining = @()
   foreach ($rel in $PayloadRels) {
@@ -694,9 +695,10 @@ function Invoke-Negative() {
   New-Item -ItemType Directory -Path (Join-Path $NegativeRoot 'evidence') -Force | Out-Null
 
   $packageOut = Join-Path $NegativeRoot 'package'
-  & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $RepoRoot 'tools\release\package_windows_release.ps1') `
+  $pkgOutput = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $RepoRoot 'tools\release\package_windows_release.ps1') `
     -RepoRoot $RepoRoot -ReleaseDir $ReleaseDir -OutputDir $packageOut -EvidenceDir (Join-Path $NegativeRoot 'package-evidence')
   $pkgExit = $LASTEXITCODE
+  $pkgOutput | ForEach-Object { Write-Host $_ }
   if ($pkgExit -ne 0) {
     Write-Result 'negative' ([ordered]@{ schemaVersion = '1.0'; phase = 'MUAMAN-13O'; mode = 'Negative'; run = [ordered]@{ startedAtUtc = $start; finishedAtUtc = (Get-UtcNow); exitCode = 1 }; passed = $false; failureReason = 'could not create reference package for tampering' })
     Write-Step "negative FAIL (package creation failed)"
@@ -717,7 +719,7 @@ function Invoke-Negative() {
   [System.IO.File]::WriteAllBytes($victim, $bytes)
   $tamperApplied = (Get-Sha256 $victim) -ne $victimShaBefore
 
-  & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $Entrypoint `
+  $negOutput = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $Entrypoint `
     -RepoRoot $RepoRoot `
     -ReleaseDir $ReleaseDir `
     -WorkingRoot (Join-Path $NegativeRoot 'work') `
@@ -728,6 +730,7 @@ function Invoke-Negative() {
     -StagingDir $tamperedStaging `
     -PreflightOnly
   $negExit = $LASTEXITCODE
+  $negOutput | ForEach-Object { Write-Host $_ }
 
   $noInstallerProduced = -not (Test-Path -LiteralPath (Join-Path $NegativeRoot 'out\muaman-windows-installer.exe'))
   $failClosed = ($negExit -ne 0) -and $noInstallerProduced
@@ -765,9 +768,10 @@ function Invoke-Guards() {
     Write-Step "guards FAIL (guard_tests_13o.ps1 missing)"
     return 2
   }
-  $guardOut = Join-Path $EvidenceDir 'guards-result.json'
-  & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $Guards -RepoRoot $RepoRoot -Out $guardOut
+  $guardOut = Join-Path $EvidenceDir 'guards-verdicts.json'
+  $guardOutput = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $Guards -RepoRoot $RepoRoot -Out $guardOut -AcceptanceRoot $Root -ReleaseDir $ReleaseDir -CompilerPath $InstallerCompilerPath
   $guardExit = $LASTEXITCODE
+  $guardOutput | ForEach-Object { Write-Host $_ }
   $pass = $guardExit -eq 0
   $result = [ordered]@{
     schemaVersion = '1.0'; phase = 'MUAMAN-13O'; mode = 'Guards'

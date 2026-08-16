@@ -1,0 +1,34 @@
+{
+    "restrictedPathUsed":  "C:\\WINDOWS\\System32;C:\\WINDOWS",
+    "normalEnvironmentResolved":  {
+                                      "java":  "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin\\java.exe",
+                                      "where":  "",
+                                      "reg":  "C:\\WINDOWS\\system32\\reg.exe",
+                                      "node":  "C:\\Program Files\\nodejs\\node.exe",
+                                      "dotnet":  "C:\\Program Files\\dotnet\\dotnet.exe",
+                                      "python":  "C:\\Python314\\python.exe",
+                                      "git":  "C:\\Program Files\\Git\\cmd\\git.exe",
+                                      "msiexec":  "C:\\WINDOWS\\system32\\msiexec.exe",
+                                      "cmake":  "C:\\Program Files\\CMake\\bin\\cmake.exe",
+                                      "npm":  "C:\\Program Files\\nodejs\\npm.ps1",
+                                      "cscript":  "C:\\WINDOWS\\system32\\cscript.exe"
+                                  },
+    "restrictedEnvironmentResolved":  {
+                                          "where":  "",
+                                          "reg":  "C:\\WINDOWS\\System32\\reg.exe",
+                                          "cscript":  "C:\\WINDOWS\\System32\\cscript.exe",
+                                          "msiexec":  "C:\\WINDOWS\\System32\\msiexec.exe"
+                                      },
+    "devToolsPresentOnMachineButNotOnRestrictedPath":  {
+                                                           "java":  "C:\\Program Files\\Microsoft\\jdk-21.0.11.10-hotspot\\bin\\java.exe",
+                                                           "node":  "C:\\Program Files\\nodejs\\node.exe",
+                                                           "dotnet":  "C:\\Program Files\\dotnet\\dotnet.exe",
+                                                           "python":  "C:\\Python314\\python.exe",
+                                                           "git":  "C:\\Program Files\\Git\\cmd\\git.exe",
+                                                           "cmake":  "C:\\Program Files\\CMake\\bin\\cmake.exe",
+                                                           "npm":  "C:\\Program Files\\nodejs\\npm.ps1"
+                                                       },
+    "appRuntimeToolDeps":  [
+
+                           ]
+}

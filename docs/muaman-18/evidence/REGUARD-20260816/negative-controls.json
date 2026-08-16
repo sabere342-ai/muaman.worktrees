@@ -1,0 +1,43 @@
+﻿[
+    {
+        "control":  "NC1",
+        "name":  "harness-detects-crash",
+        "runId":  "REGUARD-NC-20260816",
+        "nativeHelper":  false,
+        "expectedExitCodeHex":  "0xE0434352 (CLR fallback, no native compiler on this host)",
+        "detected":  true,
+        "exitCode":  -532462766,
+        "exitCodeHex":  "0xE0434352",
+        "crashCode":  -532462766,
+        "crashDetectedAsFailure":  true,
+        "okWouldBeTrue":  false,
+        "result":  "PASS"
+    },
+    {
+        "control":  "NC2",
+        "name":  "forced-kill-is-not-graceful",
+        "runId":  "REGUARD-NC-20260816",
+        "pid":  26464,
+        "forcedKillUsed":  true,
+        "exitCode":  -1,
+        "evaluatedOk":  false,
+        "result":  "PASS"
+    },
+    {
+        "control":  "NC3",
+        "name":  "lingering-process-detection",
+        "runId":  "REGUARD-NC-20260816",
+        "childPid":  28648,
+        "detected":  true,
+        "result":  "PASS"
+    },
+    {
+        "control":  "NC4",
+        "name":  "timeout-path-detection",
+        "runId":  "REGUARD-NC-20260816",
+        "posted":  false,
+        "timedOut":  true,
+        "result":  "PASS",
+        "note":  "no main window handle exposed; timeout path asserted via process survival"
+    }
+]

@@ -1,0 +1,9 @@
+﻿git diff --check
+===============
+exit code (working tree)         : 0
+output:
+(clean)
+
+exit code (baseline..HEAD)       : 0
+output:
+(clean)

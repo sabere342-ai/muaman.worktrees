@@ -1,0 +1,120 @@
+﻿{
+    "experimentId":  "I-TECH-T0-RUNNERRC-REBUILD",
+    "capturedAtUtc":  "2026-08-16T03:19:28.108Z",
+    "startedAtUtc":  "2026-08-16T03:17:15.923Z",
+    "endedAtUtc":  "2026-08-16T03:19:27.703Z",
+    "elapsedSeconds":  131.8,
+    "cleanExitCode":  0,
+    "pubGetExitCode":  0,
+    "buildExitCode":  0,
+    "responseFileObserved":  false,
+    "fileTrackerCrash":  false,
+    "crashDetail":  "",
+    "compilerIdSuccess":  true,
+    "configureSuccess":  true,
+    "releaseBuildSuccess":  true,
+    "clCommands":  [
+
+                   ],
+    "rspCaptures":  [
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\tmp\\MSBuildTempae4dee406dff49f0b485c75d50972310\\tmpd9296901e9c3448c9a24c7ee0eabf5dd.rsp",
+                            "pathLen":  163,
+                            "lengthBytes":  456,
+                            "sha256":  "02748D5998A10F3D4E96D49C0204A77835A92843644A49BA4B531C22C7065C4F",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\tmp\\MSBuildTempae4dee406dff49f0b485c75d50972310\\tmpa1038228d8d0475aa6f3fd6802c3860e.rsp",
+                            "pathLen":  163,
+                            "lengthBytes":  836,
+                            "sha256":  "B2B0B5F68D21E6CBBA44222B63ABC30BB20B53CCF19653EF5FAC8BD88D6BFAB8",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\tmp\\MSBuildTemp6d3f40973ba14f8cb51cee30e34e48da\\tmpfe126c42c4bd4f8991b2135874eed6f2.rsp",
+                            "pathLen":  163,
+                            "lengthBytes":  790,
+                            "sha256":  "FD9ADFA9E6F0783A9EBB63D03D6C63360E7E3B94F990AFF09E6660F1679DF99F",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\tmp\\MSBuildTemp6d3f40973ba14f8cb51cee30e34e48da\\tmpff596480e3bd4669b26c36efe46faea1.rsp",
+                            "pathLen":  163,
+                            "lengthBytes":  1580,
+                            "sha256":  "04BB7E051971EDA877D6DFF53949B2A6850EB3CE49FCCB616A464A4C70547DE9",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\tmp\\MSBuildTemp7d5c1e998d894fb293f759f898d93783\\tmp52a5610ad58d405fba12333f3c5cb33d.rsp",
+                            "pathLen":  163,
+                            "lengthBytes":  2366,
+                            "sha256":  "94AB2F2A97928C8ED19F39EEC014700F0666AB8FD970424BEC1D4A0FC5D21494",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\tmp\\MSBuildTemp7d5c1e998d894fb293f759f898d93783\\tmp94f106a555344a03abae755561b38650.rsp",
+                            "pathLen":  163,
+                            "lengthBytes":  750,
+                            "sha256":  "5F846658F16E53D534ECA99BF0DA870544A61F8B208177DDF7129B8E60FDD76A",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\tmp\\MSBuildTemp7d5c1e998d894fb293f759f898d93783\\tmpa916355d68474375b0fd38a7df4b2a4c.rsp",
+                            "pathLen":  163,
+                            "lengthBytes":  2128,
+                            "sha256":  "5B470E0DF3A127019235D9897BF88490C6EF9956A0B286AE125C2CCD891A84AE",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\tmp\\MSBuildTemp7d5c1e998d894fb293f759f898d93783\\tmp68d2de14fbbf4a639141632e2ad34778.rsp",
+                            "pathLen":  163,
+                            "lengthBytes":  656,
+                            "sha256":  "D675DD8C0EBF890E4546A07179E84DF82EE81C5ECB28FD5657E1332E6509E26E",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\tmp\\MSBuildTemp7d5c1e998d894fb293f759f898d93783\\tmp31d54a912dc840b39e2b2d55a385a343.rsp",
+                            "pathLen":  163,
+                            "lengthBytes":  2568,
+                            "sha256":  "41FBA5BD25850DD6CA639C2425D51FEAED7FF74C9E2E3B65E32551DF62BC9B5B",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\tmp\\MSBuildTemp7d5c1e998d894fb293f759f898d93783\\tmp3fcb7618f9b44095aa275e78a92c8c8f.rsp",
+                            "pathLen":  163,
+                            "lengthBytes":  1964,
+                            "sha256":  "AC67BE6F9139EB1F3094A71A553330796A86FFE2CF95B8184BA88DCB215D71EE",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\tmp\\MSBuildTemp7d5c1e998d894fb293f759f898d93783\\tmpd5158ad7db6141ffb4b7fb5d902c24ed.rsp",
+                            "pathLen":  163,
+                            "lengthBytes":  2786,
+                            "sha256":  "96A2F93E2571E5C69586555CB77B1FAF83FA9BF8DA960D0324BB5EEC52F8A59F",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        },
+                        {
+                            "path":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\tmp\\MSBuildTemp7d5c1e998d894fb293f759f898d93783\\tmp5ac1653cde334571a97bf5e088f71abf.rsp",
+                            "pathLen":  163,
+                            "lengthBytes":  2356,
+                            "sha256":  "227E937CF764F63C3150F5408D5CDD613B75B26F33DEB2190CC670A2CD7F9C05",
+                            "bom":  "utf16le",
+                            "encoding":  "utf16le"
+                        }
+                    ],
+    "rspCaptureCount":  12,
+    "buildLogBytes":  58966,
+    "releaseDir":  16
+}

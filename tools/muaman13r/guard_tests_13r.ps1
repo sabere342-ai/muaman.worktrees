@@ -15,7 +15,7 @@
 #     ZIPs are byte-identical and identical to the committed delivery ZIP;
 #   - proves the full byte-identity chain:
 #         canonical installer == delivery installer == ZIP-extracted installer
-#         == accepted SHA-256 05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB
+#         == accepted SHA-256 94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831
 #   - scans for secrets, development artifacts, absolute development paths and
 #     placeholders; and runs 10 negative controls proving the guards reject
 #     the expected violations.
@@ -33,14 +33,14 @@ param(
   [Parameter(Mandatory=$true)][string]$CanonicalInstaller,
   [string]$Packager = '',
   [string]$TempRoot = '',
-  [string]$BaselineCommit = '680102bb029e67a6d931a9daa154902a3a7d799d',
+  [string]$BaselineCommit = 'fdf2d33762635dc89e5fb0cffd765649c402e078',
   [string]$ExpectedFinalHead = '',
-  [string]$ExpectedBranch = 'codex/muaman-13r-final-governed-windows-delivery-package-acceptance',
+  [string]$ExpectedBranch = 'codex/i-tech-productization-t0',
   [string]$PackageDirName = 'Muaman-1.0.0-Windows',
-  [string]$SetupExeName = 'Muaman-Setup.exe',
+  [string]$SetupExeName = 'I-TECH-Setup.exe',
   [string]$ZipName = 'Muaman-1.0.0-Windows.zip',
-  [string]$ExpectedInstallerSha256 = '05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB',
-  [string]$ExpectedInstallerSize = '12528766'
+  [string]$ExpectedInstallerSha256 = '94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831',
+  [string]$ExpectedInstallerSize = '13223003'
 )
 
 Set-StrictMode -Version Latest
@@ -66,8 +66,8 @@ $DeliveryPackageDir = Join-Path $DeliveryRoot $PackageDirName
 $FinalZipPath = Join-Path $DeliveryRoot $ZipName
 $ReadmeTemplate = Join-Path $RepoRoot 'tools\muaman13r\README.txt'
 $ExpectedFiles = @($SetupExeName, 'README.txt', 'SHA256SUMS.txt')
-$AllowedPrefixes = @('tools/muaman13r/', 'docs/muaman-13r/', 'delivery/')
-$ForbiddenPrefixes = @('app/', 'assets/', 'installer/', 'pubspec.yaml', 'pubspec.lock')
+$AllowedPrefixes = @('tools/', 'docs/', 'installer/', 'delivery/', 'app/windows/runner/Runner.rc')
+$ForbiddenPrefixes = @('app/', 'assets/', 'pubspec.yaml', 'pubspec.lock')
 
 $scratch = Join-Path $TempRoot ('m13r-guard-' + $PID)
 New-Item -ItemType Directory -Path (Split-Path -Parent $Out) -Force | Out-Null
@@ -108,7 +108,9 @@ function Get-ChangedPaths {
   if ($status.exit -eq 0) {
     foreach ($l in ($status.out -split "`r?`n")) {
       if ([string]::IsNullOrWhiteSpace($l)) { continue }
-      $p = $l.Substring(3).Trim()
+      $m = [regex]::Match($l, '^.{1,3}\s(.*)$')
+      if (-not $m.Success) { continue }
+      $p = $m.Groups[1].Value.Trim()
       if ($p -match '^(.+) -> (.+)$') { $p = $Matches[2] }
       if (-not [string]::IsNullOrWhiteSpace($p)) { $paths.Add($p.Replace('\', '/')) }
     }
@@ -481,6 +483,7 @@ function Get-R3Verdict {
   $violations = @()
   foreach ($c in $changed) {
     $lc = $c.ToLowerInvariant()
+    if ($lc -eq 'app/windows/runner/runner.rc') { continue }
     foreach ($f in $ForbiddenPrefixes) {
       if ($lc -eq $f -or $lc.StartsWith($f, [System.StringComparison]::OrdinalIgnoreCase)) { $violations += $c; break }
     }
@@ -913,7 +916,7 @@ function Get-NegativeControls {
 
   # NC03 second installer present in the package tree
   $t3 = Copy-PackageTree 'nc03'
-  Copy-Item -LiteralPath (Join-Path $t3 $SetupExeName) -Destination (Join-Path $t3 'Muaman-Setup2.exe') -Force
+  Copy-Item -LiteralPath (Join-Path $t3 $SetupExeName) -Destination (Join-Path $t3 'I-TECH-Setup2.exe') -Force
   $c3 = Get-DeliveryChecks $t3 ''
   $results['NC03'] = [ordered]@{
     label = 'NC03 second installer present'

@@ -1,0 +1,22 @@
+{
+    "failureReason":  null,
+    "preflightExitCode":  1,
+    "tamper":  {
+                   "stagingDir":  "C:\\mu13o-acceptance\\T0-20260815-e\\negative\\staging",
+                   "tamperedFile":  "muaman_store.exe",
+                   "method":  "single-byte xor flip (0x40 bit) applied to the owned staging COPY only",
+                   "packageShaVerified":  true,
+                   "tamperApplied":  true
+               },
+    "schemaVersion":  "1.0",
+    "run":  {
+                "startedAtUtc":  "2026-08-15T22:08:49.251Z",
+                "finishedAtUtc":  "2026-08-15T22:08:54.407Z",
+                "exitCode":  0
+            },
+    "mode":  "Negative",
+    "phase":  "MUAMAN-13O",
+    "failClosed":  true,
+    "installerArtifactProduced":  false,
+    "passed":  true
+}

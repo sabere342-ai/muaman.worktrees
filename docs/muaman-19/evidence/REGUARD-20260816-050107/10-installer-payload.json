@@ -1,0 +1,48 @@
+{
+  "runId": "REGUARD-20260816-050107",
+  "installer": {
+    "path": "delivery/Muaman-1.0.0-Windows/I-TECH-Setup.exe",
+    "sha256": "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
+    "sizeBytes": 13223003,
+    "rawBarcodeMarkerHits": 0,
+    "rawDartToolRefs": 0,
+    "rawMuamanStoreDbRefs": 0
+  },
+  "zip": {
+    "path": "delivery/Muaman-1.0.0-Windows.zip",
+    "sha256": "4258E9105116D0D73281C4CD5027ECC478517D662FCA3E6D70F25418E7204C8A",
+    "sizeBytes": 12665973,
+    "entries": [
+      "Muaman-1.0.0-Windows/I-TECH-Setup.exe",
+      "Muaman-1.0.0-Windows/README.txt",
+      "Muaman-1.0.0-Windows/SHA256SUMS.txt"
+    ],
+    "barcodeMarkerHits": 0
+  },
+  "manifestMatches": {
+    "installerMatchesSha256SUMS": true,
+    "zipMatchesZipSha256": true
+  },
+  "payloadContract": {
+    "source": "docs/muaman-13o/evidence/06-acceptance-run-T0/install-result.json",
+    "acceptedInstallerSha256": "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
+    "sameAsCurrent": true,
+    "verifiedInstalledPayload": {
+      "fileCount": 16,
+      "appSo": {
+        "sha256": "86369AA8DFD530AD15C90F394FFB7D9F29A5AA67AB06A6C7F5A42516B212ED93",
+        "sizeBytes": 9290656,
+        "match": true
+      },
+      "exe": {
+        "sha256": "134918133777C779890CA3BD4EC9CFFFD990AE04B48BE3A71DE8142B2F2FAEA1",
+        "sizeBytes": 92160,
+        "match": true
+      },
+      "unexpectedFiles": []
+    },
+    "installerScriptMaps16FilesOnly": true,
+    "noDartToolOrDbShipped": true
+  },
+  "conclusion": "the delivery payload and installer ship exactly the 16 canonical production files; they contain no demo-commissioning data, no pre-seeded DB, and no .dart_tool artifacts. The installed app.so is the marker-free production app.so."
+}

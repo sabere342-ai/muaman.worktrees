@@ -1,0 +1,497 @@
+{
+    "runId":  "REGUARD-STRESS-20260816-000301-c006",
+    "finishedUtc":  "2026-08-16T00:30:00.760Z",
+    "aborted":  false,
+    "steps":  {
+                  "S01-launch":  {
+                                     "ok":  true,
+                                     "at":  "2026-08-16T00:25:40.416Z",
+                                     "result":  {
+                                                    "exe":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\app\\build\\windows\\x64\\runner\\Release\\muaman_store.exe",
+                                                    "processId":  28540,
+                                                    "handle":  "0xF0BA6",
+                                                    "windowFound":  true,
+                                                    "setupScreenRecognized":  true,
+                                                    "screenshot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\docs\\muaman-18\\evidence\\REGUARD-STRESS-20260816\\REGUARD-STRESS-20260816-000301-c006\\shots\\04-app-launch.png",
+                                                    "captureNote":  "own-capture sd=57.14"
+                                                }
+                                 },
+                  "S02-setup-owner":  {
+                                          "ok":  true,
+                                          "at":  "2026-08-16T00:26:03.730Z",
+                                          "result":  {
+                                                         "ownerCreated":  true,
+                                                         "loginReached":  true,
+                                                         "loginScreenshot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\docs\\muaman-18\\evidence\\REGUARD-STRESS-20260816\\REGUARD-STRESS-20260816-000301-c006\\shots\\04b-login.png",
+                                                         "createButton":  {
+                                                                              "clicked":  true,
+                                                                              "try":  1,
+                                                                              "screenX":  839,
+                                                                              "screenY":  750,
+                                                                              "word":  "إنشاء"
+                                                                          },
+                                                         "methods":  {
+                                                                         "name":  {
+                                                                                      "label":  "الاسم",
+                                                                                      "clicked":  true,
+                                                                                      "verify":  "band-verified probe=17W",
+                                                                                      "method":  "click x=1391 y=445"
+                                                                                  },
+                                                                         "user":  {
+                                                                                      "label":  "اسم المستخدم",
+                                                                                      "clicked":  true,
+                                                                                      "verify":  "band-verified probe=17w",
+                                                                                      "method":  "click x=1354 y=525"
+                                                                                  },
+                                                                         "pass":  {
+                                                                                      "label":  "كلمة المرور",
+                                                                                      "clicked":  true,
+                                                                                      "masked":  true,
+                                                                                      "method":  "click x=1366 y=603 masked-verified"
+                                                                                  },
+                                                                         "confirm":  {
+                                                                                         "label":  "تأكيد كلمة المرور",
+                                                                                         "clicked":  true,
+                                                                                         "masked":  true,
+                                                                                         "method":  "click x=1344 y=684 masked-verified"
+                                                                                     }
+                                                                     }
+                                                     }
+                                      },
+                  "S03-login-owner":  {
+                                          "ok":  true,
+                                          "at":  "2026-08-16T00:26:15.536Z",
+                                          "result":  {
+                                                         "loginMethods":  {
+                                                                              "user":  {
+                                                                                           "label":  "اسم المستخدم",
+                                                                                           "clicked":  true,
+                                                                                           "verify":  "band-verified probe=17w",
+                                                                                           "method":  "click x=1352 y=525"
+                                                                                       },
+                                                                              "pass":  {
+                                                                                           "label":  "كلمة المرور",
+                                                                                           "clicked":  true,
+                                                                                           "masked":  true,
+                                                                                           "method":  "click x=1366 y=603 masked-verified"
+                                                                                       }
+                                                                          },
+                                                         "loginButton":  {
+                                                                             "clicked":  true,
+                                                                             "try":  1,
+                                                                             "screenX":  811,
+                                                                             "screenY":  670,
+                                                                             "word":  "تسجيل"
+                                                                         },
+                                                         "dashboardReached":  true,
+                                                         "dashboardScreenshot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\docs\\muaman-18\\evidence\\REGUARD-STRESS-20260816\\REGUARD-STRESS-20260816-000301-c006\\shots\\05-dashboard.png"
+                                                     }
+                                      },
+                  "S04-add-product":  {
+                                          "ok":  true,
+                                          "at":  "2026-08-16T00:26:40.537Z",
+                                          "result":  {
+                                                         "dialogRecognized":  true,
+                                                         "methods":  {
+                                                                         "name":  {
+                                                                                      "label":  "اسم المنتج",
+                                                                                      "clicked":  true,
+                                                                                      "verify":  "band-verified probe=17W",
+                                                                                      "method":  "click x=862 y=417"
+                                                                                  },
+                                                                         "cost":  {
+                                                                                      "label":  "سعر التكلفة",
+                                                                                      "clicked":  true,
+                                                                                      "verify":  "band-verified probe=50",
+                                                                                      "method":  "click x=860 y=490"
+                                                                                  },
+                                                                         "qty":  {
+                                                                                     "label":  "الكمية الافتتاحية",
+                                                                                     "clicked":  true,
+                                                                                     "verify":  "band-verified probe=20",
+                                                                                     "method":  "click x=858 y=530"
+                                                                                 }
+                                                                     },
+                                                         "dialogClosed":  true,
+                                                         "productVisible":  true,
+                                                         "inventoryScreenshot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\docs\\muaman-18\\evidence\\REGUARD-STRESS-20260816\\REGUARD-STRESS-20260816-000301-c006\\shots\\06-inventory.png"
+                                                     }
+                                      },
+                  "S05-create-sale":  {
+                                          "ok":  true,
+                                          "at":  "2026-08-16T00:27:08.116Z",
+                                          "result":  {
+                                                         "methods":  {
+                                                                         "price":  {
+                                                                                       "label":  "سعر البيع",
+                                                                                       "clicked":  true,
+                                                                                       "verify":  "band-verified probe=100",
+                                                                                       "method":  "click x=430 y=411 labelTop=365"
+                                                                                   },
+                                                                         "customer":  {
+                                                                                          "label":  "اسم العميل",
+                                                                                          "clicked":  true,
+                                                                                          "verify":  "band-verified probe=17W",
+                                                                                          "method":  "click x=864 y=637 labelTop=587"
+                                                                                      }
+                                                                     },
+                                                         "saveButton":  {
+                                                                            "clicked":  true,
+                                                                            "try":  1,
+                                                                            "screenX":  512,
+                                                                            "screenY":  834,
+                                                                            "word":  "حفظ"
+                                                                        },
+                                                         "previewReached":  true,
+                                                         "previewScreenshot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\docs\\muaman-18\\evidence\\REGUARD-STRESS-20260816\\REGUARD-STRESS-20260816-000301-c006\\shots\\07-invoice-preview.png",
+                                                         "invoiceNumber":  null
+                                                     }
+                                      },
+                  "S06-save-pdf":  {
+                                       "ok":  true,
+                                       "at":  "2026-08-16T00:27:29.670Z",
+                                       "result":  {
+                                                      "button":  {
+                                                                     "clicked":  true,
+                                                                     "try":  1,
+                                                                     "screenX":  784,
+                                                                     "screenY":  772,
+                                                                     "word":  "حفظ"
+                                                                 },
+                                                      "dialogAppeared":  true,
+                                                      "dialogTitle":  "حفظ الفاتورة PDF",
+                                                      "dialogClass":  "#32770",
+                                                      "dialogScreenshot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\docs\\muaman-18\\evidence\\REGUARD-STRESS-20260816\\REGUARD-STRESS-20260816-000301-c006\\shots\\08-save-dialog.png",
+                                                      "editRect":  {
+                                                                       "IsEmpty":  false,
+                                                                       "Location":  {
+                                                                                        "X":  255,
+                                                                                        "Y":  350
+                                                                                    },
+                                                                       "Size":  {
+                                                                                    "IsEmpty":  false,
+                                                                                    "Width":  294,
+                                                                                    "Height":  28
+                                                                                },
+                                                                       "X":  255,
+                                                                       "Y":  350,
+                                                                       "Width":  294,
+                                                                       "Height":  28,
+                                                                       "Left":  255,
+                                                                       "Top":  350,
+                                                                       "Right":  549,
+                                                                       "Bottom":  378,
+                                                                       "TopLeft":  {
+                                                                                       "X":  255,
+                                                                                       "Y":  350
+                                                                                   },
+                                                                       "TopRight":  {
+                                                                                        "X":  549,
+                                                                                        "Y":  350
+                                                                                    },
+                                                                       "BottomLeft":  {
+                                                                                          "X":  255,
+                                                                                          "Y":  378
+                                                                                      },
+                                                                       "BottomRight":  {
+                                                                                           "X":  549,
+                                                                                           "Y":  378
+                                                                                       }
+                                                                   },
+                                                      "navVia":  "address-bar",
+                                                      "setVia":  "click-type",
+                                                      "saveVia":  "ocr-rect",
+                                                      "dialogClosed":  true,
+                                                      "saved":  true,
+                                                      "destination":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-17w\\pdf\\invoice_17w_acceptance.pdf",
+                                                      "sizeBytes":  18535,
+                                                      "pdfHeader":  "%PDF-",
+                                                      "sha256":  "159DB2BD1135409AE8138956EE22E857A9064344411FB7484CD6960DDA4D2980"
+                                                  }
+                                   },
+                  "S07-open-pdf":  {
+                                       "ok":  true,
+                                       "at":  "2026-08-16T00:28:02.589Z",
+                                       "result":  {
+                                                      "button":  {
+                                                                     "clicked":  true,
+                                                                     "try":  1,
+                                                                     "screenX":  266,
+                                                                     "screenY":  772,
+                                                                     "word":  "PDF"
+                                                                 },
+                                                      "tempPdf":  "C:\\Users\\saber\\AppData\\Local\\Temp\\invoice_INV-1786840026402.pdf",
+                                                      "tempSizeBytes":  18535,
+                                                      "tempSha256":  "357E820F2CF238CC7014075A8E7E9AA88A6321EDB36A8087C3E10C2BA9E6F550",
+                                                      "defaultViewerChrome":  false,
+                                                      "chromeTitle":  null,
+                                                      "viewerScreenshot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\docs\\muaman-18\\evidence\\REGUARD-STRESS-20260816\\REGUARD-STRESS-20260816-000301-c006\\shots\\09-pdf-open.png",
+                                                      "viewerCaptureNote":  "ok",
+                                                      "tabClosed":  false
+                                                  }
+                                   },
+                  "S08-print-dialog":  {
+                                           "ok":  true,
+                                           "at":  "2026-08-16T00:28:37.500Z",
+                                           "result":  {
+                                                          "button":  {
+                                                                         "clicked":  true,
+                                                                         "try":  1,
+                                                                         "screenX":  1249,
+                                                                         "screenY":  771,
+                                                                         "word":  "طباعة"
+                                                                     },
+                                                          "dialogAppeared":  true,
+                                                          "dialogTitle":  "Print Setup",
+                                                          "dialogClass":  "#32770",
+                                                          "dialogScreenshot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\docs\\muaman-18\\evidence\\REGUARD-STRESS-20260816\\REGUARD-STRESS-20260816-000301-c006\\shots\\10-print-dialog.png",
+                                                          "canceled":  false,
+                                                          "appBackOnPreview":  true,
+                                                          "postCancelScreenshot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\docs\\muaman-18\\evidence\\REGUARD-STRESS-20260816\\REGUARD-STRESS-20260816-000301-c006\\shots\\11-print-cancel.png"
+                                                      }
+                                       },
+                  "S09-sales-history":  {
+                                            "ok":  true,
+                                            "at":  "2026-08-16T00:28:46.878Z",
+                                            "result":  {
+                                                           "historyReached":  true,
+                                                           "saleCardVisible":  true,
+                                                           "saleCardProductProbe":  "17W",
+                                                           "receiptClick":  {
+                                                                                "via":  "color-scan",
+                                                                                "name":  "عرض الفاتورة",
+                                                                                "found":  true,
+                                                                                "screenX":  128,
+                                                                                "screenY":  333,
+                                                                                "iconCenter":  {
+                                                                                                   "X":  98,
+                                                                                                   "Y":  303,
+                                                                                                   "N":  35
+                                                                                               },
+                                                                                "iconClusterCount":  13
+                                                                            },
+                                                           "receiptPreviewOpened":  true,
+                                                           "receiptPreviewScreenshot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\docs\\muaman-18\\evidence\\REGUARD-STRESS-20260816\\REGUARD-STRESS-20260816-000301-c006\\shots\\12b-receipt-preview.png",
+                                                           "salesScreenshot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\docs\\muaman-18\\evidence\\REGUARD-STRESS-20260816\\REGUARD-STRESS-20260816-000301-c006\\shots\\12-sales-history.png"
+                                                       }
+                                        },
+                  "S10-add-cashier":  {
+                                          "ok":  true,
+                                          "at":  "2026-08-16T00:29:23.554Z",
+                                          "result":  {
+                                                         "navClick":  {
+                                                                          "clicked":  true,
+                                                                          "target":  "users",
+                                                                          "dx":  0,
+                                                                          "screenX":  349,
+                                                                          "screenY":  105,
+                                                                          "nameBand":  "69..247"
+                                                                      },
+                                                         "methods":  {
+                                                                         "name":  {
+                                                                                      "label":  "الاسم",
+                                                                                      "clicked":  true,
+                                                                                      "verify":  "band-verified probe=17W",
+                                                                                      "method":  "click x=886 y=305"
+                                                                                  },
+                                                                         "user":  {
+                                                                                      "label":  "اسم المستخدم",
+                                                                                      "clicked":  true,
+                                                                                      "verify":  "band-verified probe=17w",
+                                                                                      "method":  "click x=848 y=380"
+                                                                                  },
+                                                                         "pass":  {
+                                                                                      "label":  "كلمة المرور",
+                                                                                      "clicked":  true,
+                                                                                      "masked":  true,
+                                                                                      "method":  "click x=863 y=452 masked-verified"
+                                                                                  },
+                                                                         "confirm":  {
+                                                                                         "label":  "تأكيد كلمة المرور",
+                                                                                         "clicked":  true,
+                                                                                         "masked":  true,
+                                                                                         "method":  "click x=839 y=527 masked-verified"
+                                                                                     }
+                                                                     },
+                                                         "roleClick":  {
+                                                                           "clicked":  true,
+                                                                           "try":  1,
+                                                                           "screenX":  882,
+                                                                           "screenY":  578,
+                                                                           "word":  "موظف"
+                                                                       },
+                                                         "roleItem":  {
+                                                                          "clicked":  true,
+                                                                          "try":  1,
+                                                                          "screenX":  832,
+                                                                          "screenY":  638,
+                                                                          "word":  "مبيعات"
+                                                                      },
+                                                         "dialogClosed":  true,
+                                                         "cashierVisible":  true,
+                                                         "usersScreenshot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\docs\\muaman-18\\evidence\\REGUARD-STRESS-20260816\\REGUARD-STRESS-20260816-000301-c006\\shots\\13-users.png"
+                                                     }
+                                      },
+                  "S11-cashier-denied":  {
+                                             "ok":  true,
+                                             "at":  "2026-08-16T00:29:39.355Z",
+                                             "result":  {
+                                                            "logoutClick":  {
+                                                                                "clicked":  true,
+                                                                                "target":  "logout",
+                                                                                "dx":  0,
+                                                                                "screenX":  75,
+                                                                                "screenY":  105,
+                                                                                "nameBand":  "69..247"
+                                                                            },
+                                                            "loginMethods":  {
+                                                                                 "user":  {
+                                                                                              "label":  "اسم المستخدم",
+                                                                                              "clicked":  true,
+                                                                                              "verify":  "band-verified probe=17w",
+                                                                                              "method":  "click x=1352 y=525"
+                                                                                          },
+                                                                                 "pass":  {
+                                                                                              "label":  "كلمة المرور",
+                                                                                              "clicked":  true,
+                                                                                              "masked":  true,
+                                                                                              "method":  "click x=1366 y=603 masked-verified"
+                                                                                          }
+                                                                             },
+                                                            "loginButton":  {
+                                                                                "clicked":  true,
+                                                                                "try":  1,
+                                                                                "screenX":  811,
+                                                                                "screenY":  670,
+                                                                                "word":  "تسجيل"
+                                                                            },
+                                                            "salesOnlyReached":  true,
+                                                            "historyDeniedMessageVisible":  true,
+                                                            "leakCountLine":  false,
+                                                            "leakProductName":  false,
+                                                            "leakReceiptUia":  false,
+                                                            "createSaleEntryVisible":  true,
+                                                            "salesOnlyScreenshot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\docs\\muaman-18\\evidence\\REGUARD-STRESS-20260816\\REGUARD-STRESS-20260816-000301-c006\\shots\\14-salesonly.png"
+                                                        }
+                                         },
+                  "S12-logout-close":  {
+                                           "ok":  true,
+                                           "at":  "2026-08-16T00:30:00.726Z",
+                                           "result":  {
+                                                          "logoutClick":  {
+                                                                              "clicked":  true,
+                                                                              "target":  "logout",
+                                                                              "dx":  16,
+                                                                              "screenX":  43,
+                                                                              "screenY":  105,
+                                                                              "nameBand":  "21..280"
+                                                                          },
+                                                          "loginScreenBack":  true,
+                                                          "loginScreenshot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\docs\\muaman-18\\evidence\\REGUARD-STRESS-20260816\\REGUARD-STRESS-20260816-000301-c006\\shots\\15-login-final.png",
+                                                          "close":  {
+                                                                        "method":  "WM_CLOSE",
+                                                                        "exited":  true,
+                                                                        "exitCode":  0,
+                                                                        "seconds":  0.3
+                                                                    },
+                                                          "exited":  true
+                                                      }
+                                       },
+                  "S13-final-evidence":  {
+                                             "ok":  true,
+                                             "at":  "2026-08-16T00:30:00.760Z",
+                                             "result":  {
+                                                            "runId":  "REGUARD-STRESS-20260816-000301-c006",
+                                                            "releaseDir":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\app\\build\\windows\\x64\\runner\\Release",
+                                                            "dbFile":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\app\\build\\windows\\x64\\runner\\Release\\.dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db",
+                                                            "dbExists":  true,
+                                                            "dbSizeBytes":  81920,
+                                                            "evidenceScreenshots":  [
+                                                                                        "04-app-launch.png",
+                                                                                        "04b-login.png",
+                                                                                        "05-dashboard.png",
+                                                                                        "06-inventory.png",
+                                                                                        "06b-addproduct-dialog.png",
+                                                                                        "07-invoice-preview.png",
+                                                                                        "07a-invoice-ready.png",
+                                                                                        "08-save-dialog.png",
+                                                                                        "08a-save-dialog-after-nav.png",
+                                                                                        "08b-save-dialog-name-set.png",
+                                                                                        "09-pdf-open.png",
+                                                                                        "10-print-dialog.png",
+                                                                                        "11-print-cancel.png",
+                                                                                        "12-sales-history.png",
+                                                                                        "12-sales-list.png",
+                                                                                        "12b-receipt-preview.png",
+                                                                                        "13-users.png",
+                                                                                        "14-salesonly.png",
+                                                                                        "15-login-final.png",
+                                                                                        "cashier-login-pass-field-b1.png",
+                                                                                        "cashier-login-user-field-b1.png",
+                                                                                        "cashier-login-user-field-post1.png",
+                                                                                        "fab-add-sim-t1.png",
+                                                                                        "fab-inv-cr-t1.png",
+                                                                                        "fab-inv-cr1-crop.png",
+                                                                                        "fab-user-sim-t1.png",
+                                                                                        "inv-chk.png",
+                                                                                        "inv-chk2.png",
+                                                                                        "lo-chk.png",
+                                                                                        "login-pass-field-b1.png",
+                                                                                        "login-user-field-b1.png",
+                                                                                        "login-user-field-post1.png",
+                                                                                        "logout-cashier-pos-1.png",
+                                                                                        "logout-cashier-verify-0.png",
+                                                                                        "logout-cashier-verify-16.png",
+                                                                                        "logout-owner-pos-1.png",
+                                                                                        "logout-owner-verify-0.png",
+                                                                                        "nav-inv-cr-t1.png",
+                                                                                        "nav-inv-cr1-crop.png",
+                                                                                        "nav-sales-cr-t1.png",
+                                                                                        "nav-sales-cr1-crop.png",
+                                                                                        "newuser-confirm-field-b1.png",
+                                                                                        "newuser-name-field-b1.png",
+                                                                                        "newuser-name-field-post1.png",
+                                                                                        "newuser-pass-field-b1.png",
+                                                                                        "newuser-user-field-b1.png",
+                                                                                        "newuser-user-field-post1.png",
+                                                                                        "open-pdf-ex-t1.png",
+                                                                                        "print-ex-t1.png",
+                                                                                        "prod-cls-chk-crop.png",
+                                                                                        "prod-cls-chk.png",
+                                                                                        "prod-cost-field-b1.png",
+                                                                                        "prod-cost-field-post1.png",
+                                                                                        "prod-cost-field1-crop.png",
+                                                                                        "prod-name-field-b1.png",
+                                                                                        "prod-name-field-post1.png",
+                                                                                        "prod-name-field1-crop.png",
+                                                                                        "prod-qty-field-b1.png",
+                                                                                        "prod-qty-field-post1.png",
+                                                                                        "prod-qty-field1-crop.png",
+                                                                                        "sale-customer-f-b1.png",
+                                                                                        "sale-customer-f-b2.png",
+                                                                                        "sale-customer-post1.png",
+                                                                                        "sale-customer-post2.png",
+                                                                                        "sale-price-f-b1.png",
+                                                                                        "sale-price-post1.png",
+                                                                                        "sales-title-chk.png",
+                                                                                        "save-inv-ex-t1.png",
+                                                                                        "save-pdf-ex-t1.png",
+                                                                                        "setup-confirm-field-b1.png",
+                                                                                        "setup-name-field-b1.png",
+                                                                                        "setup-name-field-post1.png",
+                                                                                        "setup-pass-field-b1.png",
+                                                                                        "setup-user-field-b1.png",
+                                                                                        "setup-user-field-post1.png",
+                                                                                        "user-chk-1.png",
+                                                                                        "users-nav-pos-1.png",
+                                                                                        "users-nav-verify-0.png"
+                                                                                    ],
+                                                            "evidencePdfFiles":  [
+                                                                                     "invoice_17w_acceptance.pdf",
+                                                                                     "open-copy.pdf"
+                                                                                 ],
+                                                            "screenshotCount":  78
+                                                        }
+                                         }
+              }
+}

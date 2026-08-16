@@ -11,7 +11,7 @@
 #   L4 secret hygiene               committed-tree scan for OPENCODE_SERVER_* values
 #   L5 historical guards            MUAMAN-13K guard_tests.ps1 in a fresh process,
 #                                   output outside the repository
-#   L7 release verification         fresh release vs committed 13K legal manifest
+#   L7 release verification         fresh release vs committed legal manifest
 #                                   (run only when -ReleaseDir is provided)
 #   L8 active-docs guard            the active release doc must use the canonical
 #                                   command and must not direct users to run
@@ -44,7 +44,7 @@ New-Item -ItemType Directory -Path $EvidenceOut -Force | Out-Null
 
 $entrypoint = Join-Path $RepoRoot 'tools\release\build_windows_release.ps1'
 $verifyTool = Join-Path $RepoRoot 'tools\release\verify_release.ps1'
-$legalManifest = Join-Path $RepoRoot 'docs\evidence\muaman-13k\04-k1-source-a-sdk-a-shorttemp\release-manifest.json'
+$legalManifest = Join-Path $RepoRoot 'docs\windows-delivery-refresh\evidence\legal\release-manifest.json'
 $activeDoc = Join-Path $RepoRoot 'docs\MUAMAN-13L-CANONICAL-HARDENED-WINDOWS-RELEASE-ENTRYPOINT.md'
 
 $verdicts = [ordered]@{}
@@ -332,7 +332,7 @@ $verdicts['L5'] = Get-L5Verdict
 # ---------------------------------------------------------------------------
 function Get-L7Verdict {
   if ([string]::IsNullOrWhiteSpace($ReleaseDir)) {
-    return [ordered]@{ guard = 'L7 release verification vs MUAMAN-13K'; pass = $null; status = 'not-run'; detail = 'no -ReleaseDir supplied' }
+    return [ordered]@{ guard = 'L7 release verification vs committed legal manifest'; pass = $null; status = 'not-run'; detail = 'no -ReleaseDir supplied' }
   }
   $verifyOut = Join-Path $EvidenceOut 'release-comparison.json'
   $ca = ''
@@ -348,7 +348,7 @@ function Get-L7Verdict {
     $legalToolOk = ($v.legalToolCompare.identical -eq $true) -and ($v.legalToolCompare.crossHashMatch -eq $true)
   }
   [ordered]@{
-    guard = 'L7 release verification vs MUAMAN-13K legal manifest'
+    guard = 'L7 release verification vs committed legal manifest'
     pass = ($exit7 -eq 0) -and ($v.identical -eq $true) -and $legalToolOk
     exitCode = $exit7
     fileCount = $v.fileCountNew

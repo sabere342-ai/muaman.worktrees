@@ -1,0 +1,14 @@
+{
+    "step":  "S7-install-from-delivery",
+    "commandLine":  "\"C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows\\I-TECH-Setup.exe\" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /LOG=\"C:\\m13s-acceptance\\run\\20260816-024237\\evidence\\logs\\install.log\"",
+    "installerPath":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\extracted\\Muaman-1.0.0-Windows\\I-TECH-Setup.exe",
+    "installerWithinExtractedDelivery":  true,
+    "installerSha256":  "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
+    "exitCode":  0,
+    "timedOut":  false,
+    "durationSec":  2.4,
+    "installLogPath":  "C:\\m13s-acceptance\\run\\20260816-024237\\evidence\\logs\\install.log",
+    "installLogBytes":  10011,
+    "appExeExists":  true,
+    "installDir":  "C:\\Users\\CodexMuaman13S\\AppData\\Local\\Programs\\muaman_store"
+}

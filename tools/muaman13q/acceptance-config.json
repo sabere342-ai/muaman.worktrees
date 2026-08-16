@@ -1,31 +1,31 @@
 {
   "phase": "MUAMAN-13Q",
-  "branchName": "codex/muaman-13q-independent-fresh-user-uninstall-reinstall-acceptance",
-  "baselineCommit": "6d293099c1b80d66417d907b3b19e1216d159e88",
-  "allowedChangedPrefixes": ["tools/muaman13q/", "docs/muaman-13q/"],
+  "branchName": "codex/i-tech-productization-t0",
+  "baselineCommit": "fdf2d33762635dc89e5fb0cffd765649c402e078",
+  "allowedChangedPrefixes": ["tools/", "docs/", "installer/", "delivery/", "app/windows/runner/Runner.rc"],
   "accountName": "CodexMuaman13Q",
   "installer": {
     "filename": "muaman-windows-installer.exe",
-    "sha256": "9A3AEFDD9188BD9A5D25D1D95324BE48C546DBB78BEC4B6998ECA4D4F1BAE0E1",
-    "sizeBytes": 13225828
+    "sha256": "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
+    "sizeBytes": 13223003
   },
   "application": {
     "appDirName": "muaman_store",
     "mainExecutable": "muaman_store.exe",
-    "exeSizeBytes": 91648,
-    "exeSha256": "9FF10A35BA134412E9070D262D8E723B5F9B56B614ED9998CFF75297A602AC2A",
+    "exeSizeBytes": 92160,
+    "exeSha256": "134918133777C779890CA3BD4EC9CFFFD990AE04B48BE3A71DE8142B2F2FAEA1",
     "flutterWindowsDllSha256": "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E",
     "appId": "299ADF2A-0E9E-4A25-916C-1CB8328D0E5E",
     "payloadFileCount": 16,
-    "payloadTotalBytes": 35753553,
-    "payloadCrossHash": "7BC418546CABA55A3389C22A277B327D32683ABC91DA6CAF75FDA163E7204D6F"
+    "payloadTotalBytes": 35754065,
+    "payloadCrossHash": "3A8CFA42656EABC8B06EEF835FB9222F95006E5B490D9B837AE76673A87794B0"
   },
   "data": {
     "ffiDbRelDir": ".dart_tool/sqflite_common_ffi/databases",
     "dbFileName": "muaman_store.db"
   },
   "shortcut": {
-    "startMenuName": "muaman_store.lnk",
+    "startMenuName": "I-TECH للتكنولوجيا.lnk",
     "startMenuDir": "Microsoft\\Windows\\Start Menu\\Programs",
     "machineStartMenuDir": "ProgramData\\Microsoft\\Windows\\Start Menu\\Programs"
   },
@@ -33,8 +33,8 @@
     "registrationRoot": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
     "keySuffix": "_is1",
     "registryKeyName": "{299ADF2A-0E9E-4A25-916C-1CB8328D0E5E}_is1",
-    "displayName": "muaman_store",
-    "publisher": "com.almuaman",
+    "displayName": "I-TECH للتكنولوجيا",
+    "publisher": "I-TECH للتكنولوجيا",
     "silentFlags": "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-"
   },
   "referenceFiles": {

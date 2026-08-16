@@ -1,0 +1,49 @@
+{
+    "window":  {
+                   "handle":  "0xB40896",
+                   "title":  "muaman_store",
+                   "className":  "FLUTTER_RUNNER_WIN32_WINDOW",
+                   "rect":  {
+                                "Left":  30,
+                                "Top":  30,
+                                "Width":  1500,
+                                "Height":  850
+                            }
+               },
+    "windowScreenshot":  "C:\\mu13o-acceptance\\m13p\\run\\20260816-012927\\evidence\\shots\\18-launch2-window.png",
+    "loginScreenShown":  true,
+    "loginMethods":  {
+                         "اسم المستخدم":  "RowTarget+FocusVerify try=1 x=1183 y=499 band-verified probe=13p",
+                         "كلمة المرور":  "RowTarget+FocusVerify try=1 x=1212 y=576 masked-verified",
+                         "تسجيل الدخول":  "ClickAt+TypeText(تسجيل) try=1"
+                     },
+    "loginButton":  {
+                        "clicked":  true,
+                        "try":  1,
+                        "screenX":  811,
+                        "screenY":  670,
+                        "word":  "تسجيل"
+                    },
+    "dashboardReached":  true,
+    "loginScreenshot":  "C:\\mu13o-acceptance\\m13p\\run\\20260816-012927\\evidence\\shots\\18-launch2-login.png",
+    "dashboardScreenshot":  "C:\\mu13o-acceptance\\m13p\\run\\20260816-012927\\evidence\\shots\\19-launch2-dashboard.png",
+    "databaseBeforeSecondLaunch":  {
+                                       "sizeBytes":  81920,
+                                       "sha256":  "7491FCB1C602ACDE9BCF388A56CAA5A9F02FA9F6A0052FEC3D2FFBEABEF43176"
+                                   },
+    "databaseAfterSecondLogin":  {
+                                     "sizeBytes":  81920,
+                                     "sha256":  "CD4B86D6EC835F02019B4665C078D09485E5CEC06F66C5422FD590C7BB2D3EE7",
+                                     "lastWriteTimeUtc":  "2026-08-15T22:30:38.017Z"
+                                 },
+    "close":  {
+                  "method":  "WM_CLOSE",
+                  "exited":  true,
+                  "exitCode":  0,
+                  "seconds":  0.3
+              },
+    "dbStillPresentAfterSecondClose":  true,
+    "orphanProcessIds":  [
+
+                         ]
+}

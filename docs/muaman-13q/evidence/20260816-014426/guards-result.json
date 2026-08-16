@@ -1,0 +1,82 @@
+{
+    "phase":  "MUAMAN-13Q",
+    "capturedAtUtc":  "2026-08-15T22:45:52.078Z",
+    "allPass":  true,
+    "gateCount":  18,
+    "gates":  {
+                  "Q1":  {
+                             "pass":  true,
+                             "reason":  "baseline integrity: HEAD=fdf2d33762635dc89e5fb0cffd765649c402e078 expected=fdf2d33762635dc89e5fb0cffd765649c402e078 scopeOk=True violations="
+                         },
+                  "Q2":  {
+                             "pass":  true,
+                             "reason":  "frozen installer identity sha=94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831 size=13223003 expected=94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831/13223003"
+                         },
+                  "Q3":  {
+                             "pass":  true,
+                             "reason":  "fresh independent standard user (SID S-1-5-21-2052787611-3211508837-1074070108-1028, groups=, integrity=Medium Mandatory Level, no admin privileges)"
+                         },
+                  "Q4":  {
+                             "pass":  true,
+                             "reason":  "clean pre-install state for fresh user: no install dir, no exe, no HKCU registration, no app/uninstaller processes; OS account-picture placeholder present (known false positive)"
+                         },
+                  "Q5":  {
+                             "pass":  true,
+                             "reason":  "first silent install exit=0 timedOut=False appExeExists=True installerShaMatches=True"
+                         },
+                  "Q6":  {
+                             "pass":  true,
+                             "reason":  "installed-state integrity: registration=True keys=1 payloadAllMatch=True unexpected=0 startMenu=True/machine=False hklmHits=0"
+                         },
+                  "Q7":  {
+                             "pass":  true,
+                             "reason":  "first launch: setup-\u003elogin-\u003edashboard, DB created with owner, clean close, screenshots=True"
+                         },
+                  "Q8":  {
+                             "pass":  true,
+                             "reason":  "official uninstaller discovery: path=C:\\Users\\CodexMuaman13Q\\AppData\\Local\\Programs\\muaman_store\\unins000.exe exists=True matchesExpected=True"
+                         },
+                  "Q9":  {
+                             "pass":  true,
+                             "reason":  "official uninstall via registered UninstallString exit=0 registrationRemoved=True exeRemoved=True uninstallerRemoved=True processesGone=True"
+                         },
+                  "Q10":  {
+                              "pass":  true,
+                              "reason":  "post-uninstall registration removed (HKCU keys=0), no app/uninstaller processes"
+                          },
+                  "Q11":  {
+                              "pass":  true,
+                              "reason":  "installer-owned files removed: exeGone=True payloadStill=0 uninsExtrasStill=0 startMenuStill=False"
+                          },
+                  "Q12":  {
+                              "pass":  true,
+                              "reason":  "leftover classification clean: unknown=0 retained=1 accountPicture=os-account-picture-placeholder hklmHits=0 programDataHits=0"
+                          },
+                  "Q13":  {
+                              "pass":  true,
+                              "reason":  "reinstall of same bytes exit=0 timedOut=False appExeExists=True installerShaMatches=True"
+                          },
+                  "Q14":  {
+                              "pass":  true,
+                              "reason":  "reinstalled-state integrity: registration=True keys=1 dupRegs=0 dupRoots=0 payloadAllMatch=True dbRetained=True"
+                          },
+                  "Q15":  {
+                              "pass":  true,
+                              "reason":  "second launch after reinstall: login-\u003edashboard, DB retained, clean close, screenshot=True"
+                          },
+                  "Q16":  {
+                              "pass":  true,
+                              "reason":  "same installer provenance for both installs (sha=94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831 == 94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831, size=13223003==13223003)"
+                          },
+                  "Q17":  {
+                              "pass":  true,
+                              "reason":  "secret hygiene: evidence+run-root secret-scan leaks=0 secretsFileGone=True"
+                          },
+                  "Q18":  {
+                              "pass":  true,
+                              "reason":  "repository integrity at gate time: scopeOk=True prodDiffViolations=0 ()"
+                          }
+              },
+    "evidenceRoot":  "C:\\mu13o-acceptance\\m13q\\run\\20260816-014426\\evidence",
+    "worktreePath":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0"
+}

@@ -1,0 +1,15 @@
+﻿{
+    "experimentId":  "I-TECH-T0-RUNNERRC-REBUILD",
+    "capturedAtUtc":  "2026-08-16T03:17:04.320Z",
+    "hardening":  {
+                      "temp":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\tmp",
+                      "tmp":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\tmp",
+                      "appdata":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\home\\appdata\\roaming",
+                      "localappdata":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\home\\appdata\\local",
+                      "userprofile":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\home",
+                      "home":  "C:\\Users\\saber\\AppData\\Local\\Temp\\muaman-release-I-TECH-T0-RUNNERRC-REBUILD\\home",
+                      "programdata":  "C:\\ProgramData",
+                      "pubCache":  "C:\\Users\\saber\\AppData\\Local\\Pub\\Cache",
+                      "msbuildDisableNodeReuse":  "1"
+                  }
+}

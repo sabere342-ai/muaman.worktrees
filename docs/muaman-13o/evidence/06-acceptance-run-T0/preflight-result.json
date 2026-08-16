@@ -1,0 +1,21 @@
+{
+    "run":  {
+                "startedAtUtc":  "2026-08-15T22:07:35.243Z",
+                "finishedAtUtc":  "2026-08-15T22:07:35.293Z",
+                "exitCode":  0
+            },
+    "checks":  {
+                   "defaultInstallDirAbsent":  true,
+                   "startMenuShortcutAbsent":  true,
+                   "uninstallRegistryAbsent":  true,
+                   "noRunningProcess":  true
+               },
+    "failureReason":  null,
+    "passed":  true,
+    "phase":  "MUAMAN-13O",
+    "mode":  "Preflight",
+    "problems":  [
+
+                 ],
+    "schemaVersion":  "1.0"
+}

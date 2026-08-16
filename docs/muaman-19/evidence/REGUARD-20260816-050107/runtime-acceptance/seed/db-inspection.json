@@ -1,0 +1,57 @@
+{
+  "database": "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\m19a-acceptance\\seed\\20260816-050107\\.dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db",
+  "inspectedAtUtc": "2026-08-16T02:06:55.873328+00:00",
+  "integrity_check": "ok",
+  "row_counts": {
+    "app_settings": 4,
+    "expenses": 32,
+    "import_batches": 0,
+    "inventory_count": 0,
+    "invoices": 0,
+    "products": 86,
+    "returns": 8,
+    "role_permissions": 0,
+    "sales": 225,
+    "users": 0
+  },
+  "first_product_samples": [
+    {
+      "name": "تي شيرت 2سوستة تركي",
+      "barcode": "2000000000001"
+    },
+    {
+      "name": "تي شيرت بلانكو قصات",
+      "barcode": "2000000000002"
+    },
+    {
+      "name": "تي شيرت حورس طباعة فوم",
+      "barcode": "2000000000003"
+    },
+    {
+      "name": "تي شيرت كويك",
+      "barcode": "2000000000004"
+    },
+    {
+      "name": "تي شيرت وولف سادة",
+      "barcode": "2000000000005"
+    }
+  ],
+  "app_settings": [
+    [
+      "buttonStyle",
+      "filled"
+    ],
+    [
+      "supportPhone",
+      "+201014900211"
+    ],
+    [
+      "defaultCustomerName",
+      "عميل نقدي"
+    ],
+    [
+      "licenseStatus",
+      "inactive"
+    ]
+  ]
+}

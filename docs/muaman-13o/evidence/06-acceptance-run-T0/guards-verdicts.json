@@ -1,0 +1,196 @@
+{
+    "schemaVersion":  "1.0",
+    "phase":  "MUAMAN-13O",
+    "tool":  "tools/muaman13o/guard_tests_13o.ps1",
+    "repoRoot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0",
+    "acceptanceRoot":  "C:\\mu13o-acceptance\\T0-20260815-e",
+    "baselineCommit":  "fdf2d33762635dc89e5fb0cffd765649c402e078",
+    "expectedBranch":  "codex/i-tech-productization-t0",
+    "overallPass":  true,
+    "guardCount":  13,
+    "passedCount":  13,
+    "failedCount":  0,
+    "failedGuards":  [
+
+                     ],
+    "generatedAtUtc":  "2026-08-15T22:09:23.0489173Z",
+    "guards":  {
+                   "O1":  {
+                              "guard":  "O1 baseline and initial safety",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "head":  "fdf2d33762635dc89e5fb0cffd765649c402e078",
+                              "branch":  "codex/i-tech-productization-t0",
+                              "expectedBranch":  "codex/i-tech-productization-t0",
+                              "descendsFromBaseline":  true,
+                              "baseline":  "fdf2d33762635dc89e5fb0cffd765649c402e078",
+                              "tagAtHead":  ""
+                          },
+                   "O2":  {
+                              "guard":  "O2 scope guard (production diff empty)",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "changedFiles":  [
+                                                   "app/windows/runner/Runner.rc",
+                                                   "delivery/Muaman-1.0.0-Windows.zip",
+                                                   "delivery/Muaman-1.0.0-Windows.zip.sha256",
+                                                   "delivery/Muaman-1.0.0-Windows/Muaman-Setup.exe",
+                                                   "delivery/Muaman-1.0.0-Windows/README.txt",
+                                                   "delivery/Muaman-1.0.0-Windows/SHA256SUMS.txt",
+                                                   "docs/windows-delivery-refresh/evidence/legal/03-muaman16-release-contract.json",
+                                                   "docs/windows-delivery-refresh/evidence/legal/release-manifest.json",
+                                                   "installer/muaman.iss",
+                                                   "tools/muaman13o/guard_tests_13o.ps1",
+                                                   "tools/muaman13o/installer_contract.json",
+                                                   "tools/muaman13o/verify_installer_acceptance.ps1",
+                                                   "tools/muaman13p/acceptance-config.json",
+                                                   "tools/muaman13p/fresh_user_worker.ps1",
+                                                   "tools/muaman13p/verify_fresh_user_install.ps1",
+                                                   "tools/muaman13q/acceptance-config.json",
+                                                   "tools/muaman13q/fresh_user_worker.ps1",
+                                                   "tools/muaman13q/guard_negative_controls.ps1",
+                                                   "tools/muaman13q/verify_fresh_user_uninstall_reinstall.ps1",
+                                                   "tools/muaman13r/README.txt",
+                                                   "tools/muaman13r/guard_tests_13r.ps1",
+                                                   "tools/muaman13r/package_final_delivery.ps1",
+                                                   "tools/muaman13s/acceptance-config.json",
+                                                   "tools/muaman13s/consumer_worker.ps1",
+                                                   "tools/muaman13s/guard_tests_13s.ps1",
+                                                   "tools/muaman13s/orchestrator_13s.ps1",
+                                                   "tools/release/guard_tests_13l.ps1",
+                                                   "tools/release/package_windows_installer.ps1",
+                                                   "tools/release/verify_release.ps1",
+                                                   "delivery/Muaman-1.0.0-Windows/I-TECH-Setup.exe",
+                                                   "docs/muaman-13l/",
+                                                   "docs/muaman-13r/evidence/20260815-T0-packaging/"
+                                               ],
+                              "productionDiff":  [
+
+                                                 ],
+                              "scopeViolations":  [
+
+                                                  ]
+                          },
+                   "O3":  {
+                              "guard":  "O3 canonical release-source guard",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "entrypoint":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\tools\\release\\package_windows_installer.ps1",
+                              "installerDefinition":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\installer\\muaman.iss"
+                          },
+                   "O4":  {
+                              "guard":  "O4 installer toolchain identity",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "compilerPath":  "C:\\m13o\\toolchain\\inno-6.7.3\\ISCC.exe",
+                              "compilerPresent":  true,
+                              "compilerSha256":  "0A8757031B33777E4C9CBFFEE40F11A5062B36D25CBE144C1DB73B6102B80AD7",
+                              "expectedCompilerSha256":  "0A8757031B33777E4C9CBFFEE40F11A5062B36D25CBE144C1DB73B6102B80AD7",
+                              "expectedCompilerVersion":  "6.7.3"
+                          },
+                   "O5":  {
+                              "guard":  "O5 installer contract guard",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "contract":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\tools\\muaman13o\\installer_contract.json",
+                              "installerDefinition":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\installer\\muaman.iss"
+                          },
+                   "O6":  {
+                              "guard":  "O6 release manifest guard",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "legalManifest":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\docs\\windows-delivery-refresh\\evidence\\legal\\release-manifest.json",
+                              "evidence":  "evidence/build-a/staging-verification.json"
+                          },
+                   "O7":  {
+                              "guard":  "O7 deterministic installer guard",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "buildA":  "C:\\mu13o-acceptance\\T0-20260815-e\\out\\build-a\\muaman-windows-installer.exe",
+                              "buildB":  "C:\\mu13o-acceptance\\T0-20260815-e\\out\\build-b\\muaman-windows-installer.exe",
+                              "evidence":  "evidence/compare-result.json"
+                          },
+                   "O8":  {
+                              "guard":  "O8 installation guard",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "installDir":  "C:\\mu13o-acceptance\\T0-20260815-e\\consumer\\install-root",
+                              "installerSha256":  "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
+                              "expectedInstallerSha256":  "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
+                              "evidence":  "evidence/install-result.json"
+                          },
+                   "O9":  {
+                              "guard":  "O9 installed payload guard",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "contractFileCount":  16,
+                              "recordedFileCount":  16,
+                              "crossCheckMismatches":  [
+
+                                                       ],
+                              "evidence":  "evidence/install-result.json + installer_contract.json"
+                          },
+                   "O10":  {
+                               "guard":  "O10 installed launch guard",
+                               "pass":  true,
+                               "failures":  [
+
+                                            ],
+                               "pid":  22028,
+                               "mainWindowTitle":  "muaman_store",
+                               "modulesLoaded":  78,
+                               "runtimeDataCreatedInInstallDir":  ".dart_tool/sqflite_common_ffi/databases/muaman_store.db",
+                               "evidence":  "evidence/launch-result.json"
+                           },
+                   "O11":  {
+                               "guard":  "O11 module-origin guard",
+                               "pass":  true,
+                               "failures":  [
+
+                                            ],
+                               "modulesLoaded":  78,
+                               "moduleOriginIssueCount":  0,
+                               "policy":  "every loaded module must originate from the install root or the Windows directory",
+                               "evidence":  "evidence/launch-result.json"
+                           },
+                   "O12":  {
+                               "guard":  "O12 uninstallation guard",
+                               "pass":  true,
+                               "failures":  [
+
+                                            ],
+                               "businessDataBefore":  ".dart_tool/sqflite_common_ffi/databases/muaman_store.db",
+                               "installRootState":  "present",
+                               "evidence":  "evidence/uninstall-result.json"
+                           },
+                   "O13":  {
+                               "guard":  "O13 negative-control guard",
+                               "pass":  true,
+                               "failures":  [
+
+                                            ],
+                               "tamperedFile":  "muaman_store.exe",
+                               "preflightExitCode":  1,
+                               "failClosed":  true,
+                               "evidence":  "evidence/negative-result.json"
+                           }
+               }
+}

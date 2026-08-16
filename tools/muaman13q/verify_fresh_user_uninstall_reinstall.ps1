@@ -16,7 +16,8 @@ param(
     [string]$CredFile = 'C:\Users\saber\AppData\Local\Temp\opencode\m13q-cred.txt',
     [string]$AccountName = 'CodexMuaman13Q',
     [string]$Domain = $env:COMPUTERNAME,
-    [string]$RunId = (Get-Date -Format 'yyyyMMdd-HHmmss')
+    [string]$RunId = (Get-Date -Format 'yyyyMMdd-HHmmss'),
+    [string]$ExpectedHead = ''
 )
 
 Set-StrictMode -Version Latest
@@ -73,11 +74,12 @@ Write-JsonUtf8 -Path (Join-Path $runRoot '00-orchestration.json') -Object $recor
 # ------------------------------------------------------------- 1. git preflight
 Write-Output '[1/9] git preflight'
 $gitViolations = $null
-$gitOk = Test-GitCleanScope -RepoPath $WorktreePath -ExpectedHead $cfg.baselineCommit -AllowedPrefixes $cfg.allowedChangedPrefixes -Violations ([ref]$gitViolations)
+$expectedHead = if ([string]::IsNullOrWhiteSpace($ExpectedHead)) { $cfg.baselineCommit } else { $ExpectedHead }
+$gitOk = Test-GitCleanScope -RepoPath $WorktreePath -ExpectedHead $expectedHead -AllowedPrefixes $cfg.allowedChangedPrefixes -Violations ([ref]$gitViolations)
 if (-not $gitOk) {
     Fail "worktree scope check failed:`n$($gitViolations -join "`n")"
 }
-$record['gitHead'] = $cfg.baselineCommit
+$record['gitHead'] = $expectedHead
 $record['gitClean'] = $true
 Write-JsonUtf8 -Path (Join-Path $runRoot '00-orchestration.json') -Object $record
 

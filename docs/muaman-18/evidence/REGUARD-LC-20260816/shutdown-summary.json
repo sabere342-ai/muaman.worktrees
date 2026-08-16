@@ -1,0 +1,18 @@
+﻿{
+    "runId":  "REGUARD-LC-20260816",
+    "scenario":  "launch-close",
+    "exe":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\app\\build\\windows\\x64\\runner\\Release\\muaman_store.exe",
+    "cyclesRequested":  20,
+    "cyclesExecuted":  20,
+    "passed":  20,
+    "failed":  0,
+    "crashes":  0,
+    "hang":  0,
+    "lingering":  0,
+    "forcedKills":  0,
+    "crashCodes":  [
+
+                   ],
+    "passRate":  100,
+    "status":  "PASS"
+}

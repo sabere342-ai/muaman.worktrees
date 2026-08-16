@@ -1,0 +1,18 @@
+{
+    "run":  {
+                "startedAtUtc":  "2026-08-15T22:07:52.354Z",
+                "finishedAtUtc":  "2026-08-15T22:08:08.830Z",
+                "exitCode":  0
+            },
+    "mode":  "BuildB",
+    "failureReason":  null,
+    "passed":  true,
+    "phase":  "MUAMAN-13O",
+    "installer":  {
+                      "path":  "C:\\mu13o-acceptance\\T0-20260815-e\\out\\build-b\\muaman-windows-installer.exe",
+                      "sha256":  "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
+                      "sizeBytes":  13223003
+                  },
+    "entrypointExitCode":  0,
+    "schemaVersion":  "1.0"
+}

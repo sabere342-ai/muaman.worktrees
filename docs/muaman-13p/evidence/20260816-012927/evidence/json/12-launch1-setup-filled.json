@@ -1,0 +1,15 @@
+{
+    "methods":  {
+                    "الاسم":  "RowTarget+FocusVerify try=1 x=1260 y=419 band-verified probe=13P",
+                    "اسم المستخدم":  "RowTarget+FocusVerify try=1 x=1181 y=522 band-verified probe=13p",
+                    "كلمة المرور":  "RowTarget+FocusVerify try=1 x=1212 y=576 masked-verified",
+                    "تأكيد كلمة المرور":  "RowTarget+FocusVerify try=1 x=1180 y=656 masked-verified"
+                },
+    "button":  {
+                   "clicked":  true,
+                   "try":  1,
+                   "screenX":  839,
+                   "screenY":  750,
+                   "word":  "إنشاء"
+               }
+}

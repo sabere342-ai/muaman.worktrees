@@ -29,8 +29,8 @@ param(
     [string]$AccountName = 'CodexMuaman13S',
     [string]$Domain = $env:COMPUTERNAME,
     [string]$RunId = (Get-Date -Format 'yyyyMMdd-HHmmss'),
-    [string]$ExpectedHead = 'f9a0f70150053d5d59f5106741d052d92e19d6d0',
-    [string]$ExpectedFinalHead = 'f9a0f70150053d5d59f5106741d052d92e19d6d0',
+    [string]$ExpectedHead = 'fdf2d33762635dc89e5fb0cffd765649c402e078',
+    [string]$ExpectedFinalHead = 'fdf2d33762635dc89e5fb0cffd765649c402e078',
     [switch]$SkipEvidenceCopy
 )
 

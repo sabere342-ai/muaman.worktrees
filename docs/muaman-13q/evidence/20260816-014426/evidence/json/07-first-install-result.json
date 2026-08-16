@@ -1,0 +1,12 @@
+{
+    "commandLine":  "\"C:\\mu13o-acceptance\\m13q\\run\\20260816-014426\\installer\\muaman-windows-installer.exe\" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /LOG=\"C:\\mu13o-acceptance\\m13q\\run\\20260816-014426\\evidence\\logs\\install1.log\"",
+    "exitCode":  0,
+    "timedOut":  false,
+    "durationSec":  2.3,
+    "installLogPath":  "C:\\mu13o-acceptance\\m13q\\run\\20260816-014426\\evidence\\logs\\install1.log",
+    "installLogBytes":  9898,
+    "appExeExists":  true,
+    "installDir":  "C:\\Users\\CodexMuaman13Q\\AppData\\Local\\Programs\\muaman_store",
+    "installerSha256":  "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
+    "installerSize":  13223003
+}

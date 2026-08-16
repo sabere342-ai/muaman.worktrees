@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.almuaman" "\0"
-            VALUE "FileDescription", "muaman_store" "\0"
+            VALUE "CompanyName", "I-TECH للتكنولوجيا" "\0"
+            VALUE "FileDescription", "I-TECH للتكنولوجيا" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "muaman_store" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 com.almuaman. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 I-TECH للتكنولوجيا. All rights reserved." "\0"
             VALUE "OriginalFilename", "muaman_store.exe" "\0"
-            VALUE "ProductName", "muaman_store" "\0"
+            VALUE "ProductName", "I-TECH للتكنولوجيا" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

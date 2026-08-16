@@ -418,6 +418,50 @@ try {
         $result
     }
 
+    # -------------------------------------------------------- account reset
+    # The acceptance runs on a dedicated account that persists across runs, so a
+    # previous run's residue (install dir, DB, HKCU uninstall key, start-menu
+    # link) must be removed before install. Otherwise a stale muaman_store.db
+    # makes hasAnyUser() return true and the app skips first-owner setup.
+    Invoke-Step -Name 'accountReset' -Fatal {
+        $before = [ordered]@{
+            installDirExists = Test-Path -LiteralPath $installDir
+            dbExists = Test-Path -LiteralPath $dbPath
+            hkcuUninstallKeyExists = Test-Path -LiteralPath $uninstallKey
+            startMenuLinkExists = Test-Path -LiteralPath $startMenuLink
+        }
+        Get-Process -Name ([System.IO.Path]::GetFileNameWithoutExtension($cfg.application.mainExecutable)) -ErrorAction SilentlyContinue |
+            Stop-Process -Force -ErrorAction SilentlyContinue
+        Start-Sleep -Milliseconds 500
+        foreach ($target in @($installDir, $uninstallKey, $startMenuLink)) {
+            if (-not (Test-Path -LiteralPath $target)) { continue }
+            for ($attempt = 1; $attempt -le 5; $attempt++) {
+                try {
+                    Remove-Item -LiteralPath $target -Recurse -Force -ErrorAction Stop
+                    break
+                } catch {
+                    if ($attempt -eq 5) { throw }
+                    Start-Sleep -Milliseconds 1000
+                }
+            }
+        }
+        $after = [ordered]@{
+            installDirExists = Test-Path -LiteralPath $installDir
+            dbExists = Test-Path -LiteralPath $dbPath
+            hkcuUninstallKeyExists = Test-Path -LiteralPath $uninstallKey
+            startMenuLinkExists = Test-Path -LiteralPath $startMenuLink
+        }
+        $result = [ordered]@{
+            before = $before
+            after = $after
+            resetOk = (-not $after.installDirExists) -and (-not $after.dbExists) -and
+                      (-not $after.hkcuUninstallKeyExists) -and (-not $after.startMenuLinkExists)
+        }
+        Save-Json -Name '05a-account-reset.json' -Object $result
+        if (-not $result.resetOk) { throw 'account reset failed: leftover app state still present' }
+        $result
+    }
+
     # ---------------------------------------------------------- pre-install state
     Invoke-Step -Name 'prestate' -Fatal {
         $os = Get-CimInstance Win32_OperatingSystem
@@ -501,7 +545,7 @@ try {
             Get-Item -Path $pattern -ErrorAction SilentlyContinue | ForEach-Object {
                 $child = $_.PSChildName
                 $display = Get-RegValueSafe -Path $_.PSPath -Property 'DisplayName'
-                if ($child -like '*muaman*' -or ($display -like '*muaman*')) { $hklmUninstallHits += $child }
+                if ($child -like '*muaman*' -or ($display -like '*muaman*') -or ($display -like '*I-TECH*')) { $hklmUninstallHits += $child }
             }
         }
         $result = [ordered]@{
@@ -513,8 +557,23 @@ try {
             startMenuLinkExists = Test-Path -LiteralPath $startMenuLink
             machineStartMenuLinkExists = Test-Path -LiteralPath $machineStartMenuLink
             startMenuShortcutTarget = if (Test-Path -LiteralPath $startMenuLink) {
-                $sh = New-Object -ComObject WScript.Shell
-                $sh.CreateShortcut($startMenuLink).TargetPath
+                $resolved = $null
+                try {
+                    # WScript.Shell mangles non-ASCII (Arabic) shortcut names;
+                    # Shell.Application resolves them correctly.
+                    $shellApp = New-Object -ComObject Shell.Application
+                    $ns = $shellApp.NameSpace((Split-Path $startMenuLink))
+                    $item = $ns.ParseName((Split-Path $startMenuLink -Leaf))
+                    if ($item) {
+                        $link = $item.GetLink()
+                        if ($link) { $resolved = $link.Path }
+                    }
+                } catch {}
+                if (-not $resolved) {
+                    $sh = New-Object -ComObject WScript.Shell
+                    $resolved = $sh.CreateShortcut($startMenuLink).TargetPath
+                }
+                $resolved
             } else { $null }
             payload = $payload
             hklmUninstallHits = $hklmUninstallHits
@@ -896,8 +955,23 @@ try {
             startMenuLinkExists = Test-Path -LiteralPath $startMenuLink
             machineStartMenuLinkExists = Test-Path -LiteralPath $machineStartMenuLink
             startMenuShortcutTarget = if (Test-Path -LiteralPath $startMenuLink) {
-                $sh = New-Object -ComObject WScript.Shell
-                $sh.CreateShortcut($startMenuLink).TargetPath
+                $resolved = $null
+                try {
+                    # WScript.Shell mangles non-ASCII (Arabic) shortcut names;
+                    # Shell.Application resolves them correctly.
+                    $shellApp = New-Object -ComObject Shell.Application
+                    $ns = $shellApp.NameSpace((Split-Path $startMenuLink))
+                    $item = $ns.ParseName((Split-Path $startMenuLink -Leaf))
+                    if ($item) {
+                        $link = $item.GetLink()
+                        if ($link) { $resolved = $link.Path }
+                    }
+                } catch {}
+                if (-not $resolved) {
+                    $sh = New-Object -ComObject WScript.Shell
+                    $resolved = $sh.CreateShortcut($startMenuLink).TargetPath
+                }
+                $resolved
             } else { $null }
             startMenuHits = $startMenuHits
             payload = $payload

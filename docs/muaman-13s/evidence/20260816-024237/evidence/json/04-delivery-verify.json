@@ -1,0 +1,16 @@
+{
+    "step":  "S1-verify-received-zip",
+    "zipPath":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\received\\Muaman-1.0.0-Windows.zip",
+    "zipCopyExists":  true,
+    "verify":  {
+                   "name":  "Test-DeliveryZipIdentity",
+                   "pass":  true,
+                   "zipPath":  "C:\\Users\\CodexMuaman13S\\Downloads\\Muaman-13S\\received\\Muaman-1.0.0-Windows.zip",
+                   "zipSha256":  "4258E9105116D0D73281C4CD5027ECC478517D662FCA3E6D70F25418E7204C8A",
+                   "zipSize":  12665973,
+                   "expectedSha256":  "4258E9105116D0D73281C4CD5027ECC478517D662FCA3E6D70F25418E7204C8A",
+                   "expectedSize":  12665973,
+                   "shaMatch":  true,
+                   "sizeMatch":  true
+               }
+}

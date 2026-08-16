@@ -1,0 +1,45 @@
+{
+  "runId": "REGUARD-20260816-050107",
+  "marker": "2000000000001",
+  "production": {
+    "worktree": "i-tech-productization-t0 (accepted artifact, NOT rebuilt)",
+    "exe": {
+      "sha256": "134918133777C779890CA3BD4EC9CFFFD990AE04B48BE3A71DE8142B2F2FAEA1",
+      "sizeBytes": 92160
+    },
+    "appSo": {
+      "sha256": "86369AA8DFD530AD15C90F394FFB7D9F29A5AA67AB06A6C7F5A42516B212ED93",
+      "sizeBytes": 9290656,
+      "asciiHits": 0,
+      "utf8Hits": 0
+    },
+    "exeBarcodeHits": 0,
+    "exeSeedDefineRefs": 0,
+    "appSoSeedDefineRefs": 0
+  },
+  "seeded": {
+    "worktree": "muaman-19-safe-demo-data-commissioning-clean-start",
+    "headCommit": "697a9f974cf7433dac30fe4f09940076d923fa2f",
+    "build": "flutter build windows --release --dart-define=MUAMAN_SEED_DEMO=true",
+    "exe": {
+      "sha256": "9FF10A35BA134412E9070D262D8E723B5F9B56B614ED9998CFF75297A602AC2A",
+      "sizeBytes": 91648
+    },
+    "appSo": {
+      "sha256": "96D45E7CB97D69D80563FF7D5047DBF7C1D8C176F1355DC953FE4B3FCBCEAC73",
+      "sizeBytes": 9372576,
+      "asciiHits": 1,
+      "utf8Hits": 1
+    },
+    "exeBarcodeHits": 0,
+    "exeSeedDefineRefs": 0,
+    "appSoSeedDefineRefs": 0
+  },
+  "comparison": {
+    "productionVsSeedAppSoDifferent": true,
+    "productionVsSeedExeDifferent": true,
+    "seedAppSoSizeMatchesHistoricalSeedBinaryProbe": true,
+    "productionAppSoSizeMatchesHistoricalProdBinaryProbe": true
+  },
+  "conclusion": "the demo dataset (barcode marker) is AOT-tree-shaken out of the define-free production build and exists only in the explicitly define-enabled seed build; identical committed app source, different define, different artifact, marker present only in the seed artifact."
+}

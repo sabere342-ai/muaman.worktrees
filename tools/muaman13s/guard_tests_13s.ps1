@@ -153,7 +153,7 @@ try {
     $checks = $ev.packageValidation.checks
 
     $p6 = ($checks.installer.pass -eq $true)
-    Add-Gate -Name 'S06-installer-identity' -Pass $p6 -Detail 'extracted Muaman-Setup.exe identity' `
+    Add-Gate -Name 'S06-installer-identity' -Pass $p6 -Detail 'extracted I-TECH-Setup.exe identity' `
         -Expected "$($cfg.installer.sha256) / $($cfg.installer.sizeBytes)" -Actual "sha=$($checks.installer.sha256) size=$($checks.installer.size)"
     Test-Pass -Pass $p6 -Gate 'S06-installer-identity' -Detail ''
 

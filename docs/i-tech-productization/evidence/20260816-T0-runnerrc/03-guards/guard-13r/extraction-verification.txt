@@ -1,0 +1,9 @@
+﻿MUAMAN-13R extraction verification
+====================================
+zip              : C:\dev\muaman.worktrees\i-tech-productization-t0\delivery\Muaman-1.0.0-Windows.zip
+extractedRoot    : C:\Users\saber\AppData\Local\Temp\m13r-guard-20660\extract-final-verify
+pathSafetyProblems: 0
+extractedFileCount: 3
+I-TECH-Setup.exe|13223003|94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831|match=True
+README.txt|2313|13AA05AB795D9C47C3071B29CB1EF867BAC022F73D436A83B7EFE38625D877B2|match=True
+SHA256SUMS.txt|84|B853725F302F5B0053E75B8D3A781A289A0891433C70300C448F907E6C07C573|match=True

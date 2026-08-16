@@ -1,0 +1,17 @@
+﻿{
+    "runIdPrefix":  "REGUARD-STRESS-C",
+    "startedUtc":  "2026-08-16T01:43:47.841Z",
+    "finishedUtc":  "2026-08-16T01:48:21.567Z",
+    "cyclesRequested":  1,
+    "cyclesExecuted":  1,
+    "passed":  1,
+    "hang":  0,
+    "crashDumps":  0,
+    "badExit":  0,
+    "orphanCycles":  0,
+    "forcedKills":  0,
+    "crashCodes":  [
+
+                   ],
+    "status":  "PASS"
+}

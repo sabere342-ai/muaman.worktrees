@@ -1,4 +1,4 @@
-# MUAMAN-13O guard-point verification harness (O1..O14).
+﻿# MUAMAN-13O guard-point verification harness (O1..O14).
 #
 # Verifies the mandatory acceptance gates of the deterministic Windows installer
 # phase against the frozen installer contract, the canonical release package,
@@ -10,11 +10,12 @@
 #                                        baseline, expected branch, no tag at HEAD
 #   O2  scope guard (production diff empty) working tree + commits restricted to
 #                                        tools/ docs/ installer/; app/lib, app/windows,
-#                                        assets, pubspec never touched
+#                                        assets, pubspec never touched (sole T0 carve-out:
+#                                        app/windows/runner/Runner.rc version-resource)
 #   O3  canonical release-source guard   installer entrypoint DELEGATES packaging to
 #                                        package_windows_release.ps1 and verification to
 #                                        verify_release.ps1; no build/verify re-implementation;
-#                                        .iss lists the 13 legal files with NO wildcards;
+#                                        .iss lists the 16 legal files with NO wildcards;
 #                                        verify-before-compile source ordering
 #   O4  installer toolchain identity     pinned ISCC.exe present with the frozen SHA-256
 #   O5  installer contract guard         installer/muaman.iss matches the frozen contract
@@ -24,7 +25,7 @@
 #                                        committed MUAMAN-13K legal manifest
 #   O7  deterministic installer guard    Build A and Build B installer outputs byte-identical
 #   O8  installation guard               silent install exit 0 + payload + shortcut + registration
-#   O9  installed payload guard          13 payload files present with matching size + SHA-256
+#   O9  installed payload guard          16 payload files present with matching size + SHA-256
 #   O10 installed launch guard           process alive, main window visible, clean shutdown,
 #                                        payload files unchanged after launch
 #   O11 module-origin guard              every loaded module originates from the install root
@@ -49,8 +50,8 @@ param(
   [string]$CompilerPath = '',
   [string]$InstallerA = '',
   [string]$InstallerB = '',
-  [string]$BaselineCommit = 'bacac28e63148063f47dae73c808bfb53b6394da',
-  [string]$ExpectedBranch = 'codex/muaman-13o-deterministic-windows-installer-local-acceptance',
+  [string]$BaselineCommit = 'fdf2d33762635dc89e5fb0cffd765649c402e078',
+  [string]$ExpectedBranch = 'codex/i-tech-productization-t0',
   [switch]$IncludeO14
 )
 Set-StrictMode -Version Latest
@@ -81,12 +82,12 @@ $PackageScript = Join-Path $RepoRoot 'tools\release\package_windows_release.ps1'
 $Verifier = Join-Path $RepoRoot 'tools\release\verify_release.ps1'
 $Iss = Join-Path $RepoRoot 'installer\muaman.iss'
 $ContractPath = Join-Path $RepoRoot 'tools\muaman13o\installer_contract.json'
-$LegalManifest = Join-Path $RepoRoot 'docs\evidence\muaman-13k\04-k1-source-a-sdk-a-shorttemp\release-manifest.json'
+$LegalManifest = Join-Path $RepoRoot 'docs\windows-delivery-refresh\evidence\legal\release-manifest.json'
 
-$ExpectedZipSha256   = '57C00E79605340E8AE3477393EC060EE155F9ACA9D346E7314F2F3014FD1A008'
-$ExpectedCrossHash   = 'EE892B351DC7CC343D4005C49F745CC24F69DCD243C46D5AF526701C11FCB0A9'
-$ExpectedFileCount   = 13
-$ExpectedTotalBytes  = 33273462
+$ExpectedZipSha256   = 'FDEE3AF699570561FC401F6FD908A0FF6EB78539F43EE072F45871F9485D2A3E'
+$ExpectedCrossHash   = '3A8CFA42656EABC8B06EEF835FB9222F95006E5B490D9B837AE76673A87794B0'
+$ExpectedFileCount   = 16
+$ExpectedTotalBytes  = 35754065
 $ExpectedCompilerSha = '0A8757031B33777E4C9CBFFEE40F11A5062B36D25CBE144C1DB73B6102B80AD7'
 $ExpectedCompilerVersion = '6.7.3'
 $ExpectedAppId       = '{299ADF2A-0E9E-4A25-916C-1CB8328D0E5E}'
@@ -159,7 +160,9 @@ function Get-O2Verdict {
   # working tree (unstaged + staged + untracked)
   $st = (Invoke-Git 'status --porcelain').out -split "`r?`n" | Where-Object { $_ -ne '' }
   foreach ($line in $st) {
-    $p = if ($line.Length -gt 3) { $line.Substring(3).Trim() } else { '' }
+    $l = $line.Trim()
+    if ([string]::IsNullOrWhiteSpace($l)) { continue }
+    $p = if ($l.Length -gt 3 -and $l[2] -eq ' ') { $l.Substring(3) } else { $l.Substring([Math]::Min(2, $l.Length)) }
     if ([string]::IsNullOrWhiteSpace($p)) { continue }
     if ($p.StartsWith('"')) {
       $p = $p.Trim('"').Replace('\\', '\')
@@ -170,10 +173,14 @@ function Get-O2Verdict {
   $committed = @((Invoke-Git ('diff --name-only {0}..HEAD' -f $BaselineCommit)).out -split "`r?`n" | Where-Object { $_ -ne '' })
   foreach ($c in $committed) { [void]$changed.Add($c.Replace('\', '/')) }
 
-  $allowed = @('tools/', 'docs/', 'installer/')
+  $allowed = @('tools/', 'docs/', 'installer/', 'delivery/')
   $forbidden = @('app/lib/', 'app/windows/', 'assets/', 'app/pubspec.yaml', 'app/pubspec.lock')
+  # T0 packaging-level productization carriers: the version-resource (Runner.rc)
+  # is the sole permitted app/ file; all other app/ production paths stay frozen.
+  $t0CarveOuts = @('app/windows/runner/Runner.rc')
   $scopeViolations = @()
   foreach ($c in @($changed)) {
+    if ($c -in $t0CarveOuts) { continue }
     $ok = $false
     foreach ($a in $allowed) { if ($c.StartsWith($a, [System.StringComparison]::OrdinalIgnoreCase)) { $ok = $true; break } }
     if (-not $ok) { $scopeViolations += $c }
@@ -182,7 +189,7 @@ function Get-O2Verdict {
     }
   }
   $productionDiff = @($changed | Where-Object {
-    $_ -match '^app/(lib|windows)/' -or $_ -match '^assets/' -or $_ -match '^app/pubspec\.(yaml|lock)$'
+    ($_ -notin $t0CarveOuts) -and ($_ -match '^app/(lib|windows)/' -or $_ -match '^assets/' -or $_ -match '^app/pubspec\.(yaml|lock)$')
   })
   $scopeViolations = @($scopeViolations | Select-Object -Unique)
 
@@ -231,7 +238,7 @@ function Get-O3Verdict {
     elseif ($verifyIdx -ge 0 -and $verifyIdx -ge $compileIdx) { $bad += 'verification is not source-ordered before installer compilation' }
   }
 
-  # .iss: exactly the 13 legal files, no wildcards
+  # .iss: exactly the 16 legal files, no wildcards
   $legalRels = @($null)
   if (Test-Path -LiteralPath $ContractPath) {
     $c = Read-JsonIf $ContractPath
@@ -245,8 +252,8 @@ function Get-O3Verdict {
     foreach ($s in $sourceLines) {
       if ($s -match '\*') { $bad += ".iss [Files] entry uses a wildcard: $s" }
     }
-    # each Source path must correspond to one of the 13 legal rel paths
-    if ($legalRels.Count -eq 13) {
+    # each Source path must correspond to one of the 16 legal rel paths
+    if ($legalRels.Count -eq 16) {
       foreach ($s in $sourceLines) {
         $m = [regex]::Match($s, 'Source:\s*"\{#AppSourceDir\}\\([^"]+)"')
         if ($m.Success) {
@@ -326,7 +333,7 @@ function Get-O5Verdict {
       'DefaultDirName={localappdata}\Programs\muaman_store',
       'Compression=lzma2/max',
       'SolidCompression=yes',
-      'Name: "{autoprograms}\muaman_store"',
+      'Name: "{autoprograms}\I-TECH للتكنولوجيا"',
       'Flags: unchecked'
     )) {
       if ($issText -notmatch [regex]::Escape($token)) { $bad += ".iss missing required token: $token" }
@@ -374,7 +381,7 @@ function Get-O6Verdict {
   if (-not (Test-Path -LiteralPath $LegalManifest -PathType Leaf)) { $bad += "legal manifest missing: $LegalManifest" }
   else {
     $legal = Read-JsonIf $LegalManifest
-    if ($null -eq $legal -or @($legal.files).Count -ne $ExpectedFileCount) { $bad += 'legal manifest file count is not 13' }
+    if ($null -eq $legal -or @($legal.files).Count -ne $ExpectedFileCount) { $bad += 'legal manifest file count is not 16' }
   }
   [ordered]@{
     guard = 'O6 release manifest guard'
@@ -417,7 +424,7 @@ $verdicts['O7'] = Get-O7Verdict
 # ---------------------------------------------------------------------------
 # O8 installation guard
 # ---------------------------------------------------------------------------
-$ExpectedInstallerSha = '05509FA7CF68896BA3718B919C47F72DB35B034484C423C496AC1E60B48007EB'
+$ExpectedInstallerSha = '94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831'
 function Get-O8Verdict {
   $bad = @()
   $install = Read-JsonIf (Join-Path $AcceptanceRoot 'evidence\install-result.json')

@@ -1,0 +1,54 @@
+{
+    "uninstallKeyPath":  "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\299ADF2A-0E9E-4A25-916C-1CB8328D0E5E_is1",
+    "uninstallKeyMatched":  "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{299ADF2A-0E9E-4A25-916C-1CB8328D0E5E}_is1",
+    "hkcuUninstallPresent":  true,
+    "hkcuUninstall":  {
+                          "Inno Setup: Setup Version":  "6.7.3",
+                          "Inno Setup: App Path":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store",
+                          "InstallLocation":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store\\",
+                          "Inno Setup: Icon Group":  "muaman_store",
+                          "Inno Setup: User":  "CodexMuaman13P",
+                          "Inno Setup: Selected Tasks":  "",
+                          "Inno Setup: Deselected Tasks":  "desktopicon",
+                          "Inno Setup: Language":  "english",
+                          "DisplayName":  "I-TECH للتكنولوجيا",
+                          "DisplayIcon":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store\\muaman_store.exe",
+                          "UninstallString":  "\"C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store\\unins000.exe\"",
+                          "QuietUninstallString":  "\"C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store\\unins000.exe\" /SILENT",
+                          "DisplayVersion":  "1.0.0",
+                          "Publisher":  "I-TECH للتكنولوجيا",
+                          "NoModify":  "1",
+                          "NoRepair":  "1",
+                          "InstallDate":  "20260816",
+                          "MajorVersion":  "1",
+                          "MinorVersion":  "0",
+                          "VersionMajor":  "1",
+                          "VersionMinor":  "0",
+                          "EstimatedSize":  "39239"
+                      },
+    "hklmUninstallHits":  [
+
+                          ],
+    "startMenuLink":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\I-TECH للتكنولوجيا.lnk",
+    "startMenuLinkExists":  true,
+    "machineStartMenuLink":  "C:\\ProgramData\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\I-TECH للتكنولوجيا.lnk",
+    "machineStartMenuLinkExists":  false,
+    "startMenuShortcutTarget":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store\\muaman_store.exe",
+    "autorun":  {
+                    "HKLM\\Run":  [
+
+                                  ],
+                    "HKLM\\RunOnce":  [
+
+                                      ],
+                    "HKCU\\Run":  [
+
+                                  ],
+                    "HKCU\\RunOnce":  [
+
+                                      ]
+                },
+    "startupFolderHits":  [
+
+                          ]
+}

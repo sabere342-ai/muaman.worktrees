@@ -1,0 +1,25 @@
+{
+  "runId": "REGUARD-20260816-050107",
+  "guard": "MUAMAN-19 historical Safe Demo-Data / Commissioning Clean-Start re-guard on Productized I-TECH build",
+  "closedAtUtc": "2026-08-16T02:10:00Z",
+  "evidenceDir": "docs/muaman-19/evidence/REGUARD-20260816-050107/",
+  "decision": "A - FOLLOW ROADMAP",
+  "result": "PASS",
+  "scope": "verification-only; accepted production artifact verified as-is (never rebuilt); seed variant built in the historical muaman-19 worktree from identical committed app source; no production code change; frozen identity unchanged; no commit/push/tag/merge; no reset/stash/destructive checkout",
+  "checkpoints": {
+    "roadmapAlignment": "A - follow roadmap; 697a9f9 (MUAMAN-19) ancestor of HEAD fdf2d33; committed app/ tree identical; accepted exe SHA-256 13491813...AEA1 unchanged",
+    "artifactIdentity": {
+      "exe": "134918133777C779890CA3BD4EC9CFFFD990AE04B48BE3A71DE8142B2F2FAEA1 (92160 bytes)",
+      "appSo": "86369AA8DFD530AD15C90F394FFB7D9F29A5AA67AB06A6C7F5A42516B212ED93 (9290656 bytes)",
+      "releaseTreeFiles": 16
+    },
+    "productionCleanStart": "fresh isolated run: products=0 sales=0 returns=0 expenses=0 invoices=0 import_batches=0 inventory_count=0 users=0 role_permissions=0 app_settings=4; integrity ok; second fresh run also clean",
+    "seededRuntime": "explicit MUAMAN_SEED_DEMO=true build: products=86 sales=225 returns=8 expenses=32; first barcode 2000000000001; integrity ok",
+    "binaryIsolation": "prod app.so 0 marker hits; seed app.so (9372576 bytes) 1 marker hit; sizes differ from prod 9290656",
+    "installerPayload": "I-TECH-Setup.exe 94BD1559... == 13O-accepted installer; verified installed payload = 16 canonical production files incl. marker-free app.so; no pre-seeded DB / demo data / .dart_tool shipped",
+    "negativeControls": "9/9 PASS (NC1 marker-in-prod-db, NC2 seed-flag-in-prod-invocation, NC3 marker-in-prod-artifacts, NC4 missing-seeded-dataset, NC5 prod-seed-db-isolation, NC6 stale-evidence/fresh-run, NC7 seed-marker-only-in-explicit-seed-build, NC8 installer-payload-clean, NC9 repeated-fresh-prod-run-clean)",
+    "safety": "no crashes, no lingering processes, no crash dumps, no secrets in evidence, git state preserved (productization dirty tree unchanged; muaman-19 worktree restored to clean)"
+  },
+  "verdict": "PASS",
+  "singleNextAuthorizedStep": "determine from governing roadmap after MUAMAN-19 closure; not started"
+}

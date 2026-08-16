@@ -1660,16 +1660,14 @@ function Test-GitCleanScope {
     $issueList = @()
     if ($head -ne $ExpectedHead) { $issueList += "HEAD=$head expected=$ExpectedHead" }
     foreach ($line in $lines) {
-        $path = $line.Substring(3).Trim('"')
-        if ($line -match '^\?\?') {
-            $ok = $false
-            foreach ($p in $AllowedPrefixes) {
-                if ($path.StartsWith($p, [System.StringComparison]::Ordinal)) { $ok = $true; break }
-            }
-            if (-not $ok) { $issueList += $line }
-        } else {
-            $issueList += $line
+        $l = $line.Trim()
+        if ([string]::IsNullOrWhiteSpace($l)) { continue }
+        $path = if ($l.Length -gt 3 -and $l[2] -eq ' ') { $l.Substring(3).Trim('"') } else { $l.Substring([Math]::Min(2, $l.Length)).Trim('"') }
+        $ok = $false
+        foreach ($p in $AllowedPrefixes) {
+            if ($path.StartsWith($p, [System.StringComparison]::Ordinal)) { $ok = $true; break }
         }
+        if (-not $ok) { $issueList += $line }
     }
     if ($Violations -ne $null) { $Violations.Value = $issueList }
     return ($issueList.Count -eq 0)

@@ -426,7 +426,7 @@ try {
     $dbRel = ($cfg.data.ffiDbRelDir -replace '/', '\') + '\' + $cfg.data.dbFileName
     $dbPath = Join-Path $installDir $dbRel
     $uninstallKey = $cfg.uninstallKey
-    $startMenuLink = Join-Path (Join-Path $appData 'Microsoft\Windows\Start Menu\Programs') ($cfg.application.appDirName + '.lnk')
+    $startMenuLink = Join-Path (Join-Path $appData 'Microsoft\Windows\Start Menu\Programs') $cfg.shortcut.startMenuName
 
     # Consumer workspace layout (the recipient's own Downloads area).
     $receivedDir = Join-Path $ConsumerWorkspace 'received'
@@ -582,7 +582,7 @@ try {
 
     # ------------------------------------------------------- pre-install state
     Invoke-Step -Name 'preInstallState' -Fatal {
-        $hkcuMuamanKeys = Get-HkcuUninstallMuamanKeys -Root 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall' -DisplayName 'muaman_store' -Publisher 'muaman_store' -KeySuffix ('{' + $cfg.application.appId + '}_is1')
+        $hkcuMuamanKeys = Get-HkcuUninstallMuamanKeys -Root 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall' -DisplayName $cfg.uninstall.displayName -Publisher $cfg.uninstall.publisher -KeySuffix ('{' + $cfg.application.appId + '}_is1')
         $result = [ordered]@{
             installDir = $installDir
             installDirExistsBefore = Test-Path -LiteralPath $installDir
@@ -637,7 +637,7 @@ try {
     Invoke-Step -Name 'installedState' -Fatal {
         $hkcuUninstall = Get-RegKeySnapshot -Path $uninstallKey
         $payload = Test-InstalledPayloadFromConfig -InstallDir $installDir -AppCfg $cfg.application
-        $machineStartMenuLink = Join-Path (Join-Path $env:ProgramData 'Microsoft\Windows\Start Menu\Programs') ($cfg.application.appDirName + '.lnk')
+        $machineStartMenuLink = Join-Path (Join-Path $env:ProgramData 'Microsoft\Windows\Start Menu\Programs') $cfg.shortcut.startMenuName
         $result = [ordered]@{
             step = 'S8-installed-payload'
             uninstallKey = $uninstallKey

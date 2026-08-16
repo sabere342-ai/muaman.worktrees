@@ -1,0 +1,114 @@
+﻿{
+    "phase":  "MUAMAN-13L guard-point verification",
+    "capturedAtUtc":  "2026-08-16T03:33:28.396Z",
+    "allPass":  false,
+    "verdicts":  {
+                     "L1":  {
+                                "guard":  "L1 static delegation (single source of truth)",
+                                "pass":  true,
+                                "failures":  [
+
+                                             ],
+                                "delegationTargets":  [
+                                                          "build_hardened\\.ps1",
+                                                          "check_filetracker_state\\.ps1"
+                                                      ]
+                            },
+                     "L2":  {
+                                "guard":  "L2 CWD independence",
+                                "expectedRepositoryRoot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0",
+                                "runs":  {
+                                             "repositoryRoot":  {
+                                                                    "cwd":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0",
+                                                                    "exitCode":  0,
+                                                                    "detectedRepositoryRoot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0",
+                                                                    "output":  "[MUAMAN-13L] canonical Windows release build, run id L-20260816-033118-11744\n[MUAMAN-13L] repository root : C:\\dev\\muaman.worktrees\\i-tech-productization-t0\n[MUAMAN-13L] app root        : C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\app\n[MUAMAN-13L] preflight        : running committed preflight (fresh process)...\n[MUAMAN-13L] preflight        : PASS (exit 0)\n[MUAMAN-13L] PreflightOnly   : yes; build not started.\n[MUAMAN-13L] preflight status: PASS"
+                                                                },
+                                             "subFolder":  {
+                                                               "cwd":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\tools\\release",
+                                                               "exitCode":  0,
+                                                               "detectedRepositoryRoot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0",
+                                                               "output":  "[MUAMAN-13L] canonical Windows release build, run id L-20260816-033119-29600\n[MUAMAN-13L] repository root : C:\\dev\\muaman.worktrees\\i-tech-productization-t0\n[MUAMAN-13L] app root        : C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\app\n[MUAMAN-13L] preflight        : running committed preflight (fresh process)...\n[MUAMAN-13L] preflight        : PASS (exit 0)\n[MUAMAN-13L] PreflightOnly   : yes; build not started.\n[MUAMAN-13L] preflight status: PASS"
+                                                           },
+                                             "outsideRepository":  {
+                                                                       "cwd":  "C:\\Users\\saber\\AppData\\Local\\Temp\\l2-cwd-outside",
+                                                                       "exitCode":  0,
+                                                                       "detectedRepositoryRoot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0",
+                                                                       "output":  "[MUAMAN-13L] canonical Windows release build, run id L-20260816-033120-21916\n[MUAMAN-13L] repository root : C:\\dev\\muaman.worktrees\\i-tech-productization-t0\n[MUAMAN-13L] app root        : C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\app\n[MUAMAN-13L] preflight        : running committed preflight (fresh process)...\n[MUAMAN-13L] preflight        : PASS (exit 0)\n[MUAMAN-13L] PreflightOnly   : yes; build not started.\n[MUAMAN-13L] preflight status: PASS"
+                                                                   }
+                                         },
+                                "detectedRoots":  [
+                                                      "C:\\dev\\muaman.worktrees\\i-tech-productization-t0",
+                                                      "C:\\dev\\muaman.worktrees\\i-tech-productization-t0",
+                                                      "C:\\dev\\muaman.worktrees\\i-tech-productization-t0"
+                                                  ],
+                                "allResolvedSameRoot":  true,
+                                "allPreflightExitZero":  true,
+                                "pass":  true
+                            },
+                     "L3":  {
+                                "guard":  "L3 preflight ordering + fail-closed",
+                                "pass":  true,
+                                "failures":  [
+
+                                             ],
+                                "entrypointPreflightLine":  233,
+                                "entrypointWrapperLine":  265,
+                                "preflightBeforeWrapper":  true,
+                                "failClosedExit1Present":  true,
+                                "sourceOfTruthPreflightBeforeRunner":  true,
+                                "dynamic":  {
+                                                "test":  "entrypoint -PreflightOnly -MsBuildBinDir \u003cunusable\u003e",
+                                                "exitCode":  2,
+                                                "anyBuildOrWrapperArtifact":  false,
+                                                "failClosed":  true,
+                                                "committedK4NegativeControlPass":  true
+                                            }
+                            },
+                     "L4":  {
+                                "guard":  "L4 secret hygiene",
+                                "scannedFiles":  8499,
+                                "findingCount":  0,
+                                "findings":  [
+
+                                             ],
+                                "clean":  true,
+                                "pass":  true
+                            },
+                     "L5":  {
+                                "guard":  "L5 historical MUAMAN-13K guards (fresh process)",
+                                "pass":  false,
+                                "exitCode":  1,
+                                "allPass":  false,
+                                "freshOutputPath":  "C:\\Users\\saber\\AppData\\Local\\Temp\\guard-results-13k-fresh.json"
+                            },
+                     "L7":  [
+                                "MUAMAN-13K compare [L7-new-vs-13k-k1]: A=16/35754065B B=16/35754065B identical=True diffs=0 onlyA=0 onlyB=0 crossA=3A8CFA42656EABC8B06EEF835FB9222F95006E5B490D9B837AE76673A87794B0 crossB=3A8CFA42656EABC8B06EEF835FB9222F95006E5B490D9B837AE76673A87794B0",
+                                "MUAMAN-13L verify: new=16/35754065B legal=16/35754065B identical=True diffs=0 crossNew=3A8CFA42656EABC8B06EEF835FB9222F95006E5B490D9B837AE76673A87794B0",
+                                {
+                                    "guard":  "L7 release verification vs committed legal manifest",
+                                    "pass":  true,
+                                    "exitCode":  0,
+                                    "fileCount":  16,
+                                    "totalBytes":  35754065,
+                                    "diffCount":  0,
+                                    "crossHash":  "3A8CFA42656EABC8B06EEF835FB9222F95006E5B490D9B837AE76673A87794B0",
+                                    "legalToolComparePass":  true,
+                                    "output":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\i-tech-t0-closure\\evidence\\release-comparison.json"
+                                }
+                            ],
+                     "L8":  {
+                                "guard":  "L8 active release docs use the canonical command",
+                                "pass":  true,
+                                "failures":  [
+
+                                             ],
+                                "activeDocs":  [
+                                                   "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\docs\\MUAMAN-13L-CANONICAL-HARDENED-WINDOWS-RELEASE-ENTRYPOINT.md"
+                                               ],
+                                "canonicalCommandDocumented":  true,
+                                "directCommandMentioned":  true,
+                                "directCommandDeclaredUnsupported":  true
+                            }
+                 }
+}

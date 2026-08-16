@@ -1,0 +1,446 @@
+{
+    "installDirExistsBeforeInstall":  true,
+    "localAppData":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local",
+    "appData":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Roaming",
+    "userProfile":  "C:\\Users\\CodexMuaman13P.Islam",
+    "userProfileDirExists":  true,
+    "installDirListing":  [
+                              {
+                                  "rel":  "flutter_windows.dll",
+                                  "size":  18181632,
+                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                              },
+                              {
+                                  "rel":  "muaman_store.exe",
+                                  "size":  91648,
+                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                              },
+                              {
+                                  "rel":  "pdfium.dll",
+                                  "size":  4749824,
+                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                              },
+                              {
+                                  "rel":  "printing_plugin.dll",
+                                  "size":  138240,
+                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                              },
+                              {
+                                  "rel":  "unins000.dat",
+                                  "size":  7573,
+                                  "lastWriteTimeUtc":  "2026-08-14T16:07:48.090Z"
+                              },
+                              {
+                                  "rel":  "unins000.exe",
+                                  "size":  4452610,
+                                  "lastWriteTimeUtc":  "2026-08-14T16:07:45.671Z"
+                              },
+                              {
+                                  "rel":  ".dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db",
+                                  "size":  81920,
+                                  "lastWriteTimeUtc":  "2026-08-14T16:08:56.102Z"
+                              },
+                              {
+                                  "rel":  "data\\app.so",
+                                  "size":  9290656,
+                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                              },
+                              {
+                                  "rel":  "data\\icudtl.dat",
+                                  "size":  778864,
+                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                              },
+                              {
+                                  "rel":  "data\\flutter_assets\\AssetManifest.bin",
+                                  "size":  384,
+                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                              },
+                              {
+                                  "rel":  "data\\flutter_assets\\AssetManifest.json",
+                                  "size":  355,
+                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                              },
+                              {
+                                  "rel":  "data\\flutter_assets\\FontManifest.json",
+                                  "size":  208,
+                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                              },
+                              {
+                                  "rel":  "data\\flutter_assets\\NOTICES.Z",
+                                  "size":  89413,
+                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                              },
+                              {
+                                  "rel":  "data\\flutter_assets\\assets\\fonts\\NotoSansArabic-Bold.ttf",
+                                  "size":  260904,
+                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                              },
+                              {
+                                  "rel":  "data\\flutter_assets\\assets\\fonts\\NotoSansArabic-Regular.ttf",
+                                  "size":  250880,
+                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                              },
+                              {
+                                  "rel":  "data\\flutter_assets\\assets\\fonts\\THIRD_PARTY_NOTICES.txt",
+                                  "size":  429,
+                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                              },
+                              {
+                                  "rel":  "data\\flutter_assets\\fonts\\MaterialIcons-Regular.otf",
+                                  "size":  1645184,
+                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                              },
+                              {
+                                  "rel":  "data\\flutter_assets\\packages\\cupertino_icons\\assets\\CupertinoIcons.ttf",
+                                  "size":  257628,
+                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                              },
+                              {
+                                  "rel":  "data\\flutter_assets\\shaders\\ink_sparkle.frag",
+                                  "size":  17304,
+                                  "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                              }
+                          ],
+    "localAppDataListing":  [
+                                {
+                                    "rel":  "Microsoft\\Windows\\UsrClass.dat",
+                                    "size":  16384,
+                                    "lastWriteTimeUtc":  "2026-08-10T22:05:42.970Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\UsrClass.dat.LOG1",
+                                    "size":  16384,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:30:58.045Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\UsrClass.dat.LOG2",
+                                    "size":  8192,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:30:58.045Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\UsrClass.dat{f905766b-91d6-11f1-a697-60e32bebda7e}.TM.blf",
+                                    "size":  65536,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:30:58.372Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\UsrClass.dat{f905766b-91d6-11f1-a697-60e32bebda7e}.TMContainer00000000000000000001.regtrans-ms",
+                                    "size":  524288,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:30:58.052Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\UsrClass.dat{f905766b-91d6-11f1-a697-60e32bebda7e}.TMContainer00000000000000000002.regtrans-ms",
+                                    "size":  524288,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:30:58.051Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_1280.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_16.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_1920.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_256.db",
+                                    "size":  1048576,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_2560.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_32.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_48.db",
+                                    "size":  1048576,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_768.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_96.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_custom_stream.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:38:42.656Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_exif.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:38:42.656Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_idx.db",
+                                    "size":  7416,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:38:42.648Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_sr.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_wide.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:38:42.650Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Explorer\\iconcache_wide_alternate.db",
+                                    "size":  24,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:38:42.656Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\PowerShell\\ModuleAnalysisCache",
+                                    "size":  83146,
+                                    "lastWriteTimeUtc":  "2026-08-08T12:55:26.387Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\PowerShell\\StartupProfileData-NonInteractive",
+                                    "size":  2424,
+                                    "lastWriteTimeUtc":  "2026-08-14T16:08:59.134Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\SFAP\\cache1.bin",
+                                    "size":  566,
+                                    "lastWriteTimeUtc":  "2026-08-15T22:12:06.787Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\Shell\\DefaultLayouts.xml",
+                                    "size":  64707,
+                                    "lastWriteTimeUtc":  "2025-12-26T04:05:14.485Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group1\\1 - Desktop.lnk",
+                                    "size":  1109,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:49.153Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group1\\desktop.ini",
+                                    "size":  75,
+                                    "lastWriteTimeUtc":  "2025-12-26T04:05:18.600Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group2\\1 - Run.lnk",
+                                    "size":  1109,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:47.997Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group2\\2 - Search.lnk",
+                                    "size":  1109,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:48.278Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group2\\3 - Windows Explorer.lnk",
+                                    "size":  1109,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:48.450Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group2\\4 - Control Panel.lnk",
+                                    "size":  1492,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:48.575Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group2\\5 - Task Manager.lnk",
+                                    "size":  1021,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:48.841Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group2\\desktop.ini",
+                                    "size":  325,
+                                    "lastWriteTimeUtc":  "2025-12-26T04:05:18.617Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\01a - Windows PowerShell.lnk",
+                                    "size":  1127,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:44.559Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\02a - Windows PowerShell.lnk",
+                                    "size":  1171,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:45.466Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\03 - Computer Management.lnk",
+                                    "size":  1015,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:45.841Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\04 - Disk Management.lnk",
+                                    "size":  1015,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:46.184Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\04-1 - NetworkStatus.lnk",
+                                    "size":  1582,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:46.497Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\05 - Device Manager.lnk",
+                                    "size":  1075,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:46.794Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\06 - SystemAbout.lnk",
+                                    "size":  1562,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:47.028Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\07 - Event Viewer.lnk",
+                                    "size":  1015,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:47.263Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\08 - PowerAndSleep.lnk",
+                                    "size":  1578,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:47.481Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\09 - Mobility Center.lnk",
+                                    "size":  1015,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:47.653Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\10 - AppsAndFeatures.lnk",
+                                    "size":  1578,
+                                    "lastWriteTimeUtc":  "2024-04-01T07:22:47.841Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows\\WinX\\Group3\\desktop.ini",
+                                    "size":  807,
+                                    "lastWriteTimeUtc":  "2025-12-26T04:05:18.617Z"
+                                },
+                                {
+                                    "rel":  "Microsoft\\Windows Sidebar\\settings.ini",
+                                    "size":  80,
+                                    "lastWriteTimeUtc":  "2025-12-26T04:05:14.485Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\flutter_windows.dll",
+                                    "size":  18181632,
+                                    "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\muaman_store.exe",
+                                    "size":  91648,
+                                    "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\pdfium.dll",
+                                    "size":  4749824,
+                                    "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\printing_plugin.dll",
+                                    "size":  138240,
+                                    "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\unins000.dat",
+                                    "size":  7573,
+                                    "lastWriteTimeUtc":  "2026-08-14T16:07:48.090Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\unins000.exe",
+                                    "size":  4452610,
+                                    "lastWriteTimeUtc":  "2026-08-14T16:07:45.671Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\.dart_tool\\sqflite_common_ffi\\databases\\muaman_store.db",
+                                    "size":  81920,
+                                    "lastWriteTimeUtc":  "2026-08-14T16:08:56.102Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\data\\app.so",
+                                    "size":  9290656,
+                                    "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\data\\icudtl.dat",
+                                    "size":  778864,
+                                    "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\data\\flutter_assets\\AssetManifest.bin",
+                                    "size":  384,
+                                    "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\data\\flutter_assets\\AssetManifest.json",
+                                    "size":  355,
+                                    "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\data\\flutter_assets\\FontManifest.json",
+                                    "size":  208,
+                                    "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\data\\flutter_assets\\NOTICES.Z",
+                                    "size":  89413,
+                                    "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\data\\flutter_assets\\assets\\fonts\\NotoSansArabic-Bold.ttf",
+                                    "size":  260904,
+                                    "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\data\\flutter_assets\\assets\\fonts\\NotoSansArabic-Regular.ttf",
+                                    "size":  250880,
+                                    "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\data\\flutter_assets\\assets\\fonts\\THIRD_PARTY_NOTICES.txt",
+                                    "size":  429,
+                                    "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\data\\flutter_assets\\fonts\\MaterialIcons-Regular.otf",
+                                    "size":  1645184,
+                                    "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\data\\flutter_assets\\packages\\cupertino_icons\\assets\\CupertinoIcons.ttf",
+                                    "size":  257628,
+                                    "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                },
+                                {
+                                    "rel":  "Programs\\muaman_store\\data\\flutter_assets\\shaders\\ink_sparkle.frag",
+                                    "size":  17304,
+                                    "lastWriteTimeUtc":  "2023-12-31T22:00:00.000Z"
+                                },
+                                {
+                                    "rel":  "Temp\\is-XOSYH6Y3E2-uninstall.tmp\\_unins-done.tmp",
+                                    "size":  0,
+                                    "lastWriteTimeUtc":  "2026-08-14T16:06:53.088Z"
+                                },
+                                {
+                                    "rel":  "Temp\\is-XOSYH6Y3E2-uninstall.tmp\\_unins.tmp",
+                                    "size":  4452610,
+                                    "lastWriteTimeUtc":  "2026-08-14T15:31:19.718Z"
+                                },
+                                {
+                                    "rel":  "UnrealEngine\\4.27\\Saved\\Config\\WindowsClient\\Manifest.ini",
+                                    "size":  25,
+                                    "lastWriteTimeUtc":  "2025-12-27T04:31:11.931Z"
+                                }
+                            ]
+}

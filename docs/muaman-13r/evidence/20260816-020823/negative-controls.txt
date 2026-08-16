@@ -1,0 +1,13 @@
+﻿MUAMAN-13R negative controls (NC01..NC10)
+===========================================
+allPass : True
+NC01: NC01 single byte flip in installer => pass=True
+NC02: NC02 installer with wrong size => pass=True
+NC03: NC03 second installer present => pass=True
+NC04: NC04 source code file added in delivery => pass=True
+NC05: NC05 secret sentinel added inside delivery => pass=True
+NC06: NC06 absolute development path in README => pass=True
+NC07: NC07 wrong SHA256SUMS manifest => pass=True
+NC08: NC08 placeholder in user-facing file => pass=True
+NC09: NC09 README missing or empty => pass=True
+NC10: NC10 unknown file inside package/ZIP => pass=True

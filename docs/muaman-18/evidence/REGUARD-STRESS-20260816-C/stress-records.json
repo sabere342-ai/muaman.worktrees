@@ -1,0 +1,22 @@
+﻿{
+    "runId":  "REGUARD-STRESS-C-20260816-014347-c001",
+    "cycle":  1,
+    "startedUtc":  "2026-08-16T01:43:47.841Z",
+    "durationSec":  268.4,
+    "workerExited":  true,
+    "timedOut":  false,
+    "aborted":  false,
+    "s12Close":  {
+                     "method":  "WM_CLOSE",
+                     "exited":  true,
+                     "exitCode":  0,
+                     "seconds":  0.3
+                 },
+    "crashCode":  null,
+    "dumpWritten":  0,
+    "orphanPids":  [
+
+                   ],
+    "forcedKill":  false,
+    "ok":  true
+}

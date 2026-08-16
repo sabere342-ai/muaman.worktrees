@@ -1,0 +1,85 @@
+{
+  "phase": "I-TECH Productization T0 — Runner.rc closure",
+  "capturedAtUtc": "2026-08-16T03:30:00.000Z",
+  "subject": "Acceptance-config pins vs post-rebuild artifacts (13P/13Q/13S)",
+  "artifactsUnderTest": {
+    "exe": {
+      "rel": "muaman_store.exe",
+      "size": 92160,
+      "sha256": "134918133777C779890CA3BD4EC9CFFFD990AE04B48BE3A71DE8142B2F2FAEA1"
+    },
+    "appSo": {
+      "rel": "data/app.so",
+      "size": 9290656,
+      "sha256": "86369AA8DFD530AD15C90F394FFB7D9F29A5AA67AB06A6C7F5A42516B212ED93"
+    },
+    "flutterWindowsDll": {
+      "rel": "flutter_windows.dll",
+      "size": 18181632,
+      "sha256": "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E"
+    },
+    "releaseManifest": {
+      "fileCount": 16,
+      "totalBytes": 35754065,
+      "crossHash": "3A8CFA42656EABC8B06EEF835FB9222F95006E5B490D9B837AE76673A87794B0"
+    },
+    "installer": {
+      "size": 13223003,
+      "sha256": "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831"
+    },
+    "deliveryZip": {
+      "size": 12665973,
+      "sha256": "4258E9105116D0D73281C4CD5027ECC478517D662FCA3E6D70F25418E7204C8A"
+    }
+  },
+  "configChecks": {
+    "tools/muaman13p/acceptance-config.json": {
+      "installerSha": "PASS",
+      "exeSha": "PASS",
+      "payloadCrossHash": "PASS",
+      "payloadFileCount": "PASS (16)",
+      "payloadTotalBytes": "PASS (35754065)",
+      "exeNameFrozen": "PASS (muaman_store.exe)",
+      "appIdFrozen": "PASS (299ADF2A-0E9E-4A25-916C-1CB8328D0E5E)"
+    },
+    "tools/muaman13q/acceptance-config.json": {
+      "installerSha": "PASS",
+      "exeSha": "PASS",
+      "payloadCrossHash": "PASS",
+      "payloadFileCount": "PASS (16)",
+      "payloadTotalBytes": "PASS (35754065)",
+      "exeNameFrozen": "PASS (muaman_store.exe)",
+      "appIdFrozen": "PASS (299ADF2A-0E9E-4A25-916C-1CB8328D0E5E)"
+    },
+    "tools/muaman13s/acceptance-config.json": {
+      "note": "13S stores an explicit 16-entry payload array instead of a single payloadCrossHash field; every per-file rel/size/sha256 in the config matches the release-manifest exactly.",
+      "installerSha": "PASS",
+      "exeSha": "PASS",
+      "payloadArrayAllMatch": "PASS (16/16)",
+      "payloadFileCount": "PASS (16)",
+      "payloadTotalBytes": "PASS (35754065)",
+      "exeNameFrozen": "PASS (muaman_store.exe)",
+      "appIdFrozen": "PASS (299ADF2A-0E9E-4A25-916C-1CB8328D0E5E)"
+    }
+  },
+  "frozenIdentityChecks": {
+    "appId": "UNCHANGED 299ADF2A-0E9E-4A25-916C-1CB8328D0E5E",
+    "dbFile": "UNCHANGED muaman_store.db",
+    "pubspecName": "UNCHANGED (not modified)",
+    "binaryName": "UNCHANGED muaman_store.exe",
+    "dataPath": "UNCHANGED ({localappdata}\\Programs\\muaman_store)",
+    "originalFilename": "UNCHANGED muaman_store.exe",
+    "internalName": "UNCHANGED muaman_store"
+  },
+  "buildReproducibility": {
+    "runId": "I-TECH-T0-RUNNERRC-REBUILD",
+    "preflightExit": 0,
+    "buildExit": 0,
+    "status": "PASS",
+    "elapsedSeconds": 131.8,
+    "releaseManifest": "16 files / 35754065 bytes",
+    "exeByteIdenticalToAccepted": true,
+    "appSoByteIdenticalToAccepted": true,
+    "crossHashReproduced": "3A8CFA42656EABC8B06EEF835FB9222F95006E5B490D9B837AE76673A87794B0"
+  }
+}

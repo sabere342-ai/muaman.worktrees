@@ -1,0 +1,12 @@
+{
+    "registrationKey":  "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{299ADF2A-0E9E-4A25-916C-1CB8328D0E5E}_is1",
+    "displayName":  "I-TECH للتكنولوجيا",
+    "publisher":  "I-TECH للتكنولوجيا",
+    "displayVersion":  "1.0.0",
+    "installLocation":  "C:\\Users\\CodexMuaman13Q\\AppData\\Local\\Programs\\muaman_store\\",
+    "uninstallString":  "\"C:\\Users\\CodexMuaman13Q\\AppData\\Local\\Programs\\muaman_store\\unins000.exe\"",
+    "uninstallerPath":  "C:\\Users\\CodexMuaman13Q\\AppData\\Local\\Programs\\muaman_store\\unins000.exe",
+    "uninstallerExists":  true,
+    "expectedUninstaller":  "C:\\Users\\CodexMuaman13Q\\AppData\\Local\\Programs\\muaman_store\\unins000.exe",
+    "uninstallerMatchesExpected":  true
+}

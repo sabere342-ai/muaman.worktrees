@@ -1,0 +1,14 @@
+{
+    "screenshot":  "C:\\mu13o-acceptance\\m13p\\run\\20260816-011204\\evidence\\shots\\11-launch1-setup-initial.png",
+    "captureNote":  "own-capture sd=55.54",
+    "ocrDumpFile":  "11-launch1-setup-initial.txt",
+    "wordCount":  14,
+    "setupTitleFound":  false,
+    "fieldsFound":  false,
+    "fields":  {
+                   "name":  null,
+                   "user":  null,
+                   "pass":  null,
+                   "confirm":  null
+               }
+}

@@ -1,0 +1,125 @@
+﻿2026-08-16 01:25:22.699   Log opened. (Time zone: UTC+03:00)
+2026-08-16 01:25:22.699   Setup version: Inno Setup version 6.7.3
+2026-08-16 01:25:22.699   Original Setup EXE: C:\mu13o-acceptance\m13p\run\20260816-012517\installer\muaman-windows-installer.exe
+2026-08-16 01:25:22.699   Setup command line: /SL5="$8D08B4,12019182,893952,C:\mu13o-acceptance\m13p\run\20260816-012517\installer\muaman-windows-installer.exe" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /LOG="C:\mu13o-acceptance\m13p\run\20260816-012517\evidence\logs\install.log"
+2026-08-16 01:25:22.699   Windows version: 10.0.26200
+2026-08-16 01:25:22.699   Windows architecture: x64 (64-bit)
+2026-08-16 01:25:22.699   Machine types supported by system: x86 x64
+2026-08-16 01:25:22.699   User privileges: None
+2026-08-16 01:25:22.699   Administrative install mode: No
+2026-08-16 01:25:22.699   Install mode root key: HKEY_CURRENT_USER
+2026-08-16 01:25:22.699   64-bit install mode: Yes
+2026-08-16 01:25:22.699   RedirectionGuard status for current process: Enabled in enforcing mode
+2026-08-16 01:25:22.699   Created temporary directory: C:\Users\CODEXM~1.ISL\AppData\Local\Temp\is-TC5Q3736FN.tmp
+2026-08-16 01:25:22.939   Starting the installation process.
+2026-08-16 01:25:22.949   Directory for uninstall files: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store
+2026-08-16 01:25:22.949   Creating new uninstall log: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\unins000.dat
+2026-08-16 01:25:22.952   -- File entry --
+2026-08-16 01:25:22.952   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\unins000.exe
+2026-08-16 01:25:22.952   Non-default bitness: 32-bit
+2026-08-16 01:25:22.967   Time stamp of our file: 2026-08-16 01:25:22.051
+2026-08-16 01:25:22.967   Installing the file.
+2026-08-16 01:25:22.989   Successfully installed the file.
+2026-08-16 01:25:22.989   -- File entry --
+2026-08-16 01:25:22.989   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\muaman_store.exe
+2026-08-16 01:25:22.989   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-16 01:25:22.989   Installing the file.
+2026-08-16 01:25:22.989   Successfully installed the file.
+2026-08-16 01:25:22.989   -- File entry --
+2026-08-16 01:25:22.989   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\flutter_windows.dll
+2026-08-16 01:25:22.989   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-16 01:25:22.989   Installing the file.
+2026-08-16 01:25:23.501   Successfully installed the file.
+2026-08-16 01:25:23.501   -- File entry --
+2026-08-16 01:25:23.501   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\pdfium.dll
+2026-08-16 01:25:23.501   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-16 01:25:23.501   Installing the file.
+2026-08-16 01:25:23.661   Successfully installed the file.
+2026-08-16 01:25:23.664   -- File entry --
+2026-08-16 01:25:23.664   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\printing_plugin.dll
+2026-08-16 01:25:23.664   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-16 01:25:23.664   Installing the file.
+2026-08-16 01:25:23.667   Successfully installed the file.
+2026-08-16 01:25:23.667   -- File entry --
+2026-08-16 01:25:23.667   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\app.so
+2026-08-16 01:25:23.667   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-16 01:25:23.667   Installing the file.
+2026-08-16 01:25:23.667   Creating directory: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data
+2026-08-16 01:25:23.924   Successfully installed the file.
+2026-08-16 01:25:23.924   -- File entry --
+2026-08-16 01:25:23.924   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\icudtl.dat
+2026-08-16 01:25:23.924   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-16 01:25:23.924   Installing the file.
+2026-08-16 01:25:23.956   Successfully installed the file.
+2026-08-16 01:25:23.956   -- File entry --
+2026-08-16 01:25:23.956   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets\AssetManifest.bin
+2026-08-16 01:25:23.956   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-16 01:25:23.956   Installing the file.
+2026-08-16 01:25:23.956   Creating directory: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets
+2026-08-16 01:25:23.956   Successfully installed the file.
+2026-08-16 01:25:23.956   -- File entry --
+2026-08-16 01:25:23.956   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets\AssetManifest.json
+2026-08-16 01:25:23.956   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-16 01:25:23.956   Installing the file.
+2026-08-16 01:25:23.956   Successfully installed the file.
+2026-08-16 01:25:23.956   -- File entry --
+2026-08-16 01:25:23.956   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets\FontManifest.json
+2026-08-16 01:25:23.961   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-16 01:25:23.961   Installing the file.
+2026-08-16 01:25:23.961   Successfully installed the file.
+2026-08-16 01:25:23.961   -- File entry --
+2026-08-16 01:25:23.961   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets\NOTICES.Z
+2026-08-16 01:25:23.961   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-16 01:25:23.961   Installing the file.
+2026-08-16 01:25:23.961   Successfully installed the file.
+2026-08-16 01:25:23.961   -- File entry --
+2026-08-16 01:25:23.961   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets\assets\fonts\NotoSansArabic-Bold.ttf
+2026-08-16 01:25:23.961   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-16 01:25:23.961   Installing the file.
+2026-08-16 01:25:23.961   Creating directory: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets\assets
+2026-08-16 01:25:23.961   Creating directory: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets\assets\fonts
+2026-08-16 01:25:23.977   Successfully installed the file.
+2026-08-16 01:25:23.977   -- File entry --
+2026-08-16 01:25:23.977   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets\assets\fonts\NotoSansArabic-Regular.ttf
+2026-08-16 01:25:23.977   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-16 01:25:23.977   Installing the file.
+2026-08-16 01:25:23.977   Successfully installed the file.
+2026-08-16 01:25:23.977   -- File entry --
+2026-08-16 01:25:23.977   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets\assets\fonts\THIRD_PARTY_NOTICES.txt
+2026-08-16 01:25:23.977   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-16 01:25:23.977   Installing the file.
+2026-08-16 01:25:23.977   Successfully installed the file.
+2026-08-16 01:25:23.977   -- File entry --
+2026-08-16 01:25:23.977   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets\fonts\MaterialIcons-Regular.otf
+2026-08-16 01:25:23.977   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-16 01:25:23.977   Installing the file.
+2026-08-16 01:25:23.977   Creating directory: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets\fonts
+2026-08-16 01:25:24.025   Successfully installed the file.
+2026-08-16 01:25:24.025   -- File entry --
+2026-08-16 01:25:24.025   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets\packages\cupertino_icons\assets\CupertinoIcons.ttf
+2026-08-16 01:25:24.025   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-16 01:25:24.025   Installing the file.
+2026-08-16 01:25:24.025   Creating directory: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets\packages
+2026-08-16 01:25:24.025   Creating directory: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets\packages\cupertino_icons
+2026-08-16 01:25:24.025   Creating directory: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets\packages\cupertino_icons\assets
+2026-08-16 01:25:24.040   Successfully installed the file.
+2026-08-16 01:25:24.040   -- File entry --
+2026-08-16 01:25:24.040   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets\shaders\ink_sparkle.frag
+2026-08-16 01:25:24.040   Time stamp of our file: 2024-01-01 01:00:00.000
+2026-08-16 01:25:24.040   Installing the file.
+2026-08-16 01:25:24.040   Creating directory: C:\Users\CodexMuaman13P.Islam\AppData\Local\Programs\muaman_store\data\flutter_assets\shaders
+2026-08-16 01:25:24.040   Successfully installed the file.
+2026-08-16 01:25:24.040   -- Icon entry --
+2026-08-16 01:25:24.040   Dest filename: C:\Users\CodexMuaman13P.Islam\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\I-TECH للتكنولوجيا.lnk
+2026-08-16 01:25:24.040   Creating the icon.
+2026-08-16 01:25:24.129   Successfully created the icon.
+2026-08-16 01:25:24.129   Saving uninstall information.
+2026-08-16 01:25:24.129   Deleting uninstall key left over from previous non administrative install.
+2026-08-16 01:25:24.129   Creating new uninstall key: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall\{299ADF2A-0E9E-4A25-916C-1CB8328D0E5E}_is1
+2026-08-16 01:25:24.129   Writing uninstall key values.
+2026-08-16 01:25:24.129   Detected previous administrative 64-bit install? No
+2026-08-16 01:25:24.129   Detected previous administrative 32-bit install? No
+2026-08-16 01:25:24.129   Installation process succeeded.
+2026-08-16 01:25:24.129   Need to restart Windows? No
+2026-08-16 01:25:24.140   Deinitializing Setup.
+2026-08-16 01:25:24.153   Log closed.

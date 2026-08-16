@@ -1,0 +1,24 @@
+{
+    "launch":  {
+                   "exe":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store\\muaman_store.exe",
+                   "workingDirectory":  "C:\\Users\\CodexMuaman13P.Islam\\AppData\\Local\\Programs\\muaman_store",
+                   "restrictedPath":  "C:\\WINDOWS\\System32;C:\\WINDOWS",
+                   "startedAtUtc":  "2026-08-15T22:12:14.454Z",
+                   "processId":  18612,
+                   "sessionId":  1,
+                   "secondsToWindow":  1.6,
+                   "windowFound":  true,
+                   "window":  {
+                                  "handle":  "0xAB0896",
+                                  "title":  "muaman_store",
+                                  "className":  "FLUTTER_RUNNER_WIN32_WINDOW",
+                                  "rect":  {
+                                               "Left":  30,
+                                               "Top":  30,
+                                               "Width":  1500,
+                                               "Height":  850
+                                           },
+                                  "firstScreenshot":  "C:\\mu13o-acceptance\\m13p\\run\\20260816-011204\\evidence\\shots\\10-launch1-first-window.png"
+                              }
+               }
+}

@@ -73,12 +73,12 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem | Out-Null
 # governed delivery-package refresh contract constants (accepted MUAMAN-19
 # canonical release; supersedes the frozen MUAMAN-13N / MUAMAN-13O identity)
 # ---------------------------------------------------------------------------
-$ExpectedZipSha256        = 'FEC8B79BA57FEB01EE12561AD21A32183073BFFFD8054E5AE1CCB62F83683355'
-$ExpectedZipSize          = 15555975
+$ExpectedZipSha256        = 'FDEE3AF699570561FC401F6FD908A0FF6EB78539F43EE072F45871F9485D2A3E'
+$ExpectedZipSize          = 15556011
 $ExpectedZipEntryCount    = 16
-$ExpectedCrossHash        = '7BC418546CABA55A3389C22A277B327D32683ABC91DA6CAF75FDA163E7204D6F'
+$ExpectedCrossHash        = '3A8CFA42656EABC8B06EEF835FB9222F95006E5B490D9B837AE76673A87794B0'
 $ExpectedFileCount        = 16
-$ExpectedTotalBytes       = 35753553
+$ExpectedTotalBytes       = 35754065
 $ExpectedCompilerVersion  = '6.7.3'
 $ExpectedCompilerSha256   = '0A8757031B33777E4C9CBFFEE40F11A5062B36D25CBE144C1DB73B6102B80AD7'
 $ApplicationVersion       = '1.0.0'
