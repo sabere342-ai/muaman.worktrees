@@ -41,10 +41,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  Color _brandColor = const Color(0xFF0D47A1);
+
   @override
   void initState() {
     super.initState();
     ShopProfileService.instance.addListener(_onProfileChanged);
+    _loadBrandColor();
   }
 
   @override
@@ -57,6 +60,26 @@ class _MyAppState extends State<MyApp> {
     if (mounted) setState(() {});
   }
 
+  void _loadBrandColor() async {
+    try {
+      final hex = await AppSettings.getBrandColor();
+      final color = _parseHexColor(hex);
+      if (mounted) setState(() => _brandColor = color);
+    } catch (_) {
+      // Keep default brand color
+    }
+  }
+
+  static Color _parseHexColor(String hex) {
+    try {
+      var h = hex.replaceFirst('#', '');
+      if (h.length == 6) h = 'FF$h';
+      return Color(int.parse('0x$h'));
+    } catch (_) {
+      return const Color(0xFF0D47A1);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final shopName = ShopProfileService.instance.current.shopName.trim();
@@ -65,10 +88,15 @@ class _MyAppState extends State<MyApp> {
           'إدارة ${shopName.isEmpty ? ShopProfile.neutralShopName : shopName}',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.teal,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: _brandColor,
+          brightness: Brightness.light,
+        ).copyWith(primary: _brandColor),
         scaffoldBackgroundColor: Colors.grey.shade50,
         fontFamily: 'Noto Sans Arabic',
-        appBarTheme: const AppBarTheme(
+        appBarTheme: AppBarTheme(
+          backgroundColor: _brandColor,
+          foregroundColor: Colors.white,
           elevation: 2,
           centerTitle: true,
         ),
@@ -206,8 +234,6 @@ class SalesOnlyShell extends StatelessWidget {
           title: const Text('المبيعات',
               style: TextStyle(fontWeight: FontWeight.bold)),
           centerTitle: true,
-          backgroundColor: const Color(0xFF0D47A1),
-          foregroundColor: Colors.white,
           automaticallyImplyLeading: false,
           actions: [
             Padding(
@@ -332,8 +358,6 @@ class _FullAppShellState extends State<FullAppShell> {
         appBar: AppBar(
           title: Text(items.isNotEmpty ? items[_currentIndex].label : ''),
           centerTitle: true,
-          backgroundColor: const Color(0xFF0D47A1),
-          foregroundColor: Colors.white,
           automaticallyImplyLeading: false,
           actions: [
             if (widget.sessionState.hasPermission(AppPermission.canManageUsers))

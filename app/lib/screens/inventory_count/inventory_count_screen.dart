@@ -49,8 +49,6 @@ class _InventoryCountScreenState extends State<InventoryCountScreen> {
         title:
             const Text('الجرد', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
-        backgroundColor: const Color(0xFF4A148C),
-        foregroundColor: Colors.white,
         actions: [
           IconButton(icon: const Icon(Icons.refresh), onPressed: _loadProducts),
         ],

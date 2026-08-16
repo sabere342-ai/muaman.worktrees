@@ -87,8 +87,6 @@ class _SalesScreenState extends State<SalesScreen> {
                 title: const Text('المبيعات',
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 centerTitle: true,
-                backgroundColor: const Color(0xFF0D47A1),
-                foregroundColor: Colors.white,
               )
             : null,
         body: _buildCreateSaleEntry(context),
@@ -100,8 +98,6 @@ class _SalesScreenState extends State<SalesScreen> {
               title: const Text('المبيعات',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               centerTitle: true,
-              backgroundColor: const Color(0xFF0D47A1),
-              foregroundColor: Colors.white,
               actions: [
                 IconButton(
                   icon: const Icon(Icons.assessment),
@@ -204,7 +200,7 @@ class _SalesScreenState extends State<SalesScreen> {
               onPressed: () => _openInvoiceScreen(context),
               icon: const Icon(Icons.add_shopping_cart),
               label: const Text('فاتورة جديدة'),
-              backgroundColor: const Color(0xFF0D47A1),
+              backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
             )
           : null,
@@ -335,7 +331,6 @@ class _SalesScreenState extends State<SalesScreen> {
                 label: const Text('فاتورة جديدة',
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0D47A1),
                   foregroundColor: Colors.white,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 32, vertical: 16),

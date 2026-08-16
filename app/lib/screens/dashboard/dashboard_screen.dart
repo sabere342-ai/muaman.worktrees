@@ -50,8 +50,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         title: const Text('لوحة التحكم',
             style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
-        backgroundColor: const Color(0xFF004D40),
-        foregroundColor: Colors.white,
         actions: [
           IconButton(icon: const Icon(Icons.refresh), onPressed: _loadData),
         ],
@@ -201,8 +199,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
               label: const Text('تقارير المبيعات التفصيلية',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0D47A1),
-                foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),

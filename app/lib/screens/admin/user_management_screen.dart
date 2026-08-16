@@ -479,15 +479,11 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
         title: const Text('إدارة المستخدمين',
             style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
-        backgroundColor: const Color(0xFF0D47A1),
-        foregroundColor: Colors.white,
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _showCreateDialog,
         icon: const Icon(Icons.person_add),
         label: const Text('مستخدم جديد'),
-        backgroundColor: const Color(0xFF0D47A1),
-        foregroundColor: Colors.white,
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())

@@ -105,8 +105,6 @@ class _InvoicePreviewScreenState extends State<InvoicePreviewScreen> {
           title: const Text('عرض الفاتورة',
               style: TextStyle(fontWeight: FontWeight.bold)),
           centerTitle: true,
-          backgroundColor: const Color(0xFF0D47A1),
-          foregroundColor: Colors.white,
         ),
         body: _buildBody(),
       ),
@@ -313,7 +311,6 @@ class _InvoicePreviewScreenState extends State<InvoicePreviewScreen> {
             icon: const Icon(Icons.print),
             label: const Text('طباعة'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF0D47A1),
               foregroundColor: Colors.white,
             ),
           ),

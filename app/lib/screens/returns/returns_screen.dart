@@ -47,8 +47,6 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
         title: const Text('المرتجعات',
             style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
-        backgroundColor: const Color(0xFFB71C1C),
-        foregroundColor: Colors.white,
         actions: [
           IconButton(icon: const Icon(Icons.refresh), onPressed: _loadData),
         ],
@@ -148,7 +146,7 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
               onPressed: () => _showAddReturnDialog(context),
               icon: const Icon(Icons.assignment_return),
               label: const Text('إرجاع'),
-              backgroundColor: const Color(0xFFB71C1C),
+              backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
             )
           : null,

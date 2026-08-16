@@ -42,8 +42,6 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
         title: const Text('المصروفات',
             style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
-        backgroundColor: const Color(0xFFE65100),
-        foregroundColor: Colors.white,
         actions: [
           IconButton(icon: const Icon(Icons.refresh), onPressed: _loadExpenses),
         ],
@@ -140,7 +138,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
               onPressed: () => _showAddExpenseDialog(context),
               icon: const Icon(Icons.add),
               label: const Text('مصروف جديد'),
-              backgroundColor: const Color(0xFFE65100),
+              backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
             )
           : null,

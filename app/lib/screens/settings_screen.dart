@@ -38,6 +38,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _isImporting = false;
   bool _isSavingProfile = false;
   String _currentLogoPath = '';
+  String _brandColor = AppSettings.defaultBrandColor;
 
   @override
   void initState() {
@@ -58,12 +59,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final licenseKey = await AppSettings.getLicenseKey();
     final licenseStatus = await AppSettings.getLicenseStatus();
     final workbookPath = await AppSettings.getWorkbookPath();
+    final brandColor = await AppSettings.getBrandColor();
     setState(() {
       _buttonStyle = buttonStyle;
       _supportPhone = supportPhone;
       _licenseController.text = licenseKey;
       _licenseStatus = licenseStatus;
       _workbookPathController.text = workbookPath;
+      _brandColor = brandColor;
     });
   }
 
@@ -148,8 +151,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: const Text('إعدادات التطبيق',
             style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
-        backgroundColor: const Color(0xFF0D47A1),
-        foregroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -159,6 +160,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             const SizedBox(height: 8),
             _buildShopProfileSection(),
+            const SizedBox(height: 24),
+            const Text('مظهر التطبيق',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            const SizedBox(height: 8),
+            _buildBrandColorSection(),
             const SizedBox(height: 24),
             const Text('الأمان والصلاحيات',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
@@ -265,7 +271,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: ElevatedButton(
                     onPressed: _isSaving ? null : _activateLicense,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF0D47A1),
                     ),
                     child: _isSaving
                         ? const SizedBox(
@@ -297,7 +302,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: ElevatedButton(
                     onPressed: _isImporting ? null : _importWorkbook,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF0D47A1),
                     ),
                     child: _isImporting
                         ? const SizedBox(
@@ -323,6 +327,106 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildBrandColorSection() {
+    final swatches = <MapEntry<String, String>>[
+      const MapEntry('أزرق I-TECH', '#0D47A1'),
+      const MapEntry('Teal', '#00695C'),
+      const MapEntry('Indigo', '#283593'),
+      const MapEntry('Purple', '#6A1B9A'),
+      const MapEntry('Orange', '#E65100'),
+      const MapEntry('Red', '#B71C1C'),
+      const MapEntry('Green', '#1B5E20'),
+    ];
+    return Card(
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.palette, color: Color(0xFF0D47A1)),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    'لون الهوية الأساسي للتطبيق',
+                    style:
+                        TextStyle(fontSize: 14, color: Colors.grey.shade700),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              children: swatches.map((entry) {
+                final isSelected = _brandColor == entry.value;
+                final color = _hexToColor(entry.value);
+                return GestureDetector(
+                  onTap: () async {
+                    setState(() => _brandColor = entry.value);
+                    await AppSettings.setBrandColor(entry.value);
+                    if (!mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            'تم تغيير لون الهوية إلى ${entry.key}. يُفعّل عند إعادة التشغيل.'),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                  },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 48,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          color: color,
+                          shape: BoxShape.circle,
+                          border: isSelected
+                              ? Border.all(color: Colors.black, width: 3)
+                              : Border.all(color: Colors.grey.shade300),
+                        ),
+                        child: isSelected
+                            ? const Icon(Icons.check,
+                                color: Colors.white, size: 20)
+                            : null,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        entry.key,
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: isSelected
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Color _hexToColor(String hex) {
+    try {
+      var h = hex.replaceFirst('#', '');
+      if (h.length == 6) h = 'FF$h';
+      return Color(int.parse('0x$h'));
+    } catch (_) {
+      return const Color(0xFF0D47A1);
+    }
   }
 
   List<Widget> _buildCleanStartSection() {
@@ -657,7 +761,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ElevatedButton.icon(
               onPressed: _isSavingProfile ? null : _saveShopProfile,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0D47A1),
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 12),
               ),

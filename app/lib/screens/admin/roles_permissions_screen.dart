@@ -98,7 +98,7 @@ class _RolesPermissionsScreenState extends State<RolesPermissionsScreen> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0D47A1)),
+                backgroundColor: Theme.of(context).colorScheme.primary),
             onPressed: () => Navigator.pop(ctx, true),
             child: const Text('حفظ'),
           ),
@@ -209,8 +209,6 @@ class _RolesPermissionsScreenState extends State<RolesPermissionsScreen> {
         title: const Text('صلاحيات الأدوار',
             style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
-        backgroundColor: const Color(0xFF0D47A1),
-        foregroundColor: Colors.white,
       ),
       body: _buildBody(),
       bottomNavigationBar: _isLoading || _accessDenied || _loadError != null
@@ -395,7 +393,6 @@ class _RolesPermissionsScreenState extends State<RolesPermissionsScreen> {
                     : const Icon(Icons.save),
                 label: const Text('حفظ التغييرات'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0D47A1),
                 ),
               ),
             ),

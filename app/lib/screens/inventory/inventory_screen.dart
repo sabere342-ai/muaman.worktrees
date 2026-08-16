@@ -52,8 +52,6 @@ class _InventoryScreenState extends State<InventoryScreen> {
         title:
             const Text('المخزن', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
-        backgroundColor: const Color(0xFF1A237E),
-        foregroundColor: Colors.white,
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -124,7 +122,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
               onPressed: () => _showAddEditDialog(context),
               icon: const Icon(Icons.add),
               label: const Text('إضافة صنف'),
-              backgroundColor: const Color(0xFF1A237E),
+              backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
             )
           : null,

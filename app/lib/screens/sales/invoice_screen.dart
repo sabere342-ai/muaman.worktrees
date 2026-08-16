@@ -114,12 +114,9 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   ButtonStyle get _actionStyle {
     if (_buttonStyle == 'outlined') {
       return OutlinedButton.styleFrom(
-        foregroundColor: const Color(0xFF0D47A1),
-        side: const BorderSide(color: Color(0xFF0D47A1)),
       );
     }
     return ElevatedButton.styleFrom(
-      backgroundColor: const Color(0xFF0D47A1),
       foregroundColor: Colors.white,
     );
   }
@@ -131,8 +128,6 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
         title: const Text('إنشاء فاتورة جديدة',
             style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
-        backgroundColor: const Color(0xFF0D47A1),
-        foregroundColor: Colors.white,
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())

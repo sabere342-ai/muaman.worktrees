@@ -11,9 +11,11 @@ class AppSettings {
   static const String keyLicenseStatus = 'licenseStatus';
   static const String keyDefaultCustomerName = 'defaultCustomerName';
   static const String keyWorkbookPath = 'workbookPath';
+  static const String keyBrandColor = 'brandColor';
   static const String defaultSupportPhone = '+201014900211';
   static const String defaultCustomerName = 'عميل نقدي';
   static const String defaultButtonStyle = 'filled';
+  static const String defaultBrandColor = '#0D47A1';
 
   static const List<String> buttonStyles = ['filled', 'outlined'];
 
@@ -24,6 +26,7 @@ class AppSettings {
     await _createDefaultIfMissing(
         db, keyDefaultCustomerName, defaultCustomerName);
     await _createDefaultIfMissing(db, keyLicenseStatus, 'inactive');
+    await _createDefaultIfMissing(db, keyBrandColor, defaultBrandColor);
   }
 
   static Future<void> _createDefaultIfMissing(
@@ -100,6 +103,30 @@ class AppSettings {
       return true;
     }
     return false;
+  }
+
+  static Future<String> getBrandColor() async {
+    final value = await getValue(keyBrandColor);
+    if (value.isEmpty) return defaultBrandColor;
+    try {
+      var hex = value.replaceFirst('#', '');
+      if (hex.length == 6) {
+        int.parse(hex, radix: 16);
+        return '#$hex';
+      }
+      if (hex.length == 8) {
+        int.parse(hex, radix: 16);
+        return '#${hex.substring(2)}';
+      }
+      return defaultBrandColor;
+    } catch (_) {
+      return defaultBrandColor;
+    }
+  }
+
+  static Future<void> setBrandColor(String hex) async {
+    final normalized = hex.startsWith('#') ? hex : '#$hex';
+    await setValue(keyBrandColor, normalized);
   }
 
   static Future<String> getDefaultWorkbookPath() async {
