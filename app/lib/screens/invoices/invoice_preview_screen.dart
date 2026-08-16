@@ -181,6 +181,9 @@ class _InvoicePreviewScreenState extends State<InvoicePreviewScreen> {
             if (profile.address.trim().isNotEmpty)
               Text(profile.address.trim(),
                   style: const TextStyle(fontSize: 13, color: Colors.grey)),
+            if (data.supportPhone.isNotEmpty)
+              Text('للدعم: ${data.supportPhone}',
+                  style: const TextStyle(fontSize: 13, color: Colors.grey)),
           ],
         ),
       ),

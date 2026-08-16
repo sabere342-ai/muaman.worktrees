@@ -11,7 +11,7 @@ import 'invoice_pdf_renderer.dart';
 /// they never touch the database.
 class InvoiceDelivery {
   InvoiceDelivery({InvoicePdfRenderer? renderer})
-      : _renderer = renderer ?? const InvoicePdfRenderer();
+      : _renderer = renderer ?? InvoicePdfRenderer();
 
   final InvoicePdfRenderer _renderer;
 

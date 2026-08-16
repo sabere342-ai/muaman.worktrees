@@ -21,6 +21,7 @@ import 'package:muaman_store/models/user_role.dart';
 import 'package:muaman_store/screens/invoices/invoice_preview_screen.dart';
 import 'package:muaman_store/screens/sales/invoice_screen.dart';
 import 'package:muaman_store/screens/sales/sales_screen.dart';
+import 'package:muaman_store/services/app_settings.dart';
 import 'package:muaman_store/services/permission_resolver.dart';
 import 'package:muaman_store/services/session_state.dart';
 
@@ -127,6 +128,7 @@ void main() {
     List<InvoiceLineData>? lines,
     double? totalAmount,
     int? totalItems,
+    String? supportPhone,
   }) {
     final resolvedLines = lines ??
         [
@@ -149,6 +151,7 @@ void main() {
       totalItems: totalItems ?? resolvedLines.length,
       shopProfile: const ShopProfile(shopName: 'محل مؤمن'),
       lines: resolvedLines,
+      supportPhone: supportPhone ?? '',
     );
   }
 
@@ -217,7 +220,7 @@ void main() {
   });
 
   group('C - InvoicePdfRenderer', () {
-    const renderer = InvoicePdfRenderer();
+    final renderer = InvoicePdfRenderer();
 
     Future<(Uint8List, Uint8List)> fontBytes() async {
       final regular =
@@ -287,6 +290,32 @@ void main() {
       final bytes = await document.save();
       expect(String.fromCharCodes(bytes.take(5)), '%PDF-');
     });
+
+    test('PDF contains support phone when provided', () async {
+      final (regular, bold) = await fontBytes();
+      final document = renderer.buildDocumentWith(
+        sampleData(supportPhone: '+201111111111'),
+        regular,
+        bold,
+        null,
+      );
+      final bytes = await document.save();
+      expect(bytes.length, greaterThan(1000));
+      expect(String.fromCharCodes(bytes.take(5)), '%PDF-');
+    });
+
+    test('PDF renders without errors when support phone is empty', () async {
+      final (regular, bold) = await fontBytes();
+      final document = renderer.buildDocumentWith(
+        sampleData(supportPhone: ''),
+        regular,
+        bold,
+        null,
+      );
+      final bytes = await document.save();
+      expect(bytes.length, greaterThan(1000));
+      expect(String.fromCharCodes(bytes.take(5)), '%PDF-');
+    });
   });
 
   group('D - DatabaseHelper gated invoice reads', () {
@@ -347,11 +376,30 @@ void main() {
         throwsA(isA<SalesHistoryAccessDeniedException>()),
       );
     });
+
+    test('buildDocumentData loads supportPhone from AppSettings', () async {
+      await AppSettings.setValue(
+          AppSettings.keySupportPhone, '+209999999999');
+      final invoiceId = await seedInvoiceWithItems();
+      final data = await repository.buildDocumentData(invoiceId,
+          currentRole: UserRole.owner);
+      expect(data.supportPhone, '+209999999999');
+    });
+
+    test('buildDocumentData uses default supportPhone when not customized',
+        () async {
+      final invoiceId = await seedInvoiceWithItems();
+      final data = await repository.buildDocumentData(invoiceId,
+          currentRole: UserRole.owner);
+      expect(data.supportPhone, '+201014900211');
+    });
   });
 
   group('F - InvoicePreviewScreen', () {
     Future<void> pumpPreview(
         WidgetTester tester, int invoiceId, SessionState session) async {
+      await tester.binding.setSurfaceSize(const Size(1400, 1000));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
       await tester.pumpWidget(MaterialApp(
         home: InvoicePreviewScreen(invoiceId: invoiceId, sessionState: session),
       ));
@@ -380,6 +428,16 @@ void main() {
 
       expect(find.text('تعذر تحميل الفاتورة'), findsOneWidget);
       expect(find.text('طباعة'), findsNothing);
+    });
+
+    testWidgets('shows support phone in shop card when available',
+        (WidgetTester tester) async {
+      await AppSettings.setValue(
+          AppSettings.keySupportPhone, '+201111111111');
+      final invoiceId = await seedInvoiceWithItems();
+      await pumpPreview(tester, invoiceId, ownerSession());
+
+      expect(find.text('للدعم: +201111111111'), findsOneWidget);
     });
   });
 

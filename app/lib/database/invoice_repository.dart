@@ -3,6 +3,7 @@ import '../models/invoice.dart';
 import '../models/sale.dart';
 import '../models/shop_profile.dart';
 import '../models/user_role.dart';
+import '../services/app_settings.dart';
 import '../services/shop_profile_repository.dart';
 import 'database_helper.dart';
 
@@ -39,6 +40,7 @@ class InvoiceRepository {
     }
     final items = await getInvoiceItems(invoiceId, currentRole: currentRole);
     final profile = await _loadProfile();
+    final supportPhone = await AppSettings.getSupportPhone();
     return InvoiceDocumentData(
       invoiceNumber: invoice.invoiceNumber,
       date: invoice.date,
@@ -56,6 +58,7 @@ class InvoiceRepository {
             unitPrice: item.salePrice,
           ),
       ],
+      supportPhone: supportPhone,
     );
   }
 

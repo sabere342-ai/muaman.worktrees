@@ -36,6 +36,7 @@ class InvoiceDocumentData {
     required this.totalItems,
     required this.shopProfile,
     required this.lines,
+    this.supportPhone = '',
   });
 
   final String invoiceNumber;
@@ -46,6 +47,10 @@ class InvoiceDocumentData {
   final int totalItems;
   final ShopProfile shopProfile;
   final List<InvoiceLineData> lines;
+
+  /// Configurable support phone loaded from [AppSettings]. Displayed in the
+  /// invoice PDF footer and preview screen as a customer contact point.
+  final String supportPhone;
 
   /// Sum of the rendered line totals. For any invoice loaded from persistence
   /// this is exactly [totalAmount]; kept separate so tests can assert the

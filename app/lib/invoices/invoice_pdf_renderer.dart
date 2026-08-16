@@ -17,7 +17,7 @@ import 'invoice_logo_loader.dart';
 ///    from ever exceeding a page with a single widget (its only failure mode
 ///    for overflowing content).
 class InvoicePdfRenderer {
-  const InvoicePdfRenderer({InvoiceLogoLoader? logoLoader})
+  InvoicePdfRenderer({InvoiceLogoLoader? logoLoader})
       : _logoLoader = logoLoader ?? const InvoiceLogoLoader();
 
   static const String regularFontAsset =
@@ -25,6 +25,7 @@ class InvoicePdfRenderer {
   static const String boldFontAsset = 'assets/fonts/NotoSansArabic-Bold.ttf';
 
   final InvoiceLogoLoader _logoLoader;
+  String _currentSupportPhone = '';
 
   /// Builds the document, loading the bundled Arabic fonts and the shop logo.
   Future<pw.Document> buildDocument(InvoiceDocumentData data) async {
@@ -43,6 +44,7 @@ class InvoicePdfRenderer {
     Uint8List boldFontBytes,
     Uint8List? logoBytes,
   ) {
+    _currentSupportPhone = data.supportPhone;
     final theme = pw.ThemeData.withFont(
       base: pw.Font.ttf(regularFontBytes.buffer.asByteData()),
       bold: pw.Font.ttf(boldFontBytes.buffer.asByteData()),
@@ -255,14 +257,21 @@ class InvoicePdfRenderer {
   }
 
   pw.Widget _footer() {
+    final phone = _currentSupportPhone;
     return pw.Directionality(
       textDirection: pw.TextDirection.rtl,
-      child: pw.Container(
-        alignment: pw.Alignment.center,
-        child: pw.Text(
-          'شكراً لتعاملكم معنا',
-          style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey600),
-        ),
+      child: pw.Column(
+        children: [
+          if (phone.isNotEmpty)
+            pw.Text(
+              'للدعم: $phone',
+              style: const pw.TextStyle(fontSize: 8, color: PdfColors.grey600),
+            ),
+          pw.Text(
+            'شكراً لتعاملكم معنا',
+            style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey600),
+          ),
+        ],
       ),
     );
   }
