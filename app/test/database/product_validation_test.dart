@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:muaman_store/database/database_helper.dart';
+import 'package:muaman_store/models/user_role.dart';
 import 'package:muaman_store/models/product.dart';
 
 void main() {
@@ -40,7 +41,8 @@ void main() {
   group('insertProduct — cost price validation', () {
     test('Zero cost price is rejected', () async {
       expect(
-        () => DatabaseHelper.instance.insertProduct(makeProduct(costPrice: 0)),
+        () => DatabaseHelper.instance.insertProduct(makeProduct(costPrice: 0),
+            currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
 
@@ -50,8 +52,8 @@ void main() {
 
     test('Negative cost price is rejected', () async {
       expect(
-        () =>
-            DatabaseHelper.instance.insertProduct(makeProduct(costPrice: -50)),
+        () => DatabaseHelper.instance.insertProduct(makeProduct(costPrice: -50),
+            currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
 
@@ -60,7 +62,8 @@ void main() {
     });
 
     test('Positive cost price is accepted', () async {
-      await DatabaseHelper.instance.insertProduct(makeProduct(costPrice: 150));
+      await DatabaseHelper.instance.insertProduct(makeProduct(costPrice: 150),
+          currentRole: UserRole.owner);
 
       final products = await testDb.query('products');
       expect(products.length, 1);
@@ -77,6 +80,7 @@ void main() {
       expect(
         () => DatabaseHelper.instance.updateProduct(
           makeProduct(costPrice: 0).copyWith(id: id),
+          currentRole: UserRole.owner,
         ),
         throwsA(isA<ArgumentError>()),
       );
@@ -94,6 +98,7 @@ void main() {
       expect(
         () => DatabaseHelper.instance.updateProduct(
           makeProduct(costPrice: -20).copyWith(id: id),
+          currentRole: UserRole.owner,
         ),
         throwsA(isA<ArgumentError>()),
       );
@@ -110,6 +115,7 @@ void main() {
 
       await DatabaseHelper.instance.updateProduct(
         makeProduct(costPrice: 200).copyWith(id: id),
+        currentRole: UserRole.owner,
       );
 
       final products = await testDb.query('products');

@@ -233,7 +233,8 @@ class DatabaseHelper {
   }
 
   // =================== PRODUCTS ===================
-  Future<int> insertProduct(Product product) async {
+  Future<int> insertProduct(Product product, {UserRole? currentRole}) async {
+    _requirePermission(currentRole, AppPermission.canEditProducts);
     final trimmedName = product.name.trim();
     if (trimmedName.isEmpty) {
       throw ArgumentError('يجب إدخال اسم المنتج');
@@ -286,7 +287,8 @@ class DatabaseHelper {
     return Product.fromMap(maps.first);
   }
 
-  Future<int> updateProduct(Product product) async {
+  Future<int> updateProduct(Product product, {UserRole? currentRole}) async {
+    _requirePermission(currentRole, AppPermission.canEditProducts);
     final trimmedName = product.name.trim();
     if (trimmedName.isEmpty) {
       throw ArgumentError('يجب إدخال اسم المنتج');
@@ -462,7 +464,8 @@ class DatabaseHelper {
   }
 
   // =================== SALES ===================
-  Future<int> insertSale(Sale sale) async {
+  Future<int> insertSale(Sale sale, {UserRole? currentRole}) async {
+    _requirePermission(currentRole, AppPermission.canCreateSales);
     final db = await database;
     return await db.transaction((txn) async {
       await _requireExistingProductByBarcode(txn, sale.barcode);
@@ -494,7 +497,9 @@ class DatabaseHelper {
     });
   }
 
-  Future<int> insertSaleAndDecrementStock(Sale sale) async {
+  Future<int> insertSaleAndDecrementStock(Sale sale,
+      {UserRole? currentRole}) async {
+    _requirePermission(currentRole, AppPermission.canCreateSales);
     final db = await database;
     return await db.transaction((txn) async {
       if (sale.quantity <= 0) {
@@ -547,8 +552,9 @@ class DatabaseHelper {
     });
   }
 
-  Future<int> insertInvoiceWithItems(
-      Invoice invoice, List<Sale> invoiceItems) async {
+  Future<int> insertInvoiceWithItems(Invoice invoice, List<Sale> invoiceItems,
+      {UserRole? currentRole}) async {
+    _requirePermission(currentRole, AppPermission.canCreateSales);
     final db = await database;
     return await db.transaction((txn) async {
       if (invoiceItems.isEmpty) {
@@ -817,7 +823,9 @@ class DatabaseHelper {
   }
 
   // =================== RETURNS ===================
-  Future<int> insertReturn(ReturnItem returnItem) async {
+  Future<int> insertReturn(ReturnItem returnItem,
+      {UserRole? currentRole}) async {
+    _requirePermission(currentRole, AppPermission.canCreateReturns);
     final db = await database;
     return await db.transaction((txn) async {
       await _requireExistingProductByBarcode(txn, returnItem.barcode);
@@ -1021,7 +1029,8 @@ class DatabaseHelper {
   }
 
   // =================== EXPENSES ===================
-  Future<int> insertExpense(Expense expense) async {
+  Future<int> insertExpense(Expense expense, {UserRole? currentRole}) async {
+    _requirePermission(currentRole, AppPermission.canCreateExpenses);
     final db = await database;
     return await db.insert('expenses', expense.toMap()..remove('id'));
   }
@@ -1053,7 +1062,9 @@ class DatabaseHelper {
 
   // =================== INVENTORY COUNT ===================
   Future<int> saveInventoryCount(
-      int productId, int actualQuantity, String notes) async {
+      int productId, int actualQuantity, String notes,
+      {UserRole? currentRole}) async {
+    _requirePermission(currentRole, AppPermission.canAccessStocktake);
     final db = await database;
     return await db.transaction((txn) async {
       if (actualQuantity < 0) {

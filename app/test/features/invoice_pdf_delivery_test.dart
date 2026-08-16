@@ -91,7 +91,8 @@ void main() {
         costPrice: 50,
       ),
     ];
-    return DatabaseHelper.instance.insertInvoiceWithItems(invoice, items);
+    return DatabaseHelper.instance
+        .insertInvoiceWithItems(invoice, items, currentRole: UserRole.owner);
   }
 
   SessionState ownerSession() {

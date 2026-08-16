@@ -39,6 +39,7 @@ void main() {
         username: 'owner',
         password: 'password123',
         role: UserRole.owner,
+        currentRole: UserRole.owner,
       );
       expect(id, greaterThan(0));
 
@@ -57,6 +58,7 @@ void main() {
         username: 'testuser',
         password: 'password123',
         role: UserRole.owner,
+        currentRole: UserRole.owner,
       );
       expect(
         () => repo.createUser(
@@ -64,6 +66,7 @@ void main() {
           username: 'testuser',
           password: 'password456',
           role: UserRole.employee,
+          currentRole: UserRole.owner,
         ),
         throwsA(isA<DuplicateUsernameException>()),
       );
@@ -76,6 +79,7 @@ void main() {
         username: 'TestUser',
         password: 'password123',
         role: UserRole.owner,
+        currentRole: UserRole.owner,
       );
       expect(
         () => repo.createUser(
@@ -83,6 +87,7 @@ void main() {
           username: 'testuser',
           password: 'password456',
           role: UserRole.employee,
+          currentRole: UserRole.owner,
         ),
         throwsA(isA<DuplicateUsernameException>()),
       );
@@ -96,6 +101,7 @@ void main() {
           username: '  ',
           password: 'password123',
           role: UserRole.owner,
+          currentRole: UserRole.owner,
         ),
         throwsArgumentError,
       );
@@ -109,6 +115,7 @@ void main() {
           username: 'user1',
           password: 'password123',
           role: UserRole.owner,
+          currentRole: UserRole.owner,
         ),
         throwsArgumentError,
       );
@@ -122,6 +129,7 @@ void main() {
           username: 'user1',
           password: '12',
           role: UserRole.owner,
+          currentRole: UserRole.owner,
         ),
         throwsA(isA<WeakPasswordException>()),
       );
@@ -141,6 +149,7 @@ void main() {
         username: 'employee1',
         password: 'password123',
         role: UserRole.employee,
+        currentRole: UserRole.owner,
       );
       final user = await repo.getUserById(id);
       expect(user!.role, UserRole.employee);
@@ -154,6 +163,7 @@ void main() {
         username: 'cashier1',
         password: 'password123',
         role: UserRole.salesOnly,
+        currentRole: UserRole.owner,
       );
       final user = await repo.getUserById(id);
       expect(user!.role, UserRole.salesOnly);
@@ -167,8 +177,10 @@ void main() {
         username: 'user1',
         password: 'password123',
         role: UserRole.employee,
+        currentRole: UserRole.owner,
       );
-      await repo.updateUser(id: id, displayName: 'New Name');
+      await repo.updateUser(
+          id: id, displayName: 'New Name', currentRole: UserRole.owner);
       final user = await repo.getUserById(id);
       expect(user!.displayName, 'New Name');
     });
@@ -180,8 +192,10 @@ void main() {
         username: 'olduser',
         password: 'password123',
         role: UserRole.employee,
+        currentRole: UserRole.owner,
       );
-      await repo.updateUser(id: id, username: 'newuser');
+      await repo.updateUser(
+          id: id, username: 'newuser', currentRole: UserRole.owner);
       final user = await repo.getUserById(id);
       expect(user!.username, 'newuser');
     });
@@ -193,8 +207,10 @@ void main() {
         username: 'user1',
         password: 'password123',
         role: UserRole.employee,
+        currentRole: UserRole.owner,
       );
-      await repo.updateUser(id: id, role: UserRole.salesOnly);
+      await repo.updateUser(
+          id: id, role: UserRole.salesOnly, currentRole: UserRole.owner);
       final user = await repo.getUserById(id);
       expect(user!.role, UserRole.salesOnly);
     });
@@ -206,14 +222,17 @@ void main() {
         username: 'owner',
         password: 'password123',
         role: UserRole.owner,
+        currentRole: UserRole.owner,
       );
       final id = await repo.createUser(
         displayName: 'User',
         username: 'user1',
         password: 'password123',
         role: UserRole.employee,
+        currentRole: UserRole.owner,
       );
-      await repo.setUserActiveStatus(id: id, isActive: false);
+      await repo.setUserActiveStatus(
+          id: id, isActive: false, currentRole: UserRole.owner);
       final user = await repo.getUserById(id);
       expect(user!.isActive, false);
     });
@@ -225,15 +244,19 @@ void main() {
         username: 'owner',
         password: 'password123',
         role: UserRole.owner,
+        currentRole: UserRole.owner,
       );
       final id = await repo.createUser(
         displayName: 'User',
         username: 'user1',
         password: 'password123',
         role: UserRole.employee,
+        currentRole: UserRole.owner,
       );
-      await repo.setUserActiveStatus(id: id, isActive: false);
-      await repo.setUserActiveStatus(id: id, isActive: true);
+      await repo.setUserActiveStatus(
+          id: id, isActive: false, currentRole: UserRole.owner);
+      await repo.setUserActiveStatus(
+          id: id, isActive: true, currentRole: UserRole.owner);
       final user = await repo.getUserById(id);
       expect(user!.isActive, true);
     });
@@ -245,8 +268,10 @@ void main() {
         username: 'user1',
         password: 'oldpassword',
         role: UserRole.employee,
+        currentRole: UserRole.owner,
       );
-      await repo.resetPassword(id: id, newPassword: 'newpassword123');
+      await repo.resetPassword(
+          id: id, newPassword: 'newpassword123', currentRole: UserRole.owner);
       final user = await repo.getUserById(id);
       expect(user!.passwordHash, isNot('oldpassword'));
       expect(user.passwordHash.contains(':'), true);
@@ -259,6 +284,7 @@ void main() {
         username: 'user1',
         password: 'mySecretPassword',
         role: UserRole.employee,
+        currentRole: UserRole.owner,
       );
       final rows =
           await testDb.query('users', where: 'id = ?', whereArgs: [id]);
@@ -275,8 +301,10 @@ void main() {
         username: 'user1',
         password: 'oldpassword',
         role: UserRole.employee,
+        currentRole: UserRole.owner,
       );
-      await repo.resetPassword(id: id, newPassword: 'newpassword123');
+      await repo.resetPassword(
+          id: id, newPassword: 'newpassword123', currentRole: UserRole.owner);
 
       final authOld = await repo.authenticate('user1', 'oldpassword');
       expect(authOld, isNull);
@@ -292,10 +320,12 @@ void main() {
         username: 'owner',
         password: 'password123',
         role: UserRole.owner,
+        currentRole: UserRole.owner,
       );
 
       expect(
-        () => repo.setUserActiveStatus(id: 1, isActive: false),
+        () => repo.setUserActiveStatus(
+            id: 1, isActive: false, currentRole: UserRole.owner),
         throwsA(isA<LastActiveOwnerException>()),
       );
     });
@@ -307,10 +337,12 @@ void main() {
         username: 'owner',
         password: 'password123',
         role: UserRole.owner,
+        currentRole: UserRole.owner,
       );
 
       expect(
-        () => repo.updateUser(id: 1, role: UserRole.employee),
+        () => repo.updateUser(
+            id: 1, role: UserRole.employee, currentRole: UserRole.owner),
         throwsA(isA<LastActiveOwnerException>()),
       );
     });
@@ -322,16 +354,21 @@ void main() {
         username: 'owner1',
         password: 'password123',
         role: UserRole.owner,
+        currentRole: UserRole.owner,
       );
       final id2 = await repo.createUser(
         displayName: 'Owner2',
         username: 'owner2',
         password: 'password123',
         role: UserRole.owner,
+        currentRole: UserRole.owner,
       );
 
       await repo.setUserActiveStatus(
-          id: id2, isActive: false, currentUserId: 1);
+          id: id2,
+          isActive: false,
+          currentUserId: 1,
+          currentRole: UserRole.owner);
       final user2 = await repo.getUserById(id2);
       expect(user2!.isActive, false);
     });
@@ -343,17 +380,22 @@ void main() {
         username: 'owner',
         password: 'password123',
         role: UserRole.owner,
+        currentRole: UserRole.owner,
       );
       await repo.createUser(
         displayName: 'Owner2',
         username: 'owner2',
         password: 'password123',
         role: UserRole.owner,
+        currentRole: UserRole.owner,
       );
 
       expect(
         () => repo.setUserActiveStatus(
-            id: id, isActive: false, currentUserId: id),
+            id: id,
+            isActive: false,
+            currentUserId: id,
+            currentRole: UserRole.owner),
         throwsA(isA<CannotDisableCurrentUserException>()),
       );
     });
@@ -361,7 +403,8 @@ void main() {
     test('23. Reject update of non-existent user', () async {
       final repo = createRepo();
       expect(
-        () => repo.updateUser(id: 999, displayName: 'Ghost'),
+        () => repo.updateUser(
+            id: 999, displayName: 'Ghost', currentRole: UserRole.owner),
         throwsA(isA<UserNotFoundException>()),
       );
     });
@@ -369,7 +412,8 @@ void main() {
     test('24. Reject password reset for non-existent user', () async {
       final repo = createRepo();
       expect(
-        () => repo.resetPassword(id: 999, newPassword: 'password123'),
+        () => repo.resetPassword(
+            id: 999, newPassword: 'password123', currentRole: UserRole.owner),
         throwsA(isA<UserNotFoundException>()),
       );
     });
@@ -381,8 +425,10 @@ void main() {
         username: 'user1',
         password: 'password123',
         role: UserRole.employee,
+        currentRole: UserRole.owner,
       );
-      final affected = await repo.updateUser(id: id, displayName: 'Updated');
+      final affected = await repo.updateUser(
+          id: id, displayName: 'Updated', currentRole: UserRole.owner);
       expect(affected, 1);
     });
   });
@@ -395,6 +441,7 @@ void main() {
         username: 'owner',
         password: 'password123',
         role: UserRole.owner,
+        currentRole: UserRole.owner,
       );
       final user = await repo.authenticate('owner', 'password123');
       expect(user, isNotNull);
@@ -408,6 +455,7 @@ void main() {
         username: 'employee',
         password: 'password123',
         role: UserRole.employee,
+        currentRole: UserRole.owner,
       );
       final user = await repo.authenticate('employee', 'password123');
       expect(user, isNotNull);
@@ -421,6 +469,7 @@ void main() {
         username: 'cashier',
         password: 'password123',
         role: UserRole.salesOnly,
+        currentRole: UserRole.owner,
       );
       final user = await repo.authenticate('cashier', 'password123');
       expect(user, isNotNull);
@@ -440,6 +489,7 @@ void main() {
         username: 'user1',
         password: 'correctpassword',
         role: UserRole.employee,
+        currentRole: UserRole.owner,
       );
       final user = await repo.authenticate('user1', 'wrongpassword');
       expect(user, isNull);
@@ -452,8 +502,10 @@ void main() {
         username: 'user1',
         password: 'password123',
         role: UserRole.employee,
+        currentRole: UserRole.owner,
       );
-      await repo.setUserActiveStatus(id: id, isActive: false);
+      await repo.setUserActiveStatus(
+          id: id, isActive: false, currentRole: UserRole.owner);
       final user = await repo.authenticate('user1', 'password123');
       expect(user, isNull);
     });
@@ -465,6 +517,7 @@ void main() {
         username: 'user1',
         password: 'password123',
         role: UserRole.employee,
+        currentRole: UserRole.owner,
       );
       final user = await repo.authenticate('user1', 'password123');
       expect(user, isNotNull);
@@ -481,6 +534,7 @@ void main() {
         username: 'user1',
         password: 'password123',
         role: UserRole.employee,
+        currentRole: UserRole.owner,
       );
 
       await repo.authenticate('user1', 'wrongpassword');

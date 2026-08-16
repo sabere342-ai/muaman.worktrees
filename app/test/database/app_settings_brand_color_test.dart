@@ -87,15 +87,13 @@ void main() {
     });
 
     test('returns default for too-long hex', () async {
-      await AppSettings.setValue(
-          AppSettings.keyBrandColor, '#0D47A1FF00FF');
+      await AppSettings.setValue(AppSettings.keyBrandColor, '#0D47A1FF00FF');
       final color = await AppSettings.getBrandColor();
       expect(color, equals('#0D47A1'));
     });
 
     test('no crash on garbage value', () async {
-      await AppSettings.setValue(
-          AppSettings.keyBrandColor, '!@#\$%^&*()');
+      await AppSettings.setValue(AppSettings.keyBrandColor, '!@#\$%^&*()');
       final color = await AppSettings.getBrandColor();
       expect(color, equals('#0D47A1'));
     });

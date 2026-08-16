@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:muaman_store/database/database_helper.dart';
+import 'package:muaman_store/models/user_role.dart';
 import 'package:muaman_store/models/product.dart';
 import 'package:muaman_store/models/sale.dart';
 import 'package:muaman_store/models/return_item.dart';
@@ -104,8 +105,9 @@ void main() {
     test('1: Increasing quantity updates stock correctly', () async {
       await testDb.insert(
           'products', makeProduct(stock: 10).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateSale(makeSale(id: saleId, quantity: 5));
@@ -121,8 +123,9 @@ void main() {
     test('2: Increasing quantity above available stock is rejected', () async {
       await testDb.insert(
           'products', makeProduct(stock: 5).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -143,8 +146,9 @@ void main() {
     test('3: Decreasing quantity restores difference to stock', () async {
       await testDb.insert(
           'products', makeProduct(stock: 10).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 5));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 5),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateSale(makeSale(id: saleId, quantity: 2));
@@ -159,8 +163,9 @@ void main() {
     test('4: Keeping same quantity does not change stock', () async {
       await testDb.insert(
           'products', makeProduct(stock: 10).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateSale(makeSale(id: saleId, quantity: 3));
@@ -175,8 +180,9 @@ void main() {
     test('5: Changing price only does not affect stock', () async {
       await testDb.insert(
           'products', makeProduct(stock: 10).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3, salePrice: 100));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3, salePrice: 100),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateSale(makeSale(id: saleId, quantity: 3, salePrice: 150));
@@ -194,8 +200,9 @@ void main() {
     test('6: Saving same values twice does not cause stock drift', () async {
       await testDb.insert(
           'products', makeProduct(stock: 10).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateSale(makeSale(id: saleId, quantity: 5));
@@ -215,8 +222,9 @@ void main() {
 
     test('7: Zero quantity is rejected', () async {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -227,8 +235,9 @@ void main() {
 
     test('8: Negative quantity is rejected', () async {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -239,8 +248,9 @@ void main() {
 
     test('9: NaN price is rejected', () async {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance.updateSale(Sale(
@@ -257,8 +267,9 @@ void main() {
 
     test('10: Infinity price is rejected', () async {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance.updateSale(Sale(
@@ -275,8 +286,9 @@ void main() {
 
     test('11: Zero price is rejected', () async {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -287,8 +299,9 @@ void main() {
 
     test('12: Negative price is rejected', () async {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -300,8 +313,9 @@ void main() {
     test('13: Failure does not change sale record', () async {
       await testDb.insert(
           'products', makeProduct(stock: 5).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -318,8 +332,9 @@ void main() {
     test('14: Failure does not change product stock', () async {
       await testDb.insert(
           'products', makeProduct(stock: 5).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -342,8 +357,9 @@ void main() {
           makeProduct(id: 1, barcode: 'A001', stock: 10).toMap()..remove('id'));
       await testDb.insert('products',
           makeProduct(id: 2, barcode: 'B001', stock: 10).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(barcode: 'A001', quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(barcode: 'A001', quantity: 3),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateSale(makeSale(id: saleId, barcode: 'B001', quantity: 2));
@@ -363,8 +379,9 @@ void main() {
           makeProduct(id: 1, barcode: 'A001', stock: 10).toMap()..remove('id'));
       await testDb.insert('products',
           makeProduct(id: 2, barcode: 'B001', stock: 2).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(barcode: 'A001', quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(barcode: 'A001', quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -378,8 +395,9 @@ void main() {
           makeProduct(id: 1, barcode: 'A001', stock: 10).toMap()..remove('id'));
       await testDb.insert('products',
           makeProduct(id: 2, barcode: 'B001', stock: 2).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(barcode: 'A001', quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(barcode: 'A001', quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -398,8 +416,9 @@ void main() {
           makeProduct(id: 1, barcode: 'A001', stock: 10).toMap()..remove('id'));
       await testDb.insert('products',
           makeProduct(id: 2, barcode: 'B001', stock: 2).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(barcode: 'A001', quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(barcode: 'A001', quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -418,8 +437,9 @@ void main() {
           makeProduct(id: 1, barcode: 'A001', stock: 10).toMap()..remove('id'));
       await testDb.insert('products',
           makeProduct(id: 2, barcode: 'B001', stock: 2).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(barcode: 'A001', quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(barcode: 'A001', quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -434,8 +454,9 @@ void main() {
     test('20: Barcode with spaces is normalized per MUAMAN-07', () async {
       await testDb.insert('products',
           makeProduct(id: 1, barcode: 'A001', stock: 10).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(barcode: 'A001', quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(barcode: 'A001', quantity: 3),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateSale(makeSale(id: saleId, barcode: '  A001  ', quantity: 5));
@@ -453,8 +474,9 @@ void main() {
         () async {
       await testDb.insert('products',
           makeProduct(id: 1, barcode: 'A001').toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(barcode: 'A001', quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(barcode: 'A001', quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -503,8 +525,9 @@ void main() {
     test('24: UPDATE affects exactly one row', () async {
       await testDb.insert(
           'products', makeProduct(stock: 10).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateSale(makeSale(id: saleId, quantity: 5));
@@ -519,7 +542,8 @@ void main() {
       await testDb.insert(
           'products', makeProduct(costPrice: 50).toMap()..remove('id'));
       final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
-          makeSale(quantity: 3, salePrice: 100, costPrice: 50));
+          makeSale(quantity: 3, salePrice: 100, costPrice: 50),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance.updateSale(
           makeSale(id: saleId, quantity: 5, salePrice: 120, costPrice: 50));
@@ -533,8 +557,9 @@ void main() {
     test('26: No partial write if stock check fails after reversal', () async {
       await testDb.insert('products',
           makeProduct(id: 1, barcode: 'A001', stock: 5).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(barcode: 'A001', quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(barcode: 'A001', quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -550,8 +575,9 @@ void main() {
         () async {
       await testDb.insert(
           'products', makeProduct(stock: 10).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateSale(makeSale(id: saleId, quantity: 5));
@@ -564,8 +590,9 @@ void main() {
     test('28: InsufficientStockException has correct fields', () async {
       await testDb.insert(
           'products', makeProduct(stock: 5).toMap()..remove('id'));
-      final saleId = await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       try {
         await DatabaseHelper.instance
@@ -585,8 +612,8 @@ void main() {
     test('29: Increasing return quantity increases stock correctly', () async {
       await testDb.insert(
           'products', makeProduct(stock: 10).toMap()..remove('id'));
-      final returnId =
-          await DatabaseHelper.instance.insertReturn(makeReturn(quantity: 2));
+      final returnId = await DatabaseHelper.instance
+          .insertReturn(makeReturn(quantity: 2), currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateReturn(makeReturn(id: returnId, quantity: 5));
@@ -602,8 +629,8 @@ void main() {
         () async {
       await testDb.insert(
           'products', makeProduct(stock: 10).toMap()..remove('id'));
-      final returnId =
-          await DatabaseHelper.instance.insertReturn(makeReturn(quantity: 5));
+      final returnId = await DatabaseHelper.instance
+          .insertReturn(makeReturn(quantity: 5), currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateReturn(makeReturn(id: returnId, quantity: 2));
@@ -618,8 +645,8 @@ void main() {
     test('31: Keeping same quantity does not change stock', () async {
       await testDb.insert(
           'products', makeProduct(stock: 10).toMap()..remove('id'));
-      final returnId =
-          await DatabaseHelper.instance.insertReturn(makeReturn(quantity: 2));
+      final returnId = await DatabaseHelper.instance
+          .insertReturn(makeReturn(quantity: 2), currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateReturn(makeReturn(id: returnId, quantity: 2));
@@ -634,8 +661,9 @@ void main() {
     test('32: Changing price only does not affect stock', () async {
       await testDb.insert(
           'products', makeProduct(stock: 10).toMap()..remove('id'));
-      final returnId = await DatabaseHelper.instance
-          .insertReturn(makeReturn(quantity: 2, salePrice: 100));
+      final returnId = await DatabaseHelper.instance.insertReturn(
+          makeReturn(quantity: 2, salePrice: 100),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateReturn(makeReturn(id: returnId, quantity: 2, salePrice: 150));
@@ -652,8 +680,8 @@ void main() {
     test('33: Saving same values twice does not cause stock drift', () async {
       await testDb.insert(
           'products', makeProduct(stock: 10).toMap()..remove('id'));
-      final returnId =
-          await DatabaseHelper.instance.insertReturn(makeReturn(quantity: 2));
+      final returnId = await DatabaseHelper.instance
+          .insertReturn(makeReturn(quantity: 2), currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateReturn(makeReturn(id: returnId, quantity: 5));
@@ -673,8 +701,8 @@ void main() {
 
     test('34: Zero quantity is rejected', () async {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
-      final returnId =
-          await DatabaseHelper.instance.insertReturn(makeReturn(quantity: 2));
+      final returnId = await DatabaseHelper.instance
+          .insertReturn(makeReturn(quantity: 2), currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -685,8 +713,8 @@ void main() {
 
     test('35: Negative quantity is rejected', () async {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
-      final returnId =
-          await DatabaseHelper.instance.insertReturn(makeReturn(quantity: 2));
+      final returnId = await DatabaseHelper.instance
+          .insertReturn(makeReturn(quantity: 2), currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -697,8 +725,8 @@ void main() {
 
     test('36: Zero price is rejected', () async {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
-      final returnId =
-          await DatabaseHelper.instance.insertReturn(makeReturn(quantity: 2));
+      final returnId = await DatabaseHelper.instance
+          .insertReturn(makeReturn(quantity: 2), currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -714,8 +742,8 @@ void main() {
     test('37: Return update succeeds when stock allows reversal', () async {
       await testDb.insert(
           'products', makeProduct(stock: 5).toMap()..remove('id'));
-      final returnId =
-          await DatabaseHelper.instance.insertReturn(makeReturn(quantity: 3));
+      final returnId = await DatabaseHelper.instance
+          .insertReturn(makeReturn(quantity: 3), currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateReturn(makeReturn(id: returnId, quantity: 1));
@@ -729,11 +757,12 @@ void main() {
         () async {
       await testDb.insert(
           'products', makeProduct(stock: 0).toMap()..remove('id'));
-      final returnId =
-          await DatabaseHelper.instance.insertReturn(makeReturn(quantity: 5));
+      final returnId = await DatabaseHelper.instance
+          .insertReturn(makeReturn(quantity: 5), currentRole: UserRole.owner);
 
       await DatabaseHelper.instance.insertSaleAndDecrementStock(
-          makeSale(barcode: 'TEST001', quantity: 3));
+          makeSale(barcode: 'TEST001', quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -745,11 +774,12 @@ void main() {
     test('39: Rejected reversal does not change product stock', () async {
       await testDb.insert(
           'products', makeProduct(stock: 0).toMap()..remove('id'));
-      final returnId =
-          await DatabaseHelper.instance.insertReturn(makeReturn(quantity: 5));
+      final returnId = await DatabaseHelper.instance
+          .insertReturn(makeReturn(quantity: 5), currentRole: UserRole.owner);
 
       await DatabaseHelper.instance.insertSaleAndDecrementStock(
-          makeSale(barcode: 'TEST001', quantity: 3));
+          makeSale(barcode: 'TEST001', quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -765,11 +795,12 @@ void main() {
     test('40: Rejected reversal does not change return record', () async {
       await testDb.insert(
           'products', makeProduct(stock: 0).toMap()..remove('id'));
-      final returnId =
-          await DatabaseHelper.instance.insertReturn(makeReturn(quantity: 5));
+      final returnId = await DatabaseHelper.instance
+          .insertReturn(makeReturn(quantity: 5), currentRole: UserRole.owner);
 
       await DatabaseHelper.instance.insertSaleAndDecrementStock(
-          makeSale(barcode: 'TEST001', quantity: 3));
+          makeSale(barcode: 'TEST001', quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance
@@ -784,11 +815,13 @@ void main() {
     test('41: Rejected reversal does not change financial value', () async {
       await testDb.insert(
           'products', makeProduct(stock: 0).toMap()..remove('id'));
-      final returnId = await DatabaseHelper.instance
-          .insertReturn(makeReturn(quantity: 5, salePrice: 100));
+      final returnId = await DatabaseHelper.instance.insertReturn(
+          makeReturn(quantity: 5, salePrice: 100),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance.insertSaleAndDecrementStock(
-          makeSale(barcode: 'TEST001', quantity: 3));
+          makeSale(barcode: 'TEST001', quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance.updateReturn(
@@ -803,11 +836,12 @@ void main() {
     test('42: Correct exception is thrown for reversal conflict', () async {
       await testDb.insert(
           'products', makeProduct(stock: 0).toMap()..remove('id'));
-      final returnId =
-          await DatabaseHelper.instance.insertReturn(makeReturn(quantity: 5));
+      final returnId = await DatabaseHelper.instance
+          .insertReturn(makeReturn(quantity: 5), currentRole: UserRole.owner);
 
       await DatabaseHelper.instance.insertSaleAndDecrementStock(
-          makeSale(barcode: 'TEST001', quantity: 3));
+          makeSale(barcode: 'TEST001', quantity: 3),
+          currentRole: UserRole.owner);
 
       try {
         await DatabaseHelper.instance
@@ -829,8 +863,9 @@ void main() {
           makeProduct(id: 1, barcode: 'A001', stock: 10).toMap()..remove('id'));
       await testDb.insert('products',
           makeProduct(id: 2, barcode: 'B001', stock: 10).toMap()..remove('id'));
-      final returnId = await DatabaseHelper.instance
-          .insertReturn(makeReturn(barcode: 'A001', quantity: 3));
+      final returnId = await DatabaseHelper.instance.insertReturn(
+          makeReturn(barcode: 'A001', quantity: 3),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateReturn(makeReturn(id: returnId, barcode: 'B001', quantity: 2));
@@ -847,8 +882,9 @@ void main() {
           makeProduct(id: 1, barcode: 'A001', stock: 10).toMap()..remove('id'));
       await testDb.insert('products',
           makeProduct(id: 2, barcode: 'B001', stock: 5).toMap()..remove('id'));
-      final returnId = await DatabaseHelper.instance
-          .insertReturn(makeReturn(barcode: 'A001', quantity: 3));
+      final returnId = await DatabaseHelper.instance.insertReturn(
+          makeReturn(barcode: 'A001', quantity: 3),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateReturn(makeReturn(id: returnId, barcode: 'B001', quantity: 2));
@@ -866,11 +902,13 @@ void main() {
           makeProduct(id: 1, barcode: 'A001', stock: 0).toMap()..remove('id'));
       await testDb.insert('products',
           makeProduct(id: 2, barcode: 'B001', stock: 10).toMap()..remove('id'));
-      final returnId = await DatabaseHelper.instance
-          .insertReturn(makeReturn(barcode: 'A001', quantity: 5));
+      final returnId = await DatabaseHelper.instance.insertReturn(
+          makeReturn(barcode: 'A001', quantity: 5),
+          currentRole: UserRole.owner);
 
-      await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(barcode: 'A001', quantity: 3));
+      await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(barcode: 'A001', quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance.updateReturn(
@@ -884,11 +922,13 @@ void main() {
           makeProduct(id: 1, barcode: 'A001', stock: 0).toMap()..remove('id'));
       await testDb.insert('products',
           makeProduct(id: 2, barcode: 'B001', stock: 10).toMap()..remove('id'));
-      final returnId = await DatabaseHelper.instance
-          .insertReturn(makeReturn(barcode: 'A001', quantity: 5));
+      final returnId = await DatabaseHelper.instance.insertReturn(
+          makeReturn(barcode: 'A001', quantity: 5),
+          currentRole: UserRole.owner);
 
-      await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(barcode: 'A001', quantity: 3));
+      await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(barcode: 'A001', quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance.updateReturn(
@@ -907,11 +947,13 @@ void main() {
           makeProduct(id: 1, barcode: 'A001', stock: 0).toMap()..remove('id'));
       await testDb.insert('products',
           makeProduct(id: 2, barcode: 'B001', stock: 10).toMap()..remove('id'));
-      final returnId = await DatabaseHelper.instance
-          .insertReturn(makeReturn(barcode: 'A001', quantity: 5));
+      final returnId = await DatabaseHelper.instance.insertReturn(
+          makeReturn(barcode: 'A001', quantity: 5),
+          currentRole: UserRole.owner);
 
-      await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(barcode: 'A001', quantity: 3));
+      await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(barcode: 'A001', quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance.updateReturn(
@@ -930,11 +972,13 @@ void main() {
           makeProduct(id: 1, barcode: 'A001', stock: 0).toMap()..remove('id'));
       await testDb.insert('products',
           makeProduct(id: 2, barcode: 'B001', stock: 10).toMap()..remove('id'));
-      final returnId = await DatabaseHelper.instance
-          .insertReturn(makeReturn(barcode: 'A001', quantity: 5));
+      final returnId = await DatabaseHelper.instance.insertReturn(
+          makeReturn(barcode: 'A001', quantity: 5),
+          currentRole: UserRole.owner);
 
-      await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(barcode: 'A001', quantity: 3));
+      await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(barcode: 'A001', quantity: 3),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance.updateReturn(
@@ -951,8 +995,9 @@ void main() {
         () async {
       await testDb.insert('products',
           makeProduct(id: 1, barcode: 'A001').toMap()..remove('id'));
-      final returnId = await DatabaseHelper.instance
-          .insertReturn(makeReturn(barcode: 'A001', quantity: 2));
+      final returnId = await DatabaseHelper.instance.insertReturn(
+          makeReturn(barcode: 'A001', quantity: 2),
+          currentRole: UserRole.owner);
 
       expect(
         () => DatabaseHelper.instance.updateReturn(
@@ -1000,8 +1045,8 @@ void main() {
 
     test('52: UPDATE affects exactly one row', () async {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
-      final returnId =
-          await DatabaseHelper.instance.insertReturn(makeReturn(quantity: 2));
+      final returnId = await DatabaseHelper.instance
+          .insertReturn(makeReturn(quantity: 2), currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateReturn(makeReturn(id: returnId, quantity: 3));
@@ -1014,8 +1059,9 @@ void main() {
     test('53: Stored financial values remain consistent', () async {
       await testDb.insert(
           'products', makeProduct(costPrice: 50).toMap()..remove('id'));
-      final returnId = await DatabaseHelper.instance
-          .insertReturn(makeReturn(quantity: 2, salePrice: 100, costPrice: 50));
+      final returnId = await DatabaseHelper.instance.insertReturn(
+          makeReturn(quantity: 2, salePrice: 100, costPrice: 50),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance.updateReturn(
           makeReturn(id: returnId, quantity: 3, salePrice: 120, costPrice: 50));
@@ -1029,8 +1075,8 @@ void main() {
     test('54: All steps inside single transaction', () async {
       await testDb.insert(
           'products', makeProduct(stock: 10).toMap()..remove('id'));
-      final returnId =
-          await DatabaseHelper.instance.insertReturn(makeReturn(quantity: 2));
+      final returnId = await DatabaseHelper.instance
+          .insertReturn(makeReturn(quantity: 2), currentRole: UserRole.owner);
       final stockBefore =
           Product.fromMap((await testDb.query('products')).first)
               .currentQuantity;

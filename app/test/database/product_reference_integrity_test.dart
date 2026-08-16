@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:muaman_store/database/database_helper.dart';
+import 'package:muaman_store/models/user_role.dart';
 import 'package:muaman_store/models/product.dart';
 import 'package:muaman_store/models/sale.dart';
 import 'package:muaman_store/models/return_item.dart';
@@ -236,14 +237,16 @@ void main() {
   group('insertSale guard', () {
     test('Rejects sale with non-existent product barcode', () async {
       expect(
-        () => DatabaseHelper.instance.insertSale(makeSale(barcode: 'GHOST001')),
+        () => DatabaseHelper.instance.insertSale(makeSale(barcode: 'GHOST001'),
+            currentRole: UserRole.owner),
         throwsA(isA<ProductReferenceIntegrityException>()),
       );
     });
 
     test('No sale row written after rejection', () async {
       expect(
-        () => DatabaseHelper.instance.insertSale(makeSale(barcode: 'GHOST001')),
+        () => DatabaseHelper.instance.insertSale(makeSale(barcode: 'GHOST001'),
+            currentRole: UserRole.owner),
         throwsA(isA<ProductReferenceIntegrityException>()),
       );
 
@@ -254,7 +257,8 @@ void main() {
     test('Accepts sale with valid product barcode', () async {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
 
-      await DatabaseHelper.instance.insertSale(makeSale());
+      await DatabaseHelper.instance
+          .insertSale(makeSale(), currentRole: UserRole.owner);
 
       final sales = await testDb.query('sales');
       expect(sales.length, 1);
@@ -263,7 +267,8 @@ void main() {
     test('Updates stock after valid sale', () async {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
 
-      await DatabaseHelper.instance.insertSale(makeSale(quantity: 3));
+      await DatabaseHelper.instance
+          .insertSale(makeSale(quantity: 3), currentRole: UserRole.owner);
 
       final products = await testDb.query('products');
       final product = Product.fromMap(products.first);
@@ -275,16 +280,18 @@ void main() {
   group('insertReturn guard', () {
     test('Rejects return with non-existent product barcode', () async {
       expect(
-        () => DatabaseHelper.instance
-            .insertReturn(makeReturn(barcode: 'GHOST001')),
+        () => DatabaseHelper.instance.insertReturn(
+            makeReturn(barcode: 'GHOST001'),
+            currentRole: UserRole.owner),
         throwsA(isA<ProductReferenceIntegrityException>()),
       );
     });
 
     test('No return row written after rejection', () async {
       expect(
-        () => DatabaseHelper.instance
-            .insertReturn(makeReturn(barcode: 'GHOST001')),
+        () => DatabaseHelper.instance.insertReturn(
+            makeReturn(barcode: 'GHOST001'),
+            currentRole: UserRole.owner),
         throwsA(isA<ProductReferenceIntegrityException>()),
       );
 
@@ -295,7 +302,8 @@ void main() {
     test('Accepts return with valid product barcode', () async {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
 
-      await DatabaseHelper.instance.insertReturn(makeReturn());
+      await DatabaseHelper.instance
+          .insertReturn(makeReturn(), currentRole: UserRole.owner);
 
       final returns = await testDb.query('returns');
       expect(returns.length, 1);
@@ -304,7 +312,8 @@ void main() {
     test('Updates stock after valid return', () async {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
 
-      await DatabaseHelper.instance.insertReturn(makeReturn(quantity: 2));
+      await DatabaseHelper.instance
+          .insertReturn(makeReturn(quantity: 2), currentRole: UserRole.owner);
 
       final products = await testDb.query('products');
       final product = Product.fromMap(products.first);
@@ -343,8 +352,9 @@ void main() {
       await testDb.insert('products',
           makeProduct(id: 1, barcode: 'OLD001').toMap()..remove('id'));
 
-      final saleId = await DatabaseHelper.instance
-          .insertSale(makeSale(barcode: 'OLD001', quantity: 3));
+      final saleId = await DatabaseHelper.instance.insertSale(
+          makeSale(barcode: 'OLD001', quantity: 3),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
           .updateSale(makeSale(id: saleId, barcode: 'OLD001', quantity: 5));
@@ -445,15 +455,17 @@ void main() {
   group('Existing guarded paths still work', () {
     test('insertSaleAndDecrementStock still rejects missing product', () async {
       expect(
-        () => DatabaseHelper.instance
-            .insertSaleAndDecrementStock(makeSale(barcode: 'GHOST001')),
+        () => DatabaseHelper.instance.insertSaleAndDecrementStock(
+            makeSale(barcode: 'GHOST001'),
+            currentRole: UserRole.owner),
         throwsA(isA<StateError>()),
       );
     });
 
     test('saveInventoryCount still rejects missing product', () async {
       expect(
-        () => DatabaseHelper.instance.saveInventoryCount(999, 10, ''),
+        () => DatabaseHelper.instance
+            .saveInventoryCount(999, 10, '', currentRole: UserRole.owner),
         throwsA(isA<StateError>()),
       );
     });
@@ -461,8 +473,9 @@ void main() {
     test('insertSaleAndDecrementStock succeeds with valid product', () async {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
 
-      await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+      await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       final sales = await testDb.query('sales');
       expect(sales.length, 1);
@@ -480,7 +493,8 @@ void main() {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance.insertSale(makeSale(barcode: 'GHOST001')),
+        () => DatabaseHelper.instance.insertSale(makeSale(barcode: 'GHOST001'),
+            currentRole: UserRole.owner),
         throwsA(isA<ProductReferenceIntegrityException>()),
       );
 
@@ -495,8 +509,9 @@ void main() {
       await testDb.insert('products', makeProduct().toMap()..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance
-            .insertReturn(makeReturn(barcode: 'GHOST001')),
+        () => DatabaseHelper.instance.insertReturn(
+            makeReturn(barcode: 'GHOST001'),
+            currentRole: UserRole.owner),
         throwsA(isA<ProductReferenceIntegrityException>()),
       );
 
@@ -512,8 +527,9 @@ void main() {
     test('Direct insertSaleAndDecrementStock already has product check',
         () async {
       expect(
-        () => DatabaseHelper.instance
-            .insertSaleAndDecrementStock(makeSale(barcode: 'MISSING')),
+        () => DatabaseHelper.instance.insertSaleAndDecrementStock(
+            makeSale(barcode: 'MISSING'),
+            currentRole: UserRole.owner),
         throwsA(isA<StateError>()),
       );
 
@@ -523,7 +539,8 @@ void main() {
 
     test('Direct saveInventoryCount already has product check', () async {
       expect(
-        () => DatabaseHelper.instance.saveInventoryCount(9999, 5, ''),
+        () => DatabaseHelper.instance
+            .saveInventoryCount(9999, 5, '', currentRole: UserRole.owner),
         throwsA(isA<StateError>()),
       );
 

@@ -392,8 +392,7 @@ class _RolesPermissionsScreenState extends State<RolesPermissionsScreen> {
                       )
                     : const Icon(Icons.save),
                 label: const Text('حفظ التغييرات'),
-                style: ElevatedButton.styleFrom(
-                ),
+                style: ElevatedButton.styleFrom(),
               ),
             ),
           ],

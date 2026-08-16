@@ -270,8 +270,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: _isSaving ? null : _activateLicense,
-                    style: ElevatedButton.styleFrom(
-                    ),
+                    style: ElevatedButton.styleFrom(),
                     child: _isSaving
                         ? const SizedBox(
                             width: 18,
@@ -301,8 +300,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: _isImporting ? null : _importWorkbook,
-                    style: ElevatedButton.styleFrom(
-                    ),
+                    style: ElevatedButton.styleFrom(),
                     child: _isImporting
                         ? const SizedBox(
                             width: 18,
@@ -354,8 +352,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Expanded(
                   child: Text(
                     'لون الهوية الأساسي للتطبيق',
-                    style:
-                        TextStyle(fontSize: 14, color: Colors.grey.shade700),
+                    style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
                   ),
                 ),
               ],
@@ -403,9 +400,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         entry.key,
                         style: TextStyle(
                           fontSize: 11,
-                          fontWeight: isSelected
-                              ? FontWeight.bold
-                              : FontWeight.normal,
+                          fontWeight:
+                              isSelected ? FontWeight.bold : FontWeight.normal,
                         ),
                       ),
                     ],

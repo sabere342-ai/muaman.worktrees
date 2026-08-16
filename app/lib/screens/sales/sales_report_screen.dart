@@ -70,7 +70,6 @@ class _SalesReportScreenState extends State<SalesReportScreen>
         title: const Text('تقارير المبيعات',
             style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
-
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,

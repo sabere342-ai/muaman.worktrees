@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../database/database_helper.dart';
 import '../../models/product.dart';
+import '../../services/session_state.dart';
+import '../../services/permissions.dart';
 
 class InventoryCountScreen extends StatefulWidget {
-  const InventoryCountScreen({super.key});
+  final SessionState? sessionState;
+  const InventoryCountScreen({super.key, this.sessionState});
 
   @override
   State<InventoryCountScreen> createState() => _InventoryCountScreenState();
@@ -15,11 +18,17 @@ class _InventoryCountScreenState extends State<InventoryCountScreen> {
   final _searchController = TextEditingController();
   bool _isLoading = true;
   int? _savingProductId;
+  bool _hasAccess = true;
 
   @override
   void initState() {
     super.initState();
-    _loadProducts();
+    _hasAccess =
+        widget.sessionState?.hasPermission(AppPermission.canAccessStocktake) ??
+            false;
+    if (_hasAccess) {
+      _loadProducts();
+    }
   }
 
   Future<void> _loadProducts() async {
@@ -50,52 +59,67 @@ class _InventoryCountScreenState extends State<InventoryCountScreen> {
             const Text('الجرد', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: [
-          IconButton(icon: const Icon(Icons.refresh), onPressed: _loadProducts),
+          if (_hasAccess)
+            IconButton(
+                icon: const Icon(Icons.refresh), onPressed: _loadProducts),
         ],
       ),
-      body: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            color: Colors.purple.shade50,
-            child: TextField(
-              controller: _searchController,
-              onChanged: _filterProducts,
-              decoration: InputDecoration(
-                hintText: 'بحث بالاسم أو الباركود...',
-                prefixIcon: const Icon(Icons.search),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                filled: true,
-                fillColor: Colors.white,
+      body: !_hasAccess
+          ? const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.lock, size: 64, color: Colors.grey),
+                  SizedBox(height: 16),
+                  Text('غير مصرح بالوصول إلى الجرد',
+                      style: TextStyle(fontSize: 18, color: Colors.grey)),
+                ],
               ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: const Text(
-              'أدخل الكمية الفعلية لكل صنف لعملية الجرد',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold, color: Color(0xFF4A148C)),
-            ),
-          ),
-          Expanded(
-            child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : RefreshIndicator(
-                    onRefresh: _loadProducts,
-                    child: ListView.builder(
-                      itemCount: _filteredProducts.length,
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      itemBuilder: (context, index) {
-                        final product = _filteredProducts[index];
-                        return _buildCountCard(product);
-                      },
+            )
+          : Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  color: Colors.purple.shade50,
+                  child: TextField(
+                    controller: _searchController,
+                    onChanged: _filterProducts,
+                    decoration: InputDecoration(
+                      hintText: 'بحث بالاسم أو الباركود...',
+                      prefixIcon: const Icon(Icons.search),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      filled: true,
+                      fillColor: Colors.white,
                     ),
                   ),
-          ),
-        ],
-      ),
+                ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: const Text(
+                    'أدخل الكمية الفعلية لكل صنف لعملية الجرد',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Color(0xFF4A148C)),
+                  ),
+                ),
+                Expanded(
+                  child: _isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : RefreshIndicator(
+                          onRefresh: _loadProducts,
+                          child: ListView.builder(
+                            itemCount: _filteredProducts.length,
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            itemBuilder: (context, index) {
+                              final product = _filteredProducts[index];
+                              return _buildCountCard(product);
+                            },
+                          ),
+                        ),
+                ),
+              ],
+            ),
     );
   }
 
@@ -169,8 +193,9 @@ class _InventoryCountScreenState extends State<InventoryCountScreen> {
     setState(() => _savingProductId = product.id);
 
     try {
-      final diff = await DatabaseHelper.instance
-          .saveInventoryCount(product.id!, actual, '');
+      final diff = await DatabaseHelper.instance.saveInventoryCount(
+          product.id!, actual, '',
+          currentRole: widget.sessionState?.currentRole);
 
       if (!mounted) return;
 

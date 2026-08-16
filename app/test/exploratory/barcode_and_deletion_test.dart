@@ -77,6 +77,7 @@ void main() {
           salePrice: 200.0,
           costPrice: 100.0,
         ),
+        currentRole: UserRole.owner,
       );
 
       final products = await testDb.query('products');
@@ -221,6 +222,7 @@ void main() {
             salePrice: 0,
             costPrice: 50.0,
           ),
+          currentRole: UserRole.owner,
         ),
         throwsA(isA<ArgumentError>()),
       );

@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:muaman_store/database/database_helper.dart';
+import 'package:muaman_store/models/user_role.dart';
 import 'package:muaman_store/models/product.dart';
 
 void main() {
@@ -41,8 +42,9 @@ void main() {
 
   group('Name normalization — insertProduct', () {
     test('Name with leading/trailing spaces is trimmed on insert', () async {
-      final id = await DatabaseHelper.instance
-          .insertProduct(makeProduct(name: '  سكر  '));
+      final id = await DatabaseHelper.instance.insertProduct(
+          makeProduct(name: '  سكر  '),
+          currentRole: UserRole.owner);
 
       final products =
           await testDb.query('products', where: 'id = ?', whereArgs: [id]);
@@ -51,14 +53,16 @@ void main() {
 
     test('Whitespace-only name is rejected on insert', () async {
       expect(
-        () => DatabaseHelper.instance.insertProduct(makeProduct(name: '   ')),
+        () => DatabaseHelper.instance.insertProduct(makeProduct(name: '   '),
+            currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
     });
 
     test('Empty name is rejected on insert', () async {
       expect(
-        () => DatabaseHelper.instance.insertProduct(makeProduct(name: '')),
+        () => DatabaseHelper.instance
+            .insertProduct(makeProduct(name: ''), currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
     });
@@ -69,8 +73,9 @@ void main() {
       final id =
           await testDb.insert('products', makeProduct().toMap()..remove('id'));
 
-      await DatabaseHelper.instance
-          .updateProduct(makeProduct(id: id, name: '  سكر أبيض  '));
+      await DatabaseHelper.instance.updateProduct(
+          makeProduct(id: id, name: '  سكر أبيض  '),
+          currentRole: UserRole.owner);
 
       final products =
           await testDb.query('products', where: 'id = ?', whereArgs: [id]);
@@ -82,8 +87,9 @@ void main() {
           await testDb.insert('products', makeProduct().toMap()..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance
-            .updateProduct(makeProduct(id: id, name: '   ')),
+        () => DatabaseHelper.instance.updateProduct(
+            makeProduct(id: id, name: '   '),
+            currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
     });
@@ -91,8 +97,9 @@ void main() {
 
   group('Barcode normalization — insertProduct', () {
     test('Barcode with leading/trailing spaces is trimmed on insert', () async {
-      final id = await DatabaseHelper.instance
-          .insertProduct(makeProduct(barcode: '  12345  '));
+      final id = await DatabaseHelper.instance.insertProduct(
+          makeProduct(barcode: '  12345  '),
+          currentRole: UserRole.owner);
 
       final products =
           await testDb.query('products', where: 'id = ?', whereArgs: [id]);
@@ -103,12 +110,13 @@ void main() {
   group('Barcode duplicate prevention with whitespace', () {
     test('Insert with barcode that matches existing after trim is rejected',
         () async {
-      await DatabaseHelper.instance
-          .insertProduct(makeProduct(barcode: '12345'));
+      await DatabaseHelper.instance.insertProduct(makeProduct(barcode: '12345'),
+          currentRole: UserRole.owner);
 
       expect(
-        () => DatabaseHelper.instance
-            .insertProduct(makeProduct(barcode: '  12345  ')),
+        () => DatabaseHelper.instance.insertProduct(
+            makeProduct(barcode: '  12345  '),
+            currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
     });
@@ -122,19 +130,22 @@ void main() {
           makeProduct(id: 2, barcode: '67890').toMap()..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance
-            .updateProduct(makeProduct(id: 2, barcode: '  12345  ')),
+        () => DatabaseHelper.instance.updateProduct(
+            makeProduct(id: 2, barcode: '  12345  '),
+            currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
     });
 
     test('Update with same barcode (whitespace variation) allowed for self',
         () async {
-      final id = await DatabaseHelper.instance
-          .insertProduct(makeProduct(barcode: '12345'));
+      final id = await DatabaseHelper.instance.insertProduct(
+          makeProduct(barcode: '12345'),
+          currentRole: UserRole.owner);
 
-      await DatabaseHelper.instance
-          .updateProduct(makeProduct(id: id, barcode: '  12345  '));
+      await DatabaseHelper.instance.updateProduct(
+          makeProduct(id: id, barcode: '  12345  '),
+          currentRole: UserRole.owner);
 
       final products =
           await testDb.query('products', where: 'id = ?', whereArgs: [id]);
@@ -144,11 +155,13 @@ void main() {
 
   group('No partial write on rejection', () {
     test('Product count unchanged after rejected insert', () async {
-      await DatabaseHelper.instance.insertProduct(makeProduct(barcode: 'ORIG'));
+      await DatabaseHelper.instance.insertProduct(makeProduct(barcode: 'ORIG'),
+          currentRole: UserRole.owner);
 
       expect(
-        () => DatabaseHelper.instance
-            .insertProduct(makeProduct(barcode: '  ORIG  ')),
+        () => DatabaseHelper.instance.insertProduct(
+            makeProduct(barcode: '  ORIG  '),
+            currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
 
@@ -157,12 +170,14 @@ void main() {
     });
 
     test('Product unchanged after rejected update', () async {
-      await DatabaseHelper.instance
-          .insertProduct(makeProduct(id: 1, barcode: 'ORIG', name: 'Original'));
+      await DatabaseHelper.instance.insertProduct(
+          makeProduct(id: 1, barcode: 'ORIG', name: 'Original'),
+          currentRole: UserRole.owner);
 
       expect(
-        () => DatabaseHelper.instance
-            .updateProduct(makeProduct(id: 1, barcode: 'DIFF', name: '   ')),
+        () => DatabaseHelper.instance.updateProduct(
+            makeProduct(id: 1, barcode: 'DIFF', name: '   '),
+            currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
 
@@ -176,7 +191,8 @@ void main() {
   group('Normalized values stored in DB', () {
     test('Inserted name and barcode are stored trimmed', () async {
       await DatabaseHelper.instance.insertProduct(
-          makeProduct(name: '  منتج جديد  ', barcode: '  NEW001  '));
+          makeProduct(name: '  منتج جديد  ', barcode: '  NEW001  '),
+          currentRole: UserRole.owner);
 
       final products = await testDb.query('products');
       expect(products.length, 1);
@@ -185,11 +201,13 @@ void main() {
     });
 
     test('Updated name and barcode are stored trimmed', () async {
-      final id = await DatabaseHelper.instance
-          .insertProduct(makeProduct(name: 'Old', barcode: 'OLD001'));
+      final id = await DatabaseHelper.instance.insertProduct(
+          makeProduct(name: 'Old', barcode: 'OLD001'),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance.updateProduct(
-          makeProduct(id: id, name: '  Updated  ', barcode: '  NEW001  '));
+          makeProduct(id: id, name: '  Updated  ', barcode: '  NEW001  '),
+          currentRole: UserRole.owner);
 
       final products =
           await testDb.query('products', where: 'id = ?', whereArgs: [id]);
@@ -202,8 +220,8 @@ void main() {
   group('Empty barcode validation', () {
     test('Empty barcode after trim is rejected', () async {
       expect(
-        () =>
-            DatabaseHelper.instance.insertProduct(makeProduct(barcode: '   ')),
+        () => DatabaseHelper.instance.insertProduct(makeProduct(barcode: '   '),
+            currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
     });

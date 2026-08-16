@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:muaman_store/database/database_helper.dart';
+import 'package:muaman_store/models/user_role.dart';
 import 'package:muaman_store/models/product.dart';
 import 'package:muaman_store/models/sale.dart';
 
@@ -85,7 +86,8 @@ void main() {
           ).toMap()
             ..remove('id'));
 
-      await DatabaseHelper.instance.saveInventoryCount(1, 7, '');
+      await DatabaseHelper.instance
+          .saveInventoryCount(1, 7, '', currentRole: UserRole.owner);
 
       final counts = await testDb.query('inventory_count');
       expect(counts.length, 1);
@@ -106,7 +108,8 @@ void main() {
           ).toMap()
             ..remove('id'));
 
-      await DatabaseHelper.instance.saveInventoryCount(1, 9, '');
+      await DatabaseHelper.instance
+          .saveInventoryCount(1, 9, '', currentRole: UserRole.owner);
 
       final counts = await testDb.query('inventory_count');
       expect(counts.length, 1);
@@ -127,7 +130,8 @@ void main() {
           ).toMap()
             ..remove('id'));
 
-      await DatabaseHelper.instance.saveInventoryCount(1, 8, '');
+      await DatabaseHelper.instance
+          .saveInventoryCount(1, 8, '', currentRole: UserRole.owner);
 
       final counts = await testDb.query('inventory_count');
       expect(counts.length, 1);
@@ -148,8 +152,10 @@ void main() {
           ).toMap()
             ..remove('id'));
 
-      await DatabaseHelper.instance.saveInventoryCount(1, 8, '');
-      await DatabaseHelper.instance.saveInventoryCount(1, 8, '');
+      await DatabaseHelper.instance
+          .saveInventoryCount(1, 8, '', currentRole: UserRole.owner);
+      await DatabaseHelper.instance
+          .saveInventoryCount(1, 8, '', currentRole: UserRole.owner);
 
       final counts = await testDb.query('inventory_count');
       expect(counts.length, 2);
@@ -170,7 +176,8 @@ void main() {
           ).toMap()
             ..remove('id'));
 
-      await DatabaseHelper.instance.saveInventoryCount(1, 0, '');
+      await DatabaseHelper.instance
+          .saveInventoryCount(1, 0, '', currentRole: UserRole.owner);
 
       final counts = await testDb.query('inventory_count');
       expect(counts.length, 1);
@@ -192,7 +199,8 @@ void main() {
             ..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance.saveInventoryCount(1, -1, ''),
+        () => DatabaseHelper.instance
+            .saveInventoryCount(1, -1, '', currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
 
@@ -274,7 +282,8 @@ void main() {
       await testDb.update('products', {'currentQuantity': 7},
           where: 'id = ?', whereArgs: [1]);
 
-      final diff = await DatabaseHelper.instance.saveInventoryCount(1, 6, '');
+      final diff = await DatabaseHelper.instance
+          .saveInventoryCount(1, 6, '', currentRole: UserRole.owner);
       expect(diff, -1,
           reason:
               'Diff should be computed from DB quantity (7), not UI quantity (10)');
@@ -294,10 +303,12 @@ void main() {
           ).toMap()
             ..remove('id'));
 
-      await DatabaseHelper.instance.saveInventoryCount(1, 8, '');
-
       await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+          .saveInventoryCount(1, 8, '', currentRole: UserRole.owner);
+
+      await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       final counts = await testDb.query('inventory_count');
       expect(counts.length, 1);
@@ -320,12 +331,15 @@ void main() {
           ).toMap()
             ..remove('id'));
 
-      await DatabaseHelper.instance.saveInventoryCount(1, 9, '');
+      await DatabaseHelper.instance
+          .saveInventoryCount(1, 9, '', currentRole: UserRole.owner);
+
+      await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 4),
+          currentRole: UserRole.owner);
 
       await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 4));
-
-      await DatabaseHelper.instance.saveInventoryCount(1, 6, '');
+          .saveInventoryCount(1, 6, '', currentRole: UserRole.owner);
 
       final counts = await testDb.query('inventory_count');
       expect(counts.length, 2);

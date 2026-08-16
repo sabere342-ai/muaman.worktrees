@@ -113,8 +113,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
 
   ButtonStyle get _actionStyle {
     if (_buttonStyle == 'outlined') {
-      return OutlinedButton.styleFrom(
-      );
+      return OutlinedButton.styleFrom();
     }
     return ElevatedButton.styleFrom(
       foregroundColor: Colors.white,
@@ -522,8 +521,9 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
 
     setState(() => _isSaving = true);
     try {
-      final savedInvoiceId =
-          await DatabaseHelper.instance.insertInvoiceWithItems(invoice, items);
+      final savedInvoiceId = await DatabaseHelper.instance
+          .insertInvoiceWithItems(invoice, items,
+              currentRole: widget.sessionState?.currentRole);
       if (!mounted) return;
       final canViewHistory = widget.sessionState
               ?.hasPermission(AppPermission.canViewSalesHistory) ??

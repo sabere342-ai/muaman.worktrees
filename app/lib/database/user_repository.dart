@@ -1,6 +1,8 @@
 import '../models/user.dart';
 import '../models/user_role.dart';
 import '../services/password_hasher.dart';
+import '../services/permissions.dart';
+import '../services/permission_resolver.dart';
 import 'database_helper.dart';
 
 class DuplicateUsernameException implements Exception {
@@ -42,6 +44,16 @@ class UserRepository {
   final DatabaseHelper _dbHelper = DatabaseHelper.instance;
   final PasswordHasher _hasher = PasswordHasher();
 
+  PermissionResolver permissionResolver = PermissionResolver.instance;
+
+  void _requireAdminPermission(UserRole? currentRole) {
+    if (currentRole == null ||
+        !permissionResolver.can(currentRole, AppPermission.canManageUsers)) {
+      throw const PermissionDeniedException(
+          'غير مصرح بهذه العملية. هذه الخاصية غير متاحة لدورك.');
+    }
+  }
+
   String _normalizeUsername(String username) {
     return username.trim().toLowerCase();
   }
@@ -81,7 +93,9 @@ class UserRepository {
     required String password,
     required UserRole role,
     bool isActive = true,
+    UserRole? currentRole,
   }) async {
+    _requireAdminPermission(currentRole);
     _validateDisplayName(displayName);
     _validateUsername(username);
     _validatePassword(password);
@@ -151,7 +165,9 @@ class UserRepository {
     String? username,
     UserRole? role,
     bool? isActive,
+    UserRole? currentRole,
   }) async {
+    _requireAdminPermission(currentRole);
     final db = await _dbHelper.database;
 
     final existing = await db.query('users', where: 'id = ?', whereArgs: [id]);
@@ -222,7 +238,9 @@ class UserRepository {
   Future<void> resetPassword({
     required int id,
     required String newPassword,
+    UserRole? currentRole,
   }) async {
+    _requireAdminPermission(currentRole);
     _validatePassword(newPassword);
 
     final db = await _dbHelper.database;
@@ -253,7 +271,9 @@ class UserRepository {
     required int id,
     required bool isActive,
     int? currentUserId,
+    UserRole? currentRole,
   }) async {
+    _requireAdminPermission(currentRole);
     final db = await _dbHelper.database;
 
     final existing = await db.query('users', where: 'id = ?', whereArgs: [id]);

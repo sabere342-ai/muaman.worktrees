@@ -58,6 +58,7 @@ void main() {
         username: 'owner',
         password: 'secret123',
         role: UserRole.owner,
+        currentRole: UserRole.owner,
       );
 
       final session = SessionState();
@@ -94,6 +95,7 @@ void main() {
         username: 'owner',
         password: 'secret123',
         role: UserRole.owner,
+        currentRole: UserRole.owner,
       );
 
       final session = SessionState();
@@ -125,7 +127,7 @@ void main() {
     Future<void> openCreateDialog(WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: UserManagementScreen(sessionState: SessionState()),
+          home: UserManagementScreen(sessionState: ownerSession()),
         ),
       );
       await tester.pumpAndSettle();

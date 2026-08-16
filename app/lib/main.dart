@@ -311,7 +311,7 @@ class _FullAppShellState extends State<FullAppShell> {
     _NavItem(4, 'المصروفات', Icons.money_off, AppPermission.canAccessExpenses,
         ExpensesScreen(sessionState: widget.sessionState)),
     _NavItem(5, 'الجرد', Icons.fact_check, AppPermission.canAccessStocktake,
-        const InventoryCountScreen()),
+        InventoryCountScreen(sessionState: widget.sessionState)),
   ];
 
   List<_NavItem> get _visibleNavItems {

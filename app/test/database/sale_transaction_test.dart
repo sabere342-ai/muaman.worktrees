@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:muaman_store/database/database_helper.dart';
+import 'package:muaman_store/models/user_role.dart';
 import 'package:muaman_store/models/product.dart';
 import 'package:muaman_store/models/sale.dart';
 
@@ -69,7 +70,8 @@ void main() {
       await testDb.insert(
           'products', insertTestProduct().toMap()..remove('id'));
 
-      await DatabaseHelper.instance.insertSaleAndDecrementStock(makeSale());
+      await DatabaseHelper.instance
+          .insertSaleAndDecrementStock(makeSale(), currentRole: UserRole.owner);
 
       final sales = await testDb.query('sales');
       expect(sales.length, 1);
@@ -97,8 +99,9 @@ void main() {
           ).toMap()
             ..remove('id'));
 
-      await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 5));
+      await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 5),
+          currentRole: UserRole.owner);
 
       final products = await testDb.query('products');
       final updatedProduct = Product.fromMap(products.first);
@@ -116,8 +119,9 @@ void main() {
             ..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance
-            .insertSaleAndDecrementStock(makeSale(quantity: 5)),
+        () => DatabaseHelper.instance.insertSaleAndDecrementStock(
+            makeSale(quantity: 5),
+            currentRole: UserRole.owner),
         throwsA(isA<StateError>()),
       );
 
@@ -135,8 +139,9 @@ void main() {
           'products', insertTestProduct().toMap()..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance
-            .insertSaleAndDecrementStock(makeSale(quantity: 0)),
+        () => DatabaseHelper.instance.insertSaleAndDecrementStock(
+            makeSale(quantity: 0),
+            currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
 
@@ -154,8 +159,9 @@ void main() {
           'products', insertTestProduct().toMap()..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance
-            .insertSaleAndDecrementStock(makeSale(quantity: -1)),
+        () => DatabaseHelper.instance.insertSaleAndDecrementStock(
+            makeSale(quantity: -1),
+            currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
 
@@ -178,8 +184,9 @@ void main() {
             ..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance
-            .insertSaleAndDecrementStock(makeSale(quantity: 6)),
+        () => DatabaseHelper.instance.insertSaleAndDecrementStock(
+            makeSale(quantity: 6),
+            currentRole: UserRole.owner),
         throwsA(isA<StateError>()),
       );
 
@@ -203,8 +210,9 @@ void main() {
             ..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance
-            .insertSaleAndDecrementStock(makeSale(quantity: 3)),
+        () => DatabaseHelper.instance.insertSaleAndDecrementStock(
+            makeSale(quantity: 3),
+            currentRole: UserRole.owner),
         throwsA(isA<StateError>()),
       );
 
@@ -221,8 +229,9 @@ void main() {
           'products', insertTestProduct().toMap()..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance
-            .insertSaleAndDecrementStock(makeSale(salePrice: 0)),
+        () => DatabaseHelper.instance.insertSaleAndDecrementStock(
+            makeSale(salePrice: 0),
+            currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
 
@@ -239,8 +248,9 @@ void main() {
           'products', insertTestProduct().toMap()..remove('id'));
 
       expect(
-        () => DatabaseHelper.instance
-            .insertSaleAndDecrementStock(makeSale(salePrice: -50)),
+        () => DatabaseHelper.instance.insertSaleAndDecrementStock(
+            makeSale(salePrice: -50),
+            currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
 
@@ -256,8 +266,9 @@ void main() {
       await testDb.insert(
           'products', insertTestProduct().toMap()..remove('id'));
 
-      await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(salePrice: 100));
+      await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(salePrice: 100),
+          currentRole: UserRole.owner);
 
       final sales = await testDb.query('sales');
       expect(sales.length, 1);
@@ -277,10 +288,12 @@ void main() {
           ).toMap()
             ..remove('id'));
 
-      await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 4));
-      await DatabaseHelper.instance
-          .insertSaleAndDecrementStock(makeSale(quantity: 3));
+      await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 4),
+          currentRole: UserRole.owner);
+      await DatabaseHelper.instance.insertSaleAndDecrementStock(
+          makeSale(quantity: 3),
+          currentRole: UserRole.owner);
 
       final sales = await testDb.query('sales');
       expect(sales.length, 2);

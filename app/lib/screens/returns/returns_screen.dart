@@ -256,18 +256,29 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
                 final price = double.tryParse(priceController.text) ?? 0;
                 if (qty <= 0) return;
 
-                await DatabaseHelper.instance.insertReturn(
-                  ReturnItem(
-                    date: selectedDate,
-                    productName: selectedProduct!.name,
-                    barcode: selectedProduct!.barcode,
-                    quantity: qty,
-                    salePrice: price,
-                    costPrice: selectedProduct!.costPrice,
-                  ),
-                );
-                if (context.mounted) Navigator.pop(context);
-                _loadData();
+                try {
+                  await DatabaseHelper.instance.insertReturn(
+                    ReturnItem(
+                      date: selectedDate,
+                      productName: selectedProduct!.name,
+                      barcode: selectedProduct!.barcode,
+                      quantity: qty,
+                      salePrice: price,
+                      costPrice: selectedProduct!.costPrice,
+                    ),
+                    currentRole: widget.sessionState?.currentRole,
+                  );
+                  if (context.mounted) Navigator.pop(context);
+                  _loadData();
+                } on PermissionDeniedException catch (e) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text(e.message),
+                          backgroundColor: Colors.red),
+                    );
+                  }
+                }
               },
               child: const Text('تسجيل المرتجع'),
             ),

@@ -222,17 +222,27 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                 return;
               }
 
-              await DatabaseHelper.instance.insertExpense(
-                Expense(
-                  date: selectedDate,
-                  description: descController.text,
-                  amount: amount,
-                ),
-              );
-              if (context.mounted) {
-                Navigator.pop(context);
+              try {
+                await DatabaseHelper.instance.insertExpense(
+                  Expense(
+                    date: selectedDate,
+                    description: descController.text,
+                    amount: amount,
+                  ),
+                  currentRole: widget.sessionState?.currentRole,
+                );
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
+                _loadExpenses();
+              } on PermissionDeniedException catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text(e.message), backgroundColor: Colors.red),
+                  );
+                }
               }
-              _loadExpenses();
             },
             child: const Text('إضافة'),
           ),

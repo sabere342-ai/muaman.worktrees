@@ -88,6 +88,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 password: passwordCtrl.text,
                 role: selectedRole,
                 isActive: isActive,
+                currentRole: widget.sessionState.currentRole,
               );
               if (ctx.mounted) Navigator.pop(ctx);
               _loadUsers();
@@ -317,6 +318,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                           username: usernameCtrl.text,
                           role: selectedRole,
                           isActive: isActive,
+                          currentRole: widget.sessionState.currentRole,
                         );
                         if (ctx.mounted) Navigator.pop(ctx);
                         _loadUsers();
@@ -437,7 +439,9 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                         }
 
                         await _repo.resetPassword(
-                            id: user.id!, newPassword: passwordCtrl.text);
+                            id: user.id!,
+                            newPassword: passwordCtrl.text,
+                            currentRole: widget.sessionState.currentRole);
                         if (ctx.mounted) Navigator.pop(ctx);
                         if (mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -534,6 +538,8 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                                     id: user.id!,
                                     isActive: !user.isActive,
                                     currentUserId: currentUser?.id,
+                                    currentRole:
+                                        widget.sessionState.currentRole,
                                   );
                                   _loadUsers();
                                 } on CannotDisableCurrentUserException {

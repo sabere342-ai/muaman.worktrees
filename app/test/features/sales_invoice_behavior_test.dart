@@ -3,7 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'package:muaman_store/database/database_helper.dart';
+import 'package:muaman_store/models/user.dart';
+import 'package:muaman_store/models/user_role.dart';
 import 'package:muaman_store/screens/sales/invoice_screen.dart';
+import 'package:muaman_store/services/session_state.dart';
 
 import '../helpers/test_schema.dart';
 
@@ -34,6 +37,19 @@ void main() {
     await testDb.close();
   });
 
+  SessionState ownerSession() {
+    final session = SessionState();
+    session.login(User(
+      displayName: 'المالك',
+      username: 'owner',
+      passwordHash: 'dummy',
+      role: UserRole.owner,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    ));
+    return session;
+  }
+
   Future<void> openInvoice(WidgetTester tester) async {
     await tester.binding.setSurfaceSize(const Size(1400, 1000));
     addTearDown(() => tester.binding.setSurfaceSize(null));
@@ -45,7 +61,11 @@ void main() {
               child: ElevatedButton(
                 onPressed: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const InvoiceScreen()),
+                  MaterialPageRoute(
+                    builder: (_) => InvoiceScreen(
+                      sessionState: ownerSession(),
+                    ),
+                  ),
                 ),
                 child: const Text('open'),
               ),

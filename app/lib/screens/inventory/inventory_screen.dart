@@ -238,6 +238,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                   name: name,
                   costPrice: costPrice,
                 ),
+                currentRole: widget.sessionState?.currentRole,
               );
             } else {
               final barcode = await DatabaseHelper.instance.generateBarcode();
@@ -250,11 +251,22 @@ class _InventoryScreenState extends State<InventoryScreen> {
                   costPrice: costPrice,
                   totalInventoryCost: openingQty * costPrice,
                 ),
+                currentRole: widget.sessionState?.currentRole,
               );
             }
             if (context.mounted) Navigator.pop(context);
             _loadProducts();
           } on ArgumentError catch (e) {
+            isSaving = false;
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(e.message),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          } on PermissionDeniedException catch (e) {
             isSaving = false;
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
