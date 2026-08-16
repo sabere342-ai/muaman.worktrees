@@ -10,7 +10,7 @@
     "errorNameRequired": "الاسم مطلوب"
   },
   "login": {
-    "title": "إدارة محل مؤمن",
+    "title": "إدارة المحل",
     "subtitle": "تسجيل الدخول",
     "fieldUsername": "اسم المستخدم",
     "fieldPassword": "كلمة المرور",

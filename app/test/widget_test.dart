@@ -55,7 +55,7 @@ void main() {
     await tester.pump();
     await tester.pump();
 
-    expect(find.text('إدارة محل مؤمن'), findsOneWidget);
+    expect(find.text('إدارة المحل'), findsOneWidget);
     expect(find.text('اسم المستخدم'), findsOneWidget);
   });
 

@@ -6,7 +6,7 @@ void main() {
   group('ShopProfile model', () {
     test('defaultProfile uses the safe migration default identity', () {
       final profile = ShopProfile.defaultProfile();
-      expect(profile.shopName, 'محل مؤمن');
+      expect(profile.shopName, 'المحل');
       expect(profile.ownerOrManagerName, '');
       expect(profile.phone, '');
       expect(profile.address, '');
@@ -43,7 +43,7 @@ void main() {
     test('neutralShopName is used as a generic fallback, not the client name',
         () {
       expect(ShopProfile.neutralShopName, 'المتجر');
-      expect(ShopProfile.defaultShopName, 'محل مؤمن');
+      expect(ShopProfile.defaultShopName, 'المحل');
     });
   });
 }

@@ -1,0 +1,38 @@
+{
+  "capturedAtUtc": "2026-08-16T14:30:00.000Z",
+  "git": {
+    "branch": "codex/i-tech-productization-t1",
+    "baseline": "ced34928481443486277d1a9d530a6030d43cdf6",
+    "baselineShort": "ced3492",
+    "head": "ced34928481443486277d1a9d530a6030d43cdf6",
+    "headShort": "ced3492",
+    "modified": 28,
+    "untracked": 39,
+    "staged": 0,
+    "pluginByproductsModified": false
+  },
+  "startingIdentity": {
+    "phase": "T0 accepted identity (baseline ced3492)",
+    "exe": {
+      "sha256": "134918133777C779890CA3BD4EC9CFFFD990AE04B48BE3A71DE8142B2F2FAEA1",
+      "sizeBytes": 92160
+    },
+    "appSo": {
+      "sha256": "86369AA8DFD530AD15C90F394FFB7D9F29A5AA67AB06A6C7F5A42516B212ED93",
+      "sizeBytes": 9290656
+    },
+    "releaseManifest": {
+      "fileCount": 16,
+      "totalBytes": 35754065,
+      "crossHash": "3A8CFA42656EABC8B06EEF835FB9222F95006E5B490D9B837AE76673A87794B0"
+    },
+    "installer": {
+      "sha256": "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
+      "sizeBytes": 13223003
+    },
+    "deliveryZip": {
+      "sha256": "4258E9105116D0D73281C4CD5027ECC478517D662FCA3E6D70F25418E7204C8A",
+      "sizeBytes": 12665973
+    }
+  }
+}

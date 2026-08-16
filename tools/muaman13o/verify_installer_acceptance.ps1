@@ -52,7 +52,7 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem | Out-Null
 # frozen contract constants
 # ---------------------------------------------------------------------------
 $ExpectedInstallerSha      = ''   # filled from BuildA result at Compare/Install time
-$ExpectedZipSha256         = 'FDEE3AF699570561FC401F6FD908A0FF6EB78539F43EE072F45871F9485D2A3E'
+$ExpectedZipSha256         = '962BE5C8A819C21A23DF3D44575BB92DBC7E124E67B30F7C77E279640723203E'
 $ExpectedInstallerFilename = 'muaman-windows-installer.exe'
 $LaunchAliveSeconds        = 20
 $MainWindowTimeoutSeconds  = 30

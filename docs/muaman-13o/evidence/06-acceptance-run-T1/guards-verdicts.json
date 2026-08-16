@@ -1,0 +1,188 @@
+{
+    "schemaVersion":  "1.0",
+    "phase":  "MUAMAN-13O",
+    "tool":  "tools/muaman13o/guard_tests_13o.ps1",
+    "repoRoot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1",
+    "acceptanceRoot":  "C:\\mu13o-acceptance\\T1-20260816",
+    "baselineCommit":  "ced34928481443486277d1a9d530a6030d43cdf6",
+    "expectedBranch":  "codex/i-tech-productization-t1",
+    "overallPass":  true,
+    "guardCount":  13,
+    "passedCount":  13,
+    "failedCount":  0,
+    "failedGuards":  [
+
+                     ],
+    "generatedAtUtc":  "2026-08-16T14:28:32.6314010Z",
+    "guards":  {
+                   "O1":  {
+                              "guard":  "O1 baseline and initial safety",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "head":  "ced34928481443486277d1a9d530a6030d43cdf6",
+                              "branch":  "codex/i-tech-productization-t1",
+                              "expectedBranch":  "codex/i-tech-productization-t1",
+                              "descendsFromBaseline":  true,
+                              "baseline":  "ced34928481443486277d1a9d530a6030d43cdf6",
+                              "tagAtHead":  ""
+                          },
+                   "O2":  {
+                              "guard":  "O2 scope guard (production diff empty)",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "changedFiles":  [
+                                                   "app/docs/MUAMAN-10-TEST-INFRASTRUCTURE-FINAL-RELEASE-READINESS.md",
+                                                   "app/lib/models/shop_profile.dart",
+                                                   "app/lib/services/app_settings.dart",
+                                                   "app/test/features/invoice_pdf_delivery_test.dart",
+                                                   "app/test/unit/shop_profile_test.dart",
+                                                   "app/test/widget_test.dart",
+                                                   "app/windows/runner/main.cpp",
+                                                   "delivery/Muaman-1.0.0-Windows/README.txt",
+                                                   "docs/windows-delivery-refresh/evidence/legal/03-muaman16-release-contract.json",
+                                                   "docs/windows-delivery-refresh/evidence/legal/release-manifest.json",
+                                                   "tools/muaman13o/guard_tests_13o.ps1",
+                                                   "tools/muaman13o/installer_contract.json",
+                                                   "tools/muaman13o/verify_installer_acceptance.ps1",
+                                                   "tools/muaman13p/acceptance-config.json",
+                                                   "tools/muaman13p/ui_strings.json",
+                                                   "tools/muaman13q/acceptance-config.json",
+                                                   "tools/muaman13q/ui_strings.json",
+                                                   "tools/muaman13r/README.txt",
+                                                   "tools/muaman13r/guard_tests_13r.ps1",
+                                                   "tools/muaman13r/package_final_delivery.ps1",
+                                                   "tools/muaman13s/acceptance-config.json",
+                                                   "tools/muaman13s/ui_strings.json",
+                                                   "tools/release/package_windows_installer.ps1",
+                                                   "tools/release/verify_release.ps1"
+                                               ],
+                              "productionDiff":  [
+
+                                                 ],
+                              "scopeViolations":  [
+
+                                                  ]
+                          },
+                   "O3":  {
+                              "guard":  "O3 canonical release-source guard",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "entrypoint":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\tools\\release\\package_windows_installer.ps1",
+                              "installerDefinition":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\installer\\muaman.iss"
+                          },
+                   "O4":  {
+                              "guard":  "O4 installer toolchain identity",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "compilerPath":  "C:\\m13o\\toolchain\\inno-6.7.3\\ISCC.exe",
+                              "compilerPresent":  true,
+                              "compilerSha256":  "0A8757031B33777E4C9CBFFEE40F11A5062B36D25CBE144C1DB73B6102B80AD7",
+                              "expectedCompilerSha256":  "0A8757031B33777E4C9CBFFEE40F11A5062B36D25CBE144C1DB73B6102B80AD7",
+                              "expectedCompilerVersion":  "6.7.3"
+                          },
+                   "O5":  {
+                              "guard":  "O5 installer contract guard",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "contract":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\tools\\muaman13o\\installer_contract.json",
+                              "installerDefinition":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\installer\\muaman.iss"
+                          },
+                   "O6":  {
+                              "guard":  "O6 release manifest guard",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "legalManifest":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\docs\\windows-delivery-refresh\\evidence\\legal\\release-manifest.json",
+                              "evidence":  "evidence/build-a/staging-verification.json"
+                          },
+                   "O7":  {
+                              "guard":  "O7 deterministic installer guard",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "buildA":  "C:\\mu13o-acceptance\\T1-20260816\\out\\build-a\\muaman-windows-installer.exe",
+                              "buildB":  "C:\\mu13o-acceptance\\T1-20260816\\out\\build-b\\muaman-windows-installer.exe",
+                              "evidence":  "evidence/compare-result.json"
+                          },
+                   "O8":  {
+                              "guard":  "O8 installation guard",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "installDir":  "C:\\mu13o-acceptance\\T1-20260816\\consumer\\install-root",
+                              "installerSha256":  "53A706774CF30CA28CDBC7D7DF29A091F38EF974E0EC4FFDA3693ABF84D53B2C",
+                              "expectedInstallerSha256":  "53A706774CF30CA28CDBC7D7DF29A091F38EF974E0EC4FFDA3693ABF84D53B2C",
+                              "evidence":  "evidence/install-result.json"
+                          },
+                   "O9":  {
+                              "guard":  "O9 installed payload guard",
+                              "pass":  true,
+                              "failures":  [
+
+                                           ],
+                              "contractFileCount":  16,
+                              "recordedFileCount":  16,
+                              "crossCheckMismatches":  [
+
+                                                       ],
+                              "evidence":  "evidence/install-result.json + installer_contract.json"
+                          },
+                   "O10":  {
+                               "guard":  "O10 installed launch guard",
+                               "pass":  true,
+                               "failures":  [
+
+                                            ],
+                               "pid":  31260,
+                               "mainWindowTitle":  "I-TECH للتكنولوجيا",
+                               "modulesLoaded":  78,
+                               "runtimeDataCreatedInInstallDir":  ".dart_tool/sqflite_common_ffi/databases/muaman_store.db",
+                               "evidence":  "evidence/launch-result.json"
+                           },
+                   "O11":  {
+                               "guard":  "O11 module-origin guard",
+                               "pass":  true,
+                               "failures":  [
+
+                                            ],
+                               "modulesLoaded":  78,
+                               "moduleOriginIssueCount":  0,
+                               "policy":  "every loaded module must originate from the install root or the Windows directory",
+                               "evidence":  "evidence/launch-result.json"
+                           },
+                   "O12":  {
+                               "guard":  "O12 uninstallation guard",
+                               "pass":  true,
+                               "failures":  [
+
+                                            ],
+                               "businessDataBefore":  ".dart_tool/sqflite_common_ffi/databases/muaman_store.db",
+                               "installRootState":  "present",
+                               "evidence":  "evidence/uninstall-result.json"
+                           },
+                   "O13":  {
+                               "guard":  "O13 negative-control guard",
+                               "pass":  true,
+                               "failures":  [
+
+                                            ],
+                               "tamperedFile":  "muaman_store.exe",
+                               "preflightExitCode":  1,
+                               "failClosed":  true,
+                               "evidence":  "evidence/negative-result.json"
+                           }
+               }
+}

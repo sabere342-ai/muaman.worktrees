@@ -1,0 +1,144 @@
+{
+    "installExitCode":  0,
+    "installCommand":  {
+                           "installer":  "C:\\mu13o-acceptance\\T1-20260816\\consumer\\inbound\\muaman-windows-installer.exe",
+                           "arguments":  "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /DIR=C:\\mu13o-acceptance\\T1-20260816\\consumer\\install-root /LOG=C:\\mu13o-acceptance\\T1-20260816\\consumer\\logs\\install.log",
+                           "installDir":  "C:\\mu13o-acceptance\\T1-20260816\\consumer\\install-root",
+                           "log":  "C:\\mu13o-acceptance\\T1-20260816\\consumer\\logs\\install.log"
+                       },
+    "mode":  "Install",
+    "startMenuShortcut":  {
+                              "path":  "C:\\Users\\saber\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\I-TECH للتكنولوجيا.lnk",
+                              "present":  true
+                          },
+    "failureReason":  null,
+    "uninstallRegistration":  {
+                                  "present":  true,
+                                  "installLocation":  "C:\\mu13o-acceptance\\T1-20260816\\consumer\\install-root\\"
+                              },
+    "payload":  {
+                    "fileCount":  16,
+                    "verified":  true,
+                    "files":  [
+                                  {
+                                      "rel":  "data/app.so",
+                                      "size":  9290656,
+                                      "sha256":  "AE7044F9107430FE0F10CA81890721E49D45485808483D9D5FC4CBFEC11499C5",
+                                      "match":  true
+                                  },
+                                  {
+                                      "rel":  "data/flutter_assets/AssetManifest.bin",
+                                      "size":  384,
+                                      "sha256":  "BE650FCA6D81184EE20F7DAFEE0231E17BD16952521CC93D513F1952324BEE15",
+                                      "match":  true
+                                  },
+                                  {
+                                      "rel":  "data/flutter_assets/AssetManifest.json",
+                                      "size":  355,
+                                      "sha256":  "3CF68F7B749716CF8E184C01D9257F4A7A0252168D9BBF70457643C73E808482",
+                                      "match":  true
+                                  },
+                                  {
+                                      "rel":  "data/flutter_assets/assets/fonts/NotoSansArabic-Bold.ttf",
+                                      "size":  260904,
+                                      "sha256":  "457926CB001AC787DC7415C89E6F5B1C4CE3A0F2C91D0CABC1BC19A05638E7DE",
+                                      "match":  true
+                                  },
+                                  {
+                                      "rel":  "data/flutter_assets/assets/fonts/NotoSansArabic-Regular.ttf",
+                                      "size":  250880,
+                                      "sha256":  "D6EFA4C9FAC8ECEFD2DE19676ACC3A396BA7AEE99BA7A2D513950246841B6725",
+                                      "match":  true
+                                  },
+                                  {
+                                      "rel":  "data/flutter_assets/assets/fonts/THIRD_PARTY_NOTICES.txt",
+                                      "size":  429,
+                                      "sha256":  "D4349DA9B9E3CB9D3E0F89F1A1133F7468F5812DC557248F5A8A2CE80BB077F8",
+                                      "match":  true
+                                  },
+                                  {
+                                      "rel":  "data/flutter_assets/FontManifest.json",
+                                      "size":  208,
+                                      "sha256":  "CD7E03645BC44B2DD47B7CB626F51C4ECBF55A197AB77241628B47AC165FBE21",
+                                      "match":  true
+                                  },
+                                  {
+                                      "rel":  "data/flutter_assets/fonts/MaterialIcons-Regular.otf",
+                                      "size":  1645184,
+                                      "sha256":  "D9865B671A09D683D13A863089D8825E0F61A37696CE5D7D448BC8023AA62453",
+                                      "match":  true
+                                  },
+                                  {
+                                      "rel":  "data/flutter_assets/NOTICES.Z",
+                                      "size":  89413,
+                                      "sha256":  "7A5222CA2B4300D1845CD9E08E982EF32C6B682C84FAB043700CCB6928B48FEA",
+                                      "match":  true
+                                  },
+                                  {
+                                      "rel":  "data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+                                      "size":  257628,
+                                      "sha256":  "67C44FE9183B002E79DDE7F6977E2988661C9A3E4A3C5FCE968787EFDBED823C",
+                                      "match":  true
+                                  },
+                                  {
+                                      "rel":  "data/flutter_assets/shaders/ink_sparkle.frag",
+                                      "size":  17304,
+                                      "sha256":  "3AA09424D1DC391FD59A9735EFE986FF43302B5E5BC310926AFE11C68626C3B2",
+                                      "match":  true
+                                  },
+                                  {
+                                      "rel":  "data/icudtl.dat",
+                                      "size":  778864,
+                                      "sha256":  "C12537022EF818991A7BFED41A76D8D6AE962FFBC0E6511AC762A5D0845E7F7C",
+                                      "match":  true
+                                  },
+                                  {
+                                      "rel":  "flutter_windows.dll",
+                                      "size":  18181632,
+                                      "sha256":  "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E",
+                                      "match":  true
+                                  },
+                                  {
+                                      "rel":  "muaman_store.exe",
+                                      "size":  92160,
+                                      "sha256":  "3D15F1123EC9CBBAF051AA7DFDF1D526C2BBB88096733D981EEF05A2A08D2881",
+                                      "match":  true
+                                  },
+                                  {
+                                      "rel":  "pdfium.dll",
+                                      "size":  4749824,
+                                      "sha256":  "0C88EBACC0393FD45FC3E7B35E31E72C9E55B633A846A7ECF4085694DBA68ABD",
+                                      "match":  true
+                                  },
+                                  {
+                                      "rel":  "printing_plugin.dll",
+                                      "size":  138240,
+                                      "sha256":  "959F1E85FEEC7D8AE02F97760608E8022CFF3C3D556AADC824306EA1AFE2A867",
+                                      "match":  true
+                                  }
+                              ],
+                    "allowedInstallerOwnedFiles":  [
+                                                       "unins000.exe",
+                                                       "unins000.dat",
+                                                       "unins000.msg"
+                                                   ],
+                    "unexpectedFiles":  [
+
+                                        ]
+                },
+    "passed":  true,
+    "phase":  "MUAMAN-13O",
+    "installedExePresent":  true,
+    "schemaVersion":  "1.0",
+    "inbound":  {
+                    "path":  "C:\\mu13o-acceptance\\T1-20260816\\consumer\\inbound\\muaman-windows-installer.exe",
+                    "sha256":  "53A706774CF30CA28CDBC7D7DF29A091F38EF974E0EC4FFDA3693ABF84D53B2C",
+                    "sizeBytes":  13226400,
+                    "sourceSha256":  "53A706774CF30CA28CDBC7D7DF29A091F38EF974E0EC4FFDA3693ABF84D53B2C"
+                },
+    "run":  {
+                "startedAtUtc":  "2026-08-16T14:23:18.019Z",
+                "finishedAtUtc":  "2026-08-16T14:23:25.735Z",
+                "exitCode":  0
+            }
+}

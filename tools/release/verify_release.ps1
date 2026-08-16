@@ -103,7 +103,7 @@ $crossLegal = Get-CrossHashFromManifest $legal
 
 $fileCountMatch = ($newCount -eq $legalCount -and $newCount -eq 16)
 $totalBytesMatch = ($newTotal -eq $legalTotal -and $newTotal -eq 35754065)
-$crossHashMatch = ($crossNew -eq $crossLegal) -and ($crossNew -eq '3A8CFA42656EABC8B06EEF835FB9222F95006E5B490D9B837AE76673A87794B0')
+$crossHashMatch = ($crossNew -eq $crossLegal) -and ($crossNew -eq '13884FC55E8923EA6111895796CC9F576177CBED6F73AD5DA729E686A0E9A7CF')
 $identical = ($diffs.Count -eq 0 -and $onlyLegal.Count -eq 0 -and $onlyNew.Count -eq 0) -and
              $fileCountMatch -and $totalBytesMatch -and $crossHashMatch
 
@@ -121,7 +121,7 @@ $result = [ordered]@{
   totalBytesMatch = $totalBytesMatch
   crossHashNew = $crossNew
   crossHashLegal = $crossLegal
-  crossHashExpected = '3A8CFA42656EABC8B06EEF835FB9222F95006E5B490D9B837AE76673A87794B0'
+  crossHashExpected = '13884FC55E8923EA6111895796CC9F576177CBED6F73AD5DA729E686A0E9A7CF'
   crossHashMatch = $crossHashMatch
   diffCount = $diffs.Count
   diffs = $diffs

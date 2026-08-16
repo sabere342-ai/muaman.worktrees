@@ -1,0 +1,75 @@
+﻿{
+    "phase":  "MUAMAN-13R",
+    "runId":  "20260816-173323",
+    "capturedAtUtc":  "2026-08-16T14:34:43.525Z",
+    "mode":  "pre-commit",
+    "baseline":  "ced34928481443486277d1a9d530a6030d43cdf6",
+    "expectedFinalHead":  "",
+    "head":  "ced34928481443486277d1a9d530a6030d43cdf6",
+    "allPass":  true,
+    "gates":  {
+                  "R1":  {
+                             "pass":  true
+                         },
+                  "R2":  {
+                             "pass":  true
+                         },
+                  "R3":  {
+                             "pass":  true
+                         },
+                  "R4":  {
+                             "pass":  true
+                         },
+                  "R5":  {
+                             "pass":  true
+                         },
+                  "R6":  {
+                             "pass":  true
+                         },
+                  "R7":  {
+                             "pass":  true
+                         },
+                  "R8":  {
+                             "pass":  true
+                         },
+                  "R9":  {
+                             "pass":  true
+                         },
+                  "R10":  {
+                              "pass":  true
+                          },
+                  "R11":  {
+                              "pass":  true
+                          },
+                  "R12":  {
+                              "pass":  true
+                          },
+                  "R13":  {
+                              "pass":  true
+                          },
+                  "R14":  {
+                              "pass":  true
+                          },
+                  "R15":  {
+                              "pass":  true
+                          },
+                  "R16":  {
+                              "pass":  true
+                          },
+                  "R17":  {
+                              "pass":  true
+                          },
+                  "R18":  {
+                              "pass":  true
+                          }
+              },
+    "negativeControlsAllPass":  true,
+    "package":  {
+                    "deliveryDir":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\delivery\\Muaman-1.0.0-Windows",
+                    "zipPath":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\delivery\\Muaman-1.0.0-Windows.zip",
+                    "zipSha256":  "21A6A661FF4931FCC8849192EFE0BBA9C8C8A152AC66151C5FCBF5255B726C41",
+                    "zipSize":  12669365,
+                    "installerSha256":  "53A706774CF30CA28CDBC7D7DF29A091F38EF974E0EC4FFDA3693ABF84D53B2C",
+                    "installerSize":  13226400
+                }
+}

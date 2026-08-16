@@ -33,14 +33,14 @@ param(
   [Parameter(Mandatory=$true)][string]$CanonicalInstaller,
   [string]$Packager = '',
   [string]$TempRoot = '',
-  [string]$BaselineCommit = 'fdf2d33762635dc89e5fb0cffd765649c402e078',
+  [string]$BaselineCommit = 'ced34928481443486277d1a9d530a6030d43cdf6',
   [string]$ExpectedFinalHead = '',
-  [string]$ExpectedBranch = 'codex/i-tech-productization-t0',
+  [string]$ExpectedBranch = 'codex/i-tech-productization-t1',
   [string]$PackageDirName = 'Muaman-1.0.0-Windows',
   [string]$SetupExeName = 'I-TECH-Setup.exe',
   [string]$ZipName = 'Muaman-1.0.0-Windows.zip',
-  [string]$ExpectedInstallerSha256 = '94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831',
-  [string]$ExpectedInstallerSize = '13223003'
+  [string]$ExpectedInstallerSha256 = '53A706774CF30CA28CDBC7D7DF29A091F38EF974E0EC4FFDA3693ABF84D53B2C',
+  [string]$ExpectedInstallerSize = '13226400'
 )
 
 Set-StrictMode -Version Latest
@@ -66,8 +66,16 @@ $DeliveryPackageDir = Join-Path $DeliveryRoot $PackageDirName
 $FinalZipPath = Join-Path $DeliveryRoot $ZipName
 $ReadmeTemplate = Join-Path $RepoRoot 'tools\muaman13r\README.txt'
 $ExpectedFiles = @($SetupExeName, 'README.txt', 'SHA256SUMS.txt')
-$AllowedPrefixes = @('tools/', 'docs/', 'installer/', 'delivery/', 'app/windows/runner/Runner.rc')
+$AllowedPrefixes = @('tools/', 'docs/', 'installer/', 'delivery/', 'app/windows/runner/Runner.rc',
+  'app/windows/runner/main.cpp', 'app/lib/models/shop_profile.dart', 'app/lib/services/app_settings.dart',
+  'app/test/', 'app/docs/')
 $ForbiddenPrefixes = @('app/', 'assets/', 'pubspec.yaml', 'pubspec.lock')
+# T0/T1 productization carve-outs under the forbidden 'app/' root: the Windows
+# runner version-resource and window title, the in-app shop default name and
+# Excel default/legacy filename, plus the updated tests/docs.
+$AppCarveOuts = @('app/windows/runner/Runner.rc', 'app/windows/runner/main.cpp',
+  'app/lib/models/shop_profile.dart', 'app/lib/services/app_settings.dart')
+$AppPrefixCarveOuts = @('app/test/', 'app/docs/')
 
 $scratch = Join-Path $TempRoot ('m13r-guard-' + $PID)
 New-Item -ItemType Directory -Path (Split-Path -Parent $Out) -Force | Out-Null
@@ -483,7 +491,10 @@ function Get-R3Verdict {
   $violations = @()
   foreach ($c in $changed) {
     $lc = $c.ToLowerInvariant()
-    if ($lc -eq 'app/windows/runner/runner.rc') { continue }
+    $carved = $false
+    foreach ($p in $AppCarveOuts) { if ($lc -eq $p) { $carved = $true; break } }
+    foreach ($p in $AppPrefixCarveOuts) { if ($lc.StartsWith($p, [System.StringComparison]::OrdinalIgnoreCase)) { $carved = $true; break } }
+    if ($carved) { continue }
     foreach ($f in $ForbiddenPrefixes) {
       if ($lc -eq $f -or $lc.StartsWith($f, [System.StringComparison]::OrdinalIgnoreCase)) { $violations += $c; break }
     }
@@ -493,6 +504,8 @@ function Get-R3Verdict {
     pass = ($violations.Count -eq 0)
     productionViolations = @($violations | Select-Object -Unique)
     forbiddenPrefixes = $ForbiddenPrefixes
+    appCarveOuts = $AppCarveOuts
+    appPrefixCarveOuts = $AppPrefixCarveOuts
   }
 }
 $verdicts['R3'] = Get-R3Verdict

@@ -1,0 +1,52 @@
+{
+    "schemaVersion":  "1.0",
+    "phase":  "MUAMAN-13O",
+    "run":  {
+                "startedAtUtc":  "2026-08-16T14:22:22.060Z",
+                "finishedAtUtc":  "2026-08-16T14:23:06.622Z",
+                "exitCode":  0
+            },
+    "sourceReleasePackage":  {
+                                 "path":  "C:\\mu13o-acceptance\\T1-20260816\\work\\long-independent-root-b\\build-b\\package\\out\\muaman-windows-release.zip",
+                                 "sha256":  "962BE5C8A819C21A23DF3D44575BB92DBC7E124E67B30F7C77E279640723203E",
+                                 "sizeBytes":  15556545,
+                                 "identityVerified":  true
+                             },
+    "staging":  {
+                    "path":  "C:\\mu13o-acceptance\\T1-20260816\\work\\long-independent-root-b\\build-b\\staging",
+                    "manifestVerificationPassed":  true,
+                    "verifierExitCode":  0
+                },
+    "installer":  {
+                      "outputPath":  "C:\\mu13o-acceptance\\T1-20260816\\out\\build-b\\muaman-windows-installer.exe",
+                      "outputFilename":  "muaman-windows-installer.exe",
+                      "sha256":  "53A706774CF30CA28CDBC7D7DF29A091F38EF974E0EC4FFDA3693ABF84D53B2C",
+                      "sizeBytes":  13226400,
+                      "compileExitCode":  0,
+                      "compileStartedAtUtc":  "2026-08-16T14:22:37.606Z",
+                      "compileFinishedAtUtc":  "2026-08-16T14:23:06.287Z"
+                  },
+    "application":  {
+                        "version":  "1.0.0",
+                        "architecture":  "x64"
+                    },
+    "toolchain":  {
+                      "technology":  "Inno Setup 6",
+                      "compilerPath":  "C:\\m13o\\toolchain\\inno-6.7.3\\ISCC.exe",
+                      "compilerVersion":  "6.7.3",
+                      "compilerSha256":  "0A8757031B33777E4C9CBFFEE40F11A5062B36D25CBE144C1DB73B6102B80AD7"
+                  },
+    "manifestVerification":  {
+                                 "fileCount":  16,
+                                 "totalBytes":  35754065,
+                                 "crossHash":  "13884FC55E8923EA6111895796CC9F576177CBED6F73AD5DA729E686A0E9A7CF"
+                             },
+    "preflightOnly":  false,
+    "outputs":  {
+                    "installerPath":  "C:\\mu13o-acceptance\\T1-20260816\\out\\build-b\\muaman-windows-installer.exe",
+                    "compileLog":  "C:\\mu13o-acceptance\\T1-20260816\\evidence\\build-b\\installer-compile.log",
+                    "stagingVerification":  "C:\\mu13o-acceptance\\T1-20260816\\evidence\\build-b\\staging-verification.json",
+                    "packageResult":  "C:\\mu13o-acceptance\\T1-20260816\\work\\long-independent-root-b\\build-b\\package\\evidence\\package-result.json"
+                },
+    "failureReason":  null
+}

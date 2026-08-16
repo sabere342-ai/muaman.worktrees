@@ -1,0 +1,16 @@
+﻿MUAMAN-13R governed delivery tree
+==================================
+packageDir : Muaman-1.0.0-Windows
+I-TECH-Setup.exe|13226400|53A706774CF30CA28CDBC7D7DF29A091F38EF974E0EC4FFDA3693ABF84D53B2C
+README.txt|2347|0051FB0340CA63BB73F509F76D50EDE5CC80AD1CAB9645FC23FFEDCAB8BA72B4
+SHA256SUMS.txt|84|B22D38CA462E167421A7B133C8A762AECD77C542D0D83FCE3660CEA2EE47F8F0
+
+deliveryRoot entries:
+  Muaman-1.0.0-Windows
+  Muaman-1.0.0-Windows.zip
+  Muaman-1.0.0-Windows.zip.sha256
+  package-result.json
+
+zip        : C:\dev\muaman.worktrees\i-tech-productization-t1\delivery\Muaman-1.0.0-Windows.zip
+zipSha256  : 21A6A661FF4931FCC8849192EFE0BBA9C8C8A152AC66151C5FCBF5255B726C41
+zipSize    : 12669365

@@ -103,7 +103,8 @@ class AppSettings {
   }
 
   static Future<String> getDefaultWorkbookPath() async {
-    const fileName = 'شيت_ادارة_محل_مؤمن_شهر8.xlsx';
+    const fileName = 'شيت_ادارة_محل_شهر8.xlsx';
+    const legacyFileName = 'شيت_ادارة_محل_مؤمن_شهر8.xlsx';
     const monthFolder = 'شهر 8';
 
     final searchRoots = <String>{};
@@ -121,13 +122,15 @@ class AppSettings {
     }
 
     for (final root in searchRoots) {
-      final candidate = File(path.join(root, fileName));
-      if (candidate.existsSync()) {
-        return candidate.path;
-      }
-      final nestedCandidate = File(path.join(root, monthFolder, fileName));
-      if (nestedCandidate.existsSync()) {
-        return nestedCandidate.path;
+      for (final name in [fileName, legacyFileName]) {
+        final candidate = File(path.join(root, name));
+        if (candidate.existsSync()) {
+          return candidate.path;
+        }
+        final nestedCandidate = File(path.join(root, monthFolder, name));
+        if (nestedCandidate.existsSync()) {
+          return nestedCandidate.path;
+        }
       }
     }
 

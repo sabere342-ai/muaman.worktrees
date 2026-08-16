@@ -12,7 +12,7 @@ Stabilize the test infrastructure by fixing the failing `widget_test.dart`, veri
   - `databaseFactory = databaseFactoryFfiNoIsolate`
   - `setUp`: opens in-memory DB, creates schema for all 5 tables, injects via `DatabaseHelper.setTestDatabase(db)`
   - `tearDown`: closes DB
-  - Verifies dashboard renders title "لوحة تحكم محل مؤمن" and "إجمالي المبيعات"
+  - Verifies dashboard renders title "لوحة تحكم المحل" and "إجمالي المبيعات"
 
 ### 2. DatabaseHelper — setTestDatabase + production init guard
 - **`setTestDatabase(Database db)`** (`database_helper.dart`): static method to inject a pre-opened test DB, skipping `_initDB()`.

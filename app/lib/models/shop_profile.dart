@@ -20,7 +20,7 @@ class ShopProfile {
   /// identity of the current client. It preserves the existing experience on
   /// first launch after upgrade and can be changed by an authorized user from
   /// Settings without touching source code.
-  static const String defaultShopName = 'محل مؤمن';
+  static const String defaultShopName = 'المحل';
 
   /// Neutral fallback shown by consumers when [shopName] is blank.
   static const String neutralShopName = 'المتجر';

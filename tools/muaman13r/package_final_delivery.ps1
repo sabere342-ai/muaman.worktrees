@@ -68,8 +68,8 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem | Out-Null
 # ---------------------------------------------------------------------------
 # frozen, previously accepted installer identity (governing)
 # ---------------------------------------------------------------------------
-$ExpectedInstallerSha256 = '94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831'
-$ExpectedInstallerSize = [int64]13223003
+$ExpectedInstallerSha256 = '53A706774CF30CA28CDBC7D7DF29A091F38EF974E0EC4FFDA3693ABF84D53B2C'
+$ExpectedInstallerSize = [int64]13226400
 $ExpectedZipEntryCount = 3
 
 # ---------------------------------------------------------------------------

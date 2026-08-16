@@ -1,0 +1,32 @@
+﻿{
+    "guard":  "L2 CWD independence",
+    "expectedRepositoryRoot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1",
+    "runs":  {
+                 "repositoryRoot":  {
+                                        "cwd":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1",
+                                        "exitCode":  0,
+                                        "detectedRepositoryRoot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1",
+                                        "output":  "[MUAMAN-13L] canonical Windows release build, run id L-20260816-143614-32932\n[MUAMAN-13L] repository root : C:\\dev\\muaman.worktrees\\i-tech-productization-t1\n[MUAMAN-13L] app root        : C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\app\n[MUAMAN-13L] preflight        : running committed preflight (fresh process)...\n[MUAMAN-13L] preflight        : PASS (exit 0)\n[MUAMAN-13L] PreflightOnly   : yes; build not started.\n[MUAMAN-13L] preflight status: PASS"
+                                    },
+                 "subFolder":  {
+                                   "cwd":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\tools\\release",
+                                   "exitCode":  0,
+                                   "detectedRepositoryRoot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1",
+                                   "output":  "[MUAMAN-13L] canonical Windows release build, run id L-20260816-143615-33324\n[MUAMAN-13L] repository root : C:\\dev\\muaman.worktrees\\i-tech-productization-t1\n[MUAMAN-13L] app root        : C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\app\n[MUAMAN-13L] preflight        : running committed preflight (fresh process)...\n[MUAMAN-13L] preflight        : PASS (exit 0)\n[MUAMAN-13L] PreflightOnly   : yes; build not started.\n[MUAMAN-13L] preflight status: PASS"
+                               },
+                 "outsideRepository":  {
+                                           "cwd":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\13l-t1\\l2-cwd-outside",
+                                           "exitCode":  0,
+                                           "detectedRepositoryRoot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1",
+                                           "output":  "[MUAMAN-13L] canonical Windows release build, run id L-20260816-143617-30136\n[MUAMAN-13L] repository root : C:\\dev\\muaman.worktrees\\i-tech-productization-t1\n[MUAMAN-13L] app root        : C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\app\n[MUAMAN-13L] preflight        : running committed preflight (fresh process)...\n[MUAMAN-13L] preflight        : PASS (exit 0)\n[MUAMAN-13L] PreflightOnly   : yes; build not started.\n[MUAMAN-13L] preflight status: PASS"
+                                       }
+             },
+    "detectedRoots":  [
+                          "C:\\dev\\muaman.worktrees\\i-tech-productization-t1",
+                          "C:\\dev\\muaman.worktrees\\i-tech-productization-t1",
+                          "C:\\dev\\muaman.worktrees\\i-tech-productization-t1"
+                      ],
+    "allResolvedSameRoot":  true,
+    "allPreflightExitZero":  true,
+    "pass":  true
+}

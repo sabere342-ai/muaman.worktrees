@@ -1,0 +1,9 @@
+﻿MUAMAN-13R governed baseline
+============================
+phase     : MUAMAN-13R
+baseline  : ced34928481443486277d1a9d530a6030d43cdf6
+head      : ced34928481443486277d1a9d530a6030d43cdf6
+branch    : codex/i-tech-productization-t1
+mode      : pre-commit
+expectedFinalHead : (post-commit run)
+runTag    : 20260816-173323

@@ -1,0 +1,54 @@
+﻿{
+    "schemaVersion":  "1.0",
+    "run":  {
+                "startedAtUtc":  "2026-08-16T14:28:49.450Z",
+                "finishedAtUtc":  "2026-08-16T14:28:50.552Z",
+                "exitCode":  0,
+                "runTag":  ""
+            },
+    "installerIdentity":  {
+                              "verdict":  "PASS",
+                              "canonicalInstaller":  "C:\\mu13o-acceptance\\T1-20260816\\out\\build-a\\muaman-windows-installer.exe",
+                              "sha256":  "53A706774CF30CA28CDBC7D7DF29A091F38EF974E0EC4FFDA3693ABF84D53B2C",
+                              "sizeBytes":  13226400,
+                              "expectedSha256":  "53A706774CF30CA28CDBC7D7DF29A091F38EF974E0EC4FFDA3693ABF84D53B2C",
+                              "expectedSizeBytes":  13226400,
+                              "sha256Match":  true,
+                              "sizeMatch":  true
+                          },
+    "delivery":  {
+                     "verdict":  "PASS",
+                     "packageDirName":  "Muaman-1.0.0-Windows",
+                     "setupExeName":  "I-TECH-Setup.exe",
+                     "fileCount":  3,
+                     "minimalFileNames":  [
+                                              "I-TECH-Setup.exe",
+                                              "README.txt",
+                                              "SHA256SUMS.txt"
+                                          ],
+                     "checksumManifestCorrect":  true,
+                     "readmeNonEmpty":  true
+                 },
+    "packaging":  {
+                      "verdict":  "PASS",
+                      "zipFilename":  "Muaman-1.0.0-Windows.zip",
+                      "zipSha256":  "21A6A661FF4931FCC8849192EFE0BBA9C8C8A152AC66151C5FCBF5255B726C41",
+                      "zipSize":  12669365,
+                      "entryCount":  3,
+                      "constantEntryTimestampLocal":  "2024-01-01T00:00:00",
+                      "constantEntryTimestampDos":  "0x58210000"
+                  },
+    "outputs":  {
+                    "outputRoot":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\delivery",
+                    "evidenceDir":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\docs\\muaman-13r\\evidence\\20260816-172849",
+                    "deliveryPackageDir":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\delivery\\Muaman-1.0.0-Windows",
+                    "zipPath":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\delivery\\Muaman-1.0.0-Windows.zip",
+                    "zipChecksumPath":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\delivery\\Muaman-1.0.0-Windows.zip.sha256"
+                },
+    "packagingTool":  {
+                          "name":  "tools/muaman13r/package_final_delivery.ps1",
+                          "version":  "1.0",
+                          "sha256":  "3FE76646A9D9B64827F6B4C21DD4468864DF3E3A54505A2D40C65E8AC168B518"
+                      },
+    "failureReason":  null
+}

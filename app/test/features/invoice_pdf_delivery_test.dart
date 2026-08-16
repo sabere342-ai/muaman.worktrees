@@ -334,7 +334,7 @@ void main() {
       expect(data.totalItems, 2);
       expect(data.lines.length, 2);
       expect(data.computedLinesTotal, data.totalAmount);
-      expect(data.shopProfile.shopName, 'محل مؤمن');
+      expect(data.shopProfile.shopName, 'المحل');
     });
 
     test('buildDocumentData is denied for a role without history permission',

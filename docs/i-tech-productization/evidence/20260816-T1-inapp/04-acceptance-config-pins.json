@@ -1,0 +1,121 @@
+{
+  "phase": "I-TECH Productization T1 — in-app branding closure",
+  "capturedAtUtc": "2026-08-16T15:10:00.000Z",
+  "subject": "Acceptance-config pins vs post-rebuild artifacts (13O/13P/13Q/13S/13R/13L)",
+  "artifactsUnderTest": {
+    "exe": {
+      "rel": "muaman_store.exe",
+      "size": 92160,
+      "sha256": "3D15F1123EC9CBBAF051AA7DFDF1D526C2BBB88096733D981EEF05A2A08D2881"
+    },
+    "appSo": {
+      "rel": "data/app.so",
+      "size": 9290656,
+      "sha256": "AE7044F9107430FE0F10CA81890721E49D45485808483D9D5FC4CBFEC11499C5"
+    },
+    "flutterWindowsDll": {
+      "rel": "flutter_windows.dll",
+      "size": 18181632,
+      "sha256": "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E"
+    },
+    "releaseManifest": {
+      "fileCount": 16,
+      "totalBytes": 35754065,
+      "crossHash": "13884FC55E8923EA6111895796CC9F576177CBED6F73AD5DA729E686A0E9A7CF"
+    },
+    "installer": {
+      "size": 13226400,
+      "sha256": "53A706774CF30CA28CDBC7D7DF29A091F38EF974E0EC4FFDA3693ABF84D53B2C"
+    },
+    "deliveryZip": {
+      "size": 12669365,
+      "sha256": "21A6A661FF4931FCC8849192EFE0BBA9C8C8A152AC66151C5FCBF5255B726C41"
+    }
+  },
+  "configChecks": {
+    "tools/muaman13p/acceptance-config.json": {
+      "branchBaseline": "PASS (codex/i-tech-productization-t1 @ ced3492)",
+      "allowedChangedPrefixes": "PASS (tools/, docs/, installer/, delivery/ + T1 app carve-outs)",
+      "installerSha": "PASS",
+      "exeSha": "PASS",
+      "payloadCrossHash": "PASS (13884FC5…)",
+      "payloadFileCount": "PASS (16)",
+      "payloadTotalBytes": "PASS (35754065)",
+      "exeNameFrozen": "PASS (muaman_store.exe)",
+      "appIdFrozen": "PASS (299ADF2A-0E9E-4A25-916C-1CB8328D0E5E)"
+    },
+    "tools/muaman13q/acceptance-config.json": {
+      "branchBaseline": "PASS (codex/i-tech-productization-t1 @ ced3492)",
+      "allowedChangedPrefixes": "PASS (tools/, docs/, installer/, delivery/ + T1 app carve-outs)",
+      "installerSha": "PASS",
+      "exeSha": "PASS",
+      "payloadCrossHash": "PASS (13884FC5…)",
+      "payloadFileCount": "PASS (16)",
+      "payloadTotalBytes": "PASS (35754065)",
+      "exeNameFrozen": "PASS (muaman_store.exe)",
+      "appIdFrozen": "PASS (299ADF2A-0E9E-4A25-916C-1CB8328D0E5E)"
+    },
+    "tools/muaman13s/acceptance-config.json": {
+      "note": "13S stores an explicit 16-entry application.payload array plus delivery/readme/manifest pins; every per-file rel/size/sha256 matches the release-manifest exactly.",
+      "installerSha": "PASS (53A70677…/13226400)",
+      "exeSha": "PASS (3D15F112…)",
+      "payloadArrayAllMatch": "PASS (16/16)",
+      "payloadFileCount": "PASS (16)",
+      "payloadTotalBytes": "PASS (35754065)",
+      "deliveryZip": "PASS (21A6A661…/12669365)",
+      "exeNameFrozen": "PASS (muaman_store.exe)",
+      "appIdFrozen": "PASS (299ADF2A-0E9E-4A25-916C-1CB8328D0E5E)"
+    },
+    "tools/muaman13o/installer_contract.json": {
+      "sourcePackage": "PASS (962BE5C8…/15556545/13884FC5…)",
+      "installer": "PASS (53A70677…/13226400)",
+      "expectedInstalledFiles": "PASS (16/16, app.so + exe repinned)"
+    },
+    "tools/muaman13o/verify_installer_acceptance.ps1": {
+      "expectedZipSha256": "PASS (21A6A661…)"
+    },
+    "tools/muaman13r/guard_tests_13r.ps1 + package_final_delivery.ps1": {
+      "baseline": "PASS (ced3492)",
+      "branch": "PASS (codex/i-tech-productization-t1)",
+      "installerSha": "PASS (53A70677…)",
+      "installerSize": "PASS (13226400)",
+      "allowedPrefixes": "PASS (T1 app carve-outs added)"
+    },
+    "tools/release/verify_release.ps1": {
+      "crossHashExpected": "PASS (13884FC5…)"
+    },
+    "docs/windows-delivery-refresh/evidence/legal/03-muaman16-release-contract.json": {
+      "crossHash": "PASS (13884FC5…)",
+      "exeSha": "PASS (3D15F112…)",
+      "zipSha": "PASS (962BE5C8…)"
+    },
+    "docs/windows-delivery-refresh/evidence/legal/release-manifest.json": {
+      "runId": "PASS (I-TECH-T1-INAPP-BRANDING-REBUILD)",
+      "crossHash": "PASS (13884FC5…)",
+      "appSoSha": "PASS (AE7044F9…)",
+      "exeSha": "PASS (3D15F112…)"
+    }
+  },
+  "frozenIdentityChecks": {
+    "appId": "UNCHANGED 299ADF2A-0E9E-4A25-916C-1CB8328D0E5E",
+    "dbFile": "UNCHANGED muaman_store.db",
+    "pubspecName": "UNCHANGED (not modified)",
+    "binaryName": "UNCHANGED muaman_store.exe",
+    "dataPath": "UNCHANGED ({localappdata}\\Programs\\muaman_store)",
+    "originalFilename": "UNCHANGED muaman_store.exe",
+    "internalName": "UNCHANGED muaman_store",
+    "flutterWindowsDll": "UNCHANGED B6671371… (identical to T0)",
+    "otherReleaseFiles": "UNCHANGED (14/16 files byte-identical to T0)"
+  },
+  "buildReproducibility": {
+    "runId": "I-TECH-T1-INAPP-BRANDING-REBUILD",
+    "preflightExit": 0,
+    "buildExit": 0,
+    "status": "PASS",
+    "elapsedSeconds": 254.9,
+    "releaseManifest": "16 files / 35754065 bytes",
+    "exeByteIdenticalToAccepted": true,
+    "appSoByteIdenticalToAccepted": true,
+    "crossHashReproduced": "13884FC55E8923EA6111895796CC9F576177CBED6F73AD5DA729E686A0E9A7CF"
+  }
+}

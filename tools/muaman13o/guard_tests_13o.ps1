@@ -50,8 +50,8 @@ param(
   [string]$CompilerPath = '',
   [string]$InstallerA = '',
   [string]$InstallerB = '',
-  [string]$BaselineCommit = 'fdf2d33762635dc89e5fb0cffd765649c402e078',
-  [string]$ExpectedBranch = 'codex/i-tech-productization-t0',
+  [string]$BaselineCommit = 'ced34928481443486277d1a9d530a6030d43cdf6',
+  [string]$ExpectedBranch = 'codex/i-tech-productization-t1',
   [switch]$IncludeO14
 )
 Set-StrictMode -Version Latest
@@ -84,8 +84,8 @@ $Iss = Join-Path $RepoRoot 'installer\muaman.iss'
 $ContractPath = Join-Path $RepoRoot 'tools\muaman13o\installer_contract.json'
 $LegalManifest = Join-Path $RepoRoot 'docs\windows-delivery-refresh\evidence\legal\release-manifest.json'
 
-$ExpectedZipSha256   = 'FDEE3AF699570561FC401F6FD908A0FF6EB78539F43EE072F45871F9485D2A3E'
-$ExpectedCrossHash   = '3A8CFA42656EABC8B06EEF835FB9222F95006E5B490D9B837AE76673A87794B0'
+$ExpectedZipSha256   = '962BE5C8A819C21A23DF3D44575BB92DBC7E124E67B30F7C77E279640723203E'
+$ExpectedCrossHash   = '13884FC55E8923EA6111895796CC9F576177CBED6F73AD5DA729E686A0E9A7CF'
 $ExpectedFileCount   = 16
 $ExpectedTotalBytes  = 35754065
 $ExpectedCompilerSha = '0A8757031B33777E4C9CBFFEE40F11A5062B36D25CBE144C1DB73B6102B80AD7'
@@ -100,7 +100,13 @@ $verdicts = [ordered]@{}
 function Get-Sha256([string]$p) { return (Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash }
 
 function Read-JsonIf([string]$p) {
-  if (Test-Path -LiteralPath $p -PathType Leaf) { return Get-Content -LiteralPath $p -Raw | ConvertFrom-Json }
+  if (Test-Path -LiteralPath $p -PathType Leaf) {
+    # Evidence JSON is written as UTF-8 without BOM by the acceptance harness
+    # (Write-Utf8NoBom). Read explicitly as UTF-8 so non-ASCII values such as the
+    # I-TECH للتكنولوجيا window title survive the round-trip (PS 5.1 Get-Content
+    # defaults to the ANSI codepage otherwise).
+    return Get-Content -LiteralPath $p -Raw -Encoding UTF8 | ConvertFrom-Json
+  }
   return $null
 }
 
@@ -177,10 +183,30 @@ function Get-O2Verdict {
   $forbidden = @('app/lib/', 'app/windows/', 'assets/', 'app/pubspec.yaml', 'app/pubspec.lock')
   # T0 packaging-level productization carriers: the version-resource (Runner.rc)
   # is the sole permitted app/ file; all other app/ production paths stay frozen.
+  # T1 in-app branding carriers (owner-authorized): runtime window title
+  # (main.cpp), default shop name (shop_profile.dart), Excel default/legacy
+  # filename (app_settings.dart), plus the updated tests/docs under app/test/
+  # and app/docs/.
   $t0CarveOuts = @('app/windows/runner/Runner.rc')
+  $t1CarveOuts = @(
+    'app/windows/runner/main.cpp',
+    'app/lib/models/shop_profile.dart',
+    'app/lib/services/app_settings.dart',
+    'app/test/',
+    'app/docs/'
+  )
+  function Test-O2CarveOut([string]$p) {
+    if ($p -in $t0CarveOuts) { return $true }
+    foreach ($t1 in $t1CarveOuts) {
+      if ($t1.EndsWith('/')) {
+        if ($p.StartsWith($t1, [System.StringComparison]::OrdinalIgnoreCase)) { return $true }
+      } elseif ($p -eq $t1) { return $true }
+    }
+    return $false
+  }
   $scopeViolations = @()
   foreach ($c in @($changed)) {
-    if ($c -in $t0CarveOuts) { continue }
+    if (Test-O2CarveOut $c) { continue }
     $ok = $false
     foreach ($a in $allowed) { if ($c.StartsWith($a, [System.StringComparison]::OrdinalIgnoreCase)) { $ok = $true; break } }
     if (-not $ok) { $scopeViolations += $c }
@@ -189,7 +215,7 @@ function Get-O2Verdict {
     }
   }
   $productionDiff = @($changed | Where-Object {
-    ($_ -notin $t0CarveOuts) -and ($_ -match '^app/(lib|windows)/' -or $_ -match '^assets/' -or $_ -match '^app/pubspec\.(yaml|lock)$')
+    (-not (Test-O2CarveOut $_)) -and ($_ -match '^app/(lib|windows)/' -or $_ -match '^assets/' -or $_ -match '^app/pubspec\.(yaml|lock)$')
   })
   $scopeViolations = @($scopeViolations | Select-Object -Unique)
 
@@ -424,7 +450,7 @@ $verdicts['O7'] = Get-O7Verdict
 # ---------------------------------------------------------------------------
 # O8 installation guard
 # ---------------------------------------------------------------------------
-$ExpectedInstallerSha = '94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831'
+$ExpectedInstallerSha = '53A706774CF30CA28CDBC7D7DF29A091F38EF974E0EC4FFDA3693ABF84D53B2C'
 function Get-O8Verdict {
   $bad = @()
   $install = Read-JsonIf (Join-Path $AcceptanceRoot 'evidence\install-result.json')
@@ -507,7 +533,7 @@ function Get-O10Verdict {
     if (-not [bool]$launch.passed) { $bad += 'launch evidence passed=false' }
     if (-not [bool]$launch.process.aliveAfterSeconds) { $bad += 'process did not stay alive' }
     if (-not [bool]$launch.process.mainWindowVisible) { $bad += 'main window not visible' }
-    if ([string]$launch.process.mainWindowTitle -ne 'muaman_store') { $bad += "unexpected main window title: $($launch.process.mainWindowTitle)" }
+    if ([string]$launch.process.mainWindowTitle -ne 'I-TECH للتكنولوجيا') { $bad += "unexpected main window title: $($launch.process.mainWindowTitle)" }
     if ([int]$launch.process.modulesLoaded -lt 1) { $bad += 'no modules enumerated' }
     if (@($launch.process.moduleOriginIssues).Count -ne 0) { $bad += 'module origin issues: ' + (@($launch.process.moduleOriginIssues) -join ', ') }
     if (-not [bool]$launch.process.cleanShutdown) { $bad += 'clean shutdown not achieved' }

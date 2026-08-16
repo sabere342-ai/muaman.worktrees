@@ -1,14 +1,14 @@
 {
-    "runId":  "T0",
-    "capturedAtUtc":  "2026-08-15T20:45:01.239Z",
-    "releaseDir":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t0\\app\\build\\windows\\x64\\runner\\Release",
+    "runId":  "I-TECH-T1-INAPP-BRANDING-REBUILD",
+    "capturedAtUtc":  "2026-08-16T14:04:55.580Z",
+    "releaseDir":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\app\\build\\windows\\x64\\runner\\Release",
     "fileCount":  16,
     "totalBytes":  35754065,
     "files":  [
                   {
                       "rel":  "data/app.so",
                       "size":  9290656,
-                      "sha256":  "86369AA8DFD530AD15C90F394FFB7D9F29A5AA67AB06A6C7F5A42516B212ED93",
+                      "sha256":  "AE7044F9107430FE0F10CA81890721E49D45485808483D9D5FC4CBFEC11499C5",
                       "ext":  ".so"
                   },
                   {
@@ -86,7 +86,7 @@
                   {
                       "rel":  "muaman_store.exe",
                       "size":  92160,
-                      "sha256":  "134918133777C779890CA3BD4EC9CFFFD990AE04B48BE3A71DE8142B2F2FAEA1",
+                      "sha256":  "3D15F1123EC9CBBAF051AA7DFDF1D526C2BBB88096733D981EEF05A2A08D2881",
                       "ext":  ".exe"
                   },
                   {

@@ -1,0 +1,35 @@
+﻿git status --short (at guard end)
+==================================
+HEAD  : ced34928481443486277d1a9d530a6030d43cdf6
+branch: codex/i-tech-productization-t1
+M app/docs/MUAMAN-10-TEST-INFRASTRUCTURE-FINAL-RELEASE-READINESS.md
+ M app/lib/models/shop_profile.dart
+ M app/lib/services/app_settings.dart
+ M app/test/features/invoice_pdf_delivery_test.dart
+ M app/test/unit/shop_profile_test.dart
+ M app/test/widget_test.dart
+ M app/windows/runner/main.cpp
+ M delivery/Muaman-1.0.0-Windows.zip
+ M delivery/Muaman-1.0.0-Windows.zip.sha256
+ M delivery/Muaman-1.0.0-Windows/I-TECH-Setup.exe
+ M delivery/Muaman-1.0.0-Windows/README.txt
+ M delivery/Muaman-1.0.0-Windows/SHA256SUMS.txt
+ M docs/windows-delivery-refresh/evidence/legal/03-muaman16-release-contract.json
+ M docs/windows-delivery-refresh/evidence/legal/release-manifest.json
+ M tools/muaman13o/guard_tests_13o.ps1
+ M tools/muaman13o/installer_contract.json
+ M tools/muaman13o/verify_installer_acceptance.ps1
+ M tools/muaman13p/acceptance-config.json
+ M tools/muaman13p/ui_strings.json
+ M tools/muaman13q/acceptance-config.json
+ M tools/muaman13q/ui_strings.json
+ M tools/muaman13r/README.txt
+ M tools/muaman13r/guard_tests_13r.ps1
+ M tools/muaman13r/package_final_delivery.ps1
+ M tools/muaman13s/acceptance-config.json
+ M tools/muaman13s/ui_strings.json
+ M tools/release/package_windows_installer.ps1
+ M tools/release/verify_release.ps1
+?? delivery/package-result.json
+?? docs/i-tech-productization/evidence/20260816-T1-inapp/
+?? docs/muaman-13r/evidence/20260816-172849/

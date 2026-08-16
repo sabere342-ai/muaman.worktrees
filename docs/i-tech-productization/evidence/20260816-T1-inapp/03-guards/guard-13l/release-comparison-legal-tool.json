@@ -1,0 +1,25 @@
+﻿{
+    "label":  "L7-new-vs-13k-k1",
+    "capturedAtUtc":  "2026-08-16T14:38:00.020Z",
+    "releaseA":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\app\\build\\windows\\x64\\runner\\Release",
+    "releaseB":  "C:\\dev\\muaman.worktrees\\i-tech-productization-t1\\app\\build\\windows\\x64\\runner\\Release",
+    "fileCountA":  16,
+    "fileCountB":  16,
+    "totalBytesA":  35754065,
+    "totalBytesB":  35754065,
+    "identical":  true,
+    "diffCount":  0,
+    "diffs":  [
+
+              ],
+    "onlyInACount":  0,
+    "onlyInA":  [
+
+                ],
+    "onlyInBCount":  0,
+    "onlyInB":  [
+
+                ],
+    "crossHashA":  "13884FC55E8923EA6111895796CC9F576177CBED6F73AD5DA729E686A0E9A7CF",
+    "crossHashB":  "13884FC55E8923EA6111895796CC9F576177CBED6F73AD5DA729E686A0E9A7CF"
+}

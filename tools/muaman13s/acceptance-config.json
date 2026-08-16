@@ -1,12 +1,17 @@
 {
     "phase": "MUAMAN-13S",
-    "baselineCommit": "fdf2d33762635dc89e5fb0cffd765649c402e078",
+    "baselineCommit": "ced34928481443486277d1a9d530a6030d43cdf6",
     "allowedChangedPrefixes": [
         "tools/",
         "docs/",
         "installer/",
         "delivery/",
-        "app/windows/runner/Runner.rc"
+        "app/windows/runner/Runner.rc",
+        "app/windows/runner/main.cpp",
+        "app/lib/models/shop_profile.dart",
+        "app/lib/services/app_settings.dart",
+        "app/test/",
+        "app/docs/"
     ],
     "accountName": "CodexMuaman13S",
     "consumer": {
@@ -19,22 +24,22 @@
         ]
     },
     "delivery": {
-        "zipSha256": "4258E9105116D0D73281C4CD5027ECC478517D662FCA3E6D70F25418E7204C8A",
-        "zipSizeBytes": 12665973
+        "zipSha256": "21A6A661FF4931FCC8849192EFE0BBA9C8C8A152AC66151C5FCBF5255B726C41",
+        "zipSizeBytes": 12669365
     },
     "installer": {
         "filename": "I-TECH-Setup.exe",
-        "sha256": "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
-        "sizeBytes": 13223003
+        "sha256": "53A706774CF30CA28CDBC7D7DF29A091F38EF974E0EC4FFDA3693ABF84D53B2C",
+        "sizeBytes": 13226400
     },
     "readme": {
         "filename": "README.txt",
-        "sha256": "13AA05AB795D9C47C3071B29CB1EF867BAC022F73D436A83B7EFE38625D877B2",
-        "sizeBytes": 2313
+        "sha256": "0051FB0340CA63BB73F509F76D50EDE5CC80AD1CAB9645FC23FFEDCAB8BA72B4",
+        "sizeBytes": 2347
     },
     "manifest": {
         "filename": "SHA256SUMS.txt",
-        "sha256": "B853725F302F5B0053E75B8D3A781A289A0891433C70300C448F907E6C07C573",
+        "sha256": "B22D38CA462E167421A7B133C8A762AECD77C542D0D83FCE3660CEA2EE47F8F0",
         "sizeBytes": 84
     },
     "readmeChecks": {
@@ -63,13 +68,13 @@
         "appDirName": "muaman_store",
         "mainExecutable": "muaman_store.exe",
         "exeSizeBytes": 92160,
-        "exeSha256": "134918133777C779890CA3BD4EC9CFFFD990AE04B48BE3A71DE8142B2F2FAEA1",
+        "exeSha256": "3D15F1123EC9CBBAF051AA7DFDF1D526C2BBB88096733D981EEF05A2A08D2881",
         "flutterWindowsDllSha256": "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E",
         "appId": "299ADF2A-0E9E-4A25-916C-1CB8328D0E5E",
         "payloadFileCount": 16,
         "payloadTotalBytes": 35754065,
         "payload": [
-            { "rel": "data/app.so", "size": 9290656, "sha256": "86369AA8DFD530AD15C90F394FFB7D9F29A5AA67AB06A6C7F5A42516B212ED93" },
+            { "rel": "data/app.so", "size": 9290656, "sha256": "AE7044F9107430FE0F10CA81890721E49D45485808483D9D5FC4CBFEC11499C5" },
             { "rel": "data/flutter_assets/AssetManifest.bin", "size": 384, "sha256": "BE650FCA6D81184EE20F7DAFEE0231E17BD16952521CC93D513F1952324BEE15" },
             { "rel": "data/flutter_assets/AssetManifest.json", "size": 355, "sha256": "3CF68F7B749716CF8E184C01D9257F4A7A0252168D9BBF70457643C73E808482" },
             { "rel": "data/flutter_assets/assets/fonts/NotoSansArabic-Bold.ttf", "size": 260904, "sha256": "457926CB001AC787DC7415C89E6F5B1C4CE3A0F2C91D0CABC1BC19A05638E7DE" },
@@ -82,7 +87,7 @@
             { "rel": "data/flutter_assets/shaders/ink_sparkle.frag", "size": 17304, "sha256": "3AA09424D1DC391FD59A9735EFE986FF43302B5E5BC310926AFE11C68626C3B2" },
             { "rel": "data/icudtl.dat", "size": 778864, "sha256": "C12537022EF818991A7BFED41A76D8D6AE962FFBC0E6511AC762A5D0845E7F7C" },
             { "rel": "flutter_windows.dll", "size": 18181632, "sha256": "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E" },
-            { "rel": "muaman_store.exe", "size": 92160, "sha256": "134918133777C779890CA3BD4EC9CFFFD990AE04B48BE3A71DE8142B2F2FAEA1" },
+            { "rel": "muaman_store.exe", "size": 92160, "sha256": "3D15F1123EC9CBBAF051AA7DFDF1D526C2BBB88096733D981EEF05A2A08D2881" },
             { "rel": "pdfium.dll", "size": 4749824, "sha256": "0C88EBACC0393FD45FC3E7B35E31E72C9E55B633A846A7ECF4085694DBA68ABD" },
             { "rel": "printing_plugin.dll", "size": 138240, "sha256": "959F1E85FEEC7D8AE02F97760608E8022CFF3C3D556AADC824306EA1AFE2A867" }
         ]

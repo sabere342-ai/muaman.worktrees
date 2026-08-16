@@ -1,24 +1,24 @@
 {
   "phase": "MUAMAN-13Q",
-  "branchName": "codex/i-tech-productization-t0",
-  "baselineCommit": "fdf2d33762635dc89e5fb0cffd765649c402e078",
-  "allowedChangedPrefixes": ["tools/", "docs/", "installer/", "delivery/", "app/windows/runner/Runner.rc"],
+  "branchName": "codex/i-tech-productization-t1",
+  "baselineCommit": "ced34928481443486277d1a9d530a6030d43cdf6",
+  "allowedChangedPrefixes": ["tools/", "docs/", "installer/", "delivery/", "app/windows/runner/Runner.rc", "app/windows/runner/main.cpp", "app/lib/models/shop_profile.dart", "app/lib/services/app_settings.dart", "app/test/", "app/docs/"],
   "accountName": "CodexMuaman13Q",
   "installer": {
     "filename": "muaman-windows-installer.exe",
-    "sha256": "94BD1559CFE01281714D7EB137E931FAC75DE44C115EE5FBD27B00A772C8A831",
-    "sizeBytes": 13223003
+    "sha256": "53A706774CF30CA28CDBC7D7DF29A091F38EF974E0EC4FFDA3693ABF84D53B2C",
+    "sizeBytes": 13226400
   },
   "application": {
     "appDirName": "muaman_store",
     "mainExecutable": "muaman_store.exe",
     "exeSizeBytes": 92160,
-    "exeSha256": "134918133777C779890CA3BD4EC9CFFFD990AE04B48BE3A71DE8142B2F2FAEA1",
+    "exeSha256": "3D15F1123EC9CBBAF051AA7DFDF1D526C2BBB88096733D981EEF05A2A08D2881",
     "flutterWindowsDllSha256": "B66713715A7AEAA2F88BA18838AA7C245556EAAEB31C82DA3F5AEBCB71A7715E",
     "appId": "299ADF2A-0E9E-4A25-916C-1CB8328D0E5E",
     "payloadFileCount": 16,
     "payloadTotalBytes": 35754065,
-    "payloadCrossHash": "3A8CFA42656EABC8B06EEF835FB9222F95006E5B490D9B837AE76673A87794B0"
+    "payloadCrossHash": "13884FC55E8923EA6111895796CC9F576177CBED6F73AD5DA729E686A0E9A7CF"
   },
   "data": {
     "ffiDbRelDir": ".dart_tool/sqflite_common_ffi/databases",
