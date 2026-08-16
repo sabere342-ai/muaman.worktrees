@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../database/database_helper.dart';
 import '../database/workbook_importer.dart';
 import '../models/shop_profile.dart';
@@ -31,8 +30,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final _shopPhoneController = TextEditingController();
   final _shopAddressController = TextEditingController();
   final _logoPathController = TextEditingController();
+  final _supportPhoneController = TextEditingController();
+  final _defaultCustomerNameController = TextEditingController();
   String _buttonStyle = 'filled';
-  String _supportPhone = AppSettings.defaultSupportPhone;
   String _licenseStatus = 'inactive';
   bool _isSaving = false;
   bool _isImporting = false;
@@ -60,13 +60,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final licenseStatus = await AppSettings.getLicenseStatus();
     final workbookPath = await AppSettings.getWorkbookPath();
     final brandColor = await AppSettings.getBrandColor();
+    final defaultCustomerName = await AppSettings.getDefaultCustomerName();
     setState(() {
       _buttonStyle = buttonStyle;
-      _supportPhone = supportPhone;
+      _supportPhoneController.text = supportPhone;
       _licenseController.text = licenseKey;
       _licenseStatus = licenseStatus;
       _workbookPathController.text = workbookPath;
       _brandColor = brandColor;
+      _defaultCustomerNameController.text = defaultCustomerName;
     });
   }
 
@@ -233,22 +235,107 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             const SizedBox(height: 8),
             Card(
-              elevation: 2,
+              elevation: 1,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
-              child: ListTile(
-                leading:
-                    const Icon(Icons.support_agent, color: Color(0xFF0D47A1)),
-                title: Text('رقم الدعم: $_supportPhone'),
-                subtitle: const Text('يمكنك نسخ الرقم للتواصل مع الدعم'),
-                trailing: IconButton(
-                  icon: const Icon(Icons.copy),
-                  onPressed: () {
-                    Clipboard.setData(ClipboardData(text: _supportPhone));
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('تم نسخ رقم الدعم')),
-                    );
-                  },
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Icons.support_agent,
+                            color: Color(0xFF0D47A1)),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'رقم الدعم الفني',
+                            style: TextStyle(
+                                fontSize: 14, color: Colors.grey.shade700),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: _supportPhoneController,
+                      keyboardType: TextInputType.phone,
+                      decoration: const InputDecoration(
+                        labelText: 'رقم الهاتف للدعم',
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.phone),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    ElevatedButton.icon(
+                      onPressed: _saveSupportPhone,
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      ),
+                      icon: const Icon(Icons.save),
+                      label: const Text('حفظ رقم الدعم',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Text('إفتراضيات الفاتورة',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            const SizedBox(height: 8),
+            Card(
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Icons.receipt_long,
+                            color: Color(0xFF0D47A1)),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'الاسم الافتراضي للعميل في الفواتير الجديدة',
+                            style: TextStyle(
+                                fontSize: 14, color: Colors.grey.shade700),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: _defaultCustomerNameController,
+                      decoration: const InputDecoration(
+                        labelText: 'اسم العميل الافتراضي',
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.person),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'يظهر هذا الاسم تلقائيًا عند إنشاء فاتورة جديدة',
+                      style:
+                          TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                    ),
+                    const SizedBox(height: 12),
+                    ElevatedButton.icon(
+                      onPressed: _saveDefaultCustomerName,
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      ),
+                      icon: const Icon(Icons.save),
+                      label: const Text('حفظ الاسم الافتراضي',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -777,6 +864,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  Future<void> _saveSupportPhone() async {
+    final value = _supportPhoneController.text.trim();
+    final toSave = value.isNotEmpty ? value : AppSettings.defaultSupportPhone;
+    await AppSettings.setValue(AppSettings.keySupportPhone, toSave);
+    if (!mounted) return;
+    setState(() => _supportPhoneController.text = toSave);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('تم حفظ رقم الدعم')),
+    );
+  }
+
+  Future<void> _saveDefaultCustomerName() async {
+    final value = _defaultCustomerNameController.text.trim();
+    final toSave =
+        value.isNotEmpty ? value : AppSettings.defaultCustomerName;
+    await AppSettings.setValue(AppSettings.keyDefaultCustomerName, toSave);
+    if (!mounted) return;
+    setState(() => _defaultCustomerNameController.text = toSave);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('تم حفظ اسم العميل الافتراضي')),
+    );
+  }
+
   Widget _buildLogoPreview() {
     final path = _currentLogoPath;
     if (path.isNotEmpty && File(path).existsSync()) {
@@ -909,6 +1019,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _shopPhoneController.dispose();
     _shopAddressController.dispose();
     _logoPathController.dispose();
+    _supportPhoneController.dispose();
+    _defaultCustomerNameController.dispose();
     super.dispose();
   }
 }

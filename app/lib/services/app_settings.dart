@@ -65,12 +65,14 @@ class AppSettings {
 
   static Future<String> getSupportPhone() async {
     final value = await getValue(keySupportPhone);
-    return value.isNotEmpty ? value : defaultSupportPhone;
+    final trimmed = value.trim();
+    return trimmed.isNotEmpty ? trimmed : defaultSupportPhone;
   }
 
   static Future<String> getDefaultCustomerName() async {
     final value = await getValue(keyDefaultCustomerName);
-    return value.isNotEmpty ? value : defaultCustomerName;
+    final trimmed = value.trim();
+    return trimmed.isNotEmpty ? trimmed : defaultCustomerName;
   }
 
   static Future<String> getLicenseKey() async {
