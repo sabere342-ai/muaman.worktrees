@@ -129,6 +129,8 @@ void main() {
     double? totalAmount,
     int? totalItems,
     String? supportPhone,
+    String? invoiceTitle,
+    String? invoiceFooterText,
   }) {
     final resolvedLines = lines ??
         [
@@ -152,6 +154,8 @@ void main() {
       shopProfile: const ShopProfile(shopName: 'محل مؤمن'),
       lines: resolvedLines,
       supportPhone: supportPhone ?? '',
+      invoiceTitle: invoiceTitle ?? 'فاتورة بيع',
+      invoiceFooterText: invoiceFooterText ?? 'شكراً لتعاملكم معنا',
     );
   }
 
@@ -316,6 +320,32 @@ void main() {
       expect(bytes.length, greaterThan(1000));
       expect(String.fromCharCodes(bytes.take(5)), '%PDF-');
     });
+
+    test('PDF renders custom invoice title', () async {
+      final (regular, bold) = await fontBytes();
+      final document = renderer.buildDocumentWith(
+        sampleData(invoiceTitle: 'فاتورة ضريبية'),
+        regular,
+        bold,
+        null,
+      );
+      final bytes = await document.save();
+      expect(bytes.length, greaterThan(1000));
+      expect(String.fromCharCodes(bytes.take(5)), '%PDF-');
+    });
+
+    test('PDF renders custom footer text', () async {
+      final (regular, bold) = await fontBytes();
+      final document = renderer.buildDocumentWith(
+        sampleData(invoiceFooterText: 'نتمنى لكم يوماً سعيداً'),
+        regular,
+        bold,
+        null,
+      );
+      final bytes = await document.save();
+      expect(bytes.length, greaterThan(1000));
+      expect(String.fromCharCodes(bytes.take(5)), '%PDF-');
+    });
   });
 
   group('D - DatabaseHelper gated invoice reads', () {
@@ -393,6 +423,41 @@ void main() {
           currentRole: UserRole.owner);
       expect(data.supportPhone, '+201014900211');
     });
+
+    test('buildDocumentData loads invoiceTitle from AppSettings', () async {
+      await AppSettings.setValue(
+          AppSettings.keyInvoiceTitle, 'فاتورة ضريبية');
+      final invoiceId = await seedInvoiceWithItems();
+      final data = await repository.buildDocumentData(invoiceId,
+          currentRole: UserRole.owner);
+      expect(data.invoiceTitle, 'فاتورة ضريبية');
+    });
+
+    test('buildDocumentData uses default invoiceTitle when not customized',
+        () async {
+      final invoiceId = await seedInvoiceWithItems();
+      final data = await repository.buildDocumentData(invoiceId,
+          currentRole: UserRole.owner);
+      expect(data.invoiceTitle, 'فاتورة بيع');
+    });
+
+    test('buildDocumentData loads invoiceFooterText from AppSettings',
+        () async {
+      await AppSettings.setValue(
+          AppSettings.keyInvoiceFooterText, 'نتمنى لكم التوفيق');
+      final invoiceId = await seedInvoiceWithItems();
+      final data = await repository.buildDocumentData(invoiceId,
+          currentRole: UserRole.owner);
+      expect(data.invoiceFooterText, 'نتمنى لكم التوفيق');
+    });
+
+    test('buildDocumentData uses default invoiceFooterText when not customized',
+        () async {
+      final invoiceId = await seedInvoiceWithItems();
+      final data = await repository.buildDocumentData(invoiceId,
+          currentRole: UserRole.owner);
+      expect(data.invoiceFooterText, 'شكراً لتعاملكم معنا');
+    });
   });
 
   group('F - InvoicePreviewScreen', () {
@@ -438,6 +503,42 @@ void main() {
       await pumpPreview(tester, invoiceId, ownerSession());
 
       expect(find.text('للدعم: +201111111111'), findsOneWidget);
+    });
+
+    testWidgets('shows default invoice title in preview',
+        (WidgetTester tester) async {
+      final invoiceId = await seedInvoiceWithItems();
+      await pumpPreview(tester, invoiceId, ownerSession());
+
+      expect(find.text('فاتورة بيع'), findsOneWidget);
+    });
+
+    testWidgets('shows custom invoice title in preview',
+        (WidgetTester tester) async {
+      await AppSettings.setValue(
+          AppSettings.keyInvoiceTitle, 'فاتورة ضريبية');
+      final invoiceId = await seedInvoiceWithItems();
+      await pumpPreview(tester, invoiceId, ownerSession());
+
+      expect(find.text('فاتورة ضريبية'), findsOneWidget);
+    });
+
+    testWidgets('shows default footer message in preview',
+        (WidgetTester tester) async {
+      final invoiceId = await seedInvoiceWithItems();
+      await pumpPreview(tester, invoiceId, ownerSession());
+
+      expect(find.text('شكراً لتعاملكم معنا'), findsOneWidget);
+    });
+
+    testWidgets('shows custom footer message in preview',
+        (WidgetTester tester) async {
+      await AppSettings.setValue(
+          AppSettings.keyInvoiceFooterText, 'نتمنى لكم يوماً سعيداً');
+      final invoiceId = await seedInvoiceWithItems();
+      await pumpPreview(tester, invoiceId, ownerSession());
+
+      expect(find.text('نتمنى لكم يوماً سعيداً'), findsOneWidget);
     });
   });
 

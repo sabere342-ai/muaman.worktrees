@@ -178,4 +178,150 @@ void main() {
       expect(phone, equals('+201014900211'));
     });
   });
+
+  group('Invoice Title - default', () {
+    test('returns default when no key exists', () async {
+      final title = await AppSettings.getInvoiceTitle();
+      expect(title, equals('فاتورة بيع'));
+    });
+
+    test('returns default after initializeDefaults', () async {
+      await AppSettings.initializeDefaults();
+      final title = await AppSettings.getInvoiceTitle();
+      expect(title, equals('فاتورة بيع'));
+    });
+  });
+
+  group('Invoice Title - persistence', () {
+    test('set and get returns same value', () async {
+      await AppSettings.setValue(
+          AppSettings.keyInvoiceTitle, 'فاتورة ضريبية');
+      final title = await AppSettings.getInvoiceTitle();
+      expect(title, equals('فاتورة ضريبية'));
+    });
+
+    test('persists across multiple reads', () async {
+      await AppSettings.setValue(
+          AppSettings.keyInvoiceTitle, 'إيصال بيع');
+      final title1 = await AppSettings.getInvoiceTitle();
+      final title2 = await AppSettings.getInvoiceTitle();
+      expect(title1, equals('إيصال بيع'));
+      expect(title2, equals('إيصال بيع'));
+    });
+
+    test('overwrites previous value', () async {
+      await AppSettings.setValue(
+          AppSettings.keyInvoiceTitle, 'فاتورة A');
+      await AppSettings.setValue(
+          AppSettings.keyInvoiceTitle, 'فاتورة B');
+      final title = await AppSettings.getInvoiceTitle();
+      expect(title, equals('فاتورة B'));
+    });
+
+    test('persists after initializeDefaults does not overwrite', () async {
+      await AppSettings.setValue(
+          AppSettings.keyInvoiceTitle, 'فاتورة مميزة');
+      await AppSettings.initializeDefaults();
+      final title = await AppSettings.getInvoiceTitle();
+      expect(title, equals('فاتورة مميزة'));
+    });
+  });
+
+  group('Invoice Title - trimming', () {
+    test('trims leading and trailing whitespace', () async {
+      await AppSettings.setValue(
+          AppSettings.keyInvoiceTitle, '  فاتورة مرجاني  ');
+      final title = await AppSettings.getInvoiceTitle();
+      expect(title, equals('فاتورة مرجاني'));
+    });
+  });
+
+  group('Invoice Title - empty/malformed fallback', () {
+    test('returns default for empty string in DB', () async {
+      await AppSettings.setValue(AppSettings.keyInvoiceTitle, '');
+      final title = await AppSettings.getInvoiceTitle();
+      expect(title, equals('فاتورة بيع'));
+    });
+
+    test('returns default when key was never created', () async {
+      final rows = await testDb.query('app_settings',
+          where: 'key = ?', whereArgs: [AppSettings.keyInvoiceTitle]);
+      expect(rows, isEmpty);
+      final title = await AppSettings.getInvoiceTitle();
+      expect(title, equals('فاتورة بيع'));
+    });
+  });
+
+  group('Invoice Footer Text - default', () {
+    test('returns default when no key exists', () async {
+      final footer = await AppSettings.getInvoiceFooterText();
+      expect(footer, equals('شكراً لتعاملكم معنا'));
+    });
+
+    test('returns default after initializeDefaults', () async {
+      await AppSettings.initializeDefaults();
+      final footer = await AppSettings.getInvoiceFooterText();
+      expect(footer, equals('شكراً لتعاملكم معنا'));
+    });
+  });
+
+  group('Invoice Footer Text - persistence', () {
+    test('set and get returns same value', () async {
+      await AppSettings.setValue(
+          AppSettings.keyInvoiceFooterText, 'نتمنى لكم التوفيق');
+      final footer = await AppSettings.getInvoiceFooterText();
+      expect(footer, equals('نتمنى لكم التوفيق'));
+    });
+
+    test('persists across multiple reads', () async {
+      await AppSettings.setValue(
+          AppSettings.keyInvoiceFooterText, 'مع تحياتنا');
+      final footer1 = await AppSettings.getInvoiceFooterText();
+      final footer2 = await AppSettings.getInvoiceFooterText();
+      expect(footer1, equals('مع تحياتنا'));
+      expect(footer2, equals('مع تحياتنا'));
+    });
+
+    test('overwrites previous value', () async {
+      await AppSettings.setValue(
+          AppSettings.keyInvoiceFooterText, 'شكراً A');
+      await AppSettings.setValue(
+          AppSettings.keyInvoiceFooterText, 'شكراً B');
+      final footer = await AppSettings.getInvoiceFooterText();
+      expect(footer, equals('شكراً B'));
+    });
+
+    test('persists after initializeDefaults does not overwrite', () async {
+      await AppSettings.setValue(
+          AppSettings.keyInvoiceFooterText, 'Message');
+      await AppSettings.initializeDefaults();
+      final footer = await AppSettings.getInvoiceFooterText();
+      expect(footer, equals('Message'));
+    });
+  });
+
+  group('Invoice Footer Text - trimming', () {
+    test('trims leading and trailing whitespace', () async {
+      await AppSettings.setValue(
+          AppSettings.keyInvoiceFooterText, '  شكراً لكم  ');
+      final footer = await AppSettings.getInvoiceFooterText();
+      expect(footer, equals('شكراً لكم'));
+    });
+  });
+
+  group('Invoice Footer Text - empty/malformed fallback', () {
+    test('returns default for empty string in DB', () async {
+      await AppSettings.setValue(AppSettings.keyInvoiceFooterText, '');
+      final footer = await AppSettings.getInvoiceFooterText();
+      expect(footer, equals('شكراً لتعاملكم معنا'));
+    });
+
+    test('returns default when key was never created', () async {
+      final rows = await testDb.query('app_settings',
+          where: 'key = ?', whereArgs: [AppSettings.keyInvoiceFooterText]);
+      expect(rows, isEmpty);
+      final footer = await AppSettings.getInvoiceFooterText();
+      expect(footer, equals('شكراً لتعاملكم معنا'));
+    });
+  });
 }

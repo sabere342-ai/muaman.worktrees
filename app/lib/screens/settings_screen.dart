@@ -32,6 +32,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final _logoPathController = TextEditingController();
   final _supportPhoneController = TextEditingController();
   final _defaultCustomerNameController = TextEditingController();
+  final _invoiceTitleController = TextEditingController();
+  final _invoiceFooterTextController = TextEditingController();
   String _buttonStyle = 'filled';
   String _licenseStatus = 'inactive';
   bool _isSaving = false;
@@ -61,6 +63,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final workbookPath = await AppSettings.getWorkbookPath();
     final brandColor = await AppSettings.getBrandColor();
     final defaultCustomerName = await AppSettings.getDefaultCustomerName();
+    final invoiceTitle = await AppSettings.getInvoiceTitle();
+    final invoiceFooterText = await AppSettings.getInvoiceFooterText();
     setState(() {
       _buttonStyle = buttonStyle;
       _supportPhoneController.text = supportPhone;
@@ -69,6 +73,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _workbookPathController.text = workbookPath;
       _brandColor = brandColor;
       _defaultCustomerNameController.text = defaultCustomerName;
+      _invoiceTitleController.text = invoiceTitle;
+      _invoiceFooterTextController.text = invoiceFooterText;
     });
   }
 
@@ -333,6 +339,114 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       icon: const Icon(Icons.save),
                       label: const Text('حفظ الاسم الافتراضي',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Card(
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Icons.title,
+                            color: Color(0xFF0D47A1)),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'عنوان الفاتورة المطبوع',
+                            style: TextStyle(
+                                fontSize: 14, color: Colors.grey.shade700),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: _invoiceTitleController,
+                      decoration: const InputDecoration(
+                        labelText: 'عنوان الفاتورة',
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.receipt),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'يظهر في أعلى الفاتورة PDF والمعرض',
+                      style:
+                          TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                    ),
+                    const SizedBox(height: 12),
+                    ElevatedButton.icon(
+                      onPressed: _saveInvoiceTitle,
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      ),
+                      icon: const Icon(Icons.save),
+                      label: const Text('حفظ عنوان الفاتورة',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Card(
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Icons.short_text,
+                            color: Color(0xFF0D47A1)),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'رسالة تذييل الفاتورة',
+                            style: TextStyle(
+                                fontSize: 14, color: Colors.grey.shade700),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: _invoiceFooterTextController,
+                      decoration: const InputDecoration(
+                        labelText: 'رسالة التذييل',
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.message),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'تظهر في أسفل الفاتورة PDF والمعرض',
+                      style:
+                          TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                    ),
+                    const SizedBox(height: 12),
+                    ElevatedButton.icon(
+                      onPressed: _saveInvoiceFooterText,
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      ),
+                      icon: const Icon(Icons.save),
+                      label: const Text('حفظ رسالة التذييل',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                   ],
@@ -887,6 +1001,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  Future<void> _saveInvoiceTitle() async {
+    final value = _invoiceTitleController.text.trim();
+    final toSave =
+        value.isNotEmpty ? value : AppSettings.defaultInvoiceTitle;
+    await AppSettings.setValue(AppSettings.keyInvoiceTitle, toSave);
+    if (!mounted) return;
+    setState(() => _invoiceTitleController.text = toSave);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('تم حفظ عنوان الفاتورة')),
+    );
+  }
+
+  Future<void> _saveInvoiceFooterText() async {
+    final value = _invoiceFooterTextController.text.trim();
+    final toSave =
+        value.isNotEmpty ? value : AppSettings.defaultInvoiceFooterText;
+    await AppSettings.setValue(AppSettings.keyInvoiceFooterText, toSave);
+    if (!mounted) return;
+    setState(() => _invoiceFooterTextController.text = toSave);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('تم حفظ رسالة التذييل')),
+    );
+  }
+
   Widget _buildLogoPreview() {
     final path = _currentLogoPath;
     if (path.isNotEmpty && File(path).existsSync()) {
@@ -1021,6 +1159,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _logoPathController.dispose();
     _supportPhoneController.dispose();
     _defaultCustomerNameController.dispose();
+    _invoiceTitleController.dispose();
+    _invoiceFooterTextController.dispose();
     super.dispose();
   }
 }

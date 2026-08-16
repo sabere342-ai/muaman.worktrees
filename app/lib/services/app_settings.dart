@@ -12,10 +12,14 @@ class AppSettings {
   static const String keyDefaultCustomerName = 'defaultCustomerName';
   static const String keyWorkbookPath = 'workbookPath';
   static const String keyBrandColor = 'brandColor';
+  static const String keyInvoiceTitle = 'invoiceTitle';
+  static const String keyInvoiceFooterText = 'invoiceFooterText';
   static const String defaultSupportPhone = '+201014900211';
   static const String defaultCustomerName = 'عميل نقدي';
   static const String defaultButtonStyle = 'filled';
   static const String defaultBrandColor = '#0D47A1';
+  static const String defaultInvoiceTitle = 'فاتورة بيع';
+  static const String defaultInvoiceFooterText = 'شكراً لتعاملكم معنا';
 
   static const List<String> buttonStyles = ['filled', 'outlined'];
 
@@ -27,6 +31,9 @@ class AppSettings {
         db, keyDefaultCustomerName, defaultCustomerName);
     await _createDefaultIfMissing(db, keyLicenseStatus, 'inactive');
     await _createDefaultIfMissing(db, keyBrandColor, defaultBrandColor);
+    await _createDefaultIfMissing(db, keyInvoiceTitle, defaultInvoiceTitle);
+    await _createDefaultIfMissing(
+        db, keyInvoiceFooterText, defaultInvoiceFooterText);
   }
 
   static Future<void> _createDefaultIfMissing(
@@ -105,6 +112,18 @@ class AppSettings {
       return true;
     }
     return false;
+  }
+
+  static Future<String> getInvoiceTitle() async {
+    final value = await getValue(keyInvoiceTitle);
+    final trimmed = value.trim();
+    return trimmed.isNotEmpty ? trimmed : defaultInvoiceTitle;
+  }
+
+  static Future<String> getInvoiceFooterText() async {
+    final value = await getValue(keyInvoiceFooterText);
+    final trimmed = value.trim();
+    return trimmed.isNotEmpty ? trimmed : defaultInvoiceFooterText;
   }
 
   static Future<String> getBrandColor() async {

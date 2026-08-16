@@ -41,6 +41,8 @@ class InvoiceRepository {
     final items = await getInvoiceItems(invoiceId, currentRole: currentRole);
     final profile = await _loadProfile();
     final supportPhone = await AppSettings.getSupportPhone();
+    final invoiceTitle = await AppSettings.getInvoiceTitle();
+    final invoiceFooterText = await AppSettings.getInvoiceFooterText();
     return InvoiceDocumentData(
       invoiceNumber: invoice.invoiceNumber,
       date: invoice.date,
@@ -59,6 +61,8 @@ class InvoiceRepository {
           ),
       ],
       supportPhone: supportPhone,
+      invoiceTitle: invoiceTitle,
+      invoiceFooterText: invoiceFooterText,
     );
   }
 

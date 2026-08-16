@@ -37,6 +37,8 @@ class InvoiceDocumentData {
     required this.shopProfile,
     required this.lines,
     this.supportPhone = '',
+    this.invoiceTitle = 'فاتورة بيع',
+    this.invoiceFooterText = 'شكراً لتعاملكم معنا',
   });
 
   final String invoiceNumber;
@@ -51,6 +53,14 @@ class InvoiceDocumentData {
   /// Configurable support phone loaded from [AppSettings]. Displayed in the
   /// invoice PDF footer and preview screen as a customer contact point.
   final String supportPhone;
+
+  /// Configurable invoice title loaded from [AppSettings]. Displayed as the
+  /// centered heading in the PDF header and in the preview screen.
+  final String invoiceTitle;
+
+  /// Configurable footer message loaded from [AppSettings]. Displayed at the
+  /// bottom of the invoice PDF and in the preview screen.
+  final String invoiceFooterText;
 
   /// Sum of the rendered line totals. For any invoice loaded from persistence
   /// this is exactly [totalAmount]; kept separate so tests can assert the

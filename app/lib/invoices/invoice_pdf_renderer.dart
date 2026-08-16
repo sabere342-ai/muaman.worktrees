@@ -26,6 +26,7 @@ class InvoicePdfRenderer {
 
   final InvoiceLogoLoader _logoLoader;
   String _currentSupportPhone = '';
+  String _currentFooterText = 'شكراً لتعاملكم معنا';
 
   /// Builds the document, loading the bundled Arabic fonts and the shop logo.
   Future<pw.Document> buildDocument(InvoiceDocumentData data) async {
@@ -45,6 +46,7 @@ class InvoicePdfRenderer {
     Uint8List? logoBytes,
   ) {
     _currentSupportPhone = data.supportPhone;
+    _currentFooterText = data.invoiceFooterText;
     final theme = pw.ThemeData.withFont(
       base: pw.Font.ttf(regularFontBytes.buffer.asByteData()),
       bold: pw.Font.ttf(boldFontBytes.buffer.asByteData()),
@@ -152,7 +154,7 @@ class InvoicePdfRenderer {
           ),
         ),
         pw.SizedBox(height: 8),
-        pw.Text('فاتورة بيع',
+        pw.Text(data.invoiceTitle,
             textAlign: pw.TextAlign.center,
             style: pw.TextStyle(fontSize: 13, fontWeight: pw.FontWeight.bold)),
       ],
@@ -268,7 +270,7 @@ class InvoicePdfRenderer {
               style: const pw.TextStyle(fontSize: 8, color: PdfColors.grey600),
             ),
           pw.Text(
-            'شكراً لتعاملكم معنا',
+            _currentFooterText,
             style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey600),
           ),
         ],

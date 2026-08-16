@@ -149,12 +149,16 @@ class _InvoicePreviewScreenState extends State<InvoicePreviewScreen> {
       children: [
         _buildShopCard(data),
         const SizedBox(height: 12),
+        _buildInvoiceTitle(data),
+        const SizedBox(height: 12),
         _buildMetaCard(data),
         const SizedBox(height: 12),
         _buildItemsCard(data),
         const SizedBox(height: 12),
         _buildTotalsCard(data),
         const SizedBox(height: 20),
+        _buildFooterMessage(data),
+        const SizedBox(height: 12),
         _buildActions(),
       ],
     );
@@ -186,6 +190,24 @@ class _InvoicePreviewScreenState extends State<InvoicePreviewScreen> {
                   style: const TextStyle(fontSize: 13, color: Colors.grey)),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildInvoiceTitle(InvoiceDocumentData data) {
+    return Center(
+      child: Text(
+        data.invoiceTitle,
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      ),
+    );
+  }
+
+  Widget _buildFooterMessage(InvoiceDocumentData data) {
+    return Center(
+      child: Text(
+        data.invoiceFooterText,
+        style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
       ),
     );
   }
