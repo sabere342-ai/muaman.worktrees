@@ -287,27 +287,27 @@ class _RolesPermissionsScreenState extends State<RolesPermissionsScreen> {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: const Padding(
-        padding: EdgeInsets.all(16),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Icon(Icons.verified_user, color: Color(0xFF0D47A1)),
-                SizedBox(width: 8),
-                Text('المالك',
+                Icon(Icons.verified_user, color: Theme.of(context).colorScheme.primary),
+                const SizedBox(width: 8),
+                const Text('المالك',
                     style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               ],
             ),
-            SizedBox(height: 8),
-            Text(
+            const SizedBox(height: 8),
+            const Text(
               'المالك يتمتع بجميع الصلاحيات دائمًا ولا يمكن تقييده.',
               style: TextStyle(color: Colors.grey),
             ),
-            SizedBox(height: 12),
-            Row(
+            const SizedBox(height: 12),
+            const Row(
               children: [
                 Icon(Icons.check_circle, color: Colors.green, size: 18),
                 SizedBox(width: 6),
@@ -362,7 +362,7 @@ class _RolesPermissionsScreenState extends State<RolesPermissionsScreen> {
       ),
       value: effective.contains(permission),
       onChanged: isEnabled ? (value) => _toggle(permission, value) : null,
-      activeColor: const Color(0xFF0D47A1),
+      activeColor: Theme.of(context).colorScheme.primary,
     );
   }
 

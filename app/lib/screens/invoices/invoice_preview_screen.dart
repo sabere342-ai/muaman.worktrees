@@ -306,7 +306,7 @@ class _InvoicePreviewScreenState extends State<InvoicePreviewScreen> {
 
   Widget _buildTotalsCard(InvoiceDocumentData data) {
     return Card(
-      color: const Color(0xFF0D47A1).withOpacity(0.06),
+      color: Theme.of(context).colorScheme.primary.withOpacity(0.06),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
@@ -316,10 +316,10 @@ class _InvoicePreviewScreenState extends State<InvoicePreviewScreen> {
             const Spacer(),
             Text(
               formatMoney(data.totalAmount),
-              style: const TextStyle(
+              style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
-                  color: Color(0xFF0D47A1)),
+                  color: Theme.of(context).colorScheme.primary),
             ),
           ],
         ),

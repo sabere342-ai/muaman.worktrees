@@ -160,7 +160,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return _buildSection(
       title: 'المخزون',
       icon: Icons.inventory_2,
-      color: const Color(0xFF0D47A1),
+      color: Theme.of(context).colorScheme.primary,
       children: [
         _buildStatRow('إجمالي قيمة المخزون',
             '${(_inventoryData['totalInventoryValue'] ?? 0).toStringAsFixed(0)} ج.م'),

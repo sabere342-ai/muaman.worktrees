@@ -217,10 +217,10 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                                         ),
                                                         const SizedBox(
                                                             width: 8),
-                                                        const Icon(
+                                                        Icon(
                                                           Icons.add_circle,
                                                           color:
-                                                              Color(0xFF0D47A1),
+                                                              Theme.of(context).colorScheme.primary,
                                                           size: 20,
                                                         ),
                                                       ],

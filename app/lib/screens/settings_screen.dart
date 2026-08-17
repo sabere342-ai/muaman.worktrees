@@ -186,8 +186,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   if (widget.sessionState
                       .hasPermission(AppPermission.canManagePermissions))
                     ListTile(
-                      leading: const Icon(Icons.admin_panel_settings,
-                          color: Color(0xFF0D47A1)),
+                      leading: Icon(Icons.admin_panel_settings,
+                          color: Theme.of(context).colorScheme.primary),
                       title: const Text('صلاحيات الأدوار'),
                       subtitle:
                           const Text('التحكم في صلاحيات كل دور من الأدوار'),
@@ -201,7 +201,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       .hasPermission(AppPermission.canManageUsers))
                     ListTile(
                       leading:
-                          const Icon(Icons.people, color: Color(0xFF0D47A1)),
+                          Icon(Icons.people, color: Theme.of(context).colorScheme.primary),
                       title: const Text('إدارة المستخدمين'),
                       subtitle: const Text('إنشاء وتعديل حسابات المستخدمين'),
                       trailing: const Icon(Icons.chevron_left),
@@ -251,8 +251,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.support_agent,
-                            color: Color(0xFF0D47A1)),
+                        Icon(Icons.support_agent,
+                            color: Theme.of(context).colorScheme.primary),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
@@ -303,8 +303,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.receipt_long,
-                            color: Color(0xFF0D47A1)),
+                        Icon(Icons.receipt_long,
+                            color: Theme.of(context).colorScheme.primary),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
@@ -357,8 +357,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.title,
-                            color: Color(0xFF0D47A1)),
+                        Icon(Icons.title,
+                            color: Theme.of(context).colorScheme.primary),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
@@ -411,8 +411,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.short_text,
-                            color: Color(0xFF0D47A1)),
+                        Icon(Icons.short_text,
+                            color: Theme.of(context).colorScheme.primary),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
@@ -548,7 +548,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             Row(
               children: [
-                const Icon(Icons.palette, color: Color(0xFF0D47A1)),
+                Icon(Icons.palette, color: Theme.of(context).colorScheme.primary),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
@@ -866,10 +866,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
       return Card(
         elevation: 1,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: const ListTile(
-          leading: Icon(Icons.store, color: Color(0xFF0D47A1)),
-          title: Text('بيانات المتجر'),
-          subtitle: Text('غير مصرح لك بتعديل بيانات المتجر'),
+        child: ListTile(
+          leading: Icon(Icons.store, color: Theme.of(context).colorScheme.primary),
+          title: const Text('بيانات المتجر'),
+          subtitle: const Text('غير مصرح لك بتعديل بيانات المتجر'),
         ),
       );
     }

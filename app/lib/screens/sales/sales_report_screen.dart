@@ -112,7 +112,7 @@ class _SalesReportScreenState extends State<SalesReportScreen>
   Widget _buildSummaryCards() {
     return Container(
       padding: const EdgeInsets.all(12),
-      color: const Color(0xFF0D47A1).withOpacity(0.05),
+      color: Theme.of(context).colorScheme.primary.withOpacity(0.05),
       child: Column(
         children: [
           Row(
@@ -215,7 +215,7 @@ class _SalesReportScreenState extends State<SalesReportScreen>
   Widget _buildTableHeader() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-      color: const Color(0xFF0D47A1),
+      color: Theme.of(context).colorScheme.primary,
       child: const Row(
         children: [
           SizedBox(
@@ -343,7 +343,7 @@ class _SalesReportScreenState extends State<SalesReportScreen>
     final totalQty = _allSales.fold(0, (sum, s) => sum + s.quantity);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      color: const Color(0xFF0D47A1).withOpacity(0.1),
+      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
       child: Row(
         children: [
           const SizedBox(
@@ -414,8 +414,8 @@ class _SalesReportScreenState extends State<SalesReportScreen>
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.calendar_today,
-                        size: 16, color: Color(0xFF0D47A1)),
+                    Icon(Icons.calendar_today,
+                        size: 16, color: Theme.of(context).colorScheme.primary),
                     const SizedBox(width: 6),
                     Text(DateFormat('yyyy-MM-dd (EEEE)', 'ar').format(date),
                         style: const TextStyle(
@@ -471,7 +471,7 @@ class _SalesReportScreenState extends State<SalesReportScreen>
       children: [
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-          color: const Color(0xFF0D47A1).withOpacity(0.1),
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
           child: const Row(
             children: [
               Expanded(

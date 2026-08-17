@@ -145,7 +145,7 @@ class _SalesScreenState extends State<SalesScreen> {
         children: [
           Container(
             padding: const EdgeInsets.all(12),
-            color: const Color(0xFF0D47A1).withOpacity(0.05),
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.05),
             child: TextField(
               controller: _searchController,
               onChanged: _filterSales,
@@ -170,8 +170,8 @@ class _SalesScreenState extends State<SalesScreen> {
                 const Spacer(),
                 Text(
                   'الإجمالي: ${_filteredSales.fold(0.0, (sum, s) => sum + s.totalSaleValue).toStringAsFixed(0)} ج.م',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, color: Color(0xFF0D47A1)),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
                 ),
               ],
             ),
@@ -241,8 +241,8 @@ class _SalesScreenState extends State<SalesScreen> {
               children: [
                 if (sale.invoiceId != null)
                   IconButton(
-                    icon: const Icon(Icons.receipt_long,
-                        size: 18, color: Color(0xFF0D47A1)),
+                    icon: Icon(Icons.receipt_long,
+                        size: 18, color: Theme.of(context).colorScheme.primary),
                     tooltip: 'عرض الفاتورة',
                     onPressed: () => _openInvoicePreview(sale.invoiceId!),
                     padding: EdgeInsets.zero,
@@ -313,8 +313,8 @@ class _SalesScreenState extends State<SalesScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.add_shopping_cart,
-                size: 72, color: Color(0xFF0D47A1)),
+            Icon(Icons.add_shopping_cart,
+                size: 72, color: Theme.of(context).colorScheme.primary),
             const SizedBox(height: 16),
             const Text('إنشاء فاتورة بيع جديدة',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
