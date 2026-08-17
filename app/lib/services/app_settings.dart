@@ -113,14 +113,12 @@ class AppSettings {
     await setValue(keyWorkbookPath, path);
   }
 
+  /// Legacy cosmetic license validation — DISABLED for T3-3.
+  ///
+  /// MUAMAN-* keys no longer grant ACTIVE status. Real licensing is now handled
+  /// by [LicensingService] with cryptographically verified entitlement tokens.
+  /// This method always returns `false` and should eventually be removed.
   static Future<bool> validateLicenseKey(String key) async {
-    final normalized = key.trim();
-    if (normalized.isEmpty) return false;
-    if (normalized.startsWith('MUAMAN-') && normalized.length >= 12) {
-      await setValue(keyLicenseKey, normalized);
-      await setValue(keyLicenseStatus, 'active');
-      return true;
-    }
     return false;
   }
 

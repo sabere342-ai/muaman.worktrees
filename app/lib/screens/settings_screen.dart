@@ -3,6 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import '../database/database_helper.dart';
 import '../database/workbook_importer.dart';
+import '../licensing/licensing.dart';
 import '../models/shop_profile.dart';
 import '../models/user_role.dart';
 import '../services/app_settings.dart';
@@ -39,8 +40,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final _invoiceFooterTextController = TextEditingController();
   final _thermalPrinterNameController = TextEditingController();
   String _buttonStyle = 'filled';
-  String _licenseStatus = 'inactive';
-  bool _isSaving = false;
   bool _isImporting = false;
   bool _isSavingProfile = false;
   String _currentLogoPath = '';
@@ -51,6 +50,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String _thermalPrinterName = '';
   int _thermalPaperWidth = 80;
   int _thermalPrintCopies = 1;
+
+  // T3-3 licensing state
+  EntitlementState _entitlementState = EntitlementState.uninitialized;
+  String _businessId = '';
+  bool _isActivating = false;
 
   @override
   void initState() {
@@ -69,7 +73,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final buttonStyle = await AppSettings.getButtonStyle();
     final supportPhone = await AppSettings.getSupportPhone();
     final licenseKey = await AppSettings.getLicenseKey();
-    final licenseStatus = await AppSettings.getLicenseStatus();
     final workbookPath = await AppSettings.getWorkbookPath();
     final brandColor = await AppSettings.getBrandColor();
     final defaultCustomerName = await AppSettings.getDefaultCustomerName();
@@ -79,11 +82,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final thermalPrinterName = await AppSettings.getThermalPrinterName();
     final thermalPaperWidth = await AppSettings.getThermalPaperWidth();
     final thermalPrintCopies = await AppSettings.getThermalPrintCopies();
+
+    // Load T3-3 licensing state
+    final licensingService = LicensingService.instance;
+    final snapshot = licensingService.current;
+    final entitlementState = snapshot.state;
+    final parsedToken = snapshot.parsedToken;
+
     setState(() {
       _buttonStyle = buttonStyle;
       _supportPhoneController.text = supportPhone;
       _licenseController.text = licenseKey;
-      _licenseStatus = licenseStatus;
       _workbookPathController.text = workbookPath;
       _brandColor = brandColor;
       _defaultCustomerNameController.text = defaultCustomerName;
@@ -94,6 +103,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _thermalPrinterNameController.text = thermalPrinterName;
       _thermalPaperWidth = thermalPaperWidth;
       _thermalPrintCopies = thermalPrintCopies;
+      _entitlementState = entitlementState;
+      _businessId = parsedToken?.token.businessId ?? '';
     });
   }
 
@@ -498,36 +509,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 24),
             _buildThermalPrinterSection(),
             const SizedBox(height: 24),
-            const Text('الرخصة',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            const SizedBox(height: 8),
-            TextField(
-              controller: _licenseController,
-              decoration: InputDecoration(
-                labelText: 'مفتاح الرخصة',
-                suffixText: _licenseStatus == 'active' ? 'نشطة' : 'غير نشطة',
-                border: const OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: _isSaving ? null : _activateLicense,
-                    style: ElevatedButton.styleFrom(),
-                    child: _isSaving
-                        ? const SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: CircularProgressIndicator(
-                                strokeWidth: 2, color: Colors.white),
-                          )
-                        : const Text('تفعيل الرخصة'),
-                  ),
-                ),
-              ],
-            ),
+            _buildLicensingSection(),
             const SizedBox(height: 24),
             const Text('استيراد بيانات Excel',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
@@ -562,16 +544,189 @@ class _SettingsScreenState extends State<SettingsScreen> {
             if (_isOwner) ..._buildBackupRestoreSection(),
             const SizedBox(height: 24),
             if (_isOwner) ..._buildCleanStartSection(),
-            const SizedBox(height: 24),
-            const Text('تفاصيل الترخيص',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            const SizedBox(height: 8),
-            Text(
-                'حالة الترخيص: ${_licenseStatus == 'active' ? 'نشطة' : 'غير نشطة'}'),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildLicensingSection() {
+    final isActive = _entitlementState == EntitlementState.active;
+    final stateLabel = _entitlementState.labelAr;
+    final stateColor = isActive
+        ? Colors.green
+        : _entitlementState == EntitlementState.uninitialized
+            ? Colors.grey
+            : Colors.orange;
+
+    return Card(
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.verified, color: stateColor),
+                const SizedBox(width: 12),
+                const Expanded(
+                  child: Text('الترخيص',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            // Entitlement state
+            _buildLicensingDetailRow('حالة الترخيص', stateLabel, stateColor),
+            if (_businessId.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              _buildLicensingDetailRow('معرف النشاط', _businessId),
+            ],
+            const SizedBox(height: 16),
+            // Activation input
+            if (!isActive) ...[
+              TextField(
+                controller: _licenseController,
+                decoration: const InputDecoration(
+                  labelText: 'مفتاح التفعيل',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.key),
+                ),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: _isActivating ? null : _activateRealLicense,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                  icon: _isActivating
+                      ? const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(
+                              strokeWidth: 2, color: Colors.white),
+                        )
+                      : const Icon(Icons.check_circle),
+                  label: const Text('تفعيل',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+              ),
+            ] else ...[
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: _deactivateLicense,
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.red,
+                    side: const BorderSide(color: Colors.red),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                  icon: const Icon(Icons.cancel),
+                  label: const Text('إلغاء التفعيل',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLicensingDetailRow(String label, String value,
+      [Color? valueColor]) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 120,
+          child: Text(label,
+              style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
+        ),
+        Expanded(
+          child: Text(value,
+              style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: valueColor ?? Colors.black87)),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _activateRealLicense() async {
+    final key = _licenseController.text.trim();
+    if (key.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('أدخل مفتاح التفعيل'), backgroundColor: Colors.red),
+      );
+      return;
+    }
+    setState(() => _isActivating = true);
+    try {
+      final result = await LicensingService.instance.activate(
+        activationCode: key,
+      );
+      if (!mounted) return;
+      setState(() {
+        _isActivating = false;
+        _entitlementState = LicensingService.instance.currentState;
+        _businessId = result.businessId ?? _businessId;
+      });
+      if (result.success) {
+        _licenseController.clear();
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result.success
+              ? 'تم تفعيل الرخصة بنجاح'
+              : result.error ?? 'فشل التفعيل'),
+          backgroundColor: result.success ? Colors.green : Colors.red,
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _isActivating = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('خطأ في التفعيل: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Future<void> _deactivateLicense() async {
+    try {
+      await LicensingService.instance.deactivate();
+      if (!mounted) return;
+      setState(() {
+        _entitlementState = LicensingService.instance.current.state;
+        _businessId = '';
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('تم إلغاء التفعيل'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('خطأ: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   Widget _buildBrandColorSection() {
@@ -1584,31 +1739,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           textDirection: TextDirection.rtl,
           child: ExpenseCategoriesScreen(sessionState: widget.sessionState),
         ),
-      ),
-    );
-  }
-
-  Future<void> _activateLicense() async {
-    final key = _licenseController.text.trim();
-    if (key.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('أدخل مفتاح الرخصة'), backgroundColor: Colors.red),
-      );
-      return;
-    }
-    setState(() => _isSaving = true);
-    final valid = await AppSettings.validateLicenseKey(key);
-    if (!mounted) return;
-    setState(() {
-      _licenseStatus = valid ? 'active' : 'inactive';
-      _isSaving = false;
-    });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content:
-            Text(valid ? 'تم تفعيل الرخصة بنجاح' : 'مفتاح الرخصة غير صالح'),
-        backgroundColor: valid ? Colors.green : Colors.red,
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'database/database_helper.dart';
 import 'database/user_repository.dart';
+import 'licensing/licensing.dart';
 import 'models/user_role.dart';
 import 'services/session_state.dart';
 import 'services/permissions.dart';
@@ -148,6 +149,12 @@ class _AuthGateState extends State<AuthGate> {
     await AppSettings.initializeDefaults();
     await PermissionResolver.instance.refresh();
     await ShopProfileService.instance.load();
+
+    // Initialize licensing and wire enforcement into the database layer.
+    final licensingService = LicensingService.instance;
+    await licensingService.initialize();
+    DatabaseHelper.setLicensingEnforcer(() => licensingService.enforceActive());
+
     final hasUsers = await _userRepo.hasAnyUser();
     if (mounted) {
       setState(() {

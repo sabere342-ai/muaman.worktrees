@@ -16,6 +16,12 @@ class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
   static Database? _database;
 
+  /// Licensing enforcement callback, set by [LicensingService] during
+  /// initialization. When set, every business write method invokes this
+  /// callback before proceeding. The callback MUST throw if the current
+  /// entitlement is anything other than ACTIVE.
+  static Future<void> Function()? _onBusinessMutation;
+
   /// Whether demo/trial data is auto-seeded on a fresh database creation.
   ///
   /// Production (release) builds MUST start empty: this flag defaults to
@@ -28,6 +34,24 @@ class DatabaseHelper {
   PermissionResolver permissionResolver = PermissionResolver.instance;
 
   DatabaseHelper._init();
+
+  /// Registers the licensing enforcement callback. Must be called once during
+  /// app startup (in [LicensingService.initialize]).
+  static void setLicensingEnforcer(Future<void> Function() enforcer) {
+    _onBusinessMutation = enforcer;
+  }
+
+  /// Removes the licensing enforcement callback. For test teardown only.
+  static void clearLicensingEnforcer() {
+    _onBusinessMutation = null;
+  }
+
+  Future<void> _enforceLicensing() async {
+    final callback = _onBusinessMutation;
+    if (callback != null) {
+      await callback();
+    }
+  }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
@@ -54,8 +78,7 @@ class DatabaseHelper {
       await _createRolePermissionsTable(db);
     }
     if (oldVersion < 7) {
-      await db.execute(
-          'ALTER TABLE expenses ADD COLUMN category TEXT');
+      await db.execute('ALTER TABLE expenses ADD COLUMN category TEXT');
       await _createExpenseCategoriesTable(db);
     }
   }
@@ -279,6 +302,7 @@ class DatabaseHelper {
 
   // =================== PRODUCTS ===================
   Future<int> insertProduct(Product product, {UserRole? currentRole}) async {
+    await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canEditProducts);
     final trimmedName = product.name.trim();
     if (trimmedName.isEmpty) {
@@ -333,6 +357,7 @@ class DatabaseHelper {
   }
 
   Future<int> updateProduct(Product product, {UserRole? currentRole}) async {
+    await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canEditProducts);
     final trimmedName = product.name.trim();
     if (trimmedName.isEmpty) {
@@ -390,6 +415,7 @@ class DatabaseHelper {
   }
 
   Future<int> deleteProduct(int id, {UserRole? currentRole}) async {
+    await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canDeleteProducts);
     final db = await database;
     return await db.transaction((txn) async {
@@ -510,6 +536,7 @@ class DatabaseHelper {
 
   // =================== SALES ===================
   Future<int> insertSale(Sale sale, {UserRole? currentRole}) async {
+    await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canCreateSales);
     final db = await database;
     return await db.transaction((txn) async {
@@ -544,6 +571,7 @@ class DatabaseHelper {
 
   Future<int> insertSaleAndDecrementStock(Sale sale,
       {UserRole? currentRole}) async {
+    await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canCreateSales);
     final db = await database;
     return await db.transaction((txn) async {
@@ -599,6 +627,7 @@ class DatabaseHelper {
 
   Future<int> insertInvoiceWithItems(Invoice invoice, List<Sale> invoiceItems,
       {UserRole? currentRole}) async {
+    await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canCreateSales);
     final db = await database;
     return await db.transaction((txn) async {
@@ -704,6 +733,7 @@ class DatabaseHelper {
   }
 
   Future<int> updateSale(Sale sale) async {
+    await _enforceLicensing();
     if (sale.quantity <= 0) {
       throw ArgumentError('يجب أن تكون الكمية أكبر من صفر');
     }
@@ -844,6 +874,7 @@ class DatabaseHelper {
   }
 
   Future<int> deleteSale(int id, {UserRole? currentRole}) async {
+    await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canDeleteSales);
     final db = await database;
     final saleData = await db.query('sales', where: 'id = ?', whereArgs: [id]);
@@ -870,6 +901,7 @@ class DatabaseHelper {
   // =================== RETURNS ===================
   Future<int> insertReturn(ReturnItem returnItem,
       {UserRole? currentRole}) async {
+    await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canCreateReturns);
     final db = await database;
     return await db.transaction((txn) async {
@@ -909,6 +941,7 @@ class DatabaseHelper {
   }
 
   Future<int> updateReturn(ReturnItem returnItem) async {
+    await _enforceLicensing();
     if (returnItem.quantity <= 0) {
       throw ArgumentError('يجب أن تكون الكمية أكبر من صفر');
     }
@@ -1049,6 +1082,7 @@ class DatabaseHelper {
   }
 
   Future<int> deleteReturn(int id, {UserRole? currentRole}) async {
+    await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canDeleteReturns);
     final db = await database;
     final data = await db.query('returns', where: 'id = ?', whereArgs: [id]);
@@ -1075,6 +1109,7 @@ class DatabaseHelper {
 
   // =================== EXPENSES ===================
   Future<int> insertExpense(Expense expense, {UserRole? currentRole}) async {
+    await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canCreateExpenses);
     final db = await database;
     return await db.insert('expenses', expense.toMap()..remove('id'));
@@ -1087,12 +1122,14 @@ class DatabaseHelper {
   }
 
   Future<int> updateExpense(Expense expense) async {
+    await _enforceLicensing();
     final db = await database;
     return await db.update('expenses', expense.toMap(),
         where: 'id = ?', whereArgs: [expense.id]);
   }
 
   Future<int> deleteExpense(int id, {UserRole? currentRole}) async {
+    await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canDeleteExpenses);
     final db = await database;
     return await db.delete('expenses', where: 'id = ?', whereArgs: [id]);
@@ -1108,6 +1145,7 @@ class DatabaseHelper {
   // =================== EXPENSE CATEGORIES ===================
   Future<int> insertExpenseCategory(ExpenseCategory category,
       {UserRole? currentRole}) async {
+    await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canManageUsers);
     final db = await database;
     final normalized = ExpenseCategory.normalize(category.name);
@@ -1119,8 +1157,7 @@ class DatabaseHelper {
     if (existing.isNotEmpty) {
       throw ArgumentError('التصنيف "$normalized" موجود بالفعل');
     }
-    return await db.insert(
-        'expense_categories', {'name': normalized});
+    return await db.insert('expense_categories', {'name': normalized});
   }
 
   Future<List<ExpenseCategory>> getAllExpenseCategories() async {
@@ -1131,6 +1168,7 @@ class DatabaseHelper {
 
   Future<int> renameExpenseCategory(int id, String newName,
       {UserRole? currentRole}) async {
+    await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canManageUsers);
     final db = await database;
     final normalized = ExpenseCategory.normalize(newName);
@@ -1147,8 +1185,8 @@ class DatabaseHelper {
         where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<int> deleteExpenseCategory(int id,
-      {UserRole? currentRole}) async {
+  Future<int> deleteExpenseCategory(int id, {UserRole? currentRole}) async {
+    await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canManageUsers);
     final db = await database;
     final category =
@@ -1165,7 +1203,8 @@ class DatabaseHelper {
       throw StateError(
           'لا يمكن حذف التصنيف "$categoryName" لأنه مستخدم في $count مصروف');
     }
-    return await db.delete('expense_categories', where: 'id = ?', whereArgs: [id]);
+    return await db
+        .delete('expense_categories', where: 'id = ?', whereArgs: [id]);
   }
 
   Future<List<String>> getDistinctExpenseCategories() async {
@@ -1179,6 +1218,7 @@ class DatabaseHelper {
   Future<int> saveInventoryCount(
       int productId, int actualQuantity, String notes,
       {UserRole? currentRole}) async {
+    await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canAccessStocktake);
     final db = await database;
     return await db.transaction((txn) async {
