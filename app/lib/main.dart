@@ -22,6 +22,7 @@ import 'screens/returns/returns_screen.dart';
 import 'screens/expenses/expenses_screen.dart';
 import 'screens/inventory_count/inventory_count_screen.dart';
 import 'screens/settings_screen.dart';
+import 'screens/customers/customers_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -373,6 +374,12 @@ class _FullAppShellState extends State<FullAppShell> {
                 tooltip: 'إدارة المستخدمين',
                 onPressed: () => _openUserManagement(context),
               ),
+            if (widget.sessionState.hasPermission(AppPermission.canCreateSales))
+              IconButton(
+                icon: const Icon(Icons.person_search),
+                tooltip: 'العملاء',
+                onPressed: () => _openCustomers(context),
+              ),
             if (widget.sessionState
                 .hasPermission(AppPermission.canAccessSettings))
               IconButton(
@@ -424,6 +431,16 @@ class _FullAppShellState extends State<FullAppShell> {
           textDirection: TextDirection.rtl,
           child: UserManagementScreen(sessionState: widget.sessionState),
         ),
+      ),
+    );
+  }
+
+  void _openCustomers(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            CustomersScreen(sessionState: widget.sessionState),
       ),
     );
   }

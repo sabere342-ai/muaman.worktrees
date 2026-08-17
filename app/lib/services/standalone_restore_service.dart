@@ -24,8 +24,7 @@ class RestoreFailedException implements Exception {
 class PreSaveBackupFailedException implements Exception {
   final String reason;
   const PreSaveBackupFailedException(this.reason);
-  String get message =>
-      'فشل إنشاء النسخة الاحتياطية قبل الاستعادة: $reason';
+  String get message => 'فشل إنشاء النسخة الاحتياطية قبل الاستعادة: $reason';
   @override
   String toString() => 'PreSaveBackupFailedException: $reason';
 }
@@ -85,8 +84,7 @@ class StandaloneRestoreService {
           'ملف النسخة الاحتياطية غير موجود.');
     }
     if (file.lengthSync() == 0) {
-      throw const RestoreValidationException(
-          'ملف النسخة الاحتياطية فارغ.');
+      throw const RestoreValidationException('ملف النسخة الاحتياطية فارغ.');
     }
 
     Database? testDb;
@@ -96,15 +94,14 @@ class StandaloneRestoreService {
       final integrity = await testDb.rawQuery('PRAGMA integrity_check');
       final result = integrity.first.values.first.toString().toLowerCase();
       if (result != 'ok') {
-        throw const RestoreValidationException(
-            'النسخة الاحتياطية تالفة.');
+        throw const RestoreValidationException('النسخة الاحتياطية تالفة.');
       }
 
       final versionRows = await testDb.rawQuery('PRAGMA user_version');
       final version = (versionRows.first.values.first as num).toInt();
-      if (version != 7) {
+      if (version != 7 && version != 8) {
         throw RestoreValidationException(
-            'إصدار قاعدة البيانات غير متوافق: $version (المطلوب 7).');
+            'إصدار قاعدة البيانات غير متوافق: $version (المطلوب 7 أو 8).');
       }
 
       final expectedTables = [
@@ -120,6 +117,9 @@ class StandaloneRestoreService {
         'app_settings',
         'expense_categories',
       ];
+      if (version >= 8) {
+        expectedTables.add('customers');
+      }
       for (final table in expectedTables) {
         final result = await testDb.rawQuery(
             "SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?",
@@ -195,8 +195,7 @@ class StandaloneRestoreService {
       final integrity = await db.rawQuery('PRAGMA integrity_check');
       final result = integrity.first.values.first.toString().toLowerCase();
       if (result != 'ok') {
-        throw const RestoreFailedException(
-            'قاعدة البيانات المستعادة تالفة.');
+        throw const RestoreFailedException('قاعدة البيانات المستعادة تالفة.');
       }
     } on RestoreFailedException {
       rethrow;

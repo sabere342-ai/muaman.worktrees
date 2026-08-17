@@ -69,6 +69,15 @@ void main() {
     await createTestSchema(testDb);
     DatabaseHelper.setTestDatabase(testDb);
 
+    await testDb.insert('customers', {
+      'name': 'عميل اختبار',
+      'phone': '0123456789',
+      'isActive': 1,
+      'isSystem': 0,
+      'createdAt': DateTime.now().toIso8601String(),
+      'updatedAt': DateTime.now().toIso8601String(),
+    });
+
     await testDb.insert('products', {
       'name': 'منتج اختبار',
       'barcode': 'BAR-001',

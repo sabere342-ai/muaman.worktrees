@@ -33,8 +33,6 @@ class AppSettings {
     final db = await DatabaseHelper.instance.database;
     await _createDefaultIfMissing(db, keyButtonStyle, defaultButtonStyle);
     await _createDefaultIfMissing(db, keySupportPhone, defaultSupportPhone);
-    await _createDefaultIfMissing(
-        db, keyDefaultCustomerName, defaultCustomerName);
     await _createDefaultIfMissing(db, keyLicenseStatus, 'inactive');
     await _createDefaultIfMissing(db, keyBrandColor, defaultBrandColor);
     await _createDefaultIfMissing(db, keyInvoiceTitle, defaultInvoiceTitle);

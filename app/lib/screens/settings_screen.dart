@@ -35,7 +35,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final _shopAddressController = TextEditingController();
   final _logoPathController = TextEditingController();
   final _supportPhoneController = TextEditingController();
-  final _defaultCustomerNameController = TextEditingController();
   final _invoiceTitleController = TextEditingController();
   final _invoiceFooterTextController = TextEditingController();
   final _thermalPrinterNameController = TextEditingController();
@@ -75,7 +74,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final licenseKey = await AppSettings.getLicenseKey();
     final workbookPath = await AppSettings.getWorkbookPath();
     final brandColor = await AppSettings.getBrandColor();
-    final defaultCustomerName = await AppSettings.getDefaultCustomerName();
     final invoiceTitle = await AppSettings.getInvoiceTitle();
     final invoiceFooterText = await AppSettings.getInvoiceFooterText();
     final backupDir = await AppSettings.getBackupDirectory();
@@ -95,7 +93,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _licenseController.text = licenseKey;
       _workbookPathController.text = workbookPath;
       _brandColor = brandColor;
-      _defaultCustomerNameController.text = defaultCustomerName;
       _invoiceTitleController.text = invoiceTitle;
       _invoiceFooterTextController.text = invoiceFooterText;
       _lastBackupDirectory = backupDir;
@@ -345,60 +342,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const Text('إفتراضيات الفاتورة',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             const SizedBox(height: 8),
-            Card(
-              elevation: 1,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(Icons.receipt_long,
-                            color: Theme.of(context).colorScheme.primary),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            'الاسم الافتراضي للعميل في الفواتير الجديدة',
-                            style: TextStyle(
-                                fontSize: 14, color: Colors.grey.shade700),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    TextField(
-                      controller: _defaultCustomerNameController,
-                      decoration: const InputDecoration(
-                        labelText: 'اسم العميل الافتراضي',
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.person),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'يظهر هذا الاسم تلقائيًا عند إنشاء فاتورة جديدة',
-                      style:
-                          TextStyle(fontSize: 12, color: Colors.grey.shade600),
-                    ),
-                    const SizedBox(height: 12),
-                    ElevatedButton.icon(
-                      onPressed: _saveDefaultCustomerName,
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                      ),
-                      icon: const Icon(Icons.save),
-                      label: const Text('حفظ الاسم الافتراضي',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
             Card(
               elevation: 1,
               shape: RoundedRectangleBorder(
@@ -1643,17 +1586,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Future<void> _saveDefaultCustomerName() async {
-    final value = _defaultCustomerNameController.text.trim();
-    final toSave = value.isNotEmpty ? value : AppSettings.defaultCustomerName;
-    await AppSettings.setValue(AppSettings.keyDefaultCustomerName, toSave);
-    if (!mounted) return;
-    setState(() => _defaultCustomerNameController.text = toSave);
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('تم حفظ اسم العميل الافتراضي')),
-    );
-  }
-
   Future<void> _saveInvoiceTitle() async {
     final value = _invoiceTitleController.text.trim();
     final toSave = value.isNotEmpty ? value : AppSettings.defaultInvoiceTitle;
@@ -1797,7 +1729,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _shopAddressController.dispose();
     _logoPathController.dispose();
     _supportPhoneController.dispose();
-    _defaultCustomerNameController.dispose();
     _invoiceTitleController.dispose();
     _invoiceFooterTextController.dispose();
     _thermalPrinterNameController.dispose();

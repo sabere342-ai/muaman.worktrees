@@ -113,7 +113,8 @@ Future<void> createTestSchema(Database db) async {
       paymentMethod TEXT NOT NULL,
       totalAmount REAL DEFAULT 0,
       totalItems INTEGER DEFAULT 0,
-      createdAt TEXT NOT NULL
+      createdAt TEXT NOT NULL,
+      customerId INTEGER
     )
   ''');
   await db.execute('''
@@ -129,4 +130,23 @@ Future<void> createTestSchema(Database db) async {
       name TEXT NOT NULL UNIQUE
     )
   ''');
+  await db.execute('''
+    CREATE TABLE IF NOT EXISTS customers (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      phone TEXT,
+      address TEXT,
+      notes TEXT,
+      isActive INTEGER NOT NULL DEFAULT 1,
+      isSystem INTEGER NOT NULL DEFAULT 0,
+      createdAt TEXT NOT NULL,
+      updatedAt TEXT NOT NULL
+    )
+  ''');
+  await db.execute(
+      'CREATE INDEX IF NOT EXISTS idx_customers_name ON customers(name)');
+  await db.execute(
+      'CREATE INDEX IF NOT EXISTS idx_customers_isActive ON customers(isActive)');
+  await db.execute(
+      'CREATE INDEX IF NOT EXISTS idx_invoices_customerId ON invoices(customerId)');
 }

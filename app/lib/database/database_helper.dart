@@ -6,6 +6,7 @@ import '../models/sale.dart';
 import '../models/return_item.dart';
 import '../models/expense.dart';
 import '../models/expense_category.dart';
+import '../models/customer.dart';
 import '../models/invoice.dart';
 import '../models/user_role.dart';
 import '../services/permissions.dart';
@@ -81,6 +82,9 @@ class DatabaseHelper {
       await db.execute('ALTER TABLE expenses ADD COLUMN category TEXT');
       await _createExpenseCategoriesTable(db);
     }
+    if (oldVersion < 8) {
+      await _migrateToV8(db);
+    }
   }
 
   Future<Database> get database async {
@@ -98,7 +102,7 @@ class DatabaseHelper {
   /// without touching a real database file.
   @visibleForTesting
   static Future<void> runCreateDbForTest(Database db) async {
-    await DatabaseHelper.instance._createDB(db, 7);
+    await DatabaseHelper.instance._createDB(db, 8);
   }
 
   /// Returns the full filesystem path to `muaman_store.db`.
@@ -133,7 +137,7 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
     return await openDatabase(path,
-        version: 7, onCreate: _createDB, onUpgrade: _onUpgrade);
+        version: 8, onCreate: _createDB, onUpgrade: _onUpgrade);
   }
 
   Future<void> _createDB(Database db, int version) async {
@@ -282,6 +286,65 @@ class DatabaseHelper {
         name TEXT NOT NULL UNIQUE
       )
     ''');
+  }
+
+  Future<void> _createCustomersTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS customers (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        phone TEXT,
+        address TEXT,
+        notes TEXT,
+        isActive INTEGER NOT NULL DEFAULT 1,
+        isSystem INTEGER NOT NULL DEFAULT 0,
+        createdAt TEXT NOT NULL,
+        updatedAt TEXT NOT NULL
+      )
+    ''');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_customers_name ON customers(name)');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_customers_isActive ON customers(isActive)');
+  }
+
+  Future<void> _migrateToV8(Database db) async {
+    await _createCustomersTable(db);
+
+    await db.execute('ALTER TABLE invoices ADD COLUMN customerId INTEGER');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_invoices_customerId ON invoices(customerId)');
+
+    final settingsRows = await db.query('app_settings',
+        where: "key = ?", whereArgs: ['defaultCustomerName']);
+    final defaultName = settingsRows.isNotEmpty
+        ? (settingsRows.first['value'] as String).trim()
+        : 'عميل نقدي';
+
+    final now = DateTime.now().toIso8601String();
+    final systemCustomerId = await db.insert('customers', {
+      'name': defaultName.isNotEmpty ? defaultName : 'عميل نقدي',
+      'isActive': 1,
+      'isSystem': 1,
+      'createdAt': now,
+      'updatedAt': now,
+    });
+
+    await db.rawUpdate('''
+      UPDATE invoices
+      SET customerId = ?
+      WHERE customerId IS NULL
+        AND customerName = ?
+    ''', [systemCustomerId, defaultName]);
+
+    await db.rawUpdate('''
+      UPDATE invoices
+      SET customerId = ?
+      WHERE customerId IS NULL
+    ''', [systemCustomerId]);
+
+    await db.delete('app_settings',
+        where: "key = ?", whereArgs: ['defaultCustomerName']);
   }
 
   Future<void> _createUsersTable(Database db) async {
@@ -1463,6 +1526,125 @@ class DatabaseHelper {
     final result = await db.rawQuery('SELECT MAX(id) as maxId FROM products');
     final maxId = ((result.first['maxId'] as num?)?.toInt() ?? 0) + 1;
     return '200${maxId.toString().padLeft(10, '0')}';
+  }
+
+  // =================== CUSTOMERS ===================
+  Future<int> insertCustomer(Customer customer, {UserRole? currentRole}) async {
+    await _enforceLicensing();
+    _requirePermission(currentRole, AppPermission.canCreateSales);
+    final db = await database;
+    final trimmed = customer.name.trim();
+    if (trimmed.isEmpty) {
+      throw ArgumentError('اسم العميل مطلوب');
+    }
+    final now = DateTime.now().toIso8601String();
+    return await db.insert('customers', {
+      'name': trimmed,
+      'phone': customer.phone?.trim(),
+      'address': customer.address?.trim(),
+      'notes': customer.notes?.trim(),
+      'isActive': customer.isActive ? 1 : 0,
+      'isSystem': customer.isSystem ? 1 : 0,
+      'createdAt': now,
+      'updatedAt': now,
+    });
+  }
+
+  Future<List<Customer>> getAllCustomers() async {
+    final db = await database;
+    final maps =
+        await db.query('customers', orderBy: 'isSystem DESC, name ASC');
+    return maps.map((map) => Customer.fromMap(map)).toList();
+  }
+
+  Future<List<Customer>> getActiveCustomers() async {
+    final db = await database;
+    final maps = await db.query('customers',
+        where: 'isActive = 1', orderBy: 'isSystem DESC, name ASC');
+    return maps.map((map) => Customer.fromMap(map)).toList();
+  }
+
+  Future<Customer?> getCustomerById(int id) async {
+    final db = await database;
+    final maps =
+        await db.query('customers', where: 'id = ?', whereArgs: [id], limit: 1);
+    if (maps.isEmpty) return null;
+    return Customer.fromMap(maps.first);
+  }
+
+  Future<List<Customer>> searchCustomers(String query) async {
+    final db = await database;
+    final q = '%${query.trim()}%';
+    final maps = await db.query('customers',
+        where: 'isActive = 1 AND (name LIKE ? OR phone LIKE ?)',
+        whereArgs: [q, q],
+        orderBy: 'isSystem DESC, name ASC');
+    return maps.map((map) => Customer.fromMap(map)).toList();
+  }
+
+  Future<void> updateCustomer(Customer customer,
+      {UserRole? currentRole}) async {
+    await _enforceLicensing();
+    _requirePermission(currentRole, AppPermission.canCreateSales);
+    if (customer.id == null) {
+      throw ArgumentError('Customer id is required for update');
+    }
+    final trimmed = customer.name.trim();
+    if (trimmed.isEmpty) {
+      throw ArgumentError('اسم العميل مطلوب');
+    }
+    final db = await database;
+    await db.update(
+      'customers',
+      {
+        'name': trimmed,
+        'phone': customer.phone?.trim(),
+        'address': customer.address?.trim(),
+        'notes': customer.notes?.trim(),
+        'isActive': customer.isActive ? 1 : 0,
+        'updatedAt': DateTime.now().toIso8601String(),
+      },
+      where: 'id = ?',
+      whereArgs: [customer.id],
+    );
+  }
+
+  Future<void> archiveCustomer(int customerId, {UserRole? currentRole}) async {
+    await _enforceLicensing();
+    _requirePermission(currentRole, AppPermission.canCreateSales);
+    final db = await database;
+    final customer = await getCustomerById(customerId);
+    if (customer == null) {
+      throw StateError('العميل غير موجود');
+    }
+    if (customer.isSystem) {
+      throw StateError('لا يمكن أرشفة العميل النظامي');
+    }
+    await db.update(
+      'customers',
+      {
+        'isActive': 0,
+        'updatedAt': DateTime.now().toIso8601String(),
+      },
+      where: 'id = ?',
+      whereArgs: [customerId],
+    );
+  }
+
+  Future<void> reactivateCustomer(int customerId,
+      {UserRole? currentRole}) async {
+    await _enforceLicensing();
+    _requirePermission(currentRole, AppPermission.canCreateSales);
+    final db = await database;
+    await db.update(
+      'customers',
+      {
+        'isActive': 1,
+        'updatedAt': DateTime.now().toIso8601String(),
+      },
+      where: 'id = ?',
+      whereArgs: [customerId],
+    );
   }
 }
 

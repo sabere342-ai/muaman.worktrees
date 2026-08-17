@@ -52,6 +52,17 @@ void main() {
     await testDb.close();
   });
 
+  Future<void> seedCustomer() async {
+    await testDb.insert('customers', {
+      'name': 'عميل تجريبي',
+      'phone': '0123456789',
+      'isActive': 1,
+      'isSystem': 0,
+      'createdAt': DateTime.now().toIso8601String(),
+      'updatedAt': DateTime.now().toIso8601String(),
+    });
+  }
+
   Future<void> seedProduct() async {
     await testDb.insert('products', {
       'name': 'منتج اختبار',
@@ -408,8 +419,7 @@ void main() {
     });
 
     test('buildDocumentData loads supportPhone from AppSettings', () async {
-      await AppSettings.setValue(
-          AppSettings.keySupportPhone, '+209999999999');
+      await AppSettings.setValue(AppSettings.keySupportPhone, '+209999999999');
       final invoiceId = await seedInvoiceWithItems();
       final data = await repository.buildDocumentData(invoiceId,
           currentRole: UserRole.owner);
@@ -425,8 +435,7 @@ void main() {
     });
 
     test('buildDocumentData loads invoiceTitle from AppSettings', () async {
-      await AppSettings.setValue(
-          AppSettings.keyInvoiceTitle, 'فاتورة ضريبية');
+      await AppSettings.setValue(AppSettings.keyInvoiceTitle, 'فاتورة ضريبية');
       final invoiceId = await seedInvoiceWithItems();
       final data = await repository.buildDocumentData(invoiceId,
           currentRole: UserRole.owner);
@@ -497,8 +506,7 @@ void main() {
 
     testWidgets('shows support phone in shop card when available',
         (WidgetTester tester) async {
-      await AppSettings.setValue(
-          AppSettings.keySupportPhone, '+201111111111');
+      await AppSettings.setValue(AppSettings.keySupportPhone, '+201111111111');
       final invoiceId = await seedInvoiceWithItems();
       await pumpPreview(tester, invoiceId, ownerSession());
 
@@ -515,8 +523,7 @@ void main() {
 
     testWidgets('shows custom invoice title in preview',
         (WidgetTester tester) async {
-      await AppSettings.setValue(
-          AppSettings.keyInvoiceTitle, 'فاتورة ضريبية');
+      await AppSettings.setValue(AppSettings.keyInvoiceTitle, 'فاتورة ضريبية');
       final invoiceId = await seedInvoiceWithItems();
       await pumpPreview(tester, invoiceId, ownerSession());
 
@@ -547,6 +554,7 @@ void main() {
         'saving an invoice opens the preview for a user with history access',
         (WidgetTester tester) async {
       await seedProduct();
+      await seedCustomer();
       await tester.binding.setSurfaceSize(const Size(1400, 1000));
       addTearDown(() => tester.binding.setSurfaceSize(null));
 

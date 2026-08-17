@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../database/database_helper.dart';
+import '../../models/customer.dart';
 import '../../models/product.dart';
 import '../../models/sale.dart';
 import '../../models/invoice.dart';
@@ -19,7 +20,6 @@ class InvoiceScreen extends StatefulWidget {
 
 class _InvoiceScreenState extends State<InvoiceScreen> {
   final _searchController = TextEditingController();
-  final _customerController = TextEditingController();
   String _paymentMethod = 'cash';
   bool _isLoading = true;
   bool _isSaving = false;
@@ -27,6 +27,10 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   List<Product> _filteredProducts = [];
   final List<_CartItem> _cartItems = [];
   String _buttonStyle = 'filled';
+
+  List<Customer> _customers = [];
+  int? _selectedCustomerId;
+  String _selectedCustomerName = '';
 
   @override
   void initState() {
@@ -37,9 +41,25 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   Future<void> _initialize() async {
     await AppSettings.initializeDefaults();
     _buttonStyle = await AppSettings.getButtonStyle();
-    final defaultCustomer = await AppSettings.getDefaultCustomerName();
-    _customerController.text = defaultCustomer;
+    await _loadCustomers();
     await _loadProducts();
+  }
+
+  Future<void> _loadCustomers() async {
+    final customers = await DatabaseHelper.instance.getActiveCustomers();
+    setState(() {
+      _customers = customers;
+      if (_selectedCustomerId == null && customers.isNotEmpty) {
+        final systemCustomer = customers.where((c) => c.isSystem).toList();
+        if (systemCustomer.isNotEmpty) {
+          _selectedCustomerId = systemCustomer.first.id;
+          _selectedCustomerName = systemCustomer.first.name;
+        } else {
+          _selectedCustomerId = customers.first.id;
+          _selectedCustomerName = customers.first.name;
+        }
+      }
+    });
   }
 
   Future<void> _loadProducts() async {
@@ -75,7 +95,6 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       _cartItems.add(_CartItem(
         product: product,
         quantity: 1,
-        // Do NOT pre-fill sale price with cost price — hide cost from sales UI.
         salePrice: 0,
       ));
     });
@@ -118,6 +137,86 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     return ElevatedButton.styleFrom(
       foregroundColor: Colors.white,
     );
+  }
+
+  Future<void> _showAddCustomerDialog() async {
+    final nameController = TextEditingController();
+    final phoneController = TextEditingController();
+
+    final result = await showDialog<Customer>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('إضافة عميل جديد'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(
+                labelText: 'اسم العميل *',
+                border: OutlineInputBorder(),
+              ),
+              autofocus: true,
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: phoneController,
+              decoration: const InputDecoration(
+                labelText: 'رقم الهاتف (اختياري)',
+                border: OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.phone,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('إلغاء'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              final name = nameController.text.trim();
+              if (name.isEmpty) return;
+              try {
+                final id = await DatabaseHelper.instance.insertCustomer(
+                  Customer(name: name, phone: phoneController.text.trim()),
+                  currentRole: widget.sessionState?.currentRole,
+                );
+                if (context.mounted) {
+                  Navigator.pop(
+                    context,
+                    Customer(
+                      id: id,
+                      name: name,
+                      phone: phoneController.text.trim(),
+                    ),
+                  );
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('فشل إضافة العميل: $e'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              }
+            },
+            child: const Text('إضافة'),
+          ),
+        ],
+      ),
+    );
+
+    if (result != null) {
+      await _loadCustomers();
+      setState(() {
+        _selectedCustomerId = result.id;
+        _selectedCustomerName = result.name;
+      });
+    }
   }
 
   @override
@@ -220,7 +319,9 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                                         Icon(
                                                           Icons.add_circle,
                                                           color:
-                                                              Theme.of(context).colorScheme.primary,
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .primary,
                                                           size: 20,
                                                         ),
                                                       ],
@@ -375,12 +476,50 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                       ),
                               ),
                               const SizedBox(height: 12),
-                              TextField(
-                                controller: _customerController,
-                                decoration: const InputDecoration(
-                                  labelText: 'اسم العميل',
-                                  border: OutlineInputBorder(),
-                                ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: DropdownButtonFormField<int>(
+                                      value: _selectedCustomerId,
+                                      items: _customers.map((customer) {
+                                        return DropdownMenuItem<int>(
+                                          value: customer.id,
+                                          child: Text(
+                                            customer.isSystem
+                                                ? '${customer.name} (نظامي)'
+                                                : customer.name,
+                                            style:
+                                                const TextStyle(fontSize: 14),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        if (value != null) {
+                                          final customer = _customers
+                                              .where((c) => c.id == value)
+                                              .firstOrNull;
+                                          if (customer != null) {
+                                            setState(() {
+                                              _selectedCustomerId = value;
+                                              _selectedCustomerName =
+                                                  customer.name;
+                                            });
+                                          }
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        labelText: 'العميل',
+                                        border: const OutlineInputBorder(),
+                                        suffixIcon: IconButton(
+                                          icon: const Icon(Icons.person_add,
+                                              size: 20),
+                                          tooltip: 'إضافة عميل جديد',
+                                          onPressed: _showAddCustomerDialog,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               const SizedBox(height: 12),
                               DropdownButtonFormField<String>(
@@ -473,11 +612,11 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       return;
     }
 
-    final customerName = _customerController.text.trim();
+    final customerName = _selectedCustomerName.trim();
     if (customerName.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('اسم العميل مطلوب'),
+          content: Text('يجب اختيار عميل'),
           backgroundColor: Colors.red,
         ),
       );
@@ -506,6 +645,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       paymentMethod: _paymentMethod,
       totalAmount: _invoiceTotal,
       totalItems: _invoiceQuantity,
+      customerId: _selectedCustomerId,
     );
 
     final items = _cartItems
@@ -529,8 +669,6 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
               ?.hasPermission(AppPermission.canViewSalesHistory) ??
           false;
       if (canViewHistory) {
-        // Post-sale action: let an authorized user preview and print/export the
-        // invoice they just created, then return to the sales screen.
         await Navigator.push(
           context,
           MaterialPageRoute(
@@ -559,7 +697,6 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   @override
   void dispose() {
     _searchController.dispose();
-    _customerController.dispose();
     for (final item in _cartItems) {
       item.priceController.dispose();
     }

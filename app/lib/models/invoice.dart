@@ -7,6 +7,7 @@ class Invoice {
   final double totalAmount;
   final int totalItems;
   final DateTime createdAt;
+  final int? customerId;
 
   Invoice({
     this.id,
@@ -17,6 +18,7 @@ class Invoice {
     required this.totalAmount,
     required this.totalItems,
     DateTime? createdAt,
+    this.customerId,
   }) : createdAt = createdAt ?? DateTime.now();
 
   Map<String, dynamic> toMap() {
@@ -29,6 +31,7 @@ class Invoice {
       'totalAmount': totalAmount,
       'totalItems': totalItems,
       'createdAt': createdAt.toIso8601String(),
+      'customerId': customerId,
     };
   }
 
@@ -42,6 +45,7 @@ class Invoice {
       totalAmount: (map['totalAmount'] as num?)?.toDouble() ?? 0,
       totalItems: (map['totalItems'] as num?)?.toInt() ?? 0,
       createdAt: DateTime.parse(map['createdAt'] as String),
+      customerId: map['customerId'] as int?,
     );
   }
 }

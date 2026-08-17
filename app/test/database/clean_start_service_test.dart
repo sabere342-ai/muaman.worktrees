@@ -86,6 +86,14 @@ void main() {
       'totalItems': 1,
       'createdAt': '2026-08-01T00:00:00.000',
     });
+    await testDb.insert('customers', {
+      'name': 'عميل تجريبي',
+      'phone': '0123456789',
+      'isActive': 1,
+      'isSystem': 0,
+      'createdAt': '2026-08-01T00:00:00.000',
+      'updatedAt': '2026-08-01T00:00:00.000',
+    });
     await testDb.insert('import_batches', {
       'file_sha256': 'abc123',
       'file_name': 'demo.xlsx',
@@ -292,6 +300,7 @@ void main() {
     expect(report.deletedCounts['expenses'], 1);
     expect(report.deletedCounts['inventory_count'], 1);
     expect(report.deletedCounts['invoices'], 1);
+    expect(report.deletedCounts['customers'], 1);
     expect(report.deletedCounts['import_batches'], 1);
     expect(report.timestamp, isNotNull);
   });
