@@ -107,6 +107,9 @@ void main() {
       'total_expenses': 25.0,
       'net_profit': -25.0,
     });
+    await testDb.insert('expense_categories', {
+      'name': 'عام',
+    });
   }
 
   Future<void> seedPreservedData() async {

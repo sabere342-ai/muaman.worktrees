@@ -14,6 +14,7 @@ import '../services/session_state.dart';
 import '../services/shop_profile_service.dart';
 import 'admin/roles_permissions_screen.dart';
 import 'admin/user_management_screen.dart';
+import 'expenses/expense_categories_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   final SessionState sessionState;
@@ -213,6 +214,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       subtitle: const Text('إنشاء وتعديل حسابات المستخدمين'),
                       trailing: const Icon(Icons.chevron_left),
                       onTap: () => _openUserManagement(context),
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Text('إدارة المصروفات',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            const SizedBox(height: 8),
+            Card(
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              child: Column(
+                children: [
+                  if (widget.sessionState
+                      .hasPermission(AppPermission.canManageUsers))
+                    ListTile(
+                      leading: Icon(Icons.category,
+                          color: Theme.of(context).colorScheme.primary),
+                      title: const Text('تصنيفات المصروفات'),
+                      subtitle: const Text('إدارة تصنيفات المصروفات'),
+                      trailing: const Icon(Icons.chevron_left),
+                      onTap: () => _openExpenseCategories(context),
                     ),
                 ],
               ),
@@ -1420,6 +1444,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
         builder: (context) => Directionality(
           textDirection: TextDirection.rtl,
           child: UserManagementScreen(sessionState: widget.sessionState),
+        ),
+      ),
+    );
+  }
+
+  void _openExpenseCategories(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Directionality(
+          textDirection: TextDirection.rtl,
+          child: ExpenseCategoriesScreen(sessionState: widget.sessionState),
         ),
       ),
     );

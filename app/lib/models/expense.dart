@@ -3,12 +3,14 @@ class Expense {
   final DateTime date;
   final String description;
   final double amount;
+  final String? category;
 
   Expense({
     this.id,
     required this.date,
     required this.description,
     required this.amount,
+    this.category,
   });
 
   Map<String, dynamic> toMap() {
@@ -17,6 +19,7 @@ class Expense {
       'date': date.toIso8601String(),
       'description': description,
       'amount': amount,
+      'category': category,
     };
   }
 
@@ -26,6 +29,7 @@ class Expense {
       date: DateTime.parse(map['date'] as String),
       description: map['description'] as String,
       amount: (map['amount'] as num?)?.toDouble() ?? 0,
+      category: map['category'] as String?,
     );
   }
 }

@@ -5,6 +5,7 @@ import '../models/product.dart';
 import '../models/sale.dart';
 import '../models/return_item.dart';
 import '../models/expense.dart';
+import '../models/expense_category.dart';
 import '../models/invoice.dart';
 import '../models/user_role.dart';
 import '../services/permissions.dart';
@@ -52,6 +53,11 @@ class DatabaseHelper {
     if (oldVersion < 6) {
       await _createRolePermissionsTable(db);
     }
+    if (oldVersion < 7) {
+      await db.execute(
+          'ALTER TABLE expenses ADD COLUMN category TEXT');
+      await _createExpenseCategoriesTable(db);
+    }
   }
 
   Future<Database> get database async {
@@ -69,7 +75,7 @@ class DatabaseHelper {
   /// without touching a real database file.
   @visibleForTesting
   static Future<void> runCreateDbForTest(Database db) async {
-    await DatabaseHelper.instance._createDB(db, 6);
+    await DatabaseHelper.instance._createDB(db, 7);
   }
 
   /// Returns the full filesystem path to `muaman_store.db`.
@@ -104,7 +110,7 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
     return await openDatabase(path,
-        version: 6, onCreate: _createDB, onUpgrade: _onUpgrade);
+        version: 7, onCreate: _createDB, onUpgrade: _onUpgrade);
   }
 
   Future<void> _createDB(Database db, int version) async {
@@ -157,7 +163,8 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         date TEXT NOT NULL,
         description TEXT NOT NULL,
-        amount REAL DEFAULT 0
+        amount REAL DEFAULT 0,
+        category TEXT
       )
     ''');
 
@@ -177,6 +184,7 @@ class DatabaseHelper {
     await _createInvoicesTable(db);
     await _createAppSettingsTable(db);
     await _createRolePermissionsTable(db);
+    await _createExpenseCategoriesTable(db);
     if (seedDemoEnabled) {
       await DataImporter.importData(db);
     }
@@ -240,6 +248,15 @@ class DatabaseHelper {
         role TEXT PRIMARY KEY,
         permissions TEXT NOT NULL,
         updatedAt TEXT NOT NULL
+      )
+    ''');
+  }
+
+  Future<void> _createExpenseCategoriesTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS expense_categories (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL UNIQUE
       )
     ''');
   }
@@ -1086,6 +1103,76 @@ class DatabaseHelper {
     final result =
         await db.rawQuery('SELECT SUM(amount) as total FROM expenses');
     return (result.first['total'] as num?)?.toDouble() ?? 0;
+  }
+
+  // =================== EXPENSE CATEGORIES ===================
+  Future<int> insertExpenseCategory(ExpenseCategory category,
+      {UserRole? currentRole}) async {
+    _requirePermission(currentRole, AppPermission.canManageUsers);
+    final db = await database;
+    final normalized = ExpenseCategory.normalize(category.name);
+    if (ExpenseCategory.isBlankName(normalized)) {
+      throw ArgumentError('اسم التصنيف لا يمكن أن يكون فارغاً');
+    }
+    final existing = await db.query('expense_categories',
+        where: 'LOWER(name) = LOWER(?)', whereArgs: [normalized]);
+    if (existing.isNotEmpty) {
+      throw ArgumentError('التصنيف "$normalized" موجود بالفعل');
+    }
+    return await db.insert(
+        'expense_categories', {'name': normalized});
+  }
+
+  Future<List<ExpenseCategory>> getAllExpenseCategories() async {
+    final db = await database;
+    final maps = await db.query('expense_categories', orderBy: 'id ASC');
+    return maps.map((map) => ExpenseCategory.fromMap(map)).toList();
+  }
+
+  Future<int> renameExpenseCategory(int id, String newName,
+      {UserRole? currentRole}) async {
+    _requirePermission(currentRole, AppPermission.canManageUsers);
+    final db = await database;
+    final normalized = ExpenseCategory.normalize(newName);
+    if (ExpenseCategory.isBlankName(normalized)) {
+      throw ArgumentError('اسم التصنيف لا يمكن أن يكون فارغاً');
+    }
+    final existing = await db.query('expense_categories',
+        where: 'LOWER(name) = LOWER(?) AND id != ?',
+        whereArgs: [normalized, id]);
+    if (existing.isNotEmpty) {
+      throw ArgumentError('التصنيف "$normalized" موجود بالفعل');
+    }
+    return await db.update('expense_categories', {'name': normalized},
+        where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<int> deleteExpenseCategory(int id,
+      {UserRole? currentRole}) async {
+    _requirePermission(currentRole, AppPermission.canManageUsers);
+    final db = await database;
+    final category =
+        await db.query('expense_categories', where: 'id = ?', whereArgs: [id]);
+    if (category.isEmpty) {
+      throw ArgumentError('التصنيف غير موجود');
+    }
+    final categoryName = category.first['name'] as String;
+    final usageCount = await db.rawQuery(
+        'SELECT COUNT(*) as count FROM expenses WHERE category = ?',
+        [categoryName]);
+    final count = (usageCount.first['count'] as num?)?.toInt() ?? 0;
+    if (count > 0) {
+      throw StateError(
+          'لا يمكن حذف التصنيف "$categoryName" لأنه مستخدم في $count مصروف');
+    }
+    return await db.delete('expense_categories', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<List<String>> getDistinctExpenseCategories() async {
+    final db = await database;
+    final result = await db.rawQuery(
+        'SELECT DISTINCT category FROM expenses WHERE category IS NOT NULL AND category != "" ORDER BY category ASC');
+    return result.map((row) => row['category'] as String).toList();
   }
 
   // =================== INVENTORY COUNT ===================

@@ -16,6 +16,7 @@ class ExpensesScreen extends StatefulWidget {
 
 class _ExpensesScreenState extends State<ExpensesScreen> {
   List<Expense> _expenses = [];
+  List<String> _categoryNames = [];
   bool _isLoading = true;
 
   @override
@@ -27,8 +28,11 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   Future<void> _loadExpenses() async {
     setState(() => _isLoading = true);
     final expenses = await DatabaseHelper.instance.getAllExpenses();
+    final categories =
+        await DatabaseHelper.instance.getDistinctExpenseCategories();
     setState(() {
       _expenses = expenses.reversed.toList();
+      _categoryNames = categories;
       _isLoading = false;
     });
   }
@@ -104,8 +108,37 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                 title: Text(expense.description,
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold)),
-                                subtitle: Text(
-                                    'التاريخ: ${DateFormat('yyyy-MM-dd').format(expense.date)}'),
+                                subtitle: Row(
+                                  children: [
+                                    Text(
+                                        'التاريخ: ${DateFormat('yyyy-MM-dd').format(expense.date)}'),
+                                    if (expense.category != null &&
+                                        expense.category!.isNotEmpty) ...[
+                                      const SizedBox(width: 8),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6, vertical: 2),
+                                        decoration: BoxDecoration(
+                                          color:                           Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                              .withOpacity(0.1),
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                        ),
+                                        child: Text(
+                                          expense.category!,
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -155,98 +188,125 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     final dateController = TextEditingController(
         text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
     DateTime selectedDate = DateTime.now();
+    String? selectedCategory;
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('إضافة مصروف'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: dateController,
-                readOnly: true,
-                decoration: const InputDecoration(
-                  labelText: 'التاريخ',
-                  border: OutlineInputBorder(),
-                  suffixIcon: Icon(Icons.calendar_today),
-                ),
-                onTap: () async {
-                  final picked = await showDatePicker(
-                    context: context,
-                    initialDate: selectedDate,
-                    firstDate: DateTime(2024),
-                    lastDate: DateTime.now(),
-                  );
-                  if (picked != null) {
-                    selectedDate = picked;
-                    dateController.text =
-                        DateFormat('yyyy-MM-dd').format(picked);
-                  }
-                },
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: descController,
-                decoration: const InputDecoration(
-                  labelText: 'البيان',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: amountController,
-                decoration: const InputDecoration(
-                  labelText: 'القيمة',
-                  border: OutlineInputBorder(),
-                  prefixText: 'ج.م ',
-                ),
-                keyboardType: TextInputType.number,
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('إلغاء')),
-          ElevatedButton(
-            onPressed: () async {
-              if (descController.text.isEmpty ||
-                  amountController.text.isEmpty) {
-                return;
-              }
-              final amount = double.tryParse(amountController.text) ?? 0;
-              if (amount <= 0) {
-                return;
-              }
-
-              try {
-                await DatabaseHelper.instance.insertExpense(
-                  Expense(
-                    date: selectedDate,
-                    description: descController.text,
-                    amount: amount,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: const Text('إضافة مصروف'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: dateController,
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    labelText: 'التاريخ',
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(Icons.calendar_today),
                   ),
-                  currentRole: widget.sessionState?.currentRole,
-                );
-                if (context.mounted) {
-                  Navigator.pop(context);
-                }
-                _loadExpenses();
-              } on PermissionDeniedException catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                        content: Text(e.message), backgroundColor: Colors.red),
-                  );
-                }
-              }
-            },
-            child: const Text('إضافة'),
+                  onTap: () async {
+                    final picked = await showDatePicker(
+                      context: context,
+                      initialDate: selectedDate,
+                      firstDate: DateTime(2024),
+                      lastDate: DateTime.now(),
+                    );
+                    if (picked != null) {
+                      selectedDate = picked;
+                      setDialogState(() {
+                        dateController.text =
+                            DateFormat('yyyy-MM-dd').format(picked);
+                      });
+                    }
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: descController,
+                  decoration: const InputDecoration(
+                    labelText: 'البيان',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: amountController,
+                  decoration: const InputDecoration(
+                    labelText: 'القيمة',
+                    border: OutlineInputBorder(),
+                    prefixText: 'ج.م ',
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 12),
+                DropdownButtonFormField<String>(
+                  value: selectedCategory,
+                  decoration: const InputDecoration(
+                    labelText: 'التصنيف',
+                    border: OutlineInputBorder(),
+                  ),
+                  items: [
+                    const DropdownMenuItem<String>(
+                      value: null,
+                      child: Text('بدون تصنيف'),
+                    ),
+                    ..._categoryNames.map((name) =>
+                        DropdownMenuItem<String>(value: name, child: Text(name))),
+                  ],
+                  onChanged: (value) {
+                    setDialogState(() {
+                      selectedCategory = value;
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
-        ],
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('إلغاء')),
+            ElevatedButton(
+              onPressed: () async {
+                if (descController.text.isEmpty ||
+                    amountController.text.isEmpty) {
+                  return;
+                }
+                final amount = double.tryParse(amountController.text) ?? 0;
+                if (amount <= 0) {
+                  return;
+                }
+
+                try {
+                  await DatabaseHelper.instance.insertExpense(
+                    Expense(
+                      date: selectedDate,
+                      description: descController.text,
+                      amount: amount,
+                      category: selectedCategory,
+                    ),
+                    currentRole: widget.sessionState?.currentRole,
+                  );
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                  }
+                  _loadExpenses();
+                } on PermissionDeniedException catch (e) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text(e.message), backgroundColor: Colors.red),
+                    );
+                  }
+                }
+              },
+              child: const Text('إضافة'),
+            ),
+          ],
+        ),
       ),
     );
   }

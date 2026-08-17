@@ -102,9 +102,9 @@ class StandaloneRestoreService {
 
       final versionRows = await testDb.rawQuery('PRAGMA user_version');
       final version = (versionRows.first.values.first as num).toInt();
-      if (version != 6) {
+      if (version != 7) {
         throw RestoreValidationException(
-            'إصدار قاعدة البيانات غير متوافق: $version (المطلوب 6).');
+            'إصدار قاعدة البيانات غير متوافق: $version (المطلوب 7).');
       }
 
       final expectedTables = [
@@ -118,6 +118,7 @@ class StandaloneRestoreService {
         'users',
         'role_permissions',
         'app_settings',
+        'expense_categories',
       ];
       for (final table in expectedTables) {
         final result = await testDb.rawQuery(

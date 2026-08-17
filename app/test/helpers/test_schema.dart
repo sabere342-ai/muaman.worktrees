@@ -47,7 +47,8 @@ Future<void> createTestSchema(Database db) async {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       date TEXT NOT NULL,
       description TEXT NOT NULL,
-      amount REAL DEFAULT 0
+      amount REAL DEFAULT 0,
+      category TEXT
     )
   ''');
   await db.execute('''
@@ -120,6 +121,12 @@ Future<void> createTestSchema(Database db) async {
       role TEXT PRIMARY KEY,
       permissions TEXT NOT NULL,
       updatedAt TEXT NOT NULL
+    )
+  ''');
+  await db.execute('''
+    CREATE TABLE IF NOT EXISTS expense_categories (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL UNIQUE
     )
   ''');
 }

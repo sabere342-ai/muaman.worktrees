@@ -25,7 +25,7 @@ void main() {
       testDb = await databaseFactoryFfiNoIsolate
           .openDatabase(inMemoryDatabasePath);
       await createTestSchema(testDb);
-      await testDb.execute('PRAGMA user_version = 6');
+      await testDb.execute('PRAGMA user_version = 7');
       await DatabaseHelper.setTestDatabase(testDb);
       backupDir = await Directory.systemTemp.createTemp('backup_test');
     });
@@ -210,10 +210,10 @@ void main() {
           '${restoreDir.path}${Platform.pathSeparator}muaman_store.db';
 
       testDb = await openDatabase(liveDbPath,
-          version: 6, onCreate: (db, version) async {
+          version: 7, onCreate: (db, version) async {
         await createTestSchema(db);
       });
-      await testDb.execute('PRAGMA user_version = 6');
+      await testDb.execute('PRAGMA user_version = 7');
       await DatabaseHelper.setTestDatabase(testDb);
 
       await testDb.insert('products', {
@@ -389,7 +389,7 @@ void main() {
       final incompletePath =
           '${incompleteDir.path}${Platform.pathSeparator}incomplete.db';
       final incompleteDb = await openDatabase(incompletePath,
-          version: 6, onCreate: (db, version) async {
+          version: 7, onCreate: (db, version) async {
         await db.execute(
             'CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT)');
       });

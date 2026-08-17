@@ -77,6 +77,7 @@ class CleanStartService {
     'invoices',
     'import_batches',
     'products',
+    'expense_categories',
   ];
 
   /// Tables that must survive the wipe untouched.
