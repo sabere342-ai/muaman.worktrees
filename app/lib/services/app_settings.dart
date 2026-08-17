@@ -15,12 +15,17 @@ class AppSettings {
   static const String keyInvoiceTitle = 'invoiceTitle';
   static const String keyInvoiceFooterText = 'invoiceFooterText';
   static const String keyBackupDirectory = 'backupDirectory';
+  static const String keyThermalPrinterName = 'thermalPrinterName';
+  static const String keyThermalPaperWidth = 'thermalPaperWidth';
+  static const String keyThermalPrintCopies = 'thermalPrintCopies';
   static const String defaultSupportPhone = '+201014900211';
   static const String defaultCustomerName = 'عميل نقدي';
   static const String defaultButtonStyle = 'filled';
   static const String defaultBrandColor = '#0D47A1';
   static const String defaultInvoiceTitle = 'فاتورة بيع';
   static const String defaultInvoiceFooterText = 'شكراً لتعاملكم معنا';
+  static const String defaultThermalPaperWidth = '80';
+  static const String defaultThermalPrintCopies = '1';
 
   static const List<String> buttonStyles = ['filled', 'outlined'];
 
@@ -35,6 +40,10 @@ class AppSettings {
     await _createDefaultIfMissing(db, keyInvoiceTitle, defaultInvoiceTitle);
     await _createDefaultIfMissing(
         db, keyInvoiceFooterText, defaultInvoiceFooterText);
+    await _createDefaultIfMissing(
+        db, keyThermalPaperWidth, defaultThermalPaperWidth);
+    await _createDefaultIfMissing(
+        db, keyThermalPrintCopies, defaultThermalPrintCopies);
   }
 
   static Future<void> _createDefaultIfMissing(
@@ -125,6 +134,37 @@ class AppSettings {
     final value = await getValue(keyInvoiceFooterText);
     final trimmed = value.trim();
     return trimmed.isNotEmpty ? trimmed : defaultInvoiceFooterText;
+  }
+
+  static Future<String> getThermalPrinterName() async {
+    return await getValue(keyThermalPrinterName);
+  }
+
+  static Future<void> setThermalPrinterName(String name) async {
+    await setValue(keyThermalPrinterName, name.trim());
+  }
+
+  static Future<int> getThermalPaperWidth() async {
+    final value = await getValue(keyThermalPaperWidth);
+    final parsed = int.tryParse(value);
+    if (parsed != null && (parsed == 80 || parsed == 58)) return parsed;
+    return int.parse(defaultThermalPaperWidth);
+  }
+
+  static Future<void> setThermalPaperWidth(int width) async {
+    await setValue(keyThermalPaperWidth, '$width');
+  }
+
+  static Future<int> getThermalPrintCopies() async {
+    final value = await getValue(keyThermalPrintCopies);
+    final parsed = int.tryParse(value);
+    if (parsed != null && parsed >= 1 && parsed <= 10) return parsed;
+    return int.parse(defaultThermalPrintCopies);
+  }
+
+  static Future<void> setThermalPrintCopies(int copies) async {
+    final safe = copies.clamp(1, 10);
+    await setValue(keyThermalPrintCopies, '$safe');
   }
 
   static Future<String> getBrandColor() async {

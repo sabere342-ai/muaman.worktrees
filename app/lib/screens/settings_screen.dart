@@ -37,6 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final _defaultCustomerNameController = TextEditingController();
   final _invoiceTitleController = TextEditingController();
   final _invoiceFooterTextController = TextEditingController();
+  final _thermalPrinterNameController = TextEditingController();
   String _buttonStyle = 'filled';
   String _licenseStatus = 'inactive';
   bool _isSaving = false;
@@ -47,6 +48,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _isBackingUp = false;
   bool _isRestoring = false;
   String _lastBackupDirectory = '';
+  String _thermalPrinterName = '';
+  int _thermalPaperWidth = 80;
+  int _thermalPrintCopies = 1;
 
   @override
   void initState() {
@@ -72,6 +76,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final invoiceTitle = await AppSettings.getInvoiceTitle();
     final invoiceFooterText = await AppSettings.getInvoiceFooterText();
     final backupDir = await AppSettings.getBackupDirectory();
+    final thermalPrinterName = await AppSettings.getThermalPrinterName();
+    final thermalPaperWidth = await AppSettings.getThermalPaperWidth();
+    final thermalPrintCopies = await AppSettings.getThermalPrintCopies();
     setState(() {
       _buttonStyle = buttonStyle;
       _supportPhoneController.text = supportPhone;
@@ -83,6 +90,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _invoiceTitleController.text = invoiceTitle;
       _invoiceFooterTextController.text = invoiceFooterText;
       _lastBackupDirectory = backupDir;
+      _thermalPrinterName = thermalPrinterName;
+      _thermalPrinterNameController.text = thermalPrinterName;
+      _thermalPaperWidth = thermalPaperWidth;
+      _thermalPrintCopies = thermalPrintCopies;
     });
   }
 
@@ -208,8 +219,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   if (widget.sessionState
                       .hasPermission(AppPermission.canManageUsers))
                     ListTile(
-                      leading:
-                          Icon(Icons.people, color: Theme.of(context).colorScheme.primary),
+                      leading: Icon(Icons.people,
+                          color: Theme.of(context).colorScheme.primary),
                       title: const Text('إدارة المستخدمين'),
                       subtitle: const Text('إنشاء وتعديل حسابات المستخدمين'),
                       trailing: const Icon(Icons.chevron_left),
@@ -485,6 +496,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             const SizedBox(height: 24),
+            _buildThermalPrinterSection(),
+            const SizedBox(height: 24),
             const Text('الرخصة',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             const SizedBox(height: 8),
@@ -581,7 +594,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             Row(
               children: [
-                Icon(Icons.palette, color: Theme.of(context).colorScheme.primary),
+                Icon(Icons.palette,
+                    color: Theme.of(context).colorScheme.primary),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
@@ -659,6 +673,129 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
+  Widget _buildThermalPrinterSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Text('الطابعة الحرارية',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        const SizedBox(height: 8),
+        Card(
+          elevation: 1,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.print,
+                        color: Theme.of(context).colorScheme.primary),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        'إعدادات طباعة الفواتير الحرارية (80 مم)',
+                        style: TextStyle(
+                            fontSize: 14, color: Colors.grey.shade700),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'اسم الطابعة (اتركه فارغاً لنافذة الطباعة)',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.print),
+                  ),
+                  controller: _thermalPrinterNameController,
+                  onChanged: (value) {
+                    _thermalPrinterName = value;
+                  },
+                  onSubmitted: (_) => _saveThermalPrinterName(),
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    const Text('عرض الورق: '),
+                    const SizedBox(width: 8),
+                    ChoiceChip(
+                      label: const Text('80 مم'),
+                      selected: _thermalPaperWidth == 80,
+                      onSelected: (selected) {
+                        if (selected) {
+                          setState(() => _thermalPaperWidth = 80);
+                          AppSettings.setThermalPaperWidth(80);
+                        }
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChip(
+                      label: const Text('58 مم'),
+                      selected: _thermalPaperWidth == 58,
+                      onSelected: null,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    const Text('عدد النسخ: '),
+                    const SizedBox(width: 8),
+                    IconButton(
+                      icon: const Icon(Icons.remove_circle_outline),
+                      onPressed: _thermalPrintCopies > 1
+                          ? () {
+                              setState(() => _thermalPrintCopies--);
+                              AppSettings.setThermalPrintCopies(
+                                  _thermalPrintCopies);
+                            }
+                          : null,
+                    ),
+                    Text('$_thermalPrintCopies',
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
+                    IconButton(
+                      icon: const Icon(Icons.add_circle_outline),
+                      onPressed: _thermalPrintCopies < 10
+                          ? () {
+                              setState(() => _thermalPrintCopies++);
+                              AppSettings.setThermalPrintCopies(
+                                  _thermalPrintCopies);
+                            }
+                          : null,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                ElevatedButton.icon(
+                  onPressed: _saveThermalPrinterName,
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                  icon: const Icon(Icons.save),
+                  label: const Text('حفظ إعدادات الطابعة',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _saveThermalPrinterName() async {
+    await AppSettings.setThermalPrinterName(_thermalPrinterName);
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('تم حفظ إعدادات الطابعة الحرارية')),
+    );
+  }
+
   List<Widget> _buildBackupRestoreSection() {
     return [
       const Text('النسخ الاحتياطي',
@@ -666,8 +803,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       const SizedBox(height: 8),
       Card(
         elevation: 1,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -676,8 +812,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Text(
                 'إنشاء نسخة احتياطية من جميع البيانات الحالية. '
                 'هذه عملية آمنة ولا تمسح أي بيانات.',
-                style:
-                    TextStyle(fontSize: 13, color: Colors.grey.shade700),
+                style: TextStyle(fontSize: 13, color: Colors.grey.shade700),
               ),
               const SizedBox(height: 12),
               ElevatedButton.icon(
@@ -702,8 +837,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Text(
                 'استعادة البيانات من نسخة احتياطية سابقة. '
                 'سيتم إنشاء نسخة احتياطية من البيانات الحالية قبل الاستعادة.',
-                style:
-                    TextStyle(fontSize: 13, color: Colors.grey.shade700),
+                style: TextStyle(fontSize: 13, color: Colors.grey.shade700),
               ),
               const SizedBox(height: 12),
               ElevatedButton.icon(
@@ -730,9 +864,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<void> _createBackup() async {
-    String? backupDirectory = _lastBackupDirectory.isNotEmpty
-        ? _lastBackupDirectory
-        : null;
+    String? backupDirectory =
+        _lastBackupDirectory.isNotEmpty ? _lastBackupDirectory : null;
 
     final confirmed = await showDialog<bool>(
       context: context,
@@ -740,8 +873,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         builder: (dialogContext, setDialogState) {
           Future<void> pickDirectory() async {
             final picked = await FilePicker.platform
-                .getDirectoryPath(
-                    dialogTitle: 'مجلد النسخة الاحتياطية');
+                .getDirectoryPath(dialogTitle: 'مجلد النسخة الاحتياطية');
             if (picked != null && picked.isNotEmpty) {
               setDialogState(() => backupDirectory = picked);
             }
@@ -754,22 +886,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text(
-                      'سيتم إنشاء نسخة احتياطية كاملة من جميع البيانات. '
+                  const Text('سيتم إنشاء نسخة احتياطية كاملة من جميع البيانات. '
                       'هذه عملية آمنة ولا تمسح أي بيانات.'),
                   const SizedBox(height: 12),
                   OutlinedButton.icon(
                     onPressed: pickDirectory,
                     icon: const Icon(Icons.folder_open),
-                    label: Text(
-                        backupDirectory ?? 'اختيار مجلد الحفظ'),
+                    label: Text(backupDirectory ?? 'اختيار مجلد الحفظ'),
                   ),
                   if (backupDirectory != null) ...[
                     const SizedBox(height: 8),
                     Text(
                       'سيتم الحفظ في: $backupDirectory',
-                      style: TextStyle(
-                          fontSize: 12, color: Colors.grey.shade700),
+                      style:
+                          TextStyle(fontSize: 12, color: Colors.grey.shade700),
                     ),
                   ],
                 ],
@@ -777,8 +907,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             actions: [
               TextButton(
-                onPressed: () =>
-                    Navigator.pop(dialogContext, false),
+                onPressed: () => Navigator.pop(dialogContext, false),
                 child: const Text('إلغاء'),
               ),
               ElevatedButton(
@@ -885,8 +1014,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                  'سيتم استبدال جميع البيانات الحالية. '
+              const Text('سيتم استبدال جميع البيانات الحالية. '
                   'سيتم إنشاء نسخة احتياطية من البيانات الحالية أولاً.'),
               const SizedBox(height: 12),
               Text('ملف الاستعادة: ${picked.files.single.name}',
@@ -1237,7 +1365,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         elevation: 1,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: ListTile(
-          leading: Icon(Icons.store, color: Theme.of(context).colorScheme.primary),
+          leading:
+              Icon(Icons.store, color: Theme.of(context).colorScheme.primary),
           title: const Text('بيانات المتجر'),
           subtitle: const Text('غير مصرح لك بتعديل بيانات المتجر'),
         ),
@@ -1361,8 +1490,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _saveDefaultCustomerName() async {
     final value = _defaultCustomerNameController.text.trim();
-    final toSave =
-        value.isNotEmpty ? value : AppSettings.defaultCustomerName;
+    final toSave = value.isNotEmpty ? value : AppSettings.defaultCustomerName;
     await AppSettings.setValue(AppSettings.keyDefaultCustomerName, toSave);
     if (!mounted) return;
     setState(() => _defaultCustomerNameController.text = toSave);
@@ -1373,8 +1501,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _saveInvoiceTitle() async {
     final value = _invoiceTitleController.text.trim();
-    final toSave =
-        value.isNotEmpty ? value : AppSettings.defaultInvoiceTitle;
+    final toSave = value.isNotEmpty ? value : AppSettings.defaultInvoiceTitle;
     await AppSettings.setValue(AppSettings.keyInvoiceTitle, toSave);
     if (!mounted) return;
     setState(() => _invoiceTitleController.text = toSave);
@@ -1543,6 +1670,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _defaultCustomerNameController.dispose();
     _invoiceTitleController.dispose();
     _invoiceFooterTextController.dispose();
+    _thermalPrinterNameController.dispose();
     super.dispose();
   }
 }

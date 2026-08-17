@@ -3,6 +3,7 @@ import 'package:intl/intl.dart' hide TextDirection;
 import '../../database/invoice_repository.dart';
 import '../../invoices/invoice_delivery.dart';
 import '../../invoices/invoice_document_data.dart';
+import '../../invoices/thermal_delivery.dart';
 import '../../services/session_state.dart';
 
 /// Read-only preview of a persisted invoice with print / save-PDF / open-PDF
@@ -25,6 +26,7 @@ class InvoicePreviewScreen extends StatefulWidget {
 class _InvoicePreviewScreenState extends State<InvoicePreviewScreen> {
   final _repository = InvoiceRepository();
   final _delivery = InvoiceDelivery();
+  final _thermalDelivery = ThermalDelivery();
 
   InvoiceDocumentData? _data;
   Object? _loadError;
@@ -93,6 +95,18 @@ class _InvoicePreviewScreenState extends State<InvoicePreviewScreen> {
   Future<void> _openPdf() {
     return _run(() async {
       await _delivery.openPdf(_data!);
+    });
+  }
+
+  Future<void> _thermalPrint() {
+    return _run(() async {
+      final sent = await _thermalDelivery.print(_data!);
+      if (!mounted) return;
+      if (sent) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('تم إرسال الفاتورة الحرارية إلى الطابعة'),
+        ));
+      }
     });
   }
 
@@ -328,9 +342,12 @@ class _InvoicePreviewScreenState extends State<InvoicePreviewScreen> {
   }
 
   Widget _buildActions() {
-    return Row(
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
       children: [
-        Expanded(
+        SizedBox(
+          width: 160,
           child: ElevatedButton.icon(
             onPressed: _busy ? null : _print,
             icon: const Icon(Icons.print),
@@ -340,16 +357,27 @@ class _InvoicePreviewScreenState extends State<InvoicePreviewScreen> {
             ),
           ),
         ),
-        const SizedBox(width: 8),
-        Expanded(
+        SizedBox(
+          width: 160,
+          child: ElevatedButton.icon(
+            onPressed: _busy ? null : _thermalPrint,
+            icon: const Icon(Icons.receipt),
+            label: const Text('طباعة حرارية'),
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 160,
           child: OutlinedButton.icon(
             onPressed: _busy ? null : _savePdf,
             icon: const Icon(Icons.save_alt),
             label: const Text('حفظ PDF'),
           ),
         ),
-        const SizedBox(width: 8),
-        Expanded(
+        SizedBox(
+          width: 160,
           child: OutlinedButton.icon(
             onPressed: _busy ? null : _openPdf,
             icon: const Icon(Icons.picture_as_pdf),
