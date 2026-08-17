@@ -14,6 +14,7 @@ class AppSettings {
   static const String keyBrandColor = 'brandColor';
   static const String keyInvoiceTitle = 'invoiceTitle';
   static const String keyInvoiceFooterText = 'invoiceFooterText';
+  static const String keyBackupDirectory = 'backupDirectory';
   static const String defaultSupportPhone = '+201014900211';
   static const String defaultCustomerName = 'عميل نقدي';
   static const String defaultButtonStyle = 'filled';
@@ -148,6 +149,18 @@ class AppSettings {
   static Future<void> setBrandColor(String hex) async {
     final normalized = hex.startsWith('#') ? hex : '#$hex';
     await setValue(keyBrandColor, normalized);
+  }
+
+  static Future<String> getBackupDirectory() async {
+    final storedPath = await getValue(keyBackupDirectory);
+    if (storedPath.isNotEmpty && Directory(storedPath).existsSync()) {
+      return storedPath;
+    }
+    return '';
+  }
+
+  static Future<void> setBackupDirectory(String dirPath) async {
+    await setValue(keyBackupDirectory, dirPath);
   }
 
   static Future<String> getDefaultWorkbookPath() async {

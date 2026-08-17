@@ -72,6 +72,34 @@ class DatabaseHelper {
     await DatabaseHelper.instance._createDB(db, 6);
   }
 
+  /// Returns the full filesystem path to `muaman_store.db`.
+  Future<String> get databasePath async {
+    final dbPath = await getDatabasesPath();
+    return join(dbPath, 'muaman_store.db');
+  }
+
+  /// Closes the current database connection. After calling this, the next
+  /// access to [database] will reopen the file.
+  Future<void> close() async {
+    final db = _database;
+    if (db != null) {
+      await db.close();
+      _database = null;
+    }
+  }
+
+  /// Reopens the database after [close]. The next access to [database] will
+  /// lazily open the file again.
+  Future<Database> reopen() async {
+    _database = null;
+    return await database;
+  }
+
+  /// Reset the singleton reference (for tests or after file-level restore).
+  static void resetForTest() {
+    _database = null;
+  }
+
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);

@@ -8,6 +8,8 @@ import '../models/user_role.dart';
 import '../services/app_settings.dart';
 import '../services/clean_start_service.dart';
 import '../services/permissions.dart';
+import '../services/standalone_backup_service.dart';
+import '../services/standalone_restore_service.dart';
 import '../services/session_state.dart';
 import '../services/shop_profile_service.dart';
 import 'admin/roles_permissions_screen.dart';
@@ -41,6 +43,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _isSavingProfile = false;
   String _currentLogoPath = '';
   String _brandColor = AppSettings.defaultBrandColor;
+  bool _isBackingUp = false;
+  bool _isRestoring = false;
+  String _lastBackupDirectory = '';
 
   @override
   void initState() {
@@ -65,6 +70,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final defaultCustomerName = await AppSettings.getDefaultCustomerName();
     final invoiceTitle = await AppSettings.getInvoiceTitle();
     final invoiceFooterText = await AppSettings.getInvoiceFooterText();
+    final backupDir = await AppSettings.getBackupDirectory();
     setState(() {
       _buttonStyle = buttonStyle;
       _supportPhoneController.text = supportPhone;
@@ -75,6 +81,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _defaultCustomerNameController.text = defaultCustomerName;
       _invoiceTitleController.text = invoiceTitle;
       _invoiceFooterTextController.text = invoiceFooterText;
+      _lastBackupDirectory = backupDir;
     });
   }
 
@@ -515,6 +522,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ],
             ),
             const SizedBox(height: 24),
+            if (_isOwner) ..._buildBackupRestoreSection(),
+            const SizedBox(height: 24),
             if (_isOwner) ..._buildCleanStartSection(),
             const SizedBox(height: 24),
             const Text('تفاصيل الترخيص',
@@ -624,6 +633,343 @@ class _SettingsScreenState extends State<SettingsScreen> {
     } catch (_) {
       return const Color(0xFF0D47A1);
     }
+  }
+
+  List<Widget> _buildBackupRestoreSection() {
+    return [
+      const Text('النسخ الاحتياطي',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+      const SizedBox(height: 8),
+      Card(
+        elevation: 1,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'إنشاء نسخة احتياطية من جميع البيانات الحالية. '
+                'هذه عملية آمنة ولا تمسح أي بيانات.',
+                style:
+                    TextStyle(fontSize: 13, color: Colors.grey.shade700),
+              ),
+              const SizedBox(height: 12),
+              ElevatedButton.icon(
+                onPressed: _isBackingUp ? null : _createBackup,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+                icon: _isBackingUp
+                    ? const SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(
+                            strokeWidth: 2, color: Colors.white),
+                      )
+                    : const Icon(Icons.backup),
+                label: const Text('إنشاء نسخة احتياطية',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+              const SizedBox(height: 16),
+              const Divider(),
+              const SizedBox(height: 8),
+              Text(
+                'استعادة البيانات من نسخة احتياطية سابقة. '
+                'سيتم إنشاء نسخة احتياطية من البيانات الحالية قبل الاستعادة.',
+                style:
+                    TextStyle(fontSize: 13, color: Colors.grey.shade700),
+              ),
+              const SizedBox(height: 12),
+              ElevatedButton.icon(
+                onPressed: _isRestoring ? null : _restoreFromBackup,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+                icon: _isRestoring
+                    ? const SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(
+                            strokeWidth: 2, color: Colors.white),
+                      )
+                    : const Icon(Icons.restore),
+                label: const Text('استعادة البيانات',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ];
+  }
+
+  Future<void> _createBackup() async {
+    String? backupDirectory = _lastBackupDirectory.isNotEmpty
+        ? _lastBackupDirectory
+        : null;
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (dialogContext, setDialogState) {
+          Future<void> pickDirectory() async {
+            final picked = await FilePicker.platform
+                .getDirectoryPath(
+                    dialogTitle: 'مجلد النسخة الاحتياطية');
+            if (picked != null && picked.isNotEmpty) {
+              setDialogState(() => backupDirectory = picked);
+            }
+          }
+
+          return AlertDialog(
+            title: const Text('إنشاء نسخة احتياطية'),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text(
+                      'سيتم إنشاء نسخة احتياطية كاملة من جميع البيانات. '
+                      'هذه عملية آمنة ولا تمسح أي بيانات.'),
+                  const SizedBox(height: 12),
+                  OutlinedButton.icon(
+                    onPressed: pickDirectory,
+                    icon: const Icon(Icons.folder_open),
+                    label: Text(
+                        backupDirectory ?? 'اختيار مجلد الحفظ'),
+                  ),
+                  if (backupDirectory != null) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      'سيتم الحفظ في: $backupDirectory',
+                      style: TextStyle(
+                          fontSize: 12, color: Colors.grey.shade700),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () =>
+                    Navigator.pop(dialogContext, false),
+                child: const Text('إلغاء'),
+              ),
+              ElevatedButton(
+                onPressed: backupDirectory != null
+                    ? () => Navigator.pop(dialogContext, true)
+                    : null,
+                child: const Text('إنشاء النسخة'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+
+    if (confirmed != true || !mounted) return;
+    await _runBackup(backupDirectory!);
+  }
+
+  Future<void> _runBackup(String directory) async {
+    setState(() => _isBackingUp = true);
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+    try {
+      final report = await StandaloneBackupService().createBackup(
+        destinationDirectory: directory,
+        actorRole: widget.sessionState.currentRole,
+      );
+      await AppSettings.setBackupDirectory(directory);
+      if (!mounted) return;
+      Navigator.pop(context);
+      setState(() {
+        _lastBackupDirectory = directory;
+      });
+      await showDialog<void>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          title: const Text('تم إنشاء النسخة الاحتياطية'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('المسار: ${report.backupPath}'),
+                const SizedBox(height: 8),
+                Text('الحجم: ${_formatFileSize(report.fileSize)}'),
+                const SizedBox(height: 8),
+                Text('عدد الجداول: ${report.tableCount}'),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('حسنًا'),
+            ),
+          ],
+        ),
+      );
+    } on PermissionDeniedException catch (e) {
+      if (!mounted) return;
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message), backgroundColor: Colors.red),
+      );
+    } on StandaloneBackupException catch (e) {
+      if (!mounted) return;
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message), backgroundColor: Colors.red),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text('فشل إنشاء النسخة الاحتياطية: $e'),
+            backgroundColor: Colors.red),
+      );
+    } finally {
+      if (mounted) setState(() => _isBackingUp = false);
+    }
+  }
+
+  Future<void> _restoreFromBackup() async {
+    final picked = await FilePicker.platform.pickFiles(
+      dialogTitle: 'اختر ملف النسخة الاحتياطية',
+      type: FileType.custom,
+      allowedExtensions: ['db'],
+    );
+    if (picked == null || picked.files.isEmpty || !mounted) return;
+
+    final filePath = picked.files.single.path;
+    if (filePath == null) return;
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('استعادة البيانات'),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                  'سيتم استبدال جميع البيانات الحالية. '
+                  'سيتم إنشاء نسخة احتياطية من البيانات الحالية أولاً.'),
+              const SizedBox(height: 12),
+              Text('ملف الاستعادة: ${picked.files.single.name}',
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('إلغاء'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFE65100),
+              foregroundColor: Colors.white,
+            ),
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: const Text('استعادة'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !mounted) return;
+    await _runRestore(filePath);
+  }
+
+  Future<void> _runRestore(String filePath) async {
+    setState(() => _isRestoring = true);
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+    try {
+      final report = await StandaloneRestoreService().restoreFromBackup(
+        backupFilePath: filePath,
+        actorRole: widget.sessionState.currentRole,
+      );
+      if (!mounted) return;
+      Navigator.pop(context);
+      await showDialog<void>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          title: const Text('تمت الاستعادة'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('تمت الاستعادة من: ${report.restoredFromPath}'),
+                const SizedBox(height: 8),
+                Text(
+                    'نسخة احتياطية قبل الاستعادة: ${report.preSaveBackupPath}'),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('حسنًا'),
+            ),
+          ],
+        ),
+      );
+    } on PermissionDeniedException catch (e) {
+      if (!mounted) return;
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message), backgroundColor: Colors.red),
+      );
+    } on RestoreValidationException catch (e) {
+      if (!mounted) return;
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message), backgroundColor: Colors.red),
+      );
+    } on RestoreFailedException catch (e) {
+      if (!mounted) return;
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message), backgroundColor: Colors.red),
+      );
+    } on PreSaveBackupFailedException catch (e) {
+      if (!mounted) return;
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message), backgroundColor: Colors.red),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text('فشلت عملية الاستعادة: $e'),
+            backgroundColor: Colors.red),
+      );
+    } finally {
+      if (mounted) setState(() => _isRestoring = false);
+    }
+  }
+
+  String _formatFileSize(int bytes) {
+    if (bytes < 1024) return '$bytes B';
+    if (bytes < 1024 * 1024) return '${(bytes / 1024).toStringAsFixed(1)} KB';
+    return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
   }
 
   List<Widget> _buildCleanStartSection() {
