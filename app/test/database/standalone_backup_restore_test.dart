@@ -422,10 +422,14 @@ void main() {
         actorRole: UserRole.owner,
       );
 
-      final db = await DatabaseHelper.instance.database;
-      final products = await db.query('products');
-      expect(products, hasLength(1));
-      expect(products.first['name'], 'منتج تجريبي');
+      final restoredDb = await openDatabase(liveDbPath, readOnly: true);
+      try {
+        final products = await restoredDb.query('products');
+        expect(products, hasLength(1));
+        expect(products.first['name'], 'منتج تجريبي');
+      } finally {
+        await restoredDb.close();
+      }
     });
 
     test('pre-save backup captures pre-restore state', () async {
