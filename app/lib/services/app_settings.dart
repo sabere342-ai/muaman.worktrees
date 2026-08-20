@@ -18,6 +18,7 @@ class AppSettings {
   static const String keyThermalPrinterName = 'thermalPrinterName';
   static const String keyThermalPaperWidth = 'thermalPaperWidth';
   static const String keyThermalPrintCopies = 'thermalPrintCopies';
+  static const String keyShopProfileCloudUuid = 'shopProfile.cloudUuid';
   static const String defaultSupportPhone = '+201014900211';
   static const String defaultCustomerName = 'عميل نقدي';
   static const String defaultButtonStyle = 'filled';

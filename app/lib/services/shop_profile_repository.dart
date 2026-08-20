@@ -21,6 +21,7 @@ class ShopProfileRepository {
   static const String keyPhone = 'shopProfile.phone';
   static const String keyAddress = 'shopProfile.address';
   static const String keyLogoPath = 'shopProfile.logoPath';
+  static const String keyCloudUuid = 'shopProfile.cloudUuid';
 
   /// Loads the persisted profile. A missing row for any field falls back to
   /// the safe default so an upgraded database without shop identity settings
@@ -32,12 +33,14 @@ class ShopProfileRepository {
     final String phone;
     final String address;
     final String logoPath;
+    final String cloudUuidRaw;
     try {
       shopName = (await _getValue(db, keyShopName)).trim();
       ownerOrManagerName = await _getValue(db, keyOwnerOrManagerName);
       phone = await _getValue(db, keyPhone);
       address = await _getValue(db, keyAddress);
       logoPath = await _getValue(db, keyLogoPath);
+      cloudUuidRaw = await _getValue(db, keyCloudUuid);
     } on DatabaseException catch (e) {
       if (e.isNoSuchTableError()) {
         // A database without the settings table has no persisted identity.
@@ -51,6 +54,7 @@ class ShopProfileRepository {
       phone: phone,
       address: address,
       logoPath: logoPath,
+      cloudUuid: cloudUuidRaw.isNotEmpty ? cloudUuidRaw : null,
     );
   }
 
@@ -63,6 +67,7 @@ class ShopProfileRepository {
     await _setValue(db, keyPhone, profile.phone.trim());
     await _setValue(db, keyAddress, profile.address.trim());
     await _setValue(db, keyLogoPath, profile.logoPath);
+    await _setValue(db, keyCloudUuid, profile.cloudUuid ?? '');
   }
 
   Future<String> _getValue(Database db, String key) async {

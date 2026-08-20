@@ -85,6 +85,9 @@ class DatabaseHelper {
     if (oldVersion < 8) {
       await _migrateToV8(db);
     }
+    if (oldVersion < 9) {
+      await _migrateToV9(db);
+    }
   }
 
   Future<Database> get database async {
@@ -102,7 +105,8 @@ class DatabaseHelper {
   /// without touching a real database file.
   @visibleForTesting
   static Future<void> runCreateDbForTest(Database db) async {
-    await DatabaseHelper.instance._createDB(db, 8);
+    await DatabaseHelper.instance._createDB(db, 9);
+    await db.rawUpdate('PRAGMA user_version = 9');
   }
 
   /// Returns the full filesystem path to `muaman_store.db`.
@@ -137,7 +141,7 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
     return await openDatabase(path,
-        version: 8, onCreate: _createDB, onUpgrade: _onUpgrade);
+        version: 9, onCreate: _createDB, onUpgrade: _onUpgrade);
   }
 
   Future<void> _createDB(Database db, int version) async {
@@ -152,7 +156,9 @@ class DatabaseHelper {
         currentQuantity INTEGER DEFAULT 0,
         costPrice REAL DEFAULT 0,
         totalInventoryCost REAL DEFAULT 0,
-        inventoryAdjustment INTEGER DEFAULT 0
+        inventoryAdjustment INTEGER DEFAULT 0,
+        shop_id TEXT,
+        cloud_uuid TEXT
       )
     ''');
 
@@ -167,7 +173,9 @@ class DatabaseHelper {
         salePrice REAL DEFAULT 0,
         totalSaleValue REAL DEFAULT 0,
         costPrice REAL DEFAULT 0,
-        cogs REAL DEFAULT 0
+        cogs REAL DEFAULT 0,
+        shop_id TEXT,
+        cloud_uuid TEXT
       )
     ''');
 
@@ -181,7 +189,9 @@ class DatabaseHelper {
         salePrice REAL DEFAULT 0,
         totalReturnValue REAL DEFAULT 0,
         costPrice REAL DEFAULT 0,
-        returnedCogs REAL DEFAULT 0
+        returnedCogs REAL DEFAULT 0,
+        shop_id TEXT,
+        cloud_uuid TEXT
       )
     ''');
 
@@ -191,7 +201,9 @@ class DatabaseHelper {
         date TEXT NOT NULL,
         description TEXT NOT NULL,
         amount REAL DEFAULT 0,
-        category TEXT
+        category TEXT,
+        shop_id TEXT,
+        cloud_uuid TEXT
       )
     ''');
 
@@ -202,6 +214,8 @@ class DatabaseHelper {
         actualQuantity INTEGER DEFAULT 0,
         notes TEXT DEFAULT '',
         countDate TEXT NOT NULL,
+        shop_id TEXT,
+        cloud_uuid TEXT,
         FOREIGN KEY (productId) REFERENCES products (id)
       )
     ''');
@@ -212,6 +226,7 @@ class DatabaseHelper {
     await _createAppSettingsTable(db);
     await _createRolePermissionsTable(db);
     await _createExpenseCategoriesTable(db);
+    await _createCustomersTable(db);
     if (seedDemoEnabled) {
       await DataImporter.importData(db);
     }
@@ -240,7 +255,9 @@ class DatabaseHelper {
         gross_profit REAL DEFAULT 0,
         total_expenses REAL DEFAULT 0,
         net_profit REAL DEFAULT 0,
-        reconciliation_json TEXT
+        reconciliation_json TEXT,
+        shop_id TEXT,
+        cloud_uuid TEXT
       )
     ''');
   }
@@ -255,7 +272,9 @@ class DatabaseHelper {
         paymentMethod TEXT NOT NULL,
         totalAmount REAL DEFAULT 0,
         totalItems INTEGER DEFAULT 0,
-        createdAt TEXT NOT NULL
+        createdAt TEXT NOT NULL,
+        shop_id TEXT,
+        cloud_uuid TEXT
       )
     ''');
   }
@@ -264,7 +283,9 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE IF NOT EXISTS app_settings (
         key TEXT PRIMARY KEY,
-        value TEXT NOT NULL
+        value TEXT NOT NULL,
+        shop_id TEXT,
+        cloud_uuid TEXT
       )
     ''');
   }
@@ -274,7 +295,9 @@ class DatabaseHelper {
       CREATE TABLE IF NOT EXISTS role_permissions (
         role TEXT PRIMARY KEY,
         permissions TEXT NOT NULL,
-        updatedAt TEXT NOT NULL
+        updatedAt TEXT NOT NULL,
+        shop_id TEXT,
+        cloud_uuid TEXT
       )
     ''');
   }
@@ -283,7 +306,9 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE IF NOT EXISTS expense_categories (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL UNIQUE
+        name TEXT NOT NULL UNIQUE,
+        shop_id TEXT,
+        cloud_uuid TEXT
       )
     ''');
   }
@@ -299,7 +324,9 @@ class DatabaseHelper {
         isActive INTEGER NOT NULL DEFAULT 1,
         isSystem INTEGER NOT NULL DEFAULT 0,
         createdAt TEXT NOT NULL,
-        updatedAt TEXT NOT NULL
+        updatedAt TEXT NOT NULL,
+        shop_id TEXT,
+        cloud_uuid TEXT
       )
     ''');
     await db.execute(
@@ -347,6 +374,27 @@ class DatabaseHelper {
         where: "key = ?", whereArgs: ['defaultCustomerName']);
   }
 
+  Future<void> _migrateToV9(Database db) async {
+    const tables = [
+      'products',
+      'sales',
+      'returns',
+      'expenses',
+      'expense_categories',
+      'inventory_count',
+      'invoices',
+      'import_batches',
+      'customers',
+      'users',
+      'role_permissions',
+      'app_settings',
+    ];
+    for (final table in tables) {
+      await db.execute('ALTER TABLE $table ADD COLUMN shop_id TEXT');
+      await db.execute('ALTER TABLE $table ADD COLUMN cloud_uuid TEXT');
+    }
+  }
+
   Future<void> _createUsersTable(Database db) async {
     await db.execute('''
       CREATE TABLE IF NOT EXISTS users (
@@ -358,7 +406,9 @@ class DatabaseHelper {
         isActive INTEGER NOT NULL DEFAULT 1,
         createdAt TEXT NOT NULL,
         updatedAt TEXT NOT NULL,
-        lastLoginAt TEXT
+        lastLoginAt TEXT,
+        shop_id TEXT,
+        cloud_uuid TEXT
       )
     ''');
   }

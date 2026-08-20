@@ -14,6 +14,7 @@ class ShopProfile {
     this.phone = '',
     this.address = '',
     this.logoPath = '',
+    this.cloudUuid,
   });
 
   /// Migration default. This is the ONLY production place that defines the
@@ -34,6 +35,10 @@ class ShopProfile {
   /// database. Empty when no logo has been set.
   final String logoPath;
 
+  /// Cloud UUID for multi-tenant identity mapping. Null until the shop is
+  /// linked to a cloud identity (Phase C+).
+  final String? cloudUuid;
+
   bool get hasLogo => logoPath.isNotEmpty;
 
   static ShopProfile defaultProfile() =>
@@ -45,6 +50,7 @@ class ShopProfile {
     String? phone,
     String? address,
     String? logoPath,
+    String? cloudUuid,
   }) {
     return ShopProfile(
       shopName: shopName ?? this.shopName,
@@ -52,6 +58,7 @@ class ShopProfile {
       phone: phone ?? this.phone,
       address: address ?? this.address,
       logoPath: logoPath ?? this.logoPath,
+      cloudUuid: cloudUuid ?? this.cloudUuid,
     );
   }
 
@@ -63,15 +70,17 @@ class ShopProfile {
         ownerOrManagerName == other.ownerOrManagerName &&
         phone == other.phone &&
         address == other.address &&
-        logoPath == other.logoPath;
+        logoPath == other.logoPath &&
+        cloudUuid == other.cloudUuid;
   }
 
   @override
-  int get hashCode =>
-      Object.hash(shopName, ownerOrManagerName, phone, address, logoPath);
+  int get hashCode => Object.hash(
+      shopName, ownerOrManagerName, phone, address, logoPath, cloudUuid);
 
   @override
   String toString() =>
       'ShopProfile(shopName: $shopName, ownerOrManagerName: $ownerOrManagerName, '
-      'phone: $phone, address: $address, logoPath: $logoPath)';
+      'phone: $phone, address: $address, logoPath: $logoPath, '
+      'cloudUuid: $cloudUuid)';
 }

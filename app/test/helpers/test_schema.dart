@@ -12,7 +12,9 @@ Future<void> createTestSchema(Database db) async {
       currentQuantity INTEGER DEFAULT 0,
       costPrice REAL DEFAULT 0,
       totalInventoryCost REAL DEFAULT 0,
-      inventoryAdjustment INTEGER DEFAULT 0
+      inventoryAdjustment INTEGER DEFAULT 0,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
   await db.execute('''
@@ -26,7 +28,9 @@ Future<void> createTestSchema(Database db) async {
       salePrice REAL DEFAULT 0,
       totalSaleValue REAL DEFAULT 0,
       costPrice REAL DEFAULT 0,
-      cogs REAL DEFAULT 0
+      cogs REAL DEFAULT 0,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
   await db.execute('''
@@ -39,7 +43,9 @@ Future<void> createTestSchema(Database db) async {
       salePrice REAL DEFAULT 0,
       totalReturnValue REAL DEFAULT 0,
       costPrice REAL DEFAULT 0,
-      returnedCogs REAL DEFAULT 0
+      returnedCogs REAL DEFAULT 0,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
   await db.execute('''
@@ -48,7 +54,9 @@ Future<void> createTestSchema(Database db) async {
       date TEXT NOT NULL,
       description TEXT NOT NULL,
       amount REAL DEFAULT 0,
-      category TEXT
+      category TEXT,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
   await db.execute('''
@@ -57,7 +65,10 @@ Future<void> createTestSchema(Database db) async {
       productId INTEGER NOT NULL,
       actualQuantity INTEGER DEFAULT 0,
       notes TEXT DEFAULT '',
-      countDate TEXT NOT NULL
+      countDate TEXT NOT NULL,
+      shop_id TEXT,
+      cloud_uuid TEXT,
+      FOREIGN KEY (productId) REFERENCES products (id)
     )
   ''');
   await db.execute('''
@@ -70,7 +81,9 @@ Future<void> createTestSchema(Database db) async {
       isActive INTEGER NOT NULL DEFAULT 1,
       createdAt TEXT NOT NULL,
       updatedAt TEXT NOT NULL,
-      lastLoginAt TEXT
+      lastLoginAt TEXT,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
   await db.execute('''
@@ -95,13 +108,17 @@ Future<void> createTestSchema(Database db) async {
       gross_profit REAL DEFAULT 0,
       total_expenses REAL DEFAULT 0,
       net_profit REAL DEFAULT 0,
-      reconciliation_json TEXT
+      reconciliation_json TEXT,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
   await db.execute('''
     CREATE TABLE IF NOT EXISTS app_settings (
       key TEXT PRIMARY KEY,
-      value TEXT NOT NULL
+      value TEXT NOT NULL,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
   await db.execute('''
@@ -114,20 +131,26 @@ Future<void> createTestSchema(Database db) async {
       totalAmount REAL DEFAULT 0,
       totalItems INTEGER DEFAULT 0,
       createdAt TEXT NOT NULL,
-      customerId INTEGER
+      customerId INTEGER,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
   await db.execute('''
     CREATE TABLE IF NOT EXISTS role_permissions (
       role TEXT PRIMARY KEY,
       permissions TEXT NOT NULL,
-      updatedAt TEXT NOT NULL
+      updatedAt TEXT NOT NULL,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
   await db.execute('''
     CREATE TABLE IF NOT EXISTS expense_categories (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL UNIQUE
+      name TEXT NOT NULL UNIQUE,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
   await db.execute('''
@@ -140,7 +163,9 @@ Future<void> createTestSchema(Database db) async {
       isActive INTEGER NOT NULL DEFAULT 1,
       isSystem INTEGER NOT NULL DEFAULT 0,
       createdAt TEXT NOT NULL,
-      updatedAt TEXT NOT NULL
+      updatedAt TEXT NOT NULL,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
   await db.execute(
