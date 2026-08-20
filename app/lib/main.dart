@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'config/app_config.dart';
 import 'database/database_helper.dart';
 import 'database/user_repository.dart';
 import 'licensing/licensing.dart';
@@ -24,7 +26,7 @@ import 'screens/inventory_count/inventory_count_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/customers/customers_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (defaultTargetPlatform == TargetPlatform.windows ||
       defaultTargetPlatform == TargetPlatform.linux ||
@@ -32,6 +34,21 @@ void main() {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
+
+  // Initialize Supabase if configured (Phase D).
+  // When not configured (placeholders), Supabase is skipped and the app
+  // operates in offline-only mode.
+  if (AppConfig.isConfigured) {
+    try {
+      await Supabase.initialize(
+        url: AppConfig.supabaseUrl,
+        publishableKey: AppConfig.supabaseAnonKey,
+      );
+    } catch (_) {
+      // Supabase initialization failure — app operates in offline mode.
+    }
+  }
+
   runApp(const MyApp());
 }
 
@@ -138,6 +155,7 @@ class _AuthGateState extends State<AuthGate> {
   final UserRepository _userRepo = UserRepository();
   bool _isInitializing = true;
   bool _hasUsers = false;
+  bool _cloudAvailable = false;
 
   @override
   void initState() {
@@ -155,6 +173,19 @@ class _AuthGateState extends State<AuthGate> {
     final licensingService = LicensingService.instance;
     await licensingService.initialize();
     DatabaseHelper.setLicensingEnforcer(() => licensingService.enforceActive());
+
+    // Check if Supabase is available and try to restore cloud session.
+    if (AppConfig.isConfigured) {
+      try {
+        final auth = Supabase.instance.client.auth;
+        final currentSession = auth.currentSession;
+        if (currentSession != null && !currentSession.isExpired) {
+          _cloudAvailable = true;
+        }
+      } catch (_) {
+        _cloudAvailable = false;
+      }
+    }
 
     final hasUsers = await _userRepo.hasAnyUser();
     if (mounted) {
@@ -175,6 +206,14 @@ class _AuthGateState extends State<AuthGate> {
 
   void _onLogout() {
     _sessionState.logout();
+    // Sign out from Supabase if cloud session was active.
+    if (_cloudAvailable) {
+      try {
+        Supabase.instance.client.auth.signOut();
+      } catch (_) {
+        // Best-effort cloud sign out.
+      }
+    }
     setState(() {});
   }
 

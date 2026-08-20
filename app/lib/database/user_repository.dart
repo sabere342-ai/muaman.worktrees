@@ -330,4 +330,52 @@ class UserRepository {
       whereArgs: [userId],
     );
   }
+
+  /// Set the cloud UUID for a local user (Phase D identity linking).
+  /// Once set, the cloud UUID is immutable — this method is a no-op if
+  /// the user already has a cloud UUID.
+  Future<void> setCloudUuid(int userId, String cloudUuid) async {
+    final db = await _dbHelper.database;
+    final existing = await db.query(
+      'users',
+      columns: ['cloud_uuid'],
+      where: 'id = ?',
+      whereArgs: [userId],
+    );
+    if (existing.isEmpty) return;
+    final current = existing.first['cloud_uuid'] as String?;
+    if (current != null && current.isNotEmpty) return; // immutable once set
+    await db.update(
+      'users',
+      {'cloud_uuid': cloudUuid},
+      where: 'id = ?',
+      whereArgs: [userId],
+    );
+  }
+
+  /// Get the cloud UUID for a local user, if set.
+  Future<String?> getCloudUuid(int userId) async {
+    final db = await _dbHelper.database;
+    final rows = await db.query(
+      'users',
+      columns: ['cloud_uuid'],
+      where: 'id = ?',
+      whereArgs: [userId],
+    );
+    if (rows.isEmpty) return null;
+    final uuid = rows.first['cloud_uuid'] as String?;
+    return (uuid != null && uuid.isNotEmpty) ? uuid : null;
+  }
+
+  /// Get the local user by their cloud UUID.
+  Future<User?> getUserByCloudUuid(String cloudUuid) async {
+    final db = await _dbHelper.database;
+    final maps = await db.query(
+      'users',
+      where: 'cloud_uuid = ?',
+      whereArgs: [cloudUuid],
+    );
+    if (maps.isEmpty) return null;
+    return User.fromMap(maps.first);
+  }
 }

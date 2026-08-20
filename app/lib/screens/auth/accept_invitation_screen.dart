@@ -1,162 +1,147 @@
 import 'package:flutter/material.dart';
-import '../../config/app_config.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../database/user_repository.dart';
 import '../../models/user_role.dart';
-import '../../services/app_settings.dart';
-import '../../services/identity_linker.dart';
+import '../../services/invitation_service.dart';
 
-class FirstOwnerSetupScreen extends StatefulWidget {
-  final VoidCallback onComplete;
+/// Screen where an invited employee accepts their invitation,
+/// creates a local account, and links it to their cloud identity.
+class AcceptInvitationScreen extends StatefulWidget {
+  final String? initialEmail;
 
-  const FirstOwnerSetupScreen({super.key, required this.onComplete});
+  const AcceptInvitationScreen({super.key, this.initialEmail});
 
   @override
-  State<FirstOwnerSetupScreen> createState() => _FirstOwnerSetupScreenState();
+  State<AcceptInvitationScreen> createState() => _AcceptInvitationScreenState();
 }
 
-class _FirstOwnerSetupScreenState extends State<FirstOwnerSetupScreen> {
-  final _nameController = TextEditingController();
-  final _usernameController = TextEditingController();
+class _AcceptInvitationScreenState extends State<AcceptInvitationScreen> {
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _repo = UserRepository();
-  bool _isSaving = false;
+  final _displayNameController = TextEditingController();
+  bool _isLoading = false;
   bool _obscurePassword = true;
   bool _obscureConfirm = true;
   String? _error;
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.initialEmail != null) {
+      _emailController.text = widget.initialEmail!;
+    }
+  }
+
+  @override
   void dispose() {
-    _nameController.dispose();
-    _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
-    _emailController.dispose();
+    _displayNameController.dispose();
     super.dispose();
   }
 
-  Future<void> _createOwner() async {
+  Future<void> _acceptInvitation() async {
     setState(() {
       _error = null;
-      _isSaving = true;
+      _isLoading = true;
     });
 
-    final name = _nameController.text;
-    final username = _usernameController.text;
+    final email = _emailController.text.trim();
     final password = _passwordController.text;
     final confirm = _confirmPasswordController.text;
-    final email = _emailController.text.trim();
+    final displayName = _displayNameController.text.trim();
 
-    if (name.trim().isEmpty) {
+    if (email.isEmpty) {
       setState(() {
-        _error = 'الاسم مطلوب';
-        _isSaving = false;
+        _error = 'البريد الإلكتروني مطلوب';
+        _isLoading = false;
       });
       return;
     }
-    if (username.trim().isEmpty) {
-      setState(() {
-        _error = 'اسم المستخدم مطلوب';
-        _isSaving = false;
-      });
-      return;
-    }
-    if (password.isEmpty) {
-      setState(() {
-        _error = 'كلمة المرور مطلوبة';
-        _isSaving = false;
-      });
-      return;
-    }
-    if (password.length < 6) {
+    if (password.isEmpty || password.length < 6) {
       setState(() {
         _error = 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
-        _isSaving = false;
+        _isLoading = false;
       });
       return;
     }
     if (password != confirm) {
       setState(() {
         _error = 'كلمة المرور وتأكيدها غير متطابقين';
-        _isSaving = false;
+        _isLoading = false;
       });
       return;
     }
 
     try {
-      final hasUsers = await _repo.hasAnyUser();
-      if (hasUsers) {
+      // Sign in to Supabase (the account was pre-created by the Edge Function).
+      final auth = Supabase.instance.client.auth;
+      final response = await auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+
+      if (response.session == null) {
         setState(() {
-          _error = 'يوجد مستخدمون بالفعل. لا يمكن إنشاء مالك أولي جديد';
-          _isSaving = false;
+          _error = 'فشل تسجيل الدخول';
+          _isLoading = false;
         });
         return;
       }
 
-      // If Supabase is configured and email is provided, attempt cloud onboarding.
-      if (AppConfig.isConfigured && email.isNotEmpty) {
-        final linker = IdentityLinker();
-        final shopName = await AppSettings.getValue('shopProfile.shopName');
-        final effectiveShopName = shopName.isNotEmpty ? shopName : 'المتجر';
+      final userId = response.session!.user.id;
 
-        final result = await linker.onboardFreshOwner(
-          displayName: name,
-          username: username,
-          password: password,
-          email: email,
-          shopName: effectiveShopName,
-        );
+      // Get user's shops to find the pending invitation.
+      final invitationService = InvitationService();
+      final memberships = await invitationService.getActiveMemberships();
 
-        if (result.isSuccess) {
-          if (mounted) widget.onComplete();
-          return;
-        }
-
-        // If cloud account already exists, local user was created.
-        // Proceed to local-only mode.
-        if (result.type == LinkResultType.cloudAccountExists ||
-            result.type == LinkResultType.networkUnavailable) {
-          // Local user was already created by IdentityLinker.
-          if (mounted) widget.onComplete();
-          return;
-        }
-
-        // Unknown error — local user may or may not have been created.
-        // Check if local user exists.
-        final hasUsersNow = await _repo.hasAnyUser();
-        if (hasUsersNow) {
-          if (mounted) widget.onComplete();
-          return;
-        }
+      if (memberships.isEmpty) {
+        setState(() {
+          _error = 'لا توجد دعوات معلقة لهذا الحساب';
+          _isLoading = false;
+        });
+        return;
       }
 
-      // Fallback: local-only owner creation (no cloud).
-      await _repo.createUser(
-        displayName: name,
-        username: username,
+      // Accept the invitation (the membership was pre-created as PENDING).
+      final shopId = memberships.first['shop_id'].toString();
+      final result = await invitationService.acceptInvitation(
+        shopId: shopId,
+        userId: userId,
+      );
+
+      if (!result.isSuccess) {
+        setState(() {
+          _error = result.errorMessage ?? 'فشل قبول الدعوة';
+          _isLoading = false;
+        });
+        return;
+      }
+
+      // Create local user account.
+      final repo = UserRepository();
+      await repo.createUser(
+        displayName: displayName.isNotEmpty ? displayName : email,
+        username: email.split('@').first,
         password: password,
-        role: UserRole.owner,
+        role: UserRole.employee,
       );
 
       if (mounted) {
-        widget.onComplete();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('تم قبول الدعوة بنجاح')),
+        );
+        Navigator.of(context).pop();
       }
-    } on WeakPasswordException {
-      setState(() {
-        _error = 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
-        _isSaving = false;
-      });
-    } on DuplicateUsernameException {
-      setState(() {
-        _error = 'اسم المستخدم موجود بالفعل';
-        _isSaving = false;
-      });
     } catch (e) {
-      setState(() {
-        _error = 'حدث خطأ: $e';
-        _isSaving = false;
-      });
+      if (mounted) {
+        setState(() {
+          _error = 'حدث خطأ: $e';
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -165,7 +150,10 @@ class _FirstOwnerSetupScreenState extends State<FirstOwnerSetupScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: Colors.grey.shade50,
+        appBar: AppBar(
+          title: const Text('قبول الدعوة'),
+          centerTitle: true,
+        ),
         body: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
@@ -178,16 +166,16 @@ class _FirstOwnerSetupScreenState extends State<FirstOwnerSetupScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.admin_panel_settings,
-                        size: 80, color: Colors.teal.shade700),
+                    Icon(Icons.mark_email_read,
+                        size: 64, color: Colors.teal.shade700),
                     const SizedBox(height: 16),
-                    Text('إعداد النظام',
+                    Text('قبول الدعوة',
                         style: Theme.of(context)
                             .textTheme
                             .headlineSmall
                             ?.copyWith(fontWeight: FontWeight.bold)),
                     const SizedBox(height: 8),
-                    Text('يرجى إنشاء حساب المالك الأول',
+                    Text('أنشئ حسابك للانضمام للمتجر',
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium
@@ -207,34 +195,24 @@ class _FirstOwnerSetupScreenState extends State<FirstOwnerSetupScreen> {
                             style: TextStyle(color: Colors.red.shade800)),
                       ),
                     TextField(
-                      controller: _nameController,
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
-                        labelText: 'الاسم',
+                        labelText: 'البريد الإلكتروني',
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.email),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _displayNameController,
+                      decoration: const InputDecoration(
+                        labelText: 'الاسم (اختياري)',
                         border: OutlineInputBorder(),
                         prefixIcon: Icon(Icons.person),
                       ),
                     ),
                     const SizedBox(height: 16),
-                    TextField(
-                      controller: _usernameController,
-                      decoration: const InputDecoration(
-                        labelText: 'اسم المستخدم',
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.account_circle),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    if (AppConfig.isConfigured)
-                      TextField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          labelText: 'البريد الإلكتروني (للحساب السحابي)',
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.email),
-                        ),
-                      ),
-                    if (AppConfig.isConfigured) const SizedBox(height: 16),
                     TextField(
                       controller: _passwordController,
                       obscureText: _obscurePassword,
@@ -273,20 +251,20 @@ class _FirstOwnerSetupScreenState extends State<FirstOwnerSetupScreen> {
                       width: double.infinity,
                       height: 48,
                       child: ElevatedButton(
-                        onPressed: _isSaving ? null : _createOwner,
+                        onPressed: _isLoading ? null : _acceptInvitation,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.teal,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12)),
                         ),
-                        child: _isSaving
+                        child: _isLoading
                             ? const SizedBox(
                                 width: 24,
                                 height: 24,
                                 child: CircularProgressIndicator(
                                     strokeWidth: 2, color: Colors.white))
-                            : const Text('إنشاء حساب المالك',
+                            : const Text('قبول الدعوة',
                                 style: TextStyle(fontSize: 16)),
                       ),
                     ),

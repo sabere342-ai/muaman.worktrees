@@ -46,6 +46,7 @@ dependencies:
   cryptography: ^2.9.0
   cbor: ^6.0.0
   http: ^1.2.0
+  supabase_flutter: ^2.15.0
 
 dev_dependencies:
   flutter_test:

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../config/app_config.dart';
 import '../../database/user_repository.dart';
 import '../../models/shop_profile.dart';
+import '../../services/app_settings.dart';
 import '../../services/session_state.dart';
+import '../../models/cloud_session.dart';
 import '../../services/shop_profile_service.dart';
+import '../../services/shop_resolver.dart';
 import '../../widgets/shop_logo.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -76,6 +81,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (mounted && updatedUser != null) {
         widget.sessionState.login(updatedUser);
+
+        // Attempt cloud session if user has cloud link and Supabase is configured.
+        await _attemptCloudSession(updatedUser, password);
+
         widget.onLoginSuccess?.call();
       }
     } catch (e) {
@@ -85,6 +94,35 @@ class _LoginScreenState extends State<LoginScreen> {
           _isLoading = false;
         });
       }
+    }
+  }
+
+  /// After successful local auth, attempt cloud login if the user is cloud-linked.
+  Future<void> _attemptCloudSession(dynamic user, String password) async {
+    if (!AppConfig.isConfigured) return;
+    if (user.cloudUuid == null || (user.cloudUuid as String).isEmpty) return;
+
+    try {
+      final cloudEmail = await AppSettings.getValue('cloud.auth.email');
+      if (cloudEmail.isEmpty) return;
+
+      final auth = Supabase.instance.client.auth;
+      await auth.signInWithPassword(email: cloudEmail, password: password);
+
+      final session = auth.currentSession;
+      if (session != null) {
+        final resolver = ShopResolver();
+        final membership = await resolver.resolveActiveShop();
+        widget.sessionState.setCloudSession(CloudSession(
+          userId: session.user.id,
+          activeShopId: membership.shopId,
+          membershipRole: membership.membershipRole,
+          membershipStatus: membership.membershipStatus,
+        ));
+      }
+    } catch (_) {
+      // Cloud login failure — operate in offline mode.
+      // The local session is already established.
     }
   }
 
