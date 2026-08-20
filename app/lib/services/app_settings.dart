@@ -201,7 +201,8 @@ class AppSettings {
 
   static Future<String> getDefaultWorkbookPath() async {
     const fileName = 'شيت_ادارة_محل_شهر8.xlsx';
-    const legacyFileName = 'شيت_ادارة_محل_مؤمن_شهر8.xlsx';
+    const legacyFileName =
+        'شيت_ادارة_محل_مؤمن_شهر8.xlsx'; // backward-compatible discovery only
     const monthFolder = 'شهر 8';
 
     final searchRoots = <String>{};

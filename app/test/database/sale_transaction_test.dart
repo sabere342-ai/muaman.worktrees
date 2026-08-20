@@ -310,6 +310,62 @@ void main() {
       expect(product.currentQuantity, expectedCurrent);
     });
   });
+
+  group('insertSale', () {
+    test('rejects zero sale price', () async {
+      await testDb.insert(
+          'products', insertTestProduct().toMap()..remove('id'));
+
+      expect(
+        () => DatabaseHelper.instance
+            .insertSale(makeSale(salePrice: 0), currentRole: UserRole.owner),
+        throwsA(isA<ArgumentError>()),
+      );
+
+      final sales = await testDb.query('sales');
+      expect(sales, isEmpty);
+    });
+
+    test('rejects negative sale price', () async {
+      await testDb.insert(
+          'products', insertTestProduct().toMap()..remove('id'));
+
+      expect(
+        () => DatabaseHelper.instance
+            .insertSale(makeSale(salePrice: -50), currentRole: UserRole.owner),
+        throwsA(isA<ArgumentError>()),
+      );
+
+      final sales = await testDb.query('sales');
+      expect(sales, isEmpty);
+    });
+
+    test('rejects zero quantity', () async {
+      await testDb.insert(
+          'products', insertTestProduct().toMap()..remove('id'));
+
+      expect(
+        () => DatabaseHelper.instance
+            .insertSale(makeSale(quantity: 0), currentRole: UserRole.owner),
+        throwsA(isA<ArgumentError>()),
+      );
+
+      final sales = await testDb.query('sales');
+      expect(sales, isEmpty);
+    });
+
+    test('accepts positive sale price', () async {
+      await testDb.insert(
+          'products', insertTestProduct().toMap()..remove('id'));
+
+      await DatabaseHelper.instance
+          .insertSale(makeSale(salePrice: 100), currentRole: UserRole.owner);
+
+      final sales = await testDb.query('sales');
+      expect(sales.length, 1);
+      expect((sales.first['salePrice'] as num).toDouble(), 100);
+    });
+  });
 }
 
 Future<void> createTestTables(Database db) async {

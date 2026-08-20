@@ -294,7 +294,8 @@ class _RolesPermissionsScreenState extends State<RolesPermissionsScreen> {
           children: [
             Row(
               children: [
-                Icon(Icons.verified_user, color: Theme.of(context).colorScheme.primary),
+                Icon(Icons.verified_user,
+                    color: Theme.of(context).colorScheme.primary),
                 const SizedBox(width: 8),
                 const Text('المالك',
                     style:

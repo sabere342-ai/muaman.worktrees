@@ -51,10 +51,8 @@ class StandaloneBackupService {
 
       final db = await _databaseHelper.database;
       final timestamp = DateTime.now();
-      final timestampStr = timestamp
-          .toIso8601String()
-          .replaceAll(':', '-')
-          .replaceAll('.', '-');
+      final timestampStr =
+          timestamp.toIso8601String().replaceAll(':', '-').replaceAll('.', '-');
       final backupPath =
           '${directory.path}${Platform.pathSeparator}muaman_backup_$timestampStr.db';
 
@@ -91,22 +89,19 @@ class StandaloneBackupService {
       final integrity = await snapshotDb.rawQuery('PRAGMA integrity_check');
       final result = integrity.first.values.first.toString().toLowerCase();
       if (result != 'ok') {
-        throw const StandaloneBackupException(
-            'النسخة الاحتياطية تالفة.');
+        throw const StandaloneBackupException('النسخة الاحتياطية تالفة.');
       }
       final count = await snapshotDb.rawQuery(
           'SELECT COUNT(*) AS c FROM sqlite_master WHERE type = ?', ['table']);
       final tables = (count.first['c'] as num?)?.toInt() ?? 0;
       if (tables == 0) {
-        throw const StandaloneBackupException(
-            'النسخة الاحتياطية بدون جداول.');
+        throw const StandaloneBackupException('النسخة الاحتياطية بدون جداول.');
       }
       return tables;
     } on StandaloneBackupException {
       rethrow;
     } catch (e) {
-      throw StandaloneBackupException(
-          'لا يمكن فتح النسخة الاحتياطية: $e');
+      throw StandaloneBackupException('لا يمكن فتح النسخة الاحتياطية: $e');
     } finally {
       await snapshotDb?.close();
     }

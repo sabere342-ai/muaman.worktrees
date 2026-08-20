@@ -22,8 +22,8 @@ void main() {
     late Directory backupDir;
 
     setUp(() async {
-      testDb = await databaseFactoryFfiNoIsolate
-          .openDatabase(inMemoryDatabasePath);
+      testDb =
+          await databaseFactoryFfiNoIsolate.openDatabase(inMemoryDatabasePath);
       await createTestSchema(testDb);
       await testDb.execute('PRAGMA user_version = 7');
       await DatabaseHelper.setTestDatabase(testDb);
@@ -75,8 +75,8 @@ void main() {
         'updatedAt': '2026-08-01T00:00:00.000',
       });
       await testDb.insert('app_settings', {
-        'key': 'shop_name',
-        'value': 'متجر مؤمن',
+        'key': 'shopProfile.shopName',
+        'value': 'متجر تجريبي',
       });
     }
 
@@ -104,8 +104,8 @@ void main() {
         actorRole: UserRole.owner,
       );
 
-      final backupDb = await databaseFactoryFfiNoIsolate
-          .openDatabase(report.backupPath);
+      final backupDb =
+          await databaseFactoryFfiNoIsolate.openDatabase(report.backupPath);
 
       final products = await backupDb.query('products');
       expect(products, hasLength(1));
@@ -206,11 +206,10 @@ void main() {
     setUp(() async {
       restoreDir = await Directory.systemTemp.createTemp('restore_test');
       preSaveDir = await Directory.systemTemp.createTemp('presave_test');
-      liveDbPath =
-          '${restoreDir.path}${Platform.pathSeparator}muaman_store.db';
+      liveDbPath = '${restoreDir.path}${Platform.pathSeparator}muaman_store.db';
 
-      testDb = await openDatabase(liveDbPath,
-          version: 7, onCreate: (db, version) async {
+      testDb = await openDatabase(liveDbPath, version: 7,
+          onCreate: (db, version) async {
         await createTestSchema(db);
       });
       await testDb.execute('PRAGMA user_version = 7');
@@ -237,8 +236,8 @@ void main() {
         'updatedAt': '2026-08-01T00:00:00.000',
       });
       await testDb.insert('app_settings', {
-        'key': 'shop_name',
-        'value': 'متجر مؤمن',
+        'key': 'shopProfile.shopName',
+        'value': 'متجر تجريبي',
       });
 
       final backupReport = await StandaloneBackupService().createBackup(
@@ -362,10 +361,10 @@ void main() {
           await Directory.systemTemp.createTemp('wrong_version');
       final wrongVersionPath =
           '${wrongVersionDir.path}${Platform.pathSeparator}wrong.db';
-      final wrongVersionDb = await openDatabase(wrongVersionPath,
-          version: 1, onCreate: (db, version) async {
-        await db.execute(
-            'CREATE TABLE test (id INTEGER PRIMARY KEY, name TEXT)');
+      final wrongVersionDb = await openDatabase(wrongVersionPath, version: 1,
+          onCreate: (db, version) async {
+        await db
+            .execute('CREATE TABLE test (id INTEGER PRIMARY KEY, name TEXT)');
       });
       await wrongVersionDb.close();
 
@@ -384,12 +383,11 @@ void main() {
     });
 
     test('missing table in backup is rejected', () async {
-      final incompleteDir =
-          await Directory.systemTemp.createTemp('incomplete');
+      final incompleteDir = await Directory.systemTemp.createTemp('incomplete');
       final incompletePath =
           '${incompleteDir.path}${Platform.pathSeparator}incomplete.db';
-      final incompleteDb = await openDatabase(incompletePath,
-          version: 7, onCreate: (db, version) async {
+      final incompleteDb = await openDatabase(incompletePath, version: 7,
+          onCreate: (db, version) async {
         await db.execute(
             'CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT)');
       });

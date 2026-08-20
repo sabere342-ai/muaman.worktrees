@@ -213,6 +213,10 @@ class WorkbookImporter {
         final soldQty = int.tryParse(soldStr) ?? 0;
         final returnedQty = int.tryParse(returnedStr) ?? 0;
 
+        if (costPrice <= 0 && name != 'تحزية') {
+          continue;
+        }
+
         final normalizedName = _normalize(name);
         final normalizedBarcode = _normalize(barcode);
 
@@ -250,6 +254,7 @@ class WorkbookImporter {
         final cost = double.tryParse(costStr) ?? 0;
 
         if (qty <= 0) continue;
+        if (price <= 0) continue;
 
         final dateSerial = row[1];
         DateTime saleDate;
@@ -295,6 +300,7 @@ class WorkbookImporter {
         final cost = double.tryParse(costStr) ?? 0;
 
         if (qty <= 0) continue;
+        if (price <= 0) continue;
 
         final dateSerial = row[1];
         DateTime returnDate;

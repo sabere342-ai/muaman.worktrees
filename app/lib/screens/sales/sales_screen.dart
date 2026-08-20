@@ -171,7 +171,8 @@ class _SalesScreenState extends State<SalesScreen> {
                 Text(
                   'الإجمالي: ${_filteredSales.fold(0.0, (sum, s) => sum + s.totalSaleValue).toStringAsFixed(0)} ج.م',
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary),
                 ),
               ],
             ),

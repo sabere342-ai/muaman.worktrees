@@ -1089,6 +1089,62 @@ void main() {
       expect(stockAfter, 15);
     });
   });
+
+  group('insertReturn price validation', () {
+    test('rejects zero sale price', () async {
+      await testDb.insert(
+          'products', makeProduct(stock: 10).toMap()..remove('id'));
+
+      expect(
+        () => DatabaseHelper.instance.insertReturn(makeReturn(salePrice: 0),
+            currentRole: UserRole.owner),
+        throwsA(isA<ArgumentError>()),
+      );
+
+      final returns = await testDb.query('returns');
+      expect(returns, isEmpty);
+    });
+
+    test('rejects negative sale price', () async {
+      await testDb.insert(
+          'products', makeProduct(stock: 10).toMap()..remove('id'));
+
+      expect(
+        () => DatabaseHelper.instance.insertReturn(makeReturn(salePrice: -50),
+            currentRole: UserRole.owner),
+        throwsA(isA<ArgumentError>()),
+      );
+
+      final returns = await testDb.query('returns');
+      expect(returns, isEmpty);
+    });
+
+    test('rejects zero quantity', () async {
+      await testDb.insert(
+          'products', makeProduct(stock: 10).toMap()..remove('id'));
+
+      expect(
+        () => DatabaseHelper.instance
+            .insertReturn(makeReturn(quantity: 0), currentRole: UserRole.owner),
+        throwsA(isA<ArgumentError>()),
+      );
+
+      final returns = await testDb.query('returns');
+      expect(returns, isEmpty);
+    });
+
+    test('accepts positive sale price', () async {
+      await testDb.insert(
+          'products', makeProduct(stock: 10).toMap()..remove('id'));
+
+      await DatabaseHelper.instance.insertReturn(makeReturn(salePrice: 100),
+          currentRole: UserRole.owner);
+
+      final returns = await testDb.query('returns');
+      expect(returns.length, 1);
+      expect((returns.first['salePrice'] as num).toDouble(), 100);
+    });
+  });
 }
 
 Future<void> createConsistencyTestTables(Database db) async {

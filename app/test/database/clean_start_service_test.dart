@@ -136,8 +136,8 @@ void main() {
       'updatedAt': '2026-08-01T00:00:00.000',
     });
     await testDb.insert('app_settings', {
-      'key': 'shop_name',
-      'value': 'متجر مؤمن',
+      'key': 'shopProfile.shopName',
+      'value': 'متجر تجريبي',
     });
   }
 

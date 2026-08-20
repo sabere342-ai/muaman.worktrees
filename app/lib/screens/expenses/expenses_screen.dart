@@ -119,7 +119,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 6, vertical: 2),
                                         decoration: BoxDecoration(
-                                          color:                           Theme.of(context)
+                                          color: Theme.of(context)
                                               .colorScheme
                                               .primary
                                               .withOpacity(0.1),
@@ -253,8 +253,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                       value: null,
                       child: Text('بدون تصنيف'),
                     ),
-                    ..._categoryNames.map((name) =>
-                        DropdownMenuItem<String>(value: name, child: Text(name))),
+                    ..._categoryNames.map((name) => DropdownMenuItem<String>(
+                        value: name, child: Text(name))),
                   ],
                   onChanged: (value) {
                     setDialogState(() {
@@ -298,7 +298,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                          content: Text(e.message), backgroundColor: Colors.red),
+                          content: Text(e.message),
+                          backgroundColor: Colors.red),
                     );
                   }
                 }

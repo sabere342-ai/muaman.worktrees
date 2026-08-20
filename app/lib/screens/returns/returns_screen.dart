@@ -255,6 +255,16 @@ class _ReturnsScreenState extends State<ReturnsScreen> {
                 final qty = int.tryParse(qtyController.text) ?? 0;
                 final price = double.tryParse(priceController.text) ?? 0;
                 if (qty <= 0) return;
+                if (price <= 0) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('يجب أن يكون سعر البيع أكبر من صفر'),
+                          backgroundColor: Colors.red),
+                    );
+                  }
+                  return;
+                }
 
                 try {
                   await DatabaseHelper.instance.insertReturn(

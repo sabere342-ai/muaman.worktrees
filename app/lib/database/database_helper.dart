@@ -601,6 +601,12 @@ class DatabaseHelper {
   Future<int> insertSale(Sale sale, {UserRole? currentRole}) async {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canCreateSales);
+    if (sale.quantity <= 0) {
+      throw ArgumentError('Sale quantity must be greater than zero');
+    }
+    if (sale.salePrice <= 0) {
+      throw ArgumentError('يجب أن يكون سعر البيع أكبر من صفر');
+    }
     final db = await database;
     return await db.transaction((txn) async {
       await _requireExistingProductByBarcode(txn, sale.barcode);
@@ -966,6 +972,15 @@ class DatabaseHelper {
       {UserRole? currentRole}) async {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canCreateReturns);
+    if (returnItem.quantity <= 0) {
+      throw ArgumentError('يجب أن تكون الكمية أكبر من صفر');
+    }
+    if (returnItem.salePrice.isNaN || returnItem.salePrice.isInfinite) {
+      throw ArgumentError('سعر المرتجع غير صالح');
+    }
+    if (returnItem.salePrice <= 0) {
+      throw ArgumentError('يجب أن يكون سعر المرتجع أكبر من صفر');
+    }
     final db = await database;
     return await db.transaction((txn) async {
       await _requireExistingProductByBarcode(txn, returnItem.barcode);

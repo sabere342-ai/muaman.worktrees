@@ -418,6 +418,28 @@ void main() {
       expect(json['salesImported'], 0);
     });
   });
+
+  group('WorkbookImporter preflight validation', () {
+    test('preflight detects zero-cost product', () {
+      final sheets = XlsxReader.read(workbookPath);
+      final result = WorkbookImporter.preflight(sheets, allowZeroCost: false);
+      expect(result.hasZeroCostProduct, isTrue);
+      expect(result.zeroCostProductName, isNotNull);
+    });
+
+    test('preflight rejects zero-cost without allowZeroCost flag', () {
+      final sheets = XlsxReader.read(workbookPath);
+      final result = WorkbookImporter.preflight(sheets, allowZeroCost: false);
+      expect(result.isValid, isFalse);
+      expect(result.errors, isNotEmpty);
+    });
+
+    test('preflight allows zero-cost with allowZeroCost flag', () {
+      final sheets = XlsxReader.read(workbookPath);
+      final result = WorkbookImporter.preflight(sheets, allowZeroCost: true);
+      expect(result.isValid, isTrue);
+    });
+  });
 }
 
 Future<void> _createAllTables(Database db) async {

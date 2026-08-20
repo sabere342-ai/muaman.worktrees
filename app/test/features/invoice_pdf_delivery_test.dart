@@ -162,7 +162,7 @@ void main() {
       paymentMethod: 'cash',
       totalAmount: totalAmount ?? sum,
       totalItems: totalItems ?? resolvedLines.length,
-      shopProfile: const ShopProfile(shopName: 'محل مؤمن'),
+      shopProfile: const ShopProfile(shopName: 'محل تجريبي'),
       lines: resolvedLines,
       supportPhone: supportPhone ?? '',
       invoiceTitle: invoiceTitle ?? 'فاتورة بيع',

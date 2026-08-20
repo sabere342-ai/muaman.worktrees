@@ -34,12 +34,14 @@ void main() {
       );
       expect(id, greaterThan(0));
 
-      final categories = await DatabaseHelper.instance.getAllExpenseCategories();
+      final categories =
+          await DatabaseHelper.instance.getAllExpenseCategories();
       expect(categories, hasLength(1));
       expect(categories.first.name, 'نقل');
     });
 
-    test('TC-CAT-02: default employee cannot create category (owner-only)', () async {
+    test('TC-CAT-02: default employee cannot create category (owner-only)',
+        () async {
       expect(
         () => DatabaseHelper.instance.insertExpenseCategory(
           ExpenseCategory(name: 'رواتب'),
@@ -54,7 +56,8 @@ void main() {
         ExpenseCategory(name: '  طعام  '),
         currentRole: UserRole.owner,
       );
-      final categories = await DatabaseHelper.instance.getAllExpenseCategories();
+      final categories =
+          await DatabaseHelper.instance.getAllExpenseCategories();
       expect(categories.first.name, 'طعام');
     });
 
@@ -78,7 +81,8 @@ void main() {
       );
     });
 
-    test('TC-CAT-06: duplicate category name is rejected (case-insensitive)', () async {
+    test('TC-CAT-06: duplicate category name is rejected (case-insensitive)',
+        () async {
       await DatabaseHelper.instance.insertExpenseCategory(
         ExpenseCategory(name: 'نقل'),
         currentRole: UserRole.owner,
@@ -106,7 +110,8 @@ void main() {
       );
     });
 
-    test('TC-CAT-08: duplicate with leading/trailing spaces is rejected', () async {
+    test('TC-CAT-08: duplicate with leading/trailing spaces is rejected',
+        () async {
       await DatabaseHelper.instance.insertExpenseCategory(
         ExpenseCategory(name: 'نقل'),
         currentRole: UserRole.owner,
@@ -134,9 +139,11 @@ void main() {
         currentRole: UserRole.owner,
       );
 
-      final categories = await DatabaseHelper.instance.getAllExpenseCategories();
+      final categories =
+          await DatabaseHelper.instance.getAllExpenseCategories();
       expect(categories, hasLength(3));
-      expect(categories.map((c) => c.name), containsAll(['نقل', 'رواتب', 'طعام']));
+      expect(
+          categories.map((c) => c.name), containsAll(['نقل', 'رواتب', 'طعام']));
     });
 
     test('TC-CAT-10: category can be renamed', () async {
@@ -144,10 +151,11 @@ void main() {
         ExpenseCategory(name: 'نقل'),
         currentRole: UserRole.owner,
       );
-      await DatabaseHelper.instance.renameExpenseCategory(id, 'مواصلات',
-          currentRole: UserRole.owner);
+      await DatabaseHelper.instance
+          .renameExpenseCategory(id, 'مواصلات', currentRole: UserRole.owner);
 
-      final categories = await DatabaseHelper.instance.getAllExpenseCategories();
+      final categories =
+          await DatabaseHelper.instance.getAllExpenseCategories();
       expect(categories.first.name, 'مواصلات');
     });
 
@@ -157,8 +165,8 @@ void main() {
         currentRole: UserRole.owner,
       );
       expect(
-        () => DatabaseHelper.instance.renameExpenseCategory(id, '   ',
-            currentRole: UserRole.owner),
+        () => DatabaseHelper.instance
+            .renameExpenseCategory(id, '   ', currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
     });
@@ -173,8 +181,8 @@ void main() {
         currentRole: UserRole.owner,
       );
       expect(
-        () => DatabaseHelper.instance.renameExpenseCategory(id2, 'نقل',
-            currentRole: UserRole.owner),
+        () => DatabaseHelper.instance
+            .renameExpenseCategory(id2, 'نقل', currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
     });
@@ -184,10 +192,11 @@ void main() {
         ExpenseCategory(name: 'نقل'),
         currentRole: UserRole.owner,
       );
-      await DatabaseHelper.instance.renameExpenseCategory(id, 'نقل',
-          currentRole: UserRole.owner);
+      await DatabaseHelper.instance
+          .renameExpenseCategory(id, 'نقل', currentRole: UserRole.owner);
 
-      final categories = await DatabaseHelper.instance.getAllExpenseCategories();
+      final categories =
+          await DatabaseHelper.instance.getAllExpenseCategories();
       expect(categories, hasLength(1));
       expect(categories.first.name, 'نقل');
     });
@@ -197,11 +206,12 @@ void main() {
         ExpenseCategory(name: 'نقل'),
         currentRole: UserRole.owner,
       );
-      final deleted = await DatabaseHelper.instance.deleteExpenseCategory(id,
-          currentRole: UserRole.owner);
+      final deleted = await DatabaseHelper.instance
+          .deleteExpenseCategory(id, currentRole: UserRole.owner);
       expect(deleted, 1);
 
-      final categories = await DatabaseHelper.instance.getAllExpenseCategories();
+      final categories =
+          await DatabaseHelper.instance.getAllExpenseCategories();
       expect(categories, isEmpty);
     });
 
@@ -221,16 +231,16 @@ void main() {
       );
 
       expect(
-        () => DatabaseHelper.instance.deleteExpenseCategory(id,
-            currentRole: UserRole.owner),
+        () => DatabaseHelper.instance
+            .deleteExpenseCategory(id, currentRole: UserRole.owner),
         throwsA(isA<StateError>()),
       );
     });
 
     test('TC-CAT-16: delete nonexistent category throws', () async {
       expect(
-        () => DatabaseHelper.instance.deleteExpenseCategory(9999,
-            currentRole: UserRole.owner),
+        () => DatabaseHelper.instance
+            .deleteExpenseCategory(9999, currentRole: UserRole.owner),
         throwsA(isA<ArgumentError>()),
       );
     });
@@ -245,21 +255,23 @@ void main() {
         currentRole: UserRole.owner,
       );
 
-      final categories = await DatabaseHelper.instance.getAllExpenseCategories();
+      final categories =
+          await DatabaseHelper.instance.getAllExpenseCategories();
       expect(categories.first.name, 'رواتب');
       expect(categories.last.name, 'نقل');
     });
   });
 
   group('T2-2: Expense Model with Category', () {
-    test('TC-EXP-01: expense with null category roundtrips correctly', () async {
+    test('TC-EXP-01: expense with null category roundtrips correctly',
+        () async {
       final expense = Expense(
         date: DateTime(2026, 8, 15),
         description: 'مصروف عام',
         amount: 100,
       );
-      final id = await DatabaseHelper.instance.insertExpense(expense,
-          currentRole: UserRole.owner);
+      final id = await DatabaseHelper.instance
+          .insertExpense(expense, currentRole: UserRole.owner);
 
       final all = await DatabaseHelper.instance.getAllExpenses();
       final loaded = all.firstWhere((e) => e.id == id);
@@ -275,8 +287,8 @@ void main() {
         amount: 50,
         category: 'نقل',
       );
-      final id = await DatabaseHelper.instance.insertExpense(expense,
-          currentRole: UserRole.owner);
+      final id = await DatabaseHelper.instance
+          .insertExpense(expense, currentRole: UserRole.owner);
 
       final all = await DatabaseHelper.instance.getAllExpenses();
       final loaded = all.firstWhere((e) => e.id == id);
@@ -312,16 +324,17 @@ void main() {
         amount: 150,
       );
 
-      await DatabaseHelper.instance.insertExpense(withCategory,
-          currentRole: UserRole.owner);
-      await DatabaseHelper.instance.insertExpense(withoutCategory,
-          currentRole: UserRole.owner);
+      await DatabaseHelper.instance
+          .insertExpense(withCategory, currentRole: UserRole.owner);
+      await DatabaseHelper.instance
+          .insertExpense(withoutCategory, currentRole: UserRole.owner);
 
       final total = await DatabaseHelper.instance.getTotalExpenses();
       expect(total, 300);
     });
 
-    test('TC-EXP-05: category does not affect total expenses calculation', () async {
+    test('TC-EXP-05: category does not affect total expenses calculation',
+        () async {
       await DatabaseHelper.instance.insertExpense(
         Expense(
             date: DateTime.now(),
@@ -332,9 +345,9 @@ void main() {
       );
       await DatabaseHelper.instance.insertExpense(
         Expense(
-            date: DateTime.now(),
-            description: 'مصروف بدون تصنيف',
-            amount: 200,
+          date: DateTime.now(),
+          description: 'مصروف بدون تصنيف',
+          amount: 200,
         ),
         currentRole: UserRole.owner,
       );
@@ -343,7 +356,8 @@ void main() {
       expect(total, 300);
     });
 
-    test('TC-EXP-06: getDistinctExpenseCategories returns unique categories', () async {
+    test('TC-EXP-06: getDistinctExpenseCategories returns unique categories',
+        () async {
       await DatabaseHelper.instance.insertExpense(
         Expense(
             date: DateTime.now(),
@@ -370,14 +384,15 @@ void main() {
       );
       await DatabaseHelper.instance.insertExpense(
         Expense(
-            date: DateTime.now(),
-            description: 'مصروف عام',
-            amount: 50,
+          date: DateTime.now(),
+          description: 'مصروف عام',
+          amount: 50,
         ),
         currentRole: UserRole.owner,
       );
 
-      final distinct = await DatabaseHelper.instance.getDistinctExpenseCategories();
+      final distinct =
+          await DatabaseHelper.instance.getDistinctExpenseCategories();
       expect(distinct, hasLength(2));
       expect(distinct, containsAll(['نقل', 'طعام']));
     });
@@ -409,7 +424,8 @@ void main() {
   });
 
   group('T2-2: Historical Data Compatibility', () {
-    test('TC-HIST-01: legacy expense without category remains readable', () async {
+    test('TC-HIST-01: legacy expense without category remains readable',
+        () async {
       // Simulate a legacy expense row (no category column value)
       await testDb.rawInsert(
           'INSERT INTO expenses (date, description, amount) VALUES (?, ?, ?)',
@@ -422,7 +438,8 @@ void main() {
       expect(expenses.first.category, isNull);
     });
 
-    test('TC-HIST-02: expense totals remain unchanged for legacy data', () async {
+    test('TC-HIST-02: expense totals remain unchanged for legacy data',
+        () async {
       await testDb.rawInsert(
           'INSERT INTO expenses (date, description, amount) VALUES (?, ?, ?)',
           ['2026-01-01T00:00:00.000', 'مصروف قديم 1', 100]);
@@ -493,14 +510,16 @@ void main() {
 
     test('TC-BR-02: expenses table has category column', () async {
       final columns = await testDb.rawQuery('PRAGMA table_info(expenses)');
-      final categoryCol = columns.firstWhere((col) => col['name'] == 'category');
+      final categoryCol =
+          columns.firstWhere((col) => col['name'] == 'category');
       expect(categoryCol['type'], 'TEXT');
     });
 
     test('TC-BR-03: expenses table has all v7 columns', () async {
       final columns = await testDb.rawQuery('PRAGMA table_info(expenses)');
       final names = columns.map((col) => col['name'] as String).toList();
-      expect(names, containsAll(['id', 'date', 'description', 'amount', 'category']));
+      expect(names,
+          containsAll(['id', 'date', 'description', 'amount', 'category']));
     });
   });
 
@@ -521,8 +540,8 @@ void main() {
         currentRole: UserRole.owner,
       );
       expect(
-        () => DatabaseHelper.instance.renameExpenseCategory(id, 'جديد',
-            currentRole: UserRole.salesOnly),
+        () => DatabaseHelper.instance
+            .renameExpenseCategory(id, 'جديد', currentRole: UserRole.salesOnly),
         throwsA(isA<PermissionDeniedException>()),
       );
     });
@@ -533,8 +552,8 @@ void main() {
         currentRole: UserRole.owner,
       );
       expect(
-        () => DatabaseHelper.instance.deleteExpenseCategory(id,
-            currentRole: UserRole.salesOnly),
+        () => DatabaseHelper.instance
+            .deleteExpenseCategory(id, currentRole: UserRole.salesOnly),
         throwsA(isA<PermissionDeniedException>()),
       );
     });

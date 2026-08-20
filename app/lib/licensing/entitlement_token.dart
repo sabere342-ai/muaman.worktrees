@@ -61,7 +61,8 @@ class EntitlementToken {
 
   CborMap _entitlementsToCbor() {
     return CborMap({
-      CborString('device_limit'): CborInt(BigInt.from(entitlements.deviceLimit)),
+      CborString('device_limit'):
+          CborInt(BigInt.from(entitlements.deviceLimit)),
       CborString('features'): CborList(
         entitlements.features.map((f) => CborString(f)).toList(),
       ),

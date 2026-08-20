@@ -24,13 +24,11 @@ class _ExpenseCategoriesScreenState extends State<ExpenseCategoriesScreen> {
     _loadCategories();
   }
 
-  bool get _isOwner =>
-      widget.sessionState?.currentRole == UserRole.owner;
+  bool get _isOwner => widget.sessionState?.currentRole == UserRole.owner;
 
   Future<void> _loadCategories() async {
     setState(() => _isLoading = true);
-    final categories =
-        await DatabaseHelper.instance.getAllExpenseCategories();
+    final categories = await DatabaseHelper.instance.getAllExpenseCategories();
     setState(() {
       _categories = categories;
       _isLoading = false;
@@ -53,8 +51,8 @@ class _ExpenseCategoriesScreenState extends State<ExpenseCategoriesScreen> {
           ? const Center(child: CircularProgressIndicator())
           : _categories.isEmpty
               ? const Center(
-                  child: Text('لا توجد تصنيفات',
-                      style: TextStyle(fontSize: 16)))
+                  child:
+                      Text('لا توجد تصنيفات', style: TextStyle(fontSize: 16)))
               : ListView.builder(
                   itemCount: _categories.length,
                   padding: const EdgeInsets.all(8),
@@ -89,8 +87,7 @@ class _ExpenseCategoriesScreenState extends State<ExpenseCategoriesScreen> {
                                   IconButton(
                                     icon: const Icon(Icons.delete,
                                         size: 20, color: Colors.red),
-                                    onPressed: () =>
-                                        _confirmDelete(category),
+                                    onPressed: () => _confirmDelete(category),
                                   ),
                                 ],
                               )

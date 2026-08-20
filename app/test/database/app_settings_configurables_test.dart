@@ -56,10 +56,8 @@ void main() {
     });
 
     test('overwrites previous value', () async {
-      await AppSettings.setValue(
-          AppSettings.keyDefaultCustomerName, 'عميل A');
-      await AppSettings.setValue(
-          AppSettings.keyDefaultCustomerName, 'عميل B');
+      await AppSettings.setValue(AppSettings.keyDefaultCustomerName, 'عميل A');
+      await AppSettings.setValue(AppSettings.keyDefaultCustomerName, 'عميل B');
       final name = await AppSettings.getDefaultCustomerName();
       expect(name, equals('عميل B'));
     });
@@ -194,15 +192,13 @@ void main() {
 
   group('Invoice Title - persistence', () {
     test('set and get returns same value', () async {
-      await AppSettings.setValue(
-          AppSettings.keyInvoiceTitle, 'فاتورة ضريبية');
+      await AppSettings.setValue(AppSettings.keyInvoiceTitle, 'فاتورة ضريبية');
       final title = await AppSettings.getInvoiceTitle();
       expect(title, equals('فاتورة ضريبية'));
     });
 
     test('persists across multiple reads', () async {
-      await AppSettings.setValue(
-          AppSettings.keyInvoiceTitle, 'إيصال بيع');
+      await AppSettings.setValue(AppSettings.keyInvoiceTitle, 'إيصال بيع');
       final title1 = await AppSettings.getInvoiceTitle();
       final title2 = await AppSettings.getInvoiceTitle();
       expect(title1, equals('إيصال بيع'));
@@ -210,17 +206,14 @@ void main() {
     });
 
     test('overwrites previous value', () async {
-      await AppSettings.setValue(
-          AppSettings.keyInvoiceTitle, 'فاتورة A');
-      await AppSettings.setValue(
-          AppSettings.keyInvoiceTitle, 'فاتورة B');
+      await AppSettings.setValue(AppSettings.keyInvoiceTitle, 'فاتورة A');
+      await AppSettings.setValue(AppSettings.keyInvoiceTitle, 'فاتورة B');
       final title = await AppSettings.getInvoiceTitle();
       expect(title, equals('فاتورة B'));
     });
 
     test('persists after initializeDefaults does not overwrite', () async {
-      await AppSettings.setValue(
-          AppSettings.keyInvoiceTitle, 'فاتورة مميزة');
+      await AppSettings.setValue(AppSettings.keyInvoiceTitle, 'فاتورة مميزة');
       await AppSettings.initializeDefaults();
       final title = await AppSettings.getInvoiceTitle();
       expect(title, equals('فاتورة مميزة'));
@@ -283,17 +276,14 @@ void main() {
     });
 
     test('overwrites previous value', () async {
-      await AppSettings.setValue(
-          AppSettings.keyInvoiceFooterText, 'شكراً A');
-      await AppSettings.setValue(
-          AppSettings.keyInvoiceFooterText, 'شكراً B');
+      await AppSettings.setValue(AppSettings.keyInvoiceFooterText, 'شكراً A');
+      await AppSettings.setValue(AppSettings.keyInvoiceFooterText, 'شكراً B');
       final footer = await AppSettings.getInvoiceFooterText();
       expect(footer, equals('شكراً B'));
     });
 
     test('persists after initializeDefaults does not overwrite', () async {
-      await AppSettings.setValue(
-          AppSettings.keyInvoiceFooterText, 'Message');
+      await AppSettings.setValue(AppSettings.keyInvoiceFooterText, 'Message');
       await AppSettings.initializeDefaults();
       final footer = await AppSettings.getInvoiceFooterText();
       expect(footer, equals('Message'));
