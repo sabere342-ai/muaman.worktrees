@@ -21,6 +21,9 @@ class AppSettings {
   static const String keyShopProfileCloudUuid = 'shopProfile.cloudUuid';
   static const String keyCloudAuthEmail = 'cloud.auth.email';
   static const String keyCloudLastShopId = 'cloud.lastShopId';
+  static const String keyDeviceInstallationId = 'device.installationId';
+  static const String keyLastObservedClock =
+      'cloud.license.lastObservedLocalClock';
   static const String defaultSupportPhone = '+201014900211';
   static const String defaultCustomerName = 'عميل نقدي';
   static const String defaultButtonStyle = 'filled';

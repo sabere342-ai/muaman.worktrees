@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '../database/database_helper.dart';
 import '../database/workbook_importer.dart';
 import '../licensing/licensing.dart';
+import '../licensing/cloud_licensing_service.dart';
+import 'settings/license_status_screen.dart';
 import '../models/shop_profile.dart';
 import '../models/user_role.dart';
 import '../services/app_settings.dart';
@@ -454,6 +456,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 24),
             _buildLicensingSection(),
             const SizedBox(height: 24),
+            _buildCloudLicensingSection(),
+            const SizedBox(height: 24),
             const Text('استيراد بيانات Excel',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             const SizedBox(height: 8),
@@ -602,6 +606,111 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ],
     );
+  }
+
+  Widget _buildCloudLicensingSection() {
+    final cloudLicensing = CloudLicensingService.instance;
+    final snapshot = cloudLicensing.currentState;
+    final isEntitled = snapshot.allowsWrites;
+    final stateLabel = _cloudStateLabel(snapshot);
+
+    return Card(
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LicenseStatusScreen(
+                entitlement: snapshot,
+                isOwner: _isOwner,
+              ),
+            ),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    isEntitled ? Icons.cloud_done : Icons.cloud_off,
+                    color: isEntitled ? Colors.green : Colors.orange,
+                  ),
+                  const SizedBox(width: 12),
+                  const Expanded(
+                    child: Text('ترخيص السحابة',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16)),
+                  ),
+                  Icon(Icons.chevron_right, color: Colors.grey.shade400),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(
+                stateLabel,
+                style: TextStyle(
+                  fontSize: 13,
+                  color: isEntitled
+                      ? Colors.green.shade700
+                      : Colors.orange.shade700,
+                ),
+                textDirection: TextDirection.rtl,
+              ),
+              if (snapshot.isTrial && snapshot.daysRemaining != null) ...[
+                const SizedBox(height: 4),
+                Text(
+                  'متبقي ${snapshot.daysRemaining} يوم',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey.shade600,
+                  ),
+                  textDirection: TextDirection.rtl,
+                ),
+              ],
+              if (!snapshot.isOnline) ...[
+                const SizedBox(height: 4),
+                Text(
+                  'غير متصل — بيانات مؤقتة',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.orange.shade600,
+                  ),
+                  textDirection: TextDirection.rtl,
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _cloudStateLabel(CloudEntitlementSnapshot snapshot) {
+    switch (snapshot.state) {
+      case CloudEntitlementState.entitled:
+        return snapshot.isTrial ? 'فترة تجريبية نشطة' : 'رخصة نشطة';
+      case CloudEntitlementState.entitledCached:
+        return 'نشط (بيانات مؤقتة)';
+      case CloudEntitlementState.expired:
+        return snapshot.isTrial ? 'انتهت الفترة التجريبية' : 'انتهت الصلاحية';
+      case CloudEntitlementState.suspended:
+        return 'تم التعليق';
+      case CloudEntitlementState.revoked:
+        return 'تم الإلغاء';
+      case CloudEntitlementState.staleOffline:
+        return 'يتطلب اتصال بالإنترنت';
+      case CloudEntitlementState.offlineNoLicense:
+        return 'يتطلب اتصال بالإنترنت';
+      case CloudEntitlementState.noLicense:
+        return 'لا توجد رخصة';
+      default:
+        return 'غير محدد';
+    }
   }
 
   Future<void> _activateRealLicense() async {

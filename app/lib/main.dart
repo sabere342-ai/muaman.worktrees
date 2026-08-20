@@ -7,6 +7,7 @@ import 'config/app_config.dart';
 import 'database/database_helper.dart';
 import 'database/user_repository.dart';
 import 'licensing/licensing.dart';
+import 'licensing/cloud_licensing_service.dart';
 import 'models/user_role.dart';
 import 'services/session_state.dart';
 import 'services/permissions.dart';
@@ -170,9 +171,12 @@ class _AuthGateState extends State<AuthGate> {
     await ShopProfileService.instance.load();
 
     // Initialize licensing and wire enforcement into the database layer.
-    final licensingService = LicensingService.instance;
-    await licensingService.initialize();
-    DatabaseHelper.setLicensingEnforcer(() => licensingService.enforceActive());
+    // Phase E: CloudLicensingService replaces the old LicensingService as
+    // the enforcement boundary. The old service is retained as fallback.
+    final cloudLicensingService = CloudLicensingService.instance;
+    await cloudLicensingService.initialize();
+    DatabaseHelper.setLicensingEnforcer(
+        () => cloudLicensingService.enforceActive());
 
     // Check if Supabase is available and try to restore cloud session.
     if (AppConfig.isConfigured) {

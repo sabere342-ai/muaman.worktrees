@@ -4,6 +4,7 @@ import '../../database/user_repository.dart';
 import '../../models/user_role.dart';
 import '../../services/app_settings.dart';
 import '../../services/identity_linker.dart';
+import '../../licensing/cloud_licensing_service.dart';
 
 class FirstOwnerSetupScreen extends StatefulWidget {
   final VoidCallback onComplete;
@@ -109,6 +110,22 @@ class _FirstOwnerSetupScreenState extends State<FirstOwnerSetupScreen> {
         );
 
         if (result.isSuccess) {
+          // Phase E: Start trial, register and activate device for the new shop.
+          if (result.shopId != null) {
+            try {
+              final cloudLicensing = CloudLicensingService.instance;
+              await cloudLicensing.initialize(
+                shopId: result.shopId,
+                isCloudLinked: true,
+              );
+              await cloudLicensing.startTrial(result.shopId!);
+              await cloudLicensing.registerDevice(result.shopId!);
+              await cloudLicensing.activateDevice(result.shopId!);
+            } catch (_) {
+              // Licensing setup failure — shop is created, licensing can
+              // be resolved on next login.
+            }
+          }
           if (mounted) widget.onComplete();
           return;
         }

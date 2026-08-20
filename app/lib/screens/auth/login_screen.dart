@@ -9,6 +9,7 @@ import '../../models/cloud_session.dart';
 import '../../services/shop_profile_service.dart';
 import '../../services/shop_resolver.dart';
 import '../../widgets/shop_logo.dart';
+import '../../licensing/cloud_licensing_service.dart';
 
 class LoginScreen extends StatefulWidget {
   final SessionState sessionState;
@@ -119,6 +120,16 @@ class _LoginScreenState extends State<LoginScreen> {
           membershipRole: membership.membershipRole,
           membershipStatus: membership.membershipStatus,
         ));
+
+        // Phase E: Resolve licensing entitlement for the active shop.
+        final cloudLicensing = CloudLicensingService.instance;
+        await cloudLicensing.initialize(
+          shopId: membership.shopId,
+          isCloudLinked: true,
+        );
+        // Register and activate device for this shop.
+        await cloudLicensing.registerDevice(membership.shopId);
+        await cloudLicensing.activateDevice(membership.shopId);
       }
     } catch (_) {
       // Cloud login failure — operate in offline mode.

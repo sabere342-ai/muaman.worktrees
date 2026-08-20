@@ -1,0 +1,495 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:muaman_store/licensing/cloud_licensing_repository.dart';
+import 'package:muaman_store/licensing/cloud_licensing_service.dart';
+import 'package:muaman_store/licensing/entitlement_cache.dart';
+import 'package:muaman_store/licensing/offline_grace_policy.dart';
+import 'package:muaman_store/licensing/license_exception.dart';
+
+void main() {
+  group('EntitlementResult', () {
+    test('parses from RPC response correctly', () {
+      final data = {
+        'has_license': true,
+        'license_status': 'TRIAL',
+        'is_trial': true,
+        'trial_active': true,
+        'trial_started_at': '2026-08-01T00:00:00Z',
+        'trial_expires_at': '2026-08-15T00:00:00Z',
+        'days_remaining': 13,
+        'hours_remaining': 12,
+        'activated_at': null,
+        'subscription_expires_at': null,
+        'max_devices': 3,
+        'current_devices': 1,
+        'device_slot_available': true,
+        'server_time': '2026-08-02T00:00:00Z',
+      };
+      final result = EntitlementResult.fromRpc(data);
+      expect(result.hasLicense, true);
+      expect(result.licenseStatus, 'TRIAL');
+      expect(result.isTrial, true);
+      expect(result.trialActive, true);
+      expect(result.daysRemaining, 13);
+      expect(result.maxDevices, 3);
+      expect(result.currentDevices, 1);
+      expect(result.deviceSlotAvailable, true);
+    });
+
+    test('parses no-license response', () {
+      final data = {
+        'has_license': false,
+        'license_status': null,
+        'is_trial': false,
+        'trial_active': false,
+        'trial_started_at': null,
+        'trial_expires_at': null,
+        'days_remaining': null,
+        'hours_remaining': null,
+        'activated_at': null,
+        'subscription_expires_at': null,
+        'max_devices': null,
+        'current_devices': 0,
+        'device_slot_available': false,
+        'server_time': '2026-08-02T00:00:00Z',
+      };
+      final result = EntitlementResult.fromRpc(data);
+      expect(result.hasLicense, false);
+      expect(result.isTrial, false);
+      expect(result.trialActive, false);
+      expect(result.currentDevices, 0);
+    });
+
+    test('parses expired trial response', () {
+      final data = {
+        'has_license': true,
+        'license_status': 'TRIAL',
+        'is_trial': true,
+        'trial_active': false,
+        'trial_started_at': '2026-08-01T00:00:00Z',
+        'trial_expires_at': '2026-08-14T00:00:00Z',
+        'days_remaining': 0,
+        'hours_remaining': 0,
+        'activated_at': null,
+        'subscription_expires_at': null,
+        'max_devices': 3,
+        'current_devices': 2,
+        'device_slot_available': false,
+        'server_time': '2026-08-15T00:00:00Z',
+      };
+      final result = EntitlementResult.fromRpc(data);
+      expect(result.hasLicense, true);
+      expect(result.trialActive, false);
+      expect(result.daysRemaining, 0);
+    });
+  });
+
+  group('DeviceActivationResult', () {
+    test('parses success response', () {
+      final data = {
+        'success': true,
+        'activation_id': 'abc-123',
+        'devices_remaining': 2,
+      };
+      final result = DeviceActivationResult.fromRpc(data);
+      expect(result.success, true);
+      expect(result.activationId, 'abc-123');
+      expect(result.devicesRemaining, 2);
+    });
+
+    test('parses failure response', () {
+      final data = {
+        'success': false,
+        'error': 'Device limit reached',
+      };
+      final result = DeviceActivationResult.fromRpc(data);
+      expect(result.success, false);
+      expect(result.error, 'Device limit reached');
+    });
+  });
+
+  group('EntitlementSnapshot', () {
+    test('serialization round-trip', () {
+      final snapshot = EntitlementSnapshot(
+        shopId: 'shop-123',
+        hasLicense: true,
+        licenseStatus: 'TRIAL',
+        isTrial: true,
+        trialActive: true,
+        trialStartedAt: DateTime.utc(2026, 8, 1),
+        trialExpiresAt: DateTime.utc(2026, 8, 15),
+        daysRemaining: 13,
+        activatedAt: null,
+        subscriptionExpiresAt: null,
+        maxDevices: 3,
+        currentDevices: 1,
+        deviceSlotAvailable: true,
+        serverTimeAtVerification: DateTime.utc(2026, 8, 2),
+        localWallClockAtVerification: DateTime.utc(2026, 8, 2),
+        lastSuccessfulVerificationAt: DateTime.utc(2026, 8, 2),
+      );
+
+      final json = snapshot.toJson();
+      final restored = EntitlementSnapshot.fromJson(json);
+
+      expect(restored.shopId, snapshot.shopId);
+      expect(restored.hasLicense, snapshot.hasLicense);
+      expect(restored.isTrial, snapshot.isTrial);
+      expect(restored.trialActive, snapshot.trialActive);
+      expect(restored.maxDevices, snapshot.maxDevices);
+      expect(restored.currentDevices, snapshot.currentDevices);
+    });
+
+    test('blocksWrites for expired trial', () {
+      final snapshot = EntitlementSnapshot(
+        shopId: 'shop-123',
+        hasLicense: true,
+        licenseStatus: 'TRIAL',
+        isTrial: true,
+        trialActive: false,
+        currentDevices: 0,
+        deviceSlotAvailable: false,
+        serverTimeAtVerification: DateTime.now().toUtc(),
+        localWallClockAtVerification: DateTime.now(),
+        lastSuccessfulVerificationAt: DateTime.now(),
+      );
+      expect(snapshot.blocksWrites, true);
+    });
+
+    test('allows writes for active trial', () {
+      final snapshot = EntitlementSnapshot(
+        shopId: 'shop-123',
+        hasLicense: true,
+        licenseStatus: 'TRIAL',
+        isTrial: true,
+        trialActive: true,
+        currentDevices: 1,
+        deviceSlotAvailable: true,
+        serverTimeAtVerification: DateTime.now().toUtc(),
+        localWallClockAtVerification: DateTime.now(),
+        lastSuccessfulVerificationAt: DateTime.now(),
+      );
+      expect(snapshot.blocksWrites, false);
+    });
+
+    test('blocksWrites for revoked license', () {
+      final snapshot = EntitlementSnapshot(
+        shopId: 'shop-123',
+        hasLicense: true,
+        licenseStatus: 'REVOKED',
+        isTrial: false,
+        trialActive: false,
+        currentDevices: 0,
+        deviceSlotAvailable: false,
+        serverTimeAtVerification: DateTime.now().toUtc(),
+        localWallClockAtVerification: DateTime.now(),
+        lastSuccessfulVerificationAt: DateTime.now(),
+      );
+      expect(snapshot.blocksWrites, true);
+    });
+
+    test('blocksWrites for suspended license', () {
+      final snapshot = EntitlementSnapshot(
+        shopId: 'shop-123',
+        hasLicense: true,
+        licenseStatus: 'SUSPENDED',
+        isTrial: false,
+        trialActive: false,
+        currentDevices: 0,
+        deviceSlotAvailable: false,
+        serverTimeAtVerification: DateTime.now().toUtc(),
+        localWallClockAtVerification: DateTime.now(),
+        lastSuccessfulVerificationAt: DateTime.now(),
+      );
+      expect(snapshot.blocksWrites, true);
+    });
+
+    test('allows writes for active paid license', () {
+      final snapshot = EntitlementSnapshot(
+        shopId: 'shop-123',
+        hasLicense: true,
+        licenseStatus: 'ACTIVE',
+        isTrial: false,
+        trialActive: false,
+        currentDevices: 2,
+        deviceSlotAvailable: true,
+        serverTimeAtVerification: DateTime.now().toUtc(),
+        localWallClockAtVerification: DateTime.now(),
+        lastSuccessfulVerificationAt: DateTime.now(),
+      );
+      expect(snapshot.blocksWrites, false);
+    });
+  });
+
+  group('OfflineGracePolicy', () {
+    late OfflineGracePolicy policy;
+
+    setUp(() {
+      policy = OfflineGracePolicy();
+    });
+
+    test('isWithinGraceWindow returns true for recent cache', () {
+      final snapshot = EntitlementSnapshot(
+        shopId: 'shop-123',
+        hasLicense: true,
+        licenseStatus: 'TRIAL',
+        isTrial: true,
+        trialActive: true,
+        trialExpiresAt: DateTime.now().toUtc().add(const Duration(days: 5)),
+        currentDevices: 1,
+        deviceSlotAvailable: true,
+        serverTimeAtVerification: DateTime.now().toUtc(),
+        localWallClockAtVerification: DateTime.now(),
+        lastSuccessfulVerificationAt: DateTime.now().toUtc(),
+      );
+      expect(policy.isWithinGraceWindow(snapshot), true);
+    });
+
+    test('isWithinGraceWindow returns false for stale cache', () {
+      final snapshot = EntitlementSnapshot(
+        shopId: 'shop-123',
+        hasLicense: true,
+        licenseStatus: 'TRIAL',
+        isTrial: true,
+        trialActive: true,
+        trialExpiresAt: DateTime.now().toUtc().add(const Duration(days: 5)),
+        currentDevices: 1,
+        deviceSlotAvailable: true,
+        serverTimeAtVerification:
+            DateTime.now().toUtc().subtract(const Duration(hours: 25)),
+        localWallClockAtVerification: DateTime.now(),
+        lastSuccessfulVerificationAt:
+            DateTime.now().toUtc().subtract(const Duration(hours: 25)),
+      );
+      expect(policy.isWithinGraceWindow(snapshot), false);
+    });
+
+    test('isWithinGraceWindow returns false for expired trial', () {
+      final snapshot = EntitlementSnapshot(
+        shopId: 'shop-123',
+        hasLicense: true,
+        licenseStatus: 'TRIAL',
+        isTrial: true,
+        trialActive: false,
+        trialExpiresAt:
+            DateTime.now().toUtc().subtract(const Duration(days: 1)),
+        currentDevices: 0,
+        deviceSlotAvailable: false,
+        serverTimeAtVerification: DateTime.now().toUtc(),
+        localWallClockAtVerification: DateTime.now(),
+        lastSuccessfulVerificationAt: DateTime.now().toUtc(),
+      );
+      expect(policy.isWithinGraceWindow(snapshot), false);
+    });
+
+    test('isWithinGraceWindow returns false for clock backwards', () {
+      final snapshot = EntitlementSnapshot(
+        shopId: 'shop-123',
+        hasLicense: true,
+        licenseStatus: 'ACTIVE',
+        isTrial: false,
+        trialActive: false,
+        currentDevices: 1,
+        deviceSlotAvailable: true,
+        serverTimeAtVerification:
+            DateTime.now().toUtc().add(const Duration(hours: 1)),
+        localWallClockAtVerification: DateTime.now(),
+        lastSuccessfulVerificationAt:
+            DateTime.now().toUtc().add(const Duration(hours: 1)),
+      );
+      expect(policy.isWithinGraceWindow(snapshot), false);
+    });
+
+    test('isCachedNonEntitled returns true for null', () {
+      expect(policy.isCachedNonEntitled(null), true);
+    });
+
+    test('isCachedNonEntitled returns true for expired', () {
+      final snapshot = EntitlementSnapshot(
+        shopId: 'shop-123',
+        hasLicense: true,
+        licenseStatus: 'EXPIRED',
+        isTrial: false,
+        trialActive: false,
+        currentDevices: 0,
+        deviceSlotAvailable: false,
+        serverTimeAtVerification: DateTime.now().toUtc(),
+        localWallClockAtVerification: DateTime.now(),
+        lastSuccessfulVerificationAt: DateTime.now(),
+      );
+      expect(policy.isCachedNonEntitled(snapshot), true);
+    });
+
+    test('isCachedNonEntitled returns false for active trial', () {
+      final snapshot = EntitlementSnapshot(
+        shopId: 'shop-123',
+        hasLicense: true,
+        licenseStatus: 'TRIAL',
+        isTrial: true,
+        trialActive: true,
+        currentDevices: 1,
+        deviceSlotAvailable: true,
+        serverTimeAtVerification: DateTime.now().toUtc(),
+        localWallClockAtVerification: DateTime.now(),
+        lastSuccessfulVerificationAt: DateTime.now(),
+      );
+      expect(policy.isCachedNonEntitled(snapshot), false);
+    });
+
+    test('isCachedNonEntitled returns true for expired trial', () {
+      final snapshot = EntitlementSnapshot(
+        shopId: 'shop-123',
+        hasLicense: true,
+        licenseStatus: 'TRIAL',
+        isTrial: true,
+        trialActive: false,
+        currentDevices: 0,
+        deviceSlotAvailable: false,
+        serverTimeAtVerification: DateTime.now().toUtc(),
+        localWallClockAtVerification: DateTime.now(),
+        lastSuccessfulVerificationAt: DateTime.now(),
+      );
+      expect(policy.isCachedNonEntitled(snapshot), true);
+    });
+
+    test('isCachedNonEntitled returns true for no license', () {
+      final snapshot = EntitlementSnapshot(
+        shopId: 'shop-123',
+        hasLicense: false,
+        isTrial: false,
+        trialActive: false,
+        currentDevices: 0,
+        deviceSlotAvailable: false,
+        serverTimeAtVerification: DateTime.now().toUtc(),
+        localWallClockAtVerification: DateTime.now(),
+        lastSuccessfulVerificationAt: DateTime.now(),
+      );
+      expect(policy.isCachedNonEntitled(snapshot), true);
+    });
+  });
+
+  group('LicenseException classes', () {
+    test('TrialExpiredException message', () {
+      const e = TrialExpiredException();
+      expect(e.message, contains('تجريبية'));
+    });
+
+    test('LicenseExpiredException message', () {
+      const e = LicenseExpiredException();
+      expect(e.message, contains('انتهت'));
+    });
+
+    test('LicenseSuspendedException message', () {
+      const e = LicenseSuspendedException();
+      expect(e.message, contains('تعليق'));
+    });
+
+    test('DeviceLimitReachedException message', () {
+      const e = DeviceLimitReachedException(
+        currentDevices: 3,
+        maxDevices: 3,
+      );
+      expect(e.message, contains('3/3'));
+    });
+
+    test('DeviceRevokedException message', () {
+      const e = DeviceRevokedException();
+      expect(e.message, contains('مصرحاً'));
+    });
+
+    test('EntitlementUnknownException message', () {
+      const e = EntitlementUnknownException();
+      expect(e.message, contains('التحقق'));
+    });
+
+    test('ClockRollbackDetectedException message', () {
+      const e = ClockRollbackDetectedException();
+      expect(e.message, contains('الوقت'));
+    });
+
+    test('CloudLicenseWriteBlockedException message', () {
+      const e = CloudLicenseWriteBlockedException('test message');
+      expect(e.message, 'test message');
+    });
+  });
+
+  group('CloudEntitlementSnapshot', () {
+    test('allowsWrites for entitled state', () {
+      const snapshot = CloudEntitlementSnapshot(
+        state: CloudEntitlementState.entitled,
+        hasLicense: true,
+        isTrial: true,
+        trialActive: true,
+        currentDevices: 1,
+        deviceActivated: true,
+        isOnline: true,
+      );
+      expect(snapshot.allowsWrites, true);
+      expect(snapshot.blocksWrites, false);
+    });
+
+    test('blocksWrites for expired state', () {
+      const snapshot = CloudEntitlementSnapshot(
+        state: CloudEntitlementState.expired,
+        hasLicense: true,
+        isTrial: true,
+        trialActive: false,
+        currentDevices: 1,
+        deviceActivated: true,
+        isOnline: true,
+      );
+      expect(snapshot.blocksWrites, true);
+    });
+
+    test('allowsWrites for entitledCached state', () {
+      const snapshot = CloudEntitlementSnapshot(
+        state: CloudEntitlementState.entitledCached,
+        hasLicense: true,
+        isTrial: true,
+        trialActive: true,
+        currentDevices: 1,
+        deviceActivated: true,
+        isOnline: false,
+      );
+      expect(snapshot.allowsWrites, true);
+    });
+
+    test('blocksWrites for revoked state', () {
+      const snapshot = CloudEntitlementSnapshot(
+        state: CloudEntitlementState.revoked,
+        hasLicense: true,
+        isTrial: false,
+        trialActive: false,
+        currentDevices: 1,
+        deviceActivated: false,
+        isOnline: true,
+      );
+      expect(snapshot.blocksWrites, true);
+    });
+
+    test('blocksWrites for noLicense state', () {
+      const snapshot = CloudEntitlementSnapshot(
+        state: CloudEntitlementState.noLicense,
+        hasLicense: false,
+        isTrial: false,
+        trialActive: false,
+        currentDevices: 0,
+        deviceActivated: false,
+        isOnline: true,
+      );
+      expect(snapshot.blocksWrites, true);
+    });
+
+    test('blocksWrites for staleOffline state', () {
+      const snapshot = CloudEntitlementSnapshot(
+        state: CloudEntitlementState.staleOffline,
+        hasLicense: true,
+        isTrial: true,
+        trialActive: true,
+        currentDevices: 1,
+        deviceActivated: true,
+        isOnline: false,
+      );
+      expect(snapshot.blocksWrites, true);
+    });
+  });
+}
