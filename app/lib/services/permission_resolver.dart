@@ -1,5 +1,6 @@
 import '../models/user.dart';
 import '../models/user_role.dart';
+import '../rbac/effective_permission_model.dart';
 import 'permissions.dart';
 import 'role_permission_repository.dart';
 
@@ -16,6 +17,8 @@ import 'role_permission_repository.dart';
 ///  - Before the configuration has been loaded (or when no configuration
 ///    exists), the built-in MUAMAN-14 defaults apply. Those defaults are the
 ///    safe, fail-closed configuration — never an allow-all.
+///  - Cloud permissions take precedence over local config when available
+///    (Phase F: server-authoritative permission source).
 ///  - Changes are applied on the next session for the affected role.
 class PermissionResolver {
   PermissionResolver({RolePermissionRepository? repository})
@@ -26,6 +29,10 @@ class PermissionResolver {
   final RolePermissionRepository _repository;
 
   Map<UserRole, Set<AppPermission>>? _config;
+
+  /// Cloud permission snapshot (Phase F). When set, cloud permissions take
+  /// precedence over local config for non-owner roles.
+  CloudPermissionSnapshot? _cloudSnapshot;
 
   /// Loads and caches the persisted configuration. Call once at startup and
   /// after every settings change.
@@ -39,12 +46,34 @@ class PermissionResolver {
     _config = null;
   }
 
+  /// Set or clear the cloud permission snapshot.
+  ///
+  /// When set, cloud permissions take precedence over local config for
+  /// non-owner roles. Owner always gets all permissions regardless.
+  void setCloudSnapshot(CloudPermissionSnapshot? snapshot) {
+    _cloudSnapshot = snapshot;
+  }
+
+  /// Current cloud permission snapshot (if synced).
+  CloudPermissionSnapshot? get cloudSnapshot => _cloudSnapshot;
+
   bool get isLoaded => _config != null;
 
   /// Effective permission set for a role. The owner always receives every
   /// permission; a missing configuration falls back to built-in defaults.
+  ///
+  /// Phase F: When a cloud snapshot is available and fresh, it takes precedence
+  /// over local config for non-owner roles. This is the cloud-first resolution.
   Set<AppPermission> effectivePermissions(UserRole role) {
     if (role == UserRole.owner) return PermissionCatalog.allPermissions;
+
+    // Cloud permissions take precedence when available and fresh
+    final cloud = _cloudSnapshot;
+    if (cloud != null && cloud.isFresh) {
+      return cloud.toPermissionSet();
+    }
+
+    // Fall back to local config
     final config = _config;
     return config?[role] ?? PermissionCatalog.defaultPermissionsForRole(role);
   }

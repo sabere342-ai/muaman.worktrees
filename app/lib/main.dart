@@ -9,6 +9,7 @@ import 'database/user_repository.dart';
 import 'licensing/licensing.dart';
 import 'licensing/cloud_licensing_service.dart';
 import 'models/user_role.dart';
+import 'rbac/permission_sync_service.dart';
 import 'services/session_state.dart';
 import 'services/permissions.dart';
 import 'services/permission_resolver.dart';
@@ -178,6 +179,9 @@ class _AuthGateState extends State<AuthGate> {
     DatabaseHelper.setLicensingEnforcer(
         () => cloudLicensingService.enforceActive());
 
+    // Phase F: Permission sync service is available for cloud permission
+    // synchronization. It will be triggered after cloud session is established.
+
     // Check if Supabase is available and try to restore cloud session.
     if (AppConfig.isConfigured) {
       try {
@@ -210,6 +214,8 @@ class _AuthGateState extends State<AuthGate> {
 
   void _onLogout() {
     _sessionState.logout();
+    // Phase F: Clear cloud permission state on logout.
+    PermissionSyncService.instance.reset();
     // Sign out from Supabase if cloud session was active.
     if (_cloudAvailable) {
       try {

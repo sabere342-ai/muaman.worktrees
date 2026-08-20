@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import '../models/user.dart';
 import '../models/user_role.dart';
+import '../rbac/effective_permission_model.dart';
 import 'permission_resolver.dart';
 import 'permissions.dart';
 import '../models/cloud_session.dart';
@@ -26,6 +27,10 @@ class SessionState extends ChangeNotifier {
 
   /// The permission resolver this session is bound to.
   PermissionResolver get permissionResolver => _resolver;
+
+  /// Cloud permission snapshot (Phase F). When set, cloud permissions are
+  /// the authoritative source for permission checks.
+  CloudPermissionSnapshot? get cloudPermissions => _resolver.cloudSnapshot;
 
   bool hasPermission(AppPermission permission) {
     if (_currentUser == null) return false;

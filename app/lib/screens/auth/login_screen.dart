@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../config/app_config.dart';
 import '../../database/user_repository.dart';
 import '../../models/shop_profile.dart';
+import '../../rbac/permission_sync_service.dart';
 import '../../services/app_settings.dart';
 import '../../services/session_state.dart';
 import '../../models/cloud_session.dart';
@@ -130,6 +131,15 @@ class _LoginScreenState extends State<LoginScreen> {
         // Register and activate device for this shop.
         await cloudLicensing.registerDevice(membership.shopId);
         await cloudLicensing.activateDevice(membership.shopId);
+
+        // Phase F: Sync cloud permissions for the active shop.
+        try {
+          await PermissionSyncService.instance.syncPermissions(
+            membership.shopId,
+          );
+        } catch (_) {
+          // Permission sync failure — continue with local defaults.
+        }
       }
     } catch (_) {
       // Cloud login failure — operate in offline mode.
