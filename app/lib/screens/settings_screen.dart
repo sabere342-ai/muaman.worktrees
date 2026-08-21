@@ -458,6 +458,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 24),
             _buildCloudLicensingSection(),
             const SizedBox(height: 24),
+            _buildSyncStatusSection(),
+            const SizedBox(height: 24),
             const Text('استيراد بيانات Excel',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             const SizedBox(height: 8),
@@ -711,6 +713,93 @@ class _SettingsScreenState extends State<SettingsScreen> {
       default:
         return 'غير محدد';
     }
+  }
+
+  Widget _buildSyncStatusSection() {
+    final pendingCount = widget.sessionState.pendingSyncCount;
+    final failedCount = widget.sessionState.failedSyncCount;
+    final conflictCount = widget.sessionState.conflictSyncCount;
+    final lastSyncedAt = widget.sessionState.lastSyncedAt;
+    final isCloudLinked = widget.sessionState.isCloudLinked;
+
+    Color statusColor;
+    String statusLabel;
+    if (!isCloudLinked) {
+      statusColor = Colors.grey;
+      statusLabel = 'غير مرتبط بالسحابة';
+    } else if (failedCount > 0 || conflictCount > 0) {
+      statusColor = Colors.red;
+      statusLabel = 'يوجد مشاكل في المزامنة';
+    } else if (pendingCount > 0) {
+      statusColor = Colors.orange;
+      statusLabel = 'جاري المزامنة ($pendingCount)';
+    } else {
+      statusColor = Colors.green;
+      statusLabel = 'مزامنة كاملة';
+    }
+
+    return Card(
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.sync, color: statusColor),
+                const SizedBox(width: 12),
+                const Expanded(
+                  child: Text('حالة المزامنة',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              statusLabel,
+              style: TextStyle(fontSize: 13, color: statusColor),
+              textDirection: TextDirection.rtl,
+            ),
+            if (lastSyncedAt != null) ...[
+              const SizedBox(height: 4),
+              Text(
+                'آخر مزامنة: ${_formatSyncTime(lastSyncedAt)}',
+                style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                textDirection: TextDirection.rtl,
+              ),
+            ],
+            if (failedCount > 0) ...[
+              const SizedBox(height: 4),
+              Text(
+                '$failedCount عناصر فاشلة',
+                style: TextStyle(fontSize: 12, color: Colors.red.shade600),
+                textDirection: TextDirection.rtl,
+              ),
+            ],
+            if (conflictCount > 0) ...[
+              const SizedBox(height: 4),
+              Text(
+                '$conflictCount تعارضات',
+                style: TextStyle(fontSize: 12, color: Colors.red.shade600),
+                textDirection: TextDirection.rtl,
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _formatSyncTime(DateTime time) {
+    final now = DateTime.now();
+    final diff = now.difference(time);
+    if (diff.inMinutes < 1) return 'الآن';
+    if (diff.inHours < 1) return 'منذ ${diff.inMinutes} دقيقة';
+    if (diff.inDays < 1) return 'منذ ${diff.inHours} ساعة';
+    return 'منذ ${diff.inDays} يوم';
   }
 
   Future<void> _activateRealLicense() async {

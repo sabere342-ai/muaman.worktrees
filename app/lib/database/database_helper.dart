@@ -11,6 +11,17 @@ import '../models/invoice.dart';
 import '../models/user_role.dart';
 import '../services/permissions.dart';
 import '../services/permission_resolver.dart';
+import '../sync/adapters/customer_sync_adapter.dart';
+import '../sync/adapters/entity_sync_adapter.dart';
+import '../sync/adapters/expense_category_sync_adapter.dart';
+import '../sync/adapters/expense_sync_adapter.dart';
+import '../sync/adapters/inventory_count_sync_adapter.dart';
+import '../sync/adapters/invoice_sync_adapter.dart';
+import '../sync/adapters/product_sync_adapter.dart';
+import '../sync/adapters/return_sync_adapter.dart';
+import '../sync/adapters/sale_sync_adapter.dart';
+import '../sync/sync_queue_repository.dart';
+import '../sync/sync_status.dart';
 import 'data_importer.dart';
 
 class DatabaseHelper {
@@ -54,6 +65,150 @@ class DatabaseHelper {
     }
   }
 
+  // =================== SYNC ENQUEUE-AFTER-WRITE (Phase H / H-I09) ===================
+
+  /// Provides the shop a local write should be attributed to when enqueuing
+  /// sync operations. Registered during app startup next to the licensing
+  /// enforcer. When it returns null (and the row carries no shop_id), writes
+  /// stay purely local and no queue entry is created — there is no authorized
+  /// cloud tenant to sync towards.
+  static Future<String?> Function()? _syncShopIdProvider;
+
+  /// Nesting counter for [runWithoutSyncEnqueue]. While > 0, business writes
+  /// do not create queue entries. Cloud-originated apply paths (SyncEngine
+  /// conflict resolution, hydration) use this so remote data never echoes
+  /// back into the sync queue.
+  static int _enqueueSuppressionDepth = 0;
+
+  /// Monotonic sequence guard making idempotency keys unique even when two
+  /// writes happen within the same microsecond.
+  static int _syncKeySeq = 0;
+
+  /// Registers the active-shop provider used to stamp sync queue entries.
+  static void setSyncShopIdProvider(Future<String?> Function() provider) {
+    _syncShopIdProvider = provider;
+  }
+
+  /// Removes the active-shop provider. For test teardown only.
+  static void clearSyncShopIdProvider() {
+    _syncShopIdProvider = null;
+  }
+
+  /// Runs [action] with sync enqueueing suppressed. Any DatabaseHelper
+  /// business write performed inside this scope (e.g. applying a
+  /// cloud-resolved row back to SQLite) will NOT enqueue a new sync
+  /// operation, preventing CLOUD → LOCAL → QUEUE → CLOUD echo loops.
+  static Future<T> runWithoutSyncEnqueue<T>(Future<T> Function() action) async {
+    _enqueueSuppressionDepth++;
+    try {
+      return await action();
+    } finally {
+      _enqueueSuppressionDepth--;
+    }
+  }
+
+  /// Adapter registry: local table → sync adapter defining the canonical
+  /// cloud payload mapping. Tables without an entry are not cloud-synced
+  /// through DatabaseHelper write paths.
+  static final Map<String, EntitySyncAdapter> _syncAdaptersByTable = () {
+    final adapters = <EntitySyncAdapter>[
+      ProductSyncAdapter(),
+      SaleSyncAdapter(),
+      ReturnSyncAdapter(),
+      ExpenseSyncAdapter(),
+      ExpenseCategorySyncAdapter(),
+      CustomerSyncAdapter(),
+      InvoiceSyncAdapter(),
+      InventoryCountSyncAdapter(),
+    ];
+    return {for (final a in adapters) a.localTableName: a};
+  }();
+
+  SyncQueueRepository? _syncQueueRepo;
+  Database? _syncQueueRepoDb;
+
+  /// Returns a queue repository bound to the current database handle,
+  /// rebinding automatically after [setTestDatabase]/[resetForTest].
+  SyncQueueRepository _syncQueueRepository(Database db) {
+    if (_syncQueueRepo == null || !identical(_syncQueueRepoDb, db)) {
+      _syncQueueRepoDb = db;
+      _syncQueueRepo = SyncQueueRepository(db);
+    }
+    return _syncQueueRepo!;
+  }
+
+  Future<String?> _resolveSyncShopId(Map<String, dynamic> row) async {
+    final provider = _syncShopIdProvider;
+    if (provider != null) {
+      final active = await provider();
+      if (active != null && active.isNotEmpty) return active;
+    }
+    return row['shop_id'] as String?;
+  }
+
+  static String _generateSyncKey(
+      String entityType, int entityId, SyncQueueOperation operation) {
+    _syncKeySeq++;
+    final micros = DateTime.now().microsecondsSinceEpoch;
+    return '$entityType-$entityId-${operation.label}-$micros-$_syncKeySeq';
+  }
+
+  /// Enqueues a sync operation for a successfully written local row.
+  ///
+  /// Must be called on the same [executor] (transaction) that performed the
+  /// write so the queue entry commits or rolls back atomically with it.
+  /// Reads the persisted row back through [executor] and builds the payload
+  /// with the entity's sync adapter, guaranteeing payload integrity with the
+  /// SyncEngine/cloud contract. For deletes the row disappears from SQLite,
+  /// so callers pass the pre-delete snapshot via [existingRow].
+  /// Skips silently when:
+  ///  - inside [runWithoutSyncEnqueue] (cloud-applied write),
+  ///  - the table has no sync adapter (non-synced internal write),
+  ///  - no owning shop can be resolved (no cloud tenant context).
+  Future<void> _enqueueAfterWrite(
+    Database db,
+    DatabaseExecutor executor, {
+    required String tableName,
+    required int rowId,
+    required SyncQueueOperation operation,
+    Map<String, dynamic>? existingRow,
+  }) async {
+    if (_enqueueSuppressionDepth > 0) return;
+    final adapter = _syncAdaptersByTable[tableName];
+    if (adapter == null) return;
+
+    Map<String, dynamic>? row;
+    if (existingRow != null) {
+      row = existingRow;
+    } else {
+      final rows = await executor.query(tableName,
+          where: 'id = ?', whereArgs: [rowId], limit: 1);
+      row = rows.isEmpty ? null : rows.first;
+    }
+    if (row == null) return;
+
+    final shopId = await _resolveSyncShopId(row);
+    if (shopId == null || shopId.isEmpty) return;
+
+    final payload = <String, dynamic>{
+      'id': rowId,
+      'cloud_uuid': row['cloud_uuid'] as String?,
+      'server_version': (row['server_version'] as num?)?.toInt() ?? 0,
+      ...adapter.localToCloudPayload(row),
+    };
+
+    await _syncQueueRepository(db).enqueue(
+      entityType: adapter.entityType.label,
+      entityId: rowId,
+      operation: operation,
+      payload: payload,
+      idempotencyKey:
+          _generateSyncKey(adapter.entityType.label, rowId, operation),
+      shopId: shopId,
+      executor: executor,
+    );
+  }
+
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
       await db.execute('DROP TABLE IF EXISTS products');
@@ -88,6 +243,9 @@ class DatabaseHelper {
     if (oldVersion < 9) {
       await _migrateToV9(db);
     }
+    if (oldVersion < 13) {
+      await _migrateToV13(db);
+    }
   }
 
   Future<Database> get database async {
@@ -105,8 +263,9 @@ class DatabaseHelper {
   /// without touching a real database file.
   @visibleForTesting
   static Future<void> runCreateDbForTest(Database db) async {
-    await DatabaseHelper.instance._createDB(db, 9);
-    await db.rawUpdate('PRAGMA user_version = 9');
+    await DatabaseHelper.instance._createDB(db, 13);
+    await DatabaseHelper.instance._migrateToV13(db);
+    await db.rawUpdate('PRAGMA user_version = 13');
   }
 
   /// Returns the full filesystem path to `muaman_store.db`.
@@ -141,7 +300,7 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
     return await openDatabase(path,
-        version: 9, onCreate: _createDB, onUpgrade: _onUpgrade);
+        version: 13, onCreate: _createDB, onUpgrade: _onUpgrade);
   }
 
   Future<void> _createDB(Database db, int version) async {
@@ -395,6 +554,66 @@ class DatabaseHelper {
     }
   }
 
+  Future<void> _migrateToV13(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS sync_queue (
+        id TEXT PRIMARY KEY,
+        entity_type TEXT NOT NULL,
+        entity_id INTEGER NOT NULL,
+        operation TEXT NOT NULL,
+        payload TEXT,
+        created_at TEXT NOT NULL,
+        synced_at TEXT,
+        retry_count INTEGER DEFAULT 0,
+        status TEXT DEFAULT 'PENDING',
+        conflict_data TEXT,
+        idempotency_key TEXT NOT NULL UNIQUE,
+        shop_id TEXT
+      )
+    ''');
+
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_sync_queue_status ON sync_queue(status)');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_sync_queue_created_at ON sync_queue(created_at ASC)');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_sync_queue_shop_id ON sync_queue(shop_id)');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_sync_queue_entity ON sync_queue(entity_type, entity_id)');
+
+    const syncTables = [
+      'products',
+      'sales',
+      'returns',
+      'expenses',
+      'expense_categories',
+      'inventory_count',
+      'invoices',
+      'import_batches',
+      'customers',
+      'users',
+      'role_permissions',
+      'app_settings',
+    ];
+
+    for (final table in syncTables) {
+      final info = await db.rawQuery('PRAGMA table_info($table)');
+      final columns = info.map((r) => r['name'] as String).toSet();
+
+      if (!columns.contains('server_version')) {
+        await db.execute(
+            'ALTER TABLE $table ADD COLUMN server_version INTEGER DEFAULT 0');
+      }
+      if (!columns.contains('sync_status')) {
+        await db.execute(
+            "ALTER TABLE $table ADD COLUMN sync_status TEXT DEFAULT 'SYNCED'");
+      }
+      if (!columns.contains('last_synced_at')) {
+        await db.execute('ALTER TABLE $table ADD COLUMN last_synced_at TEXT');
+      }
+    }
+  }
+
   Future<void> _createUsersTable(Database db) async {
     await db.execute('''
       CREATE TABLE IF NOT EXISTS users (
@@ -444,7 +663,18 @@ class DatabaseHelper {
       name: trimmedName,
       barcode: trimmedBarcode,
     );
-    return await db.insert('products', normalized.toMap()..remove('id'));
+    return await db.transaction((txn) async {
+      final id = await txn.insert(
+          'products',
+          {
+            ...normalized.toMap()..remove('id'),
+            'sync_status': EntitySyncStatus.PENDING.label,
+          },
+      );
+      await _enqueueAfterWrite(db, txn,
+          tableName: 'products', rowId: id, operation: SyncQueueOperation.CREATE);
+      return id;
+    });
   }
 
   Future<List<Product>> getAllProducts() async {
@@ -499,8 +729,23 @@ class DatabaseHelper {
       name: trimmedName,
       barcode: trimmedBarcode,
     );
-    return await db.update('products', normalized.toMap(),
-        where: 'id = ?', whereArgs: [product.id]);
+    return await db.transaction((txn) async {
+      final affected = await txn.update(
+          'products',
+          {
+            ...normalized.toMap(),
+            'sync_status': EntitySyncStatus.PENDING.label,
+          },
+          where: 'id = ?',
+          whereArgs: [product.id]);
+      if (affected > 0) {
+        await _enqueueAfterWrite(db, txn,
+            tableName: 'products',
+            rowId: product.id!,
+            operation: SyncQueueOperation.UPDATE);
+      }
+      return affected;
+    });
   }
 
   /// Throws [PermissionDeniedException] unless [currentRole] holds
@@ -555,7 +800,16 @@ class DatabaseHelper {
         throw ProductDeletionException(references);
       }
 
-      return await txn.delete('products', where: 'id = ?', whereArgs: [id]);
+      final affected =
+          await txn.delete('products', where: 'id = ?', whereArgs: [id]);
+      if (affected > 0) {
+        await _enqueueAfterWrite(db, txn,
+            tableName: 'products',
+            rowId: id,
+            operation: SyncQueueOperation.DELETE,
+            existingRow: productMaps.first);
+      }
+      return affected;
     });
   }
 
@@ -665,7 +919,15 @@ class DatabaseHelper {
           .query('products', where: 'barcode = ?', whereArgs: [sale.barcode]);
       final product = Product.fromMap(productMaps.first);
 
-      final id = await txn.insert('sales', sale.toMap()..remove('id'));
+      final id = await txn.insert(
+          'sales',
+          {
+            ...sale.toMap()..remove('id'),
+            'sync_status': EntitySyncStatus.PENDING.label,
+          },
+      );
+      await _enqueueAfterWrite(db, txn,
+          tableName: 'sales', rowId: id, operation: SyncQueueOperation.CREATE);
 
       final newSold = product.soldQuantity + sale.quantity;
       final newCurrent = product.openingQuantity -
@@ -716,7 +978,15 @@ class DatabaseHelper {
         );
       }
 
-      final id = await txn.insert('sales', sale.toMap()..remove('id'));
+      final id = await txn.insert(
+          'sales',
+          {
+            ...sale.toMap()..remove('id'),
+            'sync_status': EntitySyncStatus.PENDING.label,
+          },
+      );
+      await _enqueueAfterWrite(db, txn,
+          tableName: 'sales', rowId: id, operation: SyncQueueOperation.CREATE);
 
       final newSold = product.soldQuantity + sale.quantity;
       final newCurrent = product.openingQuantity -
@@ -760,7 +1030,17 @@ class DatabaseHelper {
         throw ArgumentError('اسم العميل مطلوب');
       }
 
-      final invoiceId = await txn.insert('invoices', invoice.toMap());
+      final invoiceId = await txn.insert(
+          'invoices',
+          {
+            ...invoice.toMap(),
+            'sync_status': EntitySyncStatus.PENDING.label,
+          },
+      );
+      await _enqueueAfterWrite(db, txn,
+          tableName: 'invoices',
+          rowId: invoiceId,
+          operation: SyncQueueOperation.CREATE);
       for (final item in invoiceItems) {
         if (item.quantity <= 0) {
           throw ArgumentError('الكمية يجب أن تكون أكبر من صفر');
@@ -781,8 +1061,17 @@ class DatabaseHelper {
               'الكمية غير كافية للمنتج ${item.productName}. المتاح: ${product.currentQuantity}');
         }
 
-        await txn.insert(
-            'sales', item.copyWith(invoiceId: invoiceId).toMap()..remove('id'));
+        final saleLineId = await txn.insert(
+            'sales',
+            {
+              ...item.copyWith(invoiceId: invoiceId).toMap()..remove('id'),
+              'sync_status': EntitySyncStatus.PENDING.label,
+            },
+        );
+        await _enqueueAfterWrite(db, txn,
+            tableName: 'sales',
+            rowId: saleLineId,
+            operation: SyncQueueOperation.CREATE);
 
         final newSold = product.soldQuantity + item.quantity;
         final newCurrent = product.openingQuantity -
@@ -982,11 +1271,22 @@ class DatabaseHelper {
         costPrice: sale.costPrice,
       );
 
-      final affectedSale = await txn.update('sales', updatedSale.toMap(),
-          where: 'id = ?', whereArgs: [sale.id]);
+      final affectedSale = await txn.update(
+          'sales',
+          {
+            ...updatedSale.toMap(),
+            'sync_status': EntitySyncStatus.PENDING.label,
+          },
+          where: 'id = ?',
+          whereArgs: [sale.id]);
       if (affectedSale != 1) {
         throw StateError('فشل تحديث سجل البيع');
       }
+
+      await _enqueueAfterWrite(db, txn,
+          tableName: 'sales',
+          rowId: sale.id!,
+          operation: SyncQueueOperation.UPDATE);
 
       return 1;
     });
@@ -996,12 +1296,46 @@ class DatabaseHelper {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canDeleteSales);
     final db = await database;
-    final saleData = await db.query('sales', where: 'id = ?', whereArgs: [id]);
-    if (saleData.isNotEmpty) {
+    return await db.transaction((txn) async {
+      final saleData = await txn.query('sales', where: 'id = ?', whereArgs: [id]);
+      if (saleData.isEmpty) return 0;
       final sale = Sale.fromMap(saleData.first);
-      await revertSoldQuantity(sale.barcode, sale.quantity);
-    }
-    return await db.delete('sales', where: 'id = ?', whereArgs: [id]);
+
+      // Inline revert of the sold quantity (same math as
+      // [revertSoldQuantity]) so the deletion and its queue entry commit or
+      // roll back as one unit.
+      final productMaps =
+          await txn.query('products', where: 'barcode = ?', whereArgs: [sale.barcode]);
+      if (productMaps.isNotEmpty) {
+        final product = Product.fromMap(productMaps.first);
+        final newSold = product.soldQuantity - sale.quantity;
+        final newCurrent = product.openingQuantity -
+            newSold +
+            product.returnedQuantity +
+            product.inventoryAdjustment;
+        await txn.update(
+          'products',
+          {
+            'soldQuantity': newSold,
+            'currentQuantity': newCurrent,
+            'totalInventoryCost': newCurrent * product.costPrice,
+          },
+          where: 'barcode = ?',
+          whereArgs: [sale.barcode],
+        );
+      }
+
+      final affected =
+          await txn.delete('sales', where: 'id = ?', whereArgs: [id]);
+      if (affected > 0) {
+        await _enqueueAfterWrite(db, txn,
+            tableName: 'sales',
+            rowId: id,
+            operation: SyncQueueOperation.DELETE,
+            existingRow: saleData.first);
+      }
+      return affected;
+    });
   }
 
   Future<double> getTotalSales() async {
@@ -1039,7 +1373,17 @@ class DatabaseHelper {
           where: 'barcode = ?', whereArgs: [returnItem.barcode]);
       final product = Product.fromMap(productMaps.first);
 
-      final id = await txn.insert('returns', returnItem.toMap()..remove('id'));
+      final id = await txn.insert(
+          'returns',
+          {
+            ...returnItem.toMap()..remove('id'),
+            'sync_status': EntitySyncStatus.PENDING.label,
+          },
+      );
+      await _enqueueAfterWrite(db, txn,
+          tableName: 'returns',
+          rowId: id,
+          operation: SyncQueueOperation.CREATE);
 
       final newReturned = product.returnedQuantity + returnItem.quantity;
       final newCurrent = product.openingQuantity -
@@ -1199,11 +1543,22 @@ class DatabaseHelper {
         costPrice: returnItem.costPrice,
       );
 
-      final affectedReturn = await txn.update('returns', updatedReturn.toMap(),
-          where: 'id = ?', whereArgs: [returnItem.id]);
+      final affectedReturn = await txn.update(
+          'returns',
+          {
+            ...updatedReturn.toMap(),
+            'sync_status': EntitySyncStatus.PENDING.label,
+          },
+          where: 'id = ?',
+          whereArgs: [returnItem.id]);
       if (affectedReturn != 1) {
         throw StateError('فشل تحديث سجل المرتجع');
       }
+
+      await _enqueueAfterWrite(db, txn,
+          tableName: 'returns',
+          rowId: returnItem.id!,
+          operation: SyncQueueOperation.UPDATE);
 
       return 1;
     });
@@ -1213,12 +1568,46 @@ class DatabaseHelper {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canDeleteReturns);
     final db = await database;
-    final data = await db.query('returns', where: 'id = ?', whereArgs: [id]);
-    if (data.isNotEmpty) {
+    return await db.transaction((txn) async {
+      final data = await txn.query('returns', where: 'id = ?', whereArgs: [id]);
+      if (data.isEmpty) return 0;
       final ret = ReturnItem.fromMap(data.first);
-      await revertReturnedQuantity(ret.barcode, ret.quantity);
-    }
-    return await db.delete('returns', where: 'id = ?', whereArgs: [id]);
+
+      // Inline revert of the returned quantity (same math as
+      // [revertReturnedQuantity]) so the deletion and its queue entry commit
+      // or roll back as one unit.
+      final productMaps =
+          await txn.query('products', where: 'barcode = ?', whereArgs: [ret.barcode]);
+      if (productMaps.isNotEmpty) {
+        final product = Product.fromMap(productMaps.first);
+        final newReturned = product.returnedQuantity - ret.quantity;
+        final newCurrent = product.openingQuantity -
+            product.soldQuantity +
+            newReturned +
+            product.inventoryAdjustment;
+        await txn.update(
+          'products',
+          {
+            'returnedQuantity': newReturned,
+            'currentQuantity': newCurrent,
+            'totalInventoryCost': newCurrent * product.costPrice,
+          },
+          where: 'barcode = ?',
+          whereArgs: [ret.barcode],
+        );
+      }
+
+      final affected =
+          await txn.delete('returns', where: 'id = ?', whereArgs: [id]);
+      if (affected > 0) {
+        await _enqueueAfterWrite(db, txn,
+            tableName: 'returns',
+            rowId: id,
+            operation: SyncQueueOperation.DELETE,
+            existingRow: data.first);
+      }
+      return affected;
+    });
   }
 
   Future<double> getTotalReturns() async {
@@ -1240,7 +1629,20 @@ class DatabaseHelper {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canCreateExpenses);
     final db = await database;
-    return await db.insert('expenses', expense.toMap()..remove('id'));
+    return await db.transaction((txn) async {
+      final id = await txn.insert(
+          'expenses',
+          {
+            ...expense.toMap()..remove('id'),
+            'sync_status': EntitySyncStatus.PENDING.label,
+          },
+      );
+      await _enqueueAfterWrite(db, txn,
+          tableName: 'expenses',
+          rowId: id,
+          operation: SyncQueueOperation.CREATE);
+      return id;
+    });
   }
 
   Future<List<Expense>> getAllExpenses() async {
@@ -1252,15 +1654,44 @@ class DatabaseHelper {
   Future<int> updateExpense(Expense expense) async {
     await _enforceLicensing();
     final db = await database;
-    return await db.update('expenses', expense.toMap(),
-        where: 'id = ?', whereArgs: [expense.id]);
+    return await db.transaction((txn) async {
+      final affected = await txn.update(
+          'expenses',
+          {
+            ...expense.toMap(),
+            'sync_status': EntitySyncStatus.PENDING.label,
+          },
+          where: 'id = ?',
+          whereArgs: [expense.id]);
+      if (affected > 0) {
+        await _enqueueAfterWrite(db, txn,
+            tableName: 'expenses',
+            rowId: expense.id!,
+            operation: SyncQueueOperation.UPDATE);
+      }
+      return affected;
+    });
   }
 
   Future<int> deleteExpense(int id, {UserRole? currentRole}) async {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canDeleteExpenses);
     final db = await database;
-    return await db.delete('expenses', where: 'id = ?', whereArgs: [id]);
+    return await db.transaction((txn) async {
+      final existing = await txn.query('expenses',
+          where: 'id = ?', whereArgs: [id], limit: 1);
+      if (existing.isEmpty) return 0;
+      final affected =
+          await txn.delete('expenses', where: 'id = ?', whereArgs: [id]);
+      if (affected > 0) {
+        await _enqueueAfterWrite(db, txn,
+            tableName: 'expenses',
+            rowId: id,
+            operation: SyncQueueOperation.DELETE,
+            existingRow: existing.first);
+      }
+      return affected;
+    });
   }
 
   Future<double> getTotalExpenses() async {
@@ -1285,7 +1716,15 @@ class DatabaseHelper {
     if (existing.isNotEmpty) {
       throw ArgumentError('التصنيف "$normalized" موجود بالفعل');
     }
-    return await db.insert('expense_categories', {'name': normalized});
+    return await db.transaction((txn) async {
+      final id =
+          await txn.insert('expense_categories', {'name': normalized});
+      await _enqueueAfterWrite(db, txn,
+          tableName: 'expense_categories',
+          rowId: id,
+          operation: SyncQueueOperation.CREATE);
+      return id;
+    });
   }
 
   Future<List<ExpenseCategory>> getAllExpenseCategories() async {
@@ -1309,8 +1748,23 @@ class DatabaseHelper {
     if (existing.isNotEmpty) {
       throw ArgumentError('التصنيف "$normalized" موجود بالفعل');
     }
-    return await db.update('expense_categories', {'name': normalized},
-        where: 'id = ?', whereArgs: [id]);
+    return await db.transaction((txn) async {
+      final affected = await txn.update(
+          'expense_categories',
+          {
+            'name': normalized,
+            'sync_status': EntitySyncStatus.PENDING.label,
+          },
+          where: 'id = ?',
+          whereArgs: [id]);
+      if (affected > 0) {
+        await _enqueueAfterWrite(db, txn,
+            tableName: 'expense_categories',
+            rowId: id,
+            operation: SyncQueueOperation.UPDATE);
+      }
+      return affected;
+    });
   }
 
   Future<int> deleteExpenseCategory(int id, {UserRole? currentRole}) async {
@@ -1331,8 +1785,18 @@ class DatabaseHelper {
       throw StateError(
           'لا يمكن حذف التصنيف "$categoryName" لأنه مستخدم في $count مصروف');
     }
-    return await db
-        .delete('expense_categories', where: 'id = ?', whereArgs: [id]);
+    return await db.transaction((txn) async {
+      final affected = await txn
+          .delete('expense_categories', where: 'id = ?', whereArgs: [id]);
+      if (affected > 0) {
+        await _enqueueAfterWrite(db, txn,
+            tableName: 'expense_categories',
+            rowId: id,
+            operation: SyncQueueOperation.DELETE,
+            existingRow: category.first);
+      }
+      return affected;
+    });
   }
 
   Future<List<String>> getDistinctExpenseCategories() async {
@@ -1369,12 +1833,17 @@ class DatabaseHelper {
               product.soldQuantity +
               product.returnedQuantity);
 
-      await txn.insert('inventory_count', {
+      final countId = await txn.insert('inventory_count', {
         'productId': productId,
         'actualQuantity': actualQuantity,
         'notes': notes,
         'countDate': DateTime.now().toIso8601String(),
+        'sync_status': EntitySyncStatus.PENDING.label,
       });
+      await _enqueueAfterWrite(db, txn,
+          tableName: 'inventory_count',
+          rowId: countId,
+          operation: SyncQueueOperation.CREATE);
 
       final affected = await txn.update(
         'products',
@@ -1603,15 +2072,23 @@ class DatabaseHelper {
       throw ArgumentError('اسم العميل مطلوب');
     }
     final now = DateTime.now().toIso8601String();
-    return await db.insert('customers', {
-      'name': trimmed,
-      'phone': customer.phone?.trim(),
-      'address': customer.address?.trim(),
-      'notes': customer.notes?.trim(),
-      'isActive': customer.isActive ? 1 : 0,
-      'isSystem': customer.isSystem ? 1 : 0,
-      'createdAt': now,
-      'updatedAt': now,
+    return await db.transaction((txn) async {
+      final id = await txn.insert('customers', {
+        'name': trimmed,
+        'phone': customer.phone?.trim(),
+        'address': customer.address?.trim(),
+        'notes': customer.notes?.trim(),
+        'isActive': customer.isActive ? 1 : 0,
+        'isSystem': customer.isSystem ? 1 : 0,
+        'createdAt': now,
+        'updatedAt': now,
+        'sync_status': EntitySyncStatus.PENDING.label,
+      });
+      await _enqueueAfterWrite(db, txn,
+          tableName: 'customers',
+          rowId: id,
+          operation: SyncQueueOperation.CREATE);
+      return id;
     });
   }
 
@@ -1659,19 +2136,28 @@ class DatabaseHelper {
       throw ArgumentError('اسم العميل مطلوب');
     }
     final db = await database;
-    await db.update(
-      'customers',
-      {
-        'name': trimmed,
-        'phone': customer.phone?.trim(),
-        'address': customer.address?.trim(),
-        'notes': customer.notes?.trim(),
-        'isActive': customer.isActive ? 1 : 0,
-        'updatedAt': DateTime.now().toIso8601String(),
-      },
-      where: 'id = ?',
-      whereArgs: [customer.id],
-    );
+    await db.transaction((txn) async {
+      final affected = await txn.update(
+        'customers',
+        {
+          'name': trimmed,
+          'phone': customer.phone?.trim(),
+          'address': customer.address?.trim(),
+          'notes': customer.notes?.trim(),
+          'isActive': customer.isActive ? 1 : 0,
+          'updatedAt': DateTime.now().toIso8601String(),
+          'sync_status': EntitySyncStatus.PENDING.label,
+        },
+        where: 'id = ?',
+        whereArgs: [customer.id],
+      );
+      if (affected > 0) {
+        await _enqueueAfterWrite(db, txn,
+            tableName: 'customers',
+            rowId: customer.id!,
+            operation: SyncQueueOperation.UPDATE);
+      }
+    });
   }
 
   Future<void> archiveCustomer(int customerId, {UserRole? currentRole}) async {
@@ -1685,15 +2171,26 @@ class DatabaseHelper {
     if (customer.isSystem) {
       throw StateError('لا يمكن أرشفة العميل النظامي');
     }
-    await db.update(
-      'customers',
-      {
-        'isActive': 0,
-        'updatedAt': DateTime.now().toIso8601String(),
-      },
-      where: 'id = ?',
-      whereArgs: [customerId],
-    );
+    await db.transaction((txn) async {
+      final affected = await txn.update(
+        'customers',
+        {
+          'isActive': 0,
+          'updatedAt': DateTime.now().toIso8601String(),
+          'sync_status': EntitySyncStatus.PENDING.label,
+        },
+        where: 'id = ?',
+        whereArgs: [customerId],
+      );
+      if (affected > 0) {
+        // Customers use soft-state (isActive) rather than tombstones in the
+        // local schema; archiving is therefore a normal UPDATE operation.
+        await _enqueueAfterWrite(db, txn,
+            tableName: 'customers',
+            rowId: customerId,
+            operation: SyncQueueOperation.UPDATE);
+      }
+    });
   }
 
   Future<void> reactivateCustomer(int customerId,
@@ -1701,15 +2198,24 @@ class DatabaseHelper {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canCreateSales);
     final db = await database;
-    await db.update(
-      'customers',
-      {
-        'isActive': 1,
-        'updatedAt': DateTime.now().toIso8601String(),
-      },
-      where: 'id = ?',
-      whereArgs: [customerId],
-    );
+    await db.transaction((txn) async {
+      final affected = await txn.update(
+        'customers',
+        {
+          'isActive': 1,
+          'updatedAt': DateTime.now().toIso8601String(),
+          'sync_status': EntitySyncStatus.PENDING.label,
+        },
+        where: 'id = ?',
+        whereArgs: [customerId],
+      );
+      if (affected > 0) {
+        await _enqueueAfterWrite(db, txn,
+            tableName: 'customers',
+            rowId: customerId,
+            operation: SyncQueueOperation.UPDATE);
+      }
+    });
   }
 }
 

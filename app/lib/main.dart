@@ -179,6 +179,11 @@ class _AuthGateState extends State<AuthGate> {
     DatabaseHelper.setLicensingEnforcer(
         () => cloudLicensingService.enforceActive());
 
+    // Phase H: wire the active-shop provider so enqueue-after-write hooks can
+    // attribute sync queue entries to the correct tenant. Without an active
+    // shop session, local writes stay purely local (no queue entries).
+    DatabaseHelper.setSyncShopIdProvider(() async => _sessionState.activeShopId);
+
     // Phase F: Permission sync service is available for cloud permission
     // synchronization. It will be triggered after cloud session is established.
 

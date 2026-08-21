@@ -14,7 +14,10 @@ Future<void> createTestSchema(Database db) async {
       totalInventoryCost REAL DEFAULT 0,
       inventoryAdjustment INTEGER DEFAULT 0,
       shop_id TEXT,
-      cloud_uuid TEXT
+      cloud_uuid TEXT,
+      server_version INTEGER DEFAULT 0,
+      sync_status TEXT DEFAULT 'SYNCED',
+      last_synced_at TEXT
     )
   ''');
   await db.execute('''
@@ -30,7 +33,10 @@ Future<void> createTestSchema(Database db) async {
       costPrice REAL DEFAULT 0,
       cogs REAL DEFAULT 0,
       shop_id TEXT,
-      cloud_uuid TEXT
+      cloud_uuid TEXT,
+      server_version INTEGER DEFAULT 0,
+      sync_status TEXT DEFAULT 'SYNCED',
+      last_synced_at TEXT
     )
   ''');
   await db.execute('''
@@ -45,7 +51,10 @@ Future<void> createTestSchema(Database db) async {
       costPrice REAL DEFAULT 0,
       returnedCogs REAL DEFAULT 0,
       shop_id TEXT,
-      cloud_uuid TEXT
+      cloud_uuid TEXT,
+      server_version INTEGER DEFAULT 0,
+      sync_status TEXT DEFAULT 'SYNCED',
+      last_synced_at TEXT
     )
   ''');
   await db.execute('''
@@ -56,7 +65,10 @@ Future<void> createTestSchema(Database db) async {
       amount REAL DEFAULT 0,
       category TEXT,
       shop_id TEXT,
-      cloud_uuid TEXT
+      cloud_uuid TEXT,
+      server_version INTEGER DEFAULT 0,
+      sync_status TEXT DEFAULT 'SYNCED',
+      last_synced_at TEXT
     )
   ''');
   await db.execute('''
@@ -68,6 +80,9 @@ Future<void> createTestSchema(Database db) async {
       countDate TEXT NOT NULL,
       shop_id TEXT,
       cloud_uuid TEXT,
+      server_version INTEGER DEFAULT 0,
+      sync_status TEXT DEFAULT 'SYNCED',
+      last_synced_at TEXT,
       FOREIGN KEY (productId) REFERENCES products (id)
     )
   ''');
@@ -83,7 +98,10 @@ Future<void> createTestSchema(Database db) async {
       updatedAt TEXT NOT NULL,
       lastLoginAt TEXT,
       shop_id TEXT,
-      cloud_uuid TEXT
+      cloud_uuid TEXT,
+      server_version INTEGER DEFAULT 0,
+      sync_status TEXT DEFAULT 'SYNCED',
+      last_synced_at TEXT
     )
   ''');
   await db.execute('''
@@ -110,7 +128,10 @@ Future<void> createTestSchema(Database db) async {
       net_profit REAL DEFAULT 0,
       reconciliation_json TEXT,
       shop_id TEXT,
-      cloud_uuid TEXT
+      cloud_uuid TEXT,
+      server_version INTEGER DEFAULT 0,
+      sync_status TEXT DEFAULT 'SYNCED',
+      last_synced_at TEXT
     )
   ''');
   await db.execute('''
@@ -118,7 +139,10 @@ Future<void> createTestSchema(Database db) async {
       key TEXT PRIMARY KEY,
       value TEXT NOT NULL,
       shop_id TEXT,
-      cloud_uuid TEXT
+      cloud_uuid TEXT,
+      server_version INTEGER DEFAULT 0,
+      sync_status TEXT DEFAULT 'SYNCED',
+      last_synced_at TEXT
     )
   ''');
   await db.execute('''
@@ -133,7 +157,10 @@ Future<void> createTestSchema(Database db) async {
       createdAt TEXT NOT NULL,
       customerId INTEGER,
       shop_id TEXT,
-      cloud_uuid TEXT
+      cloud_uuid TEXT,
+      server_version INTEGER DEFAULT 0,
+      sync_status TEXT DEFAULT 'SYNCED',
+      last_synced_at TEXT
     )
   ''');
   await db.execute('''
@@ -142,7 +169,10 @@ Future<void> createTestSchema(Database db) async {
       permissions TEXT NOT NULL,
       updatedAt TEXT NOT NULL,
       shop_id TEXT,
-      cloud_uuid TEXT
+      cloud_uuid TEXT,
+      server_version INTEGER DEFAULT 0,
+      sync_status TEXT DEFAULT 'SYNCED',
+      last_synced_at TEXT
     )
   ''');
   await db.execute('''
@@ -150,7 +180,10 @@ Future<void> createTestSchema(Database db) async {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL UNIQUE,
       shop_id TEXT,
-      cloud_uuid TEXT
+      cloud_uuid TEXT,
+      server_version INTEGER DEFAULT 0,
+      sync_status TEXT DEFAULT 'SYNCED',
+      last_synced_at TEXT
     )
   ''');
   await db.execute('''
@@ -165,7 +198,10 @@ Future<void> createTestSchema(Database db) async {
       createdAt TEXT NOT NULL,
       updatedAt TEXT NOT NULL,
       shop_id TEXT,
-      cloud_uuid TEXT
+      cloud_uuid TEXT,
+      server_version INTEGER DEFAULT 0,
+      sync_status TEXT DEFAULT 'SYNCED',
+      last_synced_at TEXT
     )
   ''');
   await db.execute(
@@ -174,4 +210,29 @@ Future<void> createTestSchema(Database db) async {
       'CREATE INDEX IF NOT EXISTS idx_customers_isActive ON customers(isActive)');
   await db.execute(
       'CREATE INDEX IF NOT EXISTS idx_invoices_customerId ON invoices(customerId)');
+
+  await db.execute('''
+    CREATE TABLE IF NOT EXISTS sync_queue (
+      id TEXT PRIMARY KEY,
+      entity_type TEXT NOT NULL,
+      entity_id INTEGER NOT NULL,
+      operation TEXT NOT NULL,
+      payload TEXT,
+      created_at TEXT NOT NULL,
+      synced_at TEXT,
+      retry_count INTEGER DEFAULT 0,
+      status TEXT DEFAULT 'PENDING',
+      conflict_data TEXT,
+      idempotency_key TEXT NOT NULL UNIQUE,
+      shop_id TEXT
+    )
+  ''');
+  await db.execute(
+      'CREATE INDEX IF NOT EXISTS idx_sync_queue_status ON sync_queue(status)');
+  await db.execute(
+      'CREATE INDEX IF NOT EXISTS idx_sync_queue_created_at ON sync_queue(created_at ASC)');
+  await db.execute(
+      'CREATE INDEX IF NOT EXISTS idx_sync_queue_shop_id ON sync_queue(shop_id)');
+  await db.execute(
+      'CREATE INDEX IF NOT EXISTS idx_sync_queue_entity ON sync_queue(entity_type, entity_id)');
 }

@@ -562,7 +562,12 @@ Future<void> createIntegrityTestTables(Database db) async {
       currentQuantity INTEGER DEFAULT 0,
       costPrice REAL DEFAULT 0,
       totalInventoryCost REAL DEFAULT 0,
-      inventoryAdjustment INTEGER DEFAULT 0
+      inventoryAdjustment INTEGER DEFAULT 0,
+      shop_id TEXT,
+      cloud_uuid TEXT,
+      server_version INTEGER DEFAULT 0,
+      sync_status TEXT DEFAULT 'SYNCED',
+      last_synced_at TEXT
     )
   ''');
 
@@ -577,7 +582,12 @@ Future<void> createIntegrityTestTables(Database db) async {
       salePrice REAL DEFAULT 0,
       totalSaleValue REAL DEFAULT 0,
       costPrice REAL DEFAULT 0,
-      cogs REAL DEFAULT 0
+      cogs REAL DEFAULT 0,
+      shop_id TEXT,
+      cloud_uuid TEXT,
+      server_version INTEGER DEFAULT 0,
+      sync_status TEXT DEFAULT 'SYNCED',
+      last_synced_at TEXT
     )
   ''');
 
@@ -591,7 +601,12 @@ Future<void> createIntegrityTestTables(Database db) async {
       salePrice REAL DEFAULT 0,
       totalReturnValue REAL DEFAULT 0,
       costPrice REAL DEFAULT 0,
-      returnedCogs REAL DEFAULT 0
+      returnedCogs REAL DEFAULT 0,
+      shop_id TEXT,
+      cloud_uuid TEXT,
+      server_version INTEGER DEFAULT 0,
+      sync_status TEXT DEFAULT 'SYNCED',
+      last_synced_at TEXT
     )
   ''');
 
@@ -602,6 +617,11 @@ Future<void> createIntegrityTestTables(Database db) async {
       actualQuantity INTEGER DEFAULT 0,
       notes TEXT DEFAULT '',
       countDate TEXT NOT NULL,
+      shop_id TEXT,
+      cloud_uuid TEXT,
+      server_version INTEGER DEFAULT 0,
+      sync_status TEXT DEFAULT 'SYNCED',
+      last_synced_at TEXT,
       FOREIGN KEY (productId) REFERENCES products (id)
     )
   ''');

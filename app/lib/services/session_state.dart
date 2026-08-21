@@ -14,6 +14,12 @@ class SessionState extends ChangeNotifier {
   User? _currentUser;
   CloudSession? _cloudSession;
 
+  /// Phase H sync state tracking.
+  int _pendingSyncCount = 0;
+  int _failedSyncCount = 0;
+  int _conflictSyncCount = 0;
+  DateTime? _lastSyncedAt;
+
   User? get currentUser => _currentUser;
   bool get isLoggedIn => _currentUser != null;
   UserRole? get currentRole => _currentUser?.role;
@@ -24,6 +30,29 @@ class SessionState extends ChangeNotifier {
   bool get isOnline => _cloudSession?.isActive ?? false;
   String? get cloudUserId => _cloudSession?.userId;
   String? get activeShopId => _cloudSession?.activeShopId;
+
+  /// Phase H: Sync status accessors.
+  int get pendingSyncCount => _pendingSyncCount;
+  int get failedSyncCount => _failedSyncCount;
+  int get conflictSyncCount => _conflictSyncCount;
+  DateTime? get lastSyncedAt => _lastSyncedAt;
+  bool get hasPendingSync => _pendingSyncCount > 0;
+  bool get hasFailedSync => _failedSyncCount > 0;
+  bool get hasConflictSync => _conflictSyncCount > 0;
+
+  /// Phase H: Update sync counters (called by SyncWorker after each cycle).
+  void updateSyncStatus({
+    int? pendingCount,
+    int? failedCount,
+    int? conflictCount,
+    DateTime? lastSyncedAt,
+  }) {
+    if (pendingCount != null) _pendingSyncCount = pendingCount;
+    if (failedCount != null) _failedSyncCount = failedCount;
+    if (conflictCount != null) _conflictSyncCount = conflictCount;
+    if (lastSyncedAt != null) _lastSyncedAt = lastSyncedAt;
+    notifyListeners();
+  }
 
   /// The permission resolver this session is bound to.
   PermissionResolver get permissionResolver => _resolver;
