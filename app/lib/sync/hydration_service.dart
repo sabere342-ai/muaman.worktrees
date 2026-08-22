@@ -46,6 +46,18 @@ class HydrationService {
             continue;
           }
 
+          // Phase J tenant guard: a payload stamped with a DIFFERENT shop id
+          // than the hydration target is rejected/routed away — never merged
+          // into the wrong tenant (plan §O).
+          final rowShopId = cloudRow['shop_id'] as String?;
+          if (rowShopId != null && rowShopId.isNotEmpty && rowShopId != shopId) {
+            await _logger(
+                'Hydration rejected ${adapter.entityType.label} row '
+                '$cloudUuid: payload shop $rowShopId != target $shopId');
+            skipped++;
+            continue;
+          }
+
           final existingLocal = await _findLocalByCloudUuid(
               adapter.localTableName, cloudUuid);
 
@@ -62,6 +74,7 @@ class HydrationService {
                 adapter.localTableName,
                 {
                   ...localRow,
+                  'shop_id': shopId,
                   'server_version': serverVersion,
                   'sync_status': 'SYNCED',
                   'last_synced_at': DateTime.now().toIso8601String(),

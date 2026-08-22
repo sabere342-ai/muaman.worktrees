@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:sqflite/sqflite.dart';
 import '../database/database_helper.dart';
 import '../models/user_role.dart';
+import 'active_shop_context.dart';
 import 'permissions.dart';
 
 /// Thrown when the owner-typed confirmation phrase does not match the required
@@ -35,10 +36,17 @@ class CleanStartReport {
   final String backupPath;
   final Map<String, int> deletedCounts;
 
+  /// Non-null when the wipe was scoped to a single cloud shop (Phase J Z-3
+  /// default: while strict tenant isolation is armed with an authorized shop
+  /// context, only that shop's tenant rows are wiped). Null = global wipe
+  /// (owner-gated destructive action, unchanged legacy behavior).
+  final String? wipedShopId;
+
   const CleanStartReport({
     required this.timestamp,
     required this.backupPath,
     required this.deletedCounts,
+    this.wipedShopId,
   });
 }
 
@@ -99,10 +107,23 @@ class CleanStartService {
     final backupPath = await _createBackupSnapshot(backupDirectory);
     final db = await _databaseHelper.database;
 
+    // Phase J (Z-3 default): when strict tenant isolation is armed with an
+    // authorized shop context the wipe is scoped to THAT shop's rows only.
+    // Without a cloud tenant context the wipe remains the legacy global
+    // destructive owner action. System tables are preserved in both modes.
+    final shopId = DatabaseHelper.tenantIsolationArmed
+        ? ActiveShopContext.instance.shopId
+        : null;
+
     final deletedCounts = <String, int>{};
     await db.transaction((txn) async {
       for (final table in transactionalTables) {
-        deletedCounts[table] = await txn.delete(table);
+        if (shopId != null && shopId.isNotEmpty) {
+          deletedCounts[table] =
+              await txn.delete(table, where: 'shop_id = ?', whereArgs: [shopId]);
+        } else {
+          deletedCounts[table] = await txn.delete(table);
+        }
       }
     });
 
@@ -110,6 +131,7 @@ class CleanStartService {
       timestamp: DateTime.now(),
       backupPath: backupPath,
       deletedCounts: deletedCounts,
+      wipedShopId: (shopId != null && shopId.isNotEmpty) ? shopId : null,
     );
   }
 

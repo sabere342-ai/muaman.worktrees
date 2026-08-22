@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../config/app_config.dart';
+import '../../database/database_helper.dart';
 import '../../database/user_repository.dart';
 import '../../models/shop_profile.dart';
 import '../../rbac/permission_sync_service.dart';
 import '../../services/app_settings.dart';
+import '../../services/active_shop_context.dart';
+import '../../services/tenant_isolation_gate.dart';
 import '../../services/session_state.dart';
 import '../../models/cloud_session.dart';
 import '../../services/shop_profile_service.dart';
@@ -115,12 +118,30 @@ class _LoginScreenState extends State<LoginScreen> {
       if (session != null) {
         final resolver = ShopResolver();
         final membership = await resolver.resolveActiveShop();
+
+        // Phase J (WS1 lifecycle): bind the validated tenant context BEFORE
+        // any runtime service consumes it. The context re-validates against
+        // ACTIVE memberships and fails closed on a foreign/stale shop.
+        await ActiveShopContext.instance.bind(membership.shopId);
+
         widget.sessionState.setCloudSession(CloudSession(
           userId: session.user.id,
           activeShopId: membership.shopId,
           membershipRole: membership.membershipRole,
           membershipStatus: membership.membershipStatus,
         ));
+
+        // Phase J (WS6): restore strict tenant isolation only when the arming
+        // marker is present AND all Section-N migration-handoff preconditions
+        // still hold. Conservative default remains unarmed.
+        try {
+          await TenantIsolationGate().restoreAtStartup(
+            db: await DatabaseHelper.instance.database,
+            shopId: membership.shopId,
+          );
+        } catch (_) {
+          // Gate restoration must never block the login flow.
+        }
 
         // Phase E: Resolve licensing entitlement for the active shop.
         final cloudLicensing = CloudLicensingService.instance;

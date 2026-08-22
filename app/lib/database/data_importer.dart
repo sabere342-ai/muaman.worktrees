@@ -1,6 +1,16 @@
 import 'package:sqflite/sqflite.dart';
 
+import '../services/active_shop_context.dart';
+
+/// Demo/trial seed data importer (runs only when `MUAMAN_SEED_DEMO` is
+/// enabled). Called from `_createDB` during fresh database creation, where no
+/// cloud tenant exists yet. When an [ActiveShopContext] IS bound (tests,
+/// reseed flows), seeded rows are stamped with that shop; otherwise they stay
+/// NULL-shop pre-migration local-only rows, handled by the Section-N/Z-4
+/// attribution policy — never mis-tenantized.
 class DataImporter {
+  static String? get _contextShopId => ActiveShopContext.instance.shopId;
+
   static Future<void> importData(Database db) async {
     await _importProducts(db);
     await _importSales(db);
@@ -9,6 +19,7 @@ class DataImporter {
   }
 
   static Future<void> _importProducts(Database db) async {
+    final shop = _contextShopId;
     final products = [
       {
         'name': 'تي شيرت 2سوستة تركي',
@@ -531,6 +542,7 @@ class DataImporter {
     for (final p in products) {
       final qty = p['openingQuantity'] as int;
       await db.insert('products', {
+        if (shop != null) 'shop_id': shop,
         'name': p['name'],
         'barcode': p['barcode'],
         'openingQuantity': qty,
@@ -545,6 +557,7 @@ class DataImporter {
   }
 
   static Future<void> _importSales(Database db) async {
+    final shop = _contextShopId;
     final sales = [
       ['2026-07-01', 'تي شيرت بلانكو جديد', '2000000000022', 1, 675, 490],
       ['2026-07-01', 'تي شيرت فري جلد', '2000000000024', 1, 625, 510],
@@ -782,6 +795,7 @@ class DataImporter {
       final cost = (s[5] as num).toDouble();
 
       await db.insert('sales', {
+        if (shop != null) 'shop_id': shop,
         'date': '${date}T00:00:00.000',
         'productName': name,
         'barcode': barcode,
@@ -815,6 +829,7 @@ class DataImporter {
   }
 
   static Future<void> _importReturns(Database db) async {
+    final shop = _contextShopId;
     final returns = [
       ['2026-07-01', 'جينز تمبرلاند', '2000000000065', 1, 500, 315],
       ['2026-07-04', 'بوي فريند حزام', '2000000000059', 1, 600, 340],
@@ -835,6 +850,7 @@ class DataImporter {
       final cost = (r[5] as num).toDouble();
 
       await db.insert('returns', {
+        if (shop != null) 'shop_id': shop,
         'date': '${date}T00:00:00.000',
         'productName': name,
         'barcode': barcode,
@@ -868,6 +884,7 @@ class DataImporter {
   }
 
   static Future<void> _importExpenses(Database db) async {
+    final shop = _contextShopId;
     final expenses = [
       ['2026-07-01', 'علاء', 350.0],
       ['2026-07-02', 'علاء', 50.0],
@@ -905,6 +922,7 @@ class DataImporter {
 
     for (final e in expenses) {
       await db.insert('expenses', {
+        if (shop != null) 'shop_id': shop,
         'date': '${e[0]}T00:00:00.000',
         'description': e[1],
         'amount': e[2],

@@ -21,6 +21,7 @@ import '../sync/adapters/product_sync_adapter.dart';
 import '../sync/adapters/return_sync_adapter.dart';
 import '../sync/adapters/sale_sync_adapter.dart';
 import '../migration/maintenance_mode.dart';
+import '../services/active_shop_context.dart';
 import '../sync/sync_queue_repository.dart';
 import '../sync/sync_status.dart';
 import 'data_importer.dart';
@@ -97,6 +98,64 @@ class DatabaseHelper {
   /// Removes the active-shop provider. For test teardown only.
   static void clearSyncShopIdProvider() {
     _syncShopIdProvider = null;
+  }
+
+  // =================== TENANT ISOLATION (Phase J / WS2–WS4) ===================
+
+  /// Whether strict shop-scoped tenant isolation is armed. Armed exclusively
+  /// through [TenantIsolationGate] once the Phase I migration handoff
+  /// preconditions pass (plan §N). While DISARMED every read/write path keeps
+  /// its legacy behavior so pre-cloud installs are unaffected (compatibility
+  /// switch, plan §L).
+  static bool _tenantIsolationArmed = false;
+
+  /// Arms/disarms strict tenant filtering. Production code must go through
+  /// [TenantIsolationGate]; the direct setter exists for the gate itself and
+  /// for tests.
+  static void setTenantIsolationArmed(bool armed) {
+    _tenantIsolationArmed = armed;
+  }
+
+  static bool get tenantIsolationArmed => _tenantIsolationArmed;
+
+  /// Tenant predicate for reads. Legacy mode → no predicate. Armed without an
+  /// authorized shop → deny-all predicate: reads fail CLOSED to empty and
+  /// never fall back to unscoped access (plan §H standing rule).
+  _TenantPredicate _readPredicate() {
+    if (!_tenantIsolationArmed) return _TenantPredicate.none;
+    return _predicateForContext();
+  }
+
+  /// Tenant predicate for mutations. Armed without an authorized shop throws
+  /// so a business write can never land silently as local-only/unattributed.
+  _TenantPredicate _writePredicate() {
+    final p = _readPredicate();
+    if (p.deniesAll) {
+      throw const TenantIsolationException(
+          'لا يوجد متجر مصرح به لتنفيذ هذه العملية');
+    }
+    return p;
+  }
+
+  _TenantPredicate _predicateForContext() {
+    final shop = ActiveShopContext.instance.shopId;
+    if (shop == null || shop.isEmpty) return _TenantPredicate.denyAll;
+    return _TenantPredicate.scoped(shop);
+  }
+
+  /// Surfaces a cross-shop mutation attempt instead of letting it masquerade
+  /// as a benign "row not found" no-op (plan §K: zero-row mutation of a row
+  /// that exists OUTSIDE the active shop must be an explicit ownership error).
+  Future<void> _assertNotForeignRow(
+      DatabaseExecutor executor, String table, int id,
+      _TenantPredicate p) async {
+    if (!p.isScoped) return;
+    final rows =
+        await executor.query(table, where: 'id = ?', whereArgs: [id], limit: 1);
+    if (rows.isNotEmpty) {
+      throw TenantOwnershipException(
+          'هذا السجل لا ينتمي إلى المتجر النشط ($table #$id)');
+    }
   }
 
   /// Runs [action] with sync enqueueing suppressed. Any DatabaseHelper
@@ -690,10 +749,11 @@ class DatabaseHelper {
     }
 
     final db = await database;
+    final tp = _writePredicate();
 
     final dup = await db.rawQuery(
-        'SELECT id FROM products WHERE trim(barcode) = ? LIMIT 1',
-        [trimmedBarcode]);
+        'SELECT id FROM products WHERE ${tp.prefix('trim(barcode) = ?')} LIMIT 1',
+        tp.argsWith([trimmedBarcode]));
     if (dup.isNotEmpty) {
       throw ArgumentError('الباركود موجود مسبقًا');
     }
@@ -707,6 +767,7 @@ class DatabaseHelper {
         'products',
         {
           ...normalized.toMap()..remove('id'),
+          ...tp.stamp(),
           'sync_status': EntitySyncStatus.PENDING.label,
         },
       );
@@ -720,22 +781,28 @@ class DatabaseHelper {
 
   Future<List<Product>> getAllProducts() async {
     final db = await database;
-    final maps = await db.query('products', orderBy: 'id ASC');
+    final tp = _readPredicate();
+    final maps = await db.query('products',
+        where: tp.clause, whereArgs: tp.args, orderBy: 'id ASC');
     return maps.map((map) => Product.fromMap(map)).toList();
   }
 
   Future<Product?> getProductByBarcode(String barcode) async {
     final db = await database;
-    final maps =
-        await db.query('products', where: 'barcode = ?', whereArgs: [barcode]);
+    final tp = _readPredicate();
+    final maps = await db.query('products',
+        where: tp.prefix('barcode = ?'),
+        whereArgs: tp.argsWith([barcode]),
+        limit: 1);
     if (maps.isEmpty) return null;
     return Product.fromMap(maps.first);
   }
 
   Future<Product?> getProductByName(String name) async {
     final db = await database;
-    final maps =
-        await db.query('products', where: 'name = ?', whereArgs: [name]);
+    final tp = _readPredicate();
+    final maps = await db.query('products',
+        where: tp.prefix('name = ?'), whereArgs: tp.argsWith([name]), limit: 1);
     if (maps.isEmpty) return null;
     return Product.fromMap(maps.first);
   }
@@ -758,10 +825,13 @@ class DatabaseHelper {
     }
 
     final db = await database;
+    final tp = _writePredicate();
 
+    // Duplicate check runs INSIDE the active shop's scope (plan §M); the
+    // global UNIQUE constraint remains the cross-shop backstop (Z-1 GLOBAL).
     final dup = await db.rawQuery(
-        'SELECT id FROM products WHERE trim(barcode) = ? AND id != ?',
-        [trimmedBarcode, product.id]);
+        'SELECT id FROM products WHERE ${tp.prefix('trim(barcode) = ? AND id != ?')}',
+        tp.argsWith([trimmedBarcode, product.id]));
     if (dup.isNotEmpty) {
       throw ArgumentError('الباركود موجود مسبقًا');
     }
@@ -777,8 +847,11 @@ class DatabaseHelper {
             ...normalized.toMap(),
             'sync_status': EntitySyncStatus.PENDING.label,
           },
-          where: 'id = ?',
-          whereArgs: [product.id]);
+          where: tp.prefix('id = ?'),
+          whereArgs: tp.argsWith([product.id]));
+      if (affected == 0) {
+        await _assertNotForeignRow(txn, 'products', product.id!, tp);
+      }
       if (affected > 0) {
         await _enqueueAfterWrite(db, txn,
             tableName: 'products',
@@ -817,32 +890,44 @@ class DatabaseHelper {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canDeleteProducts);
     final db = await database;
+    final tp = _writePredicate();
     return await db.transaction((txn) async {
-      final productMaps =
-          await txn.query('products', where: 'id = ?', whereArgs: [id]);
-      if (productMaps.isEmpty) return 0;
+      final productMaps = await txn.query('products',
+          where: tp.prefix('id = ?'), whereArgs: tp.argsWith([id]), limit: 1);
+      if (productMaps.isEmpty) {
+        await _assertNotForeignRow(txn, 'products', id, tp);
+        return 0;
+      }
       final product = Product.fromMap(productMaps.first);
 
       final List<String> references = [];
 
+      // Reference scans run within the active shop's scope so another shop's
+      // history cannot block (or be disclosed by) this deletion.
       final saleRows = await txn.query('sales',
-          where: 'barcode = ?', whereArgs: [product.barcode], limit: 1);
+          where: tp.prefix('barcode = ?'),
+          whereArgs: tp.argsWith([product.barcode]),
+          limit: 1);
       if (saleRows.isNotEmpty) references.add('مبيعات');
 
       final returnRows = await txn.query('returns',
-          where: 'barcode = ?', whereArgs: [product.barcode], limit: 1);
+          where: tp.prefix('barcode = ?'),
+          whereArgs: tp.argsWith([product.barcode]),
+          limit: 1);
       if (returnRows.isNotEmpty) references.add('مرتجعات');
 
       final countRows = await txn.query('inventory_count',
-          where: 'productId = ?', whereArgs: [id], limit: 1);
+          where: tp.prefix('productId = ?'),
+          whereArgs: tp.argsWith([id]),
+          limit: 1);
       if (countRows.isNotEmpty) references.add('جرد مخزون');
 
       if (references.isNotEmpty) {
         throw ProductDeletionException(references);
       }
 
-      final affected =
-          await txn.delete('products', where: 'id = ?', whereArgs: [id]);
+      final affected = await txn.delete('products',
+          where: tp.prefix('id = ?'), whereArgs: tp.argsWith([id]));
       if (affected > 0) {
         await _enqueueAfterWrite(db, txn,
             tableName: 'products',
@@ -863,16 +948,11 @@ class DatabaseHelper {
           newSold +
           product.returnedQuantity +
           product.inventoryAdjustment;
-      await db.update(
-        'products',
-        {
-          'soldQuantity': newSold,
-          'currentQuantity': newCurrent,
-          'totalInventoryCost': newCurrent * product.costPrice,
-        },
-        where: 'barcode = ?',
-        whereArgs: [barcode],
-      );
+      await _scopedProductAdjustment(db, product.barcode, {
+        'soldQuantity': newSold,
+        'currentQuantity': newCurrent,
+        'totalInventoryCost': newCurrent * product.costPrice,
+      });
     }
   }
 
@@ -885,16 +965,11 @@ class DatabaseHelper {
           newSold +
           product.returnedQuantity +
           product.inventoryAdjustment;
-      await db.update(
-        'products',
-        {
-          'soldQuantity': newSold,
-          'currentQuantity': newCurrent,
-          'totalInventoryCost': newCurrent * product.costPrice,
-        },
-        where: 'barcode = ?',
-        whereArgs: [barcode],
-      );
+      await _scopedProductAdjustment(db, product.barcode, {
+        'soldQuantity': newSold,
+        'currentQuantity': newCurrent,
+        'totalInventoryCost': newCurrent * product.costPrice,
+      });
     }
   }
 
@@ -907,16 +982,11 @@ class DatabaseHelper {
           product.soldQuantity +
           newReturned +
           product.inventoryAdjustment;
-      await db.update(
-        'products',
-        {
-          'returnedQuantity': newReturned,
-          'currentQuantity': newCurrent,
-          'totalInventoryCost': newCurrent * product.costPrice,
-        },
-        where: 'barcode = ?',
-        whereArgs: [barcode],
-      );
+      await _scopedProductAdjustment(db, product.barcode, {
+        'returnedQuantity': newReturned,
+        'currentQuantity': newCurrent,
+        'totalInventoryCost': newCurrent * product.costPrice,
+      });
     }
   }
 
@@ -929,17 +999,25 @@ class DatabaseHelper {
           product.soldQuantity +
           newReturned +
           product.inventoryAdjustment;
-      await db.update(
-        'products',
-        {
-          'returnedQuantity': newReturned,
-          'currentQuantity': newCurrent,
-          'totalInventoryCost': newCurrent * product.costPrice,
-        },
-        where: 'barcode = ?',
-        whereArgs: [barcode],
-      );
+      await _scopedProductAdjustment(db, product.barcode, {
+        'returnedQuantity': newReturned,
+        'currentQuantity': newCurrent,
+        'totalInventoryCost': newCurrent * product.costPrice,
+      });
     }
+  }
+
+  /// Applies a stock-adjustment update to a product already resolved through
+  /// the tenant-scoped read path. The predicate keeps the write scoped too.
+  Future<void> _scopedProductAdjustment(
+      Database db, String barcode, Map<String, Object?> values) async {
+    final tp = _writePredicate();
+    await db.update(
+      'products',
+      values,
+      where: tp.prefix('barcode = ?'),
+      whereArgs: tp.argsWith([barcode]),
+    );
   }
 
   // =================== SALES ===================
@@ -953,17 +1031,21 @@ class DatabaseHelper {
       throw ArgumentError('يجب أن يكون سعر البيع أكبر من صفر');
     }
     final db = await database;
+    final tp = _writePredicate();
     return await db.transaction((txn) async {
-      await _requireExistingProductByBarcode(txn, sale.barcode);
+      await _requireExistingProductByBarcode(txn, sale.barcode, tp);
 
-      final productMaps = await txn
-          .query('products', where: 'barcode = ?', whereArgs: [sale.barcode]);
+      final productMaps = await txn.query('products',
+          where: tp.prefix('barcode = ?'),
+          whereArgs: tp.argsWith([sale.barcode]),
+          limit: 1);
       final product = Product.fromMap(productMaps.first);
 
       final id = await txn.insert(
         'sales',
         {
           ...sale.toMap()..remove('id'),
+          ...tp.stamp(),
           'sync_status': EntitySyncStatus.PENDING.label,
         },
       );
@@ -983,8 +1065,8 @@ class DatabaseHelper {
           'currentQuantity': newCurrent,
           'totalInventoryCost': newCurrent * product.costPrice,
         },
-        where: 'barcode = ?',
-        whereArgs: [sale.barcode],
+        where: tp.prefix('id = ?'),
+        whereArgs: tp.argsWith([product.id]),
       );
 
       return id;
@@ -996,6 +1078,7 @@ class DatabaseHelper {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canCreateSales);
     final db = await database;
+    final tp = _writePredicate();
     return await db.transaction((txn) async {
       if (sale.quantity <= 0) {
         throw ArgumentError('Sale quantity must be greater than zero');
@@ -1004,8 +1087,10 @@ class DatabaseHelper {
         throw ArgumentError('يجب أن يكون سعر البيع أكبر من صفر');
       }
 
-      final productMaps = await txn
-          .query('products', where: 'barcode = ?', whereArgs: [sale.barcode]);
+      final productMaps = await txn.query('products',
+          where: tp.prefix('barcode = ?'),
+          whereArgs: tp.argsWith([sale.barcode]),
+          limit: 1);
 
       if (productMaps.isEmpty) {
         throw StateError('Product with barcode "${sale.barcode}" not found');
@@ -1023,6 +1108,7 @@ class DatabaseHelper {
         'sales',
         {
           ...sale.toMap()..remove('id'),
+          ...tp.stamp(),
           'sync_status': EntitySyncStatus.PENDING.label,
         },
       );
@@ -1042,8 +1128,8 @@ class DatabaseHelper {
           'currentQuantity': newCurrent,
           'totalInventoryCost': newCurrent * product.costPrice,
         },
-        where: 'id = ? AND currentQuantity >= ?',
-        whereArgs: [product.id, sale.quantity],
+        where: tp.prefix('id = ? AND currentQuantity >= ?'),
+        whereArgs: tp.argsWith([product.id, sale.quantity]),
       );
 
       if (affected == 0) {
@@ -1060,6 +1146,7 @@ class DatabaseHelper {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canCreateSales);
     final db = await database;
+    final tp = _writePredicate();
     return await db.transaction((txn) async {
       if (invoiceItems.isEmpty) {
         throw ArgumentError('يجب إضافة منتج واحد على الأقل إلى الفاتورة');
@@ -1075,6 +1162,7 @@ class DatabaseHelper {
         'invoices',
         {
           ...invoice.toMap(),
+          ...tp.stamp(),
           'sync_status': EntitySyncStatus.PENDING.label,
         },
       );
@@ -1090,8 +1178,10 @@ class DatabaseHelper {
           throw ArgumentError('سعر البيع يجب أن يكون أكبر من صفر');
         }
 
-        final productMaps = await txn
-            .query('products', where: 'barcode = ?', whereArgs: [item.barcode]);
+        final productMaps = await txn.query('products',
+            where: tp.prefix('barcode = ?'),
+            whereArgs: tp.argsWith([item.barcode]),
+            limit: 1);
         if (productMaps.isEmpty) {
           throw StateError('المنتج غير موجود: ${item.productName}');
         }
@@ -1106,6 +1196,7 @@ class DatabaseHelper {
           'sales',
           {
             ...item.copyWith(invoiceId: invoiceId).toMap()..remove('id'),
+            ...tp.stamp(),
             'sync_status': EntitySyncStatus.PENDING.label,
           },
         );
@@ -1143,18 +1234,24 @@ class DatabaseHelper {
   Future<List<Sale>> getAllSales({UserRole? currentRole}) async {
     _requireSalesHistoryAccess(currentRole);
     final db = await database;
-    final maps = await db.query('sales', orderBy: 'id ASC');
+    final tp = _readPredicate();
+    final maps = await db.query('sales',
+        where: tp.clause, whereArgs: tp.args, orderBy: 'id ASC');
     return maps.map((map) => Sale.fromMap(map)).toList();
   }
 
   /// Loads a single invoice header. Gated by [canViewSalesHistory] like every
   /// other sales-history read, so a previous invoice can never be loaded for an
-  /// unauthorized role even through a direct route.
+  /// unauthorized role even through a direct route. Tenant-scoped under armed
+  /// isolation: another shop's invoice id resolves to null.
   Future<Invoice?> getInvoiceById(int id, {UserRole? currentRole}) async {
     _requireSalesHistoryAccess(currentRole);
     final db = await database;
-    final maps =
-        await db.query('invoices', where: 'id = ?', whereArgs: [id], limit: 1);
+    final tp = _readPredicate();
+    final maps = await db.query('invoices',
+        where: tp.prefix('id = ?'),
+        whereArgs: tp.argsWith([id]),
+        limit: 1);
     if (maps.isEmpty) return null;
     return Invoice.fromMap(maps.first);
   }
@@ -1165,8 +1262,11 @@ class DatabaseHelper {
       {UserRole? currentRole}) async {
     _requireSalesHistoryAccess(currentRole);
     final db = await database;
+    final tp = _readPredicate();
     final maps = await db.query('sales',
-        where: 'invoiceId = ?', whereArgs: [invoiceId], orderBy: 'id ASC');
+        where: tp.prefix('invoiceId = ?'),
+        whereArgs: tp.argsWith([invoiceId]),
+        orderBy: 'id ASC');
     return maps.map((map) => Sale.fromMap(map)).toList();
   }
 
@@ -1174,9 +1274,11 @@ class DatabaseHelper {
       {UserRole? currentRole}) async {
     _requireSalesHistoryAccess(currentRole);
     final db = await database;
+    final tp = _readPredicate();
     final maps = await db.query('sales',
-        where: 'date BETWEEN ? AND ?',
-        whereArgs: [start.toIso8601String(), end.toIso8601String()],
+        where: tp.prefix('date BETWEEN ? AND ?'),
+        whereArgs: tp.argsWith(
+            [start.toIso8601String(), end.toIso8601String()]),
         orderBy: 'date DESC');
     return maps.map((map) => Sale.fromMap(map)).toList();
   }
@@ -1196,29 +1298,39 @@ class DatabaseHelper {
     final trimmedBarcode = sale.barcode.trim();
 
     final db = await database;
+    final tp = _writePredicate();
     return await db.transaction((txn) async {
-      final oldData =
-          await txn.query('sales', where: 'id = ?', whereArgs: [sale.id]);
+      final oldData = await txn.query('sales',
+          where: tp.prefix('id = ?'), whereArgs: tp.argsWith([sale.id]));
 
       if (oldData.isEmpty) {
+        await _assertNotForeignRow(txn, 'sales', sale.id!, tp);
         throw StateError('السجل المطلوب تعديله غير موجود');
       }
 
       final old = Sale.fromMap(oldData.first);
       final oldBarcode = old.barcode;
 
-      final oldProductMaps = await txn
-          .query('products', where: 'barcode = ?', whereArgs: [oldBarcode]);
+      final oldProductMaps = await txn.query('products',
+          where: tp.prefix('barcode = ?'),
+          whereArgs: tp.argsWith([oldBarcode]),
+          limit: 1);
       if (oldProductMaps.isEmpty) {
         throw ProductReferenceIntegrityException(
             'المنتج القديم للبيع غير موجود');
       }
       final oldProduct = Product.fromMap(oldProductMaps.first);
 
-      await _requireExistingProductByBarcode(txn, trimmedBarcode);
+      await _requireExistingProductByBarcode(txn, trimmedBarcode, tp);
 
-      final newProductMaps = await txn
-          .query('products', where: 'barcode = ?', whereArgs: [trimmedBarcode]);
+      final newProductMaps = await txn.query('products',
+          where: tp.prefix('barcode = ?'),
+          whereArgs: tp.argsWith([trimmedBarcode]),
+          limit: 1);
+      if (newProductMaps.isEmpty) {
+        throw ProductReferenceIntegrityException(
+            'المنتج الجديد للبيع غير موجود');
+      }
       final newProduct = Product.fromMap(newProductMaps.first);
 
       final sameProduct = oldBarcode == trimmedBarcode;
@@ -1318,8 +1430,8 @@ class DatabaseHelper {
             ...updatedSale.toMap(),
             'sync_status': EntitySyncStatus.PENDING.label,
           },
-          where: 'id = ?',
-          whereArgs: [sale.id]);
+          where: tp.prefix('id = ?'),
+          whereArgs: tp.argsWith([sale.id]));
       if (affectedSale != 1) {
         throw StateError('فشل تحديث سجل البيع');
       }
@@ -1337,17 +1449,23 @@ class DatabaseHelper {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canDeleteSales);
     final db = await database;
+    final tp = _writePredicate();
     return await db.transaction((txn) async {
-      final saleData =
-          await txn.query('sales', where: 'id = ?', whereArgs: [id]);
-      if (saleData.isEmpty) return 0;
+      final saleData = await txn.query('sales',
+          where: tp.prefix('id = ?'), whereArgs: tp.argsWith([id]));
+      if (saleData.isEmpty) {
+        await _assertNotForeignRow(txn, 'sales', id, tp);
+        return 0;
+      }
       final sale = Sale.fromMap(saleData.first);
 
       // Inline revert of the sold quantity (same math as
       // [revertSoldQuantity]) so the deletion and its queue entry commit or
       // roll back as one unit.
-      final productMaps = await txn
-          .query('products', where: 'barcode = ?', whereArgs: [sale.barcode]);
+      final productMaps = await txn.query('products',
+          where: tp.prefix('barcode = ?'),
+          whereArgs: tp.argsWith([sale.barcode]),
+          limit: 1);
       if (productMaps.isNotEmpty) {
         final product = Product.fromMap(productMaps.first);
         final newSold = product.soldQuantity - sale.quantity;
@@ -1362,13 +1480,13 @@ class DatabaseHelper {
             'currentQuantity': newCurrent,
             'totalInventoryCost': newCurrent * product.costPrice,
           },
-          where: 'barcode = ?',
-          whereArgs: [sale.barcode],
+          where: tp.prefix('barcode = ?'),
+          whereArgs: tp.argsWith([sale.barcode]),
         );
       }
 
-      final affected =
-          await txn.delete('sales', where: 'id = ?', whereArgs: [id]);
+      final affected = await txn.delete('sales',
+          where: tp.prefix('id = ?'), whereArgs: tp.argsWith([id]));
       if (affected > 0) {
         await _enqueueAfterWrite(db, txn,
             tableName: 'sales',
@@ -1382,14 +1500,18 @@ class DatabaseHelper {
 
   Future<double> getTotalSales() async {
     final db = await database;
-    final result =
-        await db.rawQuery('SELECT SUM(totalSaleValue) as total FROM sales');
+    final tp = _readPredicate();
+    final result = await db.rawQuery(
+        'SELECT SUM(totalSaleValue) as total FROM sales${tp.toSqlWhere()}',
+        tp.args);
     return (result.first['total'] as num?)?.toDouble() ?? 0;
   }
 
   Future<double> getTotalCOGS() async {
     final db = await database;
-    final result = await db.rawQuery('SELECT SUM(cogs) as total FROM sales');
+    final tp = _readPredicate();
+    final result = await db.rawQuery(
+        'SELECT SUM(cogs) as total FROM sales${tp.toSqlWhere()}', tp.args);
     return (result.first['total'] as num?)?.toDouble() ?? 0;
   }
 
@@ -1408,17 +1530,21 @@ class DatabaseHelper {
       throw ArgumentError('يجب أن يكون سعر المرتجع أكبر من صفر');
     }
     final db = await database;
+    final tp = _writePredicate();
     return await db.transaction((txn) async {
-      await _requireExistingProductByBarcode(txn, returnItem.barcode);
+      await _requireExistingProductByBarcode(txn, returnItem.barcode, tp);
 
       final productMaps = await txn.query('products',
-          where: 'barcode = ?', whereArgs: [returnItem.barcode]);
+          where: tp.prefix('barcode = ?'),
+          whereArgs: tp.argsWith([returnItem.barcode]),
+          limit: 1);
       final product = Product.fromMap(productMaps.first);
 
       final id = await txn.insert(
         'returns',
         {
           ...returnItem.toMap()..remove('id'),
+          ...tp.stamp(),
           'sync_status': EntitySyncStatus.PENDING.label,
         },
       );
@@ -1440,8 +1566,8 @@ class DatabaseHelper {
           'currentQuantity': newCurrent,
           'totalInventoryCost': newCurrent * product.costPrice,
         },
-        where: 'barcode = ?',
-        whereArgs: [returnItem.barcode],
+        where: tp.prefix('id = ?'),
+        whereArgs: tp.argsWith([product.id]),
       );
 
       return id;
@@ -1450,7 +1576,9 @@ class DatabaseHelper {
 
   Future<List<ReturnItem>> getAllReturns() async {
     final db = await database;
-    final maps = await db.query('returns', orderBy: 'id ASC');
+    final tp = _readPredicate();
+    final maps = await db.query('returns',
+        where: tp.clause, whereArgs: tp.args, orderBy: 'id ASC');
     return maps.map((map) => ReturnItem.fromMap(map)).toList();
   }
 
@@ -1469,29 +1597,39 @@ class DatabaseHelper {
     final trimmedBarcode = returnItem.barcode.trim();
 
     final db = await database;
+    final tp = _writePredicate();
     return await db.transaction((txn) async {
-      final oldData = await txn
-          .query('returns', where: 'id = ?', whereArgs: [returnItem.id]);
+      final oldData = await txn.query('returns',
+          where: tp.prefix('id = ?'), whereArgs: tp.argsWith([returnItem.id]));
 
       if (oldData.isEmpty) {
+        await _assertNotForeignRow(txn, 'returns', returnItem.id!, tp);
         throw StateError('السجل المطلوب تعديله غير موجود');
       }
 
       final old = ReturnItem.fromMap(oldData.first);
       final oldBarcode = old.barcode;
 
-      final oldProductMaps = await txn
-          .query('products', where: 'barcode = ?', whereArgs: [oldBarcode]);
+      final oldProductMaps = await txn.query('products',
+          where: tp.prefix('barcode = ?'),
+          whereArgs: tp.argsWith([oldBarcode]),
+          limit: 1);
       if (oldProductMaps.isEmpty) {
         throw ProductReferenceIntegrityException(
             'المنتج القديم للمرتجع غير موجود');
       }
       final oldProduct = Product.fromMap(oldProductMaps.first);
 
-      await _requireExistingProductByBarcode(txn, trimmedBarcode);
+      await _requireExistingProductByBarcode(txn, trimmedBarcode, tp);
 
-      final newProductMaps = await txn
-          .query('products', where: 'barcode = ?', whereArgs: [trimmedBarcode]);
+      final newProductMaps = await txn.query('products',
+          where: tp.prefix('barcode = ?'),
+          whereArgs: tp.argsWith([trimmedBarcode]),
+          limit: 1);
+      if (newProductMaps.isEmpty) {
+        throw ProductReferenceIntegrityException(
+            'المنتج الجديد للمرتجع غير موجود');
+      }
       final newProduct = Product.fromMap(newProductMaps.first);
 
       final sameProduct = oldBarcode == trimmedBarcode;
@@ -1591,8 +1729,8 @@ class DatabaseHelper {
             ...updatedReturn.toMap(),
             'sync_status': EntitySyncStatus.PENDING.label,
           },
-          where: 'id = ?',
-          whereArgs: [returnItem.id]);
+          where: tp.prefix('id = ?'),
+          whereArgs: tp.argsWith([returnItem.id]));
       if (affectedReturn != 1) {
         throw StateError('فشل تحديث سجل المرتجع');
       }
@@ -1610,16 +1748,23 @@ class DatabaseHelper {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canDeleteReturns);
     final db = await database;
+    final tp = _writePredicate();
     return await db.transaction((txn) async {
-      final data = await txn.query('returns', where: 'id = ?', whereArgs: [id]);
-      if (data.isEmpty) return 0;
+      final data = await txn.query('returns',
+          where: tp.prefix('id = ?'), whereArgs: tp.argsWith([id]));
+      if (data.isEmpty) {
+        await _assertNotForeignRow(txn, 'returns', id, tp);
+        return 0;
+      }
       final ret = ReturnItem.fromMap(data.first);
 
       // Inline revert of the returned quantity (same math as
       // [revertReturnedQuantity]) so the deletion and its queue entry commit
       // or roll back as one unit.
-      final productMaps = await txn
-          .query('products', where: 'barcode = ?', whereArgs: [ret.barcode]);
+      final productMaps = await txn.query('products',
+          where: tp.prefix('barcode = ?'),
+          whereArgs: tp.argsWith([ret.barcode]),
+          limit: 1);
       if (productMaps.isNotEmpty) {
         final product = Product.fromMap(productMaps.first);
         final newReturned = product.returnedQuantity - ret.quantity;
@@ -1634,13 +1779,13 @@ class DatabaseHelper {
             'currentQuantity': newCurrent,
             'totalInventoryCost': newCurrent * product.costPrice,
           },
-          where: 'barcode = ?',
-          whereArgs: [ret.barcode],
+          where: tp.prefix('barcode = ?'),
+          whereArgs: tp.argsWith([ret.barcode]),
         );
       }
 
-      final affected =
-          await txn.delete('returns', where: 'id = ?', whereArgs: [id]);
+      final affected = await txn.delete('returns',
+          where: tp.prefix('id = ?'), whereArgs: tp.argsWith([id]));
       if (affected > 0) {
         await _enqueueAfterWrite(db, txn,
             tableName: 'returns',
@@ -1654,15 +1799,19 @@ class DatabaseHelper {
 
   Future<double> getTotalReturns() async {
     final db = await database;
-    final result =
-        await db.rawQuery('SELECT SUM(totalReturnValue) as total FROM returns');
+    final tp = _readPredicate();
+    final result = await db.rawQuery(
+        'SELECT SUM(totalReturnValue) as total FROM returns${tp.toSqlWhere()}',
+        tp.args);
     return (result.first['total'] as num?)?.toDouble() ?? 0;
   }
 
   Future<double> getTotalReturnedCOGS() async {
     final db = await database;
-    final result =
-        await db.rawQuery('SELECT SUM(returnedCogs) as total FROM returns');
+    final tp = _readPredicate();
+    final result = await db.rawQuery(
+        'SELECT SUM(returnedCogs) as total FROM returns${tp.toSqlWhere()}',
+        tp.args);
     return (result.first['total'] as num?)?.toDouble() ?? 0;
   }
 
@@ -1671,11 +1820,13 @@ class DatabaseHelper {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canCreateExpenses);
     final db = await database;
+    final tp = _writePredicate();
     return await db.transaction((txn) async {
       final id = await txn.insert(
         'expenses',
         {
           ...expense.toMap()..remove('id'),
+          ...tp.stamp(),
           'sync_status': EntitySyncStatus.PENDING.label,
         },
       );
@@ -1689,13 +1840,16 @@ class DatabaseHelper {
 
   Future<List<Expense>> getAllExpenses() async {
     final db = await database;
-    final maps = await db.query('expenses', orderBy: 'id ASC');
+    final tp = _readPredicate();
+    final maps = await db.query('expenses',
+        where: tp.clause, whereArgs: tp.args, orderBy: 'id ASC');
     return maps.map((map) => Expense.fromMap(map)).toList();
   }
 
   Future<int> updateExpense(Expense expense) async {
     await _enforceLicensing();
     final db = await database;
+    final tp = _writePredicate();
     return await db.transaction((txn) async {
       final affected = await txn.update(
           'expenses',
@@ -1703,8 +1857,11 @@ class DatabaseHelper {
             ...expense.toMap(),
             'sync_status': EntitySyncStatus.PENDING.label,
           },
-          where: 'id = ?',
-          whereArgs: [expense.id]);
+          where: tp.prefix('id = ?'),
+          whereArgs: tp.argsWith([expense.id]));
+      if (affected == 0) {
+        await _assertNotForeignRow(txn, 'expenses', expense.id!, tp);
+      }
       if (affected > 0) {
         await _enqueueAfterWrite(db, txn,
             tableName: 'expenses',
@@ -1719,12 +1876,18 @@ class DatabaseHelper {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canDeleteExpenses);
     final db = await database;
+    final tp = _writePredicate();
     return await db.transaction((txn) async {
       final existing = await txn.query('expenses',
-          where: 'id = ?', whereArgs: [id], limit: 1);
-      if (existing.isEmpty) return 0;
-      final affected =
-          await txn.delete('expenses', where: 'id = ?', whereArgs: [id]);
+          where: tp.prefix('id = ?'),
+          whereArgs: tp.argsWith([id]),
+          limit: 1);
+      if (existing.isEmpty) {
+        await _assertNotForeignRow(txn, 'expenses', id, tp);
+        return 0;
+      }
+      final affected = await txn.delete('expenses',
+          where: tp.prefix('id = ?'), whereArgs: tp.argsWith([id]));
       if (affected > 0) {
         await _enqueueAfterWrite(db, txn,
             tableName: 'expenses',
@@ -1738,8 +1901,10 @@ class DatabaseHelper {
 
   Future<double> getTotalExpenses() async {
     final db = await database;
-    final result =
-        await db.rawQuery('SELECT SUM(amount) as total FROM expenses');
+    final tp = _readPredicate();
+    final result = await db.rawQuery(
+        'SELECT SUM(amount) as total FROM expenses${tp.toSqlWhere()}',
+        tp.args);
     return (result.first['total'] as num?)?.toDouble() ?? 0;
   }
 
@@ -1749,17 +1914,22 @@ class DatabaseHelper {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canManageUsers);
     final db = await database;
+    final tp = _writePredicate();
     final normalized = ExpenseCategory.normalize(category.name);
     if (ExpenseCategory.isBlankName(normalized)) {
       throw ArgumentError('اسم التصنيف لا يمكن أن يكون فارغاً');
     }
+    // Names are shop-local business data (plan §M PER_SHOP semantics): the
+    // duplicate check runs inside the active shop's scope only.
     final existing = await db.query('expense_categories',
-        where: 'LOWER(name) = LOWER(?)', whereArgs: [normalized]);
+        where: tp.prefix('LOWER(name) = LOWER(?)'),
+        whereArgs: tp.argsWith([normalized]));
     if (existing.isNotEmpty) {
       throw ArgumentError('التصنيف "$normalized" موجود بالفعل');
     }
     return await db.transaction((txn) async {
-      final id = await txn.insert('expense_categories', {'name': normalized});
+      final id = await txn.insert(
+          'expense_categories', {...tp.stamp(), 'name': normalized});
       await _enqueueAfterWrite(db, txn,
           tableName: 'expense_categories',
           rowId: id,
@@ -1770,7 +1940,9 @@ class DatabaseHelper {
 
   Future<List<ExpenseCategory>> getAllExpenseCategories() async {
     final db = await database;
-    final maps = await db.query('expense_categories', orderBy: 'id ASC');
+    final tp = _readPredicate();
+    final maps = await db.query('expense_categories',
+        where: tp.clause, whereArgs: tp.args, orderBy: 'id ASC');
     return maps.map((map) => ExpenseCategory.fromMap(map)).toList();
   }
 
@@ -1779,13 +1951,14 @@ class DatabaseHelper {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canManageUsers);
     final db = await database;
+    final tp = _writePredicate();
     final normalized = ExpenseCategory.normalize(newName);
     if (ExpenseCategory.isBlankName(normalized)) {
       throw ArgumentError('اسم التصنيف لا يمكن أن يكون فارغاً');
     }
     final existing = await db.query('expense_categories',
-        where: 'LOWER(name) = LOWER(?) AND id != ?',
-        whereArgs: [normalized, id]);
+        where: tp.prefix('LOWER(name) = LOWER(?) AND id != ?'),
+        whereArgs: tp.argsWith([normalized, id]));
     if (existing.isNotEmpty) {
       throw ArgumentError('التصنيف "$normalized" موجود بالفعل');
     }
@@ -1796,8 +1969,11 @@ class DatabaseHelper {
             'name': normalized,
             'sync_status': EntitySyncStatus.PENDING.label,
           },
-          where: 'id = ?',
-          whereArgs: [id]);
+          where: tp.prefix('id = ?'),
+          whereArgs: tp.argsWith([id]));
+      if (affected == 0) {
+        await _assertNotForeignRow(txn, 'expense_categories', id, tp);
+      }
       if (affected > 0) {
         await _enqueueAfterWrite(db, txn,
             tableName: 'expense_categories',
@@ -1812,23 +1988,26 @@ class DatabaseHelper {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canManageUsers);
     final db = await database;
-    final category =
-        await db.query('expense_categories', where: 'id = ?', whereArgs: [id]);
+    final tp = _writePredicate();
+    final category = await db.query('expense_categories',
+        where: tp.prefix('id = ?'), whereArgs: tp.argsWith([id]));
     if (category.isEmpty) {
+      await _assertNotForeignRow(db, 'expense_categories', id, tp);
       throw ArgumentError('التصنيف غير موجود');
     }
     final categoryName = category.first['name'] as String;
+    // Usage count is computed within the active shop's scope (plan §J).
     final usageCount = await db.rawQuery(
-        'SELECT COUNT(*) as count FROM expenses WHERE category = ?',
-        [categoryName]);
+        'SELECT COUNT(*) as count FROM expenses WHERE ${tp.prefix('category = ?')}',
+        tp.argsWith([categoryName]));
     final count = (usageCount.first['count'] as num?)?.toInt() ?? 0;
     if (count > 0) {
       throw StateError(
           'لا يمكن حذف التصنيف "$categoryName" لأنه مستخدم في $count مصروف');
     }
     return await db.transaction((txn) async {
-      final affected = await txn
-          .delete('expense_categories', where: 'id = ?', whereArgs: [id]);
+      final affected = await txn.delete('expense_categories',
+          where: tp.prefix('id = ?'), whereArgs: tp.argsWith([id]));
       if (affected > 0) {
         await _enqueueAfterWrite(db, txn,
             tableName: 'expense_categories',
@@ -1842,8 +2021,10 @@ class DatabaseHelper {
 
   Future<List<String>> getDistinctExpenseCategories() async {
     final db = await database;
+    final tp = _readPredicate();
     final result = await db.rawQuery(
-        'SELECT DISTINCT category FROM expenses WHERE category IS NOT NULL AND category != "" ORDER BY category ASC');
+        'SELECT DISTINCT category FROM expenses WHERE ${tp.prefix('category IS NOT NULL AND category != ""')} ORDER BY category ASC',
+        tp.args);
     return result.map((row) => row['category'] as String).toList();
   }
 
@@ -1854,15 +2035,19 @@ class DatabaseHelper {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canAccessStocktake);
     final db = await database;
+    final tp = _writePredicate();
     return await db.transaction((txn) async {
       if (actualQuantity < 0) {
         throw ArgumentError('الكمية الفعلية لا يمكن أن تكون سالبة');
       }
 
-      final productMaps =
-          await txn.query('products', where: 'id = ?', whereArgs: [productId]);
+      final productMaps = await txn.query('products',
+          where: tp.prefix('id = ?'),
+          whereArgs: tp.argsWith([productId]),
+          limit: 1);
 
       if (productMaps.isEmpty) {
+        await _assertNotForeignRow(txn, 'products', productId, tp);
         throw StateError('المنتج غير موجود');
       }
 
@@ -1875,6 +2060,7 @@ class DatabaseHelper {
               product.returnedQuantity);
 
       final countId = await txn.insert('inventory_count', {
+        ...tp.stamp(),
         'productId': productId,
         'actualQuantity': actualQuantity,
         'notes': notes,
@@ -1933,25 +2119,35 @@ class DatabaseHelper {
 
   /// Checks whether a product has any historical or operational references.
   /// Returns a list of Arabic reason strings, or an empty list if none found.
+  /// Reference scans are tenant-scoped under armed isolation.
   Future<List<String>> getProductReferences(int productId) async {
     final db = await database;
-    final productMaps =
-        await db.query('products', where: 'id = ?', whereArgs: [productId]);
+    final tp = _readPredicate();
+    final productMaps = await db.query('products',
+        where: tp.prefix('id = ?'),
+        whereArgs: tp.argsWith([productId]),
+        limit: 1);
     if (productMaps.isEmpty) return [];
     final product = Product.fromMap(productMaps.first);
 
     final List<String> refs = [];
 
     final saleRows = await db.query('sales',
-        where: 'barcode = ?', whereArgs: [product.barcode], limit: 1);
+        where: tp.prefix('barcode = ?'),
+        whereArgs: tp.argsWith([product.barcode]),
+        limit: 1);
     if (saleRows.isNotEmpty) refs.add('مبيعات');
 
     final returnRows = await db.query('returns',
-        where: 'barcode = ?', whereArgs: [product.barcode], limit: 1);
+        where: tp.prefix('barcode = ?'),
+        whereArgs: tp.argsWith([product.barcode]),
+        limit: 1);
     if (returnRows.isNotEmpty) refs.add('مرتجعات');
 
     final countRows = await db.query('inventory_count',
-        where: 'productId = ?', whereArgs: [productId], limit: 1);
+        where: tp.prefix('productId = ?'),
+        whereArgs: tp.argsWith([productId]),
+        limit: 1);
     if (countRows.isNotEmpty) refs.add('جرد مخزون');
 
     return refs;
@@ -1988,11 +2184,15 @@ class DatabaseHelper {
   }
 
   /// Throws [ProductReferenceIntegrityException] if no product exists with the
-  /// given [barcode]. Must be called inside a transaction ([txn]).
+  /// given [barcode] within the tenant scope. Must be called inside a
+  /// transaction ([txn]).
   Future<void> _requireExistingProductByBarcode(
-      Transaction txn, String barcode) async {
-    final rows =
-        await txn.query('products', where: 'barcode = ?', whereArgs: [barcode]);
+      Transaction txn, String barcode,
+      [_TenantPredicate tp = _TenantPredicate.none]) async {
+    final rows = await txn.query('products',
+        where: tp.prefix('barcode = ?'),
+        whereArgs: tp.argsWith([barcode]),
+        limit: 1);
     if (rows.isEmpty) {
       throw ProductReferenceIntegrityException(
           'لا يوجد منتج بالباركود "$barcode"');
@@ -2001,18 +2201,25 @@ class DatabaseHelper {
 
   Future<Map<String, dynamic>> getInventorySummary() async {
     final db = await database;
-    final countResult = await db
-        .rawQuery('SELECT COUNT(*) as count FROM products WHERE name != ""');
-    final totalQtyResult =
-        await db.rawQuery('SELECT SUM(currentQuantity) as total FROM products');
-    final totalCostResult = await db
-        .rawQuery('SELECT SUM(totalInventoryCost) as total FROM products');
+    final tp = _readPredicate();
+    final countResult = await db.rawQuery(
+        'SELECT COUNT(*) as count FROM products WHERE ${tp.prefix('name != ""')}',
+        tp.args);
+    final totalQtyResult = await db.rawQuery(
+        'SELECT SUM(currentQuantity) as total FROM products${tp.toSqlWhere()}',
+        tp.args);
+    final totalCostResult = await db.rawQuery(
+        'SELECT SUM(totalInventoryCost) as total FROM products${tp.toSqlWhere()}',
+        tp.args);
     final salesCountResult = await db.rawQuery(
-        'SELECT COUNT(*) as count FROM sales WHERE productName != ""');
+        'SELECT COUNT(*) as count FROM sales WHERE ${tp.prefix('productName != ""')}',
+        tp.args);
     final returnsCountResult = await db.rawQuery(
-        'SELECT COUNT(*) as count FROM returns WHERE productName != ""');
+        'SELECT COUNT(*) as count FROM returns WHERE ${tp.prefix('productName != ""')}',
+        tp.args);
     final expensesCountResult = await db.rawQuery(
-        'SELECT COUNT(*) as count FROM expenses WHERE description != ""');
+        'SELECT COUNT(*) as count FROM expenses WHERE ${tp.prefix('description != ""')}',
+        tp.args);
 
     return {
       'itemCount': (countResult.first['count'] as num?)?.toInt() ?? 0,
@@ -2031,6 +2238,7 @@ class DatabaseHelper {
       {UserRole? currentRole}) async {
     _requireSalesHistoryAccess(currentRole);
     final db = await database;
+    final tp = _readPredicate();
     return await db.rawQuery('''
       SELECT date,
              COUNT(*) as transactionCount,
@@ -2038,16 +2246,17 @@ class DatabaseHelper {
              SUM(totalSaleValue) as totalSales,
              SUM(cogs) as totalCOGS,
              SUM(totalSaleValue) - SUM(cogs) as grossProfit
-      FROM sales
+      FROM sales${tp.toSqlWhere()}
       GROUP BY date
       ORDER BY date DESC
-    ''');
+    ''', tp.args);
   }
 
   Future<List<Map<String, dynamic>>> getSalesGroupByProduct(
       {UserRole? currentRole}) async {
     _requireSalesHistoryAccess(currentRole);
     final db = await database;
+    final tp = _readPredicate();
     return await db.rawQuery('''
       SELECT productName,
              barcode,
@@ -2057,27 +2266,29 @@ class DatabaseHelper {
              SUM(totalSaleValue) as totalSales,
              SUM(cogs) as totalCOGS,
              SUM(totalSaleValue) - SUM(cogs) as grossProfit
-      FROM sales
+      FROM sales${tp.toSqlWhere()}
       GROUP BY barcode
       ORDER BY totalSales DESC
-    ''');
+    ''', tp.args);
   }
 
   Future<Map<String, dynamic>> getSalesSummary({UserRole? currentRole}) async {
     _requireSalesHistoryAccess(currentRole);
     final db = await database;
+    final tp = _readPredicate();
     final totalSalesResult = await db.rawQuery(
-        'SELECT SUM(totalSaleValue) as total, SUM(quantity) as qty, COUNT(*) as count FROM sales');
-    final totalCOGSResult =
-        await db.rawQuery('SELECT SUM(cogs) as total FROM sales');
+        'SELECT SUM(totalSaleValue) as total, SUM(quantity) as qty, COUNT(*) as count FROM sales${tp.toSqlWhere()}',
+        tp.args);
+    final totalCOGSResult = await db.rawQuery(
+        'SELECT SUM(cogs) as total FROM sales${tp.toSqlWhere()}', tp.args);
     final todayResult = await db.rawQuery('''
       SELECT SUM(totalSaleValue) as total, SUM(quantity) as qty
-      FROM sales WHERE date(date) = date('now', 'localtime')
-    ''');
+      FROM sales WHERE ${tp.prefix("date(date) = date('now', 'localtime')")}
+    ''', tp.args);
     final monthResult = await db.rawQuery('''
       SELECT SUM(totalSaleValue) as total, SUM(quantity) as qty
-      FROM sales WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime')
-    ''');
+      FROM sales WHERE ${tp.prefix("strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime')")}
+    ''', tp.args);
 
     return {
       'totalSales': (totalSalesResult.first['total'] as num?)?.toDouble() ?? 0,
@@ -2096,6 +2307,10 @@ class DatabaseHelper {
   }
 
   // =================== BARCODE GENERATOR ===================
+  /// Deliberately GLOBAL (not shop-scoped): generated barcodes rely on the
+  /// global `products.barcode UNIQUE` constraint retained per owner decision
+  /// Z-1 (GLOBAL). Scoping MAX(id) here would generate colliding barcodes
+  /// across shops and violate that constraint on insert.
   Future<String> generateBarcode() async {
     final db = await database;
     final result = await db.rawQuery('SELECT MAX(id) as maxId FROM products');
@@ -2113,8 +2328,10 @@ class DatabaseHelper {
       throw ArgumentError('اسم العميل مطلوب');
     }
     final now = DateTime.now().toIso8601String();
+    final tp = _writePredicate();
     return await db.transaction((txn) async {
       final id = await txn.insert('customers', {
+        ...tp.stamp(),
         'name': trimmed,
         'phone': customer.phone?.trim(),
         'address': customer.address?.trim(),
@@ -2135,22 +2352,29 @@ class DatabaseHelper {
 
   Future<List<Customer>> getAllCustomers() async {
     final db = await database;
-    final maps =
-        await db.query('customers', orderBy: 'isSystem DESC, name ASC');
+    final tp = _readPredicate();
+    final maps = await db.query('customers',
+        where: tp.clause,
+        whereArgs: tp.args,
+        orderBy: 'isSystem DESC, name ASC');
     return maps.map((map) => Customer.fromMap(map)).toList();
   }
 
   Future<List<Customer>> getActiveCustomers() async {
     final db = await database;
+    final tp = _readPredicate();
     final maps = await db.query('customers',
-        where: 'isActive = 1', orderBy: 'isSystem DESC, name ASC');
+        where: tp.prefix('isActive = 1'),
+        whereArgs: tp.args,
+        orderBy: 'isSystem DESC, name ASC');
     return maps.map((map) => Customer.fromMap(map)).toList();
   }
 
   Future<Customer?> getCustomerById(int id) async {
     final db = await database;
-    final maps =
-        await db.query('customers', where: 'id = ?', whereArgs: [id], limit: 1);
+    final tp = _readPredicate();
+    final maps = await db.query('customers',
+        where: tp.prefix('id = ?'), whereArgs: tp.argsWith([id]), limit: 1);
     if (maps.isEmpty) return null;
     return Customer.fromMap(maps.first);
   }
@@ -2158,9 +2382,10 @@ class DatabaseHelper {
   Future<List<Customer>> searchCustomers(String query) async {
     final db = await database;
     final q = '%${query.trim()}%';
+    final tp = _readPredicate();
     final maps = await db.query('customers',
-        where: 'isActive = 1 AND (name LIKE ? OR phone LIKE ?)',
-        whereArgs: [q, q],
+        where: tp.prefix('isActive = 1 AND (name LIKE ? OR phone LIKE ?)'),
+        whereArgs: tp.argsWith([q, q]),
         orderBy: 'isSystem DESC, name ASC');
     return maps.map((map) => Customer.fromMap(map)).toList();
   }
@@ -2177,6 +2402,7 @@ class DatabaseHelper {
       throw ArgumentError('اسم العميل مطلوب');
     }
     final db = await database;
+    final tp = _writePredicate();
     await db.transaction((txn) async {
       final affected = await txn.update(
         'customers',
@@ -2189,9 +2415,12 @@ class DatabaseHelper {
           'updatedAt': DateTime.now().toIso8601String(),
           'sync_status': EntitySyncStatus.PENDING.label,
         },
-        where: 'id = ?',
-        whereArgs: [customer.id],
+        where: tp.prefix('id = ?'),
+        whereArgs: tp.argsWith([customer.id]),
       );
+      if (affected == 0) {
+        await _assertNotForeignRow(txn, 'customers', customer.id!, tp);
+      }
       if (affected > 0) {
         await _enqueueAfterWrite(db, txn,
             tableName: 'customers',
@@ -2207,11 +2436,14 @@ class DatabaseHelper {
     final db = await database;
     final customer = await getCustomerById(customerId);
     if (customer == null) {
+      final tp = _writePredicate();
+      await _assertNotForeignRow(db, 'customers', customerId, tp);
       throw StateError('العميل غير موجود');
     }
     if (customer.isSystem) {
       throw StateError('لا يمكن أرشفة العميل النظامي');
     }
+    final tp = _writePredicate();
     await db.transaction((txn) async {
       final affected = await txn.update(
         'customers',
@@ -2220,8 +2452,8 @@ class DatabaseHelper {
           'updatedAt': DateTime.now().toIso8601String(),
           'sync_status': EntitySyncStatus.PENDING.label,
         },
-        where: 'id = ?',
-        whereArgs: [customerId],
+        where: tp.prefix('id = ?'),
+        whereArgs: tp.argsWith([customerId]),
       );
       if (affected > 0) {
         // Customers use soft-state (isActive) rather than tombstones in the
@@ -2239,6 +2471,7 @@ class DatabaseHelper {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canCreateSales);
     final db = await database;
+    final tp = _writePredicate();
     await db.transaction((txn) async {
       final affected = await txn.update(
         'customers',
@@ -2247,9 +2480,12 @@ class DatabaseHelper {
           'updatedAt': DateTime.now().toIso8601String(),
           'sync_status': EntitySyncStatus.PENDING.label,
         },
-        where: 'id = ?',
-        whereArgs: [customerId],
+        where: tp.prefix('id = ?'),
+        whereArgs: tp.argsWith([customerId]),
       );
+      if (affected == 0) {
+        await _assertNotForeignRow(txn, 'customers', customerId, tp);
+      }
       if (affected > 0) {
         await _enqueueAfterWrite(db, txn,
             tableName: 'customers',
@@ -2351,4 +2587,71 @@ class IntegrityIssueReport {
 
   int get totalOrphans =>
       orphanSales.length + orphanReturns.length + orphanInventoryCounts.length;
+}
+
+/// Tenant scoping predicate applied to every tenant-owned query while strict
+/// isolation is armed (Phase J §J/§K contracts).
+///
+///  - [none]      : legacy mode, no predicate.
+///  - [denyAll]   : armed without an authorized shop — matches nothing so
+///                  reads fail closed to empty.
+///  - scoped(shop): `shop_id = ?`.
+class _TenantPredicate {
+  final String? clause;
+  final List<Object?> args;
+
+  const _TenantPredicate._(this.clause, this.args);
+
+  static const _TenantPredicate none = _TenantPredicate._(null, []);
+  static const _TenantPredicate denyAll =
+      _TenantPredicate._('1 = 0', []);
+
+  factory _TenantPredicate.scoped(String shopId) =>
+      _TenantPredicate._('shop_id = ?', [shopId]);
+
+  bool get deniesAll => clause == '1 = 0';
+  bool get isScoped => clause != null && !deniesAll;
+
+  /// Composes this predicate BEFORE a caller condition:
+  /// `(shop_id = ?) AND (caller)`. With no tenant predicate, returns the
+  /// caller condition unchanged.
+  String prefix(String condition) =>
+      clause == null ? condition : '($clause) AND ($condition)';
+
+  /// Nullable-where composition for sqflite query helpers.
+  String? andWhere(String? where) =>
+      where == null || where.isEmpty ? clause : prefix(where);
+
+  List<Object?> argsWith(List<Object?>? callerArgs) =>
+      [...args, ...?callerArgs];
+
+  /// Raw-SQL fragment for queries with no existing WHERE clause.
+  String toSqlWhere() => clause == null ? '' : ' WHERE $clause';
+
+  /// Raw-SQL fragment appended inside an existing WHERE clause.
+  String toSqlAnd() => clause == null ? '' : ' AND ($clause)';
+
+  /// Insert stamping map (empty in legacy mode).
+  Map<String, Object?> stamp() =>
+      isScoped ? {'shop_id': args.first as String} : const {};
+}
+
+/// Thrown when a business write is attempted while strict tenant isolation is
+/// armed but no authorized shop context exists (fail-closed, plan §K).
+class TenantIsolationException implements Exception {
+  final String message;
+  const TenantIsolationException(this.message);
+
+  @override
+  String toString() => 'TenantIsolationException: $message';
+}
+
+/// Thrown when a mutation targets a row that exists but belongs to another
+/// shop. Surfaced explicitly instead of a silent zero-row no-op (plan §K).
+class TenantOwnershipException implements Exception {
+  final String message;
+  const TenantOwnershipException(this.message);
+
+  @override
+  String toString() => 'TenantOwnershipException: $message';
 }

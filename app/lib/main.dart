@@ -14,7 +14,9 @@ import 'services/session_state.dart';
 import 'services/permissions.dart';
 import 'services/permission_resolver.dart';
 import 'services/app_settings.dart';
+import 'services/active_shop_context.dart';
 import 'services/shop_profile_service.dart';
+import 'services/shop_resolver.dart';
 import 'models/shop_profile.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/first_owner_setup_screen.dart';
@@ -180,9 +182,25 @@ class _AuthGateState extends State<AuthGate> {
         () => cloudLicensingService.enforceActive());
 
     // Phase H: wire the active-shop provider so enqueue-after-write hooks can
-    // attribute sync queue entries to the correct tenant. Without an active
-    // shop session, local writes stay purely local (no queue entries).
-    DatabaseHelper.setSyncShopIdProvider(() async => _sessionState.activeShopId);
+    // attribute sync queue entries to the correct tenant. Phase J: the
+    // provider now delegates to the single authoritative ActiveShopContext
+    // (validated membership) instead of reading the session ad hoc.
+    DatabaseHelper.setSyncShopIdProvider(
+        () async => ActiveShopContext.instance.shopId);
+
+    // Phase J (WS1): wire the membership validator that authorizes every
+    // bind/switch of the tenant context against the user's ACTIVE cloud
+    // memberships. Fail-closed: any resolver error rejects the shop.
+    ActiveShopContext.instance.configure(
+      membershipValidator: (shopId) async {
+        try {
+          final memberships = await ShopResolver().getAllMemberships();
+          return memberships.any((m) => m.isActive && m.shopId == shopId);
+        } catch (_) {
+          return false;
+        }
+      },
+    );
 
     // Phase F: Permission sync service is available for cloud permission
     // synchronization. It will be triggered after cloud session is established.
@@ -219,6 +237,10 @@ class _AuthGateState extends State<AuthGate> {
 
   void _onLogout() {
     _sessionState.logout();
+    // Phase J: release the tenant context and suspend strict isolation for
+    // this runtime. The persistence marker survives so the next authorized
+    // login re-evaluates and re-arms (TenantIsolationGate.restoreAtStartup).
+    ActiveShopContext.instance.unbind();
     // Phase F: Clear cloud permission state on logout.
     PermissionSyncService.instance.reset();
     // Sign out from Supabase if cloud session was active.

@@ -4,6 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import '../database/database_helper.dart';
 import '../models/user_role.dart';
 import 'permissions.dart';
+import 'tenant_isolation_gate.dart';
 
 class RestoreValidationException implements Exception {
   final String reason;
@@ -67,6 +68,13 @@ class StandaloneRestoreService {
     final preSavePath = await _createPreSaveBackup();
     try {
       await _performRestore(backupFilePath);
+
+      // Phase J (plan §P): a restored database is treated as PRE-MIGRATION —
+      // the strict tenant isolation arming marker is force-cleared so Phase J
+      // gating can never half-arm over unattributed restored rows. The user
+      // re-runs migration/attribution, then re-arms.
+      await TenantIsolationGate().disarm();
+
       return StandaloneRestoreReport(
         timestamp: DateTime.now(),
         restoredFromPath: backupFilePath,

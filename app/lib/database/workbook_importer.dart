@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:sqflite/sqflite.dart';
+import '../services/active_shop_context.dart';
 import 'xlsx_reader.dart';
 
 class ReconciliationReport {
@@ -168,7 +169,7 @@ class WorkbookImporter {
   }
 
   static Future<ReconciliationReport> _applyImport(
-      Map<String, XlsxSheetData> sheets, Database db) async {
+      Map<String, XlsxSheetData> sheets, Database db, String shopId) async {
     final store = sheets['المخزن']!;
     final salesSheet = sheets['المبيعات']!;
     final returnsSheet = sheets['المرتجعات']!;
@@ -221,6 +222,7 @@ class WorkbookImporter {
         final normalizedBarcode = _normalize(barcode);
 
         await txn.insert('products', {
+          'shop_id': shopId,
           'name': normalizedName,
           'barcode': normalizedBarcode,
           'openingQuantity': opening,
@@ -268,6 +270,7 @@ class WorkbookImporter {
         final cogs = qty * cost;
 
         await txn.insert('sales', {
+          'shop_id': shopId,
           'date': saleDate.toIso8601String(),
           'productName': _normalize(name),
           'barcode': _normalize(barcode),
@@ -314,6 +317,7 @@ class WorkbookImporter {
         final cogs = qty * cost;
 
         await txn.insert('returns', {
+          'shop_id': shopId,
           'date': returnDate.toIso8601String(),
           'productName': _normalize(name),
           'barcode': _normalize(barcode),
@@ -348,6 +352,7 @@ class WorkbookImporter {
         }
 
         await txn.insert('expenses', {
+          'shop_id': shopId,
           'date': expDate.toIso8601String(),
           'description': _normalize(desc),
           'amount': amount,
@@ -376,6 +381,7 @@ class WorkbookImporter {
         if (productRows.isNotEmpty) {
           final productId = productRows.first['id'] as int;
           await txn.insert('inventory_count', {
+            'shop_id': shopId,
             'productId': productId,
             'actualQuantity': actualQty,
             'notes': notes,
@@ -412,13 +418,26 @@ class WorkbookImporter {
     );
   }
 
+  /// Imports a workbook. Every tenant row is stamped with the ACTIVE shop
+  /// context (plan §P): an explicit [shopId] argument wins (trust boundaries),
+  /// otherwise the bound [ActiveShopContext] is used. Importing with NO
+  /// authorized shop context fails closed — imported data must never land as
+  /// unattributed rows that strict filtering would hide.
   static Future<ReconciliationReport> import({
     required String workbookPath,
     required Database db,
     bool allowZeroCost = false,
     bool skipShaCheck = true,
     String? expectedSha256,
+    String? shopId,
   }) async {
+    final effectiveShopId =
+        shopId ?? ActiveShopContext.instance.shopId;
+    if (effectiveShopId == null || effectiveShopId.isEmpty) {
+      throw WorkbookImportException(
+          'لا يمكن الاستيراد بدون متجر نشط مرتبط بالسحابة');
+    }
+
     if (!File(workbookPath).existsSync()) {
       throw WorkbookImportException('ملف الوردبوك غير موجود: $workbookPath');
     }
@@ -448,9 +467,10 @@ class WorkbookImporter {
       throw WorkbookImportException(preflightResult.errors.join('\n'));
     }
 
-    final report = await _applyImport(sheets, db);
+    final report = await _applyImport(sheets, db, effectiveShopId);
 
     await db.insert('import_batches', {
+      'shop_id': effectiveShopId,
       'file_sha256': actualSha,
       'file_name': File(workbookPath).uri.pathSegments.last,
       'imported_at': DateTime.now().toIso8601String(),

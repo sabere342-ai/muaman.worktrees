@@ -5,6 +5,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:muaman_store/database/workbook_importer.dart';
 import 'package:muaman_store/database/xlsx_reader.dart';
 import 'package:muaman_store/database/database_helper.dart';
+import 'package:muaman_store/services/active_shop_context.dart';
 
 void main() {
   setUpAll(() {
@@ -28,9 +29,16 @@ void main() {
     testDb = await databaseFactoryFfi.openDatabase(inMemoryDatabasePath);
     await _createAllTables(testDb);
     await DatabaseHelper.setTestDatabase(testDb);
+
+    // Phase J: workbook imports are tenant-stamped and fail closed without
+    // an authorized shop context, so bind a permissive test context.
+    ActiveShopContext.instance
+        .configure(membershipValidator: (_) async => true);
+    await ActiveShopContext.instance.bind('shop-import-test');
   });
 
   tearDown(() async {
+    ActiveShopContext.instance.resetForTest();
     await testDb.close();
   });
 
@@ -442,7 +450,12 @@ void main() {
   });
 }
 
-Future<void> _createAllTables(Database db) async {
+Future<void> _createAllTables(Database db) async =>
+    createAllTablesForTest(db);
+
+/// Public alias so the Phase J tenant-isolation suite can reuse the exact
+/// schema fixture without duplicating it.
+Future<void> createAllTablesForTest(Database db) async {
   await db.execute('''
     CREATE TABLE products (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -454,7 +467,9 @@ Future<void> _createAllTables(Database db) async {
       currentQuantity INTEGER DEFAULT 0,
       costPrice REAL DEFAULT 0,
       totalInventoryCost REAL DEFAULT 0,
-      inventoryAdjustment INTEGER DEFAULT 0
+      inventoryAdjustment INTEGER DEFAULT 0,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
   await db.execute('''
@@ -468,7 +483,9 @@ Future<void> _createAllTables(Database db) async {
       salePrice REAL DEFAULT 0,
       totalSaleValue REAL DEFAULT 0,
       costPrice REAL DEFAULT 0,
-      cogs REAL DEFAULT 0
+      cogs REAL DEFAULT 0,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
   await db.execute('''
@@ -481,7 +498,9 @@ Future<void> _createAllTables(Database db) async {
       salePrice REAL DEFAULT 0,
       totalReturnValue REAL DEFAULT 0,
       costPrice REAL DEFAULT 0,
-      returnedCogs REAL DEFAULT 0
+      returnedCogs REAL DEFAULT 0,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
   await db.execute('''
@@ -489,7 +508,10 @@ Future<void> _createAllTables(Database db) async {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       date TEXT NOT NULL,
       description TEXT NOT NULL,
-      amount REAL DEFAULT 0
+      amount REAL DEFAULT 0,
+      category TEXT,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
   await db.execute('''
@@ -498,7 +520,9 @@ Future<void> _createAllTables(Database db) async {
       productId INTEGER NOT NULL,
       actualQuantity INTEGER DEFAULT 0,
       notes TEXT DEFAULT '',
-      countDate TEXT NOT NULL
+      countDate TEXT NOT NULL,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
   await db.execute('''
@@ -523,7 +547,9 @@ Future<void> _createAllTables(Database db) async {
       gross_profit REAL DEFAULT 0,
       total_expenses REAL DEFAULT 0,
       net_profit REAL DEFAULT 0,
-      reconciliation_json TEXT
+      reconciliation_json TEXT,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
 }

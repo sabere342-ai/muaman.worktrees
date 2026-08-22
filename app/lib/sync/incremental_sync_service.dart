@@ -56,6 +56,17 @@ class IncrementalSyncService {
             }
           }
 
+          // Phase J tenant guard: payload stamped with a different shop id
+          // than the pull target is rejected, never merged cross-tenant.
+          final rowShopId = cloudRow['shop_id'] as String?;
+          if (rowShopId != null && rowShopId.isNotEmpty && rowShopId != shopId) {
+            await _logger(
+                'Incremental sync rejected ${adapter.entityType.label} row '
+                '$cloudUuid: payload shop $rowShopId != target $shopId');
+            skipped++;
+            continue;
+          }
+
           final existingLocal = await _findLocalByCloudUuid(adapter.localTableName, cloudUuid);
           final localRow = adapter.cloudToLocalRow(cloudRow);
 
@@ -68,6 +79,7 @@ class IncrementalSyncService {
                 adapter.localTableName,
                 {
                   ...localRow,
+                  'shop_id': shopId,
                   'server_version': serverVersion,
                   'sync_status': 'SYNCED',
                   'last_synced_at': DateTime.now().toIso8601String(),

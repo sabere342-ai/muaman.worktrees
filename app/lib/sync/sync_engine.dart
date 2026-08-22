@@ -76,6 +76,20 @@ class SyncEngine {
 
     for (final entry in entries) {
       try {
+        // Phase J tenant guard: queued work must execute strictly under its
+        // persisted originating shop id, never the ambient current shop
+        // (plan §O). getPendingEntries(shopId:) already filters; this is a
+        // defense-in-depth assertion so the invariant cannot regress.
+        if (entry.shopId != null &&
+            entry.shopId!.isNotEmpty &&
+            entry.shopId != shopId) {
+          await _logger(entry.entityType, 'TENANT_MISMATCH_SKIPPED',
+              details:
+                  'entry ${entry.id} belongs to shop ${entry.shopId}, '
+                  'cycle shop is $shopId — not executed');
+          continue;
+        }
+
         await _logger(entry.entityType, entry.operation.label,
             details: 'Processing queue entry ${entry.id}');
 

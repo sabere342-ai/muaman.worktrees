@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../services/active_shop_context.dart';
 import '../../services/shop_resolver.dart';
 
 /// Screen that allows a user to select which shop they want to access
@@ -49,8 +50,24 @@ class _ShopSelectorScreenState extends State<ShopSelectorScreen> {
     }
   }
 
-  void _selectShop(ShopMembership membership) {
-    widget.resolver.selectShop(membership.shopId);
+  Future<void> _selectShop(ShopMembership membership) async {
+    // Phase J (WS1 switch lifecycle): re-validate against ACTIVE memberships
+    // and swap the tenant context atomically before persisting the choice.
+    // In-flight sync cycles are unaffected: queue entries execute strictly
+    // under their persisted entry.shop_id.
+    try {
+      await ActiveShopContext.instance.switchShop(membership.shopId);
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('تعذّر تبديل المتجر: العضوية غير مصرح بها'),
+              backgroundColor: Colors.red),
+        );
+      }
+      return;
+    }
+    await widget.resolver.selectShop(membership.shopId);
     widget.onSelected(membership.shopId, membership);
   }
 
