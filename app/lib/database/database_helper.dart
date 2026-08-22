@@ -342,6 +342,16 @@ class DatabaseHelper {
     return join(dbPath, 'muaman_store.db');
   }
 
+  /// Test-only seam: runs ONLY the production fresh-install path
+  /// (`onCreate`) exactly as `openDatabase(version: 14)` executes it — no
+  /// migration replay. Used by the W1 parity test to prove that a fresh
+  /// v14 database is byte-equivalent in shape to an upgraded-to-v14 one.
+  @visibleForTesting
+  static Future<void> runFreshOnCreateForTest(Database db) async {
+    await DatabaseHelper.instance._createDB(db, 14);
+    await db.rawUpdate('PRAGMA user_version = 14');
+  }
+
   /// Closes the current database connection. After calling this, the next
   /// access to [database] will reopen the file.
   Future<void> close() async {
@@ -455,6 +465,15 @@ class DatabaseHelper {
     await _createExpenseCategoriesTable(db);
     await _createCustomersTable(db);
     await _createLegacyMigrationProgressTable(db);
+
+    // Phase K / W1 (plan D3): fresh installs MUST land on the exact same
+    // v14 shape as upgrade installs. Android ships as fresh installs taking
+    // this path, so the v13 artifacts (sync_queue, indexes and sync columns
+    // on the 12 tenant-owned tables) are created here as well. The migration
+    // is idempotent (IF NOT EXISTS + per-column guards), so replaying it on
+    // an already-complete shape is safe.
+    await _migrateToV13(db);
+
     if (seedDemoEnabled) {
       await DataImporter.importData(db);
     }

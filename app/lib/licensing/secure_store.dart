@@ -3,7 +3,33 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
+
+import 'secure_store_android.dart';
+
+/// Storage contract for protected licensing activation state (Phase K D7).
+///
+/// Windows uses the historical DPAPI-backed [SecureActivationStore]
+/// unchanged; Android uses the Keystore-backed [KeystoreActivationStore].
+/// Consumers depend on this interface, never on a concrete platform store.
+abstract class ProtectedActivationStore {
+  Future<SecureActivationState?> read();
+  Future<void> write(SecureActivationState state);
+  Future<void> delete();
+}
+
+/// Resolves the platform-default protected activation store.
+///
+/// Android MUST NOT fall back to the insecure obfuscation path — it always
+/// receives the Keystore-backed implementation. Every other platform keeps
+/// the pre-Phase-K behavior byte-identical.
+ProtectedActivationStore createDefaultProtectedActivationStore() {
+  if (!kIsWeb && Platform.isAndroid) {
+    return KeystoreActivationStore(const KeystoreChannelSecretStore());
+  }
+  return SecureActivationStore();
+}
 
 /// DPAPI-protected local activation state storage.
 ///
@@ -13,7 +39,7 @@ import 'package:path/path.dart' as p;
 /// - Integrity-protected with HMAC-SHA256
 /// - COMPLETELY SEPARATE from muaman_store.db
 /// - NOT included in backup/restore
-class SecureActivationStore {
+class SecureActivationStore implements ProtectedActivationStore {
   /// Per-installation HMAC secret key (generated on first activation).
   Uint8List? _hmacSecret;
 
@@ -48,6 +74,7 @@ class SecureActivationStore {
   /// Returns null if no activation file exists.
   /// Returns [SecureActivationState] if valid.
   /// Throws [CorruptStateException] if file exists but is corrupted.
+  @override
   Future<SecureActivationState?> read() async {
     final file = File(_activationFilePath);
     if (!file.existsSync()) {
@@ -149,6 +176,7 @@ class SecureActivationStore {
   /// Write the activation state to the DPAPI-protected file.
   ///
   /// Uses atomic write (write to temp, then rename).
+  @override
   Future<void> write(SecureActivationState state) async {
     final dir = Directory(p.dirname(_activationFilePath));
     if (!dir.existsSync()) {
@@ -222,6 +250,7 @@ class SecureActivationStore {
   }
 
   /// Delete the activation file.
+  @override
   Future<void> delete() async {
     final file = File(_activationFilePath);
     if (file.existsSync()) {

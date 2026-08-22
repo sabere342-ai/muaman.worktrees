@@ -15,6 +15,7 @@ import 'services/permissions.dart';
 import 'services/permission_resolver.dart';
 import 'services/app_settings.dart';
 import 'services/active_shop_context.dart';
+import 'services/cloud_session_resume.dart';
 import 'services/shop_profile_service.dart';
 import 'services/shop_resolver.dart';
 import 'models/shop_profile.dart';
@@ -215,6 +216,23 @@ class _AuthGateState extends State<AuthGate> {
         }
       } catch (_) {
         _cloudAvailable = false;
+      }
+    }
+
+    // Phase K (D4): cold-start session resume. A valid restored Supabase
+    // session (the COMMON case on Android after process death) must bind the
+    // active shop context, arm strict tenant isolation and refresh synced
+    // permissions BEFORE any tenant-owned data renders — the same sequence
+    // LoginScreen performs after interactive cloud login. Fail-closed: if no
+    // authorized shop can be bound, nothing is bound and unbound semantics
+    // apply.
+    if (AppConfig.isConfigured && _cloudAvailable) {
+      try {
+        await resumeCloudSessionAtStartup(
+          resolveActiveShop: () => ShopResolver().resolveActiveShop(),
+        );
+      } catch (_) {
+        // Resume must never block startup; offline-first boot continues.
       }
     }
 

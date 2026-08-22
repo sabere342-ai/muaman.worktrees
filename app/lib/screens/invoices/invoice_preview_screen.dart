@@ -4,6 +4,7 @@ import '../../database/invoice_repository.dart';
 import '../../invoices/invoice_delivery.dart';
 import '../../invoices/invoice_document_data.dart';
 import '../../invoices/thermal_delivery.dart';
+import '../../platform/platform_capabilities.dart';
 import '../../services/session_state.dart';
 
 /// Read-only preview of a persisted invoice with print / save-PDF / open-PDF
@@ -83,11 +84,17 @@ class _InvoicePreviewScreenState extends State<InvoicePreviewScreen> {
 
   Future<void> _savePdf() {
     return _run(() async {
+      final isAndroid = PlatformCapabilities.isAndroid;
       final path = await _delivery.savePdf(_data!);
       if (!mounted) return;
+      // Phase K (D8): Android delivers through the system share sheet, so
+      // a null result means "shared", not "cancelled".
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-            path == null ? 'تم إلغاء الحفظ' : 'تم حفظ الفاتورة في:\n$path'),
+        content: Text(isAndroid
+            ? 'تمت مشاركة الفاتورة عبر نظام المشاركة'
+            : path == null
+                ? 'تم إلغاء الحفظ'
+                : 'تم حفظ الفاتورة في:\n$path'),
       ));
     });
   }

@@ -13,6 +13,23 @@ subprojects {
     project.evaluationDependsOn(":app")
 }
 
+// MINIMAL_BASELINE_BUILD_COMPATIBILITY_FIX:
+// app_links 6.4.1 evaluates `flutter.compileSdkVersion` inside its own
+// android/build.gradle, but Flutter 3.24.x does not apply the Flutter Gradle
+// extension to plugin subprojects, so evaluation of :app_links fails with
+// "Could not get unknown property 'flutter'". This failure reproduces
+// identically at the untouched Phase K planning baseline (da184e2e) and is a
+// baseline toolchain compatibility failure, not a Phase K regression.
+// Provide the same compileSdk the app module itself resolves from the Flutter
+// extension defaults (34); minSdk 21 / targetSdk 34 remain frozen by Phase K.
+subprojects {
+    if (project.name == "app_links") {
+        ext.flutter = [
+            compileSdkVersion: 34,
+        ]
+    }
+}
+
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }

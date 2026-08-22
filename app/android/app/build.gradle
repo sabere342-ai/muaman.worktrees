@@ -7,7 +7,10 @@ plugins {
 
 android {
     namespace = "com.almuaman.muaman_store"
-    compileSdk = flutter.compileSdkVersion
+    // Phase K: compileSdk 35 is required by current plugin toolchains
+    // (flutter_plugin_android_lifecycle). Build-time only — targetSdk stays
+    // frozen at 34 (D11) and runtime behavior is unchanged.
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -20,20 +23,21 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        // Phase K (OD-K1 placeholder): final applicationId/label decision is
+        // pending owner decision; this placeholder is retained until then.
         applicationId = "com.almuaman.muaman_store"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        // Phase K (D11): frozen Android baseline from ARCHITECTURE_PLAN §13.
+        minSdk = 21
+        targetSdk = 34
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+            // Phase K (OD-K2): release signing ownership is a pending owner
+            // decision; debug-signed release remains the documented
+            // placeholder for development builds only.
             signingConfig = signingConfigs.debug
         }
     }
@@ -41,4 +45,10 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    // Phase K (D7): Keystore-backed EncryptedSharedPreferences backing the
+    // itech.app/secure_storage method channel (GA6 platform-channel option).
+    implementation "androidx.security:security-crypto:1.0.0"
 }

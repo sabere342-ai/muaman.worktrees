@@ -1,4 +1,15 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- Phase K (GA1): the owner foundation requires Supabase cloud access
+         (auth, RPCs, licensing). This is the ONLY permission added in K —
+         no storage/location dangerous permissions (plan section 9 / D8). -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Phase K (D7): androidx.security:security-crypto declares minSdk 23,
+         while this app keeps the frozen minSdk 21 (D11). The override lets
+         the merger pass; on API < 23 devices the Keystore-backed storage
+         cannot initialize and the native handler FAILS CLOSED
+         (SECURE_STORAGE_UNAVAILABLE) — never a plaintext fallback. -->
+    <uses-sdk tools:overrideLibrary="androidx.security"/>
     <application
         android:label="muaman_store"
         android:name="${applicationName}"

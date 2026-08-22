@@ -47,6 +47,11 @@ dependencies:
   cbor: ^6.0.0
   http: ^1.2.0
   supabase_flutter: ^2.15.0
+  # Phase K (GA12/D8): app-private documents/logo dir resolution.
+  # Android Keystore-backed secrets (D7) use the itech.app/secure_storage
+  # method channel (GA6 platform-channel option) instead of a plugin, keeping
+  # Windows builds free of the plugin's ATL-dependent Windows artifact.
+  path_provider: ^2.1.4
 
 dev_dependencies:
   flutter_test:

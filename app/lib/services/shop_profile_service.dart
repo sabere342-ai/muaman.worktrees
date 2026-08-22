@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart' show getDatabasesPath;
 import '../models/shop_profile.dart';
 import '../models/user_role.dart';
+import '../platform/platform_capabilities.dart';
 import 'permission_resolver.dart';
 import 'permissions.dart';
 import 'shop_profile_repository.dart';
@@ -124,10 +126,23 @@ class ShopProfileService extends ChangeNotifier {
       throw ArgumentError('صيغة الشعار غير مدعومة: $extension');
     }
 
-    final directory = _logoDirectory ?? await getDatabasesPath();
+    final directory = _logoDirectory ?? await _resolveManagedLogoDirectory();
     await Directory(directory).create(recursive: true);
     final destination = p.join(directory, 'shop_logo$extension');
     await source.copy(destination);
     return destination;
+  }
+
+  /// App-private managed directory for the shop logo (Phase K D8/GA12).
+  ///
+  /// Android: path_provider application documents directory — scoped-storage
+  /// compliant, app-private, survives restarts. Desktop: historical sqflite
+  /// databases directory, unchanged byte-for-byte.
+  Future<String> _resolveManagedLogoDirectory() async {
+    if (PlatformCapabilities.isAndroid) {
+      final docs = await getApplicationDocumentsDirectory();
+      return p.join(docs.path, 'branding');
+    }
+    return getDatabasesPath();
   }
 }

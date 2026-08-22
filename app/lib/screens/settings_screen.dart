@@ -8,6 +8,7 @@ import '../licensing/cloud_licensing_service.dart';
 import 'settings/license_status_screen.dart';
 import '../models/shop_profile.dart';
 import '../models/user_role.dart';
+import '../platform/platform_capabilities.dart';
 import '../services/app_settings.dart';
 import '../services/clean_start_service.dart';
 import '../services/permissions.dart';
@@ -460,39 +461,102 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 24),
             _buildSyncStatusSection(),
             const SizedBox(height: 24),
-            const Text('استيراد بيانات Excel',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            const SizedBox(height: 8),
-            TextField(
-              controller: _workbookPathController,
-              decoration: const InputDecoration(
-                labelText: 'مسار ملف Excel',
-                border: OutlineInputBorder(),
+            if (PlatformCapabilities.isAndroid) ...[
+              // Phase K (D8): scoped storage — desktop-only file features
+              // are explicitly flagged on Android, never silently broken.
+              _buildAndroidUnavailableCard(
+                'استيراد بيانات Excel',
+                'استيراد ملفات Excel غير متاح على أجهزة Android في هذه '
+                    'المرحلة، ويتم من جهاز الكمبيوتر (ويندوز).',
               ),
-            ),
-            const SizedBox(height: 8),
+            ] else ...[
+              const Text('استيراد بيانات Excel',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              const SizedBox(height: 8),
+              TextField(
+                controller: _workbookPathController,
+                decoration: const InputDecoration(
+                  labelText: 'مسار ملف Excel',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _isImporting ? null : _importWorkbook,
+                      style: ElevatedButton.styleFrom(),
+                      child: _isImporting
+                          ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(
+                                  strokeWidth: 2, color: Colors.white),
+                            )
+                          : const Text('استيراد البيانات'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+            const SizedBox(height: 24),
+            ..._buildOwnerFileFeaturesSection(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Phase K (D8): owner-facing filesystem features (backup/restore and
+  /// clean-start) render normally on desktop; on Android they are replaced
+  /// by explicit explanatory cards so no feature silently fails under
+  /// scoped storage.
+  List<Widget> _buildOwnerFileFeaturesSection() {
+    if (!PlatformCapabilities.isAndroid) {
+      return [
+        ..._buildBackupRestoreSection(),
+        const SizedBox(height: 24),
+        ..._buildCleanStartSection(),
+      ];
+    }
+    return [
+      _buildAndroidUnavailableCard(
+        'النسخ الاحتياطي والاستعادة',
+        'إنشاء نسخ احتياطية خارجية واستعادتها يتطلب وصولاً مباشراً للملفات '
+            'وهو غير متاح على Android في هذه المرحلة. استخدم جهاز الكمبيوتر '
+            '(ويندوز) لإدارة النسخ الاحتياطية.',
+      ),
+      const SizedBox(height: 24),
+      _buildAndroidUnavailableCard(
+        'البداية الجديدة',
+        'تصدير لقطة البداية الجديدة إلى ملف خارجي غير متاح على Android في '
+            'هذه المرحلة. استخدم جهاز الكمبيوتر (ويندوز) لهذه العملية.',
+      ),
+    ];
+  }
+
+  Widget _buildAndroidUnavailableCard(String title, String message) {
+    return Card(
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Row(
               children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: _isImporting ? null : _importWorkbook,
-                    style: ElevatedButton.styleFrom(),
-                    child: _isImporting
-                        ? const SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: CircularProgressIndicator(
-                                strokeWidth: 2, color: Colors.white),
-                          )
-                        : const Text('استيراد البيانات'),
-                  ),
-                ),
+                Icon(Icons.info_outline, color: Colors.orange.shade700),
+                const SizedBox(width: 12),
+                Text(title,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16)),
               ],
             ),
-            const SizedBox(height: 24),
-            if (_isOwner) ..._buildBackupRestoreSection(),
-            const SizedBox(height: 24),
-            if (_isOwner) ..._buildCleanStartSection(),
+            const SizedBox(height: 8),
+            Text(message,
+                style: TextStyle(fontSize: 13, color: Colors.grey.shade700)),
           ],
         ),
       ),

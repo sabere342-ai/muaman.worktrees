@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+
 import '../config/app_config.dart';
+import '../platform/platform_capabilities.dart';
 import 'cloud_licensing_repository.dart';
 import 'entitlement_cache.dart';
 import 'license_exception.dart';
@@ -489,16 +492,26 @@ class CloudLicensingService {
     }
   }
 
-  String _detectPlatform() {
-    // Default to windows; Android detection would need platform channel
-    return 'windows';
-  }
+  String _detectPlatform() =>
+      detectPlatformLabelFor(isAndroidPlatform: PlatformCapabilities.isAndroid);
 
-  String? _getDeviceName() {
-    try {
-      return 'Desktop';
-    } catch (_) {
-      return null;
-    }
-  }
+  String? _getDeviceName() =>
+      detectDeviceNameFor(isAndroidPlatform: PlatformCapabilities.isAndroid);
+}
+
+/// Truthful platform reporting mapping (Phase K D6).
+///
+/// The server contract (`devices.platform`) accepts 'windows' | 'android'
+/// only; the client reports what is actually running. Host-VM tests run on
+/// the desktop path, preserving historical behavior.
+@visibleForTesting
+String detectPlatformLabelFor({required bool isAndroidPlatform}) {
+  return isAndroidPlatform ? 'android' : 'windows';
+}
+
+/// Truthful device-name reporting (Phase K D6): Android devices are no
+/// longer reported as a generic desktop.
+@visibleForTesting
+String detectDeviceNameFor({required bool isAndroidPlatform}) {
+  return isAndroidPlatform ? 'Android' : 'Desktop';
 }

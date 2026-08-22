@@ -43,7 +43,10 @@ class LicensingService {
   /// Convenience accessor for the singleton.
   static LicensingService get instance => _instance;
 
-  final SecureActivationStore _secureStore = SecureActivationStore();
+  /// Phase K (D7): platform-resolved protected store — Windows keeps DPAPI;
+  /// Android receives the Keystore-backed implementation (never XOR).
+  final ProtectedActivationStore _secureStore =
+      createDefaultProtectedActivationStore();
   final EntitlementVerifier _verifier = EntitlementVerifier();
   final ActivationClient _activationClient = ActivationClient();
 

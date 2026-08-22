@@ -1,10 +1,29 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
+import '../platform/platform_capabilities.dart';
 import 'invoice_document_data.dart';
 import 'invoice_pdf_renderer.dart';
+
+/// How a rendered PDF is handed to the user (Phase K D8).
+enum PdfDeliveryMode {
+  /// Desktop: native save dialog writing to a user-chosen path.
+  nativeSaveDialog,
+
+  /// Android: system share sheet / print service — no arbitrary
+  /// filesystem writes (scoped-storage compliant).
+  systemShare,
+}
+
+/// Resolves the delivery mode for the given platform truthfully.
+@visibleForTesting
+PdfDeliveryMode pdfDeliveryModeFor({required bool isAndroidPlatform}) {
+  return isAndroidPlatform
+      ? PdfDeliveryMode.systemShare
+      : PdfDeliveryMode.nativeSaveDialog;
+}
 
 /// Delivery of a rendered invoice: native print dialog, native save dialog and
 /// open-with-default-viewer. All operations are read-only for business data —
@@ -30,11 +49,26 @@ class InvoiceDelivery {
     );
   }
 
-  /// Saves the invoice PDF through the native save dialog. Returns the chosen
-  /// path, or null when the user cancels.
+  /// Saves the invoice PDF through the platform-appropriate route.
+  ///
+  /// Desktop: native save dialog, returns the chosen path or null on
+  /// cancel. Android (D8): hands the PDF to the system share sheet / print
+  /// service and returns null — no arbitrary filesystem access.
   Future<String?> savePdf(InvoiceDocumentData data) async {
     final bytes = await buildPdfBytes(data);
+    if (pdfDeliveryModeFor(isAndroidPlatform: PlatformCapabilities.isAndroid) ==
+        PdfDeliveryMode.systemShare) {
+      await Printing.sharePdf(bytes: bytes, filename: invoiceFileName(data));
+      return null;
+    }
     return savePdfBytes(bytes, invoiceFileName(data));
+  }
+
+  /// Shares the invoice PDF through the system share sheet / print service
+  /// (Android route used by callers that need the explicit share flow).
+  Future<void> sharePdf(InvoiceDocumentData data) async {
+    final bytes = await buildPdfBytes(data);
+    await Printing.sharePdf(bytes: bytes, filename: invoiceFileName(data));
   }
 
   /// Saves raw PDF bytes through the native save dialog.
