@@ -20,6 +20,7 @@ import '../sync/adapters/invoice_sync_adapter.dart';
 import '../sync/adapters/product_sync_adapter.dart';
 import '../sync/adapters/return_sync_adapter.dart';
 import '../sync/adapters/sale_sync_adapter.dart';
+import '../migration/maintenance_mode.dart';
 import '../sync/sync_queue_repository.dart';
 import '../sync/sync_status.dart';
 import 'data_importer.dart';
@@ -59,6 +60,10 @@ class DatabaseHelper {
   }
 
   Future<void> _enforceLicensing() async {
+    // Phase I / D11: while legacy migration maintenance mode is active every
+    // business write throws early, so no live data can change between the
+    // pinned snapshot and final stamping. Reads remain allowed.
+    MigrationMaintenanceMode.ensureWritesAllowed();
     final callback = _onBusinessMutation;
     if (callback != null) {
       await callback();
@@ -246,6 +251,9 @@ class DatabaseHelper {
     if (oldVersion < 13) {
       await _migrateToV13(db);
     }
+    if (oldVersion < 14) {
+      await _migrateToV14(db);
+    }
   }
 
   Future<Database> get database async {
@@ -263,9 +271,10 @@ class DatabaseHelper {
   /// without touching a real database file.
   @visibleForTesting
   static Future<void> runCreateDbForTest(Database db) async {
-    await DatabaseHelper.instance._createDB(db, 13);
+    await DatabaseHelper.instance._createDB(db, 14);
     await DatabaseHelper.instance._migrateToV13(db);
-    await db.rawUpdate('PRAGMA user_version = 13');
+    await DatabaseHelper.instance._migrateToV14(db);
+    await db.rawUpdate('PRAGMA user_version = 14');
   }
 
   /// Returns the full filesystem path to `muaman_store.db`.
@@ -300,7 +309,7 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
     return await openDatabase(path,
-        version: 13, onCreate: _createDB, onUpgrade: _onUpgrade);
+        version: 14, onCreate: _createDB, onUpgrade: _onUpgrade);
   }
 
   Future<void> _createDB(Database db, int version) async {
@@ -386,6 +395,7 @@ class DatabaseHelper {
     await _createRolePermissionsTable(db);
     await _createExpenseCategoriesTable(db);
     await _createCustomersTable(db);
+    await _createLegacyMigrationProgressTable(db);
     if (seedDemoEnabled) {
       await DataImporter.importData(db);
     }
@@ -614,6 +624,35 @@ class DatabaseHelper {
     }
   }
 
+  /// Phase I / D8: schema v13 → v14 adds ONE local bookkeeping table,
+  /// `legacy_migration_progress` (durable migration checkpoints). No existing
+  /// table is altered — the upgrade is purely additive.
+  Future<void> _migrateToV14(Database db) async {
+    await _createLegacyMigrationProgressTable(db);
+  }
+
+  Future<void> _createLegacyMigrationProgressTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS legacy_migration_progress (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        batch_id TEXT NOT NULL UNIQUE,
+        shop_id TEXT NOT NULL,
+        phase TEXT NOT NULL,
+        status TEXT NOT NULL,
+        snapshot_path TEXT,
+        snapshot_sha256 TEXT,
+        last_table TEXT,
+        last_local_id INTEGER,
+        stats_json TEXT,
+        started_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL,
+        completed_at TEXT
+      )
+    ''');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_legacy_migration_progress_shop ON legacy_migration_progress(shop_id)');
+  }
+
   Future<void> _createUsersTable(Database db) async {
     await db.execute('''
       CREATE TABLE IF NOT EXISTS users (
@@ -665,14 +704,16 @@ class DatabaseHelper {
     );
     return await db.transaction((txn) async {
       final id = await txn.insert(
-          'products',
-          {
-            ...normalized.toMap()..remove('id'),
-            'sync_status': EntitySyncStatus.PENDING.label,
-          },
+        'products',
+        {
+          ...normalized.toMap()..remove('id'),
+          'sync_status': EntitySyncStatus.PENDING.label,
+        },
       );
       await _enqueueAfterWrite(db, txn,
-          tableName: 'products', rowId: id, operation: SyncQueueOperation.CREATE);
+          tableName: 'products',
+          rowId: id,
+          operation: SyncQueueOperation.CREATE);
       return id;
     });
   }
@@ -920,11 +961,11 @@ class DatabaseHelper {
       final product = Product.fromMap(productMaps.first);
 
       final id = await txn.insert(
-          'sales',
-          {
-            ...sale.toMap()..remove('id'),
-            'sync_status': EntitySyncStatus.PENDING.label,
-          },
+        'sales',
+        {
+          ...sale.toMap()..remove('id'),
+          'sync_status': EntitySyncStatus.PENDING.label,
+        },
       );
       await _enqueueAfterWrite(db, txn,
           tableName: 'sales', rowId: id, operation: SyncQueueOperation.CREATE);
@@ -979,11 +1020,11 @@ class DatabaseHelper {
       }
 
       final id = await txn.insert(
-          'sales',
-          {
-            ...sale.toMap()..remove('id'),
-            'sync_status': EntitySyncStatus.PENDING.label,
-          },
+        'sales',
+        {
+          ...sale.toMap()..remove('id'),
+          'sync_status': EntitySyncStatus.PENDING.label,
+        },
       );
       await _enqueueAfterWrite(db, txn,
           tableName: 'sales', rowId: id, operation: SyncQueueOperation.CREATE);
@@ -1031,11 +1072,11 @@ class DatabaseHelper {
       }
 
       final invoiceId = await txn.insert(
-          'invoices',
-          {
-            ...invoice.toMap(),
-            'sync_status': EntitySyncStatus.PENDING.label,
-          },
+        'invoices',
+        {
+          ...invoice.toMap(),
+          'sync_status': EntitySyncStatus.PENDING.label,
+        },
       );
       await _enqueueAfterWrite(db, txn,
           tableName: 'invoices',
@@ -1062,11 +1103,11 @@ class DatabaseHelper {
         }
 
         final saleLineId = await txn.insert(
-            'sales',
-            {
-              ...item.copyWith(invoiceId: invoiceId).toMap()..remove('id'),
-              'sync_status': EntitySyncStatus.PENDING.label,
-            },
+          'sales',
+          {
+            ...item.copyWith(invoiceId: invoiceId).toMap()..remove('id'),
+            'sync_status': EntitySyncStatus.PENDING.label,
+          },
         );
         await _enqueueAfterWrite(db, txn,
             tableName: 'sales',
@@ -1297,15 +1338,16 @@ class DatabaseHelper {
     _requirePermission(currentRole, AppPermission.canDeleteSales);
     final db = await database;
     return await db.transaction((txn) async {
-      final saleData = await txn.query('sales', where: 'id = ?', whereArgs: [id]);
+      final saleData =
+          await txn.query('sales', where: 'id = ?', whereArgs: [id]);
       if (saleData.isEmpty) return 0;
       final sale = Sale.fromMap(saleData.first);
 
       // Inline revert of the sold quantity (same math as
       // [revertSoldQuantity]) so the deletion and its queue entry commit or
       // roll back as one unit.
-      final productMaps =
-          await txn.query('products', where: 'barcode = ?', whereArgs: [sale.barcode]);
+      final productMaps = await txn
+          .query('products', where: 'barcode = ?', whereArgs: [sale.barcode]);
       if (productMaps.isNotEmpty) {
         final product = Product.fromMap(productMaps.first);
         final newSold = product.soldQuantity - sale.quantity;
@@ -1374,11 +1416,11 @@ class DatabaseHelper {
       final product = Product.fromMap(productMaps.first);
 
       final id = await txn.insert(
-          'returns',
-          {
-            ...returnItem.toMap()..remove('id'),
-            'sync_status': EntitySyncStatus.PENDING.label,
-          },
+        'returns',
+        {
+          ...returnItem.toMap()..remove('id'),
+          'sync_status': EntitySyncStatus.PENDING.label,
+        },
       );
       await _enqueueAfterWrite(db, txn,
           tableName: 'returns',
@@ -1576,8 +1618,8 @@ class DatabaseHelper {
       // Inline revert of the returned quantity (same math as
       // [revertReturnedQuantity]) so the deletion and its queue entry commit
       // or roll back as one unit.
-      final productMaps =
-          await txn.query('products', where: 'barcode = ?', whereArgs: [ret.barcode]);
+      final productMaps = await txn
+          .query('products', where: 'barcode = ?', whereArgs: [ret.barcode]);
       if (productMaps.isNotEmpty) {
         final product = Product.fromMap(productMaps.first);
         final newReturned = product.returnedQuantity - ret.quantity;
@@ -1631,11 +1673,11 @@ class DatabaseHelper {
     final db = await database;
     return await db.transaction((txn) async {
       final id = await txn.insert(
-          'expenses',
-          {
-            ...expense.toMap()..remove('id'),
-            'sync_status': EntitySyncStatus.PENDING.label,
-          },
+        'expenses',
+        {
+          ...expense.toMap()..remove('id'),
+          'sync_status': EntitySyncStatus.PENDING.label,
+        },
       );
       await _enqueueAfterWrite(db, txn,
           tableName: 'expenses',
@@ -1717,8 +1759,7 @@ class DatabaseHelper {
       throw ArgumentError('التصنيف "$normalized" موجود بالفعل');
     }
     return await db.transaction((txn) async {
-      final id =
-          await txn.insert('expense_categories', {'name': normalized});
+      final id = await txn.insert('expense_categories', {'name': normalized});
       await _enqueueAfterWrite(db, txn,
           tableName: 'expense_categories',
           rowId: id,

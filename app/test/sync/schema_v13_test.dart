@@ -25,7 +25,8 @@ void main() {
     late Database testDb;
 
     setUp(() async {
-      testDb = await databaseFactoryFfiNoIsolate.openDatabase(inMemoryDatabasePath);
+      testDb =
+          await databaseFactoryFfiNoIsolate.openDatabase(inMemoryDatabasePath);
     });
 
     tearDown(() async {
@@ -40,11 +41,14 @@ void main() {
       expect(result, isNotEmpty, reason: 'sync_queue table not found');
     });
 
-    test('fresh v13 database schema version is 13', () async {
+    test('fresh v13-lineage database schema version is current (14)', () async {
+      // Phase I bumped the schema 13 -> 14 (additive legacy_migration_progress
+      // table); the historical v13 expectations remain covered by the other
+      // tests in this group.
       await DatabaseHelper.runCreateDbForTest(testDb);
       final version =
           (await testDb.rawQuery('PRAGMA user_version')).single['user_version'];
-      expect(version, 13);
+      expect(version, 14);
     });
 
     test('fresh v13 database has all 12 business tables', () async {
@@ -157,8 +161,8 @@ void main() {
         'idempotency_key': 'idem-key-001',
       });
 
-      final result = await testDb.query('sync_queue',
-          where: 'id = ?', whereArgs: ['test-entry-1']);
+      final result = await testDb
+          .query('sync_queue', where: 'id = ?', whereArgs: ['test-entry-1']);
       expect(result, isNotEmpty);
       expect(result.first['entity_type'], 'product');
       expect(result.first['status'], 'PENDING');
@@ -198,7 +202,8 @@ void main() {
     late Database testDb;
 
     setUp(() async {
-      testDb = await databaseFactoryFfiNoIsolate.openDatabase(inMemoryDatabasePath);
+      testDb =
+          await databaseFactoryFfiNoIsolate.openDatabase(inMemoryDatabasePath);
     });
 
     tearDown(() async {
@@ -225,7 +230,8 @@ void main() {
       await _migrateV9toV13(testDb);
 
       final migratedCount =
-          (await testDb.rawQuery('SELECT COUNT(*) as c FROM products')).single['c'] as int;
+          (await testDb.rawQuery('SELECT COUNT(*) as c FROM products'))
+              .single['c'] as int;
       expect(migratedCount, 1);
 
       final productRow = (await testDb.query('products',
@@ -432,15 +438,28 @@ Future<void> _migrateV9toV13(Database db) async {
     )
   ''');
 
-  await db.execute('CREATE INDEX IF NOT EXISTS idx_sync_queue_status ON sync_queue(status)');
-  await db.execute('CREATE INDEX IF NOT EXISTS idx_sync_queue_created_at ON sync_queue(created_at ASC)');
-  await db.execute('CREATE INDEX IF NOT EXISTS idx_sync_queue_shop_id ON sync_queue(shop_id)');
-  await db.execute('CREATE INDEX IF NOT EXISTS idx_sync_queue_entity ON sync_queue(entity_type, entity_id)');
+  await db.execute(
+      'CREATE INDEX IF NOT EXISTS idx_sync_queue_status ON sync_queue(status)');
+  await db.execute(
+      'CREATE INDEX IF NOT EXISTS idx_sync_queue_created_at ON sync_queue(created_at ASC)');
+  await db.execute(
+      'CREATE INDEX IF NOT EXISTS idx_sync_queue_shop_id ON sync_queue(shop_id)');
+  await db.execute(
+      'CREATE INDEX IF NOT EXISTS idx_sync_queue_entity ON sync_queue(entity_type, entity_id)');
 
   const syncTables = [
-    'products', 'sales', 'returns', 'expenses', 'expense_categories',
-    'inventory_count', 'invoices', 'import_batches', 'customers',
-    'users', 'role_permissions', 'app_settings',
+    'products',
+    'sales',
+    'returns',
+    'expenses',
+    'expense_categories',
+    'inventory_count',
+    'invoices',
+    'import_batches',
+    'customers',
+    'users',
+    'role_permissions',
+    'app_settings',
   ];
 
   for (final table in syncTables) {
@@ -448,10 +467,12 @@ Future<void> _migrateV9toV13(Database db) async {
     final columns = info.map((r) => r['name'] as String).toSet();
 
     if (!columns.contains('server_version')) {
-      await db.execute('ALTER TABLE $table ADD COLUMN server_version INTEGER DEFAULT 0');
+      await db.execute(
+          'ALTER TABLE $table ADD COLUMN server_version INTEGER DEFAULT 0');
     }
     if (!columns.contains('sync_status')) {
-      await db.execute("ALTER TABLE $table ADD COLUMN sync_status TEXT DEFAULT 'SYNCED'");
+      await db.execute(
+          "ALTER TABLE $table ADD COLUMN sync_status TEXT DEFAULT 'SYNCED'");
     }
     if (!columns.contains('last_synced_at')) {
       await db.execute('ALTER TABLE $table ADD COLUMN last_synced_at TEXT');
