@@ -271,8 +271,8 @@ class SyncQueueRepository {
     return (result.first['count'] as num?)?.toInt() ?? 0;
   }
 
-  Future<void> markSynced(String entryId) async {
-    await _db.update(
+  Future<void> markSynced(String entryId, {DatabaseExecutor? executor}) async {
+    await (executor ?? _db).update(
       'sync_queue',
       {
         'status': SyncQueueStatus.SYNCED.label,
@@ -311,8 +311,9 @@ class SyncQueueRepository {
     }
   }
 
-  Future<void> markConflict(String entryId, String conflictData) async {
-    await _db.update(
+  Future<void> markConflict(String entryId, String conflictData,
+      {DatabaseExecutor? executor}) async {
+    await (executor ?? _db).update(
       'sync_queue',
       {
         'status': SyncQueueStatus.CONFLICT.label,
@@ -321,6 +322,41 @@ class SyncQueueRepository {
       where: 'id = ?',
       whereArgs: [entryId],
     );
+  }
+
+  /// Phase M §20 lifecycle: persists the conflict lifecycle state alongside
+  /// the legacy queue status. No-op on pre-v15 table shapes (column absent).
+  Future<void> setResolutionStatus(
+    String entryId,
+    ConflictLifecycleStatus status, {
+    DatabaseExecutor? executor,
+  }) async {
+    final target = executor ?? _db;
+    final columns = await _syncQueueColumns(target);
+    if (!columns.contains('resolution_status')) return;
+    await target.update(
+      'sync_queue',
+      {'resolution_status': status.label},
+      where: 'id = ?',
+      whereArgs: [entryId],
+    );
+  }
+
+  /// True when the entity has ANY pending queued work (any operation).
+  /// Used by hydration/incremental pull to detect unsynced local intent
+  /// before a destructive authoritative overwrite (SG-1). Gracefully
+  /// returns false when the sync_queue table does not exist.
+  Future<bool> hasAnyPendingForEntity(String entityType, int entityId) async {
+    try {
+      final result = await _db.rawQuery(
+        "SELECT COUNT(*) as count FROM sync_queue "
+        "WHERE entity_type = ? AND entity_id = ? AND status = 'PENDING'",
+        [entityType, entityId],
+      );
+      return ((result.first['count'] as num?)?.toInt() ?? 0) > 0;
+    } catch (_) {
+      return false;
+    }
   }
 
   Future<void> retryEntry(String entryId) async {

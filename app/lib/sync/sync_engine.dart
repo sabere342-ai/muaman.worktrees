@@ -1,5 +1,8 @@
+import 'package:sqflite/sqflite.dart';
+
 import '../errors/cloud_data_exception.dart';
 import 'adapters/entity_sync_adapter.dart';
+import 'conflict_audit_repository.dart';
 import 'conflict_resolver.dart';
 import 'sync_queue_repository.dart';
 import 'sync_status.dart';
@@ -15,6 +18,19 @@ class SyncEngine {
       {String? details}) _logger;
   final SyncCloudOperations? _cloudOps;
 
+  /// Local projection database. When provided, conflict resolutions are
+  /// REALLY applied to the local side (Phase M §8 gap closure) inside the
+  /// same transaction that writes the audit evidence and the queue
+  /// transition. When null (legacy test harnesses only), the engine falls
+  /// back to the historical log-only path; production wiring MUST provide
+  /// it so no silent divergence can remain.
+  final Database? _localDb;
+
+  /// Durable conflict audit sink (schema v15). When provided together with
+  /// [_localDb], every conflict produces persistent evidence before any
+  /// lifecycle transition (plan §21/§24).
+  final ConflictAuditRepository? _conflictAuditRepository;
+
   SyncEngine({
     required SyncQueueRepository queueRepository,
     required ConflictResolver conflictResolver,
@@ -23,8 +39,11 @@ class SyncEngine {
     required Future<bool> Function() licenseCheck,
     required Future<String?> Function() shopIdProvider,
     required Future<void> Function(String entityType, String operation,
-        {String? details}) logger,
+            {String? details})
+        logger,
     SyncCloudOperations? cloudOps,
+    Database? localDb,
+    ConflictAuditRepository? conflictAuditRepository,
   })  : _queueRepository = queueRepository,
         _conflictResolver = conflictResolver,
         _adapters = adapters,
@@ -32,7 +51,9 @@ class SyncEngine {
         _licenseCheck = licenseCheck,
         _shopIdProvider = shopIdProvider,
         _logger = logger,
-        _cloudOps = cloudOps;
+        _cloudOps = cloudOps,
+        _localDb = localDb,
+        _conflictAuditRepository = conflictAuditRepository;
 
   Future<SyncResult> processQueue() async {
     final isOnline = await _connectivityCheck();
@@ -84,8 +105,7 @@ class SyncEngine {
             entry.shopId!.isNotEmpty &&
             entry.shopId != shopId) {
           await _logger(entry.entityType, 'TENANT_MISMATCH_SKIPPED',
-              details:
-                  'entry ${entry.id} belongs to shop ${entry.shopId}, '
+              details: 'entry ${entry.id} belongs to shop ${entry.shopId}, '
                   'cycle shop is $shopId — not executed');
           continue;
         }
@@ -143,9 +163,14 @@ class SyncEngine {
               );
 
               if (resolution != null) {
-                await _conflictResolved(entry, resolution);
-                await _queueRepository.markSynced(entry.id);
-                synced++;
+                final applied = await _handleConflict(
+                    entry, adapter, resolution, result,
+                    shopId: shopId);
+                if (applied) {
+                  synced++;
+                } else {
+                  conflicts++;
+                }
               } else {
                 await _queueRepository.markConflict(
                     entry.id, 'Version conflict could not be resolved');
@@ -214,14 +239,280 @@ class SyncEngine {
     return elapsed < delay;
   }
 
-  Future<void> _conflictResolved(
-      SyncQueueEntry entry, ConflictResolution resolution) async {
-    await _logger(
-      entry.entityType,
-      'CONFLICT_RESOLVED',
-      details:
-          '${resolution.resolutionReason} [${resolution.policy.name}]',
+  /// Phase M §8 gap closure: a detected conflict is NEVER log-and-forget.
+  ///
+  /// Auto-resolvable outcomes are REALLY applied (local projection adopts
+  /// the authoritative state, or the local winner reaches the server and
+  /// the authoritative response converges back), verified by read-back,
+  /// and only then is the queue entry closed — audit evidence, resolution
+  /// state, projection apply and completion marker share ONE transaction
+  /// (INV-M17).
+  ///
+  /// Non-auto-resolvable outcomes become durable REVIEW_REQUIRED records.
+  ///
+  /// Returns true when the entry converged (counted as synced), false when
+  /// it landed in durable review (counted as conflict).
+  Future<bool> _handleConflict(SyncQueueEntry entry, EntitySyncAdapter adapter,
+      ConflictResolution resolution, CloudUpsertResult upsertResult,
+      {required String shopId}) async {
+    final db = _localDb;
+    final audit = _conflictAuditRepository;
+
+    // Legacy test-harness fallback ONLY: engines built without a local
+    // database AND without an audit sink cannot apply or record anything,
+    // so the historical log-only behavior is preserved for existing suites
+    // (plan §33). Production wiring always provides both, making the silent
+    // divergence path unreachable.
+    if (db == null || audit == null) {
+      await _logger(
+        entry.entityType,
+        'CONFLICT_RESOLVED',
+        details: '${resolution.resolutionReason} [${resolution.policy.name}]',
+      );
+      await _queueRepository.markSynced(entry.id);
+      return true;
+    }
+
+    try {
+      switch (resolution.outcome) {
+        case ConflictOutcome.requiresReview:
+          await _persistReviewRequired(entry, resolution, upsertResult,
+              shopId: shopId);
+          return false;
+        case ConflictOutcome.applyResolvedPayload:
+          if (!resolution.localWins) {
+            return await _applyServerWinnerLocally(
+                entry, adapter, resolution, upsertResult,
+                shopId: shopId);
+          }
+          return await _pushLocalWinnerAndConverge(
+              entry, adapter, resolution, upsertResult,
+              shopId: shopId);
+      }
+    } catch (e) {
+      // Fail-safe: any apply/verification failure lands in DURABLE review —
+      // never a silent SYNCED with unresolved divergence.
+      await _logger(entry.entityType, 'CONFLICT_APPLY_FAILED', details: '$e');
+      try {
+        await _persistReviewRequired(entry, resolution, upsertResult,
+            shopId: shopId, note: 'apply failed after resolution: $e');
+      } catch (_) {
+        // Audit persistence itself failed; the exception propagates as an
+        // unknown processing error by rethrowing to keep visibility.
+        rethrow;
+      }
+      return false;
+    }
+  }
+
+  Map<String, dynamic> _projectionFromResolution(
+      EntitySyncAdapter adapter, ConflictResolution resolution) {
+    final mapped = adapter.cloudToLocalRow(resolution.resolvedPayload);
+    if (resolution.stockComponentsProtected) {
+      mapped.removeWhere((k, _) => kLocalStockComponentColumns.contains(k));
+    }
+    return mapped;
+  }
+
+  /// Server-won resolution: adopt the authoritative server state into the
+  /// local projection inside one transaction with audit + queue close.
+  Future<bool> _applyServerWinnerLocally(
+      SyncQueueEntry entry,
+      EntitySyncAdapter adapter,
+      ConflictResolution resolution,
+      CloudUpsertResult upsertResult,
+      {required String shopId}) async {
+    final db = _localDb!;
+    final audit = _conflictAuditRepository!;
+    final adoptedVersion = upsertResult.currentServerVersion ?? 0;
+    final projection = _projectionFromResolution(adapter, resolution);
+
+    await db.transaction((txn) async {
+      final rows = await txn.query(adapter.localTableName,
+          where: 'id = ?', whereArgs: [entry.entityId], limit: 1);
+      final existing = rows.isEmpty ? null : rows.first;
+
+      if (existing == null) {
+        throw StateError(
+            'local row ${entry.entityId} missing; convergence impossible');
+      }
+      final rowShop = existing['shop_id'] as String?;
+      if (rowShop != null && rowShop.isNotEmpty && rowShop != shopId) {
+        throw StateError('tenant guard: row belongs to $rowShop');
+      }
+
+      final updated = await txn.update(
+        adapter.localTableName,
+        {
+          ...projection,
+          'server_version': adoptedVersion,
+          'sync_status': 'SYNCED',
+          'last_synced_at': DateTime.now().toIso8601String(),
+        },
+        where: 'id = ?',
+        whereArgs: [entry.entityId],
+      );
+      if (updated != 1) {
+        throw StateError('projection update affected $updated rows');
+      }
+
+      // Convergence verification INSIDE the transaction: the adopted
+      // server_version must be readable back before anything commits.
+      final after = await txn.query(adapter.localTableName,
+          where: 'id = ?', whereArgs: [entry.entityId], limit: 1);
+      final adoptedAfter =
+          (after.first['server_version'] as num?)?.toInt() ?? -1;
+      if (adoptedAfter != adoptedVersion) {
+        throw StateError(
+            'convergence verification failed: version $adoptedAfter != $adoptedVersion');
+      }
+
+      final auditId = await audit.recordConflict(
+        executor: txn,
+        shopId: shopId,
+        entityType: entry.entityType,
+        entityId: entry.entityId,
+        entityUuid: upsertResult.cloudUuid,
+        operation: entry.operation.label,
+        localBefore: resolution.localPayload,
+        localAfter: projection,
+        serverBefore: resolution.serverData,
+        relatedEventIds: const [],
+        localVersion: upsertResult.localVersion,
+        serverVersion: adoptedVersion,
+        idempotencyKey: entry.idempotencyKey,
+      );
+      await audit.markResolved(
+        auditId,
+        method: ConflictResolutionMethod.AUTO,
+        resolvedByUser: 'system:auto-convergence',
+        note: resolution.resolutionReason,
+        executor: txn,
+      );
+      await _queueRepository.markSynced(entry.id, executor: txn);
+      await _queueRepository.setResolutionStatus(
+          entry.id, ConflictLifecycleStatus.RESOLVED,
+          executor: txn);
+    });
+
+    await _logger(entry.entityType, 'CONFLICT_APPLIED_LOCALLY',
+        details:
+            '${resolution.resolutionReason}; server_version=$adoptedVersion adopted');
+    return true;
+  }
+
+  /// Local-won true-LWW resolution: push the winning payload to the server
+  /// and converge the authoritative response/version back locally.
+  Future<bool> _pushLocalWinnerAndConverge(
+      SyncQueueEntry entry,
+      EntitySyncAdapter adapter,
+      ConflictResolution resolution,
+      CloudUpsertResult originalResult,
+      {required String shopId}) async {
+    final db = _localDb!;
+    final audit = _conflictAuditRepository!;
+    final cloudOps = _cloudOps;
+    if (cloudOps == null) {
+      throw StateError('no cloud operations wired for local-winner push');
+    }
+
+    final repush = await cloudOps.upsertEntity(
+      adapter: adapter,
+      shopId: shopId,
+      localId: entry.entityId,
+      payload: resolution.resolvedPayload,
+      idempotencyKey: entry.idempotencyKey,
     );
+    if (!repush.success && !repush.idempotent) {
+      throw StateError('local-winner re-push rejected by server');
+    }
+
+    final adoptedVersion = repush.currentServerVersion ??
+        repush.localVersion ??
+        originalResult.currentServerVersion ??
+        0;
+
+    await db.transaction((txn) async {
+      final updated = await txn.update(
+        adapter.localTableName,
+        {
+          'server_version': adoptedVersion,
+          'sync_status': 'SYNCED',
+          'last_synced_at': DateTime.now().toIso8601String(),
+        },
+        where: 'id = ?',
+        whereArgs: [entry.entityId],
+      );
+      if (updated != 1) {
+        throw StateError(
+            'local-winner convergence update affected $updated rows');
+      }
+
+      final auditId = await audit.recordConflict(
+        executor: txn,
+        shopId: shopId,
+        entityType: entry.entityType,
+        entityId: entry.entityId,
+        entityUuid: repush.cloudUuid ?? originalResult.cloudUuid,
+        operation: entry.operation.label,
+        localBefore: resolution.localPayload,
+        serverBefore: resolution.serverData,
+        serverAfter: repush.serverData,
+        localVersion: originalResult.localVersion,
+        serverVersion: adoptedVersion,
+        idempotencyKey: entry.idempotencyKey,
+      );
+      await audit.markResolved(
+        auditId,
+        method: ConflictResolutionMethod.POLICY,
+        resolvedByUser: 'system:true-lww',
+        note: resolution.resolutionReason,
+        executor: txn,
+      );
+      await _queueRepository.markSynced(entry.id, executor: txn);
+      await _queueRepository.setResolutionStatus(
+          entry.id, ConflictLifecycleStatus.RESOLVED,
+          executor: txn);
+    });
+
+    await _logger(entry.entityType, 'CONFLICT_LOCAL_WINNER_CONVERGED',
+        details:
+            '${resolution.resolutionReason}; server_version=$adoptedVersion flowed back');
+    return true;
+  }
+
+  /// Durable REVIEW_REQUIRED landing (§20): persistent audit evidence plus
+  /// CONFLICT + REVIEW_REQUIRED queue lifecycle in ONE transaction. The
+  /// entry is never marked synced.
+  Future<void> _persistReviewRequired(SyncQueueEntry entry,
+      ConflictResolution resolution, CloudUpsertResult upsertResult,
+      {required String shopId, String? note}) async {
+    final db = _localDb!;
+    final audit = _conflictAuditRepository!;
+    final reason = note ?? resolution.resolutionReason;
+
+    await db.transaction((txn) async {
+      await audit.recordConflict(
+        executor: txn,
+        shopId: shopId,
+        entityType: entry.entityType,
+        entityId: entry.entityId,
+        entityUuid: upsertResult.cloudUuid,
+        operation: entry.operation.label,
+        localBefore: resolution.localPayload,
+        serverBefore: resolution.serverData,
+        localVersion: upsertResult.localVersion,
+        serverVersion: upsertResult.currentServerVersion,
+        idempotencyKey: entry.idempotencyKey,
+      );
+      await _queueRepository.markConflict(entry.id, reason, executor: txn);
+      await _queueRepository.setResolutionStatus(
+          entry.id, ConflictLifecycleStatus.REVIEW_REQUIRED,
+          executor: txn);
+    });
+
+    await _logger(entry.entityType, 'CONFLICT_REVIEW_REQUIRED',
+        details: reason);
   }
 }
 

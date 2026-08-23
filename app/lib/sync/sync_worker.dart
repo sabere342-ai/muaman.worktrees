@@ -15,13 +15,19 @@ class SyncWorker {
   final Future<void> Function(String message) _logger;
   final Duration _interval;
 
+  /// Phase M M-I05 hook: an idempotent recovery/reconciliation sweep run
+  /// ONCE when the worker starts (e.g. re-driving non-terminal conflict
+  /// lifecycle rows). DR-M09: this does NOT activate any new production
+  /// sync runtime scheduling; the periodic tick behavior is unchanged and
+  /// the hook defaults to null (no-op).
+  final Future<void> Function()? _recoverySweep;
+
   Timer? _timer;
   SyncWorkerState _state = SyncWorkerState.stopped;
   bool _isProcessing = false;
 
   SyncWorkerState get state => _state;
-  bool get isRunning =>
-      _state == SyncWorkerState.running && _timer != null;
+  bool get isRunning => _state == SyncWorkerState.running && _timer != null;
 
   SyncWorker({
     required SyncEngine engine,
@@ -29,11 +35,13 @@ class SyncWorker {
     required Future<bool> Function() sessionCheck,
     required Future<void> Function(String message) logger,
     Duration interval = const Duration(seconds: 30),
+    Future<void> Function()? recoverySweep,
   })  : _engine = engine,
         _connectivityCheck = connectivityCheck,
         _sessionCheck = sessionCheck,
         _logger = logger,
-        _interval = interval;
+        _interval = interval,
+        _recoverySweep = recoverySweep;
 
   void start() {
     if (_state == SyncWorkerState.running) return;
@@ -42,6 +50,19 @@ class SyncWorker {
     _timer = Timer.periodic(_interval, (_) => _onTick());
 
     _logger('SyncWorker started (interval: ${_interval.inSeconds}s)');
+
+    // Fire-and-forget single recovery sweep; errors are logged, never fatal.
+    final sweep = _recoverySweep;
+    if (sweep != null) {
+      () async {
+        try {
+          await sweep();
+          await _logger('SyncWorker: startup recovery sweep complete');
+        } catch (e) {
+          await _logger('SyncWorker: recovery sweep error: $e');
+        }
+      }();
+    }
   }
 
   void stop() {

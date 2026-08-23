@@ -28,6 +28,16 @@ const Set<String> kStockComponentKeys = {
   'currentQuantity',
 };
 
+/// Local-row column names owned by event application (ES-1). When a
+/// resolution is applied to the local projection, these columns are left
+/// untouched so event-derived stock is never rewritten by a metadata merge.
+const Set<String> kLocalStockComponentColumns = {
+  'soldQuantity',
+  'returnedQuantity',
+  'inventoryAdjustment',
+  'currentQuantity',
+};
+
 class ConflictResolution {
   final String entityType;
   final String entityId;
@@ -46,6 +56,11 @@ class ConflictResolution {
   /// payload because they are owned by event application (ES-1).
   final bool stockComponentsProtected;
 
+  /// True when true-LWW picked the LOCAL write as the winner. The engine
+  /// must then push the winning payload to the server and converge the
+  /// authoritative response back into the local projection.
+  final bool localWins;
+
   ConflictResolution({
     required this.entityType,
     required this.entityId,
@@ -56,6 +71,7 @@ class ConflictResolution {
     Map<String, dynamic>? serverData,
     this.outcome = ConflictOutcome.applyResolvedPayload,
     this.stockComponentsProtected = false,
+    this.localWins = false,
   })  : localPayload = localPayload ?? const {},
         serverData = serverData ?? const {};
 }
@@ -211,6 +227,7 @@ class ConflictResolver {
           serverData: serverData,
           outcome: ConflictOutcome.applyResolvedPayload,
           stockComponentsProtected: protected,
+          localWins: localIsLater,
         );
     }
   }
