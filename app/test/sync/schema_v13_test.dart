@@ -41,14 +41,15 @@ void main() {
       expect(result, isNotEmpty, reason: 'sync_queue table not found');
     });
 
-    test('fresh v13-lineage database schema version is current (14)', () async {
+    test('fresh v13-lineage database schema version is current (15)', () async {
       // Phase I bumped the schema 13 -> 14 (additive legacy_migration_progress
-      // table); the historical v13 expectations remain covered by the other
-      // tests in this group.
+      // table); Phase M bumped it 14 -> 15 (additive conflict lifecycle +
+      // audit artifacts). The historical v13 expectations remain covered by
+      // the other tests in this group.
       await DatabaseHelper.runCreateDbForTest(testDb);
       final version =
           (await testDb.rawQuery('PRAGMA user_version')).single['user_version'];
-      expect(version, 14);
+      expect(version, 15);
     });
 
     test('fresh v13 database has all 12 business tables', () async {

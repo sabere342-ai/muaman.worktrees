@@ -18,6 +18,14 @@ class SyncQueueEntry {
   final String idempotencyKey;
   final String? shopId;
 
+  /// Phase M: persisted deterministic event identity token (INV-M19).
+  /// Null for legacy rows created before schema v15.
+  final String? occurrenceToken;
+
+  /// Phase M conflict lifecycle beyond the legacy terminal CONFLICT status
+  /// (§20): REVIEW_REQUIRED → RESOLUTION_PENDING → RESOLVED.
+  final ConflictLifecycleStatus? resolutionStatus;
+
   SyncQueueEntry({
     required this.id,
     required this.entityType,
@@ -31,6 +39,8 @@ class SyncQueueEntry {
     this.conflictData,
     required this.idempotencyKey,
     this.shopId,
+    this.occurrenceToken,
+    this.resolutionStatus,
   });
 
   Map<String, dynamic> toMap() {
@@ -47,6 +57,8 @@ class SyncQueueEntry {
       'conflict_data': conflictData,
       'idempotency_key': idempotencyKey,
       'shop_id': shopId,
+      'occurrence_token': occurrenceToken,
+      'resolution_status': resolutionStatus?.label,
     };
   }
 
@@ -74,6 +86,13 @@ class SyncQueueEntry {
       conflictData: map['conflict_data'] as String?,
       idempotencyKey: map['idempotency_key'] as String,
       shopId: map['shop_id'] as String?,
+      occurrenceToken: map.containsKey('occurrence_token')
+          ? map['occurrence_token'] as String?
+          : null,
+      resolutionStatus: map.containsKey('resolution_status')
+          ? ConflictLifecycleStatus.tryParse(
+              map['resolution_status'] as String?)
+          : null,
     );
   }
 
@@ -82,6 +101,8 @@ class SyncQueueEntry {
     int? retryCount,
     DateTime? syncedAt,
     String? conflictData,
+    String? occurrenceToken,
+    ConflictLifecycleStatus? resolutionStatus,
   }) {
     return SyncQueueEntry(
       id: id,
@@ -96,6 +117,8 @@ class SyncQueueEntry {
       conflictData: conflictData ?? this.conflictData,
       idempotencyKey: idempotencyKey,
       shopId: shopId,
+      occurrenceToken: occurrenceToken ?? this.occurrenceToken,
+      resolutionStatus: resolutionStatus ?? this.resolutionStatus,
     );
   }
 }
@@ -104,7 +127,26 @@ class SyncQueueRepository {
   final Database _db;
   static int _idCounter = 0;
 
+  /// Per-database cache of the sync_queue column set (Phase M).
+  ///
+  /// Databases migrated/opened at schema v15 always carry
+  /// `occurrence_token`/`resolution_status`; pre-v15 shapes (legacy rows,
+  /// historical fixtures) do not. Writing those columns only when present
+  /// keeps v14-era tables readable/writable without data loss.
+  static final Expando<Set<String>> _columnShapeCache = Expando<Set<String>>();
+
   SyncQueueRepository(this._db);
+
+  /// Resolves (and caches) the physical sync_queue column set. Transactions
+  /// share their root database's shape, so results are cached under [_db].
+  Future<Set<String>> _syncQueueColumns(DatabaseExecutor target) async {
+    final cached = _columnShapeCache[_db];
+    if (cached != null) return cached;
+    final info = await target.rawQuery('PRAGMA table_info(sync_queue)');
+    final columns = info.map((r) => r['name'] as String).toSet();
+    _columnShapeCache[_db] = columns;
+    return columns;
+  }
 
   /// [executor] lets a caller participate in an open transaction so the
   /// local business write and its queue entry commit or roll back together.
@@ -117,14 +159,17 @@ class SyncQueueRepository {
     required String idempotencyKey,
     String? shopId,
     DatabaseExecutor? executor,
+    String? occurrenceToken,
   }) async {
     final target = executor ?? _db;
-    final existing = await _findByIdempotencyKey(idempotencyKey, executor: target);
+    final existing =
+        await _findByIdempotencyKey(idempotencyKey, executor: target);
     if (existing != null) {
       return;
     }
 
-    await target.insert('sync_queue', {
+    final columns = await _syncQueueColumns(target);
+    final row = <String, dynamic>{
       'id': _generateId(),
       'entity_type': entityType,
       'entity_id': entityId,
@@ -135,7 +180,14 @@ class SyncQueueRepository {
       'status': SyncQueueStatus.PENDING.label,
       'idempotency_key': idempotencyKey,
       'shop_id': shopId,
-    });
+    };
+    if (columns.contains('occurrence_token')) {
+      row['occurrence_token'] = occurrenceToken;
+    }
+    if (columns.contains('resolution_status')) {
+      row['resolution_status'] = null;
+    }
+    await target.insert('sync_queue', row);
   }
 
   Future<List<SyncQueueEntry>> getPendingEntries({String? shopId}) async {
@@ -284,8 +336,9 @@ class SyncQueueRepository {
   }
 
   Future<void> cleanupSynced({int olderThanDays = 7}) async {
-    final cutoff =
-        DateTime.now().subtract(Duration(days: olderThanDays)).toIso8601String();
+    final cutoff = DateTime.now()
+        .subtract(Duration(days: olderThanDays))
+        .toIso8601String();
     await _db.delete(
       'sync_queue',
       where: "status = 'SYNCED' AND synced_at < ?",

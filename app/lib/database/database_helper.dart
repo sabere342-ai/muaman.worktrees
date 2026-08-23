@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -86,9 +88,23 @@ class DatabaseHelper {
   /// back into the sync queue.
   static int _enqueueSuppressionDepth = 0;
 
-  /// Monotonic sequence guard making idempotency keys unique even when two
-  /// writes happen within the same microsecond.
-  static int _syncKeySeq = 0;
+  /// Current local schema version (Phase M: v15 adds conflict lifecycle +
+  /// audit artifacts). Single source of truth for openDatabase + test seams.
+  static const int schemaVersion = 15;
+
+  /// UUIDv4-shaped occurrence token generator (Phase M §24 / INV-M19).
+  /// No external dependencies, matching the house pattern in
+  /// migration_orchestrator.dart.
+  static String _generateOccurrenceToken() {
+    final rnd = Random.secure();
+    final bytes = List<int>.generate(16, (_) => rnd.nextInt(256));
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    final hex = bytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
+    return '${hex.substring(0, 8)}-${hex.substring(8, 12)}-'
+        '${hex.substring(12, 16)}-${hex.substring(16, 20)}-'
+        '${hex.substring(20)}';
+  }
 
   /// Registers the active-shop provider used to stamp sync queue entries.
   static void setSyncShopIdProvider(Future<String?> Function() provider) {
@@ -146,9 +162,8 @@ class DatabaseHelper {
   /// Surfaces a cross-shop mutation attempt instead of letting it masquerade
   /// as a benign "row not found" no-op (plan §K: zero-row mutation of a row
   /// that exists OUTSIDE the active shop must be an explicit ownership error).
-  Future<void> _assertNotForeignRow(
-      DatabaseExecutor executor, String table, int id,
-      _TenantPredicate p) async {
+  Future<void> _assertNotForeignRow(DatabaseExecutor executor, String table,
+      int id, _TenantPredicate p) async {
     if (!p.isScoped) return;
     final rows =
         await executor.query(table, where: 'id = ?', whereArgs: [id], limit: 1);
@@ -210,11 +225,20 @@ class DatabaseHelper {
     return row['shop_id'] as String?;
   }
 
+  /// Phase M deterministic idempotency key (plan §24 / DR-M04).
+  ///
+  /// Conceptual form: `entityUuid:operation:occurrenceToken`.
+  ///
+  /// The occurrence token is generated ONCE per logical operation and
+  /// PERSISTED on the sync_queue row (`occurrence_token` column), so process
+  /// restart, transport retry, response loss, and worker restart all resend
+  /// the SAME logical idempotency key. Distinct logical events (a new user
+  /// action) get distinct tokens; the same event can never mint a second key.
   static String _generateSyncKey(
-      String entityType, int entityId, SyncQueueOperation operation) {
-    _syncKeySeq++;
-    final micros = DateTime.now().microsecondsSinceEpoch;
-    return '$entityType-$entityId-${operation.label}-$micros-$_syncKeySeq';
+      String entityType, String entityUuid, SyncQueueOperation operation,
+      {String? occurrenceToken}) {
+    final token = occurrenceToken ?? _generateOccurrenceToken();
+    return '$entityType:$entityUuid:${operation.label}:$token';
   }
 
   /// Enqueues a sync operation for a successfully written local row.
@@ -261,15 +285,22 @@ class DatabaseHelper {
       ...adapter.localToCloudPayload(row),
     };
 
+    // Phase M: the occurrence token is minted once per logical operation and
+    // persisted with the queue row (INV-M19). Retries/replays reuse it.
+    final occurrenceToken = _generateOccurrenceToken();
+    final entityUuid = row['cloud_uuid'] as String? ?? 'local-$rowId';
+
     await _syncQueueRepository(db).enqueue(
       entityType: adapter.entityType.label,
       entityId: rowId,
       operation: operation,
       payload: payload,
-      idempotencyKey:
-          _generateSyncKey(adapter.entityType.label, rowId, operation),
+      idempotencyKey: _generateSyncKey(
+          adapter.entityType.label, entityUuid, operation,
+          occurrenceToken: occurrenceToken),
       shopId: shopId,
       executor: executor,
+      occurrenceToken: occurrenceToken,
     );
   }
 
@@ -313,6 +344,9 @@ class DatabaseHelper {
     if (oldVersion < 14) {
       await _migrateToV14(db);
     }
+    if (oldVersion < 15) {
+      await _migrateToV15(db);
+    }
   }
 
   Future<Database> get database async {
@@ -330,10 +364,13 @@ class DatabaseHelper {
   /// without touching a real database file.
   @visibleForTesting
   static Future<void> runCreateDbForTest(Database db) async {
-    await DatabaseHelper.instance._createDB(db, 14);
+    await DatabaseHelper.instance._createDB(db, schemaVersion);
     await DatabaseHelper.instance._migrateToV13(db);
     await DatabaseHelper.instance._migrateToV14(db);
-    await db.rawUpdate('PRAGMA user_version = 14');
+    if (schemaVersion >= 15) {
+      await DatabaseHelper.instance._migrateToV15(db);
+    }
+    await db.rawUpdate('PRAGMA user_version = $schemaVersion');
   }
 
   /// Returns the full filesystem path to `muaman_store.db`.
@@ -343,13 +380,15 @@ class DatabaseHelper {
   }
 
   /// Test-only seam: runs ONLY the production fresh-install path
-  /// (`onCreate`) exactly as `openDatabase(version: 14)` executes it — no
-  /// migration replay. Used by the W1 parity test to prove that a fresh
-  /// v14 database is byte-equivalent in shape to an upgraded-to-v14 one.
+  /// (`onCreate`) exactly as `openDatabase(version: schemaVersion)`
+  /// executes it — no migration replay. Used by the W1 parity test to
+  /// prove that a fresh database is byte-equivalent in shape to an
+  /// upgraded one at the current schema version.
   @visibleForTesting
-  static Future<void> runFreshOnCreateForTest(Database db) async {
-    await DatabaseHelper.instance._createDB(db, 14);
-    await db.rawUpdate('PRAGMA user_version = 14');
+  static Future<void> runFreshOnCreateForTest(Database db,
+      {int version = schemaVersion}) async {
+    await DatabaseHelper.instance._createDB(db, version);
+    await db.rawUpdate('PRAGMA user_version = $version');
   }
 
   /// Closes the current database connection. After calling this, the next
@@ -378,7 +417,7 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
     return await openDatabase(path,
-        version: 14, onCreate: _createDB, onUpgrade: _onUpgrade);
+        version: schemaVersion, onCreate: _createDB, onUpgrade: _onUpgrade);
   }
 
   Future<void> _createDB(Database db, int version) async {
@@ -473,6 +512,12 @@ class DatabaseHelper {
     // is idempotent (IF NOT EXISTS + per-column guards), so replaying it on
     // an already-complete shape is safe.
     await _migrateToV13(db);
+
+    // Phase M: fresh installs land directly on the v15 shape (additive
+    // conflict-lifecycle artifacts) when the target version asks for it.
+    if (version >= 15) {
+      await _migrateToV15(db);
+    }
 
     if (seedDemoEnabled) {
       await DataImporter.importData(db);
@@ -729,6 +774,73 @@ class DatabaseHelper {
     ''');
     await db.execute(
         'CREATE INDEX IF NOT EXISTS idx_legacy_migration_progress_shop ON legacy_migration_progress(shop_id)');
+  }
+
+  /// Phase M (plan §26 / DR-M11/D DR-M13): schema v14 → v15 is ADDITIVE
+  /// ONLY — no renames, no drops, no destructive rewrite.
+  ///
+  /// Adds:
+  ///   - `sync_queue.resolution_status`  : conflict lifecycle beyond the
+  ///     legacy terminal CONFLICT status (CL-1..CL-3). Legacy CONFLICT rows
+  ///     backfill to 'REVIEW_REQUIRED' (CL-4).
+  ///   - `sync_queue.occurrence_token`   : persisted deterministic event
+  ///     identity for idempotency keys (INV-M19).
+  ///   - `conflict_audit` table          : durable conflict evidence that
+  ///     survives queue cleanup (AU-1, INV-M18).
+  Future<void> _migrateToV15(Database db) async {
+    final queueInfo = await db.rawQuery('PRAGMA table_info(sync_queue)');
+    final queueColumns = queueInfo.map((r) => r['name'] as String).toSet();
+    if (!queueColumns.contains('resolution_status')) {
+      await db
+          .execute('ALTER TABLE sync_queue ADD COLUMN resolution_status TEXT');
+    }
+    if (!queueColumns.contains('occurrence_token')) {
+      await db
+          .execute('ALTER TABLE sync_queue ADD COLUMN occurrence_token TEXT');
+    }
+
+    // CL-4: legacy terminal CONFLICT rows upgrade safely to review semantics.
+    await db
+        .execute("UPDATE sync_queue SET resolution_status = 'REVIEW_REQUIRED' "
+            "WHERE status = 'CONFLICT' AND resolution_status IS NULL");
+
+    await _createConflictAuditTable(db);
+  }
+
+  Future<void> _createConflictAuditTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS conflict_audit (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        shop_id TEXT NOT NULL,
+        entity_type TEXT NOT NULL,
+        entity_id INTEGER NOT NULL,
+        entity_uuid TEXT,
+        product_name TEXT,
+        product_barcode TEXT,
+        operation TEXT NOT NULL,
+        local_before TEXT,
+        local_after TEXT,
+        server_before TEXT,
+        server_after TEXT,
+        related_event_ids TEXT,
+        local_version INTEGER,
+        server_version INTEGER,
+        idempotency_key TEXT,
+        detected_at TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'REVIEW_REQUIRED',
+        resolution_method TEXT,
+        resolved_by_user TEXT,
+        resolved_at TEXT,
+        resolution_note TEXT,
+        resulting_adjustment_id INTEGER
+      )
+    ''');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_conflict_audit_shop ON conflict_audit(shop_id)');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_conflict_audit_entity ON conflict_audit(entity_type, entity_id)');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_conflict_audit_status ON conflict_audit(status)');
   }
 
   Future<void> _createUsersTable(Database db) async {
@@ -1268,9 +1380,7 @@ class DatabaseHelper {
     final db = await database;
     final tp = _readPredicate();
     final maps = await db.query('invoices',
-        where: tp.prefix('id = ?'),
-        whereArgs: tp.argsWith([id]),
-        limit: 1);
+        where: tp.prefix('id = ?'), whereArgs: tp.argsWith([id]), limit: 1);
     if (maps.isEmpty) return null;
     return Invoice.fromMap(maps.first);
   }
@@ -1296,8 +1406,8 @@ class DatabaseHelper {
     final tp = _readPredicate();
     final maps = await db.query('sales',
         where: tp.prefix('date BETWEEN ? AND ?'),
-        whereArgs: tp.argsWith(
-            [start.toIso8601String(), end.toIso8601String()]),
+        whereArgs:
+            tp.argsWith([start.toIso8601String(), end.toIso8601String()]),
         orderBy: 'date DESC');
     return maps.map((map) => Sale.fromMap(map)).toList();
   }
@@ -1898,9 +2008,7 @@ class DatabaseHelper {
     final tp = _writePredicate();
     return await db.transaction((txn) async {
       final existing = await txn.query('expenses',
-          where: tp.prefix('id = ?'),
-          whereArgs: tp.argsWith([id]),
-          limit: 1);
+          where: tp.prefix('id = ?'), whereArgs: tp.argsWith([id]), limit: 1);
       if (existing.isEmpty) {
         await _assertNotForeignRow(txn, 'expenses', id, tp);
         return 0;
@@ -1922,8 +2030,7 @@ class DatabaseHelper {
     final db = await database;
     final tp = _readPredicate();
     final result = await db.rawQuery(
-        'SELECT SUM(amount) as total FROM expenses${tp.toSqlWhere()}',
-        tp.args);
+        'SELECT SUM(amount) as total FROM expenses${tp.toSqlWhere()}', tp.args);
     return (result.first['total'] as num?)?.toDouble() ?? 0;
   }
 
@@ -1947,8 +2054,8 @@ class DatabaseHelper {
       throw ArgumentError('التصنيف "$normalized" موجود بالفعل');
     }
     return await db.transaction((txn) async {
-      final id = await txn.insert(
-          'expense_categories', {...tp.stamp(), 'name': normalized});
+      final id = await txn
+          .insert('expense_categories', {...tp.stamp(), 'name': normalized});
       await _enqueueAfterWrite(db, txn,
           tableName: 'expense_categories',
           rowId: id,
@@ -2205,8 +2312,7 @@ class DatabaseHelper {
   /// Throws [ProductReferenceIntegrityException] if no product exists with the
   /// given [barcode] within the tenant scope. Must be called inside a
   /// transaction ([txn]).
-  Future<void> _requireExistingProductByBarcode(
-      Transaction txn, String barcode,
+  Future<void> _requireExistingProductByBarcode(Transaction txn, String barcode,
       [_TenantPredicate tp = _TenantPredicate.none]) async {
     final rows = await txn.query('products',
         where: tp.prefix('barcode = ?'),
@@ -2622,8 +2728,7 @@ class _TenantPredicate {
   const _TenantPredicate._(this.clause, this.args);
 
   static const _TenantPredicate none = _TenantPredicate._(null, []);
-  static const _TenantPredicate denyAll =
-      _TenantPredicate._('1 = 0', []);
+  static const _TenantPredicate denyAll = _TenantPredicate._('1 = 0', []);
 
   factory _TenantPredicate.scoped(String shopId) =>
       _TenantPredicate._('shop_id = ?', [shopId]);

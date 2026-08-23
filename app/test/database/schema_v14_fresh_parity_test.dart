@@ -94,7 +94,9 @@ void main() {
 
     final freshVersion =
         (await freshDb.rawQuery('PRAGMA user_version')).single['user_version'];
-    expect(freshVersion, 14);
+    // Phase M: parity is now proven at the current schema version (15);
+    // the historical v14 expectation is covered by the v14 suites.
+    expect(freshVersion, 15);
   }, timeout: const Timeout(Duration(minutes: 2)));
 
   test('fresh onCreate creates sync_queue with full index set', () async {
