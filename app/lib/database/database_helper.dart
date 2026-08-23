@@ -2163,9 +2163,13 @@ class DatabaseHelper {
   }
 
   // =================== INVENTORY COUNT ===================
+  /// [observedAt] is the device time of the PHYSICAL count observation
+  /// (Phase M §18 IC-1). It travels with the count event as the causal
+  /// anchor for server-side (observed_at, arrival) ordering; it defaults
+  /// to the save moment when the caller cannot supply a better one.
   Future<int> saveInventoryCount(
       int productId, int actualQuantity, String notes,
-      {UserRole? currentRole}) async {
+      {UserRole? currentRole, DateTime? observedAt}) async {
     await _enforceLicensing();
     _requirePermission(currentRole, AppPermission.canAccessStocktake);
     final db = await database;
@@ -2198,7 +2202,7 @@ class DatabaseHelper {
         'productId': productId,
         'actualQuantity': actualQuantity,
         'notes': notes,
-        'countDate': DateTime.now().toIso8601String(),
+        'countDate': (observedAt ?? DateTime.now()).toIso8601String(),
         'sync_status': EntitySyncStatus.PENDING.label,
       });
       await _enqueueAfterWrite(db, txn,

@@ -190,6 +190,24 @@ class ConflictResolver {
 
       case ConflictResolutionPolicy.lastWriterWins:
       case ConflictResolutionPolicy.latestTimestampWins:
+        // §14/IC-5: event-like entities are NEVER row-merged via LWW.
+        // Quantity divergence on an immutable observation is durable
+        // review evidence regardless of the declared policy.
+        if (adapter.isEventLike &&
+            _eventQuantitiesDiverge(localPayload, serverData)) {
+          return ConflictResolution(
+            entityType: entityTypeLabel,
+            entityId: entityId,
+            policy: policy,
+            resolvedPayload: serverData,
+            resolutionReason:
+                'Event-like divergence requires review (LWW policy '
+                'suppressed for immutable observations)',
+            localPayload: localPayload,
+            serverData: serverData,
+            outcome: ConflictOutcome.requiresReview,
+          );
+        }
         final localTime = localUpdatedAt ??
             _tryParseTime(
                 localPayload['updated_at'] ?? localPayload['updatedAt']);

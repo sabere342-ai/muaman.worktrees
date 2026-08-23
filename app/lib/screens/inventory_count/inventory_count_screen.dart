@@ -193,9 +193,13 @@ class _InventoryCountScreenState extends State<InventoryCountScreen> {
     setState(() => _savingProductId = product.id);
 
     try {
+      // Phase M §18 IC-1: the device time of the physical observation is
+      // captured explicitly and carried with the count event.
+      final observedAt = DateTime.now();
       final diff = await DatabaseHelper.instance.saveInventoryCount(
           product.id!, actual, '',
-          currentRole: widget.sessionState?.currentRole);
+          currentRole: widget.sessionState?.currentRole,
+          observedAt: observedAt);
 
       if (!mounted) return;
 
