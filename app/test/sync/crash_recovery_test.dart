@@ -161,13 +161,20 @@ void main() {
       // "Process death" before any RPC: engine #1 dies instantly.
       final deadEngine = buildEngine(
         cloudOps: SyncCloudOperations(
-          upsertEntity: ({required adapter, required shopId, required localId,
-              required payload, required idempotencyKey}) async {
+          upsertEntity: (
+              {required adapter,
+              required shopId,
+              required localId,
+              required payload,
+              required idempotencyKey}) async {
             serverCalls++;
             throw StateError('simulated process death');
           },
-          deleteEntity: ({required adapter, required shopId,
-              required cloudUuid, required entityId}) async {},
+          deleteEntity: (
+              {required adapter,
+              required shopId,
+              required cloudUuid,
+              required entityId}) async {},
         ),
       );
       final resultBefore = await deadEngine.processQueue();
@@ -177,13 +184,20 @@ void main() {
       // RESTART: brand-new engine over the SAME database.
       final restartedEngine = buildEngine(
         cloudOps: SyncCloudOperations(
-          upsertEntity: ({required adapter, required shopId, required localId,
-              required payload, required idempotencyKey}) async {
+          upsertEntity: (
+              {required adapter,
+              required shopId,
+              required localId,
+              required payload,
+              required idempotencyKey}) async {
             serverCalls++;
             return CloudUpsertResult(success: true, currentServerVersion: 3);
           },
-          deleteEntity: ({required adapter, required shopId,
-              required cloudUuid, required entityId}) async {},
+          deleteEntity: (
+              {required adapter,
+              required shopId,
+              required cloudUuid,
+              required entityId}) async {},
         ),
       );
       final resultAfter = await restartedEngine.processQueue();
@@ -223,8 +237,11 @@ void main() {
       final first = buildEngine(
         cloudOps: SyncCloudOperations(
           upsertEntity: rpc,
-          deleteEntity: ({required adapter, required shopId,
-              required cloudUuid, required entityId}) async {},
+          deleteEntity: (
+              {required adapter,
+              required shopId,
+              required cloudUuid,
+              required entityId}) async {},
         ),
       );
       await first.processQueue();
@@ -232,8 +249,11 @@ void main() {
       final restarted = buildEngine(
         cloudOps: SyncCloudOperations(
           upsertEntity: rpc,
-          deleteEntity: ({required adapter, required shopId,
-              required cloudUuid, required entityId}) async {},
+          deleteEntity: (
+              {required adapter,
+              required shopId,
+              required cloudUuid,
+              required entityId}) async {},
         ),
       );
       final result = await restarted.processQueue();
@@ -253,11 +273,18 @@ void main() {
       var idempotentReplies = 0;
       final engine = buildEngine(
         cloudOps: SyncCloudOperations(
-          upsertEntity: ({required adapter, required shopId, required localId,
-              required payload, required idempotencyKey}) async =>
+          upsertEntity: (
+                  {required adapter,
+                  required shopId,
+                  required localId,
+                  required payload,
+                  required idempotencyKey}) async =>
               CloudUpsertResult(success: true, currentServerVersion: 3),
-          deleteEntity: ({required adapter, required shopId,
-              required cloudUuid, required entityId}) async {},
+          deleteEntity: (
+              {required adapter,
+              required shopId,
+              required cloudUuid,
+              required entityId}) async {},
         ),
       );
 
@@ -270,14 +297,20 @@ void main() {
 
       final restarted = buildEngine(
         cloudOps: SyncCloudOperations(
-          upsertEntity: ({required adapter, required shopId, required localId,
-              required payload, required idempotencyKey}) async {
+          upsertEntity: (
+              {required adapter,
+              required shopId,
+              required localId,
+              required payload,
+              required idempotencyKey}) async {
             idempotentReplies++;
-            return CloudUpsertResult(
-                idempotent: true, currentServerVersion: 3);
+            return CloudUpsertResult(idempotent: true, currentServerVersion: 3);
           },
-          deleteEntity: ({required adapter, required shopId,
-              required cloudUuid, required entityId}) async {},
+          deleteEntity: (
+              {required adapter,
+              required shopId,
+              required cloudUuid,
+              required entityId}) async {},
         ),
       );
       final result = await restarted.processQueue();
@@ -308,8 +341,12 @@ void main() {
 
       final conflictingOps = buildEngine(
         cloudOps: SyncCloudOperations(
-          upsertEntity: ({required adapter, required shopId, required localId,
-              required payload, required idempotencyKey}) async =>
+          upsertEntity: (
+                  {required adapter,
+                  required shopId,
+                  required localId,
+                  required payload,
+                  required idempotencyKey}) async =>
               CloudUpsertResult(
             conflict: true,
             serverData: {
@@ -321,8 +358,11 @@ void main() {
             currentServerVersion: 6,
             cloudUuid: 'cr-uuid-1',
           ),
-          deleteEntity: ({required adapter, required shopId,
-              required cloudUuid, required entityId}) async {},
+          deleteEntity: (
+              {required adapter,
+              required shopId,
+              required cloudUuid,
+              required entityId}) async {},
         ),
       );
       await conflictingOps.processQueue();
@@ -368,8 +408,12 @@ void main() {
 
       final engine = buildEngine(
         cloudOps: SyncCloudOperations(
-          upsertEntity: ({required adapter, required shopId, required localId,
-              required payload, required idempotencyKey}) async =>
+          upsertEntity: (
+                  {required adapter,
+                  required shopId,
+                  required localId,
+                  required payload,
+                  required idempotencyKey}) async =>
               CloudUpsertResult(
             conflict: true,
             serverData: {
@@ -381,8 +425,11 @@ void main() {
             currentServerVersion: 5,
             cloudUuid: 'cr-uuid-1',
           ),
-          deleteEntity: ({required adapter, required shopId,
-              required cloudUuid, required entityId}) async {},
+          deleteEntity: (
+              {required adapter,
+              required shopId,
+              required cloudUuid,
+              required entityId}) async {},
         ),
       );
       final result = await engine.processQueue();
@@ -401,7 +448,7 @@ void main() {
       await queueRepo.cleanupSynced(olderThanDays: 0);
       expect(
         (await db.query('sync_queue',
-                where: 'idempotency_key = ?', whereArgs: ['crash-g'])),
+            where: 'idempotency_key = ?', whereArgs: ['crash-g'])),
         isEmpty,
         reason: 'resolved SYNCED row may be cleaned',
       );
