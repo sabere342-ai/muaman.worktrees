@@ -40,6 +40,20 @@ class WeakPasswordException implements Exception {
       'WeakPasswordException: Password must be at least 6 characters';
 }
 
+/// Thrown when a cloud membership role cannot be provisioned as a local
+/// seller row (Phase L D-L3/D-L4). Owner-role memberships are ALWAYS
+/// rejected here so a fresh device can never be elevated to ownership
+/// through the seller cloud-login path.
+class CloudIdentityRoleConflictException implements Exception {
+  final String membershipRole;
+  CloudIdentityRoleConflictException(this.membershipRole);
+
+  @override
+  String toString() =>
+      'CloudIdentityRoleConflictException: cloud membership role '
+      '"$membershipRole" cannot be provisioned as a seller local row';
+}
+
 class UserRepository {
   final DatabaseHelper _dbHelper = DatabaseHelper.instance;
   final PasswordHasher _hasher = PasswordHasher();
@@ -377,5 +391,103 @@ class UserRepository {
     );
     if (maps.isEmpty) return null;
     return User.fromMap(maps.first);
+  }
+
+  /// Phase L (D-L4): provision or match the local user CACHE row for a
+  /// cloud-authenticated seller, keyed immutably by `users.cloud_uuid`.
+  ///
+  /// The local row is a cache for SessionState plumbing — it is NEVER an
+  /// authorization source. The role is mapped ONLY from the cloud
+  /// membership role (employee -> employee, salesOnly -> salesOnly); any
+  /// other membership role — including owner — is rejected (D-L3
+  /// ownership-hijack prevention). No local password is required for
+  /// cloud-mode sessions: the stored hash is an unusable random secret
+  /// because cloud sessions never authenticate via the local PBKDF2 path.
+  /// An existing row with the same cloud_uuid is reused, never duplicated.
+  Future<User> upsertCloudUser({
+    required String cloudUuid,
+    String? displayName,
+    required String membershipRole,
+  }) async {
+    if (cloudUuid.trim().isEmpty) {
+      throw ArgumentError('معرف الحساب السحابي مطلوب');
+    }
+    final UserRole mappedRole;
+    switch (membershipRole) {
+      case 'employee':
+        mappedRole = UserRole.employee;
+        break;
+      case 'salesOnly':
+        mappedRole = UserRole.salesOnly;
+        break;
+      default:
+        throw CloudIdentityRoleConflictException(membershipRole);
+    }
+
+    final db = await _dbHelper.database;
+    final now = DateTime.now();
+    final resolvedName = (displayName != null && displayName.trim().isNotEmpty)
+        ? displayName.trim()
+        : null;
+
+    final existing = await db.query(
+      'users',
+      where: 'cloud_uuid = ?',
+      whereArgs: [cloudUuid],
+    );
+
+    if (existing.isNotEmpty) {
+      // Reuse the existing cached row: refresh display name, mapped role
+      // and last-login. Never duplicate rows for one cloud identity.
+      final current = User.fromMap(existing.first);
+      await db.update(
+        'users',
+        {
+          'displayName': resolvedName ?? current.displayName,
+          'role': mappedRole.value,
+          'lastLoginAt': now.toIso8601String(),
+          'updatedAt': now.toIso8601String(),
+        },
+        where: 'id = ?',
+        whereArgs: [current.id],
+      );
+      return (await getUserById(current.id!))!;
+    }
+
+    var attempt = 0;
+    var username = _cloudUsername(cloudUuid, attempt);
+    while ((await getUserByUsername(username)) != null) {
+      attempt += 1;
+      username = _cloudUsername(cloudUuid, attempt);
+    }
+
+    final unusableSecret =
+        'cloud-session:${now.microsecondsSinceEpoch}:$cloudUuid';
+    final row = User(
+      displayName: resolvedName ?? 'موظف',
+      username: username,
+      passwordHash: _hasher.hashPassword(unusableSecret),
+      role: mappedRole,
+      isActive: true,
+      createdAt: now,
+      updatedAt: now,
+      lastLoginAt: now,
+    );
+    final map = row.toMap()..remove('id');
+    map['cloud_uuid'] = cloudUuid;
+    await db.insert('users', map);
+
+    final created = await getUserByCloudUuid(cloudUuid);
+    if (created == null) {
+      throw StateError('فشل تجهيز حساب الموظف المحلي');
+    }
+    return created;
+  }
+
+  String _cloudUsername(String cloudUuid, int attempt) {
+    final stem = cloudUuid.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '');
+    final prefix =
+        stem.length >= 10 ? stem.substring(0, 10) : stem.padRight(10, '0');
+    return attempt == 0 ? 'cloud.$prefix' : 'cloud.$prefix.$attempt';
   }
 }

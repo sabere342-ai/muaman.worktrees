@@ -11,8 +11,11 @@ import 'package:muaman_store/main.dart';
 
 import '../helpers/test_schema.dart';
 
-/// Mirrors the AuthGate role decision: shows FullAppShell while an owner is
-/// logged in and SalesOnlyShell once the owner session is cleared.
+/// Mirrors the AuthGate decision after Phase L D-L5: EVERY logged-in user
+/// gets the permission-driven FullAppShell; a salesOnly user sees exactly
+/// the permission-filtered surface set. The harness shows FullAppShell
+/// while an owner session is live and re-renders the shell once it is
+/// cleared.
 class _RoleSwitchHarness extends StatefulWidget {
   final SessionState ownerSession;
   final SessionState salesSession;
@@ -53,7 +56,10 @@ class _RoleSwitchHarnessState extends State<_RoleSwitchHarness> {
         onLogout: widget.ownerSession.logout,
       );
     }
-    return SalesOnlyShell(sessionState: widget.salesSession, onLogout: () {});
+    return FullAppShell(
+      sessionState: widget.salesSession,
+      onLogout: () {},
+    );
   }
 }
 
@@ -200,7 +206,7 @@ void main() {
       final session = sessionFor(UserRole.salesOnly);
 
       await tester.pumpWidget(MaterialApp(
-        home: SalesOnlyShell(sessionState: session, onLogout: () {}),
+        home: FullAppShell(sessionState: session, onLogout: () {}),
       ));
       await tester.pumpAndSettle();
 
@@ -208,13 +214,17 @@ void main() {
       expect(find.text('إنشاء فاتورة بيع جديدة'), findsOneWidget);
       expect(find.text('فاتورة جديدة'), findsOneWidget);
 
+      // Phase L D-L5 equivalence: the permission-driven shell exposes
+      // EXACTLY the Sales surface for the default salesOnly permission set
+      // (single permitted tab renders without a nav bar).
+      expect(find.byType(BottomNavigationBar), findsNothing);
+
       // Forbidden: no sales-history navigation, search, filters or reports.
       expect(find.text('بحث بالاسم أو الباركود...'), findsNothing);
       expect(find.textContaining('عدد العمليات:'), findsNothing);
       expect(find.textContaining('الإجمالي:'), findsNothing);
       expect(find.byIcon(Icons.filter_list), findsNothing);
       expect(find.byIcon(Icons.assessment), findsNothing);
-      expect(find.byType(BottomNavigationBar), findsNothing);
 
       // Forbidden: the historical sale data is never rendered.
       expect(find.text('منتج تاريخي'), findsNothing);
@@ -233,7 +243,7 @@ void main() {
       final session = sessionFor(UserRole.salesOnly);
 
       await tester.pumpWidget(MaterialApp(
-        home: SalesOnlyShell(sessionState: session, onLogout: () {}),
+        home: FullAppShell(sessionState: session, onLogout: () {}),
       ));
       await tester.pumpAndSettle();
 
@@ -330,6 +340,8 @@ void main() {
       expect(find.text('فاتورة جديدة'), findsOneWidget);
       expect(find.text('منتج تاريخي'), findsNothing);
       expect(find.text('بحث بالاسم أو الباركود...'), findsNothing);
+      // D-L5: exactly one permitted tab renders without a nav bar
+      // (BottomNavigationBar requires >= 2 destinations).
       expect(find.byType(BottomNavigationBar), findsNothing);
     });
 

@@ -8,7 +8,6 @@ import 'database/database_helper.dart';
 import 'database/user_repository.dart';
 import 'licensing/licensing.dart';
 import 'licensing/cloud_licensing_service.dart';
-import 'models/user_role.dart';
 import 'rbac/permission_sync_service.dart';
 import 'services/session_state.dart';
 import 'services/permissions.dart';
@@ -16,10 +15,12 @@ import 'services/permission_resolver.dart';
 import 'services/app_settings.dart';
 import 'services/active_shop_context.dart';
 import 'services/cloud_session_resume.dart';
+import 'services/seller_session_provisioning.dart';
 import 'services/shop_profile_service.dart';
 import 'services/shop_resolver.dart';
 import 'models/shop_profile.dart';
 import 'screens/auth/login_screen.dart';
+import 'screens/auth/accept_invitation_screen.dart';
 import 'screens/auth/first_owner_setup_screen.dart';
 import 'screens/admin/user_management_screen.dart';
 import 'screens/dashboard/dashboard_screen.dart';
@@ -294,6 +295,23 @@ class _AuthGateState extends State<AuthGate> {
     }
 
     if (!_hasUsers) {
+      // Phase L (D-L3): fresh-device bootstrap. When Supabase is configured
+      // AND no local users exist, offer Owner Setup (first-come ownership,
+      // unchanged) ALONGSIDE the seller cloud-login / invitation path. A
+      // non-owner cloud login provisions its own cache row and proceeds;
+      // it can NEVER create or elevate an owner role locally (enforced in
+      // the provisioning service). Without Supabase the historical
+      // behavior stands unchanged.
+      if (offersFreshDeviceCloudBootstrap(
+        hasLocalUsers: _hasUsers,
+        supabaseConfigured: AppConfig.isConfigured,
+      )) {
+        return _FreshDeviceGate(
+          sessionState: _sessionState,
+          onOwnerSetupComplete: _onOwnerSetupComplete,
+          onSellerAuthenticated: () => setState(() => _hasUsers = true),
+        );
+      }
       return FirstOwnerSetupScreen(onComplete: _onOwnerSetupComplete);
     }
 
@@ -301,15 +319,14 @@ class _AuthGateState extends State<AuthGate> {
       return LoginScreen(sessionState: _sessionState, onLoginSuccess: _onLogin);
     }
 
-    final role = _sessionState.currentRole;
-
-    if (role == UserRole.salesOnly) {
-      return SalesOnlyShell(
-        sessionState: _sessionState,
-        onLogout: _onLogout,
-      );
-    }
-
+    // Phase L (D-L5): permission-driven shell for EVERY logged-in user.
+    // The former hardcoded salesOnly -> SalesOnlyShell routing is retired;
+    // FullAppShell's existing permission-filtered navigation yields the
+    // seller experience naturally (default salesOnly => exactly the Sales
+    // tab), and any owner-granted extra permissions become visible
+    // immediately. UI visibility is convenience only: enforcement stays at
+    // DatabaseHelper._requirePermission + licensing enforcer + server
+    // RPC/RLS.
     return FullAppShell(
       sessionState: _sessionState,
       onLogout: _onLogout,
@@ -317,52 +334,168 @@ class _AuthGateState extends State<AuthGate> {
   }
 }
 
-class SalesOnlyShell extends StatelessWidget {
+/// Phase L (D-L3): fresh-device bootstrap surface. Offers Owner Setup
+/// (unchanged first-come ownership) alongside the seller cloud login and
+/// the invitation-acceptance entry, per the locked Phase L plan section 5.
+class _FreshDeviceGate extends StatefulWidget {
   final SessionState sessionState;
-  final VoidCallback onLogout;
+  final VoidCallback onOwnerSetupComplete;
+  final VoidCallback onSellerAuthenticated;
 
-  const SalesOnlyShell({
-    super.key,
+  const _FreshDeviceGate({
     required this.sessionState,
-    required this.onLogout,
+    required this.onOwnerSetupComplete,
+    required this.onSellerAuthenticated,
   });
 
   @override
+  State<_FreshDeviceGate> createState() => _FreshDeviceGateState();
+}
+
+enum _FreshDeviceView { landing, ownerSetup, cloudLogin }
+
+class _FreshDeviceGateState extends State<_FreshDeviceGate> {
+  _FreshDeviceView _view = _FreshDeviceView.landing;
+
+  @override
   Widget build(BuildContext context) {
+    switch (_view) {
+      case _FreshDeviceView.ownerSetup:
+        return FirstOwnerSetupScreen(onComplete: widget.onOwnerSetupComplete);
+      case _FreshDeviceView.cloudLogin:
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: Scaffold(
+            backgroundColor: Colors.grey.shade50,
+            appBar: AppBar(
+              title: const Text('دخول الموظفين'),
+              centerTitle: true,
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () =>
+                    setState(() => _view = _FreshDeviceView.landing),
+              ),
+            ),
+            body: LoginScreen(
+              sessionState: widget.sessionState,
+              onLoginSuccess: widget.onSellerAuthenticated,
+              initialMode: LoginMode.cloud,
+              allowLocalMode: false,
+            ),
+          ),
+        );
+      case _FreshDeviceView.landing:
+        return _buildLanding();
+    }
+  }
+
+  Widget _buildLanding() {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('المبيعات',
-              style: TextStyle(fontWeight: FontWeight.bold)),
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Center(
-                child: Text(
-                  '${sessionState.currentUser?.displayName ?? ''} | ${sessionState.currentRole?.displayName ?? ''}',
-                  style: const TextStyle(fontSize: 12),
+        backgroundColor: Colors.grey.shade50,
+        body: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)),
+              child: Padding(
+                padding: const EdgeInsets.all(32),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Icon(Icons.storefront,
+                        size: 64, color: Theme.of(context).colorScheme.primary),
+                    const SizedBox(height: 16),
+                    Text(
+                      'مرحباً بك في إدارة المتجر',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'اختر كيفية بدء الاستخدام على هذا الجهاز',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: Colors.grey.shade600),
+                    ),
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 48,
+                      child: ElevatedButton.icon(
+                        onPressed: () =>
+                            setState(() => _view = _FreshDeviceView.ownerSetup),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.teal,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                        ),
+                        icon: const Icon(Icons.admin_panel_settings),
+                        label: const Text('إعداد المالك',
+                            style: TextStyle(fontSize: 16)),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 48,
+                      child: ElevatedButton.icon(
+                        onPressed: () =>
+                            setState(() => _view = _FreshDeviceView.cloudLogin),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueGrey,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                        ),
+                        icon: const Icon(Icons.cloud_outlined),
+                        label: const Text('تسجيل دخول موظف',
+                            style: TextStyle(fontSize: 16)),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 48,
+                      child: ElevatedButton.icon(
+                        onPressed: () async {
+                          await Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                const AcceptInvitationScreen(),
+                          ));
+                          // After acceptance the local cache row exists and
+                          // membership is ACTIVE; continue to the normal
+                          // login/shell flow.
+                          if (context.mounted) {
+                            widget.onSellerAuthenticated();
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue.shade700,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                        ),
+                        icon: const Icon(Icons.mark_email_read),
+                        label: const Text('قبول دعوة',
+                            style: TextStyle(fontSize: 16)),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            IconButton(
-              icon: const Icon(Icons.logout),
-              tooltip: 'تسجيل الخروج',
-              onPressed: onLogout,
-            ),
-          ],
-        ),
-        body: PopScope(
-          canPop: false,
-          onPopInvokedWithResult: (didPop, _) {
-            if (!didPop) {
-              onLogout();
-            }
-          },
-          child: SalesScreen(
-              showAppBar: false, showFab: true, sessionState: sessionState),
+          ),
         ),
       ),
     );
@@ -386,35 +519,46 @@ class FullAppShell extends StatefulWidget {
 class _FullAppShellState extends State<FullAppShell> {
   int _currentIndex = 0;
 
-  late final List<_NavItem> _allNavItems = [
-    _NavItem(
-        0,
-        'لوحة التحكم',
-        Icons.dashboard,
-        AppPermission.canAccessDashboard,
-        DashboardScreen(sessionState: widget.sessionState)),
-    _NavItem(1, 'المخزن', Icons.inventory_2, AppPermission.canAccessInventory,
-        InventoryScreen(sessionState: widget.sessionState)),
-    _NavItem(
-        2,
-        'المبيعات',
-        Icons.shopping_cart,
-        AppPermission.canAccessSales,
-        SalesScreen(
-            showAppBar: false,
-            showFab: true,
-            sessionState: widget.sessionState)),
-    _NavItem(
-        3,
-        'المرتجعات',
-        Icons.assignment_return,
-        AppPermission.canAccessReturns,
-        ReturnsScreen(sessionState: widget.sessionState)),
-    _NavItem(4, 'المصروفات', Icons.money_off, AppPermission.canAccessExpenses,
-        ExpensesScreen(sessionState: widget.sessionState)),
-    _NavItem(5, 'الجرد', Icons.fact_check, AppPermission.canAccessStocktake,
-        InventoryCountScreen(sessionState: widget.sessionState)),
-  ];
+  // Phase L (D-L5): nav destinations are derived from the CURRENT session
+  // on every build so a session swap re-filters permissions and rebuilds
+  // the embedded screens against the active identity.
+  List<_NavItem> get _allNavItems => [
+        _NavItem(
+            0,
+            'لوحة التحكم',
+            Icons.dashboard,
+            AppPermission.canAccessDashboard,
+            DashboardScreen(sessionState: widget.sessionState)),
+        _NavItem(
+            1,
+            'المخزن',
+            Icons.inventory_2,
+            AppPermission.canAccessInventory,
+            InventoryScreen(sessionState: widget.sessionState)),
+        _NavItem(
+            2,
+            'المبيعات',
+            Icons.shopping_cart,
+            AppPermission.canAccessSales,
+            SalesScreen(
+                showAppBar: false,
+                showFab: true,
+                sessionState: widget.sessionState)),
+        _NavItem(
+            3,
+            'المرتجعات',
+            Icons.assignment_return,
+            AppPermission.canAccessReturns,
+            ReturnsScreen(sessionState: widget.sessionState)),
+        _NavItem(
+            4,
+            'المصروفات',
+            Icons.money_off,
+            AppPermission.canAccessExpenses,
+            ExpensesScreen(sessionState: widget.sessionState)),
+        _NavItem(5, 'الجرد', Icons.fact_check, AppPermission.canAccessStocktake,
+            InventoryCountScreen(sessionState: widget.sessionState)),
+      ];
 
   List<_NavItem> get _visibleNavItems {
     return _allNavItems
@@ -426,6 +570,15 @@ class _FullAppShellState extends State<FullAppShell> {
   void initState() {
     super.initState();
     widget.sessionState.addListener(_onSessionChanged);
+  }
+
+  @override
+  void didUpdateWidget(covariant FullAppShell oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!identical(oldWidget.sessionState, widget.sessionState)) {
+      oldWidget.sessionState.removeListener(_onSessionChanged);
+      widget.sessionState.addListener(_onSessionChanged);
+    }
   }
 
   @override
@@ -500,19 +653,25 @@ class _FullAppShellState extends State<FullAppShell> {
         body: items.isNotEmpty
             ? items[_currentIndex].screen
             : const SizedBox.shrink(),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: _navigateTo,
-          type: BottomNavigationBarType.fixed,
-          selectedFontSize: 10,
-          unselectedFontSize: 10,
-          items: items
-              .map((item) => BottomNavigationBarItem(
-                    icon: Icon(item.icon),
-                    label: item.label,
-                  ))
-              .toList(),
-        ),
+        // Phase L (D-L5): BottomNavigationBar requires >= 2 destinations;
+        // a seller restricted to exactly ONE permitted tab renders without
+        // the bar (behaviorally equivalent surface set to the retired
+        // single-screen shell).
+        bottomNavigationBar: items.length >= 2
+            ? BottomNavigationBar(
+                currentIndex: _currentIndex,
+                onTap: _navigateTo,
+                type: BottomNavigationBarType.fixed,
+                selectedFontSize: 10,
+                unselectedFontSize: 10,
+                items: items
+                    .map((item) => BottomNavigationBarItem(
+                          icon: Icon(item.icon),
+                          label: item.label,
+                        ))
+                    .toList(),
+              )
+            : null,
       ),
     );
   }

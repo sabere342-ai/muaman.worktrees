@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import '../../database/user_repository.dart';
 import '../../models/user.dart';
 import '../../models/user_role.dart';
+import '../../services/permissions.dart';
 import '../../services/session_state.dart';
+import '../settings/invite_employee_screen.dart';
 
 class UserManagementScreen extends StatefulWidget {
   final SessionState sessionState;
@@ -483,6 +485,28 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
         title: const Text('إدارة المستخدمين',
             style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
+        // Phase L (D-L2): owner entry point to the cloud invitation flow
+        // (invite-employee Edge Function). Permission-gated by
+        // admin.users.manage; UI visibility is convenience only.
+        actions: [
+          if (widget.sessionState.hasPermission(AppPermission.canManageUsers))
+            IconButton(
+              icon: const Icon(Icons.mark_email_read),
+              tooltip: 'دعوة موظف',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: InviteEmployeeScreen(
+                          sessionState: widget.sessionState),
+                    ),
+                  ),
+                );
+              },
+            ),
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _showCreateDialog,

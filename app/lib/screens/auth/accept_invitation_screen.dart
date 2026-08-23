@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../database/user_repository.dart';
-import '../../models/user_role.dart';
+import '../../rbac/permission_sync_service.dart';
 import '../../services/invitation_service.dart';
 
 /// Screen where an invited employee accepts their invitation,
@@ -120,14 +120,28 @@ class _AcceptInvitationScreenState extends State<AcceptInvitationScreen> {
         return;
       }
 
-      // Create local user account.
+      // Phase L (D-L4): provision/match the local user CACHE row keyed by
+      // the cloud identity (users.cloud_uuid). The role is mapped ONLY
+      // from the cloud membership; no local password is stored for the
+      // cloud-mode session. The local row is never an authorization
+      // source — the server reauthorizes every RPC independently.
       final repo = UserRepository();
-      await repo.createUser(
+      final membershipRole =
+          memberships.first['membership_role']?.toString() ?? 'employee';
+      await repo.upsertCloudUser(
+        cloudUuid: userId,
         displayName: displayName.isNotEmpty ? displayName : email,
-        username: email.split('@').first,
-        password: password,
-        role: UserRole.employee,
+        membershipRole: membershipRole,
       );
+
+      // Phase L (GA9): refresh synced permissions BEFORE entering the
+      // shell so the permission-driven shell reflects the accepted
+      // membership immediately.
+      try {
+        await PermissionSyncService.instance.syncPermissions(shopId);
+      } catch (_) {
+        // Offline / sync failure — cached defaults apply until next login.
+      }
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
