@@ -75,6 +75,10 @@ class WorkbookValidationException implements Exception {
 
   const WorkbookValidationException(this.code, this.message);
 
+  /// Arabic, RTL-safe user-facing message (category template). Raw [message]
+  /// internals are for logs only.
+  String get userMessage => code.userMessage;
+
   @override
   String toString() => 'WorkbookValidationException(${code.name}: $message)';
 }

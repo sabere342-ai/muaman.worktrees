@@ -304,6 +304,23 @@ class DatabaseHelper {
     );
   }
 
+  /// Phase N (N-D13): narrow seam for callers that insert business rows with
+  /// a raw [DatabaseExecutor] (the workbook importer) and must enqueue the
+  /// resulting rows through the SAME machinery as normal writes, inside the
+  /// caller's open transaction. Preserves idempotency keys, persisted
+  /// occurrence tokens and shop attribution unchanged.
+  Future<void> enqueueImportedRowForSync(
+    Database db,
+    DatabaseExecutor executor, {
+    required String tableName,
+    required int rowId,
+  }) {
+    return _enqueueAfterWrite(db, executor,
+        tableName: tableName,
+        rowId: rowId,
+        operation: SyncQueueOperation.CREATE);
+  }
+
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
       await db.execute('DROP TABLE IF EXISTS products');
