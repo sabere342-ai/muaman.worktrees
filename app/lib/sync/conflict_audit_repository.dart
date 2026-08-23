@@ -104,6 +104,12 @@ class ConflictAuditRepository {
       _transitionStatus(id, ConflictLifecycleStatus.RESOLUTION_PENDING,
           executor: executor);
 
+  /// Failed/rejected resolution attempt → back to REVIEW_REQUIRED
+  /// (fail-closed, restartable; never stuck non-terminal silently).
+  Future<void> markReviewRequired(int id, {DatabaseExecutor? executor}) =>
+      _transitionStatus(id, ConflictLifecycleStatus.REVIEW_REQUIRED,
+          executor: executor);
+
   /// → RESOLVED terminal state carrying who/when/how (CL-3).
   Future<void> markResolved(
     int id, {
