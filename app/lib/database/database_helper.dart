@@ -373,6 +373,14 @@ class DatabaseHelper {
     await db.rawUpdate('PRAGMA user_version = $schemaVersion');
   }
 
+  /// Test-only seam: runs ONLY the production v14 → v15 additive migration
+  /// step against a database already at the v14 shape (user_version 14), so
+  /// upgrade-path behavior is exercised without replaying older history.
+  @visibleForTesting
+  static Future<void> runUpgradeToV15ForTest(Database db) async {
+    await DatabaseHelper.instance._migrateToV15(db);
+  }
+
   /// Returns the full filesystem path to `muaman_store.db`.
   Future<String> get databasePath async {
     final dbPath = await getDatabasesPath();
