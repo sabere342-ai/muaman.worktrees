@@ -23,18 +23,19 @@ class ProductSyncAdapter extends EntitySyncAdapter {
 
   @override
   Map<String, dynamic> localToCloudPayload(Map<String, dynamic> localRow) {
+    // Phase M ES-1: product-row pushes carry METADATA components only.
+    // sold_quantity / returned_quantity / inventory_adjustment /
+    // current_quantity are owned exclusively by event application
+    // (sale/return/count/adjustment events) and never travel through a
+    // generic product snapshot push (IA-4). Server-side update RPCs keep
+    // their existing component values when the args are omitted.
     return {
       'name': localRow['name'] as String,
       'barcode': localRow['barcode'] as String,
       'opening_quantity': localRow['openingQuantity'] as int? ?? 0,
-      'sold_quantity': localRow['soldQuantity'] as int? ?? 0,
-      'returned_quantity': localRow['returnedQuantity'] as int? ?? 0,
-      'current_quantity': localRow['currentQuantity'] as int? ?? 0,
       'cost_price': (localRow['costPrice'] as num?)?.toDouble() ?? 0,
       'total_inventory_cost':
           (localRow['totalInventoryCost'] as num?)?.toDouble() ?? 0,
-      'inventory_adjustment':
-          localRow['inventoryAdjustment'] as int? ?? 0,
     };
   }
 
@@ -50,8 +51,7 @@ class ProductSyncAdapter extends EntitySyncAdapter {
       'costPrice': (cloudRow['cost_price'] as num?)?.toDouble() ?? 0,
       'totalInventoryCost':
           (cloudRow['total_inventory_cost'] as num?)?.toDouble() ?? 0,
-      'inventoryAdjustment':
-          cloudRow['inventory_adjustment'] as int? ?? 0,
+      'inventoryAdjustment': cloudRow['inventory_adjustment'] as int? ?? 0,
     };
   }
 

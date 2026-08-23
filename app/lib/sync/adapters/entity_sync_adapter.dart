@@ -22,4 +22,15 @@ abstract class EntitySyncAdapter {
   String get cloudTableName;
 
   String get requiredPermission;
+
+  /// Event-like entities (sales/returns/invoices/inventory counts) are
+  /// immutable observations: never LWW-resolved, replay idempotent.
+  bool get isEventLike => entityType.isEventLike;
+
+  /// Device-side operation/writer timestamp of the local row, when the raw
+  /// local row carries one. Used by true-LWW conflict comparison.
+  String? getLocalUpdatedAt(Map<String, dynamic> localRow) {
+    final v = localRow['updatedAt'] ?? localRow['updated_at'];
+    return v is String ? v : null;
+  }
 }
