@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:path/path.dart' as path;
 import '../database/database_helper.dart';
 
 class AppSettings {
@@ -105,17 +104,13 @@ class AppSettings {
     return value.isNotEmpty ? value : 'inactive';
   }
 
-  static Future<String> getWorkbookPath() async {
-    final storedPath = await getValue(keyWorkbookPath);
-    if (storedPath.isNotEmpty && File(storedPath).existsSync()) {
-      return storedPath;
-    }
-    return getDefaultWorkbookPath();
-  }
-
-  static Future<void> setWorkbookPath(String path) async {
-    await setValue(keyWorkbookPath, path);
-  }
+  // Phase N (N-D16): the legacy path helpers were DELETED together with their
+  // last consumer (the retired typed-path import UI in settings_screen.dart).
+  // The `workbookPath` SETTINGS KEY ([keyWorkbookPath]) is intentionally
+  // retained: existing cloud-settings validation still recognizes it.
+  //
+  // NOTE: N-T24 asserts the legacy helper names are absent from this file.
+  // Do not reintroduce those literals in comments or code.
 
   /// Legacy cosmetic license validation — DISABLED for T3-3.
   ///
@@ -203,41 +198,5 @@ class AppSettings {
 
   static Future<void> setBackupDirectory(String dirPath) async {
     await setValue(keyBackupDirectory, dirPath);
-  }
-
-  static Future<String> getDefaultWorkbookPath() async {
-    const fileName = 'شيت_ادارة_محل_شهر8.xlsx';
-    const legacyFileName =
-        'شيت_ادارة_محل_مؤمن_شهر8.xlsx'; // backward-compatible discovery only
-    const monthFolder = 'شهر 8';
-
-    final searchRoots = <String>{};
-    var current = Directory.current;
-    for (var i = 0; i < 4; i++) {
-      searchRoots.add(current.path);
-      current = current.parent;
-    }
-
-    final exeDir = Directory(Platform.resolvedExecutable).parent;
-    current = exeDir;
-    for (var i = 0; i < 4; i++) {
-      searchRoots.add(current.path);
-      current = current.parent;
-    }
-
-    for (final root in searchRoots) {
-      for (final name in [fileName, legacyFileName]) {
-        final candidate = File(path.join(root, name));
-        if (candidate.existsSync()) {
-          return candidate.path;
-        }
-        final nestedCandidate = File(path.join(root, monthFolder, name));
-        if (nestedCandidate.existsSync()) {
-          return nestedCandidate.path;
-        }
-      }
-    }
-
-    return '';
   }
 }

@@ -3,6 +3,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import '../database/database_helper.dart';
 import '../database/workbook_importer.dart';
+import '../import/picker_workbook_source.dart';
+import '../import/workbook_source.dart';
+import '../import/workbook_validation.dart';
 import '../licensing/licensing.dart';
 import '../licensing/cloud_licensing_service.dart';
 import 'settings/license_status_screen.dart';
@@ -31,7 +34,6 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final _licenseController = TextEditingController();
-  final _workbookPathController = TextEditingController();
   final _shopNameController = TextEditingController();
   final _ownerNameController = TextEditingController();
   final _shopPhoneController = TextEditingController();
@@ -42,7 +44,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final _invoiceFooterTextController = TextEditingController();
   final _thermalPrinterNameController = TextEditingController();
   String _buttonStyle = 'filled';
-  bool _isImporting = false;
   bool _isSavingProfile = false;
   String _currentLogoPath = '';
   String _brandColor = AppSettings.defaultBrandColor;
@@ -75,7 +76,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final buttonStyle = await AppSettings.getButtonStyle();
     final supportPhone = await AppSettings.getSupportPhone();
     final licenseKey = await AppSettings.getLicenseKey();
-    final workbookPath = await AppSettings.getWorkbookPath();
     final brandColor = await AppSettings.getBrandColor();
     final invoiceTitle = await AppSettings.getInvoiceTitle();
     final invoiceFooterText = await AppSettings.getInvoiceFooterText();
@@ -94,7 +94,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _buttonStyle = buttonStyle;
       _supportPhoneController.text = supportPhone;
       _licenseController.text = licenseKey;
-      _workbookPathController.text = workbookPath;
       _brandColor = brandColor;
       _invoiceTitleController.text = invoiceTitle;
       _invoiceFooterTextController.text = invoiceFooterText;
@@ -461,45 +460,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 24),
             _buildSyncStatusSection(),
             const SizedBox(height: 24),
-            if (PlatformCapabilities.isAndroid) ...[
-              // Phase K (D8): scoped storage — desktop-only file features
-              // are explicitly flagged on Android, never silently broken.
-              _buildAndroidUnavailableCard(
-                'استيراد بيانات Excel',
-                'استيراد ملفات Excel غير متاح على أجهزة Android في هذه '
-                    'المرحلة، ويتم من جهاز الكمبيوتر (ويندوز).',
-              ),
-            ] else ...[
-              const Text('استيراد بيانات Excel',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-              const SizedBox(height: 8),
-              TextField(
-                controller: _workbookPathController,
-                decoration: const InputDecoration(
-                  labelText: 'مسار ملف Excel',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: _isImporting ? null : _importWorkbook,
-                      style: ElevatedButton.styleFrom(),
-                      child: _isImporting
-                          ? const SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: CircularProgressIndicator(
-                                  strokeWidth: 2, color: Colors.white),
-                            )
-                          : const Text('استيراد البيانات'),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+            // Phase N: unified cross-platform Excel import wizard
+            // (Windows native dialog / Android SAF picker — no fixed path).
+            const ExcelImportSection(),
             const SizedBox(height: 24),
             ..._buildOwnerFileFeaturesSection(),
           ],
@@ -1937,54 +1900,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Future<void> _importWorkbook() async {
-    final path = _workbookPathController.text.trim();
-    if (path.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('أدخل مسار ملف Excel'), backgroundColor: Colors.red),
-      );
-      return;
-    }
-    if (!File(path).existsSync()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('الملف غير موجود'), backgroundColor: Colors.red),
-      );
-      return;
-    }
-    setState(() => _isImporting = true);
-    try {
-      final report = await WorkbookImporter.import(
-        workbookPath: path,
-        db: await DatabaseHelper.instance.database,
-        allowZeroCost: true,
-        skipShaCheck: true,
-      );
-      await AppSettings.setWorkbookPath(path);
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(
-                'تم الاستيراد بنجاح. المنتجات: ${report.productsImported}')),
-      );
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text('فشل الاستيراد: $e'), backgroundColor: Colors.red),
-      );
-    } finally {
-      if (mounted) {
-        setState(() => _isImporting = false);
-      }
-    }
-  }
-
   @override
   void dispose() {
     _licenseController.dispose();
-    _workbookPathController.dispose();
     _shopNameController.dispose();
     _ownerNameController.dispose();
     _shopPhoneController.dispose();
@@ -1995,5 +1913,351 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _invoiceFooterTextController.dispose();
     _thermalPrinterNameController.dispose();
     super.dispose();
+  }
+}
+
+/// Seam between the wizard UI and the importer/database (N-D18). The default
+/// implementation routes to [WorkbookImporter] with the real local database;
+/// tests inject a controller instead of standing up SQLite inside widget
+/// bindings.
+class ExcelImportController {
+  const ExcelImportController();
+
+  Future<WorkbookPreparation> prepare(PickedWorkbook workbook) async =>
+      WorkbookImporter.prepareFromSource(
+        workbook: workbook,
+        db: await DatabaseHelper.instance.database,
+      );
+
+  Future<WorkbookImportOutcome> confirm(
+    PickedWorkbook workbook, {
+    required bool allowZeroCost,
+  }) async =>
+      WorkbookImporter.importFromSource(
+        workbook: workbook,
+        db: await DatabaseHelper.instance.database,
+        allowZeroCost: allowZeroCost,
+        enqueueSync: true, // N-D13 default for the user flow
+      );
+}
+
+/// Phase N (§20.16/§20.17): cross-platform workbook import wizard.
+///
+/// SELECT → VALIDATE → PREVIEW → CONFIRM → ATOMIC IMPORT → SUMMARY.
+/// Used identically on Windows (native .xlsx dialog) and Android (SAF
+/// document picker through the same [PickerWorkbookSource]); the Phase K
+/// unavailable-card for THIS feature is retired. No path text field exists
+/// and no stored/default workbook path is consulted (N-D16/N-T24).
+class ExcelImportSection extends StatefulWidget {
+  /// Injectable for tests; defaults to the real platform picker.
+  final WorkbookSource? workbookSource;
+
+  /// Injectable orchestration seam for tests; defaults to the real importer.
+  final ExcelImportController? controller;
+
+  const ExcelImportSection({super.key, this.workbookSource, this.controller});
+
+  @override
+  State<ExcelImportSection> createState() => _ExcelImportSectionState();
+}
+
+enum _ImportFlowStage { idle, validating, previewReady, importing, summary }
+
+class _ExcelImportSectionState extends State<ExcelImportSection> {
+  late final WorkbookSource _source =
+      widget.workbookSource ?? PickerWorkbookSource();
+  late final ExcelImportController _controller =
+      widget.controller ?? const ExcelImportController();
+
+  _ImportFlowStage _stage = _ImportFlowStage.idle;
+
+  PickedWorkbook? _picked;
+  WorkbookPreparation? _preparation;
+  WorkbookImportOutcome? _outcome;
+  bool _allowZeroCost = false;
+
+  String? _inlineError;
+
+  @override
+  void initState() {
+    super.initState();
+    _resetFlow();
+  }
+
+  void _resetFlow() {
+    _picked = null;
+    _preparation = null;
+    _outcome = null;
+    _allowZeroCost = false;
+    _inlineError = null;
+    _stage = _ImportFlowStage.idle;
+  }
+
+  Future<void> _selectFile() async {
+    setState(() {
+      _resetFlow();
+    });
+
+    final pick = await _source.pick();
+    if (!mounted) return;
+    if (pick.status == WorkbookPickStatus.cancelled) {
+      // N-FR03: clean cancel → IDLE, no error surfaced.
+      return;
+    }
+    if (pick.status == WorkbookPickStatus.error || pick.workbook == null) {
+      setState(() {
+        _inlineError = pick.errorMessage ?? 'تعذر اختيار الملف. حاول مرة أخرى.';
+      });
+      return;
+    }
+
+    setState(() {
+      _picked = pick.workbook;
+      _stage = _ImportFlowStage.validating;
+    });
+
+    try {
+      final preparation = await _controller.prepare(pick.workbook!);
+      if (!mounted) return;
+      setState(() {
+        _preparation = preparation;
+        _stage = _ImportFlowStage.previewReady;
+      });
+    } on WorkbookDuplicateException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _outcome = WorkbookImportOutcome(
+          status: WorkbookImportStatus.duplicateDetected,
+          fileSha256: '',
+          fileName: pick.workbook!.fileName,
+          originalImportedAt: e.originalImportedAt,
+        );
+        _stage = _ImportFlowStage.summary;
+      });
+    } on WorkbookValidationException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _inlineError = e.userMessage;
+        _stage = _ImportFlowStage.idle;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _inlineError = WorkbookErrorCode.internalUnexpected.userMessage;
+        _stage = _ImportFlowStage.idle;
+      });
+    }
+  }
+
+  Future<void> _confirmImport() async {
+    final picked = _picked;
+    if (picked == null || _stage != _ImportFlowStage.previewReady) return;
+
+    setState(() => _stage = _ImportFlowStage.importing);
+
+    final outcome = await _controller.confirm(
+      picked,
+      allowZeroCost: _allowZeroCost, // explicit zero-cost acknowledgement
+    );
+
+    if (!mounted) return;
+    setState(() {
+      _outcome = outcome;
+      _stage = _ImportFlowStage.summary;
+    });
+  }
+
+  void _cancelPreview() {
+    setState(() => _resetFlow());
+  }
+
+  bool get _confirmEnabled {
+    final preview = _preparation?.preview;
+    if (preview == null) return false;
+    if (preview.hasBlockingErrors) return false;
+    if (preview.requiresZeroCostAcknowledgement && !_allowZeroCost) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Text('استيراد بيانات Excel',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        const SizedBox(height: 8),
+        ..._buildBody(),
+      ],
+    );
+  }
+
+  List<Widget> _buildBody() {
+    switch (_stage) {
+      case _ImportFlowStage.idle:
+        return _buildIdle();
+      case _ImportFlowStage.validating:
+        return _buildValidating();
+      case _ImportFlowStage.previewReady:
+        return _buildPreview();
+      case _ImportFlowStage.importing:
+        return _buildImporting();
+      case _ImportFlowStage.summary:
+        return _buildSummary();
+    }
+  }
+
+  List<Widget> _buildIdle() {
+    return [
+      if (_inlineError != null) ...[
+        Text(
+          _inlineError!,
+          style: const TextStyle(color: Colors.red),
+        ),
+        const SizedBox(height: 8),
+      ],
+      ElevatedButton.icon(
+        key: const ValueKey('select-workbook-button'),
+        onPressed: _selectFile,
+        icon: const Icon(Icons.file_open),
+        label: const Text('اختيار ملف Excel'),
+      ),
+    ];
+  }
+
+  List<Widget> _buildValidating() {
+    return const [
+      SizedBox(height: 8),
+      Center(child: CircularProgressIndicator()),
+      SizedBox(height: 8),
+      Center(child: Text('جارٍ التحقق من الملف...')),
+    ];
+  }
+
+  List<Widget> _buildPreview() {
+    final preview = _preparation!.preview;
+    return [
+      Card(
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('الملف: ${_preparation!.fileName}'),
+              const SizedBox(height: 4),
+              Text('المحتوى المتوقع: منتجات ${preview.products} — مبيعات '
+                  '${preview.sales} — مرتجعات ${preview.returns} — مصروفات '
+                  '${preview.expenses} — جرد ${preview.adjustments}'),
+              if (preview.skippedShortRows > 0)
+                Text('صفوف قصيرة سيتم تجاهلها: ${preview.skippedShortRows}'),
+              if (preview.skippedMissingIdentity > 0)
+                Text('صفوف بدون اسم/باركود سيتم تجاهلها: '
+                    '${preview.skippedMissingIdentity}'),
+              if (preview.totalRowErrors > 0)
+                Text('صفوف بقيم غير صالحة: ${preview.totalRowErrors}',
+                    style: const TextStyle(color: Colors.orange)),
+              for (final sample in preview.rowErrorSamples.take(3))
+                Text(sample,
+                    style: const TextStyle(color: Colors.grey, fontSize: 12)),
+              for (final warning in preview.warnings.take(5))
+                Text('تنبيه: ${warning.message}',
+                    style: const TextStyle(color: Colors.orange)),
+              if (preview.hasZeroCostProduct) ...[
+                CheckboxListTile(
+                  key: const ValueKey('zero-cost-ack'),
+                  contentPadding: EdgeInsets.zero,
+                  title:
+                      const Text('أؤكد السماح بالاستيراد مع منتج بتكلفة صفرية'),
+                  value: _allowZeroCost,
+                  onChanged: (v) => setState(() => _allowZeroCost = v ?? false),
+                ),
+              ],
+              for (final blocking in preview.blockingErrors)
+                Text(blocking.message,
+                    style: const TextStyle(color: Colors.red, fontSize: 12)),
+            ],
+          ),
+        ),
+      ),
+      const SizedBox(height: 8),
+      Row(
+        children: [
+          Expanded(
+            child: ElevatedButton.icon(
+              key: const ValueKey('confirm-import-button'),
+              onPressed: _confirmEnabled ? _confirmImport : null,
+              icon: const Icon(Icons.check_circle),
+              label: const Text('تأكيد الاستيراد'),
+            ),
+          ),
+          const SizedBox(width: 8),
+          TextButton(
+            onPressed: _cancelPreview,
+            child: const Text('إلغاء'),
+          ),
+        ],
+      ),
+    ];
+  }
+
+  List<Widget> _buildImporting() {
+    return const [
+      SizedBox(height: 8),
+      Center(child: CircularProgressIndicator()),
+      SizedBox(height: 8),
+      Center(child: Text('جارٍ الاستيراد...')),
+    ];
+  }
+
+  List<Widget> _buildSummary() {
+    final outcome = _outcome!;
+    return [
+      Card(
+        color: outcome.status == WorkbookImportStatus.succeeded
+            ? Colors.green.shade50
+            : Colors.red.shade50,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(outcome.status.arabicLabel,
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 4),
+              Text('الملف: ${outcome.fileName}'),
+              if (outcome.fileSha256.isNotEmpty)
+                Text(
+                    'بصمة الملف: ${outcome.fileSha256.substring(0, outcome.fileSha256.length.clamp(0, 12))}…'),
+              if (outcome.originalImportedAt != null)
+                Text('تاريخ الاستيراد الأصلي: ${outcome.originalImportedAt}'),
+              if (outcome.status == WorkbookImportStatus.succeeded) ...[
+                Text('منتجات: ${outcome.counts.products}'),
+                Text('مبيعات: ${outcome.counts.sales}'),
+                Text('مرتجعات: ${outcome.counts.returns}'),
+                Text('مصروفات: ${outcome.counts.expenses}'),
+                Text('تعديلات جرد: ${outcome.counts.adjustments}'),
+                if (outcome.batchId != null)
+                  Text('رقم الدفعة: ${outcome.batchId}'),
+              ],
+              for (final warning in outcome.warnings)
+                Text('تنبيه: $warning',
+                    style: const TextStyle(color: Colors.orange)),
+              for (final error in outcome.errors)
+                Text(error, style: const TextStyle(color: Colors.red)),
+              if (outcome.rolledBack)
+                const Text('لم يتم حفظ أي بيانات وتم التراجع عن كل التغييرات.',
+                    style: TextStyle(color: Colors.red)),
+            ],
+          ),
+        ),
+      ),
+      const SizedBox(height: 8),
+      ElevatedButton(
+        onPressed: () => setState(_resetFlow),
+        child: const Text('استيراد ملف آخر'),
+      ),
+    ];
   }
 }
