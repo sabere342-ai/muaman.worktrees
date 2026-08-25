@@ -106,10 +106,13 @@ class DeviceRegistrationResult {
 /// This repository is the ONLY place that calls licensing-related RPCs.
 /// All other services go through this class.
 class CloudLicensingRepository {
-  CloudLicensingRepository({SupabaseClient? client})
-      : _client = client ?? Supabase.instance.client;
+  CloudLicensingRepository({SupabaseClient? client}) : _injectedClient = client;
 
-  final SupabaseClient _client;
+  final SupabaseClient? _injectedClient;
+
+  SupabaseClient get _client {
+    return _injectedClient ?? Supabase.instance.client;
+  }
 
   /// Verify the current licensing entitlement for a shop.
   Future<EntitlementResult> verifyLicenseEntitlement(String shopId) async {

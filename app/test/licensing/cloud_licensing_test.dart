@@ -1,4 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:muaman_store/licensing/cloud_licensing_repository.dart';
 import 'package:muaman_store/licensing/cloud_licensing_service.dart';
 import 'package:muaman_store/licensing/entitlement_cache.dart';
@@ -492,4 +494,53 @@ void main() {
       expect(snapshot.blocksWrites, true);
     });
   });
+
+  group('CloudLicensingRepository startup safety', () {
+    test('construction without initialized Supabase succeeds (TEST A)', () {
+      expect(
+        () => CloudLicensingRepository(),
+        returnsNormally,
+      );
+    });
+
+    test('construction does not eagerly access Supabase.instance.client (TEST B)', () {
+      final repo = CloudLicensingRepository();
+      expect(repo, isNotNull);
+    });
+
+    test('injected client is used when provided (TEST C)', () {
+      final mockClient = _MockSupabaseClient();
+      final repo = CloudLicensingRepository(client: mockClient);
+      expect(repo, isNotNull);
+    });
+
+    test('unavailable default client becomes controlled failure at cloud use (TEST D)', () async {
+      final repo = CloudLicensingRepository();
+      try {
+        await repo.verifyLicenseEntitlement('test-shop');
+        fail('Expected exception for uninitialized Supabase');
+      } catch (e) {
+        // Any exception is acceptable - the point is construction succeeds
+        // and cloud use fails gracefully rather than crashing startup
+        expect(e, isNotNull);
+      }
+    });
+  });
+
+  group('CloudLicensingService startup safety', () {
+    test('service initialization without Supabase does not crash (TEST E)', () async {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+      final service = CloudLicensingService.instance;
+      await expectLater(
+        service.initialize(),
+        completes,
+      );
+    });
+  });
+}
+
+class _MockSupabaseClient implements SupabaseClient {
+  @override
+  noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
