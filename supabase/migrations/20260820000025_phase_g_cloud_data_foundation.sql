@@ -1044,10 +1044,10 @@ $$;
 CREATE OR REPLACE FUNCTION create_cloud_invoice_with_items(
   p_shop_id UUID,
   p_customer_name TEXT,
-  p_customer_id UUID DEFAULT NULL,
   p_payment_method TEXT,
   p_date TIMESTAMPTZ,
-  p_sale_items JSONB
+  p_sale_items JSONB,
+  p_customer_id UUID DEFAULT NULL
 )
 RETURNS UUID
 LANGUAGE plpgsql
@@ -1238,7 +1238,7 @@ GRANT EXECUTE ON FUNCTION create_cloud_sale_with_stock(UUID, TEXT, INTEGER, NUME
 GRANT EXECUTE ON FUNCTION delete_cloud_sale_with_revert(UUID, UUID) TO authenticated;
 GRANT EXECUTE ON FUNCTION create_cloud_return_with_stock(UUID, TEXT, INTEGER, NUMERIC, TIMESTAMPTZ) TO authenticated;
 GRANT EXECUTE ON FUNCTION delete_cloud_return_with_revert(UUID, UUID) TO authenticated;
-GRANT EXECUTE ON FUNCTION create_cloud_invoice_with_items(UUID, TEXT, UUID, TEXT, TIMESTAMPTZ, JSONB) TO authenticated;
+GRANT EXECUTE ON FUNCTION create_cloud_invoice_with_items(UUID, TEXT, TEXT, TIMESTAMPTZ, JSONB, UUID) TO authenticated;
 GRANT EXECUTE ON FUNCTION save_cloud_inventory_count(UUID, UUID, INTEGER, TEXT) TO authenticated;
 GRANT EXECUTE ON FUNCTION get_cloud_shop_settings(UUID) TO authenticated;
 GRANT EXECUTE ON FUNCTION update_cloud_shop_setting(UUID, TEXT, TEXT) TO authenticated;

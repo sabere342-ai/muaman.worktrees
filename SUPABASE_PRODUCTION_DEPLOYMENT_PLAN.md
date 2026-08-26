@@ -123,7 +123,7 @@ This document defines the complete, executable plan for deploying the I Tech Sto
 | 31 | `delete_cloud_sale_with_revert(p_shop_id, p_sale_id)` | Revert sale + stock | G | RPC | `sales.delete`, GRANT to authenticated |
 | 32 | `create_cloud_return_with_stock(p_shop_id, p_barcode, p_quantity, p_sale_price, p_date)` | Atomic return + stock | G | RPC | `returns.create`, GRANT to authenticated |
 | 33 | `delete_cloud_return_with_revert(p_shop_id, p_return_id)` | Revert return + stock | G | RPC | `returns.delete`, GRANT to authenticated |
-| 34 | `create_cloud_invoice_with_items(p_shop_id, p_customer_name, p_customer_id, p_payment_method, p_date, p_sale_items)` | Invoice + items | G | RPC | `sales.create`, GRANT to authenticated |
+| 34 | `create_cloud_invoice_with_items(p_shop_id, p_customer_name, p_payment_method, p_date, p_sale_items, p_customer_id)` | Invoice + items | G | RPC | `sales.create`, GRANT to authenticated |
 | 35 | `save_cloud_inventory_count(p_shop_id, p_product_id, p_actual_quantity, p_notes)` | Stocktake + adjust | G | RPC | `stocktake.view`, GRANT to authenticated |
 | 36 | `get_cloud_shop_settings(p_shop_id)` | Get settings | G | RPC | `admin.settings.access`, GRANT to authenticated |
 | 37 | `update_cloud_shop_setting(p_shop_id, p_key, p_value)` | Update setting | G | RPC | `admin.settings.access`, GRANT to authenticated |
