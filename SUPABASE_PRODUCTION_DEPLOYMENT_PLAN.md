@@ -6,17 +6,17 @@ This document defines the complete, executable plan for deploying the I Tech Sto
 
 **"Supabase production deployment ready" means:**
 
-1. A dedicated production Supabase project exists and is configured
-2. All 17 migrations apply cleanly in sequence against a clean database
-3. RLS policies are active and verified on all 16 tenant-scoped tables
-4. Auth integration works: signup, login, shop creation, membership, invitations
-5. 14-day server-controlled trial licensing operates correctly
-6. Device activation lifecycle (registration → activation → limits → revocation) functions
-7. RBAC/permission sync operates server-authoritatively
-8. Offline-first sync infrastructure (server_version, sync_log, idempotency) is operational
-9. Cross-tenant isolation is cryptographically verified (SHOP_A cannot access SHOP_B)
-10. Backup/rollback strategy is documented and tested
-11. All deployment gates pass with documented evidence
+ 1. A dedicated production Supabase project exists and is configured
+ 2. All 17 migrations apply cleanly in sequence against a clean database
+ 3. RLS policies are active and verified on all 21 tenant-scoped tables
+ 4. Auth integration works: signup, login, shop creation, membership, invitations
+ 5. 14-day server-controlled trial licensing operates correctly
+ 6. Device activation lifecycle (registration → activation → limits → revocation) functions
+ 7. RBAC/permission sync operates server-authoritatively
+ 8. Offline-first sync infrastructure (server_version, sync_log, idempotency) is operational
+ 9. Cross-tenant isolation is cryptographically verified (SHOP_A cannot access SHOP_B)
+ 10. Backup/rollback strategy is documented and tested
+ 11. All deployment gates pass with documented evidence
 
 **This plan does NOT execute deployment.** It provides the deterministic sequence for a future deployment session.
 
@@ -29,12 +29,14 @@ This document defines the complete, executable plan for deploying the I Tech Sto
 | Phase N Planning | `4f356f1a146ced265f776d213dd5379fa489a7d3` | `phase-n-planning-baseline-locked` |
 | Phase N Implementation | `e697759f60952cf567dc03aaa485b91626255a9a` | `phase-n-implementation-locked` |
 | Android Remediation | `693f1d92a33af4a5ff7432a20f03994129a405dd` | `phase-n-android-startup-defect-remediation-locked` |
+| Supabase Production Deployment Planning | `741b4236d4344e8fbd3f66c8c41af4595da15de7` | `supabase-production-deployment-planning-baseline-locked` |
 
 **Ancestry verified:**
 - `phase-n-planning-baseline-locked` → ancestor of `phase-n-implementation-locked` ✓
 - `phase-n-implementation-locked` → ancestor of `phase-n-android-startup-defect-remediation-locked` ✓
+- `phase-n-android-startup-defect-remediation-locked` → ancestor of `supabase-production-deployment-planning-baseline-locked` ✓
 
-**Current repository HEAD at planning time:** `693f1d92a33af4a5ff7432a20f03994129a405dd` (Android remediation baseline)
+**Current repository HEAD at planning time:** `741b4236d4344e8fbd3f66c8c41af4595da15de7` (Supabase production deployment planning baseline)
 
 **Branch:** `codex/i-tech-next-roadmap-freeze`
 **Authorized remote:** `github` (https://github.com/sabere342-ai/muaman.worktrees.git)
@@ -44,7 +46,7 @@ This document defines the complete, executable plan for deploying the I Tech Sto
 
 ## 7.3 Current Backend Inventory
 
-### Tables (16 tenant-scoped + Auth)
+### Tables (21 tenant-scoped + Auth)
 
 | Table | Purpose | RLS | Phase |
 |-------|---------|-----|-------|
@@ -84,61 +86,66 @@ This document defines the complete, executable plan for deploying the I Tech Sto
 - `shop_permission_overrides.effect`: `ALLOW`, `DENY`
 - `shop_permission_overrides.role`: `employee`, `salesOnly` (owner excluded)
 
-### Functions (27 RPCs total)
+### Functions (52 total final identities: 44 client-callable RPCs, 4 internal helpers, 4 migration-only)
 
-| Function | Purpose | Phase | Auth |
-|----------|---------|-------|------|
-| `create_shop_with_owner(p_name)` | Create shop + owner membership | C | JWT |
-| `get_user_shops()` | List user's active shops | C | JWT |
-| `verify_shop_membership(p_shop_id)` | Check membership | C | JWT |
-| `start_trial(p_shop_id)` | Owner: start 14-day trial | C | JWT + owner |
-| `verify_trial_status(p_shop_id)` | Check trial status | C | JWT |
-| `accept_invitation(p_shop_id, p_user_id)` | Activate invited membership | D | JWT |
-| `verify_license_entitlement(p_shop_id)` | Full license status | E | JWT |
-| `register_device(p_shop_id, p_installation_id, p_platform, p_device_name)` | Register device | E | JWT |
-| `activate_device(p_shop_id, p_installation_id)` | Activate device | E | JWT |
-| `deactivate_device(p_activation_id)` | Owner: revoke device | E | JWT + owner |
-| `get_device_list(p_shop_id)` | Owner: list devices | E | JWT + owner |
-| `check_effective_permission(p_shop_id, p_role, p_permission_id)` | Internal helper | F | SECURITY DEFINER |
-| `get_effective_permissions(p_shop_id)` | Resolved permissions for caller | F | JWT |
-| `require_shop_permission(p_shop_id, p_permission_id)` | Assert permission | F | JWT |
-| `sync_user_permissions(p_shop_id)` | Full permission payload | F | JWT |
-| `get_shop_permission_overrides(p_shop_id)` | Owner: view overrides | F | JWT + owner |
-| `set_shop_permission_override(p_shop_id, p_role, p_permission_id, p_effect)` | Owner: set override | F | JWT + owner |
-| `delete_shop_permission_override(p_shop_id, p_role, p_permission_id)` | Owner: delete override | F | JWT + owner |
-| `create_cloud_product(...)` | Create product | G | `inventory.edit` |
-| `update_cloud_product(...)` | Update product | G | `inventory.edit` |
-| `delete_cloud_product(...)` | Delete product | G | `inventory.delete` |
-| `create_cloud_customer(...)` | Create customer | G | `inventory.edit` |
-| `update_cloud_customer(...)` | Update customer | G | `inventory.edit` |
-| `delete_cloud_customer(...)` | Delete customer | G | `inventory.delete` |
-| `create_cloud_expense_category(...)` | Create expense category | G | `expenses.create` |
-| `delete_cloud_expense_category(...)` | Delete category | G | `expenses.delete` |
-| `create_cloud_expense(...)` | Create expense | G | `expenses.create` |
-| `update_cloud_expense(...)` | Update expense | G | `expenses.create` |
-| `delete_cloud_expense(...)` | Delete expense | G | `expenses.delete` |
-| `create_cloud_sale_with_stock(...)` | Atomic sale + stock | G | `sales.create` |
-| `delete_cloud_sale_with_revert(...)` | Revert sale + stock | G | `sales.delete` |
-| `create_cloud_return_with_stock(...)` | Atomic return + stock | G | `returns.create` |
-| `delete_cloud_return_with_revert(...)` | Revert return + stock | G | `returns.delete` |
-| `create_cloud_invoice_with_items(...)` | Invoice + items | G | `sales.create` |
-| `save_cloud_inventory_count(...)` | Stocktake + adjust | G | `stocktake.view` |
-| `get_cloud_shop_settings(p_shop_id)` | Get settings | G | `admin.settings.access` |
-| `update_cloud_shop_setting(...)` | Update setting | G | `admin.settings.access` |
-| `sync_upsert_entity(...)` | Idempotent sync upsert | H | JWT + perm |
-| `migration_upsert_chunk(...)` | Legacy migration chunk | I | `admin.settings.access` |
-| `migration_post_pass_links(...)` | Link invoices↔sales | I | `admin.settings.access` |
-| `migration_fetch_ledger(...)` | Fetch migration ledger | I | `admin.settings.access` |
-| `migration_reconcile_batch(...)` | Reconcile batch | I | `admin.settings.access` |
-| `create_cloud_sale_with_stock_v2(...)` | Idempotent sale | M | `sales.create` |
-| `delete_cloud_sale_with_revert_v2(...)` | Idempotent revert sale | M | `sales.delete` |
-| `create_cloud_return_with_stock_v2(...)` | Idempotent return | M | `returns.create` |
-| `delete_cloud_return_with_revert_v2(...)` | Idempotent revert return | M | `returns.delete` |
-| `save_cloud_inventory_count_v2(...)` | Idempotent count + observed_at | M | `stocktake.view` |
-| `create_cloud_invoice_with_items_v2(...)` | Idempotent invoice | M | `sales.create` |
-| `resolve_sync_conflict(...)` | Owner conflict resolution | M | `admin.settings.access` |
+| # | Function | Purpose | Phase | Category | Auth / Grants |
+|---|----------|---------|-------|----------|---------------|
+| 1 | `create_shop_with_owner(p_name)` | Create shop + owner membership | C | RPC | JWT, GRANT to authenticated |
+| 2 | `get_user_shops()` | List user's active shops | C | RPC | JWT, GRANT to authenticated |
+| 3 | `verify_shop_membership(p_shop_id)` | Check membership | C | RPC | JWT, GRANT to authenticated |
+| 4 | `start_trial(p_shop_id)` | Owner: start 14-day trial | C | RPC | JWT + owner, GRANT to authenticated |
+| 5 | `verify_trial_status(p_shop_id)` | Check trial status | C | RPC | JWT, GRANT to authenticated |
+| 6 | `accept_invitation(p_shop_id, p_user_id)` | Activate invited membership | D | RPC | JWT, GRANT to authenticated |
+| 7 | `verify_license_entitlement(p_shop_id)` | Full license status | E | RPC | JWT, GRANT to authenticated |
+| 8 | `register_device(p_shop_id, p_installation_id, p_platform, p_device_name)` | Register device | E | RPC | JWT, GRANT to authenticated |
+| 9 | `activate_device(p_shop_id, p_installation_id)` | Activate device | E | RPC | JWT, GRANT to authenticated |
+| 10 | `deactivate_device(p_activation_id)` | Owner: revoke device | E | RPC | JWT + owner, GRANT to authenticated |
+| 11 | `get_device_list(p_shop_id)` | Owner: list devices | E | RPC | JWT + owner, GRANT to authenticated |
+| 12 | `check_effective_permission(p_shop_id, p_role, p_permission_id)` | Resolves base + override permissions | F | **Internal Helper** | SECURITY DEFINER, **NOT GRANTED** |
+| 13 | `get_effective_permissions(p_shop_id)` | Resolved permissions for caller | F | RPC | JWT, GRANT to authenticated |
+| 14 | `require_shop_permission(p_shop_id, p_permission_id)` | Assert permission | F | RPC | JWT, GRANT to authenticated |
+| 15 | `sync_user_permissions(p_shop_id)` | Full permission payload | F | RPC | JWT, GRANT to authenticated |
+| 16 | `get_shop_permission_overrides(p_shop_id)` | Owner: view overrides | F | RPC | JWT + owner, GRANT to authenticated |
+| 17 | `set_shop_permission_override(p_shop_id, p_role, p_permission_id, p_effect)` | Owner: set override | F | RPC | JWT + owner, GRANT to authenticated |
+| 18 | `delete_shop_permission_override(p_shop_id, p_role, p_permission_id)` | Owner: delete override | F | RPC | JWT + owner, GRANT to authenticated |
+| 19 | `create_cloud_product(p_shop_id, p_name, p_barcode, p_opening_quantity, p_cost_price)` | Create product | G | RPC | `inventory.edit`, GRANT to authenticated |
+| 20 | `update_cloud_product(p_shop_id, p_product_id, ..., p_expected_version)` | Update product (version-aware) | G/H | RPC | `inventory.edit`, GRANT to authenticated |
+| 21 | `delete_cloud_product(p_shop_id, p_product_id)` | Delete product | G | RPC | `inventory.delete`, GRANT to authenticated |
+| 22 | `create_cloud_customer(p_shop_id, p_name, p_phone, p_address, p_notes, p_is_active, p_is_system)` | Create customer | G | RPC | `inventory.edit`, GRANT to authenticated |
+| 23 | `update_cloud_customer(p_shop_id, p_customer_id, ..., p_expected_version)` | Update customer (version-aware) | G/H | RPC | `inventory.edit`, GRANT to authenticated |
+| 24 | `delete_cloud_customer(p_shop_id, p_customer_id)` | Delete customer | G | RPC | `inventory.delete`, GRANT to authenticated |
+| 25 | `create_cloud_expense_category(p_shop_id, p_name)` | Create expense category | G | RPC | `expenses.create`, GRANT to authenticated |
+| 26 | `delete_cloud_expense_category(p_shop_id, p_category_id)` | Delete category | G | RPC | `expenses.delete`, GRANT to authenticated |
+| 27 | `create_cloud_expense(p_shop_id, p_date, p_description, p_amount, p_category_id)` | Create expense | G | RPC | `expenses.create`, GRANT to authenticated |
+| 28 | `update_cloud_expense(p_shop_id, p_expense_id, ..., p_expected_version)` | Update expense (version-aware) | G/H | RPC | `expenses.create`, GRANT to authenticated |
+| 29 | `delete_cloud_expense(p_shop_id, p_expense_id)` | Delete expense | G | RPC | `expenses.delete`, GRANT to authenticated |
+| 30 | `create_cloud_sale_with_stock(p_shop_id, p_barcode, p_quantity, p_sale_price, p_date, p_invoice_id)` | Atomic sale + stock | G | RPC | `sales.create`, GRANT to authenticated |
+| 31 | `delete_cloud_sale_with_revert(p_shop_id, p_sale_id)` | Revert sale + stock | G | RPC | `sales.delete`, GRANT to authenticated |
+| 32 | `create_cloud_return_with_stock(p_shop_id, p_barcode, p_quantity, p_sale_price, p_date)` | Atomic return + stock | G | RPC | `returns.create`, GRANT to authenticated |
+| 33 | `delete_cloud_return_with_revert(p_shop_id, p_return_id)` | Revert return + stock | G | RPC | `returns.delete`, GRANT to authenticated |
+| 34 | `create_cloud_invoice_with_items(p_shop_id, p_customer_name, p_customer_id, p_payment_method, p_date, p_sale_items)` | Invoice + items | G | RPC | `sales.create`, GRANT to authenticated |
+| 35 | `save_cloud_inventory_count(p_shop_id, p_product_id, p_actual_quantity, p_notes)` | Stocktake + adjust | G | RPC | `stocktake.view`, GRANT to authenticated |
+| 36 | `get_cloud_shop_settings(p_shop_id)` | Get settings | G | RPC | `admin.settings.access`, GRANT to authenticated |
+| 37 | `update_cloud_shop_setting(p_shop_id, p_key, p_value)` | Update setting | G | RPC | `admin.settings.access`, GRANT to authenticated |
+| 38 | `sync_upsert_entity(p_shop_id, p_entity_type, p_entity_id, p_payload, p_idempotency_key, p_expected_version)` | Idempotent sync upsert | H | RPC | JWT + perm, GRANT to authenticated |
+| 39 | `migration_upsert_chunk(p_batch_id, p_shop_id, p_local_table, p_rows)` | Legacy migration chunk ingest | I | **Migration-Only** | `admin.settings.access`, GRANT to authenticated |
+| 40 | `migration_post_pass_links(p_batch_id, p_shop_id, p_links)` | Link invoices↔sales post-pass | I | **Migration-Only** | `admin.settings.access`, GRANT to authenticated |
+| 41 | `migration_fetch_ledger(p_batch_id, p_shop_id)` | Fetch migration ledger | I | **Migration-Only** | `admin.settings.access`, GRANT to authenticated |
+| 42 | `migration_reconcile_batch(p_batch_id, p_shop_id)` | Reconcile batch financials | I | **Migration-Only** | `admin.settings.access`, GRANT to authenticated |
+| 43 | `phase_m_idempotency_lookup(p_idempotency_key)` | Lookup prior idempotent result | M | **Internal Helper** | **NOT GRANTED** |
+| 44 | `phase_m_idempotency_record(p_shop_id, p_entity_type, p_entity_id, p_operation, p_idempotency_key, p_status, p_details)` | Record idempotent operation | M | **Internal Helper** | **NOT GRANTED** |
+| 45 | `phase_m_oversell_guard(p_available, p_requested, p_allow_oversell)` | Oversell predicate (SQL IMMUTABLE) | M | **Internal Helper** | **NOT GRANTED** |
+| 46 | `create_cloud_sale_with_stock_v2(p_shop_id, p_barcode, p_quantity, p_sale_price, p_date, p_invoice_id, p_idempotency_key, p_allow_oversell)` | Idempotent sale with oversell seam | M | RPC | `sales.create`, GRANT to authenticated |
+| 47 | `delete_cloud_sale_with_revert_v2(p_shop_id, p_sale_id, p_idempotency_key)` | Idempotent revert sale | M | RPC | `sales.delete`, GRANT to authenticated |
+| 48 | `create_cloud_return_with_stock_v2(p_shop_id, p_barcode, p_quantity, p_sale_price, p_date, p_idempotency_key)` | Idempotent return | M | RPC | `returns.create`, GRANT to authenticated |
+| 49 | `delete_cloud_return_with_revert_v2(p_shop_id, p_return_id, p_idempotency_key)` | Idempotent revert return | M | RPC | `returns.delete`, GRANT to authenticated |
+| 50 | `save_cloud_inventory_count_v2(p_shop_id, p_product_id, p_actual_quantity, p_notes, p_observed_at, p_idempotency_key)` | Idempotent count + observed_at | M | RPC | `stocktake.view`, GRANT to authenticated |
+| 51 | `create_cloud_invoice_with_items_v2(p_shop_id, p_customer_name, p_payment_method, p_date, p_sale_items, p_customer_id, p_idempotency_key, p_allow_oversell)` | Idempotent invoice | M | RPC | `sales.create`, GRANT to authenticated |
+| 52 | `resolve_sync_conflict(p_shop_id, p_idempotency_key, p_resolution_method, p_resolution_note)` | Owner conflict resolution | M | RPC | `admin.settings.access`, GRANT to authenticated |
 
-**All functions:** `SECURITY DEFINER`, `SET search_path = public`, execute as `supabase_admin` (bypass RLS)
+**All 52 functions:** `SECURITY DEFINER`, `SET search_path = public`, execute as `supabase_admin` (bypass RLS).
+**Category Legend:** RPC = client-callable via `authenticated` role grant; Internal Helper = not granted, used by other SECURITY DEFINER functions; Migration-Only = one-shot legacy migration RPCs.
+**Replacement Note:** Functions 20, 23, 28 (`update_cloud_product`, `update_cloud_customer`, `update_cloud_expense`) are defined in Migration 25 (Phase G) and **replaced** in Migration 26 (Phase H) with version-aware signatures. The final identities are the Phase H versions.
 
 ### Edge Functions (1)
 
@@ -280,7 +287,7 @@ All server-side mutations use `service_role` via:
 
 ## 7.7 RLS Verification
 
-### Tenant-Scoped Tables Requiring RLS Verification (16 tables)
+### Tenant-Scoped Tables Requiring RLS Verification (21 tables)
 
 | Table | RLS Policy | Isolation Key |
 |-------|------------|---------------|
@@ -672,7 +679,7 @@ Employee_B: ACTIVE employee of SHOP_B
 | **GATE 1** | Staging Project Ready | Supabase project created, CLI linked | `supabase link`, `supabase status` | Project ref, URL | Project accessible, CLI authenticated | Link fails, project not found |
 | **GATE 2** | Secrets/Config Ready | `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SERVICE_ROLE_KEY` in CI/CD | Set in Supabase dashboard / CI secrets | Confirmation (sanitized) | All 3 present, service_role NOT in client build | Missing secret, service_role in client |
 | **GATE 3** | Migration Deployment | GATE 0-2 pass | `supabase db push` (or `migration up`) | Full migration log | All 17 migrations applied, 0 errors | Any migration error |
-| **GATE 4** | Schema Verification | GATE 3 pass | Query tables, policies, functions | Schema inventory | 21 tables, 21 RLS policies, 44 functions | Missing table/policy/function |
+| **GATE 4** | Schema Verification | GATE 3 pass | Query tables, policies, functions | Schema inventory | 21 tables, 21 RLS policies, 44 client-callable RPCs | Missing table/policy/function |
 | **GATE 5** | RLS / Tenant Isolation | GATE 4 pass | Cross-tenant test matrix (7.14) | Test matrix results | All 10 negative tests return 0 rows / deny | Any cross-tenant leak |
 | **GATE 6** | Auth / Membership | GATE 4 pass | Full flow (7.8) | Checklist + JSON | All 9 steps succeed | Any step fails |
 | **GATE 7** | Licensing / Trial | GATE 4 pass | 7 scenarios (7.9) | RPC outputs | All scenarios match expected | Trial/license logic incorrect |
@@ -853,4 +860,4 @@ pg_dump -h <host> -U postgres -d postgres --data-only > data.sql
 
 **END OF PLAN**
 
-This plan is derived from repository reality as of commit `693f1d92a33af4a5ff7432a20f03994129a405dd`. All counts, function signatures, table names, and architectural details are sourced from the actual migration files and client code. Items marked `REQUIRES DEPLOYMENT-TIME VERIFICATION` cannot be fully validated until executed against a live Supabase project.
+This plan is derived from repository reality as of commit `741b4236d4344e8fbd3f66c8c41af4595da15de7` (tag `supabase-production-deployment-planning-baseline-locked`). All counts, function signatures, table names, and architectural details are sourced from the actual migration files and client code. Items marked `REQUIRES DEPLOYMENT-TIME VERIFICATION` cannot be fully validated until executed against a live Supabase project.
