@@ -101,50 +101,40 @@ serve(async (req) => {
         password: crypto.randomUUID(), // Temporary password — employee will set their own
       })
 
+    let userId: string | null = null
+
     if (createError) {
       // If user already exists, try to get their ID
       if (createError.message?.includes('already') || createError.message?.includes('exists')) {
         const { data: existingUser } = await supabaseAdmin.auth.admin.getUserByEmail(email.trim().toLowerCase())
-        if (existingUser?.user) {
-          // User already exists — create membership directly
-          const { error: memberInsertError } = await supabaseAdmin
-            .from('shop_members')
-            .insert({
-              shop_id,
-              user_id: existingUser.user.id,
-              role,
-              status: 'INVITED',
-            })
-
-          if (memberInsertError) {
-            return new Response(
-              JSON.stringify({ success: false, error: `Failed to create membership: ${memberInsertError.message}` }),
-              { status: 500, headers: { "Content-Type": "application/json" } }
-            )
-          }
-
-          // Create invitation record
-          const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
-          await supabaseAdmin
-            .from('invitations')
-            .insert({
-              shop_id,
-              email: email.trim().toLowerCase(),
-              role,
-              invited_by: user.id,
-              status: 'PENDING',
-              expires_at: expiresAt,
-            })
-
+        if (!existingUser?.user?.id) {
           return new Response(
-            JSON.stringify({ success: true, user_id: existingUser.user.id }),
-            { headers: { "Content-Type": "application/json" } }
+            JSON.stringify({ success: false, error: 'Existing user lookup returned no valid user ID' }),
+            { status: 500, headers: { "Content-Type": "application/json" } }
           )
         }
+        userId = existingUser.user.id
+      } else {
+        return new Response(
+          JSON.stringify({ success: false, error: `Failed to create user: ${createError.message}` }),
+          { status: 500, headers: { "Content-Type": "application/json" } }
+        )
       }
+    } else {
+      // User was created successfully, validate the response
+      if (!authUser?.user?.id) {
+        return new Response(
+          JSON.stringify({ success: false, error: 'User creation succeeded but returned no user ID' }),
+          { status: 500, headers: { "Content-Type": "application/json" } }
+        )
+      }
+      userId = authUser.user.id
+    }
 
+    // Explicit user_id guard before ANY membership insert
+    if (!userId) {
       return new Response(
-        JSON.stringify({ success: false, error: `Failed to create user: ${createError.message}` }),
+        JSON.stringify({ success: false, error: 'Failed to resolve user ID for membership' }),
         { status: 500, headers: { "Content-Type": "application/json" } }
       )
     }
@@ -154,7 +144,7 @@ serve(async (req) => {
       .from('shop_members')
       .insert({
         shop_id,
-        user_id: authUser.id,
+        user_id: userId,
         role,
         status: 'INVITED',
       })
@@ -188,7 +178,7 @@ serve(async (req) => {
     // await sendInvitationEmail(email, shop_name, invitation_token)
 
     return new Response(
-      JSON.stringify({ success: true, user_id: authUser.id }),
+      JSON.stringify({ success: true, user_id: userId }),
       { headers: { "Content-Type": "application/json" } }
     )
   } catch (error) {
