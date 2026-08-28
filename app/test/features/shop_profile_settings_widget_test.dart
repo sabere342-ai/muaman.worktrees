@@ -7,6 +7,7 @@ import 'package:muaman_store/database/database_helper.dart';
 import 'package:muaman_store/models/user.dart';
 import 'package:muaman_store/models/user_role.dart';
 import 'package:muaman_store/screens/settings_screen.dart';
+import 'package:muaman_store/services/app_settings.dart';
 import 'package:muaman_store/services/permission_resolver.dart';
 import 'package:muaman_store/services/session_state.dart';
 import 'package:muaman_store/services/shop_profile_service.dart';
@@ -136,5 +137,23 @@ void main() {
     expect(find.text('اسم المتجر'), findsNothing);
     expect(find.text('حفظ بيانات المتجر'), findsNothing);
     expect(find.byTooltip('اختيار الشعار'), findsNothing);
+  });
+
+  testWidgets(
+      'owner sees I Tech attribution in shop profile section (OD5 fixed)',
+      (WidgetTester tester) async {
+    await pumpSettings(tester, ownerSession);
+
+    expect(find.text('نسب التطوير'), findsOneWidget);
+    expect(find.text(AppSettings.defaultItechAttributionText), findsOneWidget);
+  });
+
+  testWidgets(
+      'sales-only role sees I Tech attribution in read-only shop profile section (OD5 fixed)',
+      (WidgetTester tester) async {
+    await pumpSettings(tester, salesOnlySession);
+
+    expect(find.text('نسب التطوير'), findsOneWidget);
+    expect(find.text(AppSettings.defaultItechAttributionText), findsOneWidget);
   });
 }

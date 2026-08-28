@@ -43,6 +43,7 @@ class InvoiceRepository {
     final supportPhone = await AppSettings.getSupportPhone();
     final invoiceTitle = await AppSettings.getInvoiceTitle();
     final invoiceFooterText = await AppSettings.getInvoiceFooterText();
+    final itechAttributionText = await AppSettings.getItechAttributionText();
     return InvoiceDocumentData(
       invoiceNumber: invoice.invoiceNumber,
       date: invoice.date,
@@ -63,6 +64,7 @@ class InvoiceRepository {
       supportPhone: supportPhone,
       invoiceTitle: invoiceTitle,
       invoiceFooterText: invoiceFooterText,
+      itechAttributionText: itechAttributionText,
     );
   }
 

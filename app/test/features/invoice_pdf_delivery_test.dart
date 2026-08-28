@@ -142,6 +142,7 @@ void main() {
     String? supportPhone,
     String? invoiceTitle,
     String? invoiceFooterText,
+    String? itechAttributionText,
   }) {
     final resolvedLines = lines ??
         [
@@ -167,6 +168,8 @@ void main() {
       supportPhone: supportPhone ?? '',
       invoiceTitle: invoiceTitle ?? 'فاتورة بيع',
       invoiceFooterText: invoiceFooterText ?? 'شكراً لتعاملكم معنا',
+      itechAttributionText:
+          itechAttributionText ?? 'تم التطوير بواسطة I Tech للتكنولوجيا',
     );
   }
 
@@ -357,6 +360,32 @@ void main() {
       expect(bytes.length, greaterThan(1000));
       expect(String.fromCharCodes(bytes.take(5)), '%PDF-');
     });
+
+    test('PDF renders I Tech attribution text (OD5)', () async {
+      final (regular, bold) = await fontBytes();
+      final document = renderer.buildDocumentWith(
+        sampleData(
+            invoiceFooterText: 'شكراً لتعاملكم معنا',
+            itechAttributionText: 'تم التطوير بواسطة I Tech للتكنولوجيا'),
+        regular,
+        bold,
+        null,
+      );
+      final bytes = await document.save();
+      expect(bytes.length, greaterThan(1000));
+      expect(String.fromCharCodes(bytes.take(5)), '%PDF-');
+    });
+
+    test('PDF renders default I Tech attribution when not provided', () async {
+      final (regular, bold) = await fontBytes();
+      final data = sampleData(invoiceFooterText: 'شكراً لتعاملكم معنا');
+      final document = renderer.buildDocumentWith(data, regular, bold, null);
+      final bytes = await document.save();
+      expect(bytes.length, greaterThan(1000));
+      expect(String.fromCharCodes(bytes.take(5)), '%PDF-');
+      // The default I Tech attribution should be present in the data
+      expect(data.itechAttributionText, 'تم التطوير بواسطة I Tech للتكنولوجيا');
+    });
   });
 
   group('D - DatabaseHelper gated invoice reads', () {
@@ -466,6 +495,22 @@ void main() {
       final data = await repository.buildDocumentData(invoiceId,
           currentRole: UserRole.owner);
       expect(data.invoiceFooterText, 'شكراً لتعاملكم معنا');
+    });
+
+    test('buildDocumentData loads itechAttributionText from AppSettings (OD5)',
+        () async {
+      final invoiceId = await seedInvoiceWithItems();
+      final data = await repository.buildDocumentData(invoiceId,
+          currentRole: UserRole.owner);
+      expect(data.itechAttributionText, 'تم التطوير بواسطة I Tech للتكنولوجيا');
+    });
+
+    test('buildDocumentData uses default itechAttributionText (OD5 fixed)',
+        () async {
+      final invoiceId = await seedInvoiceWithItems();
+      final data = await repository.buildDocumentData(invoiceId,
+          currentRole: UserRole.owner);
+      expect(data.itechAttributionText, 'تم التطوير بواسطة I Tech للتكنولوجيا');
     });
   });
 

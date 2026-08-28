@@ -314,4 +314,31 @@ void main() {
       expect(footer, equals('شكراً لتعاملكم معنا'));
     });
   });
+
+  group('I Tech Attribution Text - OD5 fixed non-editable', () {
+    test('returns exact OD5 attribution text', () async {
+      final attribution = await AppSettings.getItechAttributionText();
+      expect(attribution, equals('تم التطوير بواسطة I Tech للتكنولوجيا'));
+    });
+
+    test('returns exact OD5 attribution text after initializeDefaults',
+        () async {
+      await AppSettings.initializeDefaults();
+      final attribution = await AppSettings.getItechAttributionText();
+      expect(attribution, equals('تم التطوير بواسطة I Tech للتكنولوجيا'));
+    });
+
+    test('returns exact OD5 attribution text regardless of stored value',
+        () async {
+      await AppSettings.setValue(
+          AppSettings.keyItechAttributionText, 'custom value');
+      final attribution = await AppSettings.getItechAttributionText();
+      expect(attribution, equals('تم التطوير بواسطة I Tech للتكنولوجيا'));
+    });
+
+    test('default constant matches OD5 exact text', () {
+      expect(AppSettings.defaultItechAttributionText,
+          equals('تم التطوير بواسطة I Tech للتكنولوجيا'));
+    });
+  });
 }

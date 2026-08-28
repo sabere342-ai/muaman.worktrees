@@ -36,6 +36,7 @@ void main() {
     String? supportPhone,
     String? invoiceTitle,
     String? invoiceFooterText,
+    String? itechAttributionText,
   }) {
     final resolvedLines = lines ??
         [
@@ -61,6 +62,8 @@ void main() {
       supportPhone: supportPhone ?? '',
       invoiceTitle: invoiceTitle ?? 'فاتورة بيع',
       invoiceFooterText: invoiceFooterText ?? 'شكراً لتعاملكم معنا',
+      itechAttributionText:
+          itechAttributionText ?? 'تم التطوير بواسطة I Tech للتكنولوجيا',
     );
   }
 
@@ -278,11 +281,34 @@ void main() {
         supportPhone: data.supportPhone,
         invoiceTitle: data.invoiceTitle,
         invoiceFooterText: data.invoiceFooterText,
+        itechAttributionText: data.itechAttributionText,
       );
       final document =
           renderer.buildDocumentWith(longData, regular, bold, null);
       final bytes = await document.save();
       expect(bytes.length, greaterThan(500));
+    });
+
+    test('renders I Tech attribution text (OD5)', () async {
+      final (regular, bold) = await fontBytes();
+      final data = sampleData(
+        invoiceFooterText: 'شكراً لتعاملكم معنا',
+        itechAttributionText: 'تم التطوير بواسطة I Tech للتكنولوجيا',
+      );
+      final document = renderer.buildDocumentWith(data, regular, bold, null);
+      final bytes = await document.save();
+      expect(bytes.length, greaterThan(500));
+      expect(String.fromCharCodes(bytes.take(5)), '%PDF-');
+    });
+
+    test('renders default I Tech attribution when not provided', () async {
+      final (regular, bold) = await fontBytes();
+      final data = sampleData(invoiceFooterText: 'شكراً لتعاملكم معنا');
+      final document = renderer.buildDocumentWith(data, regular, bold, null);
+      final bytes = await document.save();
+      expect(bytes.length, greaterThan(500));
+      expect(String.fromCharCodes(bytes.take(5)), '%PDF-');
+      expect(data.itechAttributionText, 'تم التطوير بواسطة I Tech للتكنولوجيا');
     });
 
     test('uses correct page format from config', () async {

@@ -13,6 +13,7 @@ class AppSettings {
   static const String keyBrandColor = 'brandColor';
   static const String keyInvoiceTitle = 'invoiceTitle';
   static const String keyInvoiceFooterText = 'invoiceFooterText';
+  static const String keyItechAttributionText = 'itechAttributionText';
   static const String keyBackupDirectory = 'backupDirectory';
   static const String keyThermalPrinterName = 'thermalPrinterName';
   static const String keyThermalPaperWidth = 'thermalPaperWidth';
@@ -29,6 +30,8 @@ class AppSettings {
   static const String defaultBrandColor = '#0D47A1';
   static const String defaultInvoiceTitle = 'فاتورة بيع';
   static const String defaultInvoiceFooterText = 'شكراً لتعاملكم معنا';
+  static const String defaultItechAttributionText =
+      'تم التطوير بواسطة I Tech للتكنولوجيا';
   static const String defaultThermalPaperWidth = '80';
   static const String defaultThermalPrintCopies = '1';
 
@@ -43,6 +46,8 @@ class AppSettings {
     await _createDefaultIfMissing(db, keyInvoiceTitle, defaultInvoiceTitle);
     await _createDefaultIfMissing(
         db, keyInvoiceFooterText, defaultInvoiceFooterText);
+    await _createDefaultIfMissing(
+        db, keyItechAttributionText, defaultItechAttributionText);
     await _createDefaultIfMissing(
         db, keyThermalPaperWidth, defaultThermalPaperWidth);
     await _createDefaultIfMissing(
@@ -131,6 +136,18 @@ class AppSettings {
     final value = await getValue(keyInvoiceFooterText);
     final trimmed = value.trim();
     return trimmed.isNotEmpty ? trimmed : defaultInvoiceFooterText;
+  }
+
+  /// Returns the fixed I Tech attribution text per Owner Decision OD5.
+  ///
+  /// OD5_EXACT_ATTRIBUTION_TEXT = "تم التطوير بواسطة I Tech للتكنولوجيا"
+  /// OD5_EDITABILITY_POLICY = FIXED_NON_EDITABLE
+  ///
+  /// This is intentionally NOT configurable by the shop owner. The method
+  /// returns the hardcoded default and ignores any stored value to enforce
+  /// the fixed, non-editable policy.
+  static Future<String> getItechAttributionText() async {
+    return defaultItechAttributionText;
   }
 
   static Future<String> getThermalPrinterName() async {

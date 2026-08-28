@@ -1687,11 +1687,48 @@ class _SettingsScreenState extends State<SettingsScreen> {
       return Card(
         elevation: 1,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: ListTile(
-          leading:
-              Icon(Icons.store, color: Theme.of(context).colorScheme.primary),
-          title: const Text('بيانات المتجر'),
-          subtitle: const Text('غير مصرح لك بتعديل بيانات المتجر'),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ListTile(
+                leading: Icon(Icons.store,
+                    color: Theme.of(context).colorScheme.primary),
+                title: const Text('بيانات المتجر'),
+                subtitle: const Text('غير مصرح لك بتعديل بيانات المتجر'),
+              ),
+              const Divider(),
+              // I Tech attribution (OD5: FIXED_NON_EDITABLE)
+              Row(
+                children: [
+                  Icon(Icons.verified,
+                      color: Theme.of(context).colorScheme.primary),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'نسب التطوير',
+                          style: TextStyle(
+                              fontSize: 14, color: Colors.grey.shade700),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          AppSettings.defaultItechAttributionText,
+                          style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey.shade800),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       );
     }
@@ -1773,6 +1810,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onPressed: _isSavingProfile ? null : _pickLogo,
                   icon: const Icon(Icons.folder_open),
                   tooltip: 'اختيار الشعار',
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            // I Tech attribution (OD5: FIXED_NON_EDITABLE)
+            Row(
+              children: [
+                Icon(Icons.verified,
+                    color: Theme.of(context).colorScheme.primary),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'نسب التطوير',
+                        style: TextStyle(
+                            fontSize: 14, color: Colors.grey.shade700),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        AppSettings.defaultItechAttributionText,
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey.shade800),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

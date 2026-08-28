@@ -39,6 +39,7 @@ class InvoiceDocumentData {
     this.supportPhone = '',
     this.invoiceTitle = 'فاتورة بيع',
     this.invoiceFooterText = 'شكراً لتعاملكم معنا',
+    this.itechAttributionText = 'تم التطوير بواسطة I Tech للتكنولوجيا',
   });
 
   final String invoiceNumber;
@@ -61,6 +62,11 @@ class InvoiceDocumentData {
   /// Configurable footer message loaded from [AppSettings]. Displayed at the
   /// bottom of the invoice PDF and in the preview screen.
   final String invoiceFooterText;
+
+  /// Fixed I Tech attribution text per Owner Decision OD5.
+  /// OD5_EXACT_ATTRIBUTION_TEXT = "تم التطوير بواسطة I Tech للتكنولوجيا"
+  /// OD5_EDITABILITY_POLICY = FIXED_NON_EDITABLE
+  final String itechAttributionText;
 
   /// Sum of the rendered line totals. For any invoice loaded from persistence
   /// this is exactly [totalAmount]; kept separate so tests can assert the

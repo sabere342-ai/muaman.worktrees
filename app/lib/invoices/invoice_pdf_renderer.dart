@@ -25,8 +25,6 @@ class InvoicePdfRenderer {
   static const String boldFontAsset = 'assets/fonts/NotoSansArabic-Bold.ttf';
 
   final InvoiceLogoLoader _logoLoader;
-  String _currentSupportPhone = '';
-  String _currentFooterText = 'شكراً لتعاملكم معنا';
 
   /// Builds the document, loading the bundled Arabic fonts and the shop logo.
   Future<pw.Document> buildDocument(InvoiceDocumentData data) async {
@@ -45,8 +43,6 @@ class InvoicePdfRenderer {
     Uint8List boldFontBytes,
     Uint8List? logoBytes,
   ) {
-    _currentSupportPhone = data.supportPhone;
-    _currentFooterText = data.invoiceFooterText;
     final theme = pw.ThemeData.withFont(
       base: pw.Font.ttf(regularFontBytes.buffer.asByteData()),
       bold: pw.Font.ttf(boldFontBytes.buffer.asByteData()),
@@ -75,7 +71,7 @@ class InvoicePdfRenderer {
           maxPages: 100,
           theme: theme,
           textDirection: pw.TextDirection.rtl,
-          footer: (context) => _footer(),
+          footer: (context) => _footer(data),
           build: (context) => [
             _header(data, logo),
             pw.SizedBox(height: 10),
@@ -258,8 +254,8 @@ class InvoicePdfRenderer {
     );
   }
 
-  pw.Widget _footer() {
-    final phone = _currentSupportPhone;
+  pw.Widget _footer(InvoiceDocumentData data) {
+    final phone = data.supportPhone;
     return pw.Directionality(
       textDirection: pw.TextDirection.rtl,
       child: pw.Column(
@@ -270,8 +266,12 @@ class InvoicePdfRenderer {
               style: const pw.TextStyle(fontSize: 8, color: PdfColors.grey600),
             ),
           pw.Text(
-            _currentFooterText,
+            data.invoiceFooterText,
             style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey600),
+          ),
+          pw.Text(
+            data.itechAttributionText,
+            style: const pw.TextStyle(fontSize: 8, color: PdfColors.grey600),
           ),
         ],
       ),

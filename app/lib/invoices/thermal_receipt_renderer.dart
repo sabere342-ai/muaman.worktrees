@@ -270,6 +270,12 @@ class ThermalReceiptRenderer {
                 fontSize: ThermalReceiptConfig.footerFontSize,
                 color: PdfColors.grey600),
           ),
+          pw.Text(
+            data.itechAttributionText,
+            style: const pw.TextStyle(
+                fontSize: ThermalReceiptConfig.footerFontSize - 1,
+                color: PdfColors.grey600),
+          ),
         ],
       ),
     );
