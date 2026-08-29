@@ -99,6 +99,8 @@ void main() {
     await tester.enterText(
         find.widgetWithText(TextField, 'العنوان'), 'شارع التحلية');
 
+    await tester.ensureVisible(find.text('حفظ بيانات المتجر'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('حفظ بيانات المتجر'));
     await tester.pumpAndSettle();
 
@@ -117,6 +119,8 @@ void main() {
     await pumpSettings(tester, ownerSession);
 
     await tester.enterText(find.widgetWithText(TextField, 'اسم المتجر'), '   ');
+    await tester.ensureVisible(find.text('حفظ بيانات المتجر'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('حفظ بيانات المتجر'));
     await tester.pumpAndSettle();
 

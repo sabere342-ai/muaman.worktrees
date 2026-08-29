@@ -49,16 +49,16 @@ void main() {
     });
 
     test(
-        'fresh database created by runCreateDbForTest is at current schema version 15',
+        'fresh database created by runCreateDbForTest is at the current schema version',
         () async {
-      // Phase M: the fresh-create test seam now provisions the current v15
-      // schema (v14 shape + additive conflict lifecycle/audit artifacts).
-      // The historical v9 expectation is covered by the dedicated v8->v9
-      // migration group below.
+      // Phase M/P: the fresh-create test seam provisions the current schema
+      // (v14 shape + additive conflict lifecycle/audit artifacts + the WS-2
+      // v16 cloud_uuid backfill). The historical v9 expectation is covered
+      // by the dedicated v8->v9 migration group below.
       await DatabaseHelper.runCreateDbForTest(testDb);
       final version =
           (await testDb.rawQuery('PRAGMA user_version')).single['user_version'];
-      expect(version, 15);
+      expect(version, DatabaseHelper.schemaVersion);
     });
 
     test('fresh v9 database has all 12 tables', () async {

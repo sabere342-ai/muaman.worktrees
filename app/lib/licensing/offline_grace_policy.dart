@@ -1,12 +1,15 @@
 import 'entitlement_cache.dart';
 
 /// Offline grace durations per license type.
+///
+/// Phase P (WS-4, plan §F.5 / B.6-B.7): grace follows the OWNER SPEC —
+/// paid 7 days, perpetual 14 days (launch-compat), trial 0 days (a trial
+/// must revalidate online; it has no offline runway). The former blanket
+/// 24h `revalidationWindow` cap ran before the type-specific grace and
+/// silently truncated paid/perpetual offline runways to a single day; it is
+/// retired so the per-type durations are authoritative.
 class OfflineGracePolicy {
-  /// The maximum duration for which a cached entitlement may be used offline
-  /// before revalidation is required.
-  static const Duration revalidationWindow = Duration(hours: 24);
-
-  /// Grace for TRIAL: until cached trial_ends_at.
+  /// Grace for TRIAL: 0 — a trial cannot operate offline (B.7).
   static const Duration trialGrace = Duration.zero;
 
   /// Grace for ACTIVE (paid): 7 days from last server sync.
@@ -25,6 +28,11 @@ class OfflineGracePolicy {
 
   OfflineGracePolicy({EntitlementCache? cache})
       : _cache = cache ?? EntitlementCache();
+
+  bool _isTrial(dynamic snapshot) =>
+      snapshot.licenseStatus == 'TRIAL' ||
+      snapshot.isTrial == true ||
+      snapshot.isTrialActive == true;
 
   /// Check if the cached entitlement is within the allowed offline window.
   ///
@@ -45,32 +53,20 @@ class OfflineGracePolicy {
       return false;
     }
 
-    // Check revalidation window (24 hours)
-    if (elapsed > revalidationWindow) {
+    // TRIAL: zero offline grace. A trial must revalidate online; even a
+    // live trial gets no offline runway (B.7). Cached non-entitled trial
+    // states are separately enforced by isCachedNonEntitled.
+    if (_isTrial(snapshot)) {
       return false;
     }
 
-    // Check type-specific grace
-    if (snapshot.isTrialActive == true) {
-      // For trial: valid only until trial_ends_at
-      final trialExpires = snapshot.trialExpiresAt as DateTime?;
-      if (trialExpires != null && now.isAfter(trialExpires)) {
-        return false;
-      }
-      return true;
-    }
-
-    if (snapshot.isPaidActive == true) {
-      // For paid: 7-day grace from last sync
-      return elapsed <= paidGrace;
-    }
-
     if (snapshot.licenseStatus == 'PERPETUAL') {
-      // For perpetual: 14-day grace from last sync
+      // Perpetual: 14-day grace from last sync (launch-compat).
       return elapsed <= perpetualGrace;
     }
 
-    return false;
+    // ACTIVE / paid: 7-day grace from last server verification.
+    return elapsed <= paidGrace;
   }
 
   /// Detect clock rollback by comparing current wall clock to last observed.

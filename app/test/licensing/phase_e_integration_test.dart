@@ -143,7 +143,10 @@ void main() {
       databaseFactory = databaseFactoryFfi;
       // Delete stale test DB to avoid migration conflicts
       final dbPath = p.join(
-        '.dart_tool', 'sqflite_common_ffi', 'databases', 'muaman_store.db',
+        '.dart_tool',
+        'sqflite_common_ffi',
+        'databases',
+        'muaman_store.db',
       );
       final dbFile = File(dbPath);
       if (dbFile.existsSync()) dbFile.deleteSync();

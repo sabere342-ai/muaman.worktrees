@@ -28,4 +28,16 @@ class AppConfig {
       supabaseAnonKey != 'your-anon-key' &&
       supabaseUrl.isNotEmpty &&
       supabaseAnonKey.isNotEmpty;
+
+  /// Phase P WS-1 shipping seam for the device→cloud sync drain.
+  ///
+  /// DEFAULT FALSE (owner-decision shipping posture, plan §N): the
+  /// «SyncRuntime.drainEnabled» seam is the single reviewable switch that
+  /// activates the runtime drain after the owner decision + verification of
+  /// the live SyncCloudOperations transport. Builds override it with:
+  /// `--dart-define=SYNC_DRAIN_ENABLED=true`.
+  static const bool syncDrainEnabled = bool.fromEnvironment(
+    'SYNC_DRAIN_ENABLED',
+    defaultValue: false,
+  );
 }

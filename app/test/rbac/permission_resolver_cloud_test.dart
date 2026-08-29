@@ -33,8 +33,7 @@ void main() {
       // Before cloud snapshot: employee uses local defaults
       expect(resolver.can(UserRole.employee, AppPermission.canDeleteProducts),
           false);
-      expect(
-          resolver.can(UserRole.employee, AppPermission.canAccessInventory),
+      expect(resolver.can(UserRole.employee, AppPermission.canAccessInventory),
           true);
 
       // Set cloud snapshot with different permissions
@@ -59,13 +58,12 @@ void main() {
       // After cloud snapshot: employee uses cloud permissions
       expect(resolver.can(UserRole.employee, AppPermission.canDeleteProducts),
           true);
-      expect(
-          resolver.can(UserRole.employee, AppPermission.canAccessInventory),
+      expect(resolver.can(UserRole.employee, AppPermission.canAccessInventory),
           false);
       expect(resolver.can(UserRole.employee, AppPermission.canAccessDashboard),
           true);
-      expect(resolver.can(UserRole.employee, AppPermission.canAccessSales),
-          true);
+      expect(
+          resolver.can(UserRole.employee, AppPermission.canAccessSales), true);
     });
 
     test('Stale cloud snapshot falls back to local config', () async {
@@ -86,12 +84,12 @@ void main() {
       resolver.setCloudSnapshot(snapshot);
 
       // Stale snapshot — falls back to local defaults
-      expect(
-          resolver.can(UserRole.employee, AppPermission.canAccessInventory),
+      expect(resolver.can(UserRole.employee, AppPermission.canAccessInventory),
           true);
     });
 
-    test('Owner always gets all permissions even with cloud snapshot', () async {
+    test('Owner always gets all permissions even with cloud snapshot',
+        () async {
       final resolver = PermissionResolver();
       await resolver.refresh();
 
@@ -135,8 +133,7 @@ void main() {
       expect(resolver.cloudSnapshot, isNull);
 
       // Falls back to local defaults
-      expect(
-          resolver.can(UserRole.employee, AppPermission.canAccessInventory),
+      expect(resolver.can(UserRole.employee, AppPermission.canAccessInventory),
           true);
     });
 
@@ -187,8 +184,8 @@ void main() {
       // but the server-side check_effective_permission function blocks this.
       // On the client side, we trust the cloud snapshot as-is (server is authority).
       // The server's check_effective_permission() enforces the owner-exclusive rule.
-      expect(resolver.can(UserRole.employee, AppPermission.canManageUsers),
-          true);
+      expect(
+          resolver.can(UserRole.employee, AppPermission.canManageUsers), true);
       // This is correct: the CLIENT trusts the cloud snapshot.
       // The SERVER enforces the owner-exclusive invariant.
     });

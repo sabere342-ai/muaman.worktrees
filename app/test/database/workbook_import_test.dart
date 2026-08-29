@@ -450,8 +450,7 @@ void main() {
   });
 }
 
-Future<void> _createAllTables(Database db) async =>
-    createAllTablesForTest(db);
+Future<void> _createAllTables(Database db) async => createAllTablesForTest(db);
 
 /// Public alias so the Phase J tenant-isolation suite can reuse the exact
 /// schema fixture without duplicating it.

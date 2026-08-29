@@ -61,13 +61,11 @@ class CloudPermissionSnapshot {
     Map<String, dynamic> data, {
     DateTime? localTime,
   }) {
-    final permissionsList = (data['permissions'] as List?)
-            ?.map((e) => e as String)
-            .toList() ??
-        [];
+    final permissionsList =
+        (data['permissions'] as List?)?.map((e) => e as String).toList() ?? [];
     final overridesList = (data['overrides'] as List?)
-            ?.map((e) => PermissionOverride.fromMap(
-                Map<String, dynamic>.from(e as Map)))
+            ?.map((e) =>
+                PermissionOverride.fromMap(Map<String, dynamic>.from(e as Map)))
             .toList() ??
         [];
 
@@ -132,10 +130,8 @@ class CloudPermissionSnapshot {
     return CloudPermissionSnapshot(
       shopId: json['shop_id'] as String,
       memberRole: json['member_role'] as String,
-      permissionIds: (json['permissions'] as List?)
-              ?.map((e) => e as String)
-              .toSet() ??
-          {},
+      permissionIds:
+          (json['permissions'] as List?)?.map((e) => e as String).toSet() ?? {},
       overrides: (json['overrides'] as List?)
               ?.map((e) => PermissionOverride.fromMap(
                   Map<String, dynamic>.from(e as Map)))

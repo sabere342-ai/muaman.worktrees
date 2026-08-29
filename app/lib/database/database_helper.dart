@@ -88,14 +88,20 @@ class DatabaseHelper {
   /// back into the sync queue.
   static int _enqueueSuppressionDepth = 0;
 
-  /// Current local schema version (Phase M: v15 adds conflict lifecycle +
-  /// audit artifacts). Single source of truth for openDatabase + test seams.
-  static const int schemaVersion = 15;
+  /// Current local schema version. Phase M: v15 adds conflict lifecycle +
+  /// audit artifacts. Phase P (WS-2): v16 backfills stable client-generated
+  /// `cloud_uuid` values on pre-existing tenant rows (data-only migration) so
+  /// every synced entity carries a cloud-stable idempotency identity. Phase P
+  /// (WS-5): v17 adds the additive `writer_snapshot` column on `sync_queue` to
+  /// persist a durable per-write permission/entitlement snapshot. Single
+  /// source of truth for openDatabase + test seams.
+  static const int schemaVersion = 17;
 
-  /// UUIDv4-shaped occurrence token generator (Phase M §24 / INV-M19).
-  /// No external dependencies, matching the house pattern in
+  /// UUIDv4-shaped token generator (Phase M §24 / INV-M19). Used for both
+  /// sync occurrence tokens and client-generated entity `cloud_uuid` values
+  /// (Phase P WS-2). No external dependencies, matching the house pattern in
   /// migration_orchestrator.dart.
-  static String _generateOccurrenceToken() {
+  static String _mintUuidV4() {
     final rnd = Random.secure();
     final bytes = List<int>.generate(16, (_) => rnd.nextInt(256));
     bytes[6] = (bytes[6] & 0x0f) | 0x40;
@@ -106,6 +112,8 @@ class DatabaseHelper {
         '${hex.substring(20)}';
   }
 
+  static String _generateOccurrenceToken() => _mintUuidV4();
+
   /// Registers the active-shop provider used to stamp sync queue entries.
   static void setSyncShopIdProvider(Future<String?> Function() provider) {
     _syncShopIdProvider = provider;
@@ -114,6 +122,26 @@ class DatabaseHelper {
   /// Removes the active-shop provider. For test teardown only.
   static void clearSyncShopIdProvider() {
     _syncShopIdProvider = null;
+  }
+
+  /// Phase P (WS-5): supplies the ACTIVE WRITER identity at enqueue time so
+  /// each queue entry carries a durable per-write permission/entitlement
+  /// snapshot (revoked-seller adjudication). Registered once during app
+  /// startup; reads the live session each call. When null, the snapshot still
+  /// records the database-layer facts (permission granted, entitlement active,
+  /// shop/entity identity, write instant) but no writer identity.
+  static Future<Map<String, dynamic>> Function()? _writerSnapshotProvider;
+
+  /// Registers the active-writer identity provider used to enrich per-write
+  /// permission snapshots on sync queue entries (WS-5).
+  static void setWriterSnapshotProvider(
+      Future<Map<String, dynamic>> Function() provider) {
+    _writerSnapshotProvider = provider;
+  }
+
+  /// Removes the active-writer identity provider. For test teardown only.
+  static void clearWriterSnapshotProvider() {
+    _writerSnapshotProvider = null;
   }
 
   // =================== TENANT ISOLATION (Phase J / WS2–WS4) ===================
@@ -278,17 +306,57 @@ class DatabaseHelper {
     final shopId = await _resolveSyncShopId(row);
     if (shopId == null || shopId.isEmpty) return;
 
+    // Phase P (WS-2): every synced entity must carry a stable client-generated
+    // cloud_uuid. When the write did not already mint one (legacy rows,
+    // raw-executor inserts), mint it here — inside the caller's transaction,
+    // BEFORE the queue row is created — and persist it back onto the row so
+    // the idempotency identity is durable beyond the queue. The DELETE path
+    // uses the pre-delete snapshot (the row is gone; nothing to persist) but
+    // still keys on a stable UUID so server-side dedup keeps working.
+    String cloudUuid = row['cloud_uuid'] as String? ?? '';
+    final isDeleteSnapshot = existingRow != null;
+    if (cloudUuid.isEmpty) {
+      cloudUuid = _mintUuidV4();
+      if (!isDeleteSnapshot) {
+        await executor.update(tableName, {'cloud_uuid': cloudUuid},
+            where: 'id = ?', whereArgs: [rowId]);
+      }
+    }
+
     final payload = <String, dynamic>{
       'id': rowId,
-      'cloud_uuid': row['cloud_uuid'] as String?,
+      'cloud_uuid': cloudUuid,
       'server_version': (row['server_version'] as num?)?.toInt() ?? 0,
       ...adapter.localToCloudPayload(row),
     };
 
+    // Phase P (WS-5): durable per-write permission/entitlement snapshot,
+    // captured HERE at enqueue time (post-guard). `_enforceLicensing` and the
+    // enclosing method's `_requirePermission` have already run without
+    // throwing for this write, so the snapshot truthfully records an active
+    // entitlement with the entity's required permission granted. Writer
+    // identity is enriched when the session provider is registered.
+    final writerIdentityProvider = _writerSnapshotProvider;
+    final writerIdentity =
+        writerIdentityProvider != null ? await writerIdentityProvider() : null;
+    final writerSnapshot = <String, dynamic>{
+      'entity_type': adapter.entityType.label,
+      'operation': operation.label,
+      'permission_granted': true,
+      'permission_required': adapter.requiredPermission,
+      'entitlement_active': true,
+      'shop_id': shopId,
+      'entity_uuid': cloudUuid,
+      'written_at': DateTime.now().toIso8601String(),
+    };
+    if (writerIdentity != null && writerIdentity.isNotEmpty) {
+      writerSnapshot['writer'] = writerIdentity;
+    }
+
     // Phase M: the occurrence token is minted once per logical operation and
     // persisted with the queue row (INV-M19). Retries/replays reuse it.
     final occurrenceToken = _generateOccurrenceToken();
-    final entityUuid = row['cloud_uuid'] as String? ?? 'local-$rowId';
+    final entityUuid = cloudUuid;
 
     await _syncQueueRepository(db).enqueue(
       entityType: adapter.entityType.label,
@@ -301,6 +369,7 @@ class DatabaseHelper {
       shopId: shopId,
       executor: executor,
       occurrenceToken: occurrenceToken,
+      writerSnapshot: writerSnapshot,
     );
   }
 
@@ -364,6 +433,12 @@ class DatabaseHelper {
     if (oldVersion < 15) {
       await _migrateToV15(db);
     }
+    if (oldVersion < 16) {
+      await _migrateToV16(db);
+    }
+    if (oldVersion < 17) {
+      await _migrateToV17(db);
+    }
   }
 
   Future<Database> get database async {
@@ -387,6 +462,12 @@ class DatabaseHelper {
     if (schemaVersion >= 15) {
       await DatabaseHelper.instance._migrateToV15(db);
     }
+    if (schemaVersion >= 16) {
+      await DatabaseHelper.instance._migrateToV16(db);
+    }
+    if (schemaVersion >= 17) {
+      await DatabaseHelper.instance._migrateToV17(db);
+    }
     await db.rawUpdate('PRAGMA user_version = $schemaVersion');
   }
 
@@ -396,6 +477,23 @@ class DatabaseHelper {
   @visibleForTesting
   static Future<void> runUpgradeToV15ForTest(Database db) async {
     await DatabaseHelper.instance._migrateToV15(db);
+  }
+
+  /// Test-only seam: runs ONLY the production v15 → v16 data-backfill step
+  /// against a database already at the v15 shape (user_version 15), so the
+  /// cloud_uuid backfill is exercised without replaying older history.
+  @visibleForTesting
+  static Future<void> runUpgradeToV16ForTest(Database db) async {
+    await DatabaseHelper.instance._migrateToV16(db);
+  }
+
+  /// Test-only seam: runs ONLY the production v16 → v17 additive migration
+  /// step against a database already at the v16 shape (user_version 16), so
+  /// the sync_queue writer_snapshot column is exercised without replaying
+  /// older history.
+  @visibleForTesting
+  static Future<void> runUpgradeToV17ForTest(Database db) async {
+    await DatabaseHelper.instance._migrateToV17(db);
   }
 
   /// Returns the full filesystem path to `muaman_store.db`.
@@ -542,6 +640,19 @@ class DatabaseHelper {
     // conflict-lifecycle artifacts) when the target version asks for it.
     if (version >= 15) {
       await _migrateToV15(db);
+    }
+
+    // Phase P (WS-2): v16 is a data-only backfill (no schema delta) so a fresh
+    // install has nothing to fill; the call keeps fresh/upgrade parity exact.
+    if (version >= 16) {
+      await _migrateToV16(db);
+    }
+
+    // Phase P (WS-5): v17 adds the sync_queue writer_snapshot column. On a
+    // fresh install the queue table is empty, so the additive column is all
+    // that is needed; the call keeps fresh/upgrade parity exact.
+    if (version >= 17) {
+      await _migrateToV17(db);
     }
 
     if (seedDemoEnabled) {
@@ -866,6 +977,71 @@ class DatabaseHelper {
         'CREATE INDEX IF NOT EXISTS idx_conflict_audit_entity ON conflict_audit(entity_type, entity_id)');
     await db.execute(
         'CREATE INDEX IF NOT EXISTS idx_conflict_audit_status ON conflict_audit(status)');
+  }
+
+  /// Phase P (plan §F.3 / WS-2): schema v15 → v16 is DATA-ONLY (no column or
+  /// table changes — the `cloud_uuid` columns already exist since v9).
+  ///
+  /// Backfills a stable client-generated `cloud_uuid` onto every pre-existing
+  /// tenant-owned row that is missing one, so the entire local store carries a
+  /// cloud-stable idempotency identity after upgrade. Existing values are
+  /// never overwritten. The same migration replays harmlessly on a fresh
+  /// install (zero rows to backfill), keeping fresh-create parity intact.
+  Future<void> _migrateToV16(Database db) async {
+    // Primary key by table: most tenant tables use `id`, but role_permissions
+    // and app_settings use their natural keys.
+    const pkColumn = <String, String>{
+      'role_permissions': 'role',
+      'app_settings': 'key',
+    };
+    const syncTables = [
+      'products',
+      'sales',
+      'returns',
+      'expenses',
+      'expense_categories',
+      'inventory_count',
+      'invoices',
+      'import_batches',
+      'customers',
+      'users',
+      'role_permissions',
+      'app_settings',
+    ];
+
+    await db.transaction((txn) async {
+      for (final table in syncTables) {
+        final info = await txn.rawQuery('PRAGMA table_info($table)');
+        final columns = info.map((r) => r['name'] as String).toSet();
+        if (!columns.contains('cloud_uuid')) {
+          continue;
+        }
+        final pk = pkColumn[table] ?? 'id';
+        final rows = await txn.rawQuery(
+            'SELECT $pk FROM $table WHERE cloud_uuid IS NULL OR cloud_uuid = \'\'');
+        for (final row in rows) {
+          final key = row[pk];
+          if (key == null) continue;
+          await txn.rawUpdate('UPDATE $table SET cloud_uuid = ? WHERE $pk = ?',
+              [_mintUuidV4(), key]);
+        }
+      }
+    });
+  }
+
+  /// Phase P (plan §F.6 / WS-5): schema v16 → v17 is a single ADDITIVE column
+  /// on `sync_queue` (`writer_snapshot`) that persists the durable per-write
+  /// permission/entitlement snapshot stamped at enqueue time. Old queue rows
+  /// keep NULL (fromMap reads them safely); the migration replays harmlessly
+  /// on fresh installs (column present → no-op), keeping fresh/upgrade parity.
+  Future<void> _migrateToV17(Database db) async {
+    final queueInfo = await db.rawQuery('PRAGMA table_info(sync_queue)');
+    final queueColumns = queueInfo.map((r) => r['name'] as String).toSet();
+    if (!queueColumns.contains('writer_snapshot')) {
+      await db
+          .execute('ALTER TABLE sync_queue ADD COLUMN writer_snapshot TEXT');
+    }
+    SyncQueueRepository.invalidateShapeCache(db);
   }
 
   Future<void> _createUsersTable(Database db) async {

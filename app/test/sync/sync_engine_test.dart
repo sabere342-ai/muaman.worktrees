@@ -20,7 +20,8 @@ void main() {
   final logs = <String>[];
 
   setUp(() async {
-    testDb = await databaseFactoryFfiNoIsolate.openDatabase(inMemoryDatabasePath);
+    testDb =
+        await databaseFactoryFfiNoIsolate.openDatabase(inMemoryDatabasePath);
     await testDb.execute('''
       CREATE TABLE sync_queue (
         id TEXT PRIMARY KEY,
@@ -129,7 +130,8 @@ void main() {
             required localId,
             required payload,
             required idempotencyKey,
-          }) async => CloudUpsertResult(success: true),
+          }) async =>
+              CloudUpsertResult(success: true),
           deleteEntity: ({
             required adapter,
             required shopId,
@@ -173,7 +175,8 @@ void main() {
             required localId,
             required payload,
             required idempotencyKey,
-          }) async => throw CloudDataException(
+          }) async =>
+              throw CloudDataException(
             type: CloudDataErrorType.permissionDenied,
             message: 'No permission',
           ),
@@ -198,7 +201,9 @@ void main() {
       final result = await engine.processQueue();
       expect(result.failed, 1);
 
-      final entry = (await testDb.query('sync_queue', where: 'idempotency_key = ?', whereArgs: ['idem-perm'])).first;
+      final entry = (await testDb.query('sync_queue',
+              where: 'idempotency_key = ?', whereArgs: ['idem-perm']))
+          .first;
       expect(entry['retry_count'], 1);
     });
 
@@ -218,7 +223,8 @@ void main() {
             required localId,
             required payload,
             required idempotencyKey,
-          }) async => CloudUpsertResult(
+          }) async =>
+              CloudUpsertResult(
             conflict: true,
             serverData: {'name': 'Server Version'},
             localVersion: 2,
@@ -263,7 +269,8 @@ void main() {
             required localId,
             required payload,
             required idempotencyKey,
-          }) async => CloudUpsertResult(
+          }) async =>
+              CloudUpsertResult(
             conflict: true,
             serverData: {},
             localVersion: 5,
@@ -292,4 +299,3 @@ void main() {
     });
   });
 }
-

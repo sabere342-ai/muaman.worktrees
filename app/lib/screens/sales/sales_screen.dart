@@ -8,6 +8,7 @@ import 'sales_report_screen.dart';
 import '../../services/session_state.dart';
 import '../../services/permissions.dart';
 import '../invoices/invoice_preview_screen.dart';
+import '../../widgets/sync_status_indicator.dart';
 
 class SalesScreen extends StatefulWidget {
   final bool showAppBar;
@@ -87,6 +88,24 @@ class _SalesScreenState extends State<SalesScreen> {
                 title: const Text('المبيعات',
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 centerTitle: true,
+                actions: [
+                  if (widget.sessionState != null)
+                    ListenableBuilder(
+                      listenable: widget.sessionState!,
+                      builder: (context, _) => Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: SyncStatusIndicator(
+                          enabled: widget.sessionState!.isCloudLinked,
+                          isCloudLinked: widget.sessionState!.isCloudLinked,
+                          isOnline: widget.sessionState!.isOnline,
+                          pendingCount: widget.sessionState!.pendingSyncCount,
+                          failedCount: widget.sessionState!.failedSyncCount,
+                          conflictCount: widget.sessionState!.conflictSyncCount,
+                          lastSyncedAt: widget.sessionState!.lastSyncedAt,
+                        ),
+                      ),
+                    ),
+                ],
               )
             : null,
         body: _buildCreateSaleEntry(context),

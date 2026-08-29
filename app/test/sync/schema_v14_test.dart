@@ -54,14 +54,15 @@ void main() {
       await testDb.close();
     });
 
-    test('fresh create lands at user_version 15', () async {
+    test('fresh create lands at the current schema version', () async {
       // Phase M bumped the schema 14 -> 15 (additive conflict lifecycle +
-      // audit artifacts); the v14 expectations remain covered by the
-      // dedicated v13→v14 upgrade group below.
+      // audit artifacts); Phase P bumped it 15 -> 16 (cloud_uuid backfill).
+      // The v14 expectations remain covered by the dedicated v13→v14 upgrade
+      // group below.
       await DatabaseHelper.runCreateDbForTest(testDb);
       final version =
           (await testDb.rawQuery('PRAGMA user_version')).single['user_version'];
-      expect(version, 15);
+      expect(version, DatabaseHelper.schemaVersion);
     });
 
     test('legacy_migration_progress exists with exact D8 column set', () async {

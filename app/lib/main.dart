@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'config/app_config.dart';
+import 'services/app_crash_handler.dart';
 import 'database/database_helper.dart';
 import 'database/user_repository.dart';
 import 'licensing/licensing.dart';
@@ -31,9 +34,14 @@ import 'screens/expenses/expenses_screen.dart';
 import 'screens/inventory_count/inventory_count_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/customers/customers_screen.dart';
+import 'sync/sync_runtime.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Phase P (WS-8): centralized crash/error capture. Installed before any
+  // zone or widget code so every uncaught error is routed through the
+  // no-secret sink (redacts configured credentials).
+  AppCrashHandler.install();
   if (defaultTargetPlatform == TargetPlatform.windows ||
       defaultTargetPlatform == TargetPlatform.linux ||
       defaultTargetPlatform == TargetPlatform.macOS) {
@@ -55,7 +63,11 @@ void main() async {
     }
   }
 
-  runApp(const MyApp());
+  runZonedGuarded(
+    () => runApp(const MyApp()),
+    (error, stack) =>
+        AppCrashHandler.report('Uncaught zone error: $error', stack),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -170,7 +182,7 @@ class _AuthGateState extends State<AuthGate> {
   }
 
   Future<void> _initialize() async {
-    await DatabaseHelper.instance.database;
+    final db = await DatabaseHelper.instance.database;
     await AppSettings.initializeDefaults();
     await PermissionResolver.instance.refresh();
     await ShopProfileService.instance.load();
@@ -190,6 +202,29 @@ class _AuthGateState extends State<AuthGate> {
     DatabaseHelper.setSyncShopIdProvider(
         () async => ActiveShopContext.instance.shopId);
 
+    // Phase P (WS-5): wire the active-writer identity provider so every sync
+    // queue entry carries a durable per-write permission/entitlement snapshot
+    // (revoked-seller adjudication). Reads the LIVE session each call; the
+    // database-layer facts (permission granted, entitlement active, shop and
+    // entity identity, write instant) are always captured regardless.
+    DatabaseHelper.setWriterSnapshotProvider(() async {
+      final user = _sessionState.currentUser;
+      String? cloudUserId;
+      try {
+        cloudUserId = Supabase.instance.client.auth.currentUser?.id;
+      } catch (_) {
+        cloudUserId = null;
+      }
+      if (user == null) {
+        return {'cloud_user_uuid': cloudUserId};
+      }
+      return {
+        'role': user.role.name,
+        'display_name': user.displayName,
+        'cloud_user_uuid': cloudUserId,
+      };
+    });
+
     // Phase J (WS1): wire the membership validator that authorizes every
     // bind/switch of the tenant context against the user's ACTIVE cloud
     // memberships. Fail-closed: any resolver error rejects the shop.
@@ -202,6 +237,30 @@ class _AuthGateState extends State<AuthGate> {
           return false;
         }
       },
+    );
+
+    // Phase P (WS-1): configure the application-owned sync runtime. The
+    // drain seam (AppConfig.syncDrainEnabled) defaults to FALSE (owner
+    // decision, plan §N): with it off the runtime only manages and
+    // publishes queue status; it constructs no SyncWorker/SyncEngine and
+    // performs zero cloud calls. Shop/license/connectivity gating inside
+    // ensureStarted keeps offline-only tenants untouched.
+    SyncRuntime.instance.configure(
+      database: db,
+      adapters: buildStandardAdapters(),
+      sessionState: _sessionState,
+      shopIdProvider: () async => ActiveShopContext.instance.shopId,
+      licenseCheck: () async {
+        try {
+          await cloudLicensingService.enforceActive();
+          return true;
+        } catch (_) {
+          return false;
+        }
+      },
+      connectivityCheck: () async =>
+          _sessionState.isCloudLinked && _sessionState.isOnline,
+      drainEnabled: AppConfig.syncDrainEnabled,
     );
 
     // Phase F: Permission sync service is available for cloud permission
@@ -237,6 +296,16 @@ class _AuthGateState extends State<AuthGate> {
       }
     }
 
+    // Phase P (WS-1): after cold-start resume the runtime establishes (or
+    // re-provisions) the drain for the bound tenant. Fail-closed when no
+    // shop is bound; zero network when the drain seam is OFF.
+    try {
+      await SyncRuntime.instance.ensureStarted();
+      await SyncRuntime.instance.publishStatus();
+    } catch (_) {
+      // Runtime provisioning must never block startup.
+    }
+
     final hasUsers = await _userRepo.hasAnyUser();
     if (mounted) {
       setState(() {
@@ -252,10 +321,22 @@ class _AuthGateState extends State<AuthGate> {
 
   void _onLogin() {
     setState(() {});
+    // Phase P (WS-1): re-establish the drain for the freshly bound tenant.
+    try {
+      SyncRuntime.instance.ensureStarted();
+    } catch (_) {
+      // Best-effort; the periodic cycle also re-evaluates on every tick.
+    }
   }
 
   void _onLogout() {
     _sessionState.logout();
+    // Phase P (WS-1): tear down the drain runtime for the logged-out tenant.
+    try {
+      SyncRuntime.instance.stop();
+    } catch (_) {
+      // Best-effort teardown; ensureStarted is fail-closed on next session.
+    }
     // Phase J: release the tenant context and suspend strict isolation for
     // this runtime. The persistence marker survives so the next authorized
     // login re-evaluates and re-arms (TenantIsolationGate.restoreAtStartup).

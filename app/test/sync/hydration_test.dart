@@ -11,7 +11,8 @@ void main() {
   final logs = <String>[];
 
   setUp(() async {
-    testDb = await databaseFactoryFfiNoIsolate.openDatabase(inMemoryDatabasePath);
+    testDb =
+        await databaseFactoryFfiNoIsolate.openDatabase(inMemoryDatabasePath);
     await testDb.execute('''
       CREATE TABLE products (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -129,7 +130,9 @@ void main() {
       expect(result.updated, 1);
       expect(result.inserted, 0);
 
-      final row = (await testDb.query('products', where: 'cloud_uuid = ?', whereArgs: ['cloud-uuid-001'])).first;
+      final row = (await testDb.query('products',
+              where: 'cloud_uuid = ?', whereArgs: ['cloud-uuid-001']))
+          .first;
       expect(row['name'], 'Updated Widget');
       expect(row['server_version'], 5);
     });

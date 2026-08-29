@@ -18,7 +18,8 @@ void main() {
   late DatabaseHelper helper;
 
   setUp(() async {
-    testDb = await databaseFactoryFfiNoIsolate.openDatabase(inMemoryDatabasePath);
+    testDb =
+        await databaseFactoryFfiNoIsolate.openDatabase(inMemoryDatabasePath);
     await DatabaseHelper.runCreateDbForTest(testDb);
     await DatabaseHelper.setTestDatabase(testDb);
     DatabaseHelper.setSyncShopIdProvider(() async => 'shop-1');
@@ -48,8 +49,8 @@ void main() {
   group('H-I09: enqueue-after-write wiring', () {
     test('H-I09-T01: local create enqueues exactly one correct CREATE op',
         () async {
-      final id = await helper.insertProduct(product(),
-          currentRole: UserRole.owner);
+      final id =
+          await helper.insertProduct(product(), currentRole: UserRole.owner);
 
       final entries = await allEntries();
       expect(entries, hasLength(1));
@@ -64,8 +65,8 @@ void main() {
     });
 
     test('H-I09-T02: local update enqueues correct UPDATE op', () async {
-      final id = await helper.insertProduct(product(),
-          currentRole: UserRole.owner);
+      final id =
+          await helper.insertProduct(product(), currentRole: UserRole.owner);
 
       final updated = Product(
         id: id,
@@ -111,8 +112,8 @@ void main() {
       expect(entry.payload?['name'], isNotEmpty,
           reason: 'DELETE payload must carry the pre-delete row snapshot');
 
-      final remaining = await testDb.query('products', where: 'id = ?',
-          whereArgs: [id]);
+      final remaining =
+          await testDb.query('products', where: 'id = ?', whereArgs: [id]);
       expect(remaining, isEmpty);
     });
 
@@ -166,10 +167,7 @@ void main() {
       final pid =
           await helper.insertProduct(product(), currentRole: UserRole.owner);
       final eid = await helper.insertExpense(
-          Expense(
-              date: DateTime.now(),
-              description: 'إيجار',
-              amount: 100),
+          Expense(date: DateTime.now(), description: 'إيجار', amount: 100),
           currentRole: UserRole.owner);
       final cid = await helper.insertCustomer(Customer(name: 'عميل'),
           currentRole: UserRole.owner);
@@ -184,8 +182,8 @@ void main() {
     });
 
     test('H-I09-T07: entity_id equals the persisted local row id', () async {
-      final id = await helper.insertProduct(product(),
-          currentRole: UserRole.owner);
+      final id =
+          await helper.insertProduct(product(), currentRole: UserRole.owner);
       final entries = await allEntries();
       expect(entries.single.entityId, id);
       final row =
@@ -211,8 +209,8 @@ void main() {
 
     test('H-I09-T09: shop_id stamped from provider; no shop means no enqueue',
         () async {
-      final id = await helper.insertProduct(product(),
-          currentRole: UserRole.owner);
+      final id =
+          await helper.insertProduct(product(), currentRole: UserRole.owner);
       expect((await allEntries()).single.shopId, 'shop-1');
 
       // No authorized cloud tenant context → purely local write.
@@ -227,8 +225,8 @@ void main() {
 
     test('H-I09-T10: version metadata consistent between row and payload',
         () async {
-      final id = await helper.insertProduct(product(),
-          currentRole: UserRole.owner);
+      final id =
+          await helper.insertProduct(product(), currentRole: UserRole.owner);
 
       final row =
           (await testDb.query('products', where: 'id = ?', whereArgs: [id]))
@@ -289,8 +287,7 @@ void main() {
       );
     });
 
-    test(
-        'H-I09-T14: transaction rollback leaves no orphan/ghost queue row',
+    test('H-I09-T14: transaction rollback leaves no orphan/ghost queue row',
         () async {
       // The enqueue-after-write contract requires the queue entry to share
       // the caller's transaction executor. Prove atomicity directly: an
@@ -316,10 +313,68 @@ void main() {
       );
 
       // ...and gone after rollback.
-      final orphans = await testDb
-          .query('sync_queue', where: 'idempotency_key = ?', whereArgs: ['rollback-key']);
+      final orphans = await testDb.query('sync_queue',
+          where: 'idempotency_key = ?', whereArgs: ['rollback-key']);
       expect(orphans, isEmpty,
           reason: 'rolled-back transaction must not leave a ghost queue row');
+    });
+
+    test('WS-2: create mints a stable cloud_uuid used in row, payload, and key',
+        () async {
+      final id = await helper.insertProduct(product(barcode: 'BC-UUID-1'),
+          currentRole: UserRole.owner);
+
+      final row =
+          (await testDb.query('products', where: 'id = ?', whereArgs: [id]))
+              .single;
+      final uuid = row['cloud_uuid'] as String?;
+      expect(uuid, isNotNull,
+          reason: 'new entity must carry a client-generated cloud_uuid');
+      expect(
+          RegExp(r'^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$')
+              .hasMatch(uuid!),
+          isTrue,
+          reason: 'cloud_uuid must be UUIDv4-shaped: $uuid');
+
+      final entry = (await allEntries()).single;
+      expect(entry.payload?['cloud_uuid'], uuid,
+          reason: 'payload must carry the same uuid as the persisted row');
+      expect(entry.idempotencyKey, startsWith('product:$uuid:'),
+          reason: 'idempotency key must be cloud-stable (derive from uuid)');
+      expect(entry.idempotencyKey, isNot(startsWith('product:local-')),
+          reason: 'legacy local-id idempotency keys are obsolete for new rows');
+    });
+
+    test('WS-2: cloud_uuid stays stable across later writes on the same row',
+        () async {
+      final id = await helper.insertProduct(product(barcode: 'BC-STABLE'),
+          currentRole: UserRole.owner);
+      final original =
+          (await testDb.query('products', where: 'id = ?', whereArgs: [id]))
+              .single['cloud_uuid'] as String;
+
+      await helper.updateProduct(
+        Product(
+            id: id,
+            name: 'معدل بعد التحديث',
+            barcode: 'BC-STABLE',
+            openingQuantity: 10,
+            currentQuantity: 8,
+            costPrice: 7.0),
+        currentRole: UserRole.owner,
+      );
+
+      final after =
+          (await testDb.query('products', where: 'id = ?', whereArgs: [id]))
+              .single['cloud_uuid'] as String;
+      expect(after, original,
+          reason: 'updates must never regenerate the entity uuid');
+
+      final entries = await allEntries();
+      expect(entries, hasLength(2));
+      final update = entries.last;
+      expect(update.idempotencyKey, startsWith('product:$original:UPDATE:'));
+      expect(update.payload?['cloud_uuid'], original);
     });
 
     test('H-I09-T15: no sync echo loop from remote apply paths', () async {
@@ -351,10 +406,7 @@ void main() {
       await DatabaseHelper.runWithoutSyncEnqueue(() async {
         await helper.updateProduct(
           Product(
-              id: 1,
-              name: 'Cloud Row v2',
-              barcode: 'BC-CLOUD',
-              costPrice: 3.0),
+              id: 1, name: 'Cloud Row v2', barcode: 'BC-CLOUD', costPrice: 3.0),
           currentRole: UserRole.owner,
         );
       });

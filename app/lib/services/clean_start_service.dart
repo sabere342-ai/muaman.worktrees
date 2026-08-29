@@ -119,8 +119,8 @@ class CleanStartService {
     await db.transaction((txn) async {
       for (final table in transactionalTables) {
         if (shopId != null && shopId.isNotEmpty) {
-          deletedCounts[table] =
-              await txn.delete(table, where: 'shop_id = ?', whereArgs: [shopId]);
+          deletedCounts[table] = await txn
+              .delete(table, where: 'shop_id = ?', whereArgs: [shopId]);
         } else {
           deletedCounts[table] = await txn.delete(table);
         }

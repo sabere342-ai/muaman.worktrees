@@ -98,7 +98,7 @@ void main() {
     // The screen's own Directionality wrapper forces RTL regardless of the
     // ambient app locale.
     final dir = tester.widget<Directionality>(
-        find.byType(Directionality).last,
+      find.byType(Directionality).last,
     );
     expect(dir.textDirection, TextDirection.rtl);
     expect(find.textContaining('product #7'), findsOneWidget);

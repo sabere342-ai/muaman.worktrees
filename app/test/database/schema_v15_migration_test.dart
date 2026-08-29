@@ -183,7 +183,7 @@ void main() {
 
       final version = (await freshDb.rawQuery('PRAGMA user_version'))
           .single['user_version'];
-      expect(version, 15);
+      expect(version, DatabaseHelper.schemaVersion);
     });
   });
 

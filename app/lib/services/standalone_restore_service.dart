@@ -107,9 +107,16 @@ class StandaloneRestoreService {
 
       final versionRows = await testDb.rawQuery('PRAGMA user_version');
       final version = (versionRows.first.values.first as num).toInt();
-      if (version != 7 && version != 8) {
+      // Phase P (WS-6): restore accepts current and legacy schema versions and
+      // stays forward-compatible with future schema bumps because the ceiling
+      // is expressed relative to [DatabaseHelper.schemaVersion]. Pessimistic
+      // rejection is kept only for genuinely incompatible older formats
+      // (pre-V7) and newer-than-known schemas. The legacy floor is 7, the
+      // oldest backup format the migration chain can still upgrade from.
+      if (version < 7 || version > DatabaseHelper.schemaVersion) {
         throw RestoreValidationException(
-            'إصدار قاعدة البيانات غير متوافق: $version (المطلوب 7 أو 8).');
+            'إصدار قاعدة البيانات غير متوافق: $version'
+            ' (المقبول من 7 إلى ${DatabaseHelper.schemaVersion}).');
       }
 
       final expectedTables = [

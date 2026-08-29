@@ -18,7 +18,8 @@ void main() {
   late SyncQueueRepository queueRepo;
 
   setUp(() async {
-    testDb = await databaseFactoryFfiNoIsolate.openDatabase(inMemoryDatabasePath);
+    testDb =
+        await databaseFactoryFfiNoIsolate.openDatabase(inMemoryDatabasePath);
     await testDb.execute('''
       CREATE TABLE sync_queue (
         id TEXT PRIMARY KEY,
@@ -99,16 +100,28 @@ void main() {
 
       // Simulate offline: enqueue operations
       await queueRepo.enqueue(
-        entityType: 'product', entityId: 1, operation: SyncQueueOperation.CREATE,
-        payload: {'name': 'Offline Product 1'}, idempotencyKey: 'off-1', shopId: 'test-shop',
+        entityType: 'product',
+        entityId: 1,
+        operation: SyncQueueOperation.CREATE,
+        payload: {'name': 'Offline Product 1'},
+        idempotencyKey: 'off-1',
+        shopId: 'test-shop',
       );
       await queueRepo.enqueue(
-        entityType: 'product', entityId: 2, operation: SyncQueueOperation.CREATE,
-        payload: {'name': 'Offline Product 2'}, idempotencyKey: 'off-2', shopId: 'test-shop',
+        entityType: 'product',
+        entityId: 2,
+        operation: SyncQueueOperation.CREATE,
+        payload: {'name': 'Offline Product 2'},
+        idempotencyKey: 'off-2',
+        shopId: 'test-shop',
       );
       await queueRepo.enqueue(
-        entityType: 'product', entityId: 1, operation: SyncQueueOperation.UPDATE,
-        payload: {'name': 'Updated Product 1'}, idempotencyKey: 'off-3', shopId: 'test-shop',
+        entityType: 'product',
+        entityId: 1,
+        operation: SyncQueueOperation.UPDATE,
+        payload: {'name': 'Updated Product 1'},
+        idempotencyKey: 'off-3',
+        shopId: 'test-shop',
       );
 
       // Verify all pending
@@ -214,8 +227,12 @@ void main() {
       expect(syncCount, 0);
 
       await queueRepo.enqueue(
-        entityType: 'product', entityId: 1, operation: SyncQueueOperation.CREATE,
-        payload: {'name': 'Test'}, idempotencyKey: 'w-1', shopId: 'test-shop',
+        entityType: 'product',
+        entityId: 1,
+        operation: SyncQueueOperation.CREATE,
+        payload: {'name': 'Test'},
+        idempotencyKey: 'w-1',
+        shopId: 'test-shop',
       );
 
       await worker.syncNow();
@@ -295,7 +312,8 @@ void main() {
             required localId,
             required payload,
             required idempotencyKey,
-          }) async => CloudUpsertResult(success: true),
+          }) async =>
+              CloudUpsertResult(success: true),
           deleteEntity: ({
             required adapter,
             required shopId,
@@ -306,16 +324,24 @@ void main() {
       );
 
       await queueRepo.enqueue(
-        entityType: 'product', entityId: 1, operation: SyncQueueOperation.CREATE,
-        payload: {'name': 'Widget'}, idempotencyKey: 'idem-cycle-1', shopId: 'test-shop',
+        entityType: 'product',
+        entityId: 1,
+        operation: SyncQueueOperation.CREATE,
+        payload: {'name': 'Widget'},
+        idempotencyKey: 'idem-cycle-1',
+        shopId: 'test-shop',
       );
 
       await engine.processQueue();
       expect(await queueRepo.getPendingCount(), 0);
 
       await queueRepo.enqueue(
-        entityType: 'product', entityId: 1, operation: SyncQueueOperation.CREATE,
-        payload: {'name': 'Widget'}, idempotencyKey: 'idem-cycle-1', shopId: 'test-shop',
+        entityType: 'product',
+        entityId: 1,
+        operation: SyncQueueOperation.CREATE,
+        payload: {'name': 'Widget'},
+        idempotencyKey: 'idem-cycle-1',
+        shopId: 'test-shop',
       );
 
       expect(await queueRepo.getPendingCount(), 0);
@@ -363,16 +389,28 @@ void main() {
       );
 
       await queueRepo.enqueue(
-        entityType: 'expense', entityId: 1, operation: SyncQueueOperation.CREATE,
-        payload: {'id': 1, 'name': 'Test Expense'}, idempotencyKey: 'mix-1', shopId: 'test-shop',
+        entityType: 'expense',
+        entityId: 1,
+        operation: SyncQueueOperation.CREATE,
+        payload: {'id': 1, 'name': 'Test Expense'},
+        idempotencyKey: 'mix-1',
+        shopId: 'test-shop',
       );
       await queueRepo.enqueue(
-        entityType: 'product', entityId: 1, operation: SyncQueueOperation.CREATE,
-        payload: {'id': 1, 'name': 'Test Product'}, idempotencyKey: 'mix-2', shopId: 'test-shop',
+        entityType: 'product',
+        entityId: 1,
+        operation: SyncQueueOperation.CREATE,
+        payload: {'id': 1, 'name': 'Test Product'},
+        idempotencyKey: 'mix-2',
+        shopId: 'test-shop',
       );
       await queueRepo.enqueue(
-        entityType: 'sale', entityId: 1, operation: SyncQueueOperation.CREATE,
-        payload: {'id': 1, 'productName': 'Test Sale'}, idempotencyKey: 'mix-3', shopId: 'test-shop',
+        entityType: 'sale',
+        entityId: 1,
+        operation: SyncQueueOperation.CREATE,
+        payload: {'id': 1, 'productName': 'Test Sale'},
+        idempotencyKey: 'mix-3',
+        shopId: 'test-shop',
       );
 
       final result = await engine.processQueue();

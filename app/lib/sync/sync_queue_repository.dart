@@ -26,6 +26,14 @@ class SyncQueueEntry {
   /// (§20): REVIEW_REQUIRED → RESOLUTION_PENDING → RESOLVED.
   final ConflictLifecycleStatus? resolutionStatus;
 
+  /// Phase P (WS-5): durable per-write permission/entitlement snapshot,
+  /// captured at enqueue time. Records that the write happened under an
+  /// active entitlement with the entity's required permission granted, plus
+  /// shop/entity identity and (when the writer provider is registered) the
+  /// active writer identity. Server re-authorization on upload stays
+  /// authoritative; this snapshot exists for revoked-seller adjudication.
+  final Map<String, dynamic>? writerSnapshot;
+
   SyncQueueEntry({
     required this.id,
     required this.entityType,
@@ -41,6 +49,7 @@ class SyncQueueEntry {
     this.shopId,
     this.occurrenceToken,
     this.resolutionStatus,
+    this.writerSnapshot,
   });
 
   Map<String, dynamic> toMap() {
@@ -59,6 +68,8 @@ class SyncQueueEntry {
       'shop_id': shopId,
       'occurrence_token': occurrenceToken,
       'resolution_status': resolutionStatus?.label,
+      'writer_snapshot':
+          writerSnapshot != null ? jsonEncode(writerSnapshot) : null,
     };
   }
 
@@ -93,6 +104,10 @@ class SyncQueueEntry {
           ? ConflictLifecycleStatus.tryParse(
               map['resolution_status'] as String?)
           : null,
+      writerSnapshot: map.containsKey('writer_snapshot') &&
+              map['writer_snapshot'] != null
+          ? jsonDecode(map['writer_snapshot'] as String) as Map<String, dynamic>
+          : null,
     );
   }
 
@@ -103,6 +118,7 @@ class SyncQueueEntry {
     String? conflictData,
     String? occurrenceToken,
     ConflictLifecycleStatus? resolutionStatus,
+    Map<String, dynamic>? writerSnapshot,
   }) {
     return SyncQueueEntry(
       id: id,
@@ -119,6 +135,7 @@ class SyncQueueEntry {
       shopId: shopId,
       occurrenceToken: occurrenceToken ?? this.occurrenceToken,
       resolutionStatus: resolutionStatus ?? this.resolutionStatus,
+      writerSnapshot: writerSnapshot ?? this.writerSnapshot,
     );
   }
 }
@@ -148,6 +165,15 @@ class SyncQueueRepository {
     return columns;
   }
 
+  /// Invalidates the cached column shape for [db] after a migration
+  /// physically adds/removes sync_queue columns. Production upgrades always
+  /// run at open BEFORE any enqueue, so the cache never holds a stale shape
+  /// there; the invalidation keeps the maintenance API correct for any path
+  /// that migrates a live handle (upgrade test seams).
+  static void invalidateShapeCache(Database db) {
+    _columnShapeCache[db] = null;
+  }
+
   /// [executor] lets a caller participate in an open transaction so the
   /// local business write and its queue entry commit or roll back together.
   /// When omitted the repository's root database handle is used.
@@ -160,6 +186,7 @@ class SyncQueueRepository {
     String? shopId,
     DatabaseExecutor? executor,
     String? occurrenceToken,
+    Map<String, dynamic>? writerSnapshot,
   }) async {
     final target = executor ?? _db;
     final existing =
@@ -186,6 +213,10 @@ class SyncQueueRepository {
     }
     if (columns.contains('resolution_status')) {
       row['resolution_status'] = null;
+    }
+    if (columns.contains('writer_snapshot')) {
+      row['writer_snapshot'] =
+          writerSnapshot != null ? jsonEncode(writerSnapshot) : null;
     }
     await target.insert('sync_queue', row);
   }
@@ -371,13 +402,20 @@ class SyncQueueRepository {
     );
   }
 
+  /// Removes terminal SYNCED rows older than [olderThanDays].
+  ///
+  /// The lower bound is INCLUSIVE (`synced_at <= cutoff`) so a row whose
+  /// synced_at falls exactly on the cutoff boundary — same-millisecond
+  /// writes/cleanup — is still eligible. Stricter-than-needed `<` causes
+  /// boundary rows to survive indefinitely (window-G crash-recovery flake:
+  /// resolved rows expected cleaned but the equality tick slipped past).
   Future<void> cleanupSynced({int olderThanDays = 7}) async {
     final cutoff = DateTime.now()
         .subtract(Duration(days: olderThanDays))
         .toIso8601String();
     await _db.delete(
       'sync_queue',
-      where: "status = 'SYNCED' AND synced_at < ?",
+      where: "status = 'SYNCED' AND synced_at <= ?",
       whereArgs: [cutoff],
     );
   }

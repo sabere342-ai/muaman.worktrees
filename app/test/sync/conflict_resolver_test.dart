@@ -141,15 +141,18 @@ void main() {
 
   group('Adapter conflict policies', () {
     test('ProductSyncAdapter uses LWW', () {
-      expect(ProductSyncAdapter().conflictPolicy, ConflictResolutionPolicy.lastWriterWins);
+      expect(ProductSyncAdapter().conflictPolicy,
+          ConflictResolutionPolicy.lastWriterWins);
     });
 
     test('SaleSyncAdapter uses server-authoritative', () {
-      expect(SaleSyncAdapter().conflictPolicy, ConflictResolutionPolicy.serverAuthoritative);
+      expect(SaleSyncAdapter().conflictPolicy,
+          ConflictResolutionPolicy.serverAuthoritative);
     });
 
     test('ExpenseSyncAdapter uses LWW', () {
-      expect(ExpenseSyncAdapter().conflictPolicy, ConflictResolutionPolicy.lastWriterWins);
+      expect(ExpenseSyncAdapter().conflictPolicy,
+          ConflictResolutionPolicy.lastWriterWins);
     });
   });
 }

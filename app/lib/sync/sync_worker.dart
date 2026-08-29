@@ -22,6 +22,12 @@ class SyncWorker {
   /// the hook defaults to null (no-op).
   final Future<void> Function()? _recoverySweep;
 
+  /// Phase P WS-1 hook: invoked after every completed queue cycle with the
+  /// cycle result so the owning runtime can publish status (counters +
+  /// last-synced timestamp) without coupling SyncWorker to SessionState.
+  /// Defaults to null (no-op).
+  final Future<void> Function(SyncResult result)? _onCycleComplete;
+
   Timer? _timer;
   SyncWorkerState _state = SyncWorkerState.stopped;
   bool _isProcessing = false;
@@ -36,12 +42,14 @@ class SyncWorker {
     required Future<void> Function(String message) logger,
     Duration interval = const Duration(seconds: 30),
     Future<void> Function()? recoverySweep,
+    Future<void> Function(SyncResult result)? onCycleComplete,
   })  : _engine = engine,
         _connectivityCheck = connectivityCheck,
         _sessionCheck = sessionCheck,
         _logger = logger,
         _interval = interval,
-        _recoverySweep = recoverySweep;
+        _recoverySweep = recoverySweep,
+        _onCycleComplete = onCycleComplete;
 
   void start() {
     if (_state == SyncWorkerState.running) return;
@@ -72,25 +80,28 @@ class SyncWorker {
     _logger('SyncWorker stopped');
   }
 
-  Future<void> syncNow() async {
-    await _onTick();
+  /// Drives one sync cycle immediately. Returns the cycle result, or null
+  /// when the cycle was skipped (already processing, not running, session
+  /// invalid or offline).
+  Future<SyncResult?> syncNow() async {
+    return _onTick();
   }
 
-  Future<void> _onTick() async {
-    if (_isProcessing) return;
+  Future<SyncResult?> _onTick() async {
+    if (_isProcessing) return null;
 
-    if (_state != SyncWorkerState.running) return;
+    if (_state != SyncWorkerState.running) return null;
 
     final isSessionValid = await _sessionCheck();
     if (!isSessionValid) {
       await _logger('SyncWorker: session invalid, skipping cycle');
-      return;
+      return null;
     }
 
     final isOnline = await _connectivityCheck();
     if (!isOnline) {
       await _logger('SyncWorker: offline, skipping cycle');
-      return;
+      return null;
     }
 
     _isProcessing = true;
@@ -101,8 +112,18 @@ class SyncWorker {
           'SyncWorker: cycle complete (processed=${result.processed}, '
           'synced=${result.synced}, failed=${result.failed}, '
           'conflicts=${result.conflicts})');
+      final onComplete = _onCycleComplete;
+      if (onComplete != null) {
+        try {
+          await onComplete(result);
+        } catch (e) {
+          await _logger('SyncWorker: status publication error: $e');
+        }
+      }
+      return result;
     } catch (e) {
       await _logger('SyncWorker: cycle error: $e');
+      return null;
     } finally {
       _isProcessing = false;
     }

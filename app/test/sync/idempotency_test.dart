@@ -11,7 +11,8 @@ void main() {
   late SyncQueueRepository repo;
 
   setUp(() async {
-    testDb = await databaseFactoryFfiNoIsolate.openDatabase(inMemoryDatabasePath);
+    testDb =
+        await databaseFactoryFfiNoIsolate.openDatabase(inMemoryDatabasePath);
     await testDb.execute('''
       CREATE TABLE sync_queue (
         id TEXT PRIMARY KEY,
@@ -116,7 +117,8 @@ void main() {
       expect(keys.length, 100);
 
       final allEntries = await testDb.query('sync_queue');
-      final idemKeys = allEntries.map((r) => r['idempotency_key'] as String).toSet();
+      final idemKeys =
+          allEntries.map((r) => r['idempotency_key'] as String).toSet();
       expect(idemKeys.length, 100);
     });
   });

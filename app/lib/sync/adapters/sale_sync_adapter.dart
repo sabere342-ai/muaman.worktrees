@@ -29,8 +29,7 @@ class SaleSyncAdapter extends EntitySyncAdapter {
       'barcode': localRow['barcode'] as String,
       'quantity': localRow['quantity'] as int? ?? 0,
       'sale_price': (localRow['salePrice'] as num?)?.toDouble() ?? 0,
-      'total_sale_value':
-          (localRow['totalSaleValue'] as num?)?.toDouble() ?? 0,
+      'total_sale_value': (localRow['totalSaleValue'] as num?)?.toDouble() ?? 0,
       'cost_price': (localRow['costPrice'] as num?)?.toDouble() ?? 0,
       'cogs': (localRow['cogs'] as num?)?.toDouble() ?? 0,
     };

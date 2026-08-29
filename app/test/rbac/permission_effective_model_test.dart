@@ -21,7 +21,8 @@ void main() {
       final snapshot = CloudPermissionSnapshot.fromRpc(data);
       expect(snapshot.shopId, 'test-shop-id');
       expect(snapshot.memberRole, 'employee');
-      expect(snapshot.permissionIds, {'dashboard.view', 'inventory.view', 'sales.view'});
+      expect(snapshot.permissionIds,
+          {'dashboard.view', 'inventory.view', 'sales.view'});
       expect(snapshot.overrides.length, 1);
       expect(snapshot.overrides[0].permissionId, 'inventory.edit');
       expect(snapshot.overrides[0].effect, 'DENY');
@@ -144,12 +145,9 @@ void main() {
     });
 
     test('equality works correctly', () {
-      const a =
-          PermissionOverride(permissionId: 'sales.view', effect: 'DENY');
-      const b =
-          PermissionOverride(permissionId: 'sales.view', effect: 'DENY');
-      const c =
-          PermissionOverride(permissionId: 'sales.view', effect: 'ALLOW');
+      const a = PermissionOverride(permissionId: 'sales.view', effect: 'DENY');
+      const b = PermissionOverride(permissionId: 'sales.view', effect: 'DENY');
+      const c = PermissionOverride(permissionId: 'sales.view', effect: 'ALLOW');
 
       expect(a, equals(b));
       expect(a.hashCode, b.hashCode);

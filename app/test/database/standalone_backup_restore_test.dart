@@ -382,6 +382,100 @@ void main() {
       await wrongVersionDir.delete(recursive: true);
     });
 
+    test('current-schema backup restores successfully (round-trip)', () async {
+      final currentDir =
+          await Directory.systemTemp.createTemp('current_schema');
+      final currentPath =
+          '${currentDir.path}${Platform.pathSeparator}current.db';
+      final currentDb = await openDatabase(currentPath,
+          version: DatabaseHelper.schemaVersion, onCreate: (db, version) async {
+        await DatabaseHelper.runCreateDbForTest(db);
+      });
+      await DatabaseHelper.setTestDatabase(currentDb);
+      await testDb.close();
+      await currentDb.insert('products', {
+        'name': 'منتج حديث',
+        'barcode': 'CUR-001',
+        'openingQuantity': 7,
+        'soldQuantity': 0,
+        'returnedQuantity': 0,
+        'currentQuantity': 7,
+        'costPrice': 40.0,
+        'totalInventoryCost': 280.0,
+        'inventoryAdjustment': 0,
+        'shop_id': 'shop-current',
+        'cloud_uuid': 'aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee',
+      });
+
+      final currentVersion = await currentDb.rawQuery('PRAGMA user_version');
+      expect((currentVersion.first.values.first as num).toInt(),
+          DatabaseHelper.schemaVersion);
+
+      final backupReport = await StandaloneBackupService().createBackup(
+        destinationDirectory: restoreDir.path,
+        actorRole: UserRole.owner,
+      );
+
+      final backupDb =
+          await openDatabase(backupReport.backupPath, readOnly: true);
+      try {
+        final backupVersion = await backupDb.rawQuery('PRAGMA user_version');
+        expect((backupVersion.first.values.first as num).toInt(),
+            DatabaseHelper.schemaVersion);
+      } finally {
+        await backupDb.close();
+      }
+
+      await StandaloneRestoreService(
+        preSaveDirectory: preSaveDir.path,
+        databasePathOverride: liveDbPath,
+      ).restoreFromBackup(
+        backupFilePath: backupReport.backupPath,
+        actorRole: UserRole.owner,
+      );
+
+      final restoredDb = await openDatabase(liveDbPath, readOnly: true);
+      try {
+        final products = await restoredDb.query('products');
+        expect(products, hasLength(1));
+        expect(products.first['name'], 'منتج حديث');
+        expect(products.first['cloud_uuid'],
+            'aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee');
+      } finally {
+        await restoredDb.close();
+      }
+
+      try {
+        await currentDb.close();
+      } catch (_) {}
+      await currentDir.delete(recursive: true);
+    });
+
+    test('newer-than-known schema version is rejected', () async {
+      final newerDir = await Directory.systemTemp.createTemp('newer_version');
+      final newerPath = '${newerDir.path}${Platform.pathSeparator}newer.db';
+      final newerDb = await openDatabase(newerPath,
+          version: DatabaseHelper.schemaVersion, onCreate: (db, version) async {
+        await DatabaseHelper.runCreateDbForTest(db);
+      });
+      await newerDb.rawUpdate(
+          'PRAGMA user_version = ${DatabaseHelper.schemaVersion + 1}');
+      await newerDb.close();
+
+      expect(
+        () => StandaloneRestoreService(
+          preSaveDirectory: preSaveDir.path,
+          databasePathOverride: liveDbPath,
+        ).restoreFromBackup(
+          backupFilePath: newerPath,
+          actorRole: UserRole.owner,
+        ),
+        throwsA(isA<RestoreValidationException>()),
+      );
+
+      await newerDir.delete(recursive: true);
+    });
+
     test('missing table in backup is rejected', () async {
       final incompleteDir = await Directory.systemTemp.createTemp('incomplete');
       final incompletePath =

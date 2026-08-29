@@ -33,8 +33,7 @@ class SyncConflictException extends SyncException {
         );
 
   @override
-  String toString() =>
-      'SyncConflictException($entityType:$entityId): $message';
+  String toString() => 'SyncConflictException($entityType:$entityId): $message';
 }
 
 class SyncIdempotencyException extends SyncException {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../config/app_config.dart';
 
 /// Small widget that shows the current cloud connectivity and sync status.
 ///
@@ -12,6 +11,10 @@ import '../config/app_config.dart';
 /// When [pendingCount] > 0, shows a badge with the pending count.
 /// When [failedCount] > 0 or [conflictCount] > 0, shows a red dot with
 /// an alert badge.
+///
+/// Renders nothing when [enabled] is false. Callers decide whether a sync
+/// indicator is meaningful for their surface (e.g. a seller panel only shows
+/// it when the device is actually linked to a cloud tenant).
 class SyncStatusIndicator extends StatelessWidget {
   const SyncStatusIndicator({
     super.key,
@@ -21,6 +24,7 @@ class SyncStatusIndicator extends StatelessWidget {
     this.failedCount = 0,
     this.conflictCount = 0,
     this.lastSyncedAt,
+    this.enabled = true,
   });
 
   final bool isCloudLinked;
@@ -29,10 +33,11 @@ class SyncStatusIndicator extends StatelessWidget {
   final int failedCount;
   final int conflictCount;
   final DateTime? lastSyncedAt;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
-    if (!AppConfig.isConfigured) {
+    if (!enabled) {
       return const SizedBox.shrink();
     }
 
@@ -40,7 +45,8 @@ class SyncStatusIndicator extends StatelessWidget {
     String tooltip;
     if (failedCount > 0 || conflictCount > 0) {
       dotColor = Colors.red;
-      tooltip = 'تعارضات أو أخطاء في المزامنة ($failedCount خطأ، $conflictCount تعارض)';
+      tooltip =
+          'تعارضات أو أخطاء في المزامنة ($failedCount خطأ، $conflictCount تعارض)';
     } else if (isCloudLinked && isOnline) {
       if (pendingCount > 0) {
         dotColor = Colors.orange;

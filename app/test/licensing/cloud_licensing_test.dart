@@ -229,7 +229,7 @@ void main() {
       policy = OfflineGracePolicy();
     });
 
-    test('isWithinGraceWindow returns true for recent cache', () {
+    test('trial has NO offline grace even when recently verified (WS-4)', () {
       final snapshot = EntitlementSnapshot(
         shopId: 'shop-123',
         hasLicense: true,
@@ -243,10 +243,52 @@ void main() {
         localWallClockAtVerification: DateTime.now(),
         lastSuccessfulVerificationAt: DateTime.now().toUtc(),
       );
-      expect(policy.isWithinGraceWindow(snapshot), true);
+      expect(policy.isWithinGraceWindow(snapshot), false,
+          reason: 'owner spec (WS-4): trial offline grace is 0 days');
     });
 
-    test('isWithinGraceWindow returns false for stale cache', () {
+    test('paid grace is 7 days, not capped by the retired 24h window (WS-4)',
+        () {
+      EntitlementSnapshot snapshot(int daysAgo) => EntitlementSnapshot(
+            shopId: 'shop-123',
+            hasLicense: true,
+            licenseStatus: 'ACTIVE',
+            isTrial: false,
+            trialActive: false,
+            currentDevices: 1,
+            deviceSlotAvailable: true,
+            serverTimeAtVerification: DateTime.now().toUtc(),
+            localWallClockAtVerification: DateTime.now(),
+            lastSuccessfulVerificationAt:
+                DateTime.now().toUtc().subtract(Duration(days: daysAgo)),
+          );
+
+      expect(policy.isWithinGraceWindow(snapshot(6)), true);
+      expect(policy.isWithinGraceWindow(snapshot(2)), true,
+          reason: 'a 2-day-old cache survives the retired 24h window');
+      expect(policy.isWithinGraceWindow(snapshot(8)), false);
+    });
+
+    test('perpetual grace is 14 days (WS-4)', () {
+      EntitlementSnapshot snapshot(int days) => EntitlementSnapshot(
+            shopId: 'shop-123',
+            hasLicense: true,
+            licenseStatus: 'PERPETUAL',
+            isTrial: false,
+            trialActive: false,
+            currentDevices: 1,
+            deviceSlotAvailable: true,
+            serverTimeAtVerification: DateTime.now().toUtc(),
+            localWallClockAtVerification: DateTime.now(),
+            lastSuccessfulVerificationAt:
+                DateTime.now().toUtc().subtract(Duration(days: days)),
+          );
+
+      expect(policy.isWithinGraceWindow(snapshot(13)), true);
+      expect(policy.isWithinGraceWindow(snapshot(15)), false);
+    });
+
+    test('isWithinGraceWindow returns false for expired trial', () {
       final snapshot = EntitlementSnapshot(
         shopId: 'shop-123',
         hasLicense: true,
@@ -503,7 +545,9 @@ void main() {
       );
     });
 
-    test('construction does not eagerly access Supabase.instance.client (TEST B)', () {
+    test(
+        'construction does not eagerly access Supabase.instance.client (TEST B)',
+        () {
       final repo = CloudLicensingRepository();
       expect(repo, isNotNull);
     });
@@ -514,7 +558,9 @@ void main() {
       expect(repo, isNotNull);
     });
 
-    test('unavailable default client becomes controlled failure at cloud use (TEST D)', () async {
+    test(
+        'unavailable default client becomes controlled failure at cloud use (TEST D)',
+        () async {
       final repo = CloudLicensingRepository();
       try {
         await repo.verifyLicenseEntitlement('test-shop');
@@ -528,7 +574,8 @@ void main() {
   });
 
   group('CloudLicensingService startup safety', () {
-    test('service initialization without Supabase does not crash (TEST E)', () async {
+    test('service initialization without Supabase does not crash (TEST E)',
+        () async {
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
       final service = CloudLicensingService.instance;

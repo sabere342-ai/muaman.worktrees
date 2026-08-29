@@ -37,19 +37,23 @@ class CloudPermissionException implements Exception {
 
     final lower = rpcMessage.toLowerCase();
     if (lower.contains('unauthenticated')) {
-      return const CloudPermissionException(CloudPermissionError.unauthenticated);
+      return const CloudPermissionException(
+          CloudPermissionError.unauthenticated);
     }
     if (lower.contains('not_member')) {
       return const CloudPermissionException(CloudPermissionError.notMember);
     }
     if (lower.contains('membership_inactive')) {
-      return const CloudPermissionException(CloudPermissionError.membershipInactive);
+      return const CloudPermissionException(
+          CloudPermissionError.membershipInactive);
     }
     if (lower.contains('license_required')) {
-      return const CloudPermissionException(CloudPermissionError.licenseRequired);
+      return const CloudPermissionException(
+          CloudPermissionError.licenseRequired);
     }
     if (lower.contains('license_expired')) {
-      return const CloudPermissionException(CloudPermissionError.licenseExpired);
+      return const CloudPermissionException(
+          CloudPermissionError.licenseExpired);
     }
     if (lower.contains('permission_denied')) {
       return CloudPermissionException(
@@ -58,7 +62,8 @@ class CloudPermissionException implements Exception {
       );
     }
     if (lower.contains('invalid_permission')) {
-      return const CloudPermissionException(CloudPermissionError.invalidPermission);
+      return const CloudPermissionException(
+          CloudPermissionError.invalidPermission);
     }
     if (lower.contains('shop_mismatch')) {
       return const CloudPermissionException(CloudPermissionError.shopMismatch);
@@ -67,7 +72,8 @@ class CloudPermissionException implements Exception {
       return const CloudPermissionException(CloudPermissionError.ownerRequired);
     }
     if (lower.contains('override_violation')) {
-      return const CloudPermissionException(CloudPermissionError.overrideViolation);
+      return const CloudPermissionException(
+          CloudPermissionError.overrideViolation);
     }
 
     return CloudPermissionException(
