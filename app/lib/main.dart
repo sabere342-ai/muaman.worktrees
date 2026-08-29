@@ -36,35 +36,39 @@ import 'screens/settings_screen.dart';
 import 'screens/customers/customers_screen.dart';
 import 'sync/sync_runtime.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  // Phase P (WS-8): centralized crash/error capture. Installed before any
-  // zone or widget code so every uncaught error is routed through the
-  // no-secret sink (redacts configured credentials).
-  AppCrashHandler.install();
-  if (defaultTargetPlatform == TargetPlatform.windows ||
-      defaultTargetPlatform == TargetPlatform.linux ||
-      defaultTargetPlatform == TargetPlatform.macOS) {
-    sqfliteFfiInit();
-    databaseFactory = databaseFactoryFfi;
-  }
-
-  // Initialize Supabase if configured (Phase D).
-  // When not configured (placeholders), Supabase is skipped and the app
-  // operates in offline-only mode.
-  if (AppConfig.isConfigured) {
-    try {
-      await Supabase.initialize(
-        url: AppConfig.supabaseUrl,
-        publishableKey: AppConfig.supabaseAnonKey,
-      );
-    } catch (_) {
-      // Supabase initialization failure — app operates in offline mode.
-    }
-  }
-
+void main() {
+  // Phase P (WS-8): centralized crash/error capture. The Flutter binding is
+  // initialized INSIDE the same guarded zone that owns runApp so binding
+  // ownership and app execution share one Dart Zone (Flutter debugCheckZone
+  // invariant). Every uncaught error — framework, platform or zone-level —
+  // is routed through the no-secret sink (redacts configured credentials).
   runZonedGuarded(
-    () => runApp(const MyApp()),
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      AppCrashHandler.install();
+      if (defaultTargetPlatform == TargetPlatform.windows ||
+          defaultTargetPlatform == TargetPlatform.linux ||
+          defaultTargetPlatform == TargetPlatform.macOS) {
+        sqfliteFfiInit();
+        databaseFactory = databaseFactoryFfi;
+      }
+
+      // Initialize Supabase if configured (Phase D).
+      // When not configured (placeholders), Supabase is skipped and the app
+      // operates in offline-only mode.
+      if (AppConfig.isConfigured) {
+        try {
+          await Supabase.initialize(
+            url: AppConfig.supabaseUrl,
+            publishableKey: AppConfig.supabaseAnonKey,
+          );
+        } catch (_) {
+          // Supabase initialization failure — app operates in offline mode.
+        }
+      }
+
+      runApp(const MyApp());
+    },
     (error, stack) =>
         AppCrashHandler.report('Uncaught zone error: $error', stack),
   );
