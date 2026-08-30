@@ -1,9 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
+import 'package:muaman_store/config/app_config.dart';
 import 'package:muaman_store/errors/cloud_data_exception.dart';
 import 'package:muaman_store/services/session_state.dart';
 import 'package:muaman_store/sync/conflict_audit_repository.dart';
+import 'package:muaman_store/sync/sync_cloud_operations_transport.dart';
 import 'package:muaman_store/sync/sync_engine.dart';
 import 'package:muaman_store/sync/sync_queue_repository.dart';
 import 'package:muaman_store/sync/sync_runtime.dart';
@@ -389,4 +391,322 @@ void main() {
       runtime.reset();
     });
   });
+
+  // -------------------------------------------------------------------------
+  // Phase P Group A — A2 drain wiring (production transport attachment)
+  //
+  // Proves that attaching the production SyncCloudOperationsTransport to
+  // SyncRuntime.configure(cloudOperations:) makes the A1 transport genuinely
+  // reachable by the real runtime, while the drain seam (AppConfig
+  // .syncDrainEnabled == FALSE) keeps every gate fail-closed and performs
+  // zero cloud calls. Wiring is NOT activation.
+  // -------------------------------------------------------------------------
+  group('A2 — production transport wiring (drain wiring, still dormant)', () {
+    late A2RecordingRpc a2Rpc;
+
+    setUp(() {
+      a2Rpc = A2RecordingRpc();
+    });
+
+    // Mirrors the production factory seam used in main.dart: the runtime is
+    // configured with the REAL SyncCloudOperationsTransport (A1) exposed via
+    // toOperations(), with allowOversell enabled so the A3 Option C
+    // reconciliation route stays reachable.
+    SyncCloudOperations productionCloudOperations() =>
+        SyncCloudOperationsTransport(rpc: a2Rpc.call, allowOversell: true)
+            .toOperations();
+
+    Future<void> enqueueSale({
+      required String key,
+      String shop = 'shop-1',
+      String barcode = 'B1',
+      int quantity = 2,
+      double salePrice = 5.0,
+    }) =>
+        queueRepo.enqueue(
+          entityType: 'sale',
+          entityId: 1,
+          operation: SyncQueueOperation.CREATE,
+          payload: {
+            'barcode': barcode,
+            'quantity': quantity,
+            'sale_price': salePrice,
+            'date': '2026-08-20T00:00:00.000Z',
+          },
+          idempotencyKey: key,
+          shopId: shop,
+        );
+
+    test(
+        'T1 — the production factory seam resolves to the A1 transport and '
+        'the runtime genuinely reaches its RPC seam', () async {
+      final license =
+          productionCloudOperations(); // building invokes zero RPC calls
+      expect(a2Rpc.calls, isEmpty,
+          reason: 'constructing/toOperations must never hit the network');
+
+      final session = SessionState();
+      final runtime = buildRuntime(
+        sessionState: session,
+        cloudOps: license,
+        drainEnabled: true,
+      );
+      await enqueueSale(key: 't1-sale');
+
+      await runtime.ensureStarted();
+      expect(runtime.isRunning, isTrue);
+
+      final result = await runtime.syncNow();
+      expect(result, isNotNull);
+      expect(a2Rpc.calls, isNotEmpty,
+          reason: 'the drained queue entry must reach the wired A1 transport');
+      final call = a2Rpc.calls.single;
+      expect(call.name, 'create_cloud_sale_with_stock_v2');
+      expect(call.params['p_shop_id'], 'shop-1',
+          reason: 'persisted queue shop id is the operation authority');
+
+      await runtime.stop();
+      runtime.reset();
+    });
+
+    test(
+        'T2 — DRAIN REMAINS OFF with cloudOps configured, queue, online, '
+        'licensed, bound: AppConfig.syncDrainEnabled == FALSE ⇒ zero calls',
+        () async {
+      // The governed production posture: drainEnabled mirrors
+      // AppConfig.syncDrainEnabled which MUST be FALSE in production.
+      expect(AppConfig.syncDrainEnabled, isFalse,
+          reason: 'the governed default flag must stay FALSE');
+
+      final session = SessionState();
+      final runtime = buildRuntime(
+        sessionState: session,
+        cloudOps: productionCloudOperations(),
+        drainEnabled: false,
+      );
+      await enqueueSale(key: 't2-sale');
+
+      await runtime.ensureStarted();
+
+      expect(runtime.drainEnabled, isFalse);
+      expect(runtime.isRunning, isFalse,
+          reason: 'seam OFF ⇒ no worker even with the production transport');
+      expect(a2Rpc.calls, isEmpty,
+          reason: 'transport attached but drain flag FALSE ⇒ ZERO cloud calls');
+      expect(await queueRepo.getPendingCount(shopId: 'shop-1'), 1,
+          reason: 'the queued write stays durable');
+
+      runtime.reset();
+      expect(a2Rpc.calls, isEmpty);
+    });
+
+    test(
+        'T3 — offline fail-closed: transport wired, drain ON, but offline ⇒ '
+        'no cloud mutation, queue preserved', () async {
+      final session = SessionState();
+      final runtime = buildRuntime(
+        sessionState: session,
+        cloudOps: productionCloudOperations(),
+        drainEnabled: true,
+        connectivityCheck: () async => false,
+      );
+      await enqueueSale(key: 't3-sale');
+
+      await runtime.ensureStarted();
+      expect(runtime.isRunning, isTrue);
+
+      final result = await runtime.syncNow();
+      expect(result, isNull, reason: 'offline cycle skipped by the worker');
+      expect(a2Rpc.calls, isEmpty,
+          reason: 'offline ⇒ no cloud mutation via the wired transport');
+      expect(await queueRepo.getPendingCount(shopId: 'shop-1'), 1,
+          reason: 'queue preserved offline');
+
+      await runtime.stop();
+      runtime.reset();
+    });
+
+    test(
+        'T4 — license fail-closed: transport wired, drain ON, but unlicensed '
+        '⇒ no drain', () async {
+      final session = SessionState();
+      final runtime = buildRuntime(
+        sessionState: session,
+        cloudOps: productionCloudOperations(),
+        drainEnabled: true,
+        licenseCheck: () async => false,
+      );
+      await enqueueSale(key: 't4-sale');
+
+      await runtime.ensureStarted();
+
+      expect(runtime.isRunning, isFalse, reason: 'license gate closed');
+      expect(a2Rpc.calls, isEmpty,
+          reason: 'unlicensed ⇒ no cloud mutation via the wired transport');
+      expect(logs.any((l) => l.contains('unlicensed')), isTrue);
+
+      runtime.reset();
+    });
+
+    test(
+        'T5 — unbound fail-closed: transport wired, drain ON, but no bound '
+        'shop ⇒ no drain', () async {
+      final session = SessionState();
+      final runtime = buildRuntime(
+        sessionState: session,
+        cloudOps: productionCloudOperations(),
+        drainEnabled: true,
+        shopIdProvider: () async => null,
+      );
+      await enqueueSale(key: 't5-sale');
+
+      await runtime.ensureStarted();
+
+      expect(runtime.isRunning, isFalse, reason: 'no bound shop');
+      expect(runtime.boundShopId, isNull);
+      expect(a2Rpc.calls, isEmpty,
+          reason: 'unbound ⇒ no cloud mutation via the wired transport');
+
+      runtime.reset();
+    });
+
+    test(
+        'T6 — tenant mismatch fail-closed: a queued entry for another shop_id '
+        'is never drained under the ambient/bound shop', () async {
+      final session = SessionState();
+      final runtime = buildRuntime(
+        sessionState: session,
+        cloudOps: productionCloudOperations(),
+        drainEnabled: true,
+      );
+      // Bound runtime is shop-1; the queued write belongs to shop-2.
+      await enqueueSale(key: 't6-other', shop: 'shop-2');
+      await enqueueSale(key: 't6-bound', shop: 'shop-1');
+
+      await runtime.ensureStarted();
+      await runtime.syncNow();
+
+      expect(a2Rpc.names.where((n) => n == 'create_cloud_sale_with_stock_v2'),
+          hasLength(1),
+          reason: 'only the bound shop-1 entry is drained');
+      expect(a2Rpc.calls.single.params['p_shop_id'], 'shop-1',
+          reason: 'the shop-2 entry is never executed under the bound shop');
+      expect(await queueRepo.getPendingCount(shopId: 'shop-2'), 1,
+          reason: 'the other-tenant entry stays durable, untouched');
+
+      await runtime.stop();
+      runtime.reset();
+    });
+
+    test('T7 — repeated configure/ensureStarted does not duplicate workers',
+        () async {
+      final session = SessionState();
+      final runtime = buildRuntime(
+        sessionState: session,
+        cloudOps: productionCloudOperations(),
+        drainEnabled: true,
+      );
+      await enqueueSale(key: 't7-sale');
+
+      await runtime.ensureStarted();
+      final firstWorker = runtime.isRunning;
+
+      // Re-running configure (as the app does on every session re-establish)
+      // must not spawn a second worker.
+      runtime.configure(
+        database: db,
+        queueRepository: queueRepo,
+        conflictAuditRepository: auditRepo,
+        adapters: buildStandardAdapters(),
+        cloudOperations: productionCloudOperations(),
+        sessionState: session,
+        shopIdProvider: () async => 'shop-1',
+        licenseCheck: () async => true,
+        logger: (msg) async => logs.add(msg),
+        drainEnabled: true,
+        interval: const Duration(hours: 1),
+      );
+      await runtime.ensureStarted();
+
+      expect(firstWorker, isTrue);
+      expect(runtime.isRunning, isTrue,
+          reason: 'idempotent re-provision keeps the single drain worker');
+
+      final result = await runtime.syncNow();
+      expect(result!.processed, 1,
+          reason: 'one worker processes the queue exactly once');
+
+      await runtime.stop();
+      runtime.reset();
+    });
+
+    test(
+        'T8 — A3 stockAdjustment route remains dormant-but-reachable through '
+        'the wired production transport', () async {
+      // A registered stockAdjustment queue entry must route, via the wired
+      // production transport, to the A4 owner-gated adjustment RPC with the
+      // persisted shop id — without any transport regression and without
+      // fabricating a product identity.
+      final session = SessionState();
+      final runtime = buildRuntime(
+        sessionState: session,
+        cloudOps: productionCloudOperations(),
+        drainEnabled: true,
+      );
+      await queueRepo.enqueue(
+        entityType: 'stockAdjustment',
+        entityId: 1,
+        operation: SyncQueueOperation.CREATE,
+        payload: {
+          'product_id': 'prod-1',
+          'projected_current': 5,
+          'shortfall': 2,
+          'adjustment_type': 'OVERSOLD',
+          'sale_id': 'sale-1',
+          'notes': null,
+        },
+        idempotencyKey: 't8-adjust',
+        shopId: 'shop-1',
+      );
+
+      await runtime.ensureStarted();
+      final result = await runtime.syncNow();
+      expect(result, isNotNull);
+
+      final calls =
+          a2Rpc.calls.where((c) => c.name == 'create_cloud_stock_adjustment');
+      expect(calls, hasLength(1),
+          reason:
+              'A3 adjustment route is reachable through the wired transport');
+      expect(calls.single.params['p_shop_id'], 'shop-1');
+      expect(calls.single.params['p_product_id'], 'prod-1',
+          reason: 'the governed product identity is used verbatim');
+
+      await runtime.stop();
+      runtime.reset();
+    });
+  });
+}
+
+/// Records real transport RPC invocations (A2 fixtures). Mirror of the A1
+/// contract fixture so the A2 wiring tests assert against the actual A1
+/// transport's routing — not a stub cloudOps.
+class A2RecordingRpc {
+  final List<({String name, Map<String, dynamic> params})> calls = [];
+
+  List<String> get names => calls.map((c) => c.name).toList();
+
+  Future<dynamic> call(String function, Map<String, dynamic> params) async {
+    calls.add((name: function, params: Map<String, dynamic>.from(params)));
+    if (function.contains('_v2') || function.startsWith('save_cloud')) {
+      return <String, dynamic>{
+        'status': 'SYNCED',
+        'id': 'server-uuid',
+        'current_quantity': 0,
+        'server_version': 1,
+      };
+    }
+    if (function.startsWith('create_cloud_')) return 'server-uuid';
+    return true;
+  }
 }

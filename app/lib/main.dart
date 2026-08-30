@@ -34,6 +34,7 @@ import 'screens/expenses/expenses_screen.dart';
 import 'screens/inventory_count/inventory_count_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/customers/customers_screen.dart';
+import 'sync/sync_cloud_operations_transport.dart';
 import 'sync/sync_runtime.dart';
 
 void main() {
@@ -244,14 +245,23 @@ class _AuthGateState extends State<AuthGate> {
     );
 
     // Phase P (WS-1): configure the application-owned sync runtime. The
-    // drain seam (AppConfig.syncDrainEnabled) defaults to FALSE (owner
-    // decision, plan §N): with it off the runtime only manages and
+    // production A1 transport is attached here (A2) so the runtime genuinely
+    // owns a real SyncCloudOperations implementation. Attaching the
+    // transport performs ZERO network activity — the constructor is dormant
+    // — and the drain seam (AppConfig.syncDrainEnabled) defaults to FALSE
+    // (owner decision, plan §N): with it off the runtime only manages and
     // publishes queue status; it constructs no SyncWorker/SyncEngine and
     // performs zero cloud calls. Shop/license/connectivity gating inside
-    // ensureStarted keeps offline-only tenants untouched.
+    // ensureStarted keeps offline-only tenants untouched, and every operation
+    // remains scoped by the persisted queue shop_id (never the ambient shop).
     SyncRuntime.instance.configure(
       database: db,
       adapters: buildStandardAdapters(),
+      cloudOperations: SyncCloudOperationsTransport(
+        rpc: (function, params) =>
+            Supabase.instance.client.rpc(function, params: params),
+        allowOversell: true,
+      ).toOperations(),
       sessionState: _sessionState,
       shopIdProvider: () async => ActiveShopContext.instance.shopId,
       licenseCheck: () async {
