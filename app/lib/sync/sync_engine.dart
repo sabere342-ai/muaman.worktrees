@@ -138,6 +138,13 @@ class SyncEngine {
               shopId: shopId,
               cloudUuid: payloadData['cloud_uuid'] as String? ?? '',
               entityId: entry.entityId,
+              // A1 transport boundary (plan §F A1 / brief §10): the
+              // already-persisted queue entry idempotency key is threaded
+              // through the transport so `_v2` stock revert RPCs can honour
+              // revert-at-most-once. This is the minimal type-safe extension;
+              // A5 still owns the full end-to-end idempotency/convergence
+              // semantics.
+              idempotencyKey: entry.idempotencyKey,
             );
           }
         } else if (entry.operation == SyncQueueOperation.CREATE ||
@@ -550,6 +557,7 @@ class SyncCloudOperations {
     required String shopId,
     required String cloudUuid,
     required int entityId,
+    String? idempotencyKey,
   }) deleteEntity;
 
   SyncCloudOperations({

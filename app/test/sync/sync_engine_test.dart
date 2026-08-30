@@ -137,6 +137,7 @@ void main() {
             required shopId,
             required cloudUuid,
             required entityId,
+            String? idempotencyKey,
           }) async {},
         ),
       );
@@ -185,6 +186,7 @@ void main() {
             required shopId,
             required cloudUuid,
             required entityId,
+            String? idempotencyKey,
           }) async {},
         ),
       );
@@ -235,6 +237,7 @@ void main() {
             required shopId,
             required cloudUuid,
             required entityId,
+            String? idempotencyKey,
           }) async {},
         ),
       );
@@ -281,6 +284,7 @@ void main() {
             required shopId,
             required cloudUuid,
             required entityId,
+            String? idempotencyKey,
           }) async {},
         ),
       );

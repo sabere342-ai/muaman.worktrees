@@ -174,7 +174,8 @@ void main() {
               {required adapter,
               required shopId,
               required cloudUuid,
-              required entityId}) async {},
+              required entityId,
+              String? idempotencyKey}) async {},
         ),
       );
       final resultBefore = await deadEngine.processQueue();
@@ -197,7 +198,8 @@ void main() {
               {required adapter,
               required shopId,
               required cloudUuid,
-              required entityId}) async {},
+              required entityId,
+              String? idempotencyKey}) async {},
         ),
       );
       final resultAfter = await restartedEngine.processQueue();
@@ -241,7 +243,8 @@ void main() {
               {required adapter,
               required shopId,
               required cloudUuid,
-              required entityId}) async {},
+              required entityId,
+              String? idempotencyKey}) async {},
         ),
       );
       await first.processQueue();
@@ -253,7 +256,8 @@ void main() {
               {required adapter,
               required shopId,
               required cloudUuid,
-              required entityId}) async {},
+              required entityId,
+              String? idempotencyKey}) async {},
         ),
       );
       final result = await restarted.processQueue();
@@ -284,7 +288,8 @@ void main() {
               {required adapter,
               required shopId,
               required cloudUuid,
-              required entityId}) async {},
+              required entityId,
+              String? idempotencyKey}) async {},
         ),
       );
 
@@ -310,7 +315,8 @@ void main() {
               {required adapter,
               required shopId,
               required cloudUuid,
-              required entityId}) async {},
+              required entityId,
+              String? idempotencyKey}) async {},
         ),
       );
       final result = await restarted.processQueue();
@@ -362,7 +368,8 @@ void main() {
               {required adapter,
               required shopId,
               required cloudUuid,
-              required entityId}) async {},
+              required entityId,
+              String? idempotencyKey}) async {},
         ),
       );
       await conflictingOps.processQueue();
@@ -429,7 +436,8 @@ void main() {
               {required adapter,
               required shopId,
               required cloudUuid,
-              required entityId}) async {},
+              required entityId,
+              String? idempotencyKey}) async {},
         ),
       );
       final result = await engine.processQueue();
