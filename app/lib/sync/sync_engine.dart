@@ -138,12 +138,11 @@ class SyncEngine {
               shopId: shopId,
               cloudUuid: payloadData['cloud_uuid'] as String? ?? '',
               entityId: entry.entityId,
-              // A1 transport boundary (plan §F A1 / brief §10): the
-              // already-persisted queue entry idempotency key is threaded
-              // through the transport so `_v2` stock revert RPCs can honour
-              // revert-at-most-once. This is the minimal type-safe extension;
-              // A5 still owns the full end-to-end idempotency/convergence
-              // semantics.
+              // A5 (6.1): the persisted queue-entry occurrence-token
+              // (canonically embedded in the idempotency key) is threaded
+              // through so `_v2` stock revert RPCs honour revert-at-most-once.
+              // A DELETE has no surviving local row to converge; the revert
+              // plus server idempotency log is the authority.
               idempotencyKey: entry.idempotencyKey,
             );
           }
@@ -187,10 +186,32 @@ class SyncEngine {
             }
 
             if (result.idempotent) {
-              await _queueRepository.markSynced(entry.id);
+              // A5 (6.3): an idempotent replay is success/convergence — the
+              // logical effect is already durably present server-side. Adopt
+              // the authoritative response and close the entry SYNCED without
+              // re-executing the mutation. The SAME logical key (persisted
+              // occurrence token inside) returned this envelope.
+              await _convergeSuccess(entry, adapter, result, shopId: shopId);
               synced++;
               continue;
             }
+
+            if (!result.success) {
+              // A5 (12): a non-conflict, non-idempotent non-success must never
+              // be closed as SYNCED (no fake success states). The transport
+              // resolves its own business errors to CloudDataException; this
+              // guard covers a transport reporting failure structurally.
+              await _queueRepository.markFailed(entry.id);
+              await _logger(entry.entityType, 'SERVER_ERROR',
+                  details: 'Upsert returned failure without conflict or '
+                      'idempotent-replay classification');
+              failed++;
+              continue;
+            }
+
+            await _convergeSuccess(entry, adapter, result, shopId: shopId);
+            synced++;
+            continue;
           }
         }
 
@@ -486,6 +507,124 @@ class SyncEngine {
         details:
             '${resolution.resolutionReason}; server_version=$adoptedVersion flowed back');
     return true;
+  }
+
+  /// A5 (6.3/6.4): converges a drained success OR an IDEMPOTENT replay into
+  /// the local projection inside ONE transaction with the queue SYNCED
+  /// transition (INV-M17).
+  ///
+  /// The server response is the authority: `cloud_uuid` and `server_version`
+  /// are adopted verbatim when present and never fabricated. Stock components
+  /// (`current_quantity` and siblings) are NOT written here — they are owned
+  /// by event application (ES-1) and travel through the existing
+  /// reconciliation/convergence contract (conflict resolution /
+  /// `adapter.cloudToLocalRow`) only when the current flow detects a
+  /// divergence requiring it (A5 6.5).
+  ///
+  /// Tenant authority stays with the persisted queue-entry `shop_id`: the
+  /// local row must belong to that shop or convergence fails closed — the
+  /// ambient active shop is never consulted.
+  ///
+  /// A replayed IDEMPOTENT result carries the ORIGINAL authoritative response,
+  /// so converging it stamps the durable server identity and closes the entry
+  /// SYNCED without re-executing the mutation (A5 6.3). Legacy test harnesses
+  /// without a local database keep the historical log-only close so no silent
+  /// divergence path can be introduced there.
+  Future<void> _convergeSuccess(
+    SyncQueueEntry entry,
+    EntitySyncAdapter adapter,
+    CloudUpsertResult result, {
+    required String shopId,
+  }) async {
+    final db = _localDb;
+    final cloudUuid = result.cloudUuid;
+    final serverVersion = result.currentServerVersion;
+    final hasAuthoritativeMetadata =
+        (cloudUuid != null && cloudUuid.isNotEmpty) ||
+            (serverVersion != null && serverVersion > 0);
+
+    if (db == null || !hasAuthoritativeMetadata) {
+      await _queueRepository.markSynced(entry.id);
+      await _logger(entry.entityType, 'CONVERGED',
+          details: 'closed SYNCED without authoritative adoption metadata');
+      return;
+    }
+
+    // Legacy harnesses (plan §33) model only the queue/audit tables, not the
+    // synced entity projections; production wiring always ships them. When the
+    // local projection table is absent there is no row to converge, so the
+    // historical log-only close is preserved (same shape-check idiom as
+    // SyncQueueRepository._syncQueueColumns).
+    final shape =
+        await db.rawQuery('PRAGMA table_info(${adapter.localTableName})');
+    if (shape.isEmpty) {
+      await _queueRepository.markSynced(entry.id);
+      await _logger(entry.entityType, 'CONVERGED',
+          details: 'closed SYNCED (legacy harness: '
+              '${adapter.localTableName} projection absent)');
+      return;
+    }
+
+    await db.transaction((txn) async {
+      final rows = await txn.query(adapter.localTableName,
+          where: 'id = ?', whereArgs: [entry.entityId], limit: 1);
+      if (rows.isEmpty) {
+        // The local row is already absent (delete/cleanup race); there is
+        // nothing to converge, but the durable server effect is acknowledged
+        // and the queue entry can close.
+        await _queueRepository.markSynced(entry.id, executor: txn);
+        return;
+      }
+      final existing = rows.first;
+      final rowShop = existing['shop_id'] as String?;
+      if (rowShop != null && rowShop.isNotEmpty && rowShop != shopId) {
+        throw StateError(
+            'tenant guard: convergence blocked for row in shop $rowShop');
+      }
+
+      final updated = await txn.update(
+        adapter.localTableName,
+        {
+          'sync_status': EntitySyncStatus.SYNCED.label,
+          'last_synced_at': DateTime.now().toIso8601String(),
+          if (cloudUuid != null && cloudUuid.isNotEmpty)
+            'cloud_uuid': cloudUuid,
+          if (serverVersion != null && serverVersion > 0)
+            'server_version': serverVersion,
+        },
+        where: 'id = ?',
+        whereArgs: [entry.entityId],
+      );
+      if (updated != 1) {
+        throw StateError('convergence update affected $updated rows');
+      }
+
+      // Convergence verification INSIDE the transaction: the adopted server
+      // identity must read back before anything commits (INV-M17).
+      final after = await txn.query(adapter.localTableName,
+          where: 'id = ?', whereArgs: [entry.entityId], limit: 1);
+      if (serverVersion != null && serverVersion > 0) {
+        final adoptedVersion =
+            (after.first['server_version'] as num?)?.toInt() ?? -1;
+        if (adoptedVersion != serverVersion) {
+          throw StateError(
+              'convergence verification failed: version $adoptedVersion != $serverVersion');
+        }
+      }
+      if (cloudUuid != null && cloudUuid.isNotEmpty) {
+        final adoptedUuid = after.first['cloud_uuid'] as String?;
+        if (adoptedUuid != cloudUuid) {
+          throw StateError(
+              'convergence verification failed: uuid $adoptedUuid != $cloudUuid');
+        }
+      }
+
+      await _queueRepository.markSynced(entry.id, executor: txn);
+    });
+
+    await _logger(entry.entityType, 'CONVERGED',
+        details: 'adopted server_version=$serverVersion, '
+            'cloud_uuid=$cloudUuid');
   }
 
   /// Durable REVIEW_REQUIRED landing (§20): persistent audit evidence plus
