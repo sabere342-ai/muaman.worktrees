@@ -153,6 +153,20 @@ class SyncRuntime {
       await publishStatus();
       return;
     }
+
+    // A6 tenant boundary: provisioning a DIFFERENT bound shop than the one
+    // already armed is a tenant switch. Stop the previous tenant's worker and
+    // clear its last-synced evidence so no stale cross-tenant state is ever
+    // published or drained under the new tenant (tenant isolation, plan §13).
+    if (_boundShopId != null && _boundShopId != resolved) {
+      await _log('SyncRuntime: tenant switch $_boundShopId → $resolved; '
+          'resetting sync evidence and stopping prior worker');
+      _stopWorkerQuietly();
+      _lastSyncedAt = null;
+      // Clear the SessionState sync surface so the previous tenant's status
+      // (counts / last-synced) never leaks onto the new tenant.
+      _sessionState?.resetSyncStatus();
+    }
     _boundShopId = resolved;
 
     if (!_drainEnabled) {
@@ -197,6 +211,25 @@ class SyncRuntime {
   Future<void> stop() async {
     _stopWorkerQuietly();
     _boundShopId = null;
+    // A6: tear down the tenant's reconciliation evidence with it, so the next
+    // tenant never inherits another tenant's successful-sync timestamp.
+    _lastSyncedAt = null;
+    await publishStatus();
+  }
+
+  /// A6 retry/reconnect affordance (gates preserved).
+  ///
+  /// Re-evaluates the session/license/connectivity/shop gates via
+  /// [ensureStarted] (reconnect) and, when the reconciliation engine is armed,
+  /// drives one immediate cycle via [syncNow] (retry). With the production
+  /// drain seam OFF this performs ZERO cloud mutation — it only re-publishes
+  /// truthful state — and with any gate closed (unlicensed, unbound, no
+  /// transport) nothing clouds. No gate is ever bypassed.
+  Future<void> retryNow() async {
+    await ensureStarted();
+    if (_worker != null && _worker!.isRunning) {
+      await syncNow();
+    }
     await publishStatus();
   }
 
@@ -233,9 +266,25 @@ class SyncRuntime {
   /// Publishes the live queue state (pending/failed/conflict counts and the
   /// last successful sync) to [SessionState]. Safe to call anytime; a
   /// missing queue repository or session state is a silent no-op.
+  ///
+  /// A6 truthfulness: the counts are always scoped to the bound tenant
+  /// (persisted queue `shop_id`). When no tenant is bound, status is
+  /// published as converged/empty with the reconciliation capability OFF — a
+  /// fail-closed baseline that can never claim success for an unbound
+  /// session, and never leaks another tenant's status.
   Future<void> publishStatus() async {
     final state = _sessionState;
     if (state == null) return;
+
+    final active = _drainEnabled && (_worker?.isRunning ?? false);
+    final shopId = _boundShopId;
+    if (shopId == null || shopId.isEmpty) {
+      // No tenant bound: clear the whole sync surface (counters, last-synced
+      // evidence, reconciliation capability) so no tenant's status can leak or
+      // be misrepresented for an unbound session.
+      state.resetSyncStatus();
+      return;
+    }
 
     final repo = _queueRepository;
     if (repo == null) {
@@ -243,11 +292,11 @@ class SyncRuntime {
         pendingCount: 0,
         failedCount: 0,
         conflictCount: 0,
+        drainActive: active,
       );
       return;
     }
 
-    final shopId = _boundShopId;
     final pending = await repo.getPendingCount(shopId: shopId);
     final failed = await repo.getFailedCount(shopId: shopId);
     final conflicts = await repo.getConflictCount(shopId: shopId);
@@ -256,6 +305,7 @@ class SyncRuntime {
       failedCount: failed,
       conflictCount: conflicts,
       lastSyncedAt: _lastSyncedAt,
+      drainActive: active,
     );
   }
 
@@ -321,7 +371,11 @@ class SyncRuntime {
   }
 
   Future<void> _onCycleComplete(SyncResult result) async {
-    if (result.synced > 0 || result.processed > 0) {
+    // A6 truthfulness: `lastSyncedAt` advances ONLY on genuine convergence —
+    // at least one entry was actually synchronized/reconciled this cycle.
+    // `processed > 0` is NOT evidence of success (entries may all fail or be
+    // skipped), so it must never fabricate a fresh successful-sync timestamp.
+    if (result.synced > 0) {
       _lastSyncedAt = DateTime.now();
     }
     await publishStatus();

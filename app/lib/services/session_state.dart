@@ -20,6 +20,14 @@ class SessionState extends ChangeNotifier {
   int _conflictSyncCount = 0;
   DateTime? _lastSyncedAt;
 
+  /// A6 (truthful observability): whether the application-owned reconciliation
+  /// engine is actually armed to sink the queue to cloud. It is `true` only
+  /// when the drain seam is enabled AND a drain worker is live for the bound
+  /// tenant. The UI must never present "fully synced"/success while this is
+  /// `false`, because no successful reconciliation can have occurred regardless
+  /// of pending/failed/conflict counts.
+  bool _drainActive = false;
+
   User? get currentUser => _currentUser;
   bool get isLoggedIn => _currentUser != null;
   UserRole? get currentRole => _currentUser?.role;
@@ -40,18 +48,49 @@ class SessionState extends ChangeNotifier {
   bool get hasFailedSync => _failedSyncCount > 0;
   bool get hasConflictSync => _conflictSyncCount > 0;
 
-  /// Phase H: Update sync counters (called by SyncWorker after each cycle).
+  /// A6: whether the reconciliation engine is armed to sink to cloud.
+  bool get drainActive => _drainActive;
+
+  /// A6: a truthful derived "the device can actually reconcile" gate. Green /
+  /// fully-synced success is only ever presented when this is `true`.
+  bool get isReconciling => _drainActive;
+
+  /// Phase H: Update sync counters (called by SyncWorker/Runtime after each
+  /// cycle).
+  ///
+  /// A6 [drainActive] is the authoritative reconciliation-capability flag
+  /// published by the owning runtime. It is intentionally optional so existing
+  /// callers that only re-publish counts leave the capability unchanged.
   void updateSyncStatus({
     int? pendingCount,
     int? failedCount,
     int? conflictCount,
     DateTime? lastSyncedAt,
+    bool? drainActive,
   }) {
     if (pendingCount != null) _pendingSyncCount = pendingCount;
     if (failedCount != null) _failedSyncCount = failedCount;
     if (conflictCount != null) _conflictSyncCount = conflictCount;
     if (lastSyncedAt != null) _lastSyncedAt = lastSyncedAt;
+    if (drainActive != null) _drainActive = drainActive;
     notifyListeners();
+  }
+
+  /// A6: clears the sync status (counters, last-synced timestamp and the
+  /// reconciliation capability). Called on session/tenant boundaries (logout,
+  /// shop switch) so stale queue status from one tenant is never presented for
+  /// another tenant or after unlink.
+  void resetSyncStatus() {
+    _clearSyncStatusFields();
+    notifyListeners();
+  }
+
+  void _clearSyncStatusFields() {
+    _pendingSyncCount = 0;
+    _failedSyncCount = 0;
+    _conflictSyncCount = 0;
+    _lastSyncedAt = null;
+    _drainActive = false;
   }
 
   /// The permission resolver this session is bound to.
@@ -78,6 +117,7 @@ class SessionState extends ChangeNotifier {
 
   void clearCloudSession() {
     _cloudSession = null;
+    _clearSyncStatusFields();
     notifyListeners();
   }
 
@@ -87,7 +127,8 @@ class SessionState extends ChangeNotifier {
     }
     _currentUser = null;
     _cloudSession = null;
-    notifyListeners();
+    // A6: never let one tenant's sync status leak past logout.
+    resetSyncStatus();
   }
 
   void updateCurrentUser(User user) {

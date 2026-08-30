@@ -8,6 +8,7 @@ import 'sales_report_screen.dart';
 import '../../services/session_state.dart';
 import '../../services/permissions.dart';
 import '../invoices/invoice_preview_screen.dart';
+import '../../sync/sync_runtime.dart';
 import '../../widgets/sync_status_indicator.dart';
 
 class SalesScreen extends StatefulWidget {
@@ -102,6 +103,12 @@ class _SalesScreenState extends State<SalesScreen> {
                           failedCount: widget.sessionState!.failedSyncCount,
                           conflictCount: widget.sessionState!.conflictSyncCount,
                           lastSyncedAt: widget.sessionState!.lastSyncedAt,
+                          drainActive: widget.sessionState!.drainActive,
+                          // A6 retry/reconnect affordance routed through the
+                          // application-owned runtime so every gate
+                          // (license/connectivity/shop/tenant/drain seam) is
+                          // preserved and never bypassed.
+                          onRetry: () => SyncRuntime.instance.retryNow(),
                         ),
                       ),
                     ),

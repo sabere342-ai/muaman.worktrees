@@ -19,6 +19,7 @@ import '../services/standalone_backup_service.dart';
 import '../services/standalone_restore_service.dart';
 import '../services/session_state.dart';
 import '../services/shop_profile_service.dart';
+import '../sync/sync_runtime.dart';
 import 'admin/roles_permissions_screen.dart';
 import 'admin/user_management_screen.dart';
 import 'expenses/expense_categories_screen.dart';
@@ -748,18 +749,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final conflictCount = widget.sessionState.conflictSyncCount;
     final lastSyncedAt = widget.sessionState.lastSyncedAt;
     final isCloudLinked = widget.sessionState.isCloudLinked;
+    final isOnline = widget.sessionState.isOnline;
+    final drainActive = widget.sessionState.drainActive;
 
+    // A6 truthfulness: derive the label from authoritative evidence, never
+    // optimism. A valid cloud/auth session is NOT success; green "مزامنة
+    // كاملة" requires an armed reconciliation engine (drainActive), a
+    // converged queue, and a recorded successful sync.
     Color statusColor;
     String statusLabel;
-    if (!isCloudLinked) {
-      statusColor = Colors.grey;
-      statusLabel = 'غير مرتبط بالسحابة';
-    } else if (failedCount > 0 || conflictCount > 0) {
+    if (failedCount > 0 || conflictCount > 0) {
       statusColor = Colors.red;
       statusLabel = 'يوجد مشاكل في المزامنة';
     } else if (pendingCount > 0) {
       statusColor = Colors.orange;
-      statusLabel = 'جاري المزامنة ($pendingCount)';
+      statusLabel = 'عناصر تنتظر المزامنة ($pendingCount)';
+    } else if (!isCloudLinked) {
+      statusColor = Colors.grey;
+      statusLabel = 'غير مرتبط بالسحابة';
+    } else if (!isOnline) {
+      statusColor = Colors.amber;
+      statusLabel = 'غير متصل حاليًا — لا مزامنة';
+    } else if (!drainActive) {
+      statusColor = Colors.amber;
+      statusLabel = 'المزامنة غير نشطة — البيانات محفوظة محليًا';
+    } else if (lastSyncedAt == null) {
+      statusColor = Colors.blue;
+      statusLabel = 'جاري المزامنة...';
     } else {
       statusColor = Colors.green;
       statusLabel = 'مزامنة كاملة';
@@ -814,6 +830,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 textDirection: TextDirection.rtl,
               ),
             ],
+            const SizedBox(height: 8),
+            // A6 retry/reconnect affordance: routed through the application-
+            // owned runtime so every gate (license/connectivity/shop/tenant/
+            // drain seam) is preserved. With the production drain seam OFF it
+            // only re-evaluates and re-publishes truthful state — it never
+            // causes a hidden cloud mutation. Shown whenever the queue is not
+            // a confirmed fully-synced state.
+            if (!(failedCount == 0 &&
+                conflictCount == 0 &&
+                pendingCount == 0 &&
+                isCloudLinked &&
+                isOnline &&
+                drainActive &&
+                lastSyncedAt != null))
+              OutlinedButton.icon(
+                onPressed: () => SyncRuntime.instance.retryNow(),
+                icon: const Icon(Icons.refresh, size: 16),
+                label: const Text('إعادة محاولة المزامنة',
+                    style: TextStyle(fontSize: 12)),
+              ),
           ],
         ),
       ),
