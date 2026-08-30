@@ -297,11 +297,6 @@ void main() {
 
     test('lastSyncedAt does NOT advance when cycle is skipped offline',
         () async {
-      final runtime = buildRuntime(
-        drainEnabled: true,
-        cloudOps: successOps(),
-        connectivityCheck: () async => false,
-      );
       // Pre-seed a prior success timestamp to prove it is not overwritten by a
       // skipped/offline cycle.
       await enqueue(key: 't5b-prev');

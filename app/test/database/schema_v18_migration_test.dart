@@ -23,14 +23,12 @@ void main() {
   sqfliteFfiInit();
 
   late Database testDb;
-  late DatabaseHelper helper;
 
   setUp(() async {
     testDb =
         await databaseFactoryFfiNoIsolate.openDatabase(inMemoryDatabasePath);
     await DatabaseHelper.runCreateDbForTest(testDb);
     await DatabaseHelper.setTestDatabase(testDb);
-    helper = DatabaseHelper.instance;
   });
 
   tearDown(() async {
