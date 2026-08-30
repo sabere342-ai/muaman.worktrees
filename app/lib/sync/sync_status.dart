@@ -38,7 +38,8 @@ enum SyncEntityType {
   customer,
   invoice,
   inventoryCount,
-  shopSetting;
+  shopSetting,
+  stockAdjustment;
 
   String get label => name;
 
@@ -46,11 +47,17 @@ enum SyncEntityType {
   /// (sales, returns, invoices, inventory counts). They are never
   /// LWW-resolved and replay must be idempotent. All other entities are
   /// mutable snapshots where true-timestamp LWW is permitted.
+  ///
+  /// A `stockAdjustment` (Phase P Group A A3 — P-OD1 local half) is a derived
+  /// Option C artifact whose server creation is a single deterministic,
+  /// idempotent upsert keyed by the governing sale's idempotency key. It is
+  /// never LWW-resolved, so it is event-like.
   bool get isEventLike => switch (this) {
         SyncEntityType.sale => true,
         SyncEntityType.returnItem => true,
         SyncEntityType.invoice => true,
         SyncEntityType.inventoryCount => true,
+        SyncEntityType.stockAdjustment => true,
         _ => false,
       };
 }

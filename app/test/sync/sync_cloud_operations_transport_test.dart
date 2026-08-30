@@ -469,7 +469,9 @@ void main() {
       expect(result.success, isTrue);
     });
 
-    test('OVERSOLD is never reported as normal success (A3 boundary)',
+    test(
+        'OVERSOLD is classified for Option C routing, not hidden (A3 is not '
+        'reported as plain success and never thrown as a destructive error)',
         () async {
       rpc.responseFor('create_cloud_sale_with_stock_v2', {
         'status': 'OVERSOLD',
@@ -477,16 +479,25 @@ void main() {
         'current_quantity': -3,
         'server_version': 1,
       });
-      await expectLater(
-        transport.upsertEntity(
-          adapter: SaleSyncAdapter(),
-          shopId: 'shop-A',
-          localId: 1,
-          payload: salePayload(barcode: 'B1', quantity: 50, salePrice: 5),
-          idempotencyKey: 'k',
-        ),
-        throwsA(isA<CloudDataException>()),
+      final result = await transport.upsertEntity(
+        adapter: SaleSyncAdapter(),
+        shopId: 'shop-A',
+        localId: 1,
+        payload: salePayload(barcode: 'B1', quantity: 50, salePrice: 5),
+        idempotencyKey: 'k',
       );
+      // A3 boundary: the transport must surfaced the preserved OVERSOLD as a
+      // distinct classified result so the engine can run Option C
+      // reconciliation — NOT masquerade it as ordinary success and NOT throw
+      // (a throw would be misread by the engine as a failed, non-preserved
+      // event, contradicting the preserved-sale contract).
+      expect(result.oversold, isTrue,
+          reason: 'OVERSOLD must be classified, never hidden');
+      expect(result.success, isTrue,
+          reason: 'the sale is preserved server-side (not a failure)');
+      expect(result.idempotent, isFalse);
+      expect(result.conflict, isFalse);
+      expect(result.serverData?['current_quantity'], -3);
     });
   });
 

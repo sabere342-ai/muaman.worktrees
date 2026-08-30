@@ -36,6 +36,11 @@ class ConflictAuditRepository {
     int? localVersion,
     int? serverVersion,
     String? idempotencyKey,
+    // Phase P Group A A3 (P-OD1 local half): when an OVERSOLD event is
+    // reconciled through Option C, the conflict record is durably linked to
+    // the resulting adjustment artifact while REMAINING open (REVIEW_REQUIRED)
+    // — the negative-stock discrepancy still requires owner reconciliation.
+    int? resultingAdjustmentId,
     DatabaseExecutor? executor,
   }) async {
     final target = executor ?? _db;
@@ -56,6 +61,7 @@ class ConflictAuditRepository {
       'local_version': localVersion,
       'server_version': serverVersion,
       'idempotency_key': idempotencyKey,
+      'resulting_adjustment_id': resultingAdjustmentId,
       'detected_at': DateTime.now().toUtc().toIso8601String(),
       'status': ConflictLifecycleStatus.REVIEW_REQUIRED.label,
     });
@@ -80,9 +86,10 @@ class ConflictAuditRepository {
       _query('shop_id = ?',
           shopId: null, orderBy: 'detected_at DESC, id DESC', args: [shopId]);
 
-  Future<List<ConflictAuditRecord>> getByIdempotencyKey(
-      String idempotencyKey) async {
-    final rows = await _db.query('conflict_audit',
+  Future<List<ConflictAuditRecord>> getByIdempotencyKey(String idempotencyKey,
+      {DatabaseExecutor? executor}) async {
+    final target = executor ?? _db;
+    final rows = await target.query('conflict_audit',
         where: 'idempotency_key = ?',
         whereArgs: [idempotencyKey],
         orderBy: 'detected_at ASC, id ASC');

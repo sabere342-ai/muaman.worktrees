@@ -95,7 +95,13 @@ class DatabaseHelper {
   /// (WS-5): v17 adds the additive `writer_snapshot` column on `sync_queue` to
   /// persist a durable per-write permission/entitlement snapshot. Single
   /// source of truth for openDatabase + test seams.
-  static const int schemaVersion = 17;
+  ///
+  /// v18 (Phase P Group A A3 — P-OD1 local half): ADDITIVE `stock_adjustments`
+  /// table carrying the durable local Option C adjustment artifact + the
+  /// deterministic adjustment idempotency key, linked to the originating
+  /// oversold sale/event. Additive only; upgrades and fresh installs land on
+  /// the identical final shape.
+  static const int schemaVersion = 18;
 
   /// UUIDv4-shaped token generator (Phase M §24 / INV-M19). Used for both
   /// sync occurrence tokens and client-generated entity `cloud_uuid` values
@@ -439,6 +445,9 @@ class DatabaseHelper {
     if (oldVersion < 17) {
       await _migrateToV17(db);
     }
+    if (oldVersion < 18) {
+      await _migrateToV18(db);
+    }
   }
 
   Future<Database> get database async {
@@ -468,6 +477,9 @@ class DatabaseHelper {
     if (schemaVersion >= 17) {
       await DatabaseHelper.instance._migrateToV17(db);
     }
+    if (schemaVersion >= 18) {
+      await DatabaseHelper.instance._migrateToV18(db);
+    }
     await db.rawUpdate('PRAGMA user_version = $schemaVersion');
   }
 
@@ -494,6 +506,15 @@ class DatabaseHelper {
   @visibleForTesting
   static Future<void> runUpgradeToV17ForTest(Database db) async {
     await DatabaseHelper.instance._migrateToV17(db);
+  }
+
+  /// Test-only seam: runs ONLY the production v17 → v18 additive migration
+  /// step against a database already at the v17 shape (user_version 17), so
+  /// the durable `stock_adjustments` table is exercised without replaying
+  /// older history.
+  @visibleForTesting
+  static Future<void> runUpgradeToV18ForTest(Database db) async {
+    await DatabaseHelper.instance._migrateToV18(db);
   }
 
   /// Returns the full filesystem path to `muaman_store.db`.
@@ -653,6 +674,13 @@ class DatabaseHelper {
     // that is needed; the call keeps fresh/upgrade parity exact.
     if (version >= 17) {
       await _migrateToV17(db);
+    }
+
+    // Phase P Group A A3 (P-OD1 local half): v18 adds the durable local
+    // `stock_adjustments` table. On a fresh install the table is created
+    // empty; the additive call keeps fresh/upgrade parity exact.
+    if (version >= 18) {
+      await _migrateToV18(db);
     }
 
     if (seedDemoEnabled) {
@@ -1042,6 +1070,49 @@ class DatabaseHelper {
           .execute('ALTER TABLE sync_queue ADD COLUMN writer_snapshot TEXT');
     }
     SyncQueueRepository.invalidateShapeCache(db);
+  }
+
+  /// Phase P Group A A3 (P-OD1 local half): schema v17 → v18 is a single
+  /// ADDITIVE table — `stock_adjustments` — holding the durable local Option C
+  /// adjustment artifact produced when a drained sale/event returns `OVERSOLD`.
+  ///
+  /// The row carries the owning shop, the originating sale/event identity, the
+  /// product/barcode, the server-authoritative projected stock, the shortfall
+  /// (strictly positive), the related event ids, a deterministic adjustment
+  /// idempotency key (bound durably to the governing sale), the adjustment
+  /// lifecycle status, the server adjustment uuid once synced, and the creation
+  /// timestamp. Additive only: existing installs upgrade safely, and the same
+  /// table is created on fresh installs (`_createDB` path), keeping parity
+  /// exact. Old stock-adjustment rows are never rewritten.
+  Future<void> _migrateToV18(Database db) async {
+    await _createStockAdjustmentsTable(db);
+  }
+
+  Future<void> _createStockAdjustmentsTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS stock_adjustments (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        shop_id TEXT NOT NULL,
+        sale_id INTEGER,
+        return_id INTEGER,
+        product_barcode TEXT NOT NULL,
+        product_id TEXT,
+        projected_current INTEGER NOT NULL,
+        shortfall INTEGER NOT NULL,
+        related_event_ids TEXT,
+        idempotency_key TEXT,
+        status TEXT NOT NULL DEFAULT 'OPEN',
+        cloud_uuid TEXT,
+        created_at TEXT NOT NULL,
+        resolved_at TEXT
+      )
+    ''');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_stock_adj_shop ON stock_adjustments(shop_id)');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_stock_adj_sale ON stock_adjustments(sale_id)');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_stock_adj_idem ON stock_adjustments(idempotency_key)');
   }
 
   Future<void> _createUsersTable(Database db) async {

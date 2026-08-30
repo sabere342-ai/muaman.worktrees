@@ -4,6 +4,8 @@ import '../errors/cloud_data_exception.dart';
 import 'adapters/entity_sync_adapter.dart';
 import 'conflict_audit_repository.dart';
 import 'conflict_resolver.dart';
+import 'reconciliation_service.dart';
+import 'stock_adjustment.dart';
 import 'sync_queue_repository.dart';
 import 'sync_status.dart';
 
@@ -31,6 +33,19 @@ class SyncEngine {
   /// lifecycle transition (plan §21/§24).
   final ConflictAuditRepository? _conflictAuditRepository;
 
+  /// Durable local Option C adjustment table (schema v18, Phase P Group A A3).
+  /// When provided together with [_localDb], an OVERSOLD drain result persists
+  /// the durable adjustment artifact and enqueues its adjustment sync op.
+  final StockAdjustmentRepository? _adjustmentRepository;
+
+  /// Phase P Group A A3 (P-OD1 local half): the Option C policy seam
+  /// (`adjustmentSink` / `ownerNotifier`), wired rather than creating a
+  /// parallel reconciliation policy. Durable persistence is engine-owned and
+  /// authoritative; the seams are invoked for the policy's external side
+  /// effects after the durable evidence commits (notifications are not
+  /// durability — a notifier/sink failure never erases documented evidence).
+  final ReconciliationService? _reconciliation;
+
   SyncEngine({
     required SyncQueueRepository queueRepository,
     required ConflictResolver conflictResolver,
@@ -44,6 +59,8 @@ class SyncEngine {
     SyncCloudOperations? cloudOps,
     Database? localDb,
     ConflictAuditRepository? conflictAuditRepository,
+    StockAdjustmentRepository? adjustmentRepository,
+    ReconciliationService? reconciliation,
   })  : _queueRepository = queueRepository,
         _conflictResolver = conflictResolver,
         _adapters = adapters,
@@ -53,7 +70,9 @@ class SyncEngine {
         _logger = logger,
         _cloudOps = cloudOps,
         _localDb = localDb,
-        _conflictAuditRepository = conflictAuditRepository;
+        _conflictAuditRepository = conflictAuditRepository,
+        _adjustmentRepository = adjustmentRepository,
+        _reconciliation = reconciliation;
 
   Future<SyncResult> processQueue() async {
     final isOnline = await _connectivityCheck();
@@ -158,6 +177,43 @@ class SyncEngine {
               payload: payload,
               idempotencyKey: entry.idempotencyKey,
             );
+
+            // Phase P Group A A3 (P-OD1 local half): an OVERSOLD result is a
+            // preserved, server-accepted negative-stock event. It must never
+            // pass through a generic success branch (which would close all
+            // evidence before the Option C artifacts exist) nor be treated as
+            // a destructive failure (which would remove the accepted sale).
+            // Route it through the reconciliation path.
+            if (result.oversold) {
+              final reconciled =
+                  await _handleOversold(entry, adapter, result, shopId: shopId);
+              if (reconciled) {
+                // Requires-reconciliation surfacing (durable REVIEW_REQUIRED
+                // conflict audit + CONFLICT queue state), not a plain synced.
+                conflicts++;
+              } else {
+                failed++;
+              }
+              continue;
+            }
+
+            // A `stockAdjustment` entry drains the A4 owner-gated adjustment
+            // RPC. Its local convergence adopts the governing server adjustment
+            // uuid (additive evidence only — never fake sync_status/version on
+            // the evidence table), then closes the entry SYNCED.
+            if (entityType == SyncEntityType.stockAdjustment) {
+              if (result.idempotent || result.success) {
+                await _convergeAdjustmentSync(entry, result, shopId: shopId);
+                synced++;
+                continue;
+              }
+              await _queueRepository.markFailed(entry.id);
+              await _logger(entry.entityType, 'SERVER_ERROR',
+                  details: 'Adjustment sync returned failure without success '
+                      'or idempotent-replay classification');
+              failed++;
+              continue;
+            }
 
             if (result.conflict) {
               final resolution = _conflictResolver.resolveVersionConflict(
@@ -660,6 +716,274 @@ class SyncEngine {
     await _logger(entry.entityType, 'CONFLICT_REVIEW_REQUIRED',
         details: reason);
   }
+
+  /// Phase P Group A A3 (P-OD1 local half): routes a preserved OVERSOLD
+  /// server result through Option C reconciliation.
+  ///
+  /// In ONE coherent transaction (INV-M17 / OF-4 order):
+  ///   1. persists the durable local adjustment artifact (idempotent — the
+  ///      SAME logical event always maps to the SAME adjustment key, so a
+  ///      duplicate replay never creates a second artifact),
+  ///   2. writes the `conflict_audit` evidence with
+  ///      `resulting_adjustment_id` linked to that adjustment, keeping the
+  ///      record OPEN (REVIEW_REQUIRED) so the negative-stock discrepancy
+  ///      continues to require reconciliation,
+  ///   3. enqueues the (reversible, idempotent, tenant-scoped) adjustment sync
+  ///      operation to the A4 `create_cloud_stock_adjustment` RPC,
+  ///   4. adopts the authoritative server sale metadata (cloud_uuid /
+  ///      server_version) onto the preserved local sale,
+  ///   5. surfaces the event as requiring reconciliation (CONFLICT +
+  ///      REVIEW_REQUIRED) so it is never falsely reported as fully reconciled.
+  ///
+  /// Then, AFTER the durable commit, the Option C policy seams
+  /// (`adjustmentSink` → `ownerNotifier`) are invoked as notification
+  /// side-effects; a failure there is swallowed (logged) and never erases the
+  /// already-durable evidence (notifications are not durability).
+  ///
+  /// Returns true when the durable evidence landed (counted as
+  /// requires-reconciliation), false when the entry could not be reconciled.
+  Future<bool> _handleOversold(
+      SyncQueueEntry entry, EntitySyncAdapter adapter, CloudUpsertResult result,
+      {required String shopId}) async {
+    final db = _localDb;
+    final audit = _conflictAuditRepository;
+    final adjRepo = _adjustmentRepository;
+
+    // Legacy test harness without the local projection/adjustment/A3 harness
+    // cannot record the Option C evidence; fail closed (no silent synced).
+    if (db == null || audit == null || adjRepo == null) {
+      await _queueRepository.markFailed(entry.id);
+      await _logger(entry.entityType, 'OVERSOLD_NO_LOCAL_HARNESS',
+          details: 'oversold preserved but no local A3 reconciliation store');
+      return false;
+    }
+
+    if (entry.shopId != null &&
+        entry.shopId!.isNotEmpty &&
+        entry.shopId != shopId) {
+      throw StateError(
+          'tenant guard: oversold entry belongs to ${entry.shopId}');
+    }
+
+    final eventType = SyncEntityType.values.firstWhere(
+        (e) => e.label == entry.entityType,
+        orElse: () => SyncEntityType.sale);
+    final occurrenceToken = entry.occurrenceToken ?? entry.idempotencyKey;
+    final adjustmentKey = StockAdjustmentRepository.adjustmentKeyFor(
+      eventType: eventType,
+      localId: entry.entityId,
+      occurrenceToken: occurrenceToken,
+    );
+
+    final barcode = entry.payload?['barcode'] as String? ?? '';
+    final projected =
+        (result.serverData?['current_quantity'] as num?)?.toInt() ?? 0;
+    final shortfall = projected < 0 ? -projected : 0;
+    final cloudSaleUuid = result.cloudUuid;
+    final relatedEventIds = <String>[
+      entry.occurrenceToken ?? '${entry.entityType}:${entry.entityId}'
+    ];
+
+    // Resolve the governing cloud product uuid (the A4 adjustment RPC requires
+    // an explicit server product identity; never guessed). The oversold sale
+    // reached the server, so the local product should carry a cloud_uuid after
+    // hydration/sync; absent one, reconciliation still completes durably with a
+    // pointer the sync op validates at drain time (fail-closed there).
+    String? productUuid;
+    if (barcode.isNotEmpty) {
+      final prodRows = await db.query('products',
+          where: 'barcode = ? AND shop_id = ?',
+          whereArgs: [barcode, shopId],
+          limit: 1);
+      if (prodRows.isNotEmpty) {
+        productUuid = prodRows.first['cloud_uuid'] as String?;
+      }
+    }
+
+    final artifact = OversellAdjustmentArtifact(
+      shopId: shopId,
+      barcode: barcode,
+      projectedCurrentQuantity: projected,
+      shortfall: shortfall,
+      relatedEventIds: relatedEventIds,
+      detectedAt: DateTime.now().toUtc(),
+    );
+
+    int capturedAdjustmentId = 0;
+    await db.transaction((txn) async {
+      // Idempotency: a replayed delivery of the SAME logical oversold event
+      // reuses the same adjustment (no second artifact).
+      final existing =
+          await adjRepo.getByIdempotencyKey(adjustmentKey, executor: txn);
+      if (existing != null) {
+        capturedAdjustmentId = existing.id;
+      } else {
+        capturedAdjustmentId = await adjRepo.insertAdjustment(
+          executor: txn,
+          shopId: shopId,
+          saleId: entry.entityId,
+          productBarcode: barcode,
+          productId: productUuid,
+          projectedCurrent: projected,
+          shortfall: shortfall,
+          relatedEventIds: relatedEventIds,
+          idempotencyKey: adjustmentKey,
+        );
+      }
+
+      // Durable conflict audit evidence (AU-1/OF-4: written before any queue
+      // lifecycle transition hides the conflict). The record carries the
+      // resulting_adjustment_id and stays REVIEW_REQUIRED — the oversold
+      // discrepancy is not silently auto-resolved. It is keyed by the SAME
+      // deterministic adjustment key as the artifact and the adjustment sync
+      // op, so ANY replay of the logical oversold event (same occurrence
+      // token, even under a distinct delivery key) yields exactly ONE audit
+      // and ONE artifact — idempotency is a single durable chain.
+      final priorAudits =
+          await audit.getByIdempotencyKey(adjustmentKey, executor: txn);
+      if (priorAudits.isEmpty) {
+        await audit.recordConflict(
+          executor: txn,
+          shopId: shopId,
+          entityType: entry.entityType,
+          entityId: entry.entityId,
+          entityUuid: cloudSaleUuid,
+          productBarcode: barcode,
+          operation: entry.operation.label,
+          serverAfter: result.serverData,
+          serverVersion: result.currentServerVersion,
+          idempotencyKey: adjustmentKey,
+          relatedEventIds: relatedEventIds,
+          resultingAdjustmentId: capturedAdjustmentId,
+        );
+      }
+
+      // Enqueue the (reversible, tenant-scoped, idempotent) adjustment sync
+      // operation. SyncQueueRepository.enqueue is idempotent on the
+      // idempotency key, so a replay enqueues nothing new.
+      await _queueRepository.enqueue(
+        entityType: SyncEntityType.stockAdjustment.label,
+        entityId: capturedAdjustmentId,
+        operation: SyncQueueOperation.CREATE,
+        payload: {
+          'product_id': productUuid,
+          'projected_current': projected,
+          'shortfall': shortfall,
+          'adjustment_type': 'OVERSOLD',
+          'sale_id': cloudSaleUuid,
+          'notes': 'A3 Option C adjustment for preserved oversold event '
+              '(${eventType.label} $adjustmentKey)',
+        },
+        idempotencyKey: adjustmentKey,
+        shopId: shopId,
+        occurrenceToken: occurrenceToken,
+        executor: txn,
+      );
+
+      // Adopt the authoritative server sale metadata onto the preserved local
+      // sale (the server accepted the oversold sale; tenant-guard before write).
+      final saleRows = await txn.query(adapter.localTableName,
+          where: 'id = ?', whereArgs: [entry.entityId], limit: 1);
+      if (saleRows.isNotEmpty) {
+        final saleRow = saleRows.first;
+        final rowShop = saleRow['shop_id'] as String?;
+        if (rowShop != null && rowShop.isNotEmpty && rowShop != shopId) {
+          throw StateError('tenant guard: sale row belongs to $rowShop');
+        }
+        await txn.update(
+          adapter.localTableName,
+          {
+            if (cloudSaleUuid != null && cloudSaleUuid.isNotEmpty)
+              'cloud_uuid': cloudSaleUuid,
+            if (result.currentServerVersion != null &&
+                result.currentServerVersion! > 0)
+              'server_version': result.currentServerVersion,
+          },
+          where: 'id = ?',
+          whereArgs: [entry.entityId],
+        );
+      }
+
+      // Surface as requiring reconciliation: CONFLICT + REVIEW_REQUIRED. Never
+      // a fake SYNCED, never a destructive FAILED/PENDING-retry that would
+      // re-sell the accepted oversold event.
+      await _queueRepository.markConflict(
+          entry.id,
+          'Oversold: preserved and routed through Option C '
+          'adjustment (A3); requires reconciliation',
+          executor: txn);
+      await _queueRepository.setResolutionStatus(
+          entry.id, ConflictLifecycleStatus.REVIEW_REQUIRED,
+          executor: txn);
+    });
+
+    // Post-commit policy seam side-effects. Persistence is authoritative and
+    // already durable; a sink/notifier failure must not roll back evidence.
+    final reconciliation = _reconciliation;
+    if (reconciliation != null) {
+      final sink = reconciliation.adjustmentSink;
+      if (sink != null) {
+        try {
+          await sink(artifact);
+        } catch (e) {
+          await _logger(entry.entityType, 'ADJUSTMENT_SINK_FAILED',
+              details: '$e');
+        }
+      }
+      final notifier = reconciliation.ownerNotifier;
+      if (notifier != null) {
+        try {
+          await notifier(artifact);
+        } catch (e) {
+          await _logger(entry.entityType, 'OWNER_NOTIFY_FAILED', details: '$e');
+        }
+      }
+    }
+
+    await _logger(entry.entityType, 'OVERSOLD_RECONCILED',
+        details:
+            'sale preserved; adjustment=$capturedAdjustmentId shortfall=$shortfall');
+    return true;
+  }
+
+  /// Adopts the governing server adjustment uuid once a `stockAdjustment`
+  /// entry drains (fresh or idempotent-replay), then closes the entry SYNCED.
+  /// The adjustment table is additive evidence only — no fake sync_status /
+  /// server_version is written onto it and the evidence is never rewritten.
+  Future<void> _convergeAdjustmentSync(
+      SyncQueueEntry entry, CloudUpsertResult result,
+      {required String shopId}) async {
+    final db = _localDb;
+    final adjRepo = _adjustmentRepository;
+    final cloudUuid = result.cloudUuid;
+    if (db == null ||
+        adjRepo == null ||
+        cloudUuid == null ||
+        cloudUuid.isEmpty) {
+      await _queueRepository.markSynced(entry.id);
+      await _logger(entry.entityType, 'ADJUSTMENT_SYNCED',
+          details: 'closed SYNCED without server adjustment uuid');
+      return;
+    }
+
+    await db.transaction((txn) async {
+      final rows = await txn.query('stock_adjustments',
+          where: 'id = ?', whereArgs: [entry.entityId], limit: 1);
+      if (rows.isEmpty) {
+        await _queueRepository.markSynced(entry.id, executor: txn);
+        return;
+      }
+      final rowShop = rows.first['shop_id'] as String?;
+      if (rowShop != null && rowShop.isNotEmpty && rowShop != shopId) {
+        throw StateError('tenant guard: adjustment row belongs to $rowShop');
+      }
+      await adjRepo.markSynced(entry.entityId, cloudUuid, executor: txn);
+      await _queueRepository.markSynced(entry.id, executor: txn);
+    });
+
+    await _logger(entry.entityType, 'ADJUSTMENT_SYNCED',
+        details: 'adopted server adjustment cloud_uuid=$cloudUuid');
+  }
 }
 
 class SyncResult {
@@ -709,6 +1033,14 @@ class CloudUpsertResult {
   final bool success;
   final bool conflict;
   final bool idempotent;
+
+  /// Phase P Group A A3 (P-OD1 local half): true when the server accepted and
+  /// preserved a negative-stock (OVERSOLD) event. Such a result is routed
+  /// through Option C reconciliation — never treated as a generic success that
+  /// closes all evidence, and never as a destructive failure that removes the
+  /// accepted sale.
+  final bool oversold;
+
   final Map<String, dynamic>? serverData;
   final int? localVersion;
   final int? currentServerVersion;
@@ -718,6 +1050,7 @@ class CloudUpsertResult {
     this.success = false,
     this.conflict = false,
     this.idempotent = false,
+    this.oversold = false,
     this.serverData,
     this.localVersion,
     this.currentServerVersion,

@@ -264,6 +264,34 @@ class SyncCloudOperationsTransport {
           'p_key': _str(payload, 'setting_key'),
           'p_value': _str(payload, 'setting_value'),
         });
+      case SyncEntityType.stockAdjustment:
+        // Phase P Group A A3 (P-OD1 local half): the A4 owner-gated adjustment
+        // RPC. Tenant-scoped; requires an explicit cloud product uuid (never
+        // guessed), carries the durable adjustment identity/payload and the
+        // governing idempotency key. Fail closed when the product identity is
+        // absent — nothing is fabricated.
+        final productId = _strOrNull(payload, 'product_id');
+        if (productId == null || productId.isEmpty) {
+          throw CloudDataException(
+            type: CloudDataErrorType.invalidInput,
+            message:
+                'Stock adjustment sync requires a cloud product_id (UUID); '
+                'the adjustment cannot be routed without a server product '
+                'identity.',
+          );
+        }
+        return _call('create_cloud_stock_adjustment', {
+          ...params,
+          'p_product_id': productId,
+          'p_projected_current': _int(payload, 'projected_current'),
+          'p_shortfall': _int(payload, 'shortfall'),
+          'p_adjustment_type': _str(payload, 'adjustment_type'),
+          'p_sale_id': _strOrNull(payload, 'sale_id'),
+          'p_return_id': null,
+          'p_invoice_id': null,
+          'p_notes': _strOrNull(payload, 'notes'),
+          'p_idempotency_key': idempotencyKey,
+        });
     }
   }
 
@@ -310,9 +338,12 @@ class SyncCloudOperationsTransport {
       case SyncEntityType.invoice:
       case SyncEntityType.inventoryCount:
       case SyncEntityType.shopSetting:
+      case SyncEntityType.stockAdjustment:
         // No governed server delete surface for these event/setting types;
         // an invoice is retired by reverting its constituent sales, counts
-        // and settings carry no server-side delete. Fail closed truthfully.
+        // and settings carry no server-side delete, and a stock adjustment is
+        // immutable additive evidence (resolved, never deleted). Fail closed
+        // truthfully.
         throw CloudDataException(
           type: CloudDataErrorType.invalidInput,
           message:
@@ -336,16 +367,26 @@ class SyncCloudOperationsTransport {
     // Stock-aware `_v2` RPCs return JSONB with authoritative fields.
     if (_isStockResult(adapter.entityType)) {
       final result = _asStockResult(raw);
-      // OVERSOLD is a state A3 owns (Option C reconciliation). A1 must never
-      // silently treat it as normal success (brief §11): fail through the
-      // governed seam so the entry is not marked SYNCED.
+      // OVERSOLD is a state A3 owns (Option C reconciliation). A1/A5 leave the
+      // fail-closed boundary here so an oversold event is never silently
+      // reported as normal success AND never reported as a destructive failure.
+      // A3 (sync_engine) routes this classified result through the Option C
+      // path (persist adjustment, audit, enqueue adjustment sync) on the
+      // `oversold` flag — the accepted sale is preserved, not removed.
       if (result.oversold || result.status == 'OVERSOLD') {
-        throw CloudDataException(
-          type: CloudDataErrorType.conflict,
-          message:
-              'Oversold stock event requires reconciliation (A3); preserved '
-              'untouched, not treated as synced.',
-          serverMessage: result.status,
+        return CloudUpsertResult(
+          success: true,
+          oversold: true,
+          idempotent: result.idempotentReplay,
+          cloudUuid: result.id,
+          serverData: {
+            'status': result.status,
+            'current_quantity': result.currentQuantity,
+            'server_version': result.serverVersion,
+            'id': result.id,
+          },
+          currentServerVersion:
+              result.serverVersion > 0 ? result.serverVersion : null,
         );
       }
       return CloudUpsertResult(

@@ -11,6 +11,7 @@ import 'adapters/product_sync_adapter.dart';
 import 'adapters/return_sync_adapter.dart';
 import 'adapters/sale_sync_adapter.dart';
 import 'adapters/shop_settings_sync_adapter.dart';
+import 'adapters/stock_adjustment_sync_adapter.dart';
 import 'conflict_audit_repository.dart';
 import 'conflict_resolver.dart';
 import 'hydration_service.dart';
@@ -32,6 +33,7 @@ Map<SyncEntityType, EntitySyncAdapter> buildStandardAdapters() => {
       SyncEntityType.invoice: InvoiceSyncAdapter(),
       SyncEntityType.inventoryCount: InventoryCountSyncAdapter(),
       SyncEntityType.shopSetting: ShopSettingsSyncAdapter(),
+      SyncEntityType.stockAdjustment: StockAdjustmentSyncAdapter(),
     };
 
 /// Phase P WS-1 — the application-owned device→cloud sync runtime (drain).
