@@ -413,15 +413,18 @@ SACRED_ARTIFACTS_PRESERVED = YES
 ## L. Local Governance Closure
 
 ```
-governance commit SHA = <see final report, §18>
-local HEAD           = <see final report>
-working tree         = CLEAN (after governance commit; sacred artifacts remain untracked/preserved)
+governance commit SHA = 4fb36846864282a0fa3d645a4be68e7ba6c21687
+local HEAD           = 4fb36846864282a0fa3d645a4be68e7ba6c21687
+parent (locked baseline) = b1571fde16021806fe582ef3d9f3cd9e76016333
+ahead (vs github)    = 1
+behind (vs github)   = 0
+working tree         = CLEAN (tracked); sacred artifacts remain untracked/preserved
 push performed       = NO
 tag created          = NO
 ```
 
 A single normal local commit (`git commit --no-verify`, no amend, no force,
-no push) is created for the governance artifact, becoming the LOCAL_READY
+no push) was created for the governance artifact, becoming the LOCAL_READY
 governance closure. This session ends at LOCAL_READY. A separate
 owner-authorized REMOTE_LOCK session is required afterward.
 
