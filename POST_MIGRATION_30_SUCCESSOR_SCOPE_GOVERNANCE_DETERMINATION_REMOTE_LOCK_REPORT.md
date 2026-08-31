@@ -183,11 +183,11 @@ lock report commit was layered on top.
 
 ```
 report path  = POST_MIGRATION_30_SUCCESSOR_SCOPE_GOVERNANCE_DETERMINATION_REMOTE_LOCK_REPORT.md
-commit SHA   = (recorded after commit)
-push result  = (recorded after push)
-final local HEAD  = (recorded after push)
-final remote HEAD = (recorded after push)
-merge-base   = (recorded after push)
+commit SHA   = b630d0fb2853d054f52b2f952c31bfba57db144f
+push result  = fast-forward f51be8c..b630d0f (no force)
+final local HEAD  = b630d0fb2853d054f52b2f952c31bfba57db144f
+final remote HEAD = b630d0fb2853d054f52b2f952c31bfba57db144f
+merge-base   = b630d0fb2853d054f52b2f952c31bfba57db144f
 ahead        = 0
 behind       = 0
 ```
