@@ -64,10 +64,11 @@ $FORBIDDEN_FINGERPRINTS = @('FINGERPRINT_TEST', 'abc', '123', 'non-empty-value',
 
 $contract = @{
   authorizedVariantId      = 'ACTIVATED_VARIANT_1'
-  # NOT_SET: no owner authorization is currently active.
-  authorizedApprovalDigest = 'NOT_SET'
+  # Authorized by the human owner for ACTIVATED_VARIANT_1 at source baseline
+  # 56526f39565c64531b4f1dfef22d060506d56479 (approval identity digest).
+  authorizedApprovalDigest = '64E3123C9B809B1C6B63EB737003AE61FD4557693888BD74C3BD7EEDC5310D59'
   allowedEnvironments      = @('production')
-  ownerAuthorizationActive = $false
+  ownerAuthorizationActive = $true
 }
 
 # ---- Helper: compute canonical fingerprint (C3 correction) ----

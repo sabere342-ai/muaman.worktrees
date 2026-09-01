@@ -59,19 +59,21 @@ $repoRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $EMPTY_CONTENT_SHA256 = 'E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855'
 
 # Committed authorized activation contract (see docs/ACTIVATED_RELEASE_VARIANT_GOVERNANCE_CONTRACT.md)
-# GOVERNANCE CORRECTION: ownerAuthorizationActive is the master switch.
-# When false, NO combination of other inputs can produce ACTIVATED.
-# The authorizedApprovalDigest below is a structural placeholder for future activation;
-# it is NOT the empty-string hash and cannot be matched by any real approval file
-# until a future owner-authorized session sets ownerAuthorizationActive=true.
+# GOVERNANCE CORRECTION: ownerAuthorizationActive is the master switch but is NOT,
+# by itself, activation. It enables the positive path ONLY when the complete
+# authorization surface is simultaneously valid (variant id + file-bound approval
+# matching the digest + production environment + explicit opt-in + capability seam).
+# ownerAuthorizationActive=true alone or authorizedApprovalDigest set alone does NOT
+# authorize activation.
 $contract = [ordered]@{
   authorizedVariantId      = 'ACTIVATED_VARIANT_1'
-  # NOT_SET: no owner authorization is currently active. A future session must
-  # update this and set ownerAuthorizationActive=$true for activation to be possible.
-  authorizedApprovalDigest = 'NOT_SET'
+  # Authorized by the human owner in the OWNER_AUTHORIZATION_PREPARATION session for
+  # ACTIVATED_VARIANT_1 at source baseline 56526f39565c64531b4f1dfef22d060506d56479.
+  # This is the approval identity digest computed per docs/OWNER_APPROVAL_ARTIFACT_SCHEMA.md.
+  authorizedApprovalDigest = '64E3123C9B809B1C6B63EB737003AE61FD4557693888BD74C3BD7EEDC5310D59'
   allowedEnvironments      = @('production')
   allowCapabilityOnly      = $false
-  ownerAuthorizationActive = $false
+  ownerAuthorizationActive = $true
 }
 
 if ([string]::IsNullOrWhiteSpace($Out)) {

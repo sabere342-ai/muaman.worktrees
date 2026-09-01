@@ -1,6 +1,6 @@
 # Activated Release Variant — guard harness (INERT, deterministic).
 #
-# SESSION      = GROUP_A_PHASE_P_OD7_ACTIVATED_RELEASE_VARIANT_GOVERNANCE_CORRECTION
+# SESSION      = GROUP_A_PHASE_P_OD7_OWNER_ACTIVATION_DECISION (authorization preparation)
 # DRAIN_STATE  = GATED/OFF
 #
 # Proves the fail-closed matrix of resolve_release_variant.ps1 using LOCAL test doubles
@@ -9,17 +9,20 @@
 #   - asserts every non-fully-authorized row resolves to activationAuthorized=NO;
 #   - asserts the ordinary/default build (no inputs) is NORMAL_GATED_OFF;
 #   - asserts the capability-only build (SYNC_DRAIN_ENABLED=true) is CAPABLE_NOT_AUTHORIZED;
-#   - asserts the fully-authorized row produces ACTIVATED only under TEST-ONLY synthetic
-#     authorization (never in production contract state);
-#   - proves that the production contract state (ownerAuthorizationActive=false) prevents
-#     activation regardless of inputs;
+#   - proves that owner authorization active alone (without the complete authorization
+#     surface) does NOT activate;
+#   - proves that authorizedApprovalDigest being set alone does NOT activate;
 #   - proves that arbitrary/placeholder fingerprints are refused;
 #   - proves that stale source commits are refused;
-#   - proves that the canonical fingerprint is correctly recomputed.
+#   - proves that the canonical fingerprint is correctly recomputed;
+#   - proves that the one fully valid positive path (full authorization surface, real
+#     owner-authorized contract state) resolves ACTIVATED — CLASSIFICATION ONLY, and does
+#     not authorize build, ship, deploy, drain execution, or production contact.
 #
-# PRODUCTION CONTRACT tests: ownerAuthorizationActive=false => activationAuthorized=NO
-# SYNTHETIC TEST-ONLY tests: use a temporary resolver override with ownerAuthorizationActive=true
-#                            to prove the positive path works in isolation.
+# PRODUCTION CONTRACT tests: with ownerAuthorizationActive=true and the authorized
+#                             approval digest recorded, owner authorization alone !=
+#                             activation. Activation requires the complete positive
+#                             authorization surface simultaneously.
 #
 # This harness cannot contact production and cannot produce a drain-capable artifact.
 
@@ -38,13 +41,19 @@ New-Item -ItemType Directory -Path (Split-Path -Parent $Out) -Force | Out-Null
 
 $resolver = Join-Path $RepoRoot 'tools\release\resolve_release_variant.ps1'
 $verifier = Join-Path $RepoRoot 'tools\release\verify_activated_release.ps1'
-$approvedCommit = '3581f02fced55e0f2a5f437eaed1cfdee1bd9e9b'
+
+# Real authorized source baseline locked by the owner authorization for ACTIVATED_VARIANT_1.
+$approvedCommit = '56526f39565c64531b4f1dfef22d060506d56479'
 
 $EMPTY_CONTENT_SHA256 = 'E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855'
 
-# The test-only approval digest. This is the SHA-256 of the literal bytes of the
-# synthetic test approval artifact created below. It is ONLY used in test-fixture scope.
-$TEST_ONLY_APPROVAL_DIGEST = ''
+# The approval identity digest recorded in the committed contract. The harness recomputes
+# the positive-path fixture's identity digest and PROVES it equals the committed value,
+# so the positive-path proof exercises the real owner-authorized contract state.
+$COMMITTED_AUTHORIZED_APPROVAL_DIGEST = '64E3123C9B809B1C6B63EB737003AE61FD4557693888BD74C3BD7EEDC5310D59'
+
+# The canonical fingerprint of the real owner-authorized approval identity.
+$REAL_APPROVAL_FINGERPRINT = '0A32E14E853016E8D065BC7CADD6353D04E78A178A18B65C1B1CBA450C6BEDBA'
 
 function Invoke-Resolver {
   param([string]$OutPath, [string]$VariantId = '', [string]$ApprovalFile = '', [string]$Env = '', [bool]$Seam = $false, [bool]$OptIn = $false)
@@ -102,47 +111,56 @@ function Compute-ApprovalIdentityDigest {
   return [BitConverter]::ToString($hash).Replace('-', '').ToUpper()
 }
 
-# ---- Create a synthetic TEST-ONLY approval artifact ----
-# This is ONLY used to prove the positive path under synthetic authorization.
-# It is NOT a real owner approval. It is NOT committed. It is NOT production-active.
-# The fingerprint is computed from the approval identity digest (which excludes the
-# fingerprint field itself), so the artifact is self-consistent and deterministic.
-$testApprovalFile = Join-Path $TempRoot 'test-only-approval-artifact.json'
-$testOptIn = $true
-$testIdentityHash = ''
-$testFingerprint = ''
-function Build-TestApprovalObject {
+# ---- Build the REAL owner-authorized approval fixture ----
+# This reproduces the exact owner-authorized approval identity (the same canonical fields
+# that produced the committed authorizedApprovalDigest). It is used ONLY to prove that the
+# fully valid positive path resolves ACTIVATED in the inert classifier against the real
+# contract. It is a TEST fixture, never the real on-disk owner artifact, and is cleaned up
+# after verification.
+$realApprovalFile = Join-Path $TempRoot 'real-owner-approved-fixture.json'
+$realIdentityDigest = ''
+$realFingerprint = ''
+function Build-RealApprovalObject {
   return [ordered]@{
     schemaVersion = '1.0.0'
     decision = 'APPROVE_OD7_ACTIVATED_RELEASE_VARIANT_1'
     variantId = 'ACTIVATED_VARIANT_1'
     approvedSourceCommit = $approvedCommit
     environment = 'production'
-    authorizationId = 'TEST_ONLY_SYNTHETIC_FIXTURE'
-    issuedAtUtc = '2026-09-01T00:00:00.000Z'
-    expiresAtUtc = '2099-12-31T23:59:59.999Z'
+    authorizationId = 'ac05fe60-ae8b-41bc-9acb-b0f249bfc5c4'
+    issuedAtUtc = '2026-09-01T18:55:50.325Z'
+    expiresAtUtc = '2026-11-30T23:59:59.999Z'
     explicitOptIn = $true
     sourceCommit = $approvedCommit
-    buildTimeUtc = '2026-09-01T00:00:00.000Z'
+    buildTimeUtc = '2026-09-01T18:55:50.325Z'
     releaseVariantFingerprint = ''
     testOnly = $true
-    testOnlyNote = 'SYNTHETIC FIXTURE ONLY. Not a real owner approval. Not production-active.'
+    testOnlyNote = 'SYNTHETIC FIXTURE reproducing the owner-approved identity. Never a real approval. Not production-active.'
   }
 }
 
-# Build the synthetic fixture: compute identity digest, then fingerprint, write file.
-$testApprovalObj = Build-TestApprovalObject
-$testIdentityHash = Compute-ApprovalIdentityDigest -Artifact $testApprovalObj
-$testFingerprint = Compute-CanonicalFingerprint -VariantId 'ACTIVATED_VARIANT_1' -SourceCommit $approvedCommit -BuildTimeUtc '2026-09-01T00:00:00.000Z' -ApprovalDigestSha256 $testIdentityHash -Environment 'production'
-$testApprovalObj.releaseVariantFingerprint = $testFingerprint
-$TEST_ONLY_APPROVAL_DIGEST = $testIdentityHash
-$testApprovalObj | ConvertTo-Json | Set-Content -LiteralPath $testApprovalFile -Encoding UTF8
+# Build the real-positive fixture: compute identity digest, assert it equals the committed
+# contract digest, compute fingerprint, write file.
+$realApprovalObj = Build-RealApprovalObject
+$realIdentityDigest = Compute-ApprovalIdentityDigest -Artifact $realApprovalObj
+$realFingerprint = Compute-CanonicalFingerprint -VariantId 'ACTIVATED_VARIANT_1' -SourceCommit $approvedCommit -BuildTimeUtc '2026-09-01T18:55:50.325Z' -ApprovalDigestSha256 $realIdentityDigest -Environment 'production'
+$realApprovalObj.releaseVariantFingerprint = $realFingerprint
+$realApprovalObj | ConvertTo-Json | Set-Content -LiteralPath $realApprovalFile -Encoding UTF8
+
+# Assert the fixture reproduces the committed contract digest and the real fingerprint.
+# If either fails, the harness cannot prove the positive path against the real contract.
+if ($realIdentityDigest -ne $COMMITTED_AUTHORIZED_APPROVAL_DIGEST) {
+  throw "Guard harness bootstrapping failure: real-positive fixture digest $realIdentityDigest does not match committed authorizedApprovalDigest $COMMITTED_AUTHORIZED_APPROVAL_DIGEST"
+}
+if ($realFingerprint -ne $REAL_APPROVAL_FINGERPRINT) {
+  throw "Guard harness bootstrapping failure: real-positive fixture fingerprint $realFingerprint does not match expected $REAL_APPROVAL_FINGERPRINT"
+}
 
 # ---- Empty file for testing ----
 $emptyFile = Join-Path $TempRoot 'empty-approval.txt'
 Set-Content -LiteralPath $emptyFile -Value '' -NoNewline -Encoding UTF8
 
-# ---- Create a well-formed but unauthorized approval file ----
+# ---- Create a well-formed but unauthorized approval file (wrong commit) ----
 $wrongCommitFile = Join-Path $TempRoot 'wrong-commit-approval.json'
 @{
   schemaVersion = '1.0.0'
@@ -172,8 +190,9 @@ function Add-Verdict {
 
 # ===========================================================================
 # SECTION A: PRODUCTION CONTRACT TESTS
-# These prove that the production contract (ownerAuthorizationActive=false)
-# prevents activation under all input combinations.
+# These prove that even with ownerAuthorizationActive=true and an authorizedApprovalDigest
+# recorded, activation REQUIRES the complete positive authorization surface. Partial,
+# malformed, missing, mismatched, expired, stale, or mis-bound inputs stay OFF/REFUSED.
 # ===========================================================================
 
 # ---- G1 ordinary/default build (no inputs) -> NORMAL_GATED_OFF ----
@@ -288,7 +307,7 @@ Add-Verdict 'G10 wrong variant in approval is NOT AUTHORIZED' (-not $r.activatio
 
 # ---- G11 wrong environment -> NOT AUTHORIZED ----
 $resOut = Join-Path $TempRoot 'g11-wrong-env.json'
-Invoke-Resolver -OutPath $resOut -VariantId 'ACTIVATED_VARIANT_1' -ApprovalFile $testApprovalFile -Env 'local' -Seam $true -OptIn $true
+Invoke-Resolver -OutPath $resOut -VariantId 'ACTIVATED_VARIANT_1' -ApprovalFile $realApprovalFile -Env 'local' -Seam $true -OptIn $true
 $r = Get-Content -LiteralPath $resOut -Raw | ConvertFrom-Json
 Add-Verdict 'G11 wrong environment is NOT AUTHORIZED' (-not $r.activationAuthorized) "classification=$($r.classification)"
 
@@ -322,23 +341,25 @@ Add-Verdict 'G13 expired approval is NOT AUTHORIZED' (-not $r.activationAuthoriz
 
 # ---- G14 missing explicit opt-in -> NOT AUTHORIZED ----
 $resOut = Join-Path $TempRoot 'g14-no-optin.json'
-Invoke-Resolver -OutPath $resOut -VariantId 'ACTIVATED_VARIANT_1' -ApprovalFile $testApprovalFile -Env 'production' -Seam $true -OptIn $false
+Invoke-Resolver -OutPath $resOut -VariantId 'ACTIVATED_VARIANT_1' -ApprovalFile $realApprovalFile -Env 'production' -Seam $true -OptIn $false
 $r = Get-Content -LiteralPath $resOut -Raw | ConvertFrom-Json
 Add-Verdict 'G14 missing opt-in is NOT AUTHORIZED' (-not $r.activationAuthorized) "classification=$($r.classification)"
 
 # ---- G15 seam disabled -> NOT AUTHORIZED ----
 $resOut = Join-Path $TempRoot 'g15-seam-off.json'
-Invoke-Resolver -OutPath $resOut -VariantId 'ACTIVATED_VARIANT_1' -ApprovalFile $testApprovalFile -Env 'production' -Seam $false -OptIn $true
+Invoke-Resolver -OutPath $resOut -VariantId 'ACTIVATED_VARIANT_1' -ApprovalFile $realApprovalFile -Env 'production' -Seam $false -OptIn $true
 $r = Get-Content -LiteralPath $resOut -Raw | ConvertFrom-Json
 Add-Verdict 'G15 seam disabled is NOT AUTHORIZED' (-not $r.activationAuthorized) "classification=$($r.classification)"
 
-# ---- G16 production contract has no active owner authorization -> NOT AUTHORIZED ----
-# Even with a syntactically valid approval file, ownerAuthorizationActive=false prevents activation.
-$resOut = Join-Path $TempRoot 'g16-no-owner-auth.json'
-Invoke-Resolver -OutPath $resOut -VariantId 'ACTIVATED_VARIANT_1' -ApprovalFile $testApprovalFile -Env 'production' -Seam $true -OptIn $true
+# ---- G16 active owner auth alone does NOT activate (no approval file) ----
+# Even with ownerAuthorizationActive=true recorded in the contract, a build with the
+# capability seam and explicit opt-in but NO approval file must remain NOT AUTHORIZED.
+# ACTIVE OWNER AUTHORIZATION != ACTIVATION.
+$resOut = Join-Path $TempRoot 'g16-auth-alone.json'
+Invoke-Resolver -OutPath $resOut -VariantId 'ACTIVATED_VARIANT_1' -Env 'production' -Seam $true -OptIn $true
 $r = Get-Content -LiteralPath $resOut -Raw | ConvertFrom-Json
-$g16Detail = "classification=$($r.classification) ownerAuthActive=$($r.ownerAuthorizationActive)"
-Add-Verdict 'G16 production contract: no active owner authorization => NOT AUTHORIZED' ((-not $r.activationAuthorized) -and (-not $r.ownerAuthorizationActive)) $g16Detail
+$g16Detail = "classification=$($r.classification) ownerAuthActive=$($r.ownerAuthorizationActive) approvalProvided=$($r.approvalFileProvided)"
+Add-Verdict 'G16 active owner auth alone (no approval file) is NOT AUTHORIZED' ((-not $r.activationAuthorized) -and $r.ownerAuthorizationActive) $g16Detail
 
 # ---- G17 caller-supplied digest without approval file -> NOT AUTHORIZED ----
 # The resolver no longer accepts -ApprovalDigest. Only -ApprovalFile is accepted.
@@ -370,7 +391,7 @@ $r = Get-Content -LiteralPath $resOut -Raw | ConvertFrom-Json
 Add-Verdict 'G18 arbitrary non-empty fingerprint is REFUSED' ((-not $r.activationAuthorized) -and ($r.classification -eq 'REFUSED')) "classification=$($r.classification)"
 
 # ---- G19 one-byte fingerprint mutation -> REFUSED ----
-$mutatedFp = $testFingerprint.Substring(0, $testFingerprint.Length - 1) + '0'
+$mutatedFp = $realFingerprint.Substring(0, $realFingerprint.Length - 1) + '0'
 $mutFingerprintFile = Join-Path $TempRoot 'mut-fingerprint.json'
 @{
   schemaVersion = '1.0.0'
@@ -378,12 +399,12 @@ $mutFingerprintFile = Join-Path $TempRoot 'mut-fingerprint.json'
   variantId = 'ACTIVATED_VARIANT_1'
   approvedSourceCommit = $approvedCommit
   environment = 'production'
-  authorizationId = 'TEST'
-  issuedAtUtc = '2026-09-01T00:00:00.000Z'
-  expiresAtUtc = '2099-12-31T23:59:59.999Z'
+  authorizationId = 'ac05fe60-ae8b-41bc-9acb-b0f249bfc5c4'
+  issuedAtUtc = '2026-09-01T18:55:50.325Z'
+  expiresAtUtc = '2026-11-30T23:59:59.999Z'
   explicitOptIn = $true
   sourceCommit = $approvedCommit
-  buildTimeUtc = '2026-09-01T00:00:00.000Z'
+  buildTimeUtc = '2026-09-01T18:55:50.325Z'
   releaseVariantFingerprint = $mutatedFp
   testOnly = $true
 } | ConvertTo-Json | Set-Content -LiteralPath $mutFingerprintFile -Encoding UTF8
@@ -399,37 +420,18 @@ $r = Get-Content -LiteralPath $resOut -Raw | ConvertFrom-Json
 Add-Verdict 'G20 stale source commit is REFUSED or NOT AUTHORIZED' (-not $r.activationAuthorized) "classification=$($r.classification)"
 
 # ===========================================================================
-# SECTION B: SYNTHETIC TEST-ONLY AUTHORIZATION TESTS
-# These create a temporary modified resolver with ownerAuthorizationActive=true
-# to prove the positive path works under test-only conditions.
+# SECTION B: POSITIVE PATH (CLASSIFICATION ONLY) + TAMPERING NEGATIVES
+# The single fully valid positive path resolves ACTIVATED against the REAL
+# owner-authorized contract state. This is classifier/verification only and does NOT
+# authorize build, ship, deploy, drain execution, or production contact.
 # ===========================================================================
 
-# Create a test-only resolver override
-$resolverOverride = Join-Path $TempRoot 'resolve_release_variant_test_only.ps1'
-$resolverContent = Get-Content -LiteralPath $resolver -Raw
-$testOnlyContent = $resolverContent.Replace("ownerAuthorizationActive = `$false", "ownerAuthorizationActive = `$true  # TEST_ONLY override")
-$testOnlyContent = $testOnlyContent.Replace("authorizedApprovalDigest = 'NOT_SET'", "authorizedApprovalDigest = '$TEST_ONLY_APPROVAL_DIGEST'  # TEST_ONLY")
-Set-Content -LiteralPath $resolverOverride -Value $testOnlyContent -Encoding UTF8
-
-function Invoke-TestResolver {
-  param([string]$OutPath, [string]$VariantId = '', [string]$ApprovalFile = '', [string]$Env = '', [bool]$Seam = $false, [bool]$OptIn = $false)
-  $args = @('-NoProfile','-ExecutionPolicy','Bypass','-File',$resolverOverride,
-    '-Out',$OutPath)
-  if ($VariantId -ne '') { $args += @('-VariantId', $VariantId) }
-  if ($ApprovalFile -ne '') { $args += @('-ApprovalFile', $ApprovalFile) }
-  if ($Env -ne '') { $args += @('-Environment', $Env) }
-  $args += @('-DartDefineSyncDrainEnabled', $(if ($Seam) { 'true' } else { 'false' }))
-  $args += @('-OptInActivation', $(if ($OptIn) { 'true' } else { 'false' }))
-  & powershell.exe @args | Out-Null
-  return $LASTEXITCODE
-}
-
-# ---- G21 canonical fingerprint correctly recomputed -> PASS under TEST-ONLY ----
-$resOut = Join-Path $TempRoot 'g21-test-canonical-fingerprint.json'
-Invoke-TestResolver -OutPath $resOut -VariantId 'ACTIVATED_VARIANT_1' -ApprovalFile $testApprovalFile -Env 'production' -Seam $true -OptIn $true
+# ---- G21 canonical fingerprint correctly recomputed + full surface -> ACTIVATED ----
+$resOut = Join-Path $TempRoot 'g21-real-positive.json'
+Invoke-Resolver -OutPath $resOut -VariantId 'ACTIVATED_VARIANT_1' -ApprovalFile $realApprovalFile -Env 'production' -Seam $true -OptIn $true
 $r = Get-Content -LiteralPath $resOut -Raw | ConvertFrom-Json
 $g21FpMatch = ($r.fingerprintMatch -eq $true)
-Add-Verdict 'G21 canonical fingerprint correctly recomputed (TEST-ONLY)' (($r.classification -eq 'ACTIVATED') -and $r.activationAuthorized -and $g21FpMatch) "classification=$($r.classification) fpMatch=$($r.fingerprintMatch) computed=$($r.fingerprintComputed)"
+Add-Verdict 'G21 full positive surface (real contract) -> ACTIVATED (classification only)' (($r.classification -eq 'ACTIVATED') -and $r.activationAuthorized -and $g21FpMatch) "classification=$($r.classification) fpMatch=$($r.fingerprintMatch) computed=$($r.fingerprintComputed)"
 
 # ---- G22 modified buildTime with old fingerprint -> REFUSED ----
 $g22File = Join-Path $TempRoot 'g22-modified-buildtime.json'
@@ -439,17 +441,17 @@ $g22File = Join-Path $TempRoot 'g22-modified-buildtime.json'
   variantId = 'ACTIVATED_VARIANT_1'
   approvedSourceCommit = $approvedCommit
   environment = 'production'
-  authorizationId = 'TEST'
-  issuedAtUtc = '2026-09-01T00:00:00.000Z'
-  expiresAtUtc = '2099-12-31T23:59:59.999Z'
+  authorizationId = 'ac05fe60-ae8b-41bc-9acb-b0f249bfc5c4'
+  issuedAtUtc = '2026-09-01T18:55:50.325Z'
+  expiresAtUtc = '2026-11-30T23:59:59.999Z'
   explicitOptIn = $true
   sourceCommit = $approvedCommit
   buildTimeUtc = '2026-09-02T12:30:00.000Z'
-  releaseVariantFingerprint = $testFingerprint
+  releaseVariantFingerprint = $realFingerprint
   testOnly = $true
 } | ConvertTo-Json | Set-Content -LiteralPath $g22File -Encoding UTF8
 $resOut = Join-Path $TempRoot 'g22-result.json'
-Invoke-TestResolver -OutPath $resOut -VariantId 'ACTIVATED_VARIANT_1' -ApprovalFile $g22File -Env 'production' -Seam $true -OptIn $true
+Invoke-Resolver -OutPath $resOut -VariantId 'ACTIVATED_VARIANT_1' -ApprovalFile $g22File -Env 'production' -Seam $true -OptIn $true
 $r = Get-Content -LiteralPath $resOut -Raw | ConvertFrom-Json
 Add-Verdict 'G22 modified buildTime with old fingerprint is REFUSED' ((-not $r.activationAuthorized) -and ($r.classification -eq 'REFUSED')) "classification=$($r.classification)"
 
@@ -461,21 +463,21 @@ $g23File = Join-Path $TempRoot 'g23-modified-environment.json'
   variantId = 'ACTIVATED_VARIANT_1'
   approvedSourceCommit = $approvedCommit
   environment = 'staging'
-  authorizationId = 'TEST'
-  issuedAtUtc = '2026-09-01T00:00:00.000Z'
-  expiresAtUtc = '2099-12-31T23:59:59.999Z'
+  authorizationId = 'ac05fe60-ae8b-41bc-9acb-b0f249bfc5c4'
+  issuedAtUtc = '2026-09-01T18:55:50.325Z'
+  expiresAtUtc = '2026-11-30T23:59:59.999Z'
   explicitOptIn = $true
   sourceCommit = $approvedCommit
-  buildTimeUtc = '2026-09-01T00:00:00.000Z'
-  releaseVariantFingerprint = $testFingerprint
+  buildTimeUtc = '2026-09-01T18:55:50.325Z'
+  releaseVariantFingerprint = $realFingerprint
   testOnly = $true
 } | ConvertTo-Json | Set-Content -LiteralPath $g23File -Encoding UTF8
 $resOut = Join-Path $TempRoot 'g23-result.json'
-Invoke-TestResolver -OutPath $resOut -VariantId 'ACTIVATED_VARIANT_1' -ApprovalFile $g23File -Env 'production' -Seam $true -OptIn $true
+Invoke-Resolver -OutPath $resOut -VariantId 'ACTIVATED_VARIANT_1' -ApprovalFile $g23File -Env 'production' -Seam $true -OptIn $true
 $r = Get-Content -LiteralPath $resOut -Raw | ConvertFrom-Json
 Add-Verdict 'G23 modified environment with old fingerprint is REFUSED' ((-not $r.activationAuthorized) -and ($r.classification -eq 'REFUSED')) "classification=$($r.classification)"
 
-# ---- G24 modified approval digest with old fingerprint -> REFUSED ----
+# ---- G24 modified approval digest (different identity) with old fingerprint -> REFUSED ----
 $g24File = Join-Path $TempRoot 'g24-modified-approval-digest.json'
 @{
   schemaVersion = '1.0.0'
@@ -483,29 +485,30 @@ $g24File = Join-Path $TempRoot 'g24-modified-approval-digest.json'
   variantId = 'ACTIVATED_VARIANT_1'
   approvedSourceCommit = $approvedCommit
   environment = 'production'
-  authorizationId = 'TEST'
-  issuedAtUtc = '2026-09-01T00:00:00.000Z'
-  expiresAtUtc = '2099-12-31T23:59:59.999Z'
+  authorizationId = 'DIFFERENT_AUTHORIZATION_ID'
+  issuedAtUtc = '2026-09-01T18:55:50.325Z'
+  expiresAtUtc = '2026-11-30T23:59:59.999Z'
   explicitOptIn = $true
   sourceCommit = $approvedCommit
-  buildTimeUtc = '2026-09-01T00:00:00.000Z'
-  releaseVariantFingerprint = $testFingerprint
+  buildTimeUtc = '2026-09-01T18:55:50.325Z'
+  releaseVariantFingerprint = $realFingerprint
   testOnly = $true
 } | ConvertTo-Json | Set-Content -LiteralPath $g24File -Encoding UTF8
-# The G24 file has the same fields as the test approval but the approval digest
-# will be different because the file bytes are different (different authorizationId
-# in the content, even though we used 'TEST' above). The fingerprint was computed
-# from the original test approval's digest, so it won't match.
+# The G24 file has the same fields as the real-positive fixture except a different
+# authorizationId, so its identity digest differs from the committed digest and the
+# fingerprint no longer matches. The resolver must REFUSE.
 $resOut = Join-Path $TempRoot 'g24-result.json'
-Invoke-TestResolver -OutPath $resOut -VariantId 'ACTIVATED_VARIANT_1' -ApprovalFile $g24File -Env 'production' -Seam $true -OptIn $true
+Invoke-Resolver -OutPath $resOut -VariantId 'ACTIVATED_VARIANT_1' -ApprovalFile $g24File -Env 'production' -Seam $true -OptIn $true
 $r = Get-Content -LiteralPath $resOut -Raw | ConvertFrom-Json
 Add-Verdict 'G24 modified approval digest with old fingerprint is REFUSED' ((-not $r.activationAuthorized) -and ($r.classification -eq 'REFUSED')) "classification=$($r.classification)"
 
 # ---- G25 production/default resolver state -> activationAuthorized = FALSE ----
+# A default build remains NORMAL_GATED_OFF and activationAuthorized=false even though
+# ownerAuthorizationActive=true is recorded. Active owner auth != activation.
 $resOut = Join-Path $TempRoot 'g25-production-default.json'
 Invoke-Resolver -OutPath $resOut
 $r = Get-Content -LiteralPath $resOut -Raw | ConvertFrom-Json
-Add-Verdict 'G25 production default: activationAuthorized=FALSE' ((-not $r.activationAuthorized) -and ($r.ownerAuthorizationActive -eq $false)) "classification=$($r.classification) ownerAuthActive=$($r.ownerAuthorizationActive)"
+Add-Verdict 'G25 production default: activationAuthorized=FALSE' ((-not $r.activationAuthorized) -and ($r.classification -eq 'NORMAL_GATED_OFF')) "classification=$($r.classification) ownerAuthActive=$($r.ownerAuthorizationActive)"
 
 # ---- Additional negative tests ----
 
@@ -578,23 +581,23 @@ Add-Verdict 'G28 empty fingerprint is REFUSED' ((-not $r.activationAuthorized) -
 # SECTION C: VERIFIER TESTS
 # ===========================================================================
 
-# ---- G29 verifier: matching commit + valid fingerprint passes (TEST-ONLY synthetic) ----
-$ev = Join-Path $TempRoot 'evidence-authorized.json'
+# ---- G29 verifier: fully valid real evidence bundle is ACCEPTED ----
+$ev = Join-Path $TempRoot 'evidence-real-authorized.json'
 @{
   variantId = 'ACTIVATED_VARIANT_1'
-  approvalDigestSha256 = $TEST_ONLY_APPROVAL_DIGEST
+  approvalDigestSha256 = $realIdentityDigest
   sourceCommit = $approvedCommit
-  buildTimeUtc = '2026-09-01T00:00:00.000Z'
+  buildTimeUtc = '2026-09-01T18:55:50.325Z'
   environment = 'production'
-  releaseVariantFingerprint = $testFingerprint
+  releaseVariantFingerprint = $realFingerprint
 } | ConvertTo-Json | Set-Content -LiteralPath $ev -Encoding UTF8
-$vOut = Join-Path $TempRoot 'v-ok.json'
+$vOut = Join-Path $TempRoot 'v-ok-real.json'
 & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $verifier -EvidenceJson $ev -ApprovedCommit $approvedCommit -Out $vOut | Out-Null
 $vExit = $LASTEXITCODE
 $v = Get-Content -LiteralPath $vOut -Raw | ConvertFrom-Json
-# Note: G29 will fail because production contract has ownerAuthorizationActive=false
-# This is EXPECTED. The verifier correctly refuses.
-Add-Verdict 'G29 verifier refuses when ownerAuthorizationActive=false (EXPECTED)' ((-not $v.activated) -and ($vExit -ne 0)) "exit=$vExit activated=$($v.activated)"
+# With ownerAuthorizationActive=true and a fully valid, matched real evidence bundle the
+# verifier ACCEPTS (activated=true). This is verification only.
+Add-Verdict 'G29 verifier ACCEPTS fully valid real evidence bundle' (($v.activated) -and ($vExit -eq 0)) "exit=$vExit activated=$($v.activated)"
 
 # ---- G30 verifier: stale commit -> REFUSED ----
 $vOut2 = Join-Path $TempRoot 'v-stale.json'
@@ -608,9 +611,9 @@ Add-Verdict 'G30 verifier REFUSES stale commit' (($vExit2 -ne 0) -and (-not $v2.
 $evArb = Join-Path $TempRoot 'evidence-arb-fingerprint.json'
 @{
   variantId = 'ACTIVATED_VARIANT_1'
-  approvalDigestSha256 = $TEST_ONLY_APPROVAL_DIGEST
+  approvalDigestSha256 = $realIdentityDigest
   sourceCommit = $approvedCommit
-  buildTimeUtc = '2026-09-01T00:00:00.000Z'
+  buildTimeUtc = '2026-09-01T18:55:50.325Z'
   environment = 'production'
   releaseVariantFingerprint = 'FINGERPRINT_TEST'
 } | ConvertTo-Json | Set-Content -LiteralPath $evArb -Encoding UTF8
@@ -626,7 +629,7 @@ $evEmpty = Join-Path $TempRoot 'evidence-empty-digest.json'
   variantId = 'ACTIVATED_VARIANT_1'
   approvalDigestSha256 = $EMPTY_CONTENT_SHA256
   sourceCommit = $approvedCommit
-  buildTimeUtc = '2026-09-01T00:00:00.000Z'
+  buildTimeUtc = '2026-09-01T18:55:50.325Z'
   environment = 'production'
   releaseVariantFingerprint = 'SOME_VALUE'
 } | ConvertTo-Json | Set-Content -LiteralPath $evEmpty -Encoding UTF8
@@ -637,7 +640,7 @@ $v4 = Get-Content -LiteralPath $vOut4 -Raw | ConvertFrom-Json
 Add-Verdict 'G32 verifier REFUSES empty-content SHA-256 digest' (($vExit4 -ne 0) -and (-not $v4.activated)) "exit=$vExit4 activated=$($v4.activated)"
 
 # ---- Cleanup test fixtures ----
-Remove-Item -LiteralPath $testApprovalFile -Force -ErrorAction SilentlyContinue
+Remove-Item -LiteralPath $realApprovalFile -Force -ErrorAction SilentlyContinue
 Remove-Item -LiteralPath $emptyFile -Force -ErrorAction SilentlyContinue
 Remove-Item -LiteralPath $malformedFile -Force -ErrorAction SilentlyContinue
 Remove-Item -LiteralPath $wrongSchemaFile -Force -ErrorAction SilentlyContinue
@@ -653,23 +656,21 @@ Remove-Item -LiteralPath $g24File -Force -ErrorAction SilentlyContinue
 Remove-Item -LiteralPath $g26File -Force -ErrorAction SilentlyContinue
 Remove-Item -LiteralPath $g27File -Force -ErrorAction SilentlyContinue
 Remove-Item -LiteralPath $g28File -Force -ErrorAction SilentlyContinue
-Remove-Item -LiteralPath $resolverOverride -Force -ErrorAction SilentlyContinue
 Remove-Item -LiteralPath $ev -Force -ErrorAction SilentlyContinue
 Remove-Item -LiteralPath $evArb -Force -ErrorAction SilentlyContinue
 Remove-Item -LiteralPath $evEmpty -Force -ErrorAction SilentlyContinue
 
 $allPass = ($failCount -eq 0)
 $result = [ordered]@{
-  phase             = 'Activated Release Variant governance guard harness (governance-corrected)'
+  phase             = 'Activated Release Variant governance guard harness (post-authorization, fail-closed)'
   capturedAtUtc     = [DateTime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ss.fffZ')
   allPass           = $allPass
   passCount         = $passCount
   failCount         = $failCount
-  productionContractTests = 'G1-G20, G25-G28, G29-G32: prove ownerAuthorizationActive=false prevents activation'
-  syntheticTestOnlyTests  = 'G21-G24: prove positive path under TEST-ONLY resolver override'
-  testOnlyApprovalDigest  = $TEST_ONLY_APPROVAL_DIGEST
-  testOnlyFingerprint     = $testFingerprint
-  approvedCommit          = $approvedCommit
+  productionContractTests = 'G1-G20, G25-G28, G29-G32: prove active owner authorization != activation and all partial/malformed/mismatched cases stay OFF/REFUSED'
+  positivePathTests        = 'G21: one fully valid positive path resolves ACTIVATED in the inert classifier (classification only)'
+  committedApprovalDigest  = $COMMITTED_AUTHORIZED_APPROVAL_DIGEST
+  approvedCommit           = $approvedCommit
   note              = 'Inert local classifiers only; no production contact; no drain-capable artifact produced. Test fixtures cleaned up after verification.'
   verdicts          = $verdicts
 }
