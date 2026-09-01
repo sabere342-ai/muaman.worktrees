@@ -5,28 +5,31 @@ SESSION  = GROUP_A_PHASE_Q_OD7_OWNER_ACTIVATION_EXECUTION_AND_ANDROID_FINAL_RELE
 MODE     = FAIL_CLOSED_FORENSIC_EXECUTION
 ```
 
+> FORENSIC_CORRECTION_NOTE:
+> This predecessor-session evidence document was later corrected by a dedicated
+> evidence-only successor session to remove SUCCESS_TOKEN ambiguity and materialize
+> the original evidence/remote-lock commit facts. The successor correction commit SHA
+> is intentionally recorded in that successor session's final forensic report rather
+> than self-embedded in this document.
+
 ## A. Session Result
 
 ```
 SESSION = GROUP_A_PHASE_Q_OD7_OWNER_ACTIVATION_EXECUTION_AND_ANDROID_FINAL_RELEASE_BUILD_IOS_READINESS_AUDIT
 RESULT = BLOCKED_GROUP_A_PHASE_Q_ANDROID_FINAL_RELEASE_SIGNING_PREREQUISITE_MISSING
-SUCCESS_TOKEN =
-  PARTIALLY (see below). The OD7 activation authorization was valid, provenance verified,
-  guard matrix passed, activation resolved ACTIVATED, verifier ACCEPTED the fully valid
-  governed bundle, tests passed, and the iOS readiness audit completed. The final Android
-  release build is BLOCKED because the production release-signing prerequisite (OD-K2 /
-  P-OD3) is missing.
-```
-
-The correct blocked token per procedure §29 is:
-
-```
+SUCCESS_TOKEN = NOT_EMITTED
+BLOCKED_TOKEN =
 BLOCKED_GROUP_A_PHASE_Q_ANDROID_FINAL_RELEASE_SIGNING_PREREQUISITE_MISSING
 ```
 
-Do NOT downgrade this BLOCKED result into a PASS. `ANDROID_BUILT`, `ANDROID_SIGNED`,
-`ANDROID_PUBLISHED`, `IOS_BUILT`, `IOS_PUBLISHED`, `MIGRATION_31_STARTED`, `GROUP_B_STARTED`
-are all individually false.
+The OD7 activation authorization was valid, provenance verified, guard matrix passed,
+activation resolved ACTIVATED, and verifier ACCEPTED the fully valid governed bundle.
+Tests passed, and the iOS readiness audit completed. Those successful sub-gates are
+described in ordinary prose only and do NOT constitute a success token. The final Android
+release build is BLOCKED because the production release-signing prerequisite (OD-K2 /
+P-OD3) is missing. Do NOT downgrade this BLOCKED result into a PASS: `ANDROID_BUILT`,
+`ANDROID_SIGNED`, `ANDROID_PUBLISHED`, `IOS_BUILT`, `IOS_PUBLISHED`,
+`MIGRATION_31_STARTED`, `GROUP_B_STARTED` are all individually FALSE.
 
 ## B. Repository Identity
 
@@ -267,20 +270,23 @@ Sacred artifacts compared (SHA-256):
 
 ```
 EVIDENCE_FILE = docs/OD7_ACTIVATION_ANDROID_FINAL_RELEASE_AND_IOS_READINESS_REPORT.md
-COMMIT = (see M; single-scope evidence commit)
+COMMIT = f2d2597ddaf215e5a9b8a8def9d04d6ea918792e
 PARENT = 99faf9a3119d22b672dd33e09d1a97cbb291af06
-SINGLE_SCOPE = TRUE (only this evidence document; predecessor untracked sacred artifacts NOT absorbed)
+SINGLE_SCOPE = TRUE
+(only this evidence document was introduced by that predecessor evidence commit;
+ predecessor sacred untracked artifacts were not absorbed.)
 ```
 
 ## M. Remote Lock
 
 ```
-FINAL_LOCAL_HEAD = (see git log of the evidence commit)
-FINAL_REMOTE_HEAD = (verified after push)
-FINAL_MERGE_BASE = (verified after push)
+FINAL_LOCAL_HEAD = f2d2597ddaf215e5a9b8a8def9d04d6ea918792e
+FINAL_REMOTE_HEAD = f2d2597ddaf215e5a9b8a8def9d04d6ea918792e
+FINAL_MERGE_BASE = f2d2597ddaf215e5a9b8a8def9d04d6ea918792e
 AHEAD = 0
 BEHIND = 0
-REMOTE_LOCKED = TRUE (github only; no push to origin)
+REMOTE_LOCKED = TRUE
+(github only; fast-forward; no push to legacy origin)
 ```
 
 ## N. Exact iPhone Recommendation
