@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.almuaman.muaman_store"
+    namespace = "com.itech.storemanagement"
     // Phase K: compileSdk 35 is required by current plugin toolchains
     // (flutter_plugin_android_lifecycle). Build-time only — targetSdk stays
     // frozen at 34 (D11) and runtime behavior is unchanged.
@@ -23,9 +23,9 @@ android {
     }
 
     defaultConfig {
-        // Phase K (OD-K1 placeholder): final applicationId/label decision is
-        // pending owner decision; this placeholder is retained until then.
-        applicationId = "com.almuaman.muaman_store"
+        // Phase Q (PD-K1): final owner-locked applicationId (group A / phase Q
+        // owner identity decision). namespace MUST equal applicationId.
+        applicationId = "com.itech.storemanagement"
         versionCode = flutter.versionCode
         versionName = flutter.versionName
         // Phase K (D11): frozen Android baseline from ARCHITECTURE_PLAN §13.
@@ -35,10 +35,8 @@ android {
 
     buildTypes {
         release {
-            // Phase K (OD-K2): release signing ownership is a pending owner
-            // decision; debug-signed release remains the documented
-            // placeholder for development builds only.
-            signingConfig = signingConfigs.debug
+            // Phase Q (PD-K2): production (upload) signing is provided by the
+            // fail-closed DPAPI-backed helper below. No debug fallback.
         }
     }
 }
@@ -46,6 +44,11 @@ android {
 flutter {
     source = "../.."
 }
+
+// Phase Q (PD-K2): owner upload-key release signing configuration.
+// Replaces the development-only debug release fallback; fails closed unless
+// the reconciliation-locked signing material verifies exactly.
+apply from: "$rootDir/gradle/production-signing.gradle"
 
 dependencies {
     // Phase K (D7): Keystore-backed EncryptedSharedPreferences backing the

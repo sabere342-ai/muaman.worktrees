@@ -1,4 +1,4 @@
-package com.almuaman.muaman_store
+package com.itech.storemanagement
 
 import android.content.SharedPreferences
 import android.provider.Settings

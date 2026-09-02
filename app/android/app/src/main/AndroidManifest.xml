@@ -11,7 +11,7 @@
          (SECURE_STORAGE_UNAVAILABLE) — never a plaintext fallback. -->
     <uses-sdk tools:overrideLibrary="androidx.security"/>
     <application
-        android:label="muaman_store"
+        android:label="I Tech لإدارة المحلات"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

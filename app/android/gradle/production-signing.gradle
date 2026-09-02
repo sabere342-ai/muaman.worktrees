@@ -1,0 +1,149 @@
+// GROUP A / PHASE Q — Android production (upload) release signing configuration.
+//
+// Non-secret configuration helper. Contains NO password, NO DPAPI ciphertext,
+// NO private key, NO certificate bytes and NO keystore bytes.
+//
+// The two owner secrets are stored ONLY in the existing Windows DPAPI
+// CurrentUser .dpapi files owned by this Windows account. This script recovers
+// them through a captured child PowerShell process whose stdout is read
+// directly into the Gradle process memory; the recovered values are never
+// inherited/displayed, never logged, never written to any file and never put on
+// a command line or into an environment variable.
+//
+// The configuration is fail-closed: if the active keystore hash, alias,
+// certificate fingerprints, RSA key, password separation or private-key
+// usability do not EXACTLY match the reconciliation-locked material, the build
+// configuration fails instead of silently downgrading to debug/unsigned
+// signing or to the backup keystore.
+
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.security.KeyStore
+import java.security.MessageDigest
+import java.security.Signature
+import java.security.UnrecoverableKeyException
+import java.security.interfaces.RSAPublicKey
+import java.util.Arrays
+import java.util.Base64
+
+def ACTIVE_KEYSTORE_SHA256 = "f97c6ab9c636c01d88c9d03d4a6092fa42c33a1575147174291ab6b1db76e1cd"
+def UPLOAD_ALIAS = "i-tech-upload"
+def CERT_SHA256 = "485e4187fb0bd53a295bb0fd36f174babcf2ffdabfd72014a314c1460cc0b927"
+def CERT_SHA1 = "8343ef47a037549707125d02c07f138aa814e105"
+def PRIMARY_KEYSTORE = "C:\\Users\\saber\\.i-tech\\android-signing\\primary\\i-tech-upload.jks"
+def BACKUP_KEYSTORE = "C:\\Users\\saber\\.i-tech\\android-signing\\backup\\i-tech-upload.jks"
+def STORE_DPAPI = "C:\\Users\\saber\\.i-tech\\android-signing\\secrets\\store-password.dpapi"
+def KEY_DPAPI = "C:\\Users\\saber\\.i-tech\\android-signing\\secrets\\key-password.dpapi"
+
+def failClosed = { def cond, String msg ->
+    if (!cond) {
+        throw new GradleException("ANDROID_PRODUCTION_SIGNING_FAIL_CLOSED: " + msg)
+    }
+}
+
+def hexLower = { byte[] b ->
+    b.collect { String.format("%02x", it & 0xff) }.join()
+}
+
+def recoverSecret = { String dpapiPath, String label ->
+    failClosed(Files.isRegularFile(Paths.get(dpapiPath)), label + " DPAPI file missing: " + dpapiPath)
+    def script =
+        'Set-StrictMode -Version Latest;' +
+        '$ErrorActionPreference="Stop";' +
+        'Add-Type -AssemblyName System.Security;' +
+        '$b=[IO.File]::ReadAllBytes(\'' + dpapiPath.replace("'", "''") + '\');' +
+        '$p=[Security.Cryptography.ProtectedData]::Unprotect($b,$null,[Security.Cryptography.DataProtectionScope]::CurrentUser);' +
+        '[Console]::Out.Write([Text.Encoding]::UTF8.GetString($p))'
+    def encoded = Base64.getEncoder().encodeToString(script.getBytes("UTF-16LE"))
+    def pb = new ProcessBuilder("powershell", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-EncodedCommand", encoded)
+    pb.redirectErrorStream(false)
+    def proc
+    try {
+        proc = pb.start()
+    } catch (IOException e) {
+        failClosed(false, label + " DPAPI recovery could not start (PowerShell unavailable): " + e.message)
+    }
+    def outBuf = new ByteArrayOutputStream()
+    def errBuf = new ByteArrayOutputStream()
+    def errPump = Thread.start { proc.getErrorStream().withStream { it.transferTo(errBuf) } }
+    proc.getInputStream().withStream { it.transferTo(outBuf) }
+    failClosed(proc.waitFor() == 0, label + " DPAPI decryption failed (exit " + proc.exitValue() + ")")
+    errPump.join()
+    def recovered = new String(outBuf.toByteArray(), "UTF-8").trim()
+    failClosed(recovered ==~ /[0-9a-fA-F]{64}/, label + " recovered value malformed (not 64 hex chars)")
+    return recovered
+}
+
+def verifyUploadKeystore = { String ksPath, String storePassword, String keyPassword ->
+    failClosed(Files.isRegularFile(Paths.get(ksPath)), "primary keystore missing: " + ksPath)
+    def ksBytes = Files.readAllBytes(Paths.get(ksPath))
+    def ksHash = hexLower(MessageDigest.getInstance("SHA-256").digest(ksBytes))
+    failClosed(ksHash == ACTIVE_KEYSTORE_SHA256,
+        "keystore SHA-256 did not match the reconciliation-locked active keystore: " + ksHash.toUpperCase())
+    def backupBytes = Files.readAllBytes(Paths.get(BACKUP_KEYSTORE))
+    failClosed(hexLower(MessageDigest.getInstance("SHA-256").digest(backupBytes)) == ACTIVE_KEYSTORE_SHA256,
+        "backup keystore SHA-256 did not match the reconciliation-locked active keystore")
+    failClosed(Arrays.equals(ksBytes, backupBytes), "backup keystore is not byte-equal to the primary")
+    def ks = KeyStore.getInstance("JKS")
+    Files.newInputStream(Paths.get(ksPath)).withStream { ks.load(it, storePassword.toCharArray()) }
+    failClosed(ks.containsAlias(UPLOAD_ALIAS), "alias '" + UPLOAD_ALIAS + "' missing from the keystore")
+    failClosed(ks.isKeyEntry(UPLOAD_ALIAS), "alias '" + UPLOAD_ALIAS + "' is not a PrivateKeyEntry")
+    def cert = ks.getCertificate(UPLOAD_ALIAS)
+    def der = cert.getEncoded()
+    failClosed(hexLower(MessageDigest.getInstance("SHA-256").digest(der)) == CERT_SHA256,
+        "certificate SHA-256 fingerprint mismatch")
+    failClosed(hexLower(MessageDigest.getInstance("SHA-1").digest(der)) == CERT_SHA1,
+        "certificate SHA-1 fingerprint mismatch")
+    def pub = cert.getPublicKey()
+    failClosed(pub instanceof RSAPublicKey && "RSA".equalsIgnoreCase(pub.getAlgorithm()),
+        "key algorithm is not RSA")
+    failClosed(((RSAPublicKey) pub).getModulus().bitLength() == 4096, "key size is not 4096")
+    failClosed(!storePassword.equals(keyPassword), "store and key passwords are identical")
+    def privateKey
+    try {
+        privateKey = ks.getKey(UPLOAD_ALIAS, keyPassword.toCharArray())
+    } catch (UnrecoverableKeyException e) {
+        failClosed(false, "key password did not unlock the private key entry")
+    }
+    def probeMessage = "itech-android-production-signing-probe".getBytes("UTF-8")
+    def signer = Signature.getInstance("SHA256withRSA")
+    signer.initSign((java.security.PrivateKey) privateKey)
+    signer.update(probeMessage)
+    def signature = signer.sign()
+    def verifier = Signature.getInstance("SHA256withRSA")
+    verifier.initVerify(pub)
+    verifier.update(probeMessage)
+    failClosed(verifier.verify(signature), "private-key sign/verify probe failed")
+    def storePasswordRejected = false
+    try {
+        def leaked = ks.getKey(UPLOAD_ALIAS, storePassword.toCharArray())
+        failClosed(leaked == null, "store password unexpectedly unlocked the private key entry")
+    } catch (Exception e) {
+        storePasswordRejected = true
+    }
+    failClosed(storePasswordRejected, "store password unexpectedly unlocked the private key entry")
+    return true
+}
+
+def storeSecret = recoverSecret(STORE_DPAPI, "store-password")
+def keySecret = recoverSecret(KEY_DPAPI, "key-password")
+failClosed(!storeSecret.equals(keySecret), "store and key passwords are identical")
+verifyUploadKeystore(PRIMARY_KEYSTORE, storeSecret, keySecret)
+
+android {
+    signingConfigs {
+        create("upload") {
+            storeFile = file(PRIMARY_KEYSTORE)
+            storePassword = storeSecret
+            keyAlias = UPLOAD_ALIAS
+            keyPassword = keySecret
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig = signingConfigs.upload
+        }
+    }
+}
+
+return true
