@@ -156,7 +156,7 @@ void main() {
   });
 
   group('Canonical Permission ID Alignment', () {
-    test('All 18 AppPermission IDs are canonical and match cloud seed', () {
+    test('All 19 AppPermission IDs are canonical and match cloud seed', () {
       const expectedIds = {
         'dashboard.view',
         'inventory.view',
@@ -176,11 +176,12 @@ void main() {
         'admin.users.manage',
         'admin.permissions.manage',
         'admin.settings.access',
+        'admin.devices.manage',
       };
 
       final actualIds = AppPermission.values.map((p) => p.id).toSet();
       expect(actualIds, expectedIds);
-      expect(actualIds.length, 18);
+      expect(actualIds.length, 19);
     });
 
     test('No duplicate IDs across all permissions', () {
@@ -188,7 +189,7 @@ void main() {
       expect(ids.toSet().length, ids.length);
     });
 
-    test('fromId resolves all 18 canonical IDs', () {
+    test('fromId resolves all 19 canonical IDs', () {
       for (final p in AppPermission.values) {
         expect(AppPermission.fromId(p.id), p);
       }
@@ -198,11 +199,12 @@ void main() {
       expect(() => AppPermission.fromId('unknown.id'), throwsArgumentError);
     });
 
-    test('Owner-exclusive set is exactly 2 permissions', () {
-      expect(PermissionCatalog.ownerExclusive.length, 2);
+    test('Owner-exclusive set is exactly 3 permissions', () {
+      expect(PermissionCatalog.ownerExclusive.length, 3);
       expect(PermissionCatalog.ownerExclusive, {
         AppPermission.canManageUsers,
         AppPermission.canManagePermissions,
+        AppPermission.canManageDevices,
       });
     });
   });
@@ -237,8 +239,8 @@ void main() {
     });
 
     test('Owner gets all permissions regardless of cloud snapshot', () {
-      // Owner always gets all 18 permissions regardless of cloud snapshot content
-      expect(PermissionCatalog.allPermissions.length, 18);
+      // Owner always gets all 19 permissions regardless of cloud snapshot content
+      expect(PermissionCatalog.allPermissions.length, 19);
     });
   });
 }

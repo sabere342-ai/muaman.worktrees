@@ -9,6 +9,7 @@ import '../import/workbook_validation.dart';
 import '../licensing/licensing.dart';
 import '../licensing/cloud_licensing_service.dart';
 import 'settings/license_status_screen.dart';
+import 'settings/device_management_screen.dart';
 import '../models/shop_profile.dart';
 import '../models/user_role.dart';
 import '../platform/platform_capabilities.dart';
@@ -236,6 +237,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       subtitle: const Text('إنشاء وتعديل حسابات المستخدمين'),
                       trailing: const Icon(Icons.chevron_left),
                       onTap: () => _openUserManagement(context),
+                    ),
+                  if (widget.sessionState
+                      .hasPermission(AppPermission.canManageUsers))
+                    const Divider(height: 1),
+                  if (widget.sessionState
+                      .hasPermission(AppPermission.canManageDevices))
+                    ListTile(
+                      leading: Icon(Icons.devices,
+                          color: Theme.of(context).colorScheme.primary),
+                      title: const Text('إدارة الأجهزة'),
+                      subtitle: const Text('عرض وإدارة أجهزة المتجر'),
+                      trailing: const Icon(Icons.chevron_left),
+                      onTap: () => _openDeviceManagement(context),
                     ),
                 ],
               ),
@@ -1985,6 +1999,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
         builder: (context) => Directionality(
           textDirection: TextDirection.rtl,
           child: UserManagementScreen(sessionState: widget.sessionState),
+        ),
+      ),
+    );
+  }
+
+  void _openDeviceManagement(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Directionality(
+          textDirection: TextDirection.rtl,
+          child: DeviceManagementScreen(sessionState: widget.sessionState),
         ),
       ),
     );

@@ -94,6 +94,7 @@ void main() {
         AppPermission.canDeleteExpenses,
         AppPermission.canManageUsers,
         AppPermission.canManagePermissions,
+        AppPermission.canManageDevices,
         AppPermission.canAccessSettings,
       }) {
         expect(employee.contains(permission), false,
@@ -112,8 +113,9 @@ void main() {
       expect(PermissionCatalog.ownerExclusive, {
         AppPermission.canManageUsers,
         AppPermission.canManagePermissions,
+        AppPermission.canManageDevices,
       });
-      expect(PermissionCatalog.ownerExclusive.length, 2);
+      expect(PermissionCatalog.ownerExclusive.length, 3);
     });
 
     test('grouped covers every permission exactly once with its category', () {

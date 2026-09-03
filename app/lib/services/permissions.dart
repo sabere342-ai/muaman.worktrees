@@ -148,6 +148,12 @@ enum AppPermission {
     PermissionCategory.admin,
     'تعديل صلاحيات الأدوار',
   ),
+  canManageDevices(
+    'admin.devices.manage',
+    'إدارة الأجهزة',
+    PermissionCategory.admin,
+    'عرض وإدارة أجهزة المتجر (الموافقة/الرفض/الإلغاء/الفقدان)',
+  ),
   canAccessSettings(
     'admin.settings.access',
     'الإعدادات',
@@ -192,6 +198,7 @@ class PermissionCatalog {
   static const Set<AppPermission> ownerExclusive = {
     AppPermission.canManageUsers,
     AppPermission.canManagePermissions,
+    AppPermission.canManageDevices,
   };
 
   /// Default (baseline) configuration for every role. This exactly matches the
@@ -206,6 +213,7 @@ class PermissionCatalog {
       AppPermission.canDeleteExpenses,
       AppPermission.canManageUsers,
       AppPermission.canManagePermissions,
+      AppPermission.canManageDevices,
       AppPermission.canAccessSettings,
     }),
     UserRole.salesOnly: {
