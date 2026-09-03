@@ -16,6 +16,8 @@ class EntitlementResult {
   final int currentDevices;
   final bool deviceSlotAvailable;
   final DateTime serverTime;
+  final bool isRevoked;
+  final DateTime? revokedAt;
 
   const EntitlementResult({
     required this.hasLicense,
@@ -32,6 +34,8 @@ class EntitlementResult {
     required this.currentDevices,
     required this.deviceSlotAvailable,
     required this.serverTime,
+    this.isRevoked = false,
+    this.revokedAt,
   });
 
   factory EntitlementResult.fromRpc(Map<String, dynamic> data) {
@@ -60,6 +64,10 @@ class EntitlementResult {
       serverTime: data['server_time'] != null
           ? DateTime.parse(data['server_time'] as String)
           : DateTime.now().toUtc(),
+      isRevoked: data['is_revoked'] as bool? ?? false,
+      revokedAt: data['revoked_at'] != null
+          ? DateTime.parse(data['revoked_at'] as String)
+          : null,
     );
   }
 }

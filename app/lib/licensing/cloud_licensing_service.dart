@@ -67,6 +67,8 @@ class CloudEntitlementSnapshot {
   final DateTime? serverTime;
   final DateTime? cachedTime;
   final String? errorMessage;
+  final bool isRevoked;
+  final DateTime? revokedAt;
 
   const CloudEntitlementSnapshot({
     required this.state,
@@ -83,6 +85,8 @@ class CloudEntitlementSnapshot {
     this.serverTime,
     this.cachedTime,
     this.errorMessage,
+    this.isRevoked = false,
+    this.revokedAt,
   });
 
   /// Whether writes are allowed in this entitlement state.
@@ -164,7 +168,6 @@ class CloudLicensingService {
       if (cached != null) {
         _currentState = _resolveStateFromCache(cached);
       }
-
       // Attempt online resolution if cloud is available
       if (isCloudLinked && AppConfig.isConfigured) {
         try {
@@ -186,6 +189,25 @@ class CloudLicensingService {
     try {
       final result = await _repository.verifyLicenseEntitlement(shopId);
 
+      if (_isMalformedSecurityState(result)) {
+        // FAIL CLOSED: malformed/missing security-relevant server fields must
+        // never fabricate entitlement. Treat as blocked pending valid server
+        // resolution.
+        _activeShopId = shopId;
+        _currentState = CloudEntitlementSnapshot(
+          state: CloudEntitlementState.noLicense,
+          hasLicense: false,
+          isTrial: false,
+          trialActive: false,
+          currentDevices: result.currentDevices,
+          deviceActivated: false,
+          isOnline: true,
+          serverTime: result.serverTime,
+          errorMessage: 'Malformed entitlement state from server',
+        );
+        return _currentState;
+      }
+
       // Create cache snapshot
       final snapshot = EntitlementSnapshot(
         shopId: shopId,
@@ -204,6 +226,8 @@ class CloudLicensingService {
         serverTimeAtVerification: result.serverTime,
         localWallClockAtVerification: DateTime.now(),
         lastSuccessfulVerificationAt: DateTime.now(),
+        isRevoked: result.isRevoked,
+        revokedAt: result.revokedAt,
       );
 
       // Cache the result
@@ -307,9 +331,60 @@ class CloudLicensingService {
     _initialized = false;
   }
 
+  /// Pure server-state resolution for a single [EntitlementResult].
+  ///
+  /// Exposed for deterministic testing of the server→client state mapping
+  /// (including H-Gap-1 REVOKED precedence) without requiring a live cloud
+  /// round trip. Production callers continue to use [resolveEntitlement],
+  /// which also persists the authoritative cache snapshot.
+  @visibleForTesting
+  CloudEntitlementSnapshot resolveStateFromServerForTest(
+      EntitlementResult result) {
+    return _resolveStateFromServer(result);
+  }
+
+  /// Pure cache-state resolution for a single cached [EntitlementSnapshot].
+  ///
+  /// Exposed for deterministic offline/grace testing.
+  @visibleForTesting
+  CloudEntitlementSnapshot resolveStateFromCacheForTest(
+      EntitlementSnapshot cached) {
+    return _resolveStateFromCache(cached);
+  }
+
+  /// Determine whether a malformed/missing security-relevant server state is
+  /// present (fail-closed). Exposed for deterministic testing.
+  @visibleForTesting
+  bool isMalformedSecurityStateForTest(EntitlementResult result) {
+    return _isMalformedSecurityState(result);
+  }
+
   // ─── Private helpers ─────────────────────────────────────────────
 
   CloudEntitlementSnapshot _resolveStateFromServer(EntitlementResult result) {
+    final status = result.licenseStatus;
+
+    // H-Gap-1: REVOKED precedence. S3 returns a revoked license as
+    // has_license=false + license_status='REVOKED' + is_revoked=true. This
+    // authoritative determination MUST happen before the generic no-license
+    // resolution so a revocation is not misclassified as a mere noLicense.
+    final normalizedStatus = status?.toUpperCase();
+    if (result.isRevoked || normalizedStatus == 'REVOKED') {
+      return CloudEntitlementSnapshot(
+        state: CloudEntitlementState.revoked,
+        hasLicense: result.hasLicense,
+        licenseStatus: status,
+        isTrial: result.isTrial,
+        trialActive: false,
+        currentDevices: result.currentDevices,
+        deviceActivated: false,
+        isOnline: true,
+        serverTime: result.serverTime,
+        isRevoked: true,
+        revokedAt: result.revokedAt,
+      );
+    }
+
     if (!result.hasLicense) {
       return CloudEntitlementSnapshot(
         state: CloudEntitlementState.noLicense,
@@ -322,8 +397,6 @@ class CloudLicensingService {
         serverTime: result.serverTime,
       );
     }
-
-    final status = result.licenseStatus;
 
     // Expired / Suspended / Revoked
     if (status == 'EXPIRED') {
@@ -345,19 +418,6 @@ class CloudLicensingService {
     if (status == 'SUSPENDED') {
       return CloudEntitlementSnapshot(
         state: CloudEntitlementState.suspended,
-        hasLicense: true,
-        licenseStatus: status,
-        isTrial: false,
-        trialActive: false,
-        currentDevices: result.currentDevices,
-        deviceActivated: false,
-        isOnline: true,
-        serverTime: result.serverTime,
-      );
-    }
-    if (status == 'REVOKED') {
-      return CloudEntitlementSnapshot(
-        state: CloudEntitlementState.revoked,
         hasLicense: true,
         licenseStatus: status,
         isTrial: false,
@@ -405,8 +465,54 @@ class CloudLicensingService {
   }
 
   CloudEntitlementSnapshot _resolveStateFromCache(EntitlementSnapshot cached) {
-    // Check clock rollback
-    // (done separately via detectClockRollback)
+    // Unknown/incompatible cache schema must never be trusted for entitlement.
+    // Treat as non-authoritative → blocked pending server revalidation.
+    if (!cached.isCompatibleSchema()) {
+      return CloudEntitlementSnapshot(
+        state: CloudEntitlementState.staleOffline,
+        hasLicense: cached.hasLicense,
+        licenseStatus: cached.licenseStatus,
+        isTrial: cached.isTrial,
+        trialActive: cached.trialActive,
+        trialExpiresAt: cached.trialExpiresAt,
+        daysRemaining: cached.daysRemaining,
+        maxDevices: cached.maxDevices,
+        currentDevices: cached.currentDevices,
+        deviceActivated: cached.deviceSlotAvailable,
+        isOnline: false,
+        serverTime: cached.serverTimeAtVerification,
+        cachedTime: cached.lastSuccessfulVerificationAt,
+        isRevoked: cached.isRevoked,
+        revokedAt: cached.revokedAt,
+      );
+    }
+
+    // Cached authoritative revocation must remain blocked offline regardless
+    // of grace. Never let offline grace override cached revoked/non-entitled.
+    if (cached.isRevoked ||
+        cached.licenseStatus == 'REVOKED' ||
+        cached.licenseStatus == 'SUSPENDED') {
+      final state = cached.isRevoked || cached.licenseStatus == 'REVOKED'
+          ? CloudEntitlementState.revoked
+          : CloudEntitlementState.suspended;
+      return CloudEntitlementSnapshot(
+        state: state,
+        hasLicense: cached.hasLicense,
+        licenseStatus: cached.licenseStatus,
+        isTrial: cached.isTrial,
+        trialActive: cached.trialActive,
+        trialExpiresAt: cached.trialExpiresAt,
+        daysRemaining: cached.daysRemaining,
+        maxDevices: cached.maxDevices,
+        currentDevices: cached.currentDevices,
+        deviceActivated: cached.deviceSlotAvailable,
+        isOnline: false,
+        serverTime: cached.serverTimeAtVerification,
+        cachedTime: cached.lastSuccessfulVerificationAt,
+        isRevoked: cached.isRevoked,
+        revokedAt: cached.revokedAt,
+      );
+    }
 
     // Non-entitled cached states
     if (_gracePolicy.isCachedNonEntitled(cached)) {
@@ -424,6 +530,8 @@ class CloudLicensingService {
         isOnline: false,
         serverTime: cached.serverTimeAtVerification,
         cachedTime: cached.lastSuccessfulVerificationAt,
+        isRevoked: cached.isRevoked,
+        revokedAt: cached.revokedAt,
       );
     }
 
@@ -443,6 +551,8 @@ class CloudLicensingService {
         isOnline: false,
         serverTime: cached.serverTimeAtVerification,
         cachedTime: cached.lastSuccessfulVerificationAt,
+        isRevoked: cached.isRevoked,
+        revokedAt: cached.revokedAt,
       );
     }
 
@@ -461,7 +571,27 @@ class CloudLicensingService {
       isOnline: false,
       serverTime: cached.serverTimeAtVerification,
       cachedTime: cached.lastSuccessfulVerificationAt,
+      isRevoked: cached.isRevoked,
+      revokedAt: cached.revokedAt,
     );
+  }
+
+  /// Fail-closed determination for malformed/missing security-relevant server
+  /// fields. A revoked license that omits its revocation signal must still fail
+  /// closed (never fabricate entitlement), and a genuinely entitled result
+  /// must not be rejected due to unrelated optional fields.
+  bool _isMalformedSecurityState(EntitlementResult result) {
+    if (result.isRevoked || result.licenseStatus?.toUpperCase() == 'REVOKED') {
+      return false;
+    }
+    // If the server explicitly says it granted a license without any usable
+    // entitlement signal, that is malformed security state → fail closed.
+    if (result.hasLicense &&
+        result.licenseStatus == null &&
+        !result.isTrial) {
+      return true;
+    }
+    return false;
   }
 
   String _getBlockMessage(CloudEntitlementState state) {

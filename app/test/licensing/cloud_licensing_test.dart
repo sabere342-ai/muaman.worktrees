@@ -83,6 +83,31 @@ void main() {
       expect(result.trialActive, false);
       expect(result.daysRemaining, 0);
     });
+
+    test('parses S3 revocation metadata (is_revoked/revoked_at)', () {
+      final data = {
+        'has_license': false,
+        'license_status': 'REVOKED',
+        'is_trial': false,
+        'trial_active': false,
+        'trial_started_at': null,
+        'trial_expires_at': null,
+        'days_remaining': null,
+        'hours_remaining': null,
+        'activated_at': null,
+        'subscription_expires_at': null,
+        'max_devices': null,
+        'current_devices': 0,
+        'device_slot_available': false,
+        'server_time': '2026-08-20T00:00:00Z',
+        'is_revoked': true,
+        'revoked_at': '2026-08-19T10:30:00Z',
+      };
+      final result = EntitlementResult.fromRpc(data);
+      expect(result.hasLicense, false);
+      expect(result.isRevoked, true);
+      expect(result.revokedAt, DateTime.utc(2026, 8, 19, 10, 30));
+    });
   });
 
   group('DeviceActivationResult', () {

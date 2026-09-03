@@ -1,6 +1,13 @@
 import 'dart:convert';
 import '../services/app_settings.dart';
 
+/// Cache schema version written by this build.
+///
+/// Consumers must never trust a snapshot whose schema version is unknown or
+/// incompatible (see [EntitlementSnapshot.isCompatibleSchema]) — matching
+/// snapshots are treated as non-authoritative and require server revalidation.
+const int kEntitlementCacheSchemaVersion = 1;
+
 /// Cached snapshot of server-resolved entitlement data.
 ///
 /// Stored locally for offline use. This is a CACHE ONLY — the server is always
@@ -23,6 +30,9 @@ class EntitlementSnapshot {
   final DateTime serverTimeAtVerification;
   final DateTime localWallClockAtVerification;
   final DateTime lastSuccessfulVerificationAt;
+  final bool isRevoked;
+  final DateTime? revokedAt;
+  final int schemaVersion;
 
   const EntitlementSnapshot({
     required this.shopId,
@@ -41,13 +51,22 @@ class EntitlementSnapshot {
     required this.serverTimeAtVerification,
     required this.localWallClockAtVerification,
     required this.lastSuccessfulVerificationAt,
+    this.isRevoked = false,
+    this.revokedAt,
+    this.schemaVersion = kEntitlementCacheSchemaVersion,
   });
+
+  /// Whether this cached snapshot uses a schema version this build can
+  /// safely consume. Unknown/future/incompatible versions are not trusted for
+  /// entitlement decisions and MUST route to server revalidation.
+  bool isCompatibleSchema() => schemaVersion == kEntitlementCacheSchemaVersion;
 
   /// Whether writes are allowed based on this cached snapshot.
   ///
   /// This is used for offline grace — only MAINTAINS existing entitlement,
   /// never grants NEW entitlement.
   bool get blocksWrites {
+    if (isRevoked) return true;
     if (!hasLicense) return true;
     if (licenseStatus == 'EXPIRED' ||
         licenseStatus == 'SUSPENDED' ||
@@ -66,6 +85,7 @@ class EntitlementSnapshot {
       !isTrial && (licenseStatus == 'ACTIVE' || licenseStatus == 'PERPETUAL');
 
   Map<String, dynamic> toJson() => {
+        'schemaVersion': schemaVersion,
         'shopId': shopId,
         'hasLicense': hasLicense,
         'licenseStatus': licenseStatus,
@@ -84,10 +104,14 @@ class EntitlementSnapshot {
             localWallClockAtVerification.toIso8601String(),
         'lastSuccessfulVerificationAt':
             lastSuccessfulVerificationAt.toIso8601String(),
+        'isRevoked': isRevoked,
+        'revokedAt': revokedAt?.toIso8601String(),
       };
 
   factory EntitlementSnapshot.fromJson(Map<String, dynamic> json) {
     return EntitlementSnapshot(
+      schemaVersion: json['schemaVersion'] as int? ??
+          kEntitlementCacheSchemaVersion,
       shopId: json['shopId'] as String,
       hasLicense: json['hasLicense'] as bool? ?? false,
       licenseStatus: json['licenseStatus'] as String?,
@@ -115,6 +139,10 @@ class EntitlementSnapshot {
           DateTime.parse(json['localWallClockAtVerification'] as String),
       lastSuccessfulVerificationAt:
           DateTime.parse(json['lastSuccessfulVerificationAt'] as String),
+      isRevoked: json['isRevoked'] as bool? ?? false,
+      revokedAt: json['revokedAt'] != null
+          ? DateTime.parse(json['revokedAt'] as String)
+          : null,
     );
   }
 }
