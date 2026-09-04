@@ -168,6 +168,42 @@ class S6DeviceIdentity {
 
   /// Remove the persisted identity (governed re-enrollment path).
   Future<void> delete() => _store.delete(storageKey);
+
+  // ─── S8 protected-metadata primitives (no S6 identity redesign) ────────
+  //
+  // Minimal additions so S8 can persist its trusted server-time high-water
+  // mark in the SAME protected secret store that holds the Ed25519 seed
+  // (DPAPI CurrentUser on Windows, Keystore on Android). This keeps the
+  // anti-rollback high-water out of the editable plaintext AppSettings cache
+  // (Governance K/L/M).
+
+  /// Storage key for the S8 trusted server-time high-water mark.
+  static const String trustedTimeHighWaterKey = 'itech.s8.trustedServerTimeHw';
+
+  /// Read the persisted trusted server-time high-water, or null when never
+  /// established / absent / malformed. No untrusted value is ever fabricated
+  /// into an authority baseline (R5).
+  Future<DateTime?> readTrustedTimeHighWater() async {
+    String? raw;
+    try {
+      raw = await _store.read(trustedTimeHighWaterKey);
+    } catch (_) {
+      // Protected store unavailable -> fail closed by treating as absent.
+      return null;
+    }
+    if (raw == null || raw.isEmpty) return null;
+    final parsed = DateTime.tryParse(raw);
+    if (parsed == null) return null;
+    return parsed.toUtc();
+  }
+
+  /// Persist the trusted server-time high-water in the protected store.
+  ///
+  /// S8 only calls this with monotonic (non-decreasing) UTC values derived from
+  /// an authoritative [server_time] (Governance K rule 1 / M).
+  Future<void> writeTrustedTimeHighWater(DateTime utc) async {
+    await _store.write(trustedTimeHighWaterKey, utc.toUtc().toIso8601String());
+  }
 }
 
 /// A per-install Ed25519 identity bound to a single protected store.
@@ -187,7 +223,8 @@ class S6Identity {
     return S6Identity._created(keyPair, createdAt, fresh: false);
   }
 
-  S6Identity._created(SimpleKeyPair keyPair, this.createdAt, {bool fresh = true})
+  S6Identity._created(SimpleKeyPair keyPair, this.createdAt,
+      {bool fresh = true})
       : _keyPair = keyPair,
         createdFresh = fresh;
 
@@ -236,7 +273,8 @@ class S6DeviceIdentityException implements Exception {
 /// identities. It is unmistakably test-scoped.
 class S6TestIdentity {
   /// Build a per-install identity from an explicit 32-byte seed.
-  static Future<S6Identity> fromSeed(Uint8List seed, {int createdAt = 0}) async {
+  static Future<S6Identity> fromSeed(Uint8List seed,
+      {int createdAt = 0}) async {
     final kp = await Ed25519().newKeyPairFromSeed(seed);
     return S6Identity._created(kp, createdAt);
   }

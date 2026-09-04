@@ -1,5 +1,7 @@
 import 'dart:convert';
 import '../services/app_settings.dart';
+import 's8_cache_integrity.dart';
+import 's6_device_identity.dart';
 
 /// Cache schema version written by this build.
 ///
@@ -34,6 +36,28 @@ class EntitlementSnapshot {
   final DateTime? revokedAt;
   final int schemaVersion;
 
+  // ─── S8 integrity / trusted-time metadata (S8) ─────────────────────────
+  /// Canonical base64url (no padding) Ed25519 signature over the canonical
+  /// integrity payload. Null => cache is NOT S8-bound (pre-S8 / unbound) and
+  /// is not trustworthy for offline authority.
+  final String? s8Signature;
+
+  /// Canonical base64url (no padding) S6 public key that produced the
+  /// signature. Used for device binding (R6/T7).
+  final String? s8PublicKey;
+
+  /// Authenticated grace basis (TRIAL / PAID / PERPETUAL) used for the offline
+  /// window (R10/R11). Never derived from an unbound/editable value.
+  final String? graceBasis;
+
+  /// Trusted server-time high-water (UTC) captured at verification — the
+  /// monotonic anti-rollback baseline bound into the payload (K/M).
+  final DateTime? lastTrustedServerTimeUtc;
+
+  /// Identity/user boundary (R8). This product scopes entitlement per shop
+  /// (tenant), so the boundary is the shop scope combined with the installation.
+  final String userBoundary;
+
   const EntitlementSnapshot({
     required this.shopId,
     required this.hasLicense,
@@ -54,7 +78,23 @@ class EntitlementSnapshot {
     this.isRevoked = false,
     this.revokedAt,
     this.schemaVersion = kEntitlementCacheSchemaVersion,
+    this.s8Signature,
+    this.s8PublicKey,
+    this.graceBasis,
+    this.lastTrustedServerTimeUtc,
+    this.userBoundary = '',
   });
+
+  /// Whether this snapshot carries S8 integrity binding metadata. A cache that
+  /// is not S8-bound is not trustworthy for offline authority
+  /// (OLD_CACHE_REQUIRES_ONLINE_REVALIDATION).
+  bool get isS8Bound => s8Signature != null && s8PublicKey != null;
+
+  /// Effective identity/user boundary for the bound payload: falls back to the
+  /// tenant scope (shopId) when no explicit user boundary is set, matching the
+  /// per-shop entitlement model (R8).
+  String get effectiveUserBoundary =>
+      userBoundary.isEmpty ? shopId : userBoundary;
 
   /// Whether this cached snapshot uses a schema version this build can
   /// safely consume. Unknown/future/incompatible versions are not trusted for
@@ -106,12 +146,17 @@ class EntitlementSnapshot {
             lastSuccessfulVerificationAt.toIso8601String(),
         'isRevoked': isRevoked,
         'revokedAt': revokedAt?.toIso8601String(),
+        's8Signature': s8Signature,
+        's8PublicKey': s8PublicKey,
+        'graceBasis': graceBasis,
+        'lastTrustedServerTimeUtc': lastTrustedServerTimeUtc?.toIso8601String(),
+        'userBoundary': userBoundary,
       };
 
   factory EntitlementSnapshot.fromJson(Map<String, dynamic> json) {
     return EntitlementSnapshot(
-      schemaVersion: json['schemaVersion'] as int? ??
-          kEntitlementCacheSchemaVersion,
+      schemaVersion:
+          json['schemaVersion'] as int? ?? kEntitlementCacheSchemaVersion,
       shopId: json['shopId'] as String,
       hasLicense: json['hasLicense'] as bool? ?? false,
       licenseStatus: json['licenseStatus'] as String?,
@@ -143,6 +188,75 @@ class EntitlementSnapshot {
       revokedAt: json['revokedAt'] != null
           ? DateTime.parse(json['revokedAt'] as String)
           : null,
+      s8Signature: json['s8Signature'] as String?,
+      s8PublicKey: json['s8PublicKey'] as String?,
+      graceBasis: json['graceBasis'] as String?,
+      lastTrustedServerTimeUtc: json['lastTrustedServerTimeUtc'] != null
+          ? DateTime.parse(json['lastTrustedServerTimeUtc'] as String)
+          : null,
+      userBoundary: json['userBoundary'] as String? ?? '',
+    );
+  }
+
+  /// Return a copy of this snapshot with the S8 integrity / trusted-time
+  /// metadata (and any other field) overridden. Used to bind a snapshot before
+  /// authenticated persistence.
+  EntitlementSnapshot copyWith({
+    String? shopId,
+    bool? hasLicense,
+    String? licenseStatus,
+    bool? isTrial,
+    bool? trialActive,
+    DateTime? trialStartedAt,
+    DateTime? trialExpiresAt,
+    int? daysRemaining,
+    DateTime? activatedAt,
+    DateTime? subscriptionExpiresAt,
+    int? maxDevices,
+    int? currentDevices,
+    bool? deviceSlotAvailable,
+    DateTime? serverTimeAtVerification,
+    DateTime? localWallClockAtVerification,
+    DateTime? lastSuccessfulVerificationAt,
+    bool? isRevoked,
+    DateTime? revokedAt,
+    int? schemaVersion,
+    String? s8Signature,
+    String? s8PublicKey,
+    String? graceBasis,
+    DateTime? lastTrustedServerTimeUtc,
+    String? userBoundary,
+  }) {
+    return EntitlementSnapshot(
+      shopId: shopId ?? this.shopId,
+      hasLicense: hasLicense ?? this.hasLicense,
+      licenseStatus: licenseStatus ?? this.licenseStatus,
+      isTrial: isTrial ?? this.isTrial,
+      trialActive: trialActive ?? this.trialActive,
+      trialStartedAt: trialStartedAt ?? this.trialStartedAt,
+      trialExpiresAt: trialExpiresAt ?? this.trialExpiresAt,
+      daysRemaining: daysRemaining ?? this.daysRemaining,
+      activatedAt: activatedAt ?? this.activatedAt,
+      subscriptionExpiresAt:
+          subscriptionExpiresAt ?? this.subscriptionExpiresAt,
+      maxDevices: maxDevices ?? this.maxDevices,
+      currentDevices: currentDevices ?? this.currentDevices,
+      deviceSlotAvailable: deviceSlotAvailable ?? this.deviceSlotAvailable,
+      serverTimeAtVerification:
+          serverTimeAtVerification ?? this.serverTimeAtVerification,
+      localWallClockAtVerification:
+          localWallClockAtVerification ?? this.localWallClockAtVerification,
+      lastSuccessfulVerificationAt:
+          lastSuccessfulVerificationAt ?? this.lastSuccessfulVerificationAt,
+      isRevoked: isRevoked ?? this.isRevoked,
+      revokedAt: revokedAt ?? this.revokedAt,
+      schemaVersion: schemaVersion ?? this.schemaVersion,
+      s8Signature: s8Signature ?? this.s8Signature,
+      s8PublicKey: s8PublicKey ?? this.s8PublicKey,
+      graceBasis: graceBasis ?? this.graceBasis,
+      lastTrustedServerTimeUtc:
+          lastTrustedServerTimeUtc ?? this.lastTrustedServerTimeUtc,
+      userBoundary: userBoundary ?? this.userBoundary,
     );
   }
 }
@@ -179,6 +293,34 @@ class EntitlementCache {
   /// Clear the cached entitlement for a shop.
   Future<void> clear(String shopId) async {
     await AppSettings.setValue('$_keyPrefix$shopId', '');
+  }
+
+  /// Sign and persist an S8-bound snapshot.
+  ///
+  /// Sets the authenticated `graceBasis`, `s8PublicKey`, `s8Signature`, and
+  /// `lastTrustedServerTimeUtc`, then saves via [save]. [highWater] is the
+  /// monotonic trusted server-time high-water to record. The cache is bound
+  /// to [installationId] and the shop-scoped [userBoundary].
+  Future<void> saveAuthenticated(
+    EntitlementSnapshot snapshot, {
+    required String installationId,
+    required S6Identity identity,
+    required DateTime highWater,
+    String? userBoundary,
+  }) async {
+    final bound = snapshot.copyWith(
+      s8PublicKey: await identity.publicKeyBase64Url(),
+      graceBasis: S8CacheIntegrity.inferGraceBasis(snapshot),
+      lastTrustedServerTimeUtc: highWater.toUtc(),
+      userBoundary: userBoundary ?? snapshot.shopId,
+    );
+    final sig = await S8CacheIntegrity.signBase64Url(
+      s: bound,
+      installationId: installationId,
+      userBoundary: bound.effectiveUserBoundary,
+      identity: identity,
+    );
+    await save(bound.copyWith(s8Signature: sig));
   }
 
   /// Get the locally-generated installation identifier.

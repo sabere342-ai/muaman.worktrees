@@ -36,17 +36,57 @@ class OfflineGracePolicy {
 
   /// Check if the cached entitlement is within the allowed offline window.
   ///
+  /// The grace anchor is the TRUSTED baseline, resolved in priority order:
+  ///   1. an explicitly supplied [trustedHighWater] (the independently
+  ///      protected server-time high-water), when provided by the service;
+  ///   2. the snapshot's authenticated `lastTrustedServerTimeUtc` (S8-bound);
+  ///   3. the legacy plaintext `lastSuccessfulVerificationAt` (backward
+  ///      compatible only when no S8 binding / high-water exists).
+  ///
+  /// A wall-clock rollback behind the trusted baseline beyond the declared
+  /// skew tolerance fails closed (no offline grant) and can never extend or
+  /// preserve offline grace (Governance K rule 3 / Section 13).
+  ///
   /// Returns `true` if the entitlement may be used offline based on the
-  /// cached state and elapsed time since last server verification.
+  /// cached state and elapsed time since the trusted baseline.
   bool isWithinGraceWindow(
     dynamic snapshot, {
     DateTime? currentTime,
+    DateTime? trustedHighWater,
   }) {
     if (snapshot == null) return false;
 
-    final now = currentTime ?? DateTime.now().toUtc();
-    final lastSync = snapshot.lastSuccessfulVerificationAt as DateTime;
-    final elapsed = now.difference(lastSync);
+    final now = (currentTime ?? DateTime.now().toUtc()).toUtc();
+
+    // Resolve the trusted baseline (1 → 2 → 3 above).
+    DateTime baseline;
+    final explicitHighWater = trustedHighWater?.toUtc();
+    final boundHighWater = snapshot.lastTrustedServerTimeUtc is DateTime
+        ? (snapshot.lastTrustedServerTimeUtc as DateTime).toUtc()
+        : null;
+    final legacy = snapshot.lastSuccessfulVerificationAt is DateTime
+        ? (snapshot.lastSuccessfulVerificationAt as DateTime).toUtc()
+        : null;
+
+    if (explicitHighWater != null) {
+      baseline = explicitHighWater;
+    } else if (boundHighWater != null) {
+      baseline = boundHighWater;
+    } else if (legacy != null) {
+      baseline = legacy;
+    } else {
+      return false;
+    }
+
+    // Fail closed on a material wall-clock rollback behind the trusted
+    // baseline: a backward jump never extends grace (R4). Minor skew within
+    // the declared tolerance is tolerated (K rule 6) but never creates time.
+    if (now
+        .isBefore(baseline.subtract(OfflineGracePolicy.clockSkewTolerance))) {
+      return false;
+    }
+
+    final elapsed = now.difference(baseline);
 
     if (elapsed.isNegative) {
       // Clock moved backwards — suspicious but don't extend grace
@@ -61,11 +101,11 @@ class OfflineGracePolicy {
     }
 
     if (snapshot.licenseStatus == 'PERPETUAL') {
-      // Perpetual: 14-day grace from last sync (launch-compat).
+      // Perpetual: 14-day grace from the trusted baseline (launch-compat).
       return elapsed <= perpetualGrace;
     }
 
-    // ACTIVE / paid: 7-day grace from last server verification.
+    // ACTIVE / paid: 7-day grace from the trusted baseline.
     return elapsed <= paidGrace;
   }
 

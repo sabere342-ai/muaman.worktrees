@@ -8,6 +8,8 @@ import 'cloud_licensing_repository.dart';
 import 'entitlement_cache.dart';
 import 'license_exception.dart';
 import 'offline_grace_policy.dart';
+import 's6_device_identity.dart';
+import 's8_cache_integrity.dart';
 
 /// Client-side combined entitlement state derived from three dimensions:
 /// 1. License Entitlement (server-resolved)
@@ -130,6 +132,8 @@ class CloudLicensingService {
   final EntitlementCache _cache = EntitlementCache();
   final OfflineGracePolicy _gracePolicy = OfflineGracePolicy();
 
+  S6DeviceIdentity? _s6Identity;
+
   CloudEntitlementSnapshot _currentState = CloudEntitlementSnapshot.unknown;
   String? _activeShopId;
   String? _installationId;
@@ -163,10 +167,18 @@ class CloudLicensingService {
     if (shopId != null) {
       _activeShopId = shopId;
 
-      // Load cached state
+      // Load cached state. S8: a cache is only trustworthy for offline
+      // authority if it is S8-bound and its binding verifies against the
+      // current S6 device identity and the protected trusted-time high-water
+      // (anti-rollback). Pre-S8/unbound/invalid/unverifiable caches fail
+      // closed and require online revalidation (OLD_CACHE_REQUIRES_ONLINE_
+      // REVALIDATION / N).
       final cached = await _cache.load(shopId);
       if (cached != null) {
-        _currentState = _resolveStateFromCache(cached);
+        final verified = await _verifyCachedForOffline(cached, shopId);
+        _currentState = verified
+            ? _resolveStateFromCache(cached)
+            : _requiresRevalidationState(cached);
       }
       // Attempt online resolution if cloud is available
       if (isCloudLinked && AppConfig.isConfigured) {
@@ -209,6 +221,7 @@ class CloudLicensingService {
       }
 
       // Create cache snapshot
+      final serverTimeUtc = result.serverTime.toUtc();
       final snapshot = EntitlementSnapshot(
         shopId: shopId,
         hasLicense: result.hasLicense,
@@ -223,15 +236,30 @@ class CloudLicensingService {
         maxDevices: result.maxDevices,
         currentDevices: result.currentDevices,
         deviceSlotAvailable: result.deviceSlotAvailable,
-        serverTimeAtVerification: result.serverTime,
+        serverTimeAtVerification: serverTimeUtc,
         localWallClockAtVerification: DateTime.now(),
         lastSuccessfulVerificationAt: DateTime.now(),
         isRevoked: result.isRevoked,
         revokedAt: result.revokedAt,
       );
 
-      // Cache the result
-      await _cache.save(snapshot);
+      // S8: persist the trusted server-time high-water (monotonic, protected
+      // store) and bind the cache with a device signature so tampering is
+      // detectable and replay/rollback fails closed.
+      final boundOutcome = await _persistTrustedAndBind(snapshot, shopId);
+
+      if (!boundOutcome.bound) {
+        // Secure identity unavailable / a materially stale authoritative
+        // response cannot establish fresh offline authority. Fail closed:
+        // do not grant offline-capable entitledCached from this response; the
+        // live server authority (R1) is still reflected by state resolution.
+        _activeShopId = shopId;
+        _currentState = _requiresRevalidationState(snapshot);
+        return _currentState;
+      }
+
+      // Cache the S8-bound result
+      await _cache.save(boundOutcome.snapshot);
       await _cache.recordWallClock(DateTime.now());
 
       // Resolve combined state
@@ -359,7 +387,136 @@ class CloudLicensingService {
     return _isMalformedSecurityState(result);
   }
 
-  // ─── Private helpers ─────────────────────────────────────────────
+  // ─── S8 cache-integrity / trusted-time helpers ───────────────────────
+
+  /// Verify a cached snapshot is trustworthy for offline authority:
+  /// 1. S8-bound (has signature + public key);
+  /// 2. device-bound (public key matches the current S6 device identity and
+  ///    the signature verifies over the canonical payload);
+  /// 3. anti-rollback (the cache's trusted baseline is not behind the
+  ///    independently-protected high-water).
+  ///
+  /// Anything that cannot be proven fails closed (returns false) and routes
+  /// to online revalidation (R6/R7/R3/Section 19).
+  Future<bool> _verifyCachedForOffline(
+      EntitlementSnapshot cached, String shopId) async {
+    if (!cached.isS8Bound) return false;
+    try {
+      final installationId =
+          _installationId ?? await _cache.getInstallationId();
+      final device = await _s8DeviceIdentity();
+      final identity = await device.loadOrCreate().then((o) => o.identity);
+      final publicKey = await identity.publicKeyBase64Url();
+      if (publicKey != cached.s8PublicKey) return false;
+
+      final payloadOk = await S8CacheIntegrity.verify(
+        s: cached,
+        installationId: installationId,
+        userBoundary: cached.effectiveUserBoundary,
+        publicKeyBase64Url: cached.s8PublicKey!,
+        signatureBase64Url: cached.s8Signature!,
+      );
+      if (!payloadOk) return false;
+
+      final highWater = await device.readTrustedTimeHighWater();
+      final baseline =
+          cached.lastTrustedServerTimeUtc ?? cached.serverTimeAtVerification;
+      if (S8CacheIntegrity.isReplayOrRollback(
+          cacheHighWater: baseline, protectedHighWater: highWater)) {
+        return false;
+      }
+      return true;
+    } catch (_) {
+      // Secure identity unavailable / protected store failed -> fail closed.
+      return false;
+    }
+  }
+
+  /// Resolve a snapshot into a fail-closed "requires online revalidation"
+  /// state (never entitledCached) for unbound/invalid/unverifiable caches.
+  CloudEntitlementSnapshot _requiresRevalidationState(
+      EntitlementSnapshot cached) {
+    return CloudEntitlementSnapshot(
+      state: CloudEntitlementState.staleOffline,
+      hasLicense: cached.hasLicense,
+      licenseStatus: cached.licenseStatus,
+      isTrial: cached.isTrial,
+      trialActive: cached.trialActive,
+      trialExpiresAt: cached.trialExpiresAt,
+      daysRemaining: cached.daysRemaining,
+      maxDevices: cached.maxDevices,
+      currentDevices: cached.currentDevices,
+      deviceActivated: cached.deviceSlotAvailable,
+      isOnline: false,
+      serverTime: cached.serverTimeAtVerification,
+      cachedTime: cached.lastSuccessfulVerificationAt,
+      isRevoked: cached.isRevoked,
+      revokedAt: cached.revokedAt,
+    );
+  }
+
+  /// Persist the monotonic trusted server-time high-water in the protected
+  /// store and bind the cache with a device signature.
+  ///
+  /// Returns the bound snapshot plus a `bound` flag. When the S6 secure
+  /// identity is unavailable, or the fresh authoritative response is
+  /// materially stale relative to the protected high-water (anti-replay,
+  /// R1/T19), the result is NOT bound and offline authority is not granted
+  /// from this response.
+  Future<_S8BindOutcome> _persistTrustedAndBind(
+      EntitlementSnapshot snapshot, String shopId) async {
+    try {
+      final device = await _s8DeviceIdentity();
+      final identity = await device.loadOrCreate().then((o) => o.identity);
+
+      final protectedHighWater = await device.readTrustedTimeHighWater();
+
+      // Anti-replay: a materially stale authoritative response is not accepted
+      // as a fresh authority baseline (Section 12 / T19).
+      if (S8CacheIntegrity.isStaleAuthority(
+          serverTime: snapshot.serverTimeAtVerification,
+          protectedHighWater: protectedHighWater)) {
+        return _S8BindOutcome(snapshot: snapshot, bound: false);
+      }
+
+      final highWater = S8CacheIntegrity.advanceHighWater(
+        serverTime: snapshot.serverTimeAtVerification,
+        protectedHighWater: protectedHighWater,
+      );
+      final installationId =
+          _installationId ?? await _cache.getInstallationId();
+
+      final bound = snapshot.copyWith(
+        s8PublicKey: await identity.publicKeyBase64Url(),
+        graceBasis: S8CacheIntegrity.inferGraceBasis(snapshot),
+        lastTrustedServerTimeUtc: highWater.toUtc(),
+        userBoundary: snapshot.shopId,
+      );
+      final signature = await S8CacheIntegrity.signBase64Url(
+        s: bound,
+        installationId: installationId,
+        userBoundary: bound.effectiveUserBoundary,
+        identity: identity,
+      );
+      await device.writeTrustedTimeHighWater(highWater);
+      return _S8BindOutcome(
+        snapshot: bound.copyWith(s8Signature: signature),
+        bound: true,
+      );
+    } catch (_) {
+      // Secure identity unavailable / protected store failed -> fail closed.
+      return _S8BindOutcome(snapshot: snapshot, bound: false);
+    }
+  }
+
+  /// Lazily obtain the S6 device identity service backed by the platform
+  /// protected secret store (DPAPI / Keystore).
+  Future<S6DeviceIdentity> _s8DeviceIdentity() async {
+    _s6Identity ??= S6DeviceIdentity(createDefaultS6DeviceSecretStore());
+    return _s6Identity!;
+  }
+
+  // ─── Private state / helpers (pre-existing) ─────────────────────────
 
   CloudEntitlementSnapshot _resolveStateFromServer(EntitlementResult result) {
     final status = result.licenseStatus;
@@ -586,9 +743,7 @@ class CloudLicensingService {
     }
     // If the server explicitly says it granted a license without any usable
     // entitlement signal, that is malformed security state → fail closed.
-    if (result.hasLicense &&
-        result.licenseStatus == null &&
-        !result.isTrial) {
+    if (result.hasLicense && result.licenseStatus == null && !result.isTrial) {
       return true;
     }
     return false;
@@ -627,6 +782,15 @@ class CloudLicensingService {
 
   String? _getDeviceName() =>
       detectDeviceNameFor(isAndroidPlatform: PlatformCapabilities.isAndroid);
+}
+
+/// Result of S8 cache-binding: the (possibly bound) snapshot and whether it
+/// was successfully bound with a device signature and trusted high-water.
+class _S8BindOutcome {
+  final EntitlementSnapshot snapshot;
+  final bool bound;
+
+  _S8BindOutcome({required this.snapshot, required this.bound});
 }
 
 /// Truthful platform reporting mapping (Phase K D6).
