@@ -229,9 +229,11 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      // D1 (P-OD4): a cost change now surfaces a confirmation warning.
+      // D1 (P-OD4): a cost change now surfaces a three-option decision dialog.
       expect(find.text('تحذير تغيير سعر التكلفة'), findsOneWidget);
-      await tester.tap(find.text('تأكيد التغيير'));
+      expect(find.text('تحديث السعر'), findsOneWidget);
+      expect(find.text('إنشاء صنف جديد'), findsOneWidget);
+      await tester.tap(find.text('تحديث السعر'));
       await tester.pumpAndSettle();
 
       expect(find.text('تعديل الصنف'), findsNothing);

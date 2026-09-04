@@ -5,6 +5,8 @@ import '../../models/product.dart';
 import '../../services/session_state.dart';
 import '../../services/permissions.dart';
 
+enum _CostChangeDecision { updateCurrent, createNew, cancel }
+
 class InventoryScreen extends StatefulWidget {
   final SessionState? sessionState;
   const InventoryScreen({super.key, this.sessionState});
@@ -229,18 +231,42 @@ class _InventoryScreenState extends State<InventoryScreen> {
             return;
           }
           final openingQty = int.tryParse(openingQtyController.text) ?? 0;
+          final editContext = context;
 
-          // Phase P Group D D1 (P-OD4): Detect actual cost change for edit.
+          // Phase P Group D D1 — three-outcome cost-change workflow.
           if (isEditing) {
             final costChanged = product.costPrice != costPrice;
             if (costChanged) {
-              final confirmed = await _showCostChangeWarning(
+              final decision = await _showCostChangeDecision(
                 context,
                 oldCost: product.costPrice,
                 newCost: costPrice,
                 productName: product.name,
               );
-              if (confirmed != true) return;
+              if (decision == _CostChangeDecision.cancel) return;
+              if (decision == _CostChangeDecision.createNew) {
+                if (editContext.mounted) {
+                  Navigator.pop(editContext);
+                  final newName = await _showNewProductNameDialog(
+                    editContext,
+                    prefilledName: name,
+                  );
+                  if (newName == null || newName.trim().isEmpty) return;
+                  final barcode =
+                      await DatabaseHelper.instance.generateBarcode();
+                  await DatabaseHelper.instance.insertProduct(
+                    Product(
+                      name: newName.trim(),
+                      barcode: barcode,
+                      costPrice: costPrice,
+                    ),
+                    currentRole: widget.sessionState?.currentRole,
+                  );
+                  _loadProducts();
+                }
+                return;
+              }
+              // updateCurrent falls through to the update path below.
             }
           }
 
@@ -366,17 +392,14 @@ class _InventoryScreenState extends State<InventoryScreen> {
     );
   }
 
-  /// Phase P Group D D1 (P-OD4): Shows a cost-change warning dialog when the
-  /// user attempts to change a product's cost price. The warning communicates
-  /// that historical sale cost snapshots are preserved and not rewritten.
-  /// Returns true if the user confirms the change, false/null otherwise.
-  Future<bool?> _showCostChangeWarning(
+  /// Phase P Group D D1 — three-outcome cost-change decision dialog.
+  Future<_CostChangeDecision> _showCostChangeDecision(
     BuildContext context, {
     required double oldCost,
     required double newCost,
     required String productName,
-  }) {
-    return showDialog<bool>(
+  }) async {
+    final result = await showDialog<_CostChangeDecision>(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('تحذير تغيير سعر التكلفة'),
@@ -398,12 +421,51 @@ class _InventoryScreenState extends State<InventoryScreen> {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context, false),
+            onPressed: () =>
+                Navigator.pop(context, _CostChangeDecision.cancel),
             child: const Text('إلغاء'),
           ),
           ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('تأكيد التغيير'),
+            onPressed: () =>
+                Navigator.pop(context, _CostChangeDecision.updateCurrent),
+            child: const Text('تحديث السعر'),
+          ),
+          ElevatedButton(
+            onPressed: () =>
+                Navigator.pop(context, _CostChangeDecision.createNew),
+            child: const Text('إنشاء صنف جديد'),
+          ),
+        ],
+      ),
+    );
+    return result ?? _CostChangeDecision.cancel;
+  }
+
+  Future<String?> _showNewProductNameDialog(
+    BuildContext context, {
+    required String prefilledName,
+  }) {
+    final controller = TextEditingController(text: prefilledName);
+    return showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('اسم الصنف الجديد'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: const InputDecoration(
+            labelText: 'اسم المنتج',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('إلغاء'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, controller.text),
+            child: const Text('تأكيد'),
           ),
         ],
       ),
