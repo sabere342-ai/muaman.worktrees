@@ -11,6 +11,7 @@ import '../models/expense_category.dart';
 import '../models/customer.dart';
 import '../models/invoice.dart';
 import '../models/user_role.dart';
+import '../models/cost_history.dart';
 import '../services/permissions.dart';
 import '../services/permission_resolver.dart';
 import '../sync/adapters/customer_sync_adapter.dart';
@@ -101,7 +102,12 @@ class DatabaseHelper {
   /// deterministic adjustment idempotency key, linked to the originating
   /// oversold sale/event. Additive only; upgrades and fresh installs land on
   /// the identical final shape.
-  static const int schemaVersion = 18;
+  ///
+  /// v19 (Phase P Group D D1 — P-OD4): ADDITIVE `cost_history` table recording
+  /// durable cost-price change events per product. Provides auditable
+  /// traceability for product cost changes while preserving historical sale
+  /// cost snapshots untouched.
+  static const int schemaVersion = 19;
 
   /// UUIDv4-shaped token generator (Phase M §24 / INV-M19). Used for both
   /// sync occurrence tokens and client-generated entity `cloud_uuid` values
@@ -448,6 +454,9 @@ class DatabaseHelper {
     if (oldVersion < 18) {
       await _migrateToV18(db);
     }
+    if (oldVersion < 19) {
+      await _migrateToV19(db);
+    }
   }
 
   Future<Database> get database async {
@@ -479,6 +488,9 @@ class DatabaseHelper {
     }
     if (schemaVersion >= 18) {
       await DatabaseHelper.instance._migrateToV18(db);
+    }
+    if (schemaVersion >= 19) {
+      await DatabaseHelper.instance._migrateToV19(db);
     }
     await db.rawUpdate('PRAGMA user_version = $schemaVersion');
   }
@@ -515,6 +527,15 @@ class DatabaseHelper {
   @visibleForTesting
   static Future<void> runUpgradeToV18ForTest(Database db) async {
     await DatabaseHelper.instance._migrateToV18(db);
+  }
+
+  /// Test-only seam: runs ONLY the production v18 → v19 additive migration
+  /// step against a database already at the v18 shape (user_version 18), so
+  /// the durable `cost_history` table is exercised without replaying
+  /// older history.
+  @visibleForTesting
+  static Future<void> runUpgradeToV19ForTest(Database db) async {
+    await DatabaseHelper.instance._migrateToV19(db);
   }
 
   /// Returns the full filesystem path to `muaman_store.db`.
@@ -681,6 +702,14 @@ class DatabaseHelper {
     // empty; the additive call keeps fresh/upgrade parity exact.
     if (version >= 18) {
       await _migrateToV18(db);
+    }
+
+    // Phase P Group D D1 (P-OD4): v19 adds the additive `cost_history` table
+    // recording durable cost-price change events per product. On a fresh
+    // install the table is created empty; the additive call keeps
+    // fresh/upgrade parity exact.
+    if (version >= 19) {
+      await _migrateToV19(db);
     }
 
     if (seedDemoEnabled) {
@@ -1088,6 +1117,19 @@ class DatabaseHelper {
     await _createStockAdjustmentsTable(db);
   }
 
+  /// Phase P Group D D1 (P-OD4): schema v18 → v19 is a single ADDITIVE table
+  /// — `cost_history` — holding durable cost-price change events per product.
+  ///
+  /// Each row captures: the owning shop, the product identity, the old cost,
+  /// the new cost, a change timestamp, and optionally the actor who performed
+  /// the change. Historical sale cost snapshots are NEVER rewritten. Additive
+  /// only: existing installs upgrade safely, and the same table is created on
+  /// fresh installs (`_createDB` path), keeping parity exact. Old cost-history
+  /// rows are never rewritten.
+  Future<void> _migrateToV19(Database db) async {
+    await _createCostHistoryTable(db);
+  }
+
   Future<void> _createStockAdjustmentsTable(Database db) async {
     await db.execute('''
       CREATE TABLE IF NOT EXISTS stock_adjustments (
@@ -1113,6 +1155,29 @@ class DatabaseHelper {
         'CREATE INDEX IF NOT EXISTS idx_stock_adj_sale ON stock_adjustments(sale_id)');
     await db.execute(
         'CREATE INDEX IF NOT EXISTS idx_stock_adj_idem ON stock_adjustments(idempotency_key)');
+  }
+
+  Future<void> _createCostHistoryTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS cost_history (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        shop_id TEXT NOT NULL,
+        product_id INTEGER NOT NULL,
+        product_name TEXT NOT NULL,
+        product_barcode TEXT NOT NULL,
+        old_cost REAL NOT NULL,
+        new_cost REAL NOT NULL,
+        changed_at TEXT NOT NULL,
+        changed_by TEXT,
+        FOREIGN KEY (product_id) REFERENCES products (id)
+      )
+    ''');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_cost_history_shop ON cost_history(shop_id)');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_cost_history_product ON cost_history(product_id)');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_cost_history_barcode ON cost_history(product_barcode)');
   }
 
   Future<void> _createUsersTable(Database db) async {
@@ -1145,6 +1210,10 @@ class DatabaseHelper {
     final trimmedBarcode = product.barcode.trim();
     if (trimmedBarcode.isEmpty) {
       throw ArgumentError('الباركود مطلوب');
+    }
+
+    if (product.costPrice.isNaN || product.costPrice.isInfinite) {
+      throw ArgumentError('سعر التكلفة غير صالح');
     }
 
     if (product.costPrice <= 0) {
@@ -1223,6 +1292,10 @@ class DatabaseHelper {
       throw ArgumentError('الباركود مطلوب');
     }
 
+    if (product.costPrice.isNaN || product.costPrice.isInfinite) {
+      throw ArgumentError('سعر التكلفة غير صالح');
+    }
+
     if (product.costPrice <= 0) {
       throw ArgumentError('يجب أن تكون تكلفة الصنف أكبر من صفر');
     }
@@ -1244,6 +1317,12 @@ class DatabaseHelper {
       barcode: trimmedBarcode,
     );
     return await db.transaction((txn) async {
+      // Fetch the current product to detect cost changes.
+      final existingMaps = await txn.query('products',
+          where: tp.prefix('id = ?'),
+          whereArgs: tp.argsWith([product.id]),
+          limit: 1);
+
       final affected = await txn.update(
           'products',
           {
@@ -1255,6 +1334,33 @@ class DatabaseHelper {
       if (affected == 0) {
         await _assertNotForeignRow(txn, 'products', product.id!, tp);
       }
+
+      // Phase P Group D D1 (P-OD4): Record cost history if cost changed.
+      // Executed inside the same transaction for atomicity. The shop id is
+      // derived from the tenant authority: the scoped predicate when isolation
+      // is armed, otherwise the active shop context (legacy mode). When no
+      // tenant context is available the record is skipped so no unattributed
+      // history row is ever created (fail-closed tenant safety).
+      if (affected > 0 && existingMaps.isNotEmpty) {
+        final existing = Product.fromMap(existingMaps.first);
+        if (existing.costPrice != normalized.costPrice) {
+          final shopId = tp.isScoped
+              ? tp.args.first as String
+              : ActiveShopContext.instance.shopId;
+          if (shopId != null && shopId.isNotEmpty) {
+            await recordCostChange(
+              txn,
+              shopId: shopId,
+              productId: product.id!,
+              productName: normalized.name,
+              productBarcode: normalized.barcode,
+              oldCost: existing.costPrice,
+              newCost: normalized.costPrice,
+            );
+          }
+        }
+      }
+
       if (affected > 0) {
         await _enqueueAfterWrite(db, txn,
             tableName: 'products',
@@ -2598,6 +2704,74 @@ class DatabaseHelper {
       throw ProductReferenceIntegrityException(
           'لا يوجد منتج بالباركود "$barcode"');
     }
+  }
+
+  // =================== COST HISTORY (Phase P / Group D / D1) ===================
+
+  /// Records a cost-price change event in the `cost_history` table.
+  ///
+  /// Must be called inside the same transaction that updates the product cost,
+  /// guaranteeing atomicity: if the product update succeeds, the history record
+  /// is created; if either fails, neither is committed.
+  ///
+  /// [shopId] is required for tenant isolation.
+  /// [oldCost] and [newCost] must differ for a meaningful record.
+  /// [changedBy] is optional actor attribution where architecturally valid.
+  Future<void> recordCostChange(
+    Transaction txn, {
+    required String shopId,
+    required int productId,
+    required String productName,
+    required String productBarcode,
+    required double oldCost,
+    required double newCost,
+    String? changedBy,
+  }) async {
+    if (oldCost == newCost) return;
+
+    await txn.insert('cost_history', {
+      'shop_id': shopId,
+      'product_id': productId,
+      'product_name': productName,
+      'product_barcode': productBarcode,
+      'old_cost': oldCost,
+      'new_cost': newCost,
+      'changed_at': DateTime.now().toIso8601String(),
+      'changed_by': changedBy,
+    });
+  }
+
+  /// Returns cost change history for a specific product, ordered by most
+  /// recent first. Tenant-scoped under armed isolation.
+  Future<List<CostHistory>> getCostHistoryByProduct(int productId) async {
+    final db = await database;
+    final tp = _readPredicate();
+    final maps = await db.query('cost_history',
+        where: tp.prefix('product_id = ?'),
+        whereArgs: tp.argsWith([productId]),
+        orderBy: 'changed_at DESC, id DESC');
+    return maps.map((map) => CostHistory.fromMap(map)).toList();
+  }
+
+  /// Returns all cost change history records for the active shop, ordered by
+  /// most recent first. Tenant-scoped under armed isolation.
+  Future<List<CostHistory>> getAllCostHistory() async {
+    final db = await database;
+    final tp = _readPredicate();
+    final maps = await db.query('cost_history',
+        where: tp.clause, whereArgs: tp.args, orderBy: 'changed_at DESC, id DESC');
+    return maps.map((map) => CostHistory.fromMap(map)).toList();
+  }
+
+  /// Returns cost history for a product identified by barcode.
+  Future<List<CostHistory>> getCostHistoryByBarcode(String barcode) async {
+    final db = await database;
+    final tp = _readPredicate();
+    final maps = await db.query('cost_history',
+        where: tp.prefix('product_barcode = ?'),
+        whereArgs: tp.argsWith([barcode]),
+        orderBy: 'changed_at DESC, id DESC');
+    return maps.map((map) => CostHistory.fromMap(map)).toList();
   }
 
   Future<Map<String, dynamic>> getInventorySummary() async {

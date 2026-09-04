@@ -230,6 +230,20 @@ class _InventoryScreenState extends State<InventoryScreen> {
           }
           final openingQty = int.tryParse(openingQtyController.text) ?? 0;
 
+          // Phase P Group D D1 (P-OD4): Detect actual cost change for edit.
+          if (isEditing) {
+            final costChanged = product.costPrice != costPrice;
+            if (costChanged) {
+              final confirmed = await _showCostChangeWarning(
+                context,
+                oldCost: product.costPrice,
+                newCost: costPrice,
+                productName: product.name,
+              );
+              if (confirmed != true) return;
+            }
+          }
+
           isSaving = true;
           try {
             if (isEditing) {
@@ -349,6 +363,50 @@ class _InventoryScreenState extends State<InventoryScreen> {
           ],
         );
       },
+    );
+  }
+
+  /// Phase P Group D D1 (P-OD4): Shows a cost-change warning dialog when the
+  /// user attempts to change a product's cost price. The warning communicates
+  /// that historical sale cost snapshots are preserved and not rewritten.
+  /// Returns true if the user confirms the change, false/null otherwise.
+  Future<bool?> _showCostChangeWarning(
+    BuildContext context, {
+    required double oldCost,
+    required double newCost,
+    required String productName,
+  }) {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('تحذير تغيير سعر التكلفة'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('المنتج: $productName'),
+            const SizedBox(height: 8),
+            Text('سعر التكلفة السابق: ${oldCost.toStringAsFixed(2)} ج.م'),
+            Text('سعر التكلفة الجديد: ${newCost.toStringAsFixed(2)} ج.م'),
+            const SizedBox(height: 12),
+            const Text(
+              'ملاحظة: لن يتم تغيير سعر التكلفة المحفوظ في المبيعات السابقة. '
+              'سيؤثر هذا التغيير فقط على المنتجات المستقبلية والمخزون الحالي.',
+              style: TextStyle(fontSize: 12, color: Colors.orange),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('إلغاء'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('تأكيد التغيير'),
+          ),
+        ],
+      ),
     );
   }
 

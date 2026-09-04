@@ -235,4 +235,26 @@ Future<void> createTestSchema(Database db) async {
       'CREATE INDEX IF NOT EXISTS idx_sync_queue_shop_id ON sync_queue(shop_id)');
   await db.execute(
       'CREATE INDEX IF NOT EXISTS idx_sync_queue_entity ON sync_queue(entity_type, entity_id)');
+
+  // Phase P Group D D1 (P-OD4): cost_history table for cost-change tracking.
+  await db.execute('''
+    CREATE TABLE IF NOT EXISTS cost_history (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      shop_id TEXT NOT NULL,
+      product_id INTEGER NOT NULL,
+      product_name TEXT NOT NULL,
+      product_barcode TEXT NOT NULL,
+      old_cost REAL NOT NULL,
+      new_cost REAL NOT NULL,
+      changed_at TEXT NOT NULL,
+      changed_by TEXT,
+      FOREIGN KEY (product_id) REFERENCES products (id)
+    )
+  ''');
+  await db.execute(
+      'CREATE INDEX IF NOT EXISTS idx_cost_history_shop ON cost_history(shop_id)');
+  await db.execute(
+      'CREATE INDEX IF NOT EXISTS idx_cost_history_product ON cost_history(product_id)');
+  await db.execute(
+      'CREATE INDEX IF NOT EXISTS idx_cost_history_barcode ON cost_history(product_barcode)');
 }

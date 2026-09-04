@@ -229,6 +229,11 @@ void main() {
 
       await tester.pumpAndSettle();
 
+      // D1 (P-OD4): a cost change now surfaces a confirmation warning.
+      expect(find.text('تحذير تغيير سعر التكلفة'), findsOneWidget);
+      await tester.tap(find.text('تأكيد التغيير'));
+      await tester.pumpAndSettle();
+
       expect(find.text('تعديل الصنف'), findsNothing);
       final products = await testDb.query('products');
       expect(products.length, 1);
