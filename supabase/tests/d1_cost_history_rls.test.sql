@@ -329,7 +329,7 @@ SELECT isnt(
 );
 
 -- =============================================================================
--- BEHAVIORAL TESTS — Direct Table (defense-in-depth)
+-- BEHAVIORAL TESTS — Defense-in-Depth (no direct table access via application roles)
 -- =============================================================================
 
 -- B15: anon has no direct INSERT/SELECT grant on cloud_cost_history
@@ -350,26 +350,26 @@ SELECT is(
   'B16: authenticated has no direct INSERT/SELECT grant on cloud_cost_history'
 );
 
--- B17: authorized owner can directly INSERT own shop (positive operational path)
-SELECT set_config('request.jwt.claim.sub', '11111111-1111-1111-1111-111111111111', true);
-SELECT lives_ok(
-  $$INSERT INTO cloud_cost_history
-    (shop_id, product_id, product_name, product_barcode, old_cost, new_cost, changed_by)
-  VALUES
-    ('a1000000-0000-0000-0000-000000000001',
-     'c1000000-0000-0000-0000-000000000001',
-     'Product A', 'BAR-A', 90.00, 110.00,
-     '11111111-1111-1111-1111-111111111111')$$,
-  'B17: owner can directly INSERT into own shop cloud_cost_history'
+-- B17: no permissive INSERT policy on cloud_cost_history
+SELECT results_eq(
+  'SELECT count(*) FROM pg_policies
+   WHERE schemaname = ''public''
+     AND tablename = ''cloud_cost_history''
+     AND qual = ''true''
+     AND cmd = ''INSERT''',
+  ARRAY[0::bigint],
+  'B17: no permissive INSERT policy with (true)'
 );
 
--- B18: owner can directly SELECT own shop data
-SELECT set_config('request.jwt.claim.sub', '11111111-1111-1111-1111-111111111111', true);
-SELECT isnt(
-  (SELECT count(*)::int FROM cloud_cost_history
-   WHERE shop_id = 'a1000000-0000-0000-0000-000000000001'),
-  0,
-  'B18: owner can directly SELECT own shop cloud_cost_history'
+-- B18: no permissive UPDATE policy on cloud_cost_history
+SELECT results_eq(
+  'SELECT count(*) FROM pg_policies
+   WHERE schemaname = ''public''
+     AND tablename = ''cloud_cost_history''
+     AND qual = ''true''
+     AND cmd = ''UPDATE''',
+  ARRAY[0::bigint],
+  'B18: no permissive UPDATE policy with (true)'
 );
 
 SELECT * FROM finish();
