@@ -241,10 +241,21 @@ force push             = NONE
 ## I. Remote-Lock Proof (post-push)
 
 ```text
-POST_PUSH_LOCAL    =
-POST_PUSH_TRACKING =
-POST_PUSH_REMOTE   =
-POST_PUSH_MERGE_BASE =
-POST_PUSH_AHEAD    =
-POST_PUSH_BEHIND   =
+POST_PUSH_LOCAL    = ecc940497b02ac49ba19421c5dc7feec7761010d
+POST_PUSH_TRACKING = ecc940497b02ac49ba19421c5dc7feec7761010d
+POST_PUSH_REMOTE   = ecc940497b02ac49ba19421c5dc7feec7761010d
+POST_PUSH_MERGE_BASE = ecc940497b02ac49ba19421c5dc7feec7761010d
+POST_PUSH_AHEAD    = 0
+POST_PUSH_BEHIND   = 0
+LOCAL = TRACKING = DIRECT_REMOTE = MERGE_BASE
+```
+
+## J. Owner Decision Request Evidence Commit
+
+```text
+OWNER_DECISION_REQUEST_COMMIT = ecc940497b02ac49ba19421c5dc7feec7761010d
+PARENT_COMMIT                 = ad64bbb8c43192ee67b631424496b71bf5fcacc4
+PUSH                          = normal fast-forward to github only
+ORIGIN_CONTACTED              = NO
+FORCE_PUSH                    = NO
 ```
