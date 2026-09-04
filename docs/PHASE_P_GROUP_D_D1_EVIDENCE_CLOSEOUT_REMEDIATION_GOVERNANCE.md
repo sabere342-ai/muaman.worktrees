@@ -474,7 +474,8 @@ DRIFT = NO
 ## T. Commit
 
 ```text
-COMMIT_MESSAGE = docs: close Phase P Group D D1 evidence remediation
+COMMIT_MESSAGE = test: correct D1 cost history RLS assertions to defense-in-depth + add evidence closeout governance
+COMMIT_HASH = eb41f04b1b5159676b7f17fdb261ef7300f70811
 Delta includes:
   - docs/PHASE_P_GROUP_D_D1_EVIDENCE_CLOSEOUT_REMEDIATION_GOVERNANCE.md (NEW)
   - supabase/tests/d1_cost_history_rls.test.sql (MODIFIED: test correction)
@@ -494,10 +495,10 @@ PUSH_RESULT = SUCCESS (fast-forward only, no --force)
 ## V. Post-Push Remote Lock
 
 ```text
-LOCAL_HEAD    = <NEW_COMMIT>
-TRACKING      = <NEW_COMMIT>
-DIRECT_REMOTE = <NEW_COMMIT>
-MERGE_BASE    = <NEW_COMMIT>
+LOCAL_HEAD    = eb41f04b1b5159676b7f17fdb261ef7300f70811
+TRACKING      = eb41f04b1b5159676b7f17fdb261ef7300f70811
+DIRECT_REMOTE = eb41f04b1b5159676b7f17fdb261ef7300f70811
+MERGE_BASE    = eb41f04b1b5159676b7f17fdb261ef7300f70811
 AHEAD         = 0
 BEHIND        = 0
 ```
