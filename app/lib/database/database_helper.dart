@@ -2872,7 +2872,9 @@ class DatabaseHelper {
     final db = await database;
     final tp = _readPredicate();
     final maps = await db.query('cost_history',
-        where: tp.clause, whereArgs: tp.args, orderBy: 'changed_at DESC, id DESC');
+        where: tp.clause,
+        whereArgs: tp.args,
+        orderBy: 'changed_at DESC, id DESC');
     return maps.map((map) => CostHistory.fromMap(map)).toList();
   }
 
@@ -2912,7 +2914,8 @@ class DatabaseHelper {
     final db = await database;
     final tp = _writePredicate();
     final now = DateTime.now().toIso8601String();
-    final hasCloudUuid = account.cloudUuid != null && account.cloudUuid!.isNotEmpty;
+    final hasCloudUuid =
+        account.cloudUuid != null && account.cloudUuid!.isNotEmpty;
     final cloudUuid = hasCloudUuid ? account.cloudUuid : _mintUuidV4();
 
     return await db.transaction((txn) async {
@@ -2925,7 +2928,8 @@ class DatabaseHelper {
 
       final id = await txn.insert('accounts', {
         ...tp.stamp(),
-        'shop_id': tp.stamp().isNotEmpty ? tp.stamp()['shop_id'] : account.shopId,
+        'shop_id':
+            tp.stamp().isNotEmpty ? tp.stamp()['shop_id'] : account.shopId,
         'name': trimmedName,
         'account_type': account.accountType.value,
         'created_at': now,
@@ -2967,18 +2971,23 @@ class DatabaseHelper {
 
     return await db.transaction((txn) async {
       final dup = await txn.query('accounts',
-          where: tp.prefix('LOWER(name) = LOWER(?) AND id != ? AND (deleted_at IS NULL)'),
+          where: tp.prefix(
+              'LOWER(name) = LOWER(?) AND id != ? AND (deleted_at IS NULL)'),
           whereArgs: tp.argsWith([trimmedName, account.id]));
       if (dup.isNotEmpty) {
         throw ArgumentError('اسم الحساب موجود مسبقًا');
       }
 
-      final affected = await txn.update('accounts', {
-        'name': trimmedName,
-        'account_type': account.accountType.value,
-        'updated_at': now,
-        'sync_status': EntitySyncStatus.PENDING.label,
-      }, where: tp.prefix('id = ?'), whereArgs: tp.argsWith([account.id]));
+      final affected = await txn.update(
+          'accounts',
+          {
+            'name': trimmedName,
+            'account_type': account.accountType.value,
+            'updated_at': now,
+            'sync_status': EntitySyncStatus.PENDING.label,
+          },
+          where: tp.prefix('id = ?'),
+          whereArgs: tp.argsWith([account.id]));
       if (affected == 0) {
         await _assertNotForeignRow(txn, 'accounts', account.id!, tp);
       }
@@ -3011,10 +3020,14 @@ class DatabaseHelper {
         return 0;
       }
 
-      final affected = await txn.update('accounts', {
-        'deleted_at': now,
-        'sync_status': EntitySyncStatus.PENDING.label,
-      }, where: tp.prefix('id = ?'), whereArgs: tp.argsWith([id]));
+      final affected = await txn.update(
+          'accounts',
+          {
+            'deleted_at': now,
+            'sync_status': EntitySyncStatus.PENDING.label,
+          },
+          where: tp.prefix('id = ?'),
+          whereArgs: tp.argsWith([id]));
       if (affected > 0) {
         await _enqueueAfterWrite(db, txn,
             tableName: 'accounts',
@@ -3066,8 +3079,8 @@ class DatabaseHelper {
     final tp = _writePredicate();
     final now = DateTime.now().toUtc().toIso8601String();
     final idempotencyKey = entry.idempotencyKey ??
-        _generateOpeningBalanceKey(
-            entry.shopId, entry.accountId, entry.effectiveDate, entry.entryKind.value);
+        _generateOpeningBalanceKey(entry.shopId, entry.accountId,
+            entry.effectiveDate, entry.entryKind.value);
 
     return await db.transaction((txn) async {
       final id = await txn.insert('opening_balance_entries', {
@@ -3155,13 +3168,15 @@ class DatabaseHelper {
     final db = await database;
     final tp = _readPredicate();
     final maps = await db.query('opening_balance_entries',
-        where: tp.clause, whereArgs: tp.args,
+        where: tp.clause,
+        whereArgs: tp.args,
         orderBy: 'created_at DESC, id DESC');
     return maps.map((map) => LedgerEntry.fromMap(map)).toList();
   }
 
   /// Owner + employee read (D2-06 B). Tenant-scoped.
-  Future<List<LedgerEntry>> getOpeningBalanceEntriesByAccount(int accountId) async {
+  Future<List<LedgerEntry>> getOpeningBalanceEntriesByAccount(
+      int accountId) async {
     final db = await database;
     final tp = _readPredicate();
     final maps = await db.query('opening_balance_entries',
@@ -3185,7 +3200,7 @@ class DatabaseHelper {
 
   /// Deterministic idempotency key for opening-balance entries.
   static String _generateOpeningBalanceKey(
-    String shopId, int accountId, String effectiveDate, String entryKind) {
+      String shopId, int accountId, String effectiveDate, String entryKind) {
     return 'ob:$shopId:$accountId:$effectiveDate:$entryKind';
   }
 

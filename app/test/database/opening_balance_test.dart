@@ -72,7 +72,8 @@ void main() {
     test('3: employee CANNOT create an account', () async {
       expect(
         () => helper.createAccount(
-          Account(shopId: 'shop-a', name: 'حساب', accountType: AccountType.cash),
+          Account(
+              shopId: 'shop-a', name: 'حساب', accountType: AccountType.cash),
           currentRole: UserRole.employee,
         ),
         throwsA(isA<PermissionDeniedException>()),
@@ -83,7 +84,8 @@ void main() {
     test('4: salesOnly CANNOT create an account', () async {
       expect(
         () => helper.createAccount(
-          Account(shopId: 'shop-a', name: 'حساب', accountType: AccountType.cash),
+          Account(
+              shopId: 'shop-a', name: 'حساب', accountType: AccountType.cash),
           currentRole: UserRole.salesOnly,
         ),
         throwsA(isA<PermissionDeniedException>()),
@@ -108,7 +110,11 @@ void main() {
         currentRole: UserRole.owner,
       );
       final updated = await helper.updateAccount(
-        Account(id: id, shopId: 'shop-a', name: 'محدث', accountType: AccountType.bank),
+        Account(
+            id: id,
+            shopId: 'shop-a',
+            name: 'محدث',
+            accountType: AccountType.bank),
         currentRole: UserRole.owner,
       );
       expect(updated, 1);
@@ -124,7 +130,11 @@ void main() {
       );
       expect(
         () => helper.updateAccount(
-          Account(id: id, shopId: 'shop-a', name: 'محدث', accountType: AccountType.bank),
+          Account(
+              id: id,
+              shopId: 'shop-a',
+              name: 'محدث',
+              accountType: AccountType.bank),
           currentRole: UserRole.employee,
         ),
         throwsA(isA<PermissionDeniedException>()),
@@ -136,10 +146,12 @@ void main() {
         Account(shopId: 'shop-a', name: 'حساب', accountType: AccountType.cash),
         currentRole: UserRole.owner,
       );
-      final deleted = await helper.deleteAccount(id, currentRole: UserRole.owner);
+      final deleted =
+          await helper.deleteAccount(id, currentRole: UserRole.owner);
       expect(deleted, 1);
       final fetched = await helper.getAccountById(id);
-      expect(fetched, isNull, reason: 'soft-deleted account should not be visible');
+      expect(fetched, isNull,
+          reason: 'soft-deleted account should not be visible');
     });
 
     test('9: employee CANNOT delete an account', () async {
@@ -221,7 +233,8 @@ void main() {
       expect(entries.single.entryKind, EntryKind.opening);
     });
 
-    test('13: correction creates new entry, original unchanged (D2-05 A)', () async {
+    test('13: correction creates new entry, original unchanged (D2-05 A)',
+        () async {
       final accountId = await helper.createAccount(
         Account(shopId: 'shop-a', name: 'نقداً', accountType: AccountType.cash),
         currentRole: UserRole.owner,
@@ -346,7 +359,8 @@ void main() {
       );
       expect(
         () => helper.createAccount(
-          Account(shopId: 'shop-a', name: 'نقداً', accountType: AccountType.bank),
+          Account(
+              shopId: 'shop-a', name: 'نقداً', accountType: AccountType.bank),
           currentRole: UserRole.owner,
         ),
         throwsA(isA<ArgumentError>()),
@@ -362,8 +376,7 @@ void main() {
 
       await bindTestShop('shop-b');
       final accountsB = await helper.getAllAccounts();
-      expect(accountsB, isEmpty,
-          reason: 'Shop B must not see Shop A accounts');
+      expect(accountsB, isEmpty, reason: 'Shop B must not see Shop A accounts');
     });
 
     test('19: v19 -> v20 migration is additive and idempotent', () async {
@@ -381,8 +394,7 @@ void main() {
       await DatabaseHelper.runUpgradeToV20ForTest(v19Db);
       final after = await v19Db.rawQuery(
           "SELECT name FROM sqlite_master WHERE type='table' AND name='accounts'");
-      expect(after, isNotEmpty,
-          reason: 'v20 adds accounts additively');
+      expect(after, isNotEmpty, reason: 'v20 adds accounts additively');
 
       // Idempotent re-run
       await DatabaseHelper.runUpgradeToV20ForTest(v19Db);

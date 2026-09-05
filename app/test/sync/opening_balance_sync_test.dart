@@ -52,8 +52,7 @@ void main() {
     });
 
     test('conflict policy is lastWriterWins', () {
-      expect(adapter.conflictPolicy,
-          ConflictResolutionPolicy.lastWriterWins);
+      expect(adapter.conflictPolicy, ConflictResolutionPolicy.lastWriterWins);
     });
 
     test('isServerAuthoritative is false', () {
@@ -69,7 +68,8 @@ void main() {
         ),
         currentRole: UserRole.owner,
       );
-      final row = await testDb.query('accounts', where: 'id = ?', whereArgs: [id]);
+      final row =
+          await testDb.query('accounts', where: 'id = ?', whereArgs: [id]);
       final payload = adapter.localToCloudPayload(row.first);
       expect(payload['name'], 'صندوق النقد');
       expect(payload['account_type'], 'CASH');
@@ -153,8 +153,8 @@ void main() {
       );
       final row = await testDb.query('opening_balance_entries',
           where: 'id = ?', whereArgs: [entryId]);
-    final payload = entryAdapter.localToCloudPayload(row.first);
-    expect(payload['account_id'], accountId);
+      final payload = entryAdapter.localToCloudPayload(row.first);
+      expect(payload['account_id'], accountId);
       expect(payload['amount'], 1000);
       expect(payload['entry_kind'], 'OPENING');
     });

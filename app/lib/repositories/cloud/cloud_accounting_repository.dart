@@ -95,7 +95,8 @@ class CloudAccountingRepository {
           accountId: 0,
           amount: (e['amount'] as num?)?.toDouble() ?? 0,
           effectiveDate: e['effective_date'] as String? ?? '',
-          entryKind: EntryKind.fromValue(e['entry_kind'] as String? ?? 'OPENING'),
+          entryKind:
+              EntryKind.fromValue(e['entry_kind'] as String? ?? 'OPENING'),
           correctsEntryId: (e['corrects_entry_id'] as num?)?.toInt(),
           correctionReason: e['correction_reason'] as String?,
           notes: e['notes'] as String?,
@@ -143,7 +144,8 @@ class CloudAccountingRepository {
         amount: amount,
         effectiveDate: effectiveDate,
         entryKind: entryKind,
-        correctsEntryId: correctsEntryId != null ? int.tryParse(correctsEntryId) : null,
+        correctsEntryId:
+            correctsEntryId != null ? int.tryParse(correctsEntryId) : null,
         correctionReason: correctionReason,
         notes: notes,
         idempotencyKey: idempotencyKey,

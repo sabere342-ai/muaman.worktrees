@@ -5,7 +5,6 @@ import 'package:muaman_store/database/database_helper.dart';
 import 'package:muaman_store/models/account.dart';
 import 'package:muaman_store/models/ledger_entry.dart';
 import 'package:muaman_store/models/user_role.dart';
-import 'package:muaman_store/sync/sync_status.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -46,7 +45,8 @@ void main() {
         "SELECT name FROM sqlite_master WHERE type='table' AND name='accounts'");
     final beforeEntries = await testDb.rawQuery(
         "SELECT name FROM sqlite_master WHERE type='table' AND name='opening_balance_entries'");
-    expect(beforeAccounts, isEmpty, reason: 'v19 should not have accounts table');
+    expect(beforeAccounts, isEmpty,
+        reason: 'v19 should not have accounts table');
     expect(beforeEntries, isEmpty,
         reason: 'v19 should not have opening_balance_entries table');
 
@@ -56,18 +56,19 @@ void main() {
         "SELECT name FROM sqlite_master WHERE type='table' AND name='accounts'");
     final afterEntries = await testDb.rawQuery(
         "SELECT name FROM sqlite_master WHERE type='table' AND name='opening_balance_entries'");
-    expect(afterAccounts, isNotEmpty,
-        reason: 'v20 should add accounts table');
+    expect(afterAccounts, isNotEmpty, reason: 'v20 should add accounts table');
     expect(afterEntries, isNotEmpty,
         reason: 'v20 should add opening_balance_entries table');
 
     // Verify accounts table schema
     final cols = await testDb.rawQuery("PRAGMA table_info(accounts)");
-    final colNames = cols.map((c) => (c as Map<String, dynamic>)['name']).toSet();
+    final colNames =
+        cols.map((c) => (c as Map<String, dynamic>)['name']).toSet();
     expect(colNames, containsAll(['id', 'shop_id', 'name', 'account_type']));
 
     // Verify FK exists
-    final fks = await testDb.rawQuery("PRAGMA foreign_key_list(opening_balance_entries)");
+    final fks = await testDb
+        .rawQuery("PRAGMA foreign_key_list(opening_balance_entries)");
     expect(fks, isNotEmpty,
         reason: 'opening_balance_entries must reference accounts');
 

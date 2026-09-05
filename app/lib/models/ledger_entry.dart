@@ -38,7 +38,7 @@ class LedgerEntry {
     String? createdAt,
     this.cloudUuid,
     this.serverVersion,
-  })  : createdAt = createdAt ?? DateTime.now().toUtc().toIso8601String();
+  }) : createdAt = createdAt ?? DateTime.now().toUtc().toIso8601String();
 
   Map<String, dynamic> toMap() {
     return {

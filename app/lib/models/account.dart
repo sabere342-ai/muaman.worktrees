@@ -38,7 +38,8 @@ class Account {
       id: map['id'] as int?,
       shopId: map['shop_id'] as String? ?? '',
       name: map['name'] as String? ?? '',
-      accountType: AccountType.fromValue(map['account_type'] as String? ?? 'CASH'),
+      accountType:
+          AccountType.fromValue(map['account_type'] as String? ?? 'CASH'),
       createdBy: map['created_by'] as String?,
       cloudUuid: map['cloud_uuid'] as String?,
       serverVersion: (map['server_version'] as num?)?.toInt(),

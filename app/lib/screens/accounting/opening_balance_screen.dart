@@ -215,8 +215,7 @@ class _OpeningBalanceScreenState extends State<OpeningBalanceScreen> {
   void _showError(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message,
-            style: const TextStyle(color: Colors.white)),
+        content: Text(message, style: const TextStyle(color: Colors.white)),
         backgroundColor: Colors.red,
       ),
     );
@@ -230,16 +229,14 @@ class _OpeningBalanceScreenState extends State<OpeningBalanceScreen> {
             style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: [
-          IconButton(
-              icon: const Icon(Icons.refresh), onPressed: _loadAccounts),
+          IconButton(icon: const Icon(Icons.refresh), onPressed: _loadAccounts),
         ],
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _accounts.isEmpty
               ? const Center(
-                  child: Text('لا توجد حسابات',
-                      style: TextStyle(fontSize: 16)))
+                  child: Text('لا توجد حسابات', style: TextStyle(fontSize: 16)))
               : ListView.builder(
                   itemCount: _accounts.length,
                   padding: const EdgeInsets.all(8),

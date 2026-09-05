@@ -92,8 +92,7 @@ class OpeningBalanceEntrySyncAdapter extends EntitySyncAdapter {
       'amount': (localRow['amount'] as num?)?.toDouble() ?? 0,
       'effective_date': localRow['effective_date'] as String? ?? '',
       'entry_kind': localRow['entry_kind'] as String? ?? 'OPENING',
-      'corrects_entry_id':
-          (localRow['corrects_entry_id'] as num?)?.toInt(),
+      'corrects_entry_id': (localRow['corrects_entry_id'] as num?)?.toInt(),
       'correction_reason': localRow['correction_reason'] as String?,
       'notes': localRow['notes'] as String?,
       'idempotency_key': localRow['idempotency_key'] as String? ?? '',
@@ -107,8 +106,7 @@ class OpeningBalanceEntrySyncAdapter extends EntitySyncAdapter {
       'amount': (cloudRow['amount'] as num?)?.toDouble() ?? 0,
       'effective_date': cloudRow['effective_date'] as String? ?? '',
       'entry_kind': cloudRow['entry_kind'] as String? ?? 'OPENING',
-      'corrects_entry_id':
-          (cloudRow['corrects_entry_id'] as num?)?.toInt(),
+      'corrects_entry_id': (cloudRow['corrects_entry_id'] as num?)?.toInt(),
       'correction_reason': cloudRow['correction_reason'] as String?,
       'notes': cloudRow['notes'] as String?,
       'idempotency_key': cloudRow['idempotency_key'] as String? ?? '',
