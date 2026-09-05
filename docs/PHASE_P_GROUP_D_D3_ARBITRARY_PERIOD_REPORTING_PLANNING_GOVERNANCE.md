@@ -931,15 +931,17 @@ The D3 implementation is COMPLETE when ALL of:
 (To be populated after commit and push, mirroring the D1/D2 governance style.)
 
 ```text
-COMMIT_SHA       = <set at commit>
+COMMIT_SHA       = 5435cfc75c2228f76b5a80555592675a0d8294f1
 PARENT_SHA       = 58f3224132d74febf07867486b6c03b712757b52
+TREE_SHA         = 36ad18ac020b04e3e4c57f3d7f8522113b4ae6cc
 ARTIFACT_PATH    = docs/PHASE_P_GROUP_D_D3_ARBITRARY_PERIOD_REPORTING_PLANNING_GOVERNANCE.md
+ARTIFACT_BLOB    = ad4bcfa385355eb50d40d937738316100cec23ba
+ARTIFACT_LINES   = 781
 DELTA            = 1 added documentation file, 0 modified, 0 deleted
-LOCAL            = tracking = remote = merge-base
-AHEAD            = 0
-BEHIND           = 0
-PRE_PUSH_AHEAD   = 1   (after local governance commit)
-POST_PUSH_LOCK   = <set after push>
+COMMIT_FILE_COUNT = 1
+COMMIT_MESSAGE     = docs: govern Phase P Group D D3 arbitrary-period reporting
+NORMAL_PUSH        = YES (no force, no force-with-lease)
+ORIGIN_CONTACTED   = NO
 ```
 
 ---
@@ -988,10 +990,10 @@ NEXT_ALLOWED_ACTION = Wait for D2 implementation to close (owner-gated),
 (To be populated after push.)
 
 ```text
-POST_PUSH_LOCAL_HEAD             = <set after push>
-POST_PUSH_TRACKING_HEAD          = <set after push>
-POST_PUSH_DIRECT_GITHUB_HEAD     = <set after push>
-POST_PUSH_MERGE_BASE             = <set after push>
+POST_PUSH_LOCAL_HEAD             = 5435cfc75c2228f76b5a80555592675a0d8294f1
+POST_PUSH_TRACKING_HEAD          = 5435cfc75c2228f76b5a80555592675a0d8294f1
+POST_PUSH_DIRECT_GITHUB_HEAD     = 5435cfc75c2228f76b5a80555592675a0d8294f1  (git ls-remote github)
+POST_PUSH_MERGE_BASE             = 5435cfc75c2228f76b5a80555592675a0d8294f1
 POST_PUSH_AHEAD                  = 0
 POST_PUSH_BEHIND                 = 0
 POST_PUSH_NORMAL_PUSH            = YES (no force, no force-with-lease)
