@@ -265,21 +265,8 @@ class SyncCloudOperationsTransport {
           'p_value': _str(payload, 'setting_value'),
         });
       case SyncEntityType.stockAdjustment:
-        // Phase P Group A A3 (P-OD1 local half): the A4 owner-gated adjustment
-        // RPC. Tenant-scoped; requires an explicit cloud product uuid (never
-        // guessed), carries the durable adjustment identity/payload and the
-        // governing idempotency key. Fail closed when the product identity is
-        // absent — nothing is fabricated.
+        // ... existing stock adjustment case ...
         final productId = _strOrNull(payload, 'product_id');
-        if (productId == null || productId.isEmpty) {
-          throw CloudDataException(
-            type: CloudDataErrorType.invalidInput,
-            message:
-                'Stock adjustment sync requires a cloud product_id (UUID); '
-                'the adjustment cannot be routed without a server product '
-                'identity.',
-          );
-        }
         return _call('create_cloud_stock_adjustment', {
           ...params,
           'p_product_id': productId,
@@ -289,6 +276,37 @@ class SyncCloudOperationsTransport {
           'p_sale_id': _strOrNull(payload, 'sale_id'),
           'p_return_id': null,
           'p_invoice_id': null,
+          'p_notes': _strOrNull(payload, 'notes'),
+          'p_idempotency_key': idempotencyKey,
+        });
+      case SyncEntityType.account:
+        // Phase P Group D D2 (P-OD5): account sync routed to the governed
+        // create/update RPCs (D2-06 B: owner-only write on the server).
+        final cloudUuid = _strOrNull(payload, 'cloud_uuid');
+        if (cloudUuid == null || cloudUuid.isEmpty) {
+          return _call('create_cloud_account', {
+            ...params,
+            'p_name': _str(payload, 'name'),
+            'p_account_type': _str(payload, 'account_type'),
+          });
+        }
+        return _call('update_cloud_account', {
+          ...params,
+          'p_account_id': cloudUuid,
+          'p_name': _strOrNull(payload, 'name'),
+          'p_account_type': _strOrNull(payload, 'account_type'),
+          'p_deleted': _strOrNull(payload, 'deleted_at') != null,
+        });
+      case SyncEntityType.openingBalanceEntry:
+        // Append-only event-like entries (D2-05 A): only create is routed.
+        return _call('create_cloud_opening_balance', {
+          ...params,
+          'p_account_id': _strOrNull(payload, 'account_id'),
+          'p_amount': _num(payload, 'amount'),
+          'p_effective_date': _str(payload, 'effective_date'),
+          'p_entry_kind': _str(payload, 'entry_kind'),
+          'p_corrects_entry_id': _strOrNull(payload, 'corrects_entry_id'),
+          'p_correction_reason': _strOrNull(payload, 'correction_reason'),
           'p_notes': _strOrNull(payload, 'notes'),
           'p_idempotency_key': idempotencyKey,
         });
@@ -339,6 +357,8 @@ class SyncCloudOperationsTransport {
       case SyncEntityType.inventoryCount:
       case SyncEntityType.shopSetting:
       case SyncEntityType.stockAdjustment:
+      case SyncEntityType.account:
+      case SyncEntityType.openingBalanceEntry:
         // No governed server delete surface for these event/setting types;
         // an invoice is retired by reverting its constituent sales, counts
         // and settings carry no server-side delete, and a stock adjustment is

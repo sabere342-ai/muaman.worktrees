@@ -12,6 +12,8 @@ import '../models/customer.dart';
 import '../models/invoice.dart';
 import '../models/user_role.dart';
 import '../models/cost_history.dart';
+import '../models/account.dart';
+import '../models/ledger_entry.dart';
 import '../services/permissions.dart';
 import '../services/permission_resolver.dart';
 import '../sync/adapters/customer_sync_adapter.dart';
@@ -23,6 +25,7 @@ import '../sync/adapters/invoice_sync_adapter.dart';
 import '../sync/adapters/product_sync_adapter.dart';
 import '../sync/adapters/return_sync_adapter.dart';
 import '../sync/adapters/sale_sync_adapter.dart';
+import '../sync/adapters/accounting_sync_adapter.dart';
 import '../migration/maintenance_mode.dart';
 import '../services/active_shop_context.dart';
 import '../sync/sync_queue_repository.dart';
@@ -107,7 +110,13 @@ class DatabaseHelper {
   /// durable cost-price change events per product. Provides auditable
   /// traceability for product cost changes while preserving historical sale
   /// cost snapshots untouched.
-  static const int schemaVersion = 19;
+  ///
+  /// v20 (Phase P Group D D2 — P-OD5): ADDITIVE `accounts` and
+  /// `opening_balance_entries` tables implementing the owner-resolved
+  /// (A/C/A/C/A/B/A) opening-balances contract: per-shop account catalog
+  /// seeded EMPTY, type-aware balance direction, non-negative amount CHECK,
+  /// per-entry effective_date, append-only corrections, owner set/correct.
+  static const int schemaVersion = 20;
 
   /// UUIDv4-shaped token generator (Phase M §24 / INV-M19). Used for both
   /// sync occurrence tokens and client-generated entity `cloud_uuid` values
@@ -239,6 +248,8 @@ class DatabaseHelper {
       CustomerSyncAdapter(),
       InvoiceSyncAdapter(),
       InventoryCountSyncAdapter(),
+      AccountSyncAdapter(),
+      OpeningBalanceEntrySyncAdapter(),
     ];
     return {for (final a in adapters) a.localTableName: a};
   }();
@@ -457,6 +468,9 @@ class DatabaseHelper {
     if (oldVersion < 19) {
       await _migrateToV19(db);
     }
+    if (oldVersion < 20) {
+      await _migrateToV20(db);
+    }
   }
 
   Future<Database> get database async {
@@ -491,6 +505,9 @@ class DatabaseHelper {
     }
     if (schemaVersion >= 19) {
       await DatabaseHelper.instance._migrateToV19(db);
+    }
+    if (schemaVersion >= 20) {
+      await DatabaseHelper.instance._migrateToV20(db);
     }
     await db.rawUpdate('PRAGMA user_version = $schemaVersion');
   }
@@ -536,6 +553,15 @@ class DatabaseHelper {
   @visibleForTesting
   static Future<void> runUpgradeToV19ForTest(Database db) async {
     await DatabaseHelper.instance._migrateToV19(db);
+  }
+
+  /// Test-only seam: runs ONLY the production v19 → v20 additive migration
+  /// step against a database already at the v19 shape (user_version 19), so
+  /// the additive `accounts` and `opening_balance_entries` tables are exercised
+  /// without replaying older history.
+  @visibleForTesting
+  static Future<void> runUpgradeToV20ForTest(Database db) async {
+    await DatabaseHelper.instance._migrateToV20(db);
   }
 
   /// Returns the full filesystem path to `muaman_store.db`.
@@ -1130,6 +1156,21 @@ class DatabaseHelper {
     await _createCostHistoryTable(db);
   }
 
+  /// Phase P Group D D2 (P-OD5): schema v19 → v20 is ADDITIVE ONLY — no
+  /// rewrites of existing tables. Adds two new tables:
+  ///   - `accounts` — per-shop account catalog (D2-01 A: seeded EMPTY)
+  ///   - `opening_balance_entries` — append-only accounting entries (D2-05 A)
+  /// With owner-resolved semantics:
+  ///   - account_type CHECK (D2-02 C: CASH/BANK/RECEIVABLE_SUMMARY/PAYABLE_SUMMARY/CAPITAL)
+  ///   - amount CHECK >= 0 (D2-03 A)
+  ///   - per-entry effective_date indexed (D2-04 C)
+  ///   - entry_kind OPENING/ADJUSTMENT/CORRECTION (D2-05 A)
+  ///   - corrects_entry_id self-reference for corrective entries
+  Future<void> _migrateToV20(Database db) async {
+    await _createAccountsTable(db);
+    await _createOpeningBalanceEntriesTable(db);
+  }
+
   Future<void> _createStockAdjustmentsTable(Database db) async {
     await db.execute('''
       CREATE TABLE IF NOT EXISTS stock_adjustments (
@@ -1178,6 +1219,78 @@ class DatabaseHelper {
         'CREATE INDEX IF NOT EXISTS idx_cost_history_product ON cost_history(product_id)');
     await db.execute(
         'CREATE INDEX IF NOT EXISTS idx_cost_history_barcode ON cost_history(product_barcode)');
+  }
+
+  /// Phase P Group D D2 (P-OD5): additive `accounts` table — per-shop account
+  /// catalog (D2-01 A: seeded EMPTY). Each account carries a type that
+  /// determines balance direction (D2-02 C).
+  Future<void> _createAccountsTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS accounts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        shop_id TEXT NOT NULL,
+        name TEXT NOT NULL,
+        account_type TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        created_by TEXT,
+        updated_at TEXT NOT NULL,
+        deleted_at TEXT,
+        cloud_uuid TEXT,
+        server_version INTEGER DEFAULT 0,
+        sync_status TEXT DEFAULT 'SYNCED',
+        last_synced_at TEXT,
+        CONSTRAINT chk_account_type
+          CHECK (account_type IN ('CASH', 'BANK', 'RECEIVABLE_SUMMARY',
+            'PAYABLE_SUMMARY', 'CAPITAL'))
+      )
+    ''');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_accounts_shop ON accounts(shop_id)');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_accounts_type ON accounts(account_type)');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_accounts_deleted ON accounts(deleted_at) WHERE deleted_at IS NULL');
+  }
+
+  /// Phase P Group D D2 (P-OD5): additive `opening_balance_entries` table —
+  /// append-only accounting entries (D2-05 A). Amount is CHECK >= 0 (D2-03 A).
+  /// Per-entry effective_date is indexed (D2-04 C). Correction entries carry
+  /// corrects_entry_id + correction_reason.
+  Future<void> _createOpeningBalanceEntriesTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS opening_balance_entries (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        shop_id TEXT NOT NULL,
+        account_id INTEGER NOT NULL,
+        amount REAL NOT NULL,
+        effective_date TEXT NOT NULL,
+        entry_kind TEXT NOT NULL,
+        corrects_entry_id INTEGER,
+        correction_reason TEXT,
+        notes TEXT,
+        idempotency_key TEXT NOT NULL UNIQUE,
+        created_by TEXT,
+        created_at TEXT NOT NULL,
+        cloud_uuid TEXT,
+        server_version INTEGER DEFAULT 0,
+        sync_status TEXT DEFAULT 'SYNCED',
+        last_synced_at TEXT,
+        CONSTRAINT chk_ob_amount_nonneg CHECK (amount >= 0),
+        CONSTRAINT chk_ob_entry_kind
+          CHECK (entry_kind IN ('OPENING', 'ADJUSTMENT', 'CORRECTION')),
+        FOREIGN KEY (account_id) REFERENCES accounts (id)
+      )
+    ''');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_ob_entries_shop ON opening_balance_entries(shop_id)');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_ob_entries_account ON opening_balance_entries(account_id)');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_ob_entries_effective_date ON opening_balance_entries(effective_date)');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_ob_entries_kind ON opening_balance_entries(entry_kind)');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_ob_entries_idem ON opening_balance_entries(idempotency_key)');
   }
 
   Future<void> _createUsersTable(Database db) async {
@@ -2772,6 +2885,308 @@ class DatabaseHelper {
         whereArgs: tp.argsWith([barcode]),
         orderBy: 'changed_at DESC, id DESC');
     return maps.map((map) => CostHistory.fromMap(map)).toList();
+  }
+
+  // =================== ACCOUNTS (Phase P Group D D2 — P-OD5) ===================
+
+  /// Owner-only guard for D2-06=B: set/correct opening balances requires the
+  /// owner role. Employees have `inventory.edit` but must NOT set/correct.
+  void _requireOwner(UserRole? currentRole) {
+    if (currentRole != UserRole.owner) {
+      throw const PermissionDeniedException(
+          'غير مصرح بهذه العملية. هذه العملية تتطلب صلاحية المالك.');
+    }
+  }
+
+  /// Creates a new accounting account in the per-shop catalog (D2-01 A).
+  /// Owner-only (D2-06 B). Returns the new local row id.
+  Future<int> createAccount(Account account, {UserRole? currentRole}) async {
+    await _enforceLicensing();
+    _requireOwner(currentRole);
+
+    final trimmedName = account.name.trim();
+    if (trimmedName.isEmpty) {
+      throw ArgumentError('اسم الحساب مطلوب');
+    }
+
+    final db = await database;
+    final tp = _writePredicate();
+    final now = DateTime.now().toIso8601String();
+    final hasCloudUuid = account.cloudUuid != null && account.cloudUuid!.isNotEmpty;
+    final cloudUuid = hasCloudUuid ? account.cloudUuid : _mintUuidV4();
+
+    return await db.transaction((txn) async {
+      final dup = await txn.query('accounts',
+          where: tp.prefix('LOWER(name) = LOWER(?) AND (deleted_at IS NULL)'),
+          whereArgs: tp.argsWith([trimmedName]));
+      if (dup.isNotEmpty) {
+        throw ArgumentError('اسم الحساب موجود مسبقًا');
+      }
+
+      final id = await txn.insert('accounts', {
+        ...tp.stamp(),
+        'shop_id': tp.stamp().isNotEmpty ? tp.stamp()['shop_id'] : account.shopId,
+        'name': trimmedName,
+        'account_type': account.accountType.value,
+        'created_at': now,
+        'created_by': account.createdBy,
+        'updated_at': now,
+        'cloud_uuid': cloudUuid,
+        'server_version': hasCloudUuid ? (account.serverVersion ?? 0) : 0,
+        'sync_status': EntitySyncStatus.SYNCED.label,
+      });
+
+      if (!hasCloudUuid) {
+        await _enqueueAfterWrite(db, txn,
+            tableName: 'accounts',
+            rowId: id,
+            operation: SyncQueueOperation.CREATE);
+      }
+      return id;
+    });
+  }
+
+  /// Updates an account's name and/or type. Owner-only (D2-06 B).
+  /// Append-only semantics are NOT violated: this updates the account
+  /// catalog, not historical balance entries (D2-05 A).
+  Future<int> updateAccount(Account account, {UserRole? currentRole}) async {
+    await _enforceLicensing();
+    _requireOwner(currentRole);
+
+    final trimmedName = account.name.trim();
+    if (trimmedName.isEmpty) {
+      throw ArgumentError('اسم الحساب مطلوب');
+    }
+    if (account.id == null) {
+      throw ArgumentError('معرف الحساب مطلوب للتحديث');
+    }
+
+    final db = await database;
+    final tp = _writePredicate();
+    final now = DateTime.now().toIso8601String();
+
+    return await db.transaction((txn) async {
+      final dup = await txn.query('accounts',
+          where: tp.prefix('LOWER(name) = LOWER(?) AND id != ? AND (deleted_at IS NULL)'),
+          whereArgs: tp.argsWith([trimmedName, account.id]));
+      if (dup.isNotEmpty) {
+        throw ArgumentError('اسم الحساب موجود مسبقًا');
+      }
+
+      final affected = await txn.update('accounts', {
+        'name': trimmedName,
+        'account_type': account.accountType.value,
+        'updated_at': now,
+        'sync_status': EntitySyncStatus.PENDING.label,
+      }, where: tp.prefix('id = ?'), whereArgs: tp.argsWith([account.id]));
+      if (affected == 0) {
+        await _assertNotForeignRow(txn, 'accounts', account.id!, tp);
+      }
+      if (affected > 0) {
+        await _enqueueAfterWrite(db, txn,
+            tableName: 'accounts',
+            rowId: account.id!,
+            operation: SyncQueueOperation.UPDATE);
+      }
+      return affected;
+    });
+  }
+
+  /// Soft-deletes an account. Owner-only (D2-06 B). Does not destroy balance
+  /// history (append-only invariant, D2-05 A).
+  Future<int> deleteAccount(int id, {UserRole? currentRole}) async {
+    await _enforceLicensing();
+    _requireOwner(currentRole);
+    final db = await database;
+    final tp = _writePredicate();
+    final now = DateTime.now().toIso8601String();
+
+    return await db.transaction((txn) async {
+      final existing = await txn.query('accounts',
+          where: tp.prefix('id = ? AND deleted_at IS NULL'),
+          whereArgs: tp.argsWith([id]),
+          limit: 1);
+      if (existing.isEmpty) {
+        await _assertNotForeignRow(txn, 'accounts', id, tp);
+        return 0;
+      }
+
+      final affected = await txn.update('accounts', {
+        'deleted_at': now,
+        'sync_status': EntitySyncStatus.PENDING.label,
+      }, where: tp.prefix('id = ?'), whereArgs: tp.argsWith([id]));
+      if (affected > 0) {
+        await _enqueueAfterWrite(db, txn,
+            tableName: 'accounts',
+            rowId: id,
+            operation: SyncQueueOperation.UPDATE,
+            existingRow: existing.first);
+      }
+      return affected;
+    });
+  }
+
+  /// Owner + employee read (D2-06 B: `inventory.view` allows both roles).
+  Future<List<Account>> getAllAccounts() async {
+    final db = await database;
+    final tp = _readPredicate();
+    final maps = await db.query('accounts',
+        where: tp.prefix('deleted_at IS NULL'),
+        whereArgs: tp.args,
+        orderBy: 'name ASC');
+    return maps.map((map) => Account.fromMap(map)).toList();
+  }
+
+  Future<Account?> getAccountById(int id) async {
+    final db = await database;
+    final tp = _readPredicate();
+    final maps = await db.query('accounts',
+        where: tp.prefix('id = ? AND deleted_at IS NULL'),
+        whereArgs: tp.argsWith([id]),
+        limit: 1);
+    if (maps.isEmpty) return null;
+    return Account.fromMap(maps.first);
+  }
+
+  // =================== OPENING BALANCE ENTRIES (Phase P Group D D2 — P-OD5) ===
+
+  /// Inserts an opening-balance entry. Owner-only (D2-06 B).
+  /// Append-only (D2-05 A): no in-place mutation of posted entries.
+  /// Amount must be zero or positive (D2-03 A).
+  Future<int> insertOpeningBalance(LedgerEntry entry,
+      {UserRole? currentRole}) async {
+    await _enforceLicensing();
+    _requireOwner(currentRole);
+
+    if (entry.amount < 0) {
+      throw ArgumentError('يجب أن يكون المبلغ الافتتاحي صفرًا أو أكبر');
+    }
+
+    final db = await database;
+    final tp = _writePredicate();
+    final now = DateTime.now().toUtc().toIso8601String();
+    final idempotencyKey = entry.idempotencyKey ??
+        _generateOpeningBalanceKey(
+            entry.shopId, entry.accountId, entry.effectiveDate, entry.entryKind.value);
+
+    return await db.transaction((txn) async {
+      final id = await txn.insert('opening_balance_entries', {
+        ...tp.stamp(),
+        'shop_id': tp.stamp().isNotEmpty ? tp.stamp()['shop_id'] : entry.shopId,
+        'account_id': entry.accountId,
+        'amount': entry.amount,
+        'effective_date': entry.effectiveDate,
+        'entry_kind': entry.entryKind.value,
+        'corrects_entry_id': entry.correctsEntryId,
+        'correction_reason': entry.correctionReason,
+        'notes': entry.notes,
+        'idempotency_key': idempotencyKey,
+        'created_by': entry.createdBy,
+        'created_at': now,
+        'cloud_uuid': _mintUuidV4(),
+        'sync_status': EntitySyncStatus.PENDING.label,
+      });
+
+      await _enqueueAfterWrite(db, txn,
+          tableName: 'opening_balance_entries',
+          rowId: id,
+          operation: SyncQueueOperation.CREATE);
+      return id;
+    });
+  }
+
+  /// Creates a corrective adjustment entry referencing the original (D2-05 A).
+  /// Owner-only (D2-06 B). The original entry is never mutated.
+  Future<int> correctOpeningBalance(int originalEntryId, double amount,
+      {UserRole? currentRole,
+      required String effectiveDate,
+      required String correctionReason,
+      String? notes}) async {
+    await _enforceLicensing();
+    _requireOwner(currentRole);
+
+    if (amount < 0) {
+      throw ArgumentError('يجب أن يكون المبلغ الصحيح صفرًا أو أكبر');
+    }
+
+    final db = await database;
+    final tp = _readPredicate();
+    return await db.transaction((txn) async {
+      final original = await txn.query('opening_balance_entries',
+          where: tp.prefix('id = ?'),
+          whereArgs: tp.argsWith([originalEntryId]),
+          limit: 1);
+      if (original.isEmpty) {
+        throw StateError('الإدخال الأصلي غير موجود');
+      }
+
+      final shopId = original.first['shop_id'] as String;
+      final accountId = original.first['account_id'] as int;
+      final now = DateTime.now().toUtc().toIso8601String();
+      final idempotencyKey = _generateOpeningBalanceKey(
+          shopId, accountId, effectiveDate, 'CORRECTION');
+
+      final id = await txn.insert('opening_balance_entries', {
+        'shop_id': shopId,
+        'account_id': accountId,
+        'amount': amount,
+        'effective_date': effectiveDate,
+        'entry_kind': 'CORRECTION',
+        'corrects_entry_id': originalEntryId,
+        'correction_reason': correctionReason,
+        'notes': notes,
+        'idempotency_key': idempotencyKey,
+        'created_by': null,
+        'created_at': now,
+        'cloud_uuid': _mintUuidV4(),
+        'sync_status': EntitySyncStatus.PENDING.label,
+      });
+
+      await _enqueueAfterWrite(db, txn,
+          tableName: 'opening_balance_entries',
+          rowId: id,
+          operation: SyncQueueOperation.CREATE);
+      return id;
+    });
+  }
+
+  /// Owner + employee read (D2-06 B). Tenant-scoped.
+  Future<List<LedgerEntry>> getAllOpeningBalanceEntries() async {
+    final db = await database;
+    final tp = _readPredicate();
+    final maps = await db.query('opening_balance_entries',
+        where: tp.clause, whereArgs: tp.args,
+        orderBy: 'created_at DESC, id DESC');
+    return maps.map((map) => LedgerEntry.fromMap(map)).toList();
+  }
+
+  /// Owner + employee read (D2-06 B). Tenant-scoped.
+  Future<List<LedgerEntry>> getOpeningBalanceEntriesByAccount(int accountId) async {
+    final db = await database;
+    final tp = _readPredicate();
+    final maps = await db.query('opening_balance_entries',
+        where: tp.prefix('account_id = ?'),
+        whereArgs: tp.argsWith([accountId]),
+        orderBy: 'created_at DESC, id DESC');
+    return maps.map((map) => LedgerEntry.fromMap(map)).toList();
+  }
+
+  /// Computes the sum of opening-balance entries for a given account
+  /// (append-only, per D2-05 A). Zero when no entries exist (D2-03 K3).
+  Future<double> getAccountOpeningBalance(int accountId) async {
+    final db = await database;
+    final tp = _readPredicate();
+    final result = await db.rawQuery(
+        'SELECT COALESCE(SUM(amount), 0) as total FROM opening_balance_entries'
+        ' WHERE ${tp.prefix('account_id = ?')}',
+        tp.argsWith([accountId]));
+    return (result.first['total'] as num?)?.toDouble() ?? 0;
+  }
+
+  /// Deterministic idempotency key for opening-balance entries.
+  static String _generateOpeningBalanceKey(
+    String shopId, int accountId, String effectiveDate, String entryKind) {
+    return 'ob:$shopId:$accountId:$effectiveDate:$entryKind';
   }
 
   Future<Map<String, dynamic>> getInventorySummary() async {

@@ -39,7 +39,9 @@ enum SyncEntityType {
   invoice,
   inventoryCount,
   shopSetting,
-  stockAdjustment;
+  stockAdjustment,
+  account,
+  openingBalanceEntry;
 
   String get label => name;
 
@@ -58,6 +60,7 @@ enum SyncEntityType {
         SyncEntityType.invoice => true,
         SyncEntityType.inventoryCount => true,
         SyncEntityType.stockAdjustment => true,
+        SyncEntityType.openingBalanceEntry => true,
         _ => false,
       };
 }

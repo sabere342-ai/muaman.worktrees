@@ -1,6 +1,8 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../services/session_state.dart';
+
+import 'adapters/accounting_sync_adapter.dart';
 import 'adapters/customer_sync_adapter.dart';
 import 'adapters/entity_sync_adapter.dart';
 import 'adapters/expense_category_sync_adapter.dart';
@@ -34,6 +36,8 @@ Map<SyncEntityType, EntitySyncAdapter> buildStandardAdapters() => {
       SyncEntityType.inventoryCount: InventoryCountSyncAdapter(),
       SyncEntityType.shopSetting: ShopSettingsSyncAdapter(),
       SyncEntityType.stockAdjustment: StockAdjustmentSyncAdapter(),
+      SyncEntityType.account: AccountSyncAdapter(),
+      SyncEntityType.openingBalanceEntry: OpeningBalanceEntrySyncAdapter(),
     };
 
 /// Phase P WS-1 — the application-owned device→cloud sync runtime (drain).
