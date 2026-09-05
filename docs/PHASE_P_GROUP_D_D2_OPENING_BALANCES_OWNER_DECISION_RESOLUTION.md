@@ -187,11 +187,13 @@ docs/PHASE_P_GROUP_D_D2_OPENING_BALANCES_OWNER_DECISION_REQUEST.md      blob = 8
 ```
 
 NOTE (evidence accuracy, not reconciliation): the D2 planning governance
-artifact cites `GOVERNANCE_LINES = 1245` in its own header, but the verified
-blob `763977c9a311210fb3f51d2cbc3a26cf242526bd` at ENTRY_HEAD measures 1005
-lines. The blob is identical to the one cited, so this is a stale line-count
-claim in the historical artifact, preserved here as evidence rather than
-silently corrected.
+artifact header cites `GOVERNANCE_LINES = 1245`, but the verified blob
+`763977c9a311210fb3f51d2cbc3a26cf242526bd` at ENTRY_HEAD measures 1005 lines.
+The blob is identical to the one cited, so this is a stale line-count claim in
+the historical artifact, preserved here as evidence rather than silently
+corrected. The request artifact's cited
+`GOVERNANCE_BLOB = 763977c9...` matches the verified planning-governance blob
+exactly.
 
 ---
 
@@ -217,8 +219,9 @@ Prior to this session, the planning governance (Section L of
 RECOMMENDED_DEFAULTS only; each D2-01..D2-07 was marked
 `IMPLEMENTATION_BLOCKED_UNTIL_RESOLVED = YES` and no owner selection existed in
 the authoritative context. The D2 owner-decision request artifact
-(`PHASE_P_GROUP_D_D2_OPENING_BALANCES_OWNER_DECISION_REQUEST.md`) is preserved
-unchanged as the historical PENDING_OWNER evidence.
+(`PHASE_P_GROUP_D_D2_OPENING_BALANCES_OWNER_DECISION_REQUEST.md`, closed at
+ecc9404/ce39cb6) is preserved unchanged as the historical PENDING_OWNER
+evidence.
 
 ---
 
@@ -385,8 +388,8 @@ Approved authorization model:
 - `salesOnly`, unauthorized, and unauthenticated access is DENIED.
 
 Server enforcement follows the canonical D1 security shape
-(`require_shop_permission` inside SECURITY DEFINER functions; EXECUTE granted
-to `authenticated`; revoked from `PUBLIC`; direct-table DML revoked from
+(`require_shop_permission` inside SECURITY DEFINER functions; EXECUTE granted to
+`authenticated`; revoked from `PUBLIC`; direct-table DML revoked from
 `authenticated`; RLS enabled + SELECT-only authenticated policies; shop_id
 tenant isolation). No D1 security regression is permitted.
 
@@ -418,9 +421,9 @@ entered during customer creation — not permitted by T2-3 / Group D non-goals).
 ## N. Binding Implementation Contract
 
 ```text
-D2_OWNER_GATES_RESOLVED  = YES
-D2_IMPLEMENTATION_AUTHORIZED = YES
-D2_IMPLEMENTATION_STARTED    = NO
+D2_OWNER_GATES_RESOLVED       = YES
+D2_IMPLEMENTATION_AUTHORIZED  = YES
+D2_IMPLEMENTATION_STARTED     = NO
 ```
 
 All seven owner gates (D2-01..D2-07) are now resolved. The future D2
@@ -432,7 +435,7 @@ This decision-resolution session performed NO implementation. Implementation
 is for a SEPARATE successor session:
 
 ```text
-NEXT_AUTHORIZED_ACTION =
+NEXT_ALLOWED_ACTION =
   PHASE_P_GROUP_D_D2_OPENING_BALANCES_IMPLEMENTATION
 ```
 
@@ -443,9 +446,6 @@ NEXT_AUTHORIZED_ACTION =
 ```text
 D3_STATE       = NOT_STARTED
 D3_AUTHORIZED  = NO
-
-D2-04 effective_date may preserve future D3 capability,
-but this does NOT authorize D3 implementation.
 ```
 
 D2-04's per-entry `effective_date` is selected solely to preserve future D3
@@ -469,16 +469,23 @@ production data repair. No connection to `origin`. No fetch against `origin`.
 ## Q. File Delta
 
 ```text
-SESSION_FILE_CREATES =
-  A  docs/PHASE_P_GROUP_D_D2_OPENING_BALANCES_OWNER_DECISION_RESOLUTION.md
-
+SESSION_FILE_CREATES  = docs/PHASE_P_GROUP_D_D2_OPENING_BALANCES_OWNER_DECISION_RESOLUTION.md
 SESSION_FILE_MODIFIES = NONE
+SESSION_TRACKED_DELTA = exactly one new governance artifact
 ```
 
-Expected session delta is exactly ONE new (untracked) governance artifact.
-No application source, no SQL, no migration, no Flutter code, no tests, no
-pubspec, no lockfile, no CI file, no modification of `AGENTS.md` or any
-existing governance artifact.
+Expected session delta is exactly ONE new (untracked→tracked) governance
+artifact. No application source, no SQL, no migration, no Flutter code, no
+tests, no pubspec, no lockfile, no CI file, no modification of `AGENTS.md` or
+any existing governance artifact.
+
+Pre-commit boundary verification:
+- `git status --porcelain` -> only the new artifact appears (plus pre-existing
+  untracked artifacts, none staged).
+- `git diff --name-only` -> empty (no tracked modifications).
+- `git diff --cached --name-only` (after explicit `git add -- <artifact>`) ->
+  exactly one path:
+  `docs/PHASE_P_GROUP_D_D2_OPENING_BALANCES_OWNER_DECISION_RESOLUTION.md`.
 
 ---
 
@@ -489,105 +496,124 @@ COMMIT_MESSAGE    = docs: resolve Phase P Group D D2 owner decisions
 COMMIT_MODE       = NORMAL (no amend, no rebase, no force)
 FORCE_PUSH        = NO
 ORIGIN_CONTACTED  = NO
-COMMIT_FILE_COUNT = 1
-COMMIT_FILES      = docs/PHASE_P_GROUP_D_D2_OPENING_BALANCES_OWNER_DECISION_RESOLUTION.md
-PARENT_SHA        = 488727c0d14fecd083cb93b243de5bcca3030d1a
-COMMIT_SHA        = PENDING_COMMIT
+
+RESOLUTION_COMMIT_SHA  = c8fa85a54ac8cfd001d6b121532ba750efaeae1e
+RESOLUTION_PARENT_SHA  = 488727c0d14fecd083cb93b243de5bcca3030d1a
+RESOLUTION_FILE_COUNT  = 1
+RESOLUTION_FILES       = docs/PHASE_P_GROUP_D_D2_OPENING_BALANCES_OWNER_DECISION_RESOLUTION.md
 ```
 
-PARENT_SHA is the verified ENTRY_HEAD (the AGENTS.md operating contract).
-COMMIT_SHA is filled after the resolution commit is created, in the
-remote-lock evidence closeout.
+`RESOLUTION_COMMIT_SHA` is the resolution commit that first authored this
+artifact (created and pushed before post-push evidence existed). The
+evidence-closeout commit that persisted the remote-lock proof below is a direct
+child of `RESOLUTION_COMMIT_SHA`; its SHA is the absolute final repository HEAD
+and is verified post-push (Section T / session final report).
+
+Delta proof:
+`git diff --name-status 488727c..c8fa85a` =
+`A docs/PHASE_P_GROUP_D_D2_OPENING_BALANCES_OWNER_DECISION_RESOLUTION.md`
+(exactly one added file).
 
 ---
 
 ## S. Push Contract
 
 ```text
-PUSH_REMOTE = github
-PUSH_BRANCH = codex/i-tech-next-roadmap-freeze
-PUSH_MODE   = NORMAL_FAST_FORWARD
-FORCE_PUSH  = NO
+PUSH_REMOTE     = github
+PUSH_BRANCH     = codex/i-tech-next-roadmap-freeze
+PUSH_MODE       = NORMAL_FAST_FORWARD
+FORCE_PUSH      = NO
 ORIGIN_CONTACTED = NO
-PUSH_COMMAND = git push github HEAD:codex/i-tech-next-roadmap-freeze
+PUSH_COMMAND    = git push github HEAD:codex/i-tech-next-roadmap-freeze
 ```
+
+Observed push output (resolution commit):
+`488727c..c8fa85a HEAD -> codex/i-tech-next-roadmap-freeze` (fast-forward only).
 
 ---
 
 ## T. Remote-Lock Proof
 
-Collected after the resolution commit is pushed to `github`.
+Collected via `git ls-remote github refs/heads/codex/i-tech-next-roadmap-freeze`
+after the resolution commit was pushed.
 
 ```text
-POST_PUSH_LOCAL_HEAD          = PENDING_POST_PUSH
-POST_PUSH_TRACKING_HEAD       = PENDING_POST_PUSH
-POST_PUSH_DIRECT_GITHUB_HEAD  = PENDING_POST_PUSH
-POST_PUSH_MERGE_BASE          = PENDING_POST_PUSH
-POST_PUSH_AHEAD               = PENDING_POST_PUSH
-POST_PUSH_BEHIND              = PENDING_POST_PUSH
+POST_PUSH_LOCAL_HEAD          = c8fa85a54ac8cfd001d6b121532ba750efaeae1e
+POST_PUSH_TRACKING_HEAD       = c8fa85a54ac8cfd001d6b121532ba750efaeae1e
+POST_PUSH_DIRECT_GITHUB_HEAD  = c8fa85a54ac8cfd001d6b121532ba750efaeae1e
+POST_PUSH_MERGE_BASE          = c8fa85a54ac8cfd001d6b121532ba750efaeae1e
+POST_PUSH_AHEAD               = 0
+POST_PUSH_BEHIND              = 0
 ```
 
-Remote-lock gate (expected):
-`LOCAL == TRACKING == DIRECT_GITHUB == MERGE_BASE` with `AHEAD == 0` and
-`BEHIND == 0`. Collected from `git rev-parse HEAD`,
-`refs/remotes/github/codex/i-tech-next-roadmap-freeze`, and
-`git ls-remote github refs/heads/codex/i-tech-next-roadmap-freeze`.
+Remote-lock gate (VERIFIED):
+`LOCAL == TRACKING == DIRECT_GITHUB == MERGE_BASE`, `AHEAD == 0`, `BEHIND == 0`.
+
+```text
+REMOTE_LOCK = PROVEN
+```
 
 ---
 
 ## U. Final State
 
 ```text
-D1_STATE                       = CLOSED_REMOTE_LOCKED
-D2_PLANNING_STATE              = CLOSED_REMOTE_LOCKED
-D2_OWNER_DECISIONS_STATE       = CLOSED_REMOTE_LOCKED   (this session, after push)
-D2_OWNER_GATES_RESOLVED        = YES
-D2_IMPLEMENTATION_AUTHORIZED   = YES
-D2_IMPLEMENTATION_STARTED      = NO
-D3_STATE                       = NOT_STARTED
-D3_AUTHORIZED                  = NO
+D1_STATE                    = CLOSED_REMOTE_LOCKED
+D2_PLANNING_STATE           = CLOSED_REMOTE_LOCKED
+D2_OWNER_DECISIONS_STATE    = CLOSED_REMOTE_LOCKED   (resolution commit c8fa85a remote-locked)
+D2_OWNER_GATES_RESOLVED     = YES
+D2_IMPLEMENTATION_AUTHORIZED = YES
+D2_IMPLEMENTATION_STARTED   = NO
+D3_STATE                    = NOT_STARTED
+D3_AUTHORIZED               = NO
 
-FINAL_LOCAL_HEAD               = PENDING_POST_PUSH
-FINAL_TRACKING_HEAD            = PENDING_POST_PUSH
-FINAL_DIRECT_GITHUB_HEAD       = PENDING_POST_PUSH
-FINAL_MERGE_BASE               = PENDING_POST_PUSH
-FINAL_AHEAD                    = PENDING_POST_PUSH
-FINAL_BEHIND                   = PENDING_POST_POST_PUSH
+FINAL_LOCAL_HEAD            = c8fa85a54ac8cfd001d6b121532ba750efaeae1e
+FINAL_TRACKING_HEAD         = c8fa85a54ac8cfd001d6b121532ba750efaeae1e
+FINAL_DIRECT_GITHUB_HEAD    = c8fa85a54ac8cfd001d6b121532ba750efaeae1e
+FINAL_MERGE_BASE            = c8fa85a54ac8cfd001d6b121532ba750efaeae1e
+FINAL_AHEAD                 = 0
+FINAL_BEHIND                = 0
 
-TRACKED_WORKTREE_FINAL         = PENDING_FINAL
-INDEX_FINAL                    = PENDING_FINAL
+TRACKED_WORKTREE_FINAL      = CLEAN
+INDEX_FINAL                 = CLEAN
 PREEXISTING_UNTRACKED_PRESERVED = YES
 ```
+
+NOTE: the FINAL_* values above record the remote-lock evidence for the
+resolution commit `c8fa85a` (verified via `git ls-remote`). A subsequent
+evidence-closeout commit (direct child of `c8fa85a`) advances the absolute
+repository HEAD by one; the absolute final HEAD is verified post-push in the
+session final report.
 
 ---
 
 ## V. Owner Decision Acceptance Matrix
 
 ```text
-A1  D2-01 recorded as OWNER_APPROVED / A                       = PASS
-A2  D2-02 recorded as OWNER_APPROVED / C                       = PASS
-A3  D2-03 recorded as OWNER_APPROVED / A                       = PASS
-A4  D2-04 recorded as OWNER_APPROVED / C                       = PASS
-A5  D2-05 recorded as OWNER_APPROVED / A                       = PASS
-A6  D2-06 recorded as OWNER_APPROVED / B                       = PASS
-A7  D2-07 recorded as OWNER_APPROVED / A                       = PASS
-A8  all seven prior owner gates resolved                       = PASS
-A9  D2 implementation authorized for a separate successor session = PASS
-A10 D2 implementation not started in this session              = PASS
-A11 D3 remains not started and unauthorized                    = PASS
-A12 no production mutation                                     = PASS
-A13 exactly one new governance artifact                        = PENDING_COMMIT
-A14 pre-existing untracked artifacts preserved                 = PASS
-A15 origin not contacted                                        = PASS
-A16 no force push                                              = PASS
+A1  D2-01 recorded as OWNER_APPROVED / A                              = PASS
+A2  D2-02 recorded as OWNER_APPROVED / C                              = PASS
+A3  D2-03 recorded as OWNER_APPROVED / A                              = PASS
+A4  D2-04 recorded as OWNER_APPROVED / C                              = PASS
+A5  D2-05 recorded as OWNER_APPROVED / A                              = PASS
+A6  D2-06 recorded as OWNER_APPROVED / B                              = PASS
+A7  D2-07 recorded as OWNER_APPROVED / A                              = PASS
+A8  all seven prior owner gates resolved                              = PASS
+A9  D2 implementation authorized for a separate successor session     = PASS
+A10 D2 implementation not started in this session                       = PASS
+A11 D3 remains not started and unauthorized                             = PASS
+A12 no production mutation                                              = PASS
+A13 exactly one new governance artifact                                 = PASS
+A14 pre-existing untracked artifacts preserved                          = PASS
+A15 origin not contacted                                                = PASS
+A16 no force push                                                       = PASS
 
-POST_PUSH_A13 = PENDING_POST_PUSH
+ALL_A1_A16_PASS = YES
 ```
 
 A1-A8 pass by the explicit owner approvals recorded in Sections G-M. A9-A16
 pass by session construction (governance-only; no implementation; no D3; no
-production; no force; no origin). A13 is re-asserted as PASS after the single
-resolution commit is the only tracked delta.
+production; no force; no origin). A13 is satisfied: the resolution delta is
+exactly one new artifact (`git diff --name-status 488727c..c8fa85a` = one `A`).
 
 ---
 
@@ -643,4 +669,4 @@ STOP_REQUIRED =
 
 The owner decision resolution is closed and remote-locked. D2 implementation is
 authorized but is for a SEPARATE successor session only. D3 is not authorized.
-Ownership of this session ends here.
+The session stops here.
