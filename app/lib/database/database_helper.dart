@@ -14,6 +14,7 @@ import '../models/user_role.dart';
 import '../models/cost_history.dart';
 import '../models/account.dart';
 import '../models/ledger_entry.dart';
+import '../models/period_report.dart';
 import '../services/permissions.dart';
 import '../services/permission_resolver.dart';
 import '../sync/adapters/customer_sync_adapter.dart';
@@ -3309,6 +3310,191 @@ class DatabaseHelper {
       'monthSales': (monthResult.first['total'] as num?)?.toDouble() ?? 0,
       'monthQty': (monthResult.first['qty'] as num?)?.toInt() ?? 0,
     };
+  }
+
+  // =================== D3: ARBITRARY-PERIOD REPORTING (P-OD6) ===================
+
+  /// Revenue (SUM of totalSaleValue) for sales whose date falls in
+  /// [startInclusive, endExclusive) using date-only TEXT comparison.
+  Future<double> getSalesInPeriod(String start, String end) async {
+    final db = await database;
+    final tp = _readPredicate();
+    final result = await db.rawQuery(
+        'SELECT SUM(totalSaleValue) as total FROM sales WHERE ${tp.prefix("date >= ? AND date < ?")}',
+        tp.argsWith([start, end]));
+    return (result.first['total'] as num?)?.toDouble() ?? 0;
+  }
+
+  /// COGS (SUM of cogs) for sales in the period [start, end).
+  Future<double> getCOGSInPeriod(String start, String end) async {
+    final db = await database;
+    final tp = _readPredicate();
+    final result = await db.rawQuery(
+        'SELECT SUM(cogs) as total FROM sales WHERE ${tp.prefix("date >= ? AND date < ?")}',
+        tp.argsWith([start, end]));
+    return (result.first['total'] as num?)?.toDouble() ?? 0;
+  }
+
+  /// Returns value (SUM of totalReturnValue) for returns in [start, end).
+  Future<double> getReturnsInPeriod(String start, String end) async {
+    final db = await database;
+    final tp = _readPredicate();
+    final result = await db.rawQuery(
+        'SELECT SUM(totalReturnValue) as total FROM returns WHERE ${tp.prefix("date >= ? AND date < ?")}',
+        tp.argsWith([start, end]));
+    return (result.first['total'] as num?)?.toDouble() ?? 0;
+  }
+
+  /// Returned COGS (SUM of returnedCogs) for returns in [start, end).
+  Future<double> getReturnedCOGSInPeriod(String start, String end) async {
+    final db = await database;
+    final tp = _readPredicate();
+    final result = await db.rawQuery(
+        'SELECT SUM(returnedCogs) as total FROM returns WHERE ${tp.prefix("date >= ? AND date < ?")}',
+        tp.argsWith([start, end]));
+    return (result.first['total'] as num?)?.toDouble() ?? 0;
+  }
+
+  /// Expenses (SUM of amount) for expenses in [start, end).
+  Future<double> getExpensesInPeriod(String start, String end) async {
+    final db = await database;
+    final tp = _readPredicate();
+    final result = await db.rawQuery(
+        'SELECT SUM(amount) as total FROM expenses WHERE ${tp.prefix("date >= ? AND date < ?")}',
+        tp.argsWith([start, end]));
+    return (result.first['total'] as num?)?.toDouble() ?? 0;
+  }
+
+  /// Sum of opening-balance adjustment entries in [start, end). Uses the
+  /// D2 append-only opening_balance_entries table (effective_date TEXT).
+  Future<double> getOpeningBalanceAdjustmentsInPeriod(
+      String start, String end) async {
+    final db = await database;
+    final tp = _readPredicate();
+    final result = await db.rawQuery(
+        'SELECT COALESCE(SUM(amount), 0) as total FROM opening_balance_entries WHERE ${tp.prefix("effective_date >= ? AND effective_date < ?")}',
+        tp.argsWith([start, end]));
+    return (result.first['total'] as num?)?.toDouble() ?? 0;
+  }
+
+  /// Counts business transactions (sales + returns + expenses) whose date
+  /// falls in [start, end). Opening-balance entries are excluded from the
+  /// transaction count (they are accounting adjustments, not business events).
+  Future<int> _countTransactionsInPeriod(String start, String end) async {
+    final db = await database;
+    final tp = _readPredicate();
+    int total = 0;
+
+    final salesResult = await db.rawQuery(
+        'SELECT COUNT(*) as c FROM sales WHERE ${tp.prefix("date >= ? AND date < ?")}',
+        tp.argsWith([start, end]));
+    total += (salesResult.first['c'] as num?)?.toInt() ?? 0;
+
+    final returnsResult = await db.rawQuery(
+        'SELECT COUNT(*) as c FROM returns WHERE ${tp.prefix("date >= ? AND date < ?")}',
+        tp.argsWith([start, end]));
+    total += (returnsResult.first['c'] as num?)?.toInt() ?? 0;
+
+    final expensesResult = await db.rawQuery(
+        'SELECT COUNT(*) as c FROM expenses WHERE ${tp.prefix("date >= ? AND date < ?")}',
+        tp.argsWith([start, end]));
+    total += (expensesResult.first['c'] as num?)?.toInt() ?? 0;
+
+    return total;
+  }
+
+  /// Composes a full [PeriodReport] for [start, end) with fail-closed
+  /// completeness tracking (plan D3-03).
+  ///
+  /// RBAC: enforces [AppPermission.canViewSalesHistory] via
+  /// [_requireSalesHistoryAccess].
+  ///
+  /// complete == true only when ALL of:
+  ///   - tenant isolation is armed and an authorized shop is bound
+  ///   - every required source query executed without error
+  ///   - the opening_balance_entries table is accessible
+  ///
+  /// complete == false when tenant isolation is disarmed, the shop context is
+  /// not bound, or any source query fails — preventing a false net-profit
+  /// claim through an untrustworthy data set.
+  Future<PeriodReport> getPeriodReport({
+    required String start,
+    required String end,
+    required PeriodType periodType,
+    UserRole? currentRole,
+  }) async {
+    _requireSalesHistoryAccess(currentRole);
+
+    final tp = _readPredicate();
+    bool complete = _tenantIsolationArmed && tp.isScoped;
+
+    double revenue = 0;
+    double returnsValue = 0;
+    double cogs = 0;
+    double returnedCogs = 0;
+    double expenses = 0;
+    double openingBalanceAdjustments = 0;
+    int transactionCount = 0;
+
+    try {
+      revenue = await getSalesInPeriod(start, end);
+    } catch (_) {
+      complete = false;
+    }
+    try {
+      cogs = await getCOGSInPeriod(start, end);
+    } catch (_) {
+      complete = false;
+    }
+    try {
+      returnsValue = await getReturnsInPeriod(start, end);
+    } catch (_) {
+      complete = false;
+    }
+    try {
+      returnedCogs = await getReturnedCOGSInPeriod(start, end);
+    } catch (_) {
+      complete = false;
+    }
+    try {
+      expenses = await getExpensesInPeriod(start, end);
+    } catch (_) {
+      complete = false;
+    }
+    try {
+      openingBalanceAdjustments =
+          await getOpeningBalanceAdjustmentsInPeriod(start, end);
+    } catch (_) {
+      complete = false;
+    }
+    try {
+      transactionCount = await _countTransactionsInPeriod(start, end);
+    } catch (_) {
+      complete = false;
+    }
+
+    final netRevenue = revenue - returnsValue;
+    final netCogs = cogs - returnedCogs;
+    final grossProfit = netRevenue - netCogs;
+    final netResult = grossProfit - expenses + openingBalanceAdjustments;
+
+    return PeriodReport(
+      start: start,
+      end: end,
+      periodType: periodType,
+      revenue: revenue,
+      returns: returnsValue,
+      netRevenue: netRevenue,
+      cogs: cogs,
+      returnedCogs: returnedCogs,
+      netCogs: netCogs,
+      grossProfit: grossProfit,
+      expenses: expenses,
+      openingBalanceAdjustments: openingBalanceAdjustments,
+      netResult: netResult,
+      complete: complete,
+      transactionCount: transactionCount,
+    );
   }
 
   // =================== BARCODE GENERATOR ===================

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../database/database_helper.dart';
+import '../../models/period_report.dart';
 import '../../models/sale.dart';
+import '../../screens/accounting/period_report_screen.dart';
 import '../../services/permissions.dart';
 import '../../services/session_state.dart';
 
@@ -26,6 +28,49 @@ class _SalesReportScreenState extends State<SalesReportScreen>
   bool get _canViewSalesHistory =>
       widget.sessionState?.hasPermission(AppPermission.canViewSalesHistory) ??
       false;
+
+  String? _dateRangeStart;
+  String? _dateRangeEnd;
+
+  List<Sale> get _displayedAllSales {
+    if (_dateRangeStart == null || _dateRangeEnd == null) return _allSales;
+    return _allSales.where((s) {
+      final dateStr = PeriodReport.formatDateOnly(s.date);
+      return dateStr.compareTo(_dateRangeStart!) >= 0 &&
+          dateStr.compareTo(_dateRangeEnd!) < 0;
+    }).toList();
+  }
+
+  Future<void> _selectDateRange() async {
+    final now = DateTime.now();
+    final result = await showDateRangePicker(
+      context: context,
+      initialDateRange:
+          DateTimeRange(start: DateTime(now.year, now.month, 1), end: now),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      saveText: 'تطبيق',
+      cancelText: 'إلغاء',
+      confirmText: 'تطبيق',
+    );
+    if (result == null) return;
+    final bounds = PeriodReport.computePeriodBounds(
+      PeriodType.customRange,
+      customStart: result.start,
+      customEnd: result.end,
+    );
+    setState(() {
+      _dateRangeStart = bounds.start;
+      _dateRangeEnd = bounds.end;
+    });
+  }
+
+  void _clearDateRange() {
+    setState(() {
+      _dateRangeStart = null;
+      _dateRangeEnd = null;
+    });
+  }
 
   @override
   void initState() {
@@ -82,6 +127,27 @@ class _SalesReportScreenState extends State<SalesReportScreen>
           ],
         ),
         actions: [
+          if (_canViewSalesHistory && _dateRangeStart == null)
+            IconButton(
+                icon: const Icon(Icons.date_range),
+                onPressed: _selectDateRange,
+                tooltip: 'تصفية بالتاريخ'),
+          if (_canViewSalesHistory && _dateRangeStart != null)
+            IconButton(
+                icon: const Icon(Icons.clear),
+                onPressed: _clearDateRange,
+                tooltip: 'مسح تصفية التاريخ'),
+          if (_canViewSalesHistory)
+            IconButton(
+                icon: const Icon(Icons.bar_chart),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => PeriodReportScreen(
+                      sessionState: widget.sessionState,
+                    ),
+                  ));
+                },
+                tooltip: 'تقارير الأرباح'),
           IconButton(icon: const Icon(Icons.refresh), onPressed: _loadData),
         ],
       ),
@@ -94,6 +160,29 @@ class _SalesReportScreenState extends State<SalesReportScreen>
               : Column(
                   children: [
                     _buildSummaryCards(),
+                    if (_dateRangeStart != null)
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 12),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: Colors.blue.shade50,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.filter_alt,
+                                size: 16,
+                                color: Theme.of(context).colorScheme.primary),
+                            const SizedBox(width: 6),
+                            Text(
+                              'النطاق: $_dateRangeStart → $_dateRangeEnd',
+                              style: TextStyle(
+                                  fontSize: 12, color: Colors.grey.shade700),
+                            ),
+                          ],
+                        ),
+                      ),
                     Expanded(
                       child: TabBarView(
                         controller: _tabController,
@@ -191,7 +280,8 @@ class _SalesReportScreenState extends State<SalesReportScreen>
   }
 
   Widget _buildAllSalesTab() {
-    if (_allSales.isEmpty) {
+    final displayed = _displayedAllSales;
+    if (displayed.isEmpty) {
       return const Center(child: Text('لا توجد مبيعات'));
     }
     return Column(
@@ -199,10 +289,10 @@ class _SalesReportScreenState extends State<SalesReportScreen>
         _buildTableHeader(),
         Expanded(
           child: ListView.builder(
-            itemCount: _allSales.length,
+            itemCount: displayed.length,
             padding: const EdgeInsets.symmetric(horizontal: 4),
             itemBuilder: (context, index) {
-              final sale = _allSales[index];
+              final sale = displayed[index];
               return _buildSaleRow(sale, index);
             },
           ),
@@ -337,10 +427,11 @@ class _SalesReportScreenState extends State<SalesReportScreen>
   }
 
   Widget _buildTableFooter() {
-    final totalSales = _allSales.fold(0.0, (sum, s) => sum + s.totalSaleValue);
-    final totalCOGS = _allSales.fold(0.0, (sum, s) => sum + s.cogs);
+    final displayed = _displayedAllSales;
+    final totalSales = displayed.fold(0.0, (sum, s) => sum + s.totalSaleValue);
+    final totalCOGS = displayed.fold(0.0, (sum, s) => sum + s.cogs);
     final totalProfit = totalSales - totalCOGS;
-    final totalQty = _allSales.fold(0, (sum, s) => sum + s.quantity);
+    final totalQty = displayed.fold(0, (sum, s) => sum + s.quantity);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
@@ -353,7 +444,7 @@ class _SalesReportScreenState extends State<SalesReportScreen>
           const Expanded(flex: 2, child: SizedBox()),
           Expanded(
               flex: 3,
-              child: Text('${_allSales.length} عملية',
+              child: Text('${displayed.length} عملية',
                   style: const TextStyle(
                       fontSize: 10, fontWeight: FontWeight.bold))),
           Expanded(
