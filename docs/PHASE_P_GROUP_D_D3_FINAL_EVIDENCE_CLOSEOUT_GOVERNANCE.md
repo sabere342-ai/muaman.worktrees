@@ -997,7 +997,7 @@ D2_STATE = CLOSED_REMOTE_LOCKED            (58f3224 — NOT reopened)
 D2_OWNER_DECISIONS = RESOLVED_REMOTE_LOCKED (c8fa85a; A/C/A/C/A/B/A — NOT reinterpreted)
 D3_PLANNING   = CLOSED_REMOTE_LOCKED       (b72b96d; blob 42df1287255b416776346da12a8cbfcfdc376ef4)
 D3_IMPLEMENTATION  = COMPLETED_REMOTE_LOCKED (04305e7 + 908a747)
-D3_FINAL_EVIDENCE_CLOSEOUT = CLOSED_REMOTE_LOCKED (closeout commit below)
+D3_FINAL_EVIDENCE_CLOSEOUT          = CLOSED_REMOTE_LOCKED (f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c)
 
 D3 v1 architecture = LOCAL SQLITE REPORTING ONLY
 CLOUD_SCHEMA_CHANGE       = NO
@@ -1038,8 +1038,8 @@ CLOSEOUT_COMMIT_PARENT  = 908a747c366d1a04a2a5411b8c12f2f307a28193  (verified D3
 After commit (filled from actual Git output):
 
 ```text
-CLOSEOUT_COMMIT_SHA        = <populated below from git after commit>
-CLOSEOUT_COMMIT_TREE       = <populated below>
+CLOSEOUT_COMMIT_SHA        = f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
+CLOSEOUT_COMMIT_TREE       = 3b068e771deaf239d539ceb591f728e8b6fcc392
 CLOSEOUT_COMMIT_FILE_COUNT = 1
 ```
 
@@ -1054,6 +1054,8 @@ Push (normal fast-forward, no force / no force-with-lease):
 
 ```text
 $ git push github codex/i-tech-next-roadmap-freeze
+To https://github.com/sabere342-ai/muaman.worktrees.git
+   908a747..f2e2649  codex/i-tech-next-roadmap-freeze -> codex/i-tech-next-roadmap-freeze
 PUSH_REMOTE          = github
 PUSH_TYPE            = NORMAL_FAST_FORWARD
 FORCE_PUSH           = NO
@@ -1069,32 +1071,32 @@ GitHub remote directly (NOT substituted with stale local tracking data):
 
 ```text
 $ git ls-remote github refs/heads/codex/i-tech-next-roadmap-freeze
-POST_PUSH_DIRECT_GITHUB_HEAD = <populated below>
+f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c  refs/heads/codex/i-tech-next-roadmap-freeze
+POST_PUSH_DIRECT_GITHUB_HEAD = f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
 
 $ git rev-parse HEAD
-POST_PUSH_LOCAL_HEAD = <populated below>
+POST_PUSH_LOCAL_HEAD = f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
 
 $ git rev-parse "@{u}"
-POST_PUSH_TRACKING_HEAD = <populated below>
+POST_PUSH_TRACKING_HEAD = f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
 
 $ git merge-base HEAD "@{u}"
-POST_PUSH_MERGE_BASE = <populated below>
+POST_PUSH_MERGE_BASE = f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
 
-$ git rev-list --count <closeout-sha>..HEAD
+$ git rev-list --count f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c..HEAD
 POST_PUSH_AHEAD = 0
 
-$ git rev-list --count HEAD..<closeout-sha>
+$ git rev-list --count HEAD..f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
 POST_PUSH_BEHIND = 0
 ```
 
 Expected and required lock:
 
 ```text
-POST_PUSH_LOCAL_HEAD          =
-POST_PUSH_TRACKING_HEAD       =
-POST_PUSH_DIRECT_GITHUB_HEAD  =
-POST_PUSH_MERGE_BASE          =
-<closeout commit SHA>
+POST_PUSH_LOCAL_HEAD          = f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
+POST_PUSH_TRACKING_HEAD       = f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
+POST_PUSH_DIRECT_GITHUB_HEAD  = f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
+POST_PUSH_MERGE_BASE          = f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
 
 AHEAD  = 0
 BEHIND = 0
@@ -1104,8 +1106,12 @@ Also verified the closeout artifact exists in the remote commit:
 
 ```text
 $ git ls-remote github refs/heads/codex/i-tech-next-roadmap-freeze
-<sha>  refs/heads/codex/i-tech-next-roadmap-freeze
-# (sha matches POST_PUSH_LOCAL_HEAD; artifact committed within that tree)
+f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c  refs/heads/codex/i-tech-next-roadmap-freeze
+# (matches POST_PUSH_LOCAL_HEAD; artifact blob 4def3ec9414810914c55a83a631889b67764388d
+#  present in that tree at docs/PHASE_P_GROUP_D_D3_FINAL_EVIDENCE_CLOSEOUT_GOVERNANCE.md)
+
+$ git ls-tree HEAD docs/PHASE_P_GROUP_D_D3_FINAL_EVIDENCE_CLOSEOUT_GOVERNANCE.md
+100644 blob 4def3ec9414810914c55a83a631889b67764388d	docs/PHASE_P_GROUP_D_D3_FINAL_EVIDENCE_CLOSEOUT_GOVERNANCE.md
 ```
 
 (Final SHA values are populated from the actual post-push command output and
@@ -1122,7 +1128,7 @@ D2_OWNER_DECISIONS_STATE            = RESOLVED_REMOTE_LOCKED (c8fa85a; A/C/A/C/A
 D2_IMPLEMENTATION_STATE             = COMPLETED (95d0e50)
 D3_PLANNING                         = CLOSED_REMOTE_LOCKED (b72b96d)
 D3_IMPLEMENTATION                   = COMPLETED_REMOTE_LOCKED (04305e7 + 908a747)
-D3_FINAL_EVIDENCE_CLOSEOUT          = CLOSED_REMOTE_LOCKED (closeout commit)
+D3_FINAL_EVIDENCE_CLOSEOUT          = CLOSED_REMOTE_LOCKED (f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c)
 
 D4_STARTED                          = NO
 D4_PLANNING_STARTED                 = NO
