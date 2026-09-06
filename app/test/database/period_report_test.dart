@@ -538,8 +538,7 @@ void main() {
 
     test('23b: tenant isolation not armed means complete=false', () async {
       DatabaseHelper.setTenantIsolationArmed(false);
-      await insertTestSale(
-          date: '2026-09-10', totalSaleValue: 100, cogs: 60);
+      await insertTestSale(date: '2026-09-10', totalSaleValue: 100, cogs: 60);
       final report = await helper.getPeriodReport(
         start: '2026-09-01',
         end: '2026-10-01',
