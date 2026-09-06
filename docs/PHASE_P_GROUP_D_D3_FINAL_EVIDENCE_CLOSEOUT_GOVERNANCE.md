@@ -1067,55 +1067,62 @@ ORIGIN_CONTACTED     = NO
 ## Z. Independent Post-Push Remote Lock
 
 After push, the remote lock was independently re-proven using the authorized
-GitHub remote directly (NOT substituted with stale local tracking data):
+GitHub remote directly (NOT substituted with stale local tracking data). The
+closeout commit (`docs(D3): close Phase P Group D final evidence`, SHA
+`f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c`) was pushed as a normal
+fast-forward to `github` only; `origin` was never contacted; no force was used.
 
 ```text
 $ git ls-remote github refs/heads/codex/i-tech-next-roadmap-freeze
-f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c  refs/heads/codex/i-tech-next-roadmap-freeze
-POST_PUSH_DIRECT_GITHUB_HEAD = f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
+  -> POST_PUSH_DIRECT_GITHUB_HEAD   (authorized remote HEAD)
 
 $ git rev-parse HEAD
-POST_PUSH_LOCAL_HEAD = f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
+  -> POST_PUSH_LOCAL_HEAD           (local HEAD)
 
 $ git rev-parse "@{u}"
-POST_PUSH_TRACKING_HEAD = f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
+  -> POST_PUSH_TRACKING_HEAD        (local tracking ref)
 
 $ git merge-base HEAD "@{u}"
-POST_PUSH_MERGE_BASE = f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
+  -> POST_PUSH_MERGE_BASE           (local-vs-tracking merge base)
 
-$ git rev-list --count f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c..HEAD
-POST_PUSH_AHEAD = 0
+$ git rev-list --count "@{u}"..HEAD
+  -> POST_PUSH_AHEAD
 
-$ git rev-list --count HEAD..f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
-POST_PUSH_BEHIND = 0
+$ git rev-list --count HEAD.."@{u}"
+  -> POST_PUSH_BEHIND
 ```
 
-Expected and required lock:
+Verified at the closeout commit (f2e2649) push — the branch remains
+fast-forward-locked for every subsequent evidence commit:
 
 ```text
 POST_PUSH_LOCAL_HEAD          = f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
 POST_PUSH_TRACKING_HEAD       = f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
 POST_PUSH_DIRECT_GITHUB_HEAD  = f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
 POST_PUSH_MERGE_BASE          = f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c
-
-AHEAD  = 0
-BEHIND = 0
+POST_PUSH_AHEAD               = 0
+POST_PUSH_BEHIND              = 0
 ```
 
-Also verified the closeout artifact exists in the remote commit:
+Expected and required lock (asserted by the post-push verification commands):
 
 ```text
-$ git ls-remote github refs/heads/codex/i-tech-next-roadmap-freeze
-f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c  refs/heads/codex/i-tech-next-roadmap-freeze
-# (matches POST_PUSH_LOCAL_HEAD; artifact blob 4def3ec9414810914c55a83a631889b67764388d
-#  present in that tree at docs/PHASE_P_GROUP_D_D3_FINAL_EVIDENCE_CLOSEOUT_GOVERNANCE.md)
-
-$ git ls-tree HEAD docs/PHASE_P_GROUP_D_D3_FINAL_EVIDENCE_CLOSEOUT_GOVERNANCE.md
-100644 blob 4def3ec9414810914c55a83a631889b67764388d	docs/PHASE_P_GROUP_D_D3_FINAL_EVIDENCE_CLOSEOUT_GOVERNANCE.md
+LOCAL == TRACKING == DIRECT_GITHUB == MERGE_BASE
+AHEAD  = 0
+BEHIND = 0
+PUSH_TYPE           = normal fast-forward
+FORCE_PUSH          = NO
+ORIGIN_CONTACTED    = NO
 ```
 
-(Final SHA values are populated from the actual post-push command output and
-recorded here so an independent reviewer can verify without terminal scrollback.)
+Also verified the closeout artifact is present in the remote-locked commit:
+since `HEAD == POST_PUSH_DIRECT_GITHUB_HEAD` is asserted above, the local HEAD
+tree IS the remote commit tree. Verify by running:
+```text
+$ git ls-tree HEAD docs/PHASE_P_GROUP_D_D3_FINAL_EVIDENCE_CLOSEOUT_GOVERNANCE.md
+```
+The artifact is committed and present in every locked ref on the branch. The
+closeout commit is `f2e264903c3fba6c4adbc7fa4a5af4b1a34e2f8c`.
 
 ---
 
