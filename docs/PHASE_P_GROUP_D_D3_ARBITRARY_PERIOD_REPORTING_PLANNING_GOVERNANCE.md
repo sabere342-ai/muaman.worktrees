@@ -1,10 +1,10 @@
 # Phase P / Group D / D3 — Arbitrary-Period Reporting Planning Governance
 
-**Session result:** PASS — D3 arbitrary-period reporting planning governance artifact created, committed, remote-locked, STOPPED. D3 implementation is NOT STARTED (blocked on D2 implementation completion, which is owner-gated).
+**Session result:** PASS — D3 arbitrary-period reporting planning governance artifact created, committed, remote-locked, STOPPED. D3 implementation is NOT STARTED (D2 predecessor gate SATISFIED: D2 implementation COMPLETED and CLOSED_REMOTE_LOCKED; D2 owner decisions RESOLVED_REMOTE_LOCKED). D3 implementation requires a separate governed session.
 
 **Classification:** PHASE_P_GROUP_D_D3_ARBITRARY_PERIOD_REPORTING_PLANNING
 
-**Implementation authorization:** NO (this session plans D3 only; D3 implementation requires a separate governed session that satisfies the Section Y entry gates and occurs only after D2 implementation is closed).
+**Implementation authorization:** NO (this session plans D3 only; D3 implementation requires a separate governed D3 implementation session. The D2 predecessor gate is already satisfied — D2 implementation is COMPLETED and CLOSED_REMOTE_LOCKED).
 
 ---
 
@@ -29,8 +29,9 @@ D1_STATE =
 D2_PLANNING =
   CLOSED_REMOTE_LOCKED
 
-D2_IMPLEMENTATION_STARTED =
-  NO  (owner-gated; blocked on Section L decision matrix)
+D2_IMPLEMENTATION_STATE =
+  COMPLETED (commit 95d0e50); D2_STATE = CLOSED_REMOTE_LOCKED (commit 58f3224)
+  D2 owner decisions D2-01..D2-07 = RESOLVED_REMOTE_LOCKED (commit c8fa85a; A/C/A/C/A/B/A)
 
 D3_PLANNING =
   CLOSED_REMOTE_LOCKED (after push)
@@ -149,14 +150,19 @@ GROUP_B_CLOSED (S12 at 154a97038c166031bde2cf81799ab475b7e66e05)
 ... -> D1 Implementation (0d65c1324...) [REMOTE LOCKED]
   -> D1 closed; corrective remediation governance (a74fb62...) [remote-locked]
 
-... -> D2 Implementation (58f3224...) [REMOTE LOCKED — D2 planning closeout committed]
-  -> D2 planning CLOSED_REMOTE_LOCKED
-  -> D1 remains CLOSED; D2 implementation NOT STARTED (owner-gated)
+... -> D2 Owner Decision Resolution (c8fa85a...) [RESOLVED_REMOTE_LOCKED — D2-01..D2-07 = OWNER_APPROVED A/C/A/C/A/B/A]
+  -> resolution remote-lock evidence (cbb4c16...) [REMOTE LOCKED]
+
+... -> D2 Implementation (95d0e50...) [COMPLETED]
+  -> Migration 00038, cloud RPCs, sync adapters, 40 D2 Dart tests pass
+
+... -> D2 Final Evidence Closeout (58f3224...) [REMOTE LOCKED — D2_STATE = CLOSED_REMOTE_LOCKED]
+  -> D1 remains CLOSED_REMOTE_LOCKED; D2 implementation COMPLETED; D2 owner decisions RESOLVED_REMOTE_LOCKED
 
 ... -> D3 Planning Governance (THIS SESSION)
   -> P-OD6: Arbitrary-period profit reporting
   -> D3 planning CLOSED_REMOTE_LOCKED (after push)
-  -> D3 implementation NOT STARTED (blocked on D2 implementation)
+  -> D3 implementation NOT STARTED; D2 predecessor gate SATISFIED
 ```
 
 ```text
@@ -186,16 +192,18 @@ D1_SECURITY_REMEDIATION = migration 00037 proposed (require_shop_permission on a
 D1_TESTS                = cost_history_test.dart (12), enter_key_behavior_test.dart (6)
 ```
 
-### D2 (Opening Balances) — Planning Closed, Implementation Blocked
+### D2 (Opening Balances) — Implementation Completed, Closed Remote-Locked
 
 ```text
-D2_PLANNING_STATE       = CLOSED_REMOTE_LOCKED
-D2_PLANNING_COMMIT      = 58f3224132d74febf07867486b6c03b712757b52 (current HEAD)
+D2_PLANNING_STATE       = CLOSED_REMOTE_LOCKED (ad64bbb...)
+D2_PLANNING_COMMIT      = ad64bbb8c43192ee67b631424496b71bf5fcacc4 (D2 planning governance)
 D2_PLANNING_ARTIFACT    = docs/PHASE_P_GROUP_D_D2_OPENing_Balances_Planning_Governance.md
 
-D2_IMPLEMENTATION_STARTED = NO
-D2_IMPLEMENTATION_AUTHORIZED = NO
-  (requires owner resolution of D2-01..D2-07 decision matrix; Section L)
+D2_OWNER_DECISIONS_STATE    = RESOLVED_REMOTE_LOCKED (c8fa85a...)
+D2_OWNER_DECISIONS          = D2-01=A, D2-02=C, D2-03=A, D2-04=C, D2-05=A, D2-06=B, D2-07=A (OWNER_APPROVED)
+D2_IMPLEMENTATION_AUTHORIZED  = YES (owner decision resolution granted implementation)
+D2_IMPLEMENTATION_STATE       = COMPLETED (commit 95d0e50)
+D2_FINAL_CLOSEOUT_STATE       = CLOSED_REMOTE_LOCKED (commit 58f3224)
 
 D2_MODEL                = app/lib/models/account.dart (Account, AccountType)
 D2_MODEL                = app/lib/models/ledger_entry.dart (LedgerEntry, EntryKind)
@@ -224,19 +232,22 @@ SECOND_SUCCESSOR        = GROUP_D_PLANNING        (COMPLETED — parent doc at a
 GROUP_D_SLICE_ORDER     = D1 -> D2 -> D3
 
 D1_IMPLEMENTATION       = CLOSED (remote-locked at 0d65c13)
-D2_PLANNING             = CLOSED (remote-locked at 58f3224)
-D2_IMPLEMENTATION       = NOT STARTED (owner-gated on D2-01..D2-07)
+D2_PLANNING             = CLOSED (remote-locked at ad64bbb)
+D2_OWNER_DECISIONS      = RESOLVED_REMOTE_LOCKED (remote-locked at c8fa85a; A/C/A/C/A/B/A)
+D2_IMPLEMENTATION       = COMPLETED (remote-locked at 95d0e50; D2_STATE = CLOSED at 58f3224)
+D2_STATE                = CLOSED_REMOTE_LOCKED (commit 58f3224)
 D3_PLANNING             = THIS SESSION (planning governance only)
-D3_IMPLEMENTATION       = NOT STARTED (blocked on D2 implementation closure)
+D3_IMPLEMENTATION       = NOT STARTED (D2 predecessor gate SATISFIED)
+D3_IMPLEMENTATION_PREDECESSOR_GATE = SATISFIED
 
 OWNER_ORDER_SATISFIED          = YES
 GROUP_D_ENTRY_AUTHORIZED       = YES
 GROUP_D_IMPLEMENTATION_AUTHORIZED = YES
 D3_PLANNING_ENTRY_AUTHORIZED   = YES
-D3_IMPLEMENTATION_AUTHORIZED   = NO (blocked on D2 implementation)
+D3_IMPLEMENTATION_AUTHORIZED   = NO (D3 planning only; D2 predecessor gate SATISFIED — D2 closed)
 ```
 
-D3 planning is authorized because Group D planning governance is remote-locked and D1 + D2 planning are both closed. D3 **implementation** remains blocked until D2 implementation is complete (owner-gated).
+D3 planning is authorized because Group D planning governance is remote-locked and D1 + D2 planning are both closed. D2 implementation is COMPLETED and CLOSED_REMOTE_LOCKED (commit 95d0e50; closed at 58f3224); D2 owner decisions are RESOLVED_REMOTE_LOCKED (commit c8fa85a). D2 predecessor gate is SATISFIED. D3 **implementation** is NOT STARTED and requires a separate governed D3 implementation session.
 
 ```text
 AUTHORITY_CHAIN_VERIFIED = YES
@@ -373,7 +384,7 @@ expenses table (existing):
   - shop_id TEXT
 ```
 
-From D2 (opening balances, CLOSED planning at 58f3224):
+From D2 (opening balances, COMPLETED and CLOSED_REMOTE_LOCKED at 58f3224; planning closed at ad64bbb):
 
 ```text
 Account model (app/lib/models/account.dart):
@@ -750,7 +761,7 @@ If the future implementation session needs to exceed the allowed file list, it M
 
 ```text
 D1 (cost history) implementation or redesign             FORBIDDEN (D1 is CLOSED)
-D2 (opening balances) implementation                                        FORBIDDEN (D2 is planning-locked, not started)
+D2 (opening balances) implementation                                        FORBIDDEN (D2 is COMPLETED_REMOTE_LOCKED — already closed; re-implementation is out of scope)
 Migration 00039 or any new supabase migration             FORBIDDEN (D3 is additive reporting only)
 Cloud schema/table creation                           FORBIDDEN (local-only reporting v1)
 Security boundary change (RLS, RBAC, tenant isolation)    FORBIDDEN
@@ -776,13 +787,15 @@ pubspec.yaml changes                                       FORBIDDEN
 GROUP_D_SLICE_ORDER = D1 -> D2 -> D3
 
 D1 CLOSED at 0d65c1324b18411ee516c04a66750aca65349a40 (cost history)
-D2 planning CLOSED at 58f3224132d74febf07867486b6c03b712757b52
-D2 implementation NOT STARTED (owner-gated on D2-01..D2-07)
+D2 planning CLOSED at ad64bbb8c43192ee67b631424496b71bf5fcacc4 (D2 planning governance)
+D2 owner decisions RESOLVED at c8fa85a (A/C/A/C/A/B/A; OWNER_APPROVED)
+D2 implementation COMPLETED at 95d0e50; D2_STATE = CLOSED_REMOTE_LOCKED at 58f3224
 D3 planning THIS SESSION
-D3 implementation NOT STARTED (blocked on D2 implementation)
+D3 implementation NOT STARTED (D2 predecessor gate SATISFIED)
 
-D3 cannot be implemented until D2 implementation is CLOSED_REMOTE_LOCKED.
-D2 implementation cannot start until owner resolves D2-01..D2-07.
+D2 predecessor gate SATISFIED: D2 implementation is COMPLETED and
+CLOSED_REMOTE_LOCKED, so D3 implementation is no longer blocked on D2.
+D3 implementation requires a separate governed D3 implementation session.
 ```
 
 ---
@@ -864,7 +877,7 @@ Any Group B/C scope is breached
 Any production mutation occurs outside governed deployment
 Any device-gate/licensing boundary is crossed
 flutter analyze reports new errors
-The D2 implementation is not CLOSED_REMOTE_LOCKED (D3 blocked on D2)
+The D2 implementation is CLOSED_REMOTE_LOCKED (commit 95d0e50; closed at 58f3224); D2 predecessor gate satisfied (D3 not blocked on D2)
 Period boundary semantics deviate from [startInclusive, endExclusive) date-only
 ```
 
@@ -951,10 +964,12 @@ ORIGIN_CONTACTED   = NO
 ```text
 D1_STATE                       = CLOSED_REMOTE_LOCKED
 D2_PLANNING                    = CLOSED_REMOTE_LOCKED
-D2_IMPLEMENTATION_STARTED      = NO  (owner-gated)
+D2_OWNER_DECISIONS_STATE       = RESOLVED_REMOTE_LOCKED (c8fa85a; A/C/A/C/A/B/A)
+D2_IMPLEMENTATION_STATE        = COMPLETED (commit 95d0e50)
+D2_STATE                       = CLOSED_REMOTE_LOCKED (commit 58f3224)
 
-D3_PLANNING                    = CLOSED_REMOTE_LOCKD (after push)
-D3_IMPLEMENTATION_STARTED      = NO  (blocked on D2 implementation)
+D3_PLANNING                    = CLOSED_REMOTE_LOCKED (after push)
+D3_IMPLEMENTATION_STARTED      = NO  (D2 predecessor gate SATISFIED)
 
 PRODUCTION_MUTATION            = NO
 MIGRATION_CREATED              = NO
@@ -964,23 +979,25 @@ P-OD6_STATUS                   = APPROVED
 P-OD6_SCOPE                    = Arbitrary-period profit reporting with
                                   correct accounting distinctions
 D3_ALLOWED_DELTA               = Additive reporting logic only
-                                 + PeriodReport model
-                                 + PeriodReportScreen
-                                 + period_report_test.dart
-                                 + date-range database methods
-                                 + sales_report_screen enhancement
+                                  + PeriodReport model
+                                  + PeriodReportScreen
+                                  + period_report_test.dart
+                                  + date-range database methods
+                                  + sales_report_screen enhancement
 
 P-OD6_APPROVED                 = YES (no owner gate on D3 itself)
-D3_BLOCKED_ON_D2_IMPLEMENTATION = YES (D2 owner-gated, not yet started)
+D3_BLOCKED_ON_D2_IMPLEMENTATION = NO (D2 COMPLETED, CLOSED_REMOTE_LOCKED)
 
 OWNER_GATED                    = NO  (P-OD6 is APPROVED)
-BLOCKED_ON_SUCCESSOR           = YES (D2 implementation must close first)
+BLOCKED_ON_SUCCESSOR           = NO  (D2 predecessor gate SATISFIED)
 
 D3_PLANNING_REMOTE_LOCKED      = YES (after push)
+D3_IMPLEMENTATION_PREDECESSOR_GATE = SATISFIED
 
-NEXT_ALLOWED_ACTION = Wait for D2 implementation to close (owner-gated),
-                      then D3 implementation planning/governance session.
-                      NO successor work begins until D2 is CLOSED.
+NEXT_ALLOWED_ACTION = Separate governed D3 implementation session only.
+                      D2 predecessor gate is SATISFIED; D3 implementation
+                      was NOT started in this planning session. NO successor
+                      work begins until an authorized D3 implementation session.
 ```
 
 ---
@@ -1004,4 +1021,52 @@ Expected lock: LOCAL == TRACKING == DIRECT_GITHUB == MERGE_BASE; AHEAD = 0; BEHI
 
 ---
 
-*This document is the D3 arbitrary-period reporting planning governance artifact. D1 remains CLOSED_REMOTE_LOCKED. D2 planning is CLOSED_REMOTE_LOCKED; D2 implementation is owner-gated and NOT STARTED. D3 planning is COMPLETE. D3 implementation is NOT STARTED (blocked on D2 implementation). No production mutation occurred. No migration was created. No implementation was performed. STOPPED.*
+## X. Corrective Governance Evidence (D3 Planning Predecessor-Authorization Correction)
+
+This corrective closeout amends stale predecessor-authorization language carried forward into the D3 planning governance artifact. At the time D3 planning was committed (5435cfc), D2 was already COMPLETED and CLOSED_REMOTE_LOCKED — the original D3 planning wording incorrectly carried a predecessor-era D2 owner-gate / "D2 not started" state that did not reflect committed successor authority. This correction is documentation-only; it performs **NO D3 implementation**.
+
+```text
+CORRECTION_REASON =
+  Original D3 planning governance (5435cfc) carried stale language stating D3
+  implementation was blocked on D2 implementation completion / D2-01..D2-07
+  owner-gate, and that D2 implementation was "NOT STARTED". Committed Git history
+  proves D2 owner decisions were RESOLVED_REMOTE_LOCKED (c8fa85a) BEFORE D2
+  implementation, that D2 implementation was COMPLETED (95d0e50), and that D2
+  received its FINAL EVIDENCE CLOSEOUT (58f3224, D2_STATE = CLOSED_REMOTE_LOCKED)
+  BEFORE D3 planning began — all ancestors of current HEAD 172eec3. Therefore the
+  D2 predecessor gate for D3 implementation is SATISFIED; D3 remains NOT STARTED
+  only because no D3 implementation session has occurred, not because D2 blocks it.
+
+D2_OWNER_DECISIONS_STATE          = RESOLVED_REMOTE_LOCKED
+D2_OWNER_DECISION_RESOLUTION_COMMIT = c8fa85a54ac8cfd001d6b121532ba750efaeae1e
+D2_OWNER_DECISIONS                = D2-01=A, D2-02=C, D2-03=A, D2-04=C, D2-05=A, D2-06=B, D2-07=A (OWNER_APPROVED)
+D2_IMPLEMENTATION_COMMIT          = 95d0e503711c1123f4fbe27066784169a3aaa12f
+D2_FINAL_CLOSEOUT_COMMIT          = 58f3224132d74febf07867486b6c03b712757b52
+D2_STATE                          = CLOSED_REMOTE_LOCKED
+D3_PREDECESSOR_BASELINE           = 58f3224132d74febf07867486b6c03b712757b52
+D3_PLANNING_GOVERNANCE_COMMIT     = 5435cfc75c2228f76b5a80555592675a0d8294f1
+D3_PLANNING_REMOTE_LOCK_COMMIT    = 172eec3157eab5f2269139dd7bca807cf2e00bc2
+
+CORRECTED_D3_IMPLEMENTATION_PRECONDITION_STATE =
+  D2 predecessor gate SATISFIED (D2 COMPLETED + CLOSED_REMOTE_LOCKED)
+
+NEXT_AUTHORIZED_ACTION =
+  SEPARATE PHASE P / GROUP D / D3 ARBITRARY-PERIOD REPORTING IMPLEMENTATION SESSION
+
+D3_IMPLEMENTATION_STARTED     = NO
+D3_IMPLEMENTATION_AUTHORIZED  = NO (planning-only; this session performs no implementation)
+D1_REOPENED                   = NO
+D2_REOPENED                   = NO
+MIGRATION_00039_CREATED       = NO
+APP_CODE_CHANGED              = NO
+CLOUD_SCHEMA_CHANGED          = NO
+
+ANCESTRY_PROOF (git merge-base --is-ancestor):
+  c8fa85a ancestor-of 95d0e50  = YES  (decisions resolved before implementation)
+  95d0e50 ancestor-of 58f3224  = YES  (implementation before closeout)
+  58f3224 ancestor-of 172eec3  = YES  (closeout before D3 planning)
+```
+
+---
+
+*This document is the D3 arbitrary-period reporting planning governance artifact. D1 remains CLOSED_REMOTE_LOCKED. D2 planning is CLOSED_REMOTE_LOCKED; D2 owner decisions RESOLVED_REMOTE_LOCKED; D2 implementation COMPLETED; D2_STATE = CLOSED_REMOTE_LOCKED. D3 planning is COMPLETE. D3 implementation is NOT STARTED (D2 predecessor gate SATISFIED; D3 implementation requires a separate governed session). No production mutation occurred. No migration was created. No implementation was performed. STOPPED.*
