@@ -546,26 +546,60 @@ supabase subdirectories) is preserved and NOT staged.
 COMMIT_MESSAGE = docs: request post-Group-D owner blocker decisions
 COMMIT_TYPE    = NORMAL (no amend, no history rewrite, no force)
 COMMIT_AUTHOR  = Islam Saber <saber@muaman.local>
+COMMIT_HASH    = 292cbccbf372cf2d8257a882502e32aa1001fb9f
+FILES_CHANGED  = 1 (only this governance artifact)
+INSERTIONS     = 599
+DELETIONS      = 0
+STAGED_FILES   = ONLY PHASE_P_POST_GROUP_D_OWNER_BLOCKER_DECISION_REQUEST.md
+GIT_ADD_DOT    = NO  (targeted single-file add only)
+GIT_ADD_A      = NO
 ```
-
-(To be populated after execution.)
 
 ## T. Push
 
 ```
-PUSH_DESTINATION = github
-PUSH_BRANCH       = codex/i-tech-next-roadmap-freeze
-PUSH_TYPE         = NORMAL FAST-FORWARD
-FORCE_PUSH        = NO
-ORIGIN_CONTACTED  = NO
+PUSH_DESTINATION    = github
+PUSH_URL            = https://github.com/sabere342-ai/muaman.worktrees.git
+PUSH_BRANCH         = codex/i-tech-next-roadmap-freeze
+PUSH_TYPE           = NORMAL FAST-FORWARD
+FORCE_PUSH          = NO
+FORCE_WITH_LEASE    = NO
+ORIGIN_CONTACTED    = NO
+PUSH_RESULT         = e31bcc7..292cbcc codex/i-tech-next-roadmap-freeze -> codex/i-tech-next-roadmap-freeze
 ```
-
-(To be populated after execution.)
 
 ## U. Final Remote-Lock Proof
 
-(To be independently verified via `git ls-remote github refs/heads/codex/i-tech-next-roadmap-freeze`
-after push; expected LOCAL == TRACKING == DIRECT_GITHUB == MERGE_BASE, AHEAD=0, BEHIND=0.)
+Verified via read-only Git checks after push:
+
+```
+POST_PUSH_LOCAL_HEAD         = 292cbccbf372cf2d8257a882502e32aa1001fb9f
+POST_PUSH_TRACKING_HEAD      = 292cbccbf372cf2d8257a882502e32aa1001fb9f  (github/codex/i-tech-next-roadmap-freeze)
+POST_PUSH_DIRECT_GITHUB_HEAD = 292cbccbf372cf2d8257a882502e32aa1001fb9f  (git ls-remote github)
+POST_PUSH_MERGE_BASE         = 292cbccbf372cf2d8257a882502e32aa1001fb9f  (tracking..HEAD)
+POST_PUSH_AHEAD             = 0
+POST_PUSH_BEHIND            = 0
+```
+
+```
+NORMAL_PUSH            = YES
+FORCE_PUSH             = NO
+ORIGIN_CONTACTED       = NO
+REMOTE_LOCK            = VERIFIED (local == tracking == direct-github == merge-base)
+AHEAD                  = 0
+BEHIND                 = 0
+INDEX_EMPTY            = YES
+UNTRACKED_RESIDUE_PRESERVED = YES (8 root-level files, 1 delivery file, 2 supabase subdirectories)
+PRODUCTION_CONTACTED   = NO
+PRODUCTION_MUTATED     = NO
+IMPLEMENTATION_STARTED = NO
+DRAIN_ACTIVATION_ATTEMPTED = NO
+SYNC_DRAIN_STATE       = GATED/OFF
+ANDROID_RELEASE_BUILD_ATTEMPTED = NO
+MIGRATION_CREATED      = NO
+MIGRATION_APPLIED      = NO
+SUCCESSOR_IMPLEMENTATION_STARTED = NO
+```
 
 ## V. Final State
 
