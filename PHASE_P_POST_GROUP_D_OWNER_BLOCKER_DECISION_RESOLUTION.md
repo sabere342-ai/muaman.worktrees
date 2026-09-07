@@ -483,30 +483,72 @@ Pre-existing stash (preserved, untouched):
 
 ## Q. Commit
 
-(To be populated after commit execution — see finalize step.)
+```
+COMMIT_MESSAGE        = docs: resolve post-Group-D owner blocker decisions
+COMMIT_HASH           = 6f50057bfb29dfa34ab94e39a4aefc918e08bff1
+COMMIT_TYPE           = NORMAL (no amend, no history rewrite, no force)
+STAGED_FILES          = ONLY PHASE_P_POST_GROUP_D_OWNER_BLOCKER_DECISION_RESOLUTION.md
+INSERTIONS            = 512
+DELETIONS             = 0
+GIT_ADD_DOT           = NO  (targeted single-file add only)
+GIT_ADD_A             = NO
+```
 
 ## R. Push
 
-(To be populated after push execution — see finalize step.)
+```
+PUSH_DESTINATION    = github
+PUSH_URL            = https://github.com/sabere342-ai/muaman.worktrees.git
+PUSH_BRANCH         = codex/i-tech-next-roadmap-freeze
+PUSH_TYPE           = NORMAL_FAST_FORWARD
+FORCE_PUSH          = NO
+FORCE_WITH_LEASE    = NO
+ORIGIN_CONTACTED    = NO
+PUSH_RESULT         = ebcbe74..6f50057 codex/i-tech-next-roadmap-freeze -> codex/i-tech-next-roadmap-freeze
+```
 
 ## S. Final Remote-Lock Proof
 
-(To be populated after post-push verification — see finalize step.)
+Verified via read-only Git checks after push:
+
+```
+POST_PUSH_LOCAL_HEAD         = 6f50057bfb29dfa34ab94e39a4aefc918e08bff1
+POST_PUSH_TRACKING_HEAD      = 6f50057bfb29dfa34ab94e39a4aefc918e08bff1  (github/codex/i-tech-next-roadmap-freeze)
+POST_PUSH_DIRECT_GITHUB_HEAD = 6f50057bfb29dfa34ab94e39a4aefc918e08bff1  (git ls-remote github refs/heads/codex/i-tech-next-roadmap-freeze)
+POST_PUSH_MERGE_BASE         = 6f50057bfb29dfa34ab94e39a4aefc918e08bff1  (merge-base HEAD github/codex/i-tech-next-roadmap-freeze)
+POST_PUSH_AHEAD             = 0
+POST_PUSH_BEHIND            = 0
+```
+
+```
+NORMAL_PUSH            = YES
+FORCE_PUSH             = NO
+FORCE_WITH_LEASE       = NO
+ORIGIN_CONTACTED       = NO
+REMOTE_LOCK            = VERIFIED (local == tracking == direct-github == merge-base)
+AHEAD                  = 0
+BEHIND                 = 0
+INDEX_EMPTY            = YES
+TRACKED_WORKTREE_CLEAN = YES
+UNTRACKED_RESIDUE_PRESERVED = YES
+```
 
 ## T. Final State
 
 ```
-SESSION_RESULT = IN_PROGRESS
-POST_D_P_OD7_01 = B / RESOLVED
-POST_D_OD_K2_01 = A / RESOLVED
-
-P_OD7_ACTIVATION_ATTEMPTED = NO
-SYNC_DRAIN_STATE = GATED/OFF
+SESSION_RESULT                          = CLOSED_REMOTE_LOCKED
+POST_D_P_OD7_01                         = B / RESOLVED
+POST_D_OD_K2_01                         = A / RESOLVED
+P_OD7_ACTIVATION_ATTEMPTED              = NO
+SYNC_DRAIN_STATE                        = GATED/OFF
+P_OD7_ACTIVATION_DEFERRED               = YES
+P_OD7_ACTIVATION_AUTHORIZED             = NO
 ANDROID_SIGNING_RECONCILIATION_IMPLEMENTED = NO
-ANDROID_RELEASE_BUILD_ATTEMPTED = NO
-PRODUCTION_CONTACTED = NO
-GROUP_C_IMPLEMENTATION_STARTED = NO
-SUCCESSOR_IMPLEMENTATION_STARTED = NO
-ROADMAP_REORDERED = NO
-ORIGIN_CONTACTED = NO
+ANDROID_RELEASE_BUILD_ATTEMPTED         = NO
+PRODUCTION_CONTACTED                    = NO
+GROUP_C_IMPLEMENTATION_STARTED          = NO
+SUCCESSOR_IMPLEMENTATION_STARTED        = NO
+ROADMAP_REORDERED                       = NO
+ORIGIN_CONTACTED                        = NO
+FORCE_PUSH                              = NO
 ```
