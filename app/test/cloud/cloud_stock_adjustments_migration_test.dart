@@ -17,8 +17,10 @@ void main() {
           contains('CREATE TABLE IF NOT EXISTS cloud_stock_adjustments'));
     });
     test('shop_id tenant column', () {
-      expect(migrationContent,
-          contains('shop_id UUID NOT NULL REFERENCES shops(id) ON DELETE CASCADE'));
+      expect(
+          migrationContent,
+          contains(
+              'shop_id UUID NOT NULL REFERENCES shops(id) ON DELETE CASCADE'));
     });
     test('product_id FK restrict', () {
       expect(migrationContent,
@@ -31,10 +33,11 @@ void main() {
       expect(migrationContent, contains('projected_current INTEGER NOT NULL'));
     });
     test('shortfall positive-checked', () {
-      expect(migrationContent,
-          contains('shortfall INTEGER NOT NULL'));
-      expect(migrationContent,
-          contains('CONSTRAINT chk_cloud_stock_adj_shortfall CHECK (shortfall > 0)'));
+      expect(migrationContent, contains('shortfall INTEGER NOT NULL'));
+      expect(
+          migrationContent,
+          contains(
+              'CONSTRAINT chk_cloud_stock_adj_shortfall CHECK (shortfall > 0)'));
     });
     test('adjustment_type typed and defaulted', () {
       expect(migrationContent,
@@ -44,14 +47,15 @@ void main() {
     });
     test('status typed and defaulted', () {
       expect(migrationContent, contains("status TEXT NOT NULL DEFAULT 'OPEN'"));
-      expect(migrationContent,
-          contains("CHECK (status IN ('OPEN', 'RESOLVED'))"));
+      expect(
+          migrationContent, contains("CHECK (status IN ('OPEN', 'RESOLVED'))"));
     });
     test('idempotency_key column', () {
       expect(migrationContent, contains('idempotency_key TEXT,'));
     });
     test('shop-scoped idempotency unique constraint', () {
-      expect(migrationContent,
+      expect(
+          migrationContent,
           contains(
               'CONSTRAINT uniq_cloud_stock_adj_shop_key UNIQUE (shop_id, idempotency_key)'));
     });
@@ -68,7 +72,8 @@ void main() {
           contains('resolved_by UUID REFERENCES auth.users(id)'));
       expect(migrationContent,
           contains('created_by UUID REFERENCES auth.users(id)'));
-      expect(migrationContent, contains('created_at TIMESTAMPTZ NOT NULL DEFAULT now()'));
+      expect(migrationContent,
+          contains('created_at TIMESTAMPTZ NOT NULL DEFAULT now()'));
       expect(migrationContent, contains('deleted_at TIMESTAMPTZ'));
     });
   });
@@ -90,12 +95,16 @@ void main() {
 
   group('A4-03: RLS enabled with SELECT-only policy', () {
     test('RLS enabled', () {
-      expect(migrationContent,
-          contains('ALTER TABLE cloud_stock_adjustments ENABLE ROW LEVEL SECURITY'));
+      expect(
+          migrationContent,
+          contains(
+              'ALTER TABLE cloud_stock_adjustments ENABLE ROW LEVEL SECURITY'));
     });
     test('SELECT policy scoped to own shop via shop_members', () {
-      expect(migrationContent,
-          contains('CREATE POLICY shop_isolation_stock_adjustments ON cloud_stock_adjustments'));
+      expect(
+          migrationContent,
+          contains(
+              'CREATE POLICY shop_isolation_stock_adjustments ON cloud_stock_adjustments'));
       expect(migrationContent, contains('FOR SELECT TO authenticated'));
       expect(migrationContent, contains('shop_members.user_id = auth.uid()'));
       expect(migrationContent, contains("shop_members.status = 'ACTIVE'"));
@@ -122,24 +131,31 @@ void main() {
         expect(migrationContent, contains('SECURITY DEFINER'));
       });
       test('$fn enforces admin.settings.access', () {
-        expect(migrationContent,
-            contains("require_shop_permission(p_shop_id, 'admin.settings.access')"));
+        expect(
+            migrationContent,
+            contains(
+                "require_shop_permission(p_shop_id, 'admin.settings.access')"));
       });
     }
     test('create/list/resolve granted to authenticated', () {
-      expect(migrationContent, contains('GRANT EXECUTE ON FUNCTION create_cloud_stock_adjustment'));
-      expect(migrationContent, contains('GRANT EXECUTE ON FUNCTION list_cloud_stock_adjustments'));
-      expect(migrationContent, contains('GRANT EXECUTE ON FUNCTION resolve_cloud_stock_adjustment'));
+      expect(migrationContent,
+          contains('GRANT EXECUTE ON FUNCTION create_cloud_stock_adjustment'));
+      expect(migrationContent,
+          contains('GRANT EXECUTE ON FUNCTION list_cloud_stock_adjustments'));
+      expect(migrationContent,
+          contains('GRANT EXECUTE ON FUNCTION resolve_cloud_stock_adjustment'));
     });
   });
 
   group('A4-05: P-OD1 oversell sale now records durable adjustment', () {
     test('create_cloud_sale_with_stock_v2 re-created with same contract', () {
-      expect(migrationContent,
-          contains('CREATE OR REPLACE FUNCTION create_cloud_sale_with_stock_v2'));
+      expect(
+          migrationContent,
+          contains(
+              'CREATE OR REPLACE FUNCTION create_cloud_sale_with_stock_v2'));
       expect(migrationContent, contains('RETURNS JSONB'));
-      expect(migrationContent,
-          contains('p_allow_oversell BOOLEAN DEFAULT FALSE'));
+      expect(
+          migrationContent, contains('p_allow_oversell BOOLEAN DEFAULT FALSE'));
     });
     test('auto-record insert present in oversell flow', () {
       expect(migrationContent, contains('INSERT INTO cloud_stock_adjustments'));
@@ -159,21 +175,23 @@ void main() {
       expect(migrationContent, contains('phase_m_oversell_guard('));
     });
     test('idempotency lookup + record retained', () {
-      expect(migrationContent, contains('phase_m_idempotency_lookup(p_idempotency_key)'));
+      expect(migrationContent,
+          contains('phase_m_idempotency_lookup(p_idempotency_key)'));
       expect(migrationContent, contains('phase_m_idempotency_record('));
     });
     test('non-oversell path unchanged (validation + REVOKE contract)', () {
-      expect(migrationContent, contains("IF v_product.current_quantity < p_quantity AND NOT p_allow_oversell THEN"));
+      expect(
+          migrationContent,
+          contains(
+              "IF v_product.current_quantity < p_quantity AND NOT p_allow_oversell THEN"));
       expect(migrationContent, contains("RAISE EXCEPTION 'Insufficient stock"));
     });
   });
 
   group('A4-07: Additive-only posture', () {
     test('no new REVOKE on pre-existing functions or tables', () {
-      expect(migrationContent,
-          isNot(contains('REVOKE ALL ON cloud_sales')));
-      expect(migrationContent,
-          isNot(contains('REVOKE ALL ON cloud_products')));
+      expect(migrationContent, isNot(contains('REVOKE ALL ON cloud_sales')));
+      expect(migrationContent, isNot(contains('REVOKE ALL ON cloud_products')));
     });
     test('does not drop or alter legacy migration-25 tables', () {
       expect(migrationContent, isNot(contains('DROP TABLE')));

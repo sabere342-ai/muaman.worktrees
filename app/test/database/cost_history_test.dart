@@ -243,8 +243,8 @@ void main() {
 
     test('11: v18 -> v19 migration is additive and idempotent', () async {
       final tempDir = await Directory.systemTemp.createTemp('muaman_v19_test');
-      final path =
-          p.join(tempDir.path, 'db_${DateTime.now().microsecondsSinceEpoch}.db');
+      final path = p.join(
+          tempDir.path, 'db_${DateTime.now().microsecondsSinceEpoch}.db');
       final v18Db = await databaseFactoryFfiNoIsolate.openDatabase(path);
       await DatabaseHelper.runFreshOnCreateForTest(v18Db, version: 18);
       await DatabaseHelper.setTestDatabase(v18Db);

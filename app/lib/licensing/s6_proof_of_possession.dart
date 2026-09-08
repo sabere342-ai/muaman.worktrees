@@ -165,8 +165,8 @@ class S6ProofOfPossession {
 /// values in production.
 class S6GoldenVector {
   /// Fixed 32-byte TEST seed (byte values 0..31). NOT a production secret.
-  static final Uint8List seed = Uint8List.fromList(
-      List<int>.generate(32, (i) => i));
+  static final Uint8List seed =
+      Uint8List.fromList(List<int>.generate(32, (i) => i));
 
   static const String challengeId = 'c0000000-0000-0000-0000-000000000101';
   static const String challenge = 's6-golden-challenge-vector';
@@ -176,8 +176,7 @@ class S6GoldenVector {
   static const String installationId = 'g0000000-0000-0000-0000-000000001001';
   static const String expiresAt = '2030-01-02T03:04:05Z';
 
-  static S6CanonicalEnvelope envelope() =>
-      const S6CanonicalEnvelope(
+  static S6CanonicalEnvelope envelope() => const S6CanonicalEnvelope(
         challengeId: challengeId,
         challenge: challenge,
         shopId: shopId,

@@ -288,7 +288,7 @@ void main() {
         'entry surfaces CONFLICT/REVIEW_REQUIRED', () async {
       await seedProduct();
       await seedSaleRow();
-await enqueueSale(
+      await enqueueSale(
         rowId: 1,
         occurrenceToken: 'TOK-OVER',
         shopId: 'shop-1',
@@ -353,7 +353,7 @@ await enqueueSale(
     test('T2: the local inventory equation is never rewritten', () async {
       await seedProduct();
       await seedSaleRow();
-await enqueueSale(
+      await enqueueSale(
         rowId: 1,
         occurrenceToken: 'TOK-EQ',
         shopId: 'shop-1',
@@ -379,13 +379,13 @@ await enqueueSale(
       await seedSaleRow();
       // Two deliveries of the same logical oversold event: same occurrence
       // token, different delivery idempotency keys (crash-window re-delivery).
-await enqueueSale(
+      await enqueueSale(
         rowId: 1,
         occurrenceToken: 'TOK-RE',
         shopId: 'shop-1',
         key: 'sale:client-uuid-1:CREATE:TOK-RE',
       );
-await enqueueSale(
+      await enqueueSale(
         rowId: 1,
         occurrenceToken: 'TOK-RE',
         shopId: 'shop-1',
@@ -409,7 +409,7 @@ await enqueueSale(
       await seedProduct();
       await seedSaleRow();
       final key = 'sale:client-uuid-1:CREATE:TOK-D';
-await enqueueSale(
+      await enqueueSale(
           rowId: 1, occurrenceToken: 'TOK-D', shopId: 'shop-1', key: key);
 
       await transportEngine().processQueue();
@@ -426,7 +426,8 @@ await enqueueSale(
       final result = await transportEngine().processQueue();
       expect(result.processed, 1, reason: 'only the adjustment op drains');
       expect(result.synced, 1);
-      expect(fixture.calls
+      expect(
+          fixture.calls
               .where((c) => c.function == 'create_cloud_sale_with_stock_v2')
               .length,
           1,

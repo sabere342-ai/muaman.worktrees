@@ -74,7 +74,8 @@ void main() {
       expect(await id.publicKeyBase64Url(), frozenPublicKey);
       expect(S6GoldenVector.canonicalJson(),
           contains('"protocol":"itech-s6-pop"'));
-      expect(S6GoldenVector.canonicalJson(), contains('"purpose":"device-proof"'));
+      expect(
+          S6GoldenVector.canonicalJson(), contains('"purpose":"device-proof"'));
     });
 
     test('golden control: canonical bytes are deterministic', () {

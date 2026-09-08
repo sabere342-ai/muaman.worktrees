@@ -26,8 +26,7 @@ void main() {
   const frozenPublicKey = 'A6EHv_POEL4dcN0Y50vAmWfk1jCbpQ1fHdyGZBJVMbg';
   const frozenSignature =
       'uOPCytBs3cQdxuuqCGgUh-8SPu-ENYfNJYC9GZyrT5HrcCfKdqO0CB903m0UsJ0RJorCEV3KqF2JPagzxusUBg';
-  const frozenCanonicalJson =
-      '{"protocol":"itech-s6-pop","version":1,'
+  const frozenCanonicalJson = '{"protocol":"itech-s6-pop","version":1,'
       '"challenge_id":"c0000000-0000-0000-0000-000000000101",'
       '"challenge":"s6-golden-challenge-vector",'
       '"shop_id":"a0000000-0000-0000-0000-000000000701",'
@@ -56,7 +55,8 @@ void main() {
       expect(await id.publicKeyBase64Url(), frozenPublicKey);
     });
 
-    test('Scenario 28: signing the canonical envelope yields the frozen '
+    test(
+        'Scenario 28: signing the canonical envelope yields the frozen '
         'signature that Deno WebCrypto verifies TRUE', () async {
       final id = await goldenIdentity;
       final sig = await S6ProofOfPossession.signBase64Url(envelope(), id);
@@ -104,8 +104,8 @@ void main() {
         expiresAt: '2030-01-02T03:04:05Z',
       );
       final sig = await S6ProofOfPossession.sign(envelope(), id);
-      final ok =
-          await S6ProofOfPossession.verify(tampered, await id.publicKeyBytes(), sig);
+      final ok = await S6ProofOfPossession.verify(
+          tampered, await id.publicKeyBytes(), sig);
       expect(ok, isFalse);
     });
 
@@ -168,29 +168,34 @@ void main() {
       () {
     test('Scenario 14: wrong challenge id produces a different canonical body',
         () async {
-      expect(envelope(), isNot(const S6CanonicalEnvelope(
-        challengeId: 'c0000000-0000-0000-0000-00000000FFFF',
-        challenge: 's6-golden-challenge-vector',
-        shopId: 'a0000000-0000-0000-0000-000000000701',
-        deviceId: 'd0000000-0000-0000-0000-000000000801',
-        userId: 'u0000000-0000-0000-0000-000000000901',
-        installationId: 'g0000000-0000-0000-0000-000000001001',
-        expiresAt: '2030-01-02T03:04:05Z',
-      )));
+      expect(
+          envelope(),
+          isNot(const S6CanonicalEnvelope(
+            challengeId: 'c0000000-0000-0000-0000-00000000FFFF',
+            challenge: 's6-golden-challenge-vector',
+            shopId: 'a0000000-0000-0000-0000-000000000701',
+            deviceId: 'd0000000-0000-0000-0000-000000000801',
+            userId: 'u0000000-0000-0000-0000-000000000901',
+            installationId: 'g0000000-0000-0000-0000-000000001001',
+            expiresAt: '2030-01-02T03:04:05Z',
+          )));
     });
 
     test('Scenario 15: wrong device id produces a different canonical body',
         () async {
-      expect(envelope().deviceId, isNot('d0000000-0000-0000-0000-00000000DEAD'));
-      expect(S6CanonicalEnvelope(
-        challengeId: envelope().challengeId,
-        challenge: envelope().challenge,
-        shopId: envelope().shopId,
-        deviceId: 'd0000000-0000-0000-0000-00000000DEAD',
-        userId: envelope().userId,
-        installationId: envelope().installationId,
-        expiresAt: envelope().expiresAt,
-      ).canonicalBytes(), isNot(envelope().canonicalBytes()));
+      expect(
+          envelope().deviceId, isNot('d0000000-0000-0000-0000-00000000DEAD'));
+      expect(
+          S6CanonicalEnvelope(
+            challengeId: envelope().challengeId,
+            challenge: envelope().challenge,
+            shopId: envelope().shopId,
+            deviceId: 'd0000000-0000-0000-0000-00000000DEAD',
+            userId: envelope().userId,
+            installationId: envelope().installationId,
+            expiresAt: envelope().expiresAt,
+          ).canonicalBytes(),
+          isNot(envelope().canonicalBytes()));
     });
 
     test('Scenario 16: wrong shop id produces a different canonical body',
@@ -238,8 +243,7 @@ void main() {
       expect(S6ProofOfPossession.isValidPublicKey(decoded), isTrue);
       expect(S6ProofOfPossession.isValidPublicKeyBase64Url(frozenPublicKey),
           isTrue);
-      expect(
-          S6ProofOfPossession.isValidPublicKeyBase64Url('AA=='), isFalse);
+      expect(S6ProofOfPossession.isValidPublicKeyBase64Url('AA=='), isFalse);
     });
   });
 

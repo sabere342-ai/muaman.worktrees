@@ -421,8 +421,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
         ),
         actions: [
           TextButton(
-            onPressed: () =>
-                Navigator.pop(context, _CostChangeDecision.cancel),
+            onPressed: () => Navigator.pop(context, _CostChangeDecision.cancel),
             child: const Text('إلغاء'),
           ),
           ElevatedButton(

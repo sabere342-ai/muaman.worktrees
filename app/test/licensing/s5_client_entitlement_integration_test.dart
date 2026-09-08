@@ -120,7 +120,8 @@ void main() {
       expect(snap.allowsWrites, false);
     });
 
-    test('Scenario 4c: license_status=REVOKED alone → revoked even if '
+    test(
+        'Scenario 4c: license_status=REVOKED alone → revoked even if '
         'is_revoked absent', () {
       final snap = service.resolveStateFromServerForTest(
         result(hasLicense: false, licenseStatus: 'REVOKED'),
@@ -145,7 +146,8 @@ void main() {
       expect(snap.allowsWrites, false);
     });
 
-    test('Scenario 7: has_license=false with no terminal signal → noLicense → '
+    test(
+        'Scenario 7: has_license=false with no terminal signal → noLicense → '
         'blocked', () {
       final snap = service.resolveStateFromServerForTest(
         result(hasLicense: false, licenseStatus: null),
@@ -185,7 +187,8 @@ void main() {
       expect(snap.revokedAt, DateTime.utc(2026, 8, 19, 10, 30));
     });
 
-    test('Scenario 9: max_devices == null → unlimited semantics, no '
+    test(
+        'Scenario 9: max_devices == null → unlimited semantics, no '
         'fabricated numeric max', () {
       final snap = service.resolveStateFromServerForTest(
         result(
@@ -200,7 +203,8 @@ void main() {
       expect(snap.allowsWrites, true);
     });
 
-    test('Scenario 10: malformed/missing security-relevant server fields → '
+    test(
+        'Scenario 10: malformed/missing security-relevant server fields → '
         'FAIL CLOSED, no fabricated entitlement', () {
       // A license granted with no status and no trial signal is malformed.
       final malformed =
@@ -221,14 +225,13 @@ void main() {
       final serverTime = DateTime.utc(2026, 8, 20, 12, 0, 0);
       final snap = service.resolveStateFromServerForTest(
         result(
-            hasLicense: true,
-            licenseStatus: 'ACTIVE',
-            serverTime: serverTime),
+            hasLicense: true, licenseStatus: 'ACTIVE', serverTime: serverTime),
       );
       expect(snap.serverTime, serverTime);
     });
 
-    test('Scenario 12: subscription_expires_at consumed without fabricating '
+    test(
+        'Scenario 12: subscription_expires_at consumed without fabricating '
         'entitlement', () {
       // Paid active with a future subscription expiry → entitled (server
       // status already authoritative).
@@ -299,7 +302,8 @@ void main() {
       );
     }
 
-    test('Scenario 13: save/load round trip preserves revocation + schema/'
+    test(
+        'Scenario 13: save/load round trip preserves revocation + schema/'
         'version metadata', () async {
       final revokedAt = DateTime.utc(2026, 8, 19, 10, 30, 0);
       final s = snapshot(
@@ -320,16 +324,18 @@ void main() {
       await cache.clear('shop-a');
     });
 
-    test('Scenario 14: corrupt/malformed cached JSON → fail safe → treated as '
+    test(
+        'Scenario 14: corrupt/malformed cached JSON → fail safe → treated as '
         'no trustworthy cache', () async {
-      await AppSettings.setValue('cloud.license.shop-corrupt',
-          '{ not valid json }');
+      await AppSettings.setValue(
+          'cloud.license.shop-corrupt', '{ not valid json }');
       final loaded = await cache.load('shop-corrupt');
       expect(loaded, isNull);
       await AppSettings.setValue('cloud.license.shop-corrupt', '');
     });
 
-    test('Scenario 15: absent/empty/corrupt cache never yields entitled or '
+    test(
+        'Scenario 15: absent/empty/corrupt cache never yields entitled or '
         'entitledCached', () async {
       final empty = await cache.load('shop-missing');
       expect(empty, isNull);
@@ -356,7 +362,8 @@ void main() {
       expect(resolved.allowsWrites, false);
     });
 
-    test('Scenario 16: cached REVOKED/non-entitled blocks writes offline '
+    test(
+        'Scenario 16: cached REVOKED/non-entitled blocks writes offline '
         'regardless of grace', () {
       final service = CloudLicensingService();
       final revokedSnap = snapshot(
@@ -371,8 +378,8 @@ void main() {
     });
 
     test('Scenario 17: Shop A snapshot never consumed for Shop B', () async {
-      final sA = snapshot(shopId: 'shop-A', hasLicense: true,
-          licenseStatus: 'ACTIVE');
+      final sA =
+          snapshot(shopId: 'shop-A', hasLicense: true, licenseStatus: 'ACTIVE');
       await cache.save(sA);
 
       // Load for shop B must not see shop A's entitlement.
@@ -392,7 +399,8 @@ void main() {
       await cache.clear('shop-B');
     });
 
-    test('Scenario 18: unknown/incompatible cache version → non-authoritative '
+    test(
+        'Scenario 18: unknown/incompatible cache version → non-authoritative '
         '→ blocked pending revalidation', () {
       final service = CloudLicensingService();
       final futureSchema = snapshot(
@@ -442,15 +450,16 @@ void main() {
 
     test('Scenario 19: TRIAL offline = zero grace → blocked', () {
       // Even a freshly-synced active trial gets no offline runway.
-      final trial = cached(
-          licenseStatus: 'TRIAL', isTrial: true, trialActive: true);
+      final trial =
+          cached(licenseStatus: 'TRIAL', isTrial: true, trialActive: true);
       expect(grace.isWithinGraceWindow(trial), false);
       final resolved = service.resolveStateFromCacheForTest(trial);
       expect(resolved.state, isNot(CloudEntitlementState.entitledCached));
       expect(resolved.allowsWrites, false);
     });
 
-    test('Scenario 20: ACTIVE paid — inside 7 days → entitledCached; outside '
+    test(
+        'Scenario 20: ACTIVE paid — inside 7 days → entitledCached; outside '
         '→ staleOffline blocked', () {
       final inside = cached(licenseStatus: 'ACTIVE', daysAgo: 3);
       expect(grace.isWithinGraceWindow(inside), true);
@@ -465,7 +474,8 @@ void main() {
       expect(resolvedOut.allowsWrites, false);
     });
 
-    test('Scenario 21: PERPETUAL compatibility — inside 14 days → entitled'
+    test(
+        'Scenario 21: PERPETUAL compatibility — inside 14 days → entitled'
         'Cached; outside → blocked', () {
       final inside = cached(licenseStatus: 'PERPETUAL', daysAgo: 10);
       expect(grace.isWithinGraceWindow(inside), true);
@@ -478,7 +488,8 @@ void main() {
       expect(resolvedOut.allowsWrites, false);
     });
 
-    test('Scenario 22: cached REVOKED/EXPIRED/SUSPENDED — grace MUST NOT '
+    test(
+        'Scenario 22: cached REVOKED/EXPIRED/SUSPENDED — grace MUST NOT '
         'override blocked state', () {
       // Even a freshly synced non-entitled cached state remains blocked.
       final revoked =
@@ -505,7 +516,8 @@ void main() {
   group('D. Convergence / reconnect', () {
     final service = CloudLicensingService();
 
-    test('Scenario 23: fresh server revalidation replaces stale cache with '
+    test(
+        'Scenario 23: fresh server revalidation replaces stale cache with '
         'authoritative truth', () {
       // Simulate an offline stale cache that previously had entitlement.
       final stale = EntitlementSnapshot(
@@ -538,7 +550,8 @@ void main() {
           CloudEntitlementState.entitled);
     });
 
-    test('Scenario 24: revoked while offline → revalidate → revoked + blocked; '
+    test(
+        'Scenario 24: revoked while offline → revalidate → revoked + blocked; '
         'legitimate re-entitlement → allowed only when server says entitled',
         () {
       // Server now says REVOKED → converge to revoked + blocked.
@@ -579,7 +592,8 @@ void main() {
   group('E. Backward compatibility', () {
     final service = CloudLicensingService();
 
-    test('Scenario 25: pre-S3 payload missing revocation signal must still '
+    test(
+        'Scenario 25: pre-S3 payload missing revocation signal must still '
         'fail closed, never fabricate entitlement', () {
       // A pre-S3 ACTIVE payload without is_revoked/revoked_at fields parses
       // with isRevoked=false and remains entitled (backward compatible).

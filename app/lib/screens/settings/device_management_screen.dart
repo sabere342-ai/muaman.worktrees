@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../models/cloud/cloud_device.dart';
-import '../../models/user_role.dart';
 import '../../services/active_shop_context.dart';
 import '../../services/cloud_device_management_repository.dart';
 import '../../services/permissions.dart';

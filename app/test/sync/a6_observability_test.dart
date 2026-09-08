@@ -111,14 +111,16 @@ void main() {
     String status = 'PENDING',
     int retryCount = 0,
   }) =>
-      queueRepo.enqueue(
+      queueRepo
+          .enqueue(
         entityType: 'product',
         entityId: 1,
         operation: SyncQueueOperation.CREATE,
         payload: {'name': 'Widget', 'barcode': 'B-$key'},
         idempotencyKey: key,
         shopId: shop,
-      ).then((_) async {
+      )
+          .then((_) async {
         if (status != 'PENDING' || retryCount != 0) {
           await db.update(
             'sync_queue',
@@ -441,7 +443,8 @@ void main() {
       runtime.reset();
     });
 
-    test('T9 — retry after recovery re-evaluates without duplicate workers '
+    test(
+        'T9 — retry after recovery re-evaluates without duplicate workers '
         'or duplicate processing', () async {
       var networkCalls = 0;
       var online = false;

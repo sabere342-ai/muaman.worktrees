@@ -24,9 +24,7 @@ void main() {
 
   final LastTime = DateTime.now().subtract(const Duration(minutes: 5));
 
-  Future<void> pump(
-    WidgetTester tester,
-    SyncStatusIndicator indicator) async {
+  Future<void> pump(WidgetTester tester, SyncStatusIndicator indicator) async {
     await tester.pumpWidget(MaterialApp(
       home: Scaffold(body: Center(child: indicator)),
     ));
@@ -35,7 +33,8 @@ void main() {
 
   Finder refreshButton() => find.byIcon(Icons.refresh);
 
-  testWidgets('T4 — true convergence renders green fully-synced', (tester) async {
+  testWidgets('T4 — true convergence renders green fully-synced',
+      (tester) async {
     final indicator = SyncStatusIndicator(
       isCloudLinked: true,
       isOnline: true,
@@ -48,15 +47,17 @@ void main() {
     expect(isGreen(indicator), isTrue);
 
     await pump(tester, indicator);
-    final container =
-        tester.widget<Container>(find.descendant(
+    final container = tester.widget<Container>(find
+        .descendant(
           of: find.byType(SyncStatusIndicator),
           matching: find.byType(Container),
-        ).first);
+        )
+        .first);
     expect((container.decoration! as BoxDecoration).color, Colors.green);
   });
 
-  testWidgets('T1 — pending renders orange, never green/synced', (tester) async {
+  testWidgets('T1 — pending renders orange, never green/synced',
+      (tester) async {
     final indicator = SyncStatusIndicator(
       isCloudLinked: true,
       isOnline: true,
@@ -69,13 +70,12 @@ void main() {
     expect(isGreen(indicator), isFalse);
 
     await pump(tester, indicator);
-    final container =
-        tester.widget<Container>(find
-            .descendant(
-              of: find.byType(SyncStatusIndicator),
-              matching: find.byType(Container),
-            )
-            .first);
+    final container = tester.widget<Container>(find
+        .descendant(
+          of: find.byType(SyncStatusIndicator),
+          matching: find.byType(Container),
+        )
+        .first);
     expect((container.decoration! as BoxDecoration).color, Colors.orange);
     expect(find.text('3'), findsOneWidget,
         reason: 'pending count badge must remain visible');
@@ -94,13 +94,12 @@ void main() {
     expect(isGreen(indicator), isFalse);
 
     await pump(tester, indicator);
-    final container =
-        tester.widget<Container>(find
-            .descendant(
-              of: find.byType(SyncStatusIndicator),
-              matching: find.byType(Container),
-            )
-            .first);
+    final container = tester.widget<Container>(find
+        .descendant(
+          of: find.byType(SyncStatusIndicator),
+          matching: find.byType(Container),
+        )
+        .first);
     expect((container.decoration! as BoxDecoration).color, Colors.red);
   });
 
@@ -117,13 +116,12 @@ void main() {
     expect(isGreen(indicator), isFalse);
 
     await pump(tester, indicator);
-    final container =
-        tester.widget<Container>(find
-            .descendant(
-              of: find.byType(SyncStatusIndicator),
-              matching: find.byType(Container),
-            )
-            .first);
+    final container = tester.widget<Container>(find
+        .descendant(
+          of: find.byType(SyncStatusIndicator),
+          matching: find.byType(Container),
+        )
+        .first);
     expect((container.decoration! as BoxDecoration).color, Colors.red);
   });
 
@@ -144,13 +142,12 @@ void main() {
     expect(isGreen(indicator), isFalse);
 
     await pump(tester, indicator);
-    final container =
-        tester.widget<Container>(find
-            .descendant(
-              of: find.byType(SyncStatusIndicator),
-              matching: find.byType(Container),
-            )
-            .first);
+    final container = tester.widget<Container>(find
+        .descendant(
+          of: find.byType(SyncStatusIndicator),
+          matching: find.byType(Container),
+        )
+        .first);
     expect((container.decoration! as BoxDecoration).color, Colors.red);
   });
 
@@ -172,13 +169,12 @@ void main() {
     expect(isGreen(indicator), isFalse);
 
     await pump(tester, indicator);
-    final container =
-        tester.widget<Container>(find
-            .descendant(
-              of: find.byType(SyncStatusIndicator),
-              matching: find.byType(Container),
-            )
-            .first);
+    final container = tester.widget<Container>(find
+        .descendant(
+          of: find.byType(SyncStatusIndicator),
+          matching: find.byType(Container),
+        )
+        .first);
     expect((container.decoration! as BoxDecoration).color, Colors.amber,
         reason: 'no reconciliation ⇒ amber "sync inactive", not green');
   });
@@ -197,13 +193,12 @@ void main() {
     expect(isGreen(indicator), isFalse);
 
     await pump(tester, indicator);
-    final container =
-        tester.widget<Container>(find
-            .descendant(
-              of: find.byType(SyncStatusIndicator),
-              matching: find.byType(Container),
-            )
-            .first);
+    final container = tester.widget<Container>(find
+        .descendant(
+          of: find.byType(SyncStatusIndicator),
+          matching: find.byType(Container),
+        )
+        .first);
     expect((container.decoration! as BoxDecoration).color, Colors.amber);
   });
 
@@ -221,13 +216,12 @@ void main() {
     expect(isGreen(indicator), isFalse);
 
     await pump(tester, indicator);
-    final container =
-        tester.widget<Container>(find
-            .descendant(
-              of: find.byType(SyncStatusIndicator),
-              matching: find.byType(Container),
-            )
-            .first);
+    final container = tester.widget<Container>(find
+        .descendant(
+          of: find.byType(SyncStatusIndicator),
+          matching: find.byType(Container),
+        )
+        .first);
     expect((container.decoration! as BoxDecoration).color, Colors.blue);
   });
 
@@ -244,17 +238,17 @@ void main() {
     expect(isGreen(indicator), isFalse);
 
     await pump(tester, indicator);
-    final container =
-        tester.widget<Container>(find
-            .descendant(
-              of: find.byType(SyncStatusIndicator),
-              matching: find.byType(Container),
-            )
-            .first);
+    final container = tester.widget<Container>(find
+        .descendant(
+          of: find.byType(SyncStatusIndicator),
+          matching: find.byType(Container),
+        )
+        .first);
     expect((container.decoration! as BoxDecoration).color, Colors.grey);
   });
 
-  testWidgets('T7 — retry affordance appears when not confirmed converged and '
+  testWidgets(
+      'T7 — retry affordance appears when not confirmed converged and '
       'is suppressed when fully synced', (tester) async {
     // Not converged: pending + onRetry ⇒ refresh affordance present.
     final pending = SyncStatusIndicator(

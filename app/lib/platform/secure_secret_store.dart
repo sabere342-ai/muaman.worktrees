@@ -115,8 +115,7 @@ class WindowsDpapiSecureSecretStore implements SecureSecretStore {
   }
 
   @override
-  Future<bool> containsKey(String key) async =>
-      File(_pathFor(key)).exists();
+  Future<bool> containsKey(String key) async => File(_pathFor(key)).exists();
 
   /// Protect / unprotect via PowerShell DPAPI with `DataProtectionScope.CurrentUser`.
   ///
@@ -179,8 +178,6 @@ $plain = [System.Security.Cryptography.ProtectedData]::Unprotect($enc, $null, $s
     }
   }
 }
-
-
 
 /// In-memory fake — TEST PROFILES ONLY. Values live in process memory and
 /// are never durable or encrypted. Never wire this into a production

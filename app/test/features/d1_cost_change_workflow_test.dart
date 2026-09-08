@@ -67,7 +67,8 @@ void main() {
   }
 
   group('D1 three-path cost-change workflow', () {
-    testWidgets('Update current product: cost changes, one history entry, no new product',
+    testWidgets(
+        'Update current product: cost changes, one history entry, no new product',
         (WidgetTester tester) async {
       await seedProduct(name: 'صنف أ', barcode: 'UPD-001', cost: 100);
 
@@ -97,7 +98,8 @@ void main() {
       expect(products.first['barcode'], 'UPD-001');
     });
 
-    testWidgets('Create new product: original untouched, new distinct product created',
+    testWidgets(
+        'Create new product: original untouched, new distinct product created',
         (WidgetTester tester) async {
       await seedProduct(name: 'صنف أ', barcode: 'NEW-001', cost: 100);
 

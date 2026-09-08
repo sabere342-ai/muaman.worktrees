@@ -37,7 +37,8 @@ void main() {
       expect(record!.split('|').length, 2);
     });
 
-    test('a seed produces a deterministic keypair (Ed25519/RFC 8032)', () async {
+    test('a seed produces a deterministic keypair (Ed25519/RFC 8032)',
+        () async {
       final seed = Uint8List.fromList(List<int>.generate(32, (i) => i));
       final a = await S6TestIdentity.fromSeed(seed, createdAt: 1);
       final b = await S6TestIdentity.fromSeed(seed, createdAt: 1);
@@ -72,8 +73,8 @@ void main() {
       final store = InMemorySecureSecretStore();
       final service = S6DeviceIdentity(store);
 
-      final results = await Future.wait(
-          List.generate(8, (_) => service.loadOrCreate()));
+      final results =
+          await Future.wait(List.generate(8, (_) => service.loadOrCreate()));
 
       final pubs = <String>{};
       for (final r in results) {
@@ -89,7 +90,8 @@ void main() {
   // Scenario 04: SECURE STORE LOST / REINSTALL -> new identity + re-enrollment
   // ────────────────────────────────────────────────────────────────────────
   group('Scenario 04 — secure-store loss forces re-enrollment', () {
-    test('a wiped store yields a brand-new identity (re-enroll flow)', () async {
+    test('a wiped store yields a brand-new identity (re-enroll flow)',
+        () async {
       final store = InMemorySecureSecretStore();
       final first = await S6DeviceIdentity(store).loadOrCreate();
       final pub1 = await first.identity.publicKeyBase64Url();
@@ -106,8 +108,7 @@ void main() {
   // Scenario 05: CORRUPT / UNAVAILABLE protected store -> fail closed
   // ────────────────────────────────────────────────────────────────────────
   group('Scenario 05 — corrupt private material fails closed', () {
-    test('malformed persisted seed raises S6DeviceIdentityException',
-        () async {
+    test('malformed persisted seed raises S6DeviceIdentityException', () async {
       final store = InMemorySecureSecretStore();
       await store.write(S6DeviceIdentity.storageKey, 'not-a-valid-record');
       expect(
@@ -147,8 +148,8 @@ void main() {
       // channel (EncryptedSharedPreferences + Keystore master key). It performs
       // no plaintext storage of its own and surfaces PlatformException to fail
       // closed. (Channel round-trips are out of scope for the Dart VM test.)
-      final src = await File('lib/licensing/secure_store_android.dart')
-          .readAsString();
+      final src =
+          await File('lib/licensing/secure_store_android.dart').readAsString();
       expect(src.contains('itech.app/secure_storage'), isTrue);
       // No direct shared_preferences dependency and no plaintext file writes.
       expect(src.contains('package:shared_preferences'), isFalse);
@@ -182,11 +183,9 @@ void main() {
       }
     });
 
-    test('never stores plaintext or XOR-obfuscation for S6 material',
-        () async {
-      final src = await File(
-              'lib/platform/secure_secret_store.dart')
-          .readAsString();
+    test('never stores plaintext or XOR-obfuscation for S6 material', () async {
+      final src =
+          await File('lib/platform/secure_secret_store.dart').readAsString();
       // S6 private material is protected by DPAPI CurrentUser; the store never
       // uses LocalMachine scope, an XOR/obfuscation fallback, or a plaintext
       // temp file. (The doc comment may mention the words; we assert no actual
@@ -205,8 +204,8 @@ void main() {
   // ────────────────────────────────────────────────────────────────────────
   group('Scenario 23 — private material containment', () {
     test('implementation never logs or prints the private seed', () async {
-      final src = await File('lib/licensing/s6_device_identity.dart')
-          .readAsString();
+      final src =
+          await File('lib/licensing/s6_device_identity.dart').readAsString();
       // No logging/printing of the private seed...
       expect(src.contains('debugPrint(seed'), isFalse);
       expect(src.contains('print(seed'), isFalse);
