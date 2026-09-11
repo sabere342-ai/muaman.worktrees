@@ -35,7 +35,7 @@ AUTHORIZED_REMOTE_URL = https://github.com/sabere342-ai/muaman.worktrees.git
 FORBIDDEN_REMOTE      = origin
 
 RESULT =
-(filled after remote-lock)
+PASS_POST_RELEASE_CANDIDATE_MANUAL_ACCEPTANCE_OWNER_SUCCESSOR_DECISION_REMOTE_LOCKED
 ```
 
 This session resolves authority only. It records the owner's explicit decision to
@@ -760,7 +760,7 @@ ORIGIN_CONTACTED           = NO
 ```
 
 ```text
-PASS_POST_RELEASE_CANDIDATE_MANUAL_ACCEPTANCE_OWNER_SUCCESSOR_DECISION (remote-lock pending)
+PASS_POST_RELEASE_CANDIDATE_MANUAL_ACCEPTANCE_OWNER_SUCCESSOR_DECISION_REMOTE_LOCKED
 ```
 
 A passed manual acceptance is authority to determine the next step, NOT a
