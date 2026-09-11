@@ -418,9 +418,9 @@ Staging will be explicit path staging of ONLY the closure artifact.
 ## N. Commit Evidence
 
 ```text
-COMMIT_SHA     = 18ced524382112b602755bd15182f5d597a269d7
-PARENT         = e90e307a0bdc3030befa099f6de9b35640d833ec
-TREE           = 2c7f9a596910037cf217ac427c326733a6ed20b7
+COMMIT_SHA     = c8616f28261f8124a8160811d1826dd970e47e32
+PARENT         = 18ced524382112b602755bd15182f5d597a269d7
+TREE           = 1477317adc58c606204c352ebb16416ade46f9eb
 COMMIT_MESSAGE = docs: finalize phase-p post-group-d closure
 COMMIT_TYPE    = NORMAL
 AMEND          = NO
@@ -439,10 +439,10 @@ Post-push verification via `git ls-remote github
 refs/heads/codex/i-tech-next-roadmap-freeze` (read-only).
 
 ```text
-EXIT_LOCAL_HEAD         = e90e307a0bdc3030befa099f6de9b35640d833ec
-EXIT_TRACKING_HEAD      = e90e307a0bdc3030befa099f6de9b35640d833ec
-EXIT_DIRECT_GITHUB_HEAD = e90e307a0bdc3030befa099f6de9b35640d833ec
-EXIT_MERGE_BASE         = e90e307a0bdc3030befa099f6de9b35640d833ec
+EXIT_LOCAL_HEAD         = c8616f28261f8124a8160811d1826dd970e47e32
+EXIT_TRACKING_HEAD      = c8616f28261f8124a8160811d1826dd970e47e32
+EXIT_DIRECT_GITHUB_HEAD = c8616f28261f8124a8160811d1826dd970e47e32
+EXIT_MERGE_BASE         = c8616f28261f8124a8160811d1826dd970e47e32
 EXIT_AHEAD              = 0
 EXIT_BEHIND             = 0
 ```
