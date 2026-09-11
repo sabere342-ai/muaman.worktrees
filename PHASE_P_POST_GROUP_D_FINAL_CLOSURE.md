@@ -5,8 +5,9 @@
 > This session inspects the committed repository evidence, verifies that all
 > required Phase-P predecessor stages are durably complete, verifies the
 > accepted Release Candidate remains byte-identical to committed acceptance
-> evidence, determines that Phase P is eligible for final closure, creates the
-> canonical closure governance artifact, commits it, pushes normally to
+> evidence, verifies the canonical Flutter skill pack runtime-discoverability
+> gate (10/10), determines that Phase P is eligible for final closure, updates
+> the canonical closure governance artifact, commits it, pushes normally to
 > `github`, and verifies direct remote equality.
 > It performs NO implementation, NO planning, NO build, NO rebuild, NO packaging,
 > NO delivery, NO ZIP generation, NO installer generation, NO production
@@ -36,7 +37,8 @@ FORBIDDEN_REMOTE      = origin
 
 This session performs FINAL CLOSURE ONLY. It records that the Phase-P
 implementation / validation / accepted Windows Release Candidate lifecycle has
-reached its authorized terminal closure point.
+reached its authorized terminal closure point, consuming the already-committed
+predecessor chain (including Manual Acceptance) read-only.
 
 ```text
 PHASE_P_CLOSURE_STATUS = CLOSED
@@ -49,7 +51,7 @@ PUBLISHING_EXECUTED    = NO
 
 ## B. Repository Identity
 
-Verified from local evidence:
+Verified from live repository evidence during this session:
 
 ```text
 ROOT         = C:/dev/muaman.worktrees/i-tech-next-roadmap-freeze
@@ -73,26 +75,67 @@ ORIGIN_CONTACTED             = NO
 
 ---
 
-## C. Entry / Recovery Classification
+## C. Flutter Skills Runtime Discovery Gate
 
-Global Git-operation metadata checked via Git-aware path resolution:
+The canonical Flutter engineering skill pack and its runtime discoverability
+were verified fresh in this session.
 
 ```text
-MERGE_HEAD       = ABSENT (False)
-CHERRY_PICK_HEAD = ABSENT (False)
-REVERT_HEAD      = ABSENT (False)
-BISECT_LOG       = ABSENT (False)
-rebase-merge     = ABSENT (False)
-rebase-apply     = ABSENT (False)
-index.lock       = ABSENT (False)
+CANONICAL_SKILL_ROOT = C:\dev\flutter-agent-engineering-pack\skills
+ROOT_PRESENT         = TRUE
+```
+
+The exact ten canonical skills, all present on disk and all discoverable by the
+current agent/kilo runtime registry:
+
+```text
+1.  flutter-core-engineering   DISCOVERED
+2.  flutter-ui-ux              DISCOVERED
+3.  flutter-rtl-arabic         DISCOVERED
+4.  flutter-testing            DISCOVERED
+5.  flutter-performance        DISCOVERED
+6.  flutter-accessibility      DISCOVERED
+7.  flutter-security           DISCOVERED
+8.  flutter-offline-data       DISCOVERED
+9.  flutter-code-review        DISCOVERED
+10. flutter-release            DISCOVERED
+```
+
+```text
+EXPECTED_SKILLS  = 10
+DISCOVERED       = 10
+MISSING          = 0
+RUNTIME_DISCOVERY = 10/10
+SKILLS_GATE       = PASS
+```
+
+Per session authority, the skills were NOT used to trigger any implementation,
+test remediation, release-script remediation, delivery, or production work.
+Skill usage this session was limited to inspection / review / risk reasoning.
+
+---
+
+## D. Entry / Recovery Classification
+
+Global Git-operation metadata checked via Git-aware path resolution
+(`git rev-parse --git-path` + existence probe):
+
+```text
+MERGE_HEAD       = ABSENT (tested False)
+CHERRY_PICK_HEAD = ABSENT (tested False)
+REVERT_HEAD      = ABSENT (tested False)
+BISECT_LOG       = ABSENT (tested False)
+rebase-merge     = ABSENT (tested False)
+rebase-apply     = ABSENT (tested False)
+index.lock       = ABSENT (tested False)
 ACTIVE_GIT_OPERATION = NONE
 ```
 
 Index and tracking state:
 
 ```text
-TRACKED_HEAD     = 47ec2a56da205fce10831e7ef0d9a6cccb7b1036
-TRACKING_HEAD    = github/codex/i-tech-next-roadmap-freeze = 47ec2a56da205fce10831e7ef0d9a6cccb7b1036
+ENTRY_HEAD       = c3b29bc2ff56b247c4065272a7089e0e9940c996
+TRACKING_HEAD    = github/codex/i-tech-next-roadmap-freeze = c3b29bc2ff56b247c4065272a7089e0e9940c996
 INDEX_STATE      = EMPTY (git diff --cached --name-status = empty)
 STASH            = PRESERVED
                    (stash@{0}: WIP on codex/muaman-13-strict-july-workbook-data-migration:
@@ -104,31 +147,33 @@ UNEXPECTED tracked working-tree state (present on disk, NOT introduced by this
 session, NOT authorized, PRESERVED UNTOUCHED):
 
 ```text
-12 tracked data files deleted on disk since the last clean session (47ec2a5),
- all under the legacy data directories:
+12 tracked data files deleted on disk (legacy data directories):
   - شهر7/extract_sales.py
-  - شهر7/شيت_ادارة_محل_مؤمن_مطور_شهر7.xlsx
+  - شهر7/شيت_ادارة_محل_مؤمن_مطور_حديث_شهر7.xlsx
   - قديم/.~lock.شيت_ادارة_محل_مؤمن_حديث_شهر7.xlsx#
-  - قديم/تقريـر_الإقفال_الشهري_مؤمن_شهر6.pdf
-  - قديم/جرد_مخزون_معدل_نصف_الشهري_مؤمن.xlsx
+  - قديم/تقرير_الإقفال_الشهري_مؤمن_شهر6.pdf
+  - قديم/جرد_مخزون_معدل_نصف_شهري_محل_مؤمن.xlsx
   - قديم/شيت_ادارة_محل_مؤمن_حديث.xlsx
   - قديم/شيت_ادارة_محل_مؤمن_حديث_شهر7.xlsx
   - قديم/شيت_ادارة_محل_مؤمن_شهر6.xlsx
   - قديم/شيت_ادارة_محل_مؤمن_شهر7.xlsx
-  - قديم/شيت_ادارة_محل_ؤمن_متكامل_شهر7.xlsx
-  - قديم/شيت_ادارة_محل_ؤمن_متكامل_محمد_شهر7.xlsx
-  - قديم/مشتراكات_من_23-5.xlsx
+  - قديم/شيت_ادارة_محل_مؤمن_متكامل_شهر7.xlsx
+  - قديم/شيت_ادارة_محل_مؤمن_متكامل_محدث_شهر7.xlsx
+  - قديم/مشتريات_من_23-5.xlsx
 ```
 
-These deletions PRE-DATE this session. They are NOT part of Final Closure.
-Per AGENTS.md §6 (CASE_C_UNEXPECTED_DIRTY) and §22, they are NOT staged,
-NOT restored, NOT deleted, NOT modified, NOT committed by this session.
+These deletions PRE-DATE this session. They are identical to the residue
+already documented and preserved untouched by the committed predecessor
+sessions (`cbea384`, `47ec2a5`, `e90e307`, `18ced52`, `c8616f2`, `d222c62`).
+They are NOT part of Final Closure. Per AGENTS.md §6 and the committed closure
+precedent, they are NOT staged, NOT restored, NOT deleted, NOT modified, NOT
+committed by this session.
 
 ```text
 ENTRY_CLASSIFICATION =
 CASE_C_UNEXPECTED_DIRTY
-  (12 tracked deletions in legacy data directories, preserved untouched;
-   LOCAL == TRACKING == DIRECT_GITHUB == MERGE_BASE,
+  (12 pre-existing tracked deletions in legacy data directories, preserved
+   untouched; LOCAL == TRACKING == DIRECT_GITHUB == MERGE_BASE,
    AHEAD = 0, BEHIND = 0,
    index empty, no active Git operation)
 ```
@@ -150,22 +195,27 @@ supabase/.branches/
 supabase/.temp/
 ```
 
+No fetch was run; direct GitHub verification used read-only `git ls-remote
+github` (no Git metadata mutated).
+
 ```text
 ORIGIN_CONTACTED = NO
 ```
 
 ---
 
-## D. Entry Remote-Lock Proof
+## E. Entry Remote-Lock Proof
 
 Network verification used `github` only (`git ls-remote github
-refs/heads/codex/i-tech-next-roadmap-freeze`; read-only).
+refs/heads/codex/i-tech-next-roadmap-freeze`; read-only; direct authorization
+to `github`). The upstream tracking ref confirmed local == tracking without a
+fetch.
 
 ```text
-ENTRY_LOCAL_HEAD         = 47ec2a56da205fce10831e7ef0d9a6cccb7b1036
-ENTRY_TRACKING_HEAD      = 47ec2a56da205fce10831e7ef0d9a6cccb7b1036
-ENTRY_DIRECT_GITHUB_HEAD = 47ec2a56da205fce10831e7ef0d9a6cccb7b1036
-ENTRY_MERGE_BASE         = 47ec2a56da205fce10831e7ef0d9a6cccb7b1036
+ENTRY_LOCAL_HEAD         = c3b29bc2ff56b247c4065272a7089e0e9940c996
+ENTRY_TRACKING_HEAD      = c3b29bc2ff56b247c4065272a7089e0e9940c996
+ENTRY_DIRECT_GITHUB_HEAD = c3b29bc2ff56b247c4065272a7089e0e9940c996
+ENTRY_MERGE_BASE         = c3b29bc2ff56b247c4065272a7089e0e9940c996
 ENTRY_AHEAD              = 0
 ENTRY_BEHIND             = 0
 ```
@@ -181,66 +231,121 @@ ORIGIN_CONTACTED = NO
 
 ---
 
-## E. Predecessor Evidence Chain
+## F. Final Closure Authority (committed predecessor)
 
-The full Phase-P predecessor chain has been traced from committed evidence:
+The authority for this Final Closure session is established by the committed
+owner-successor-decision chain:
 
 ```text
-1.  Group D D1 closeout:         0266b84 → 3a86e56 → f2e2649
-2.  Post-Group-D successor scope: 1db7a8e → e31bcc7
-3.  Owner blocker decisions:      292cbcc → ebcbe74 → 6f50057 → a19bf8c
-4.  WS-10 re-verification:       cd50c91 → 8d2f588 → 7e1813a
-5.  Full test gate selection:     25226c4
-6.  Full test gate authorization: 7f8a866
-7.  Full test gate remediation:   5c5553f
-8.  Full test gate rerun auth:    ae6a2cd
-9.  Full test gate rerun exec:    31818d9 → PASS
-10. Full test gate rerun report:  31818d9 → PASS (flutter analyze: 0 errors/0 warnings;
-    dart format: 315 files/0 changed; flutter test: 1849 passed/0 failed)
-11. Full test gate successor:     f6c6c51 → selects RC generation
-12. RC generation:                9fa4994 → RC-20260910-222845 generated
-13. RC manual acceptance:         da67a47 → PASS
-14. Owner successor decision:     cbea384 → selects Final Closure
-15. Remote-lock proof:            47ec2a5 → PASS
+PREDECESSOR_1 =
+cbea3841a06248f84c7dbeec68b22d1cc0b12563
+  docs: select successor after phase-p release candidate manual acceptance
+  (PHASE_P_POST_GROUP_D_RELEASE_CANDIDATE_MANUAL_ACCEPTANCE_OWNER_SUCCESSOR_DECISION.md)
+
+  OWNER_DECISION           = APPROVE
+  SELECTED_SUCCESSOR       = PHASE_P_POST_GROUP_D_FINAL_CLOSURE
+  CANONICAL_STAGE          = PHASE_P_FINAL_CLOSURE
+  NEXT_SESSION_STARTED     = NO
+  BLOCKER_13M_VERIFIER_T1  = RECOGNIZED / VERIFIED / PENDING_OWNER
+                             (settled as DELIVERY-stage gate)
+
+PREDECESSOR_2 =
+47ec2a56da205fce10831e7ef0d9a6cccb7b1036
+  docs: finalize successor decision remote-lock result
+  (remote-lock proof of the successor decision on github)
 ```
 
-Resolved positions at this boundary:
+`cbea384` explicitly authorizes EXACTLY ONE successor:
+`PHASE_P_POST_GROUP_D_FINAL_CLOSURE`. This session is that authorized session.
 
 ```text
-WS-10 seal                = CLOSED (re-verification remote-locked)
-Full test gate            = PASS (rerun remote-locked at 31818d9)
-Release candidates        = COMPLETE (RC-20260910-222845 generated at 9fa4994)
-Manual acceptance         = PASS (da67a47)
-Owner successor decision  = APPROVED / FINAL_CLOSURE selected (cbea384)
-Phase-P final closure     = THIS SESSION
-Delivery                  = NOT STARTED (requires separate owner authorization)
-P-OD7 drain activation    = OWNER-GATED / DEFERRED (POST_D_P_OD7_01 = B) / FROZEN
-Android signing OD-K2     = OWNER-GATED / BLOCKED (signing material mismatch) / FROZEN
-WS-10                     = CLOSED / FROZEN
+FINAL_CLOSURE_AUTHORITY = VERIFIED
+FINAL_CLOSURE_AUTHORITY_SOURCE =
+  cbea3841a06248f84c7dbeec68b22d1cc0b12563
+  remote-locked by 47ec2a56da205fce10831e7ef0d9a6cccb7b1036
 ```
 
 ---
 
-## F. Release Candidate Preservation
+## G. Predecessor Evidence Matrix
 
-RC identity verified from committed evidence and on-disk re-verification:
+The complete Phase-P post-Group-D chain traced from committed repository
+history (live `git log` verification):
 
 ```text
-RC_ID                  = RC-20260910-222845
-RC_MANIFEST_PATH       = docs/evidence/phase-p-rc/release-candidate-manifest.json
-RC_MANIFEST_RUN_ID     = PHASE-P-RELEASE-CANDIDATE-1
-RC_MANIFEST_CAPTURED   = 2026-09-10T22:31:33.844Z
+1.  Full test gate selection:      25226c4  PASS step
+2.  Full test gate authorization:  7f8a866
+3.  Full test gate remediation:    5c5553f
+4.  Full test gate rerun auth:     ae6a2cd
+5.  Full test gate rerun exec:     31818d9  -> FULL_TEST_GATE_STATUS = PASS
+    (flutter analyze 0 errors / 0 warnings; dart format 315 files / 0 changed;
+     flutter test 1849 passed / 0 failed)
+6.  Full test gate successor:      f6c6c51  -> selects RC generation
+7.  RC generation:                 9fa4994  -> RC-20260910-222845 generated
+8.  RC manual acceptance:          da67a47  -> PASS (release candidate ACCEPTED)
+9.  Owner successor decision:      cbea384  -> selects Phase-P Final Closure
+10. Successor decision lock:       47ec2a5  remote-lock proof
+11. Prior closure iterations:      e90e307 -> 18ced52 -> c8616f2 -> d222c62
+12. AGENTS.md engineering ops:      c3b29bc  (docs: add project agent
+                                    engineering instructions) = ENTRY_HEAD
 ```
 
-On-disk verification (read-only, no mutation):
+Required predecessor statuses:
 
 ```text
-FILE_COUNT        = 18  (MATCH)
-TOTAL_BYTES       = 37,537,520  (MATCH)
-CROSSHASH         = 0051D0D60800F53F048320DB28AAE24161785FEF2E54A244C967464108A166B9  (MATCH)
-EXE_BYTES         = 92,672  (MATCH)
-EXE_SHA256        = 0CC48D2A47AE1F014A536A60A2FA4387405C8938C3A008E5395019177B4278E7  (MATCH)
-PER_FILE_HASHES   = ALL 18 FILES MATCH (0 mismatches)
+A.  Repository identity                               = VERIFIED
+B.  Entry clean-state proof (index empty, no active op) = VERIFIED
+    (12 pre-existing legacy tracked deletions preserved untouched;
+     no staged files)
+C.  Entry remote-lock proof                            = VERIFIED
+D.  Flutter skills runtime discovery                   = 10/10 PASS
+E.  Group D predecessor completion                     = VERIFIED (committed)
+F.  Full Test Gate final status                        = PASS (31818d9)
+G.  Targeted remediation completion                    = VERIFIED (5c5553f)
+H.  Full Test Gate rerun authorization                 = VERIFIED (ae6a2cd)
+I.  Full Test Gate rerun result                        = PASS (31818d9,
+                                                           1849/1849)
+J.  Release Candidate generation result               = VERIFIED (9fa4994)
+K.  Release Candidate identity                         = RC-20260910-222845
+                                                           (VERIFIED byte-identical)
+L.  Manual Acceptance completion                       = PASS (da67a47)
+M.  Manual Acceptance successor authority             = VERIFIED (cbea384)
+N.  Final Closure authority                            = VERIFIED (cbea384)
+O.  Delivery-stage deferred gates                      = OPEN / PENDING_OWNER
+                                                            (NOT closure-blocking)
+P.  Production status                                 = NOT STARTED
+Q.  P-OD7 / Sync Drain status                          = FROZEN / OWNER-GATED
+                                                            (POST_D_P_OD7_01 = B)
+R.  Android signing scope status                      = FROZEN / OWNER-GATED
+                                                            (OD-K2 BLOCKED)
+S.  Remaining owner decisions                          = Delivery-stage only
+T.  Unresolved Final Closure blockers                  = NONE
+```
+
+---
+
+## H. Release Candidate Preservation
+
+RC identity verified from committed evidence and on-disk re-verification
+(read-only):
+
+```text
+RC_ID                = RC-20260910-222845
+RC_MANIFEST_PATH     = docs/evidence/phase-p-rc/release-candidate-manifest.json
+RC_MANIFEST_RUN_ID   = PHASE-P-RELEASE-CANDIDATE-1
+RC_MANIFEST_CAPTURED = 2026-09-10T22:31:33.844Z
+```
+
+On-disk re-scan in this session (no mutation):
+
+```text
+FILE_COUNT        = 18   (MATCH manifest)
+TOTAL_BYTES       = 37,537,520  (MATCH manifest)
+CROSSHASH         = 0051D0D60800F53F048320DB28AAE24161785FEF2E54A244C967464108A166B9
+                    (MATCH manifest; independently recomputed from on-disk tree)
+EXE_BYTES         = 92,672  (MATCH manifest)
+EXE_SHA256        = 0CC48D2A47AE1F014A536A60A2FA4387405C8938C3A008E5395019177B4278E7
+                    (MATCH manifest)
 ```
 
 ```text
@@ -253,7 +358,7 @@ RC_IDENTITY_DRIFT        = NO
 
 ---
 
-## G. Manual Acceptance State
+## I. Manual Acceptance State
 
 From the committed manual acceptance report (`da67a47`):
 
@@ -267,88 +372,136 @@ FAIL_COUNT               = 0
 BLOCKED_COUNT            = 0
 ```
 
-The manual acceptance record is remote-locked at `da67a47`.
+The manual acceptance record is remote-locked at `da67a47`. This Final Closure
+session consumes that evidence read-only; acceptance was NOT re-performed and
+the accepted candidate was NOT regenerated or altered.
+
+```text
+MANUAL_ACCEPTANCE_PREDECESSOR = VERIFIED
+```
 
 ---
 
-## H. Final Closure Determination
+## J. Delivery-Stage Deferred Gates
+
+The release-verifier / T1 governed-identity issue is verified from the committed
+and on-tree tooling:
+
+```text
+TOOLING =
+  tools/release/verify_release.ps1            (lines 104-106 hardcode T1)
+  tools/release/package_windows_release.ps1   (delegates to verify_release.ps1)
+
+HARDCODED_T1_CONSTANTS =
+  fileCount  == 16
+  totalBytes == 35754065
+  crossHash  == 13884FC55E8923EA6111895796CC9F576177CBED6F73AD5DA729E686A0E9A7CF
+
+GOVERNED_T1_LEGAL_MANIFEST =
+  docs/windows-delivery-refresh/evidence/legal/release-manifest.json
+  (runId I-TECH-T1-INAPP-BRANDING-REBUILD; 16 files / 35,754,065 B / 13884FC5...)
+
+FRESH_RC_IDENTITY        = RC-20260910-222845
+                           18 files / 37,537,520 B / 0051D0D6...
+                           3 diffs + 2 new files vs T1 = EXPECTED deviation
+                           (committed generation report §6.1)
+```
+
+Committed predecessor (`cbea384`, §H) settled this as:
+
+```text
+BLOCKER_STATUS    = RECOGNIZED / VERIFIED / PENDING_OWNER
+BLOCKER_STAGE     = DELIVERY / PACKAGING (legal identity update)
+BLOCKER_IMPACTS_SUCCESSOR = NO
+BLOCKER_RESOLVED_THIS_SESSION = NO
+```
+
+Recorded for Final Closure:
+
+```text
+DELIVERY_GATE_STATUS      = OPEN_PENDING_OWNER
+FINAL_CLOSURE_BLOCKING    = NO
+REMEDIATED_THIS_SESSION   = NO
+VERIFIER_MODIFIED         = NO
+TOOLING_MODIFIED          = NO
+```
+
+This issue is intentionally NOT resolved here. It requires a separate
+owner-authorized Delivery-stage session.
+
+---
+
+## K. Final Closure Determination
 
 ```text
 PHASE_P_CLOSURE_STATUS = CLOSED
 ```
 
-Phase P implementation / validation / accepted Windows Release Candidate lifecycle
-has reached its authorized terminal closure point. All required predecessor stages
-are durably complete:
+All required Final Closure prerequisites are durably satisfied by committed
+evidence:
 
 - Group A (owner-gated): CLOSED
 - Group B (server): CLOSED
-- Group C (operations): CLOSED (D1, D2, D3)
+- Group C (operations): CLOSED
 - Group D (reporting): CLOSED
-- WS-10 seal: CLOSED / FROZEN
-- Full test gate: PASS (remote-locked)
-- Release Candidate generation: COMPLETE (RC-20260910-222845)
-- Release Candidate manual acceptance: PASS (remote-locked)
-- Owner successor decision: APPROVED (Final Closure selected)
+- Full test gate: PASS (remote-locked at 31818d9; 1849/1849)
+- Release Candidate generation: COMPLETE (RC-20260910-222845 at 9fa4994)
+- Release Candidate manual acceptance: PASS (remote-locked at da67a47)
+- Owner successor decision: APPROVED (cbea384), remote-locked (47ec2a5)
+- Final Closure authority: VERIFIED
+- Flutter skills runtime discovery: 10/10 PASS
+- No unresolved Final Closure blocker: TRUE
 
 ```text
 FINAL_CLOSURE_DETERMINATION =
   Phase P is formally closed.
-  The implementation / validation / accepted Windows Release Candidate lifecycle
-  has reached its authorized terminal closure point.
+  The implementation / validation / accepted Windows Release Candidate
+  lifecycle has reached its authorized terminal closure point.
+```
+
+```text
+PASS_PHASE_P_POST_GROUP_D_FINAL_CLOSURE_REMOTE_LOCKED
 ```
 
 ---
 
-## I. Delivery Boundary
+## L. Exclusions / Prohibited Work Confirmation
+
+This session performed NONE of the following:
 
 ```text
-DELIVERY_EXECUTED     = NO
-PRODUCTION_EXECUTED   = NO
-PUBLISHING_EXECUTED   = NO
-DEPLOYMENT_EXECUTED   = NO
-INSTALLER_CREATED     = NO
-ZIP_CREATED           = NO
-```
-
-Phase-P Final Closure does NOT imply:
-- Delivery execution
-- Installer creation
-- Production deployment
-- Publication
-- Store release
-- Android release
-- P-OD7 activation
-
-These are separate stages requiring separate owner authorization.
-
----
-
-## J. 13M / Verifier State
-
-```text
-BLOCKER_13M_VERIFIER_T1 = RECOGNIZED / VERIFIED / PENDING_OWNER
-13M_MODIFIED            = NO
-VERIFIER_MODIFIED       = NO
-```
-
-The verifier (`tools/release/verify_release.ps1`, lines 104-106) still contains
-the historical T1 expectation (16 files / 35,754,065 bytes / crosshash
-`13884FC5...`). The fresh accepted RC `RC-20260910-222845` has a different identity
-(18 files / 37,537,520 bytes / crosshash `0051D0D6...`). This is a DELIVERY-stage
-gate. It MUST NOT be resolved during Final Closure. The verifier/T1
-remediation/update requires explicit Owner authorization in a later session.
-
-```text
-BLOCKER_STAGE          = DELIVERY / PACKAGING
-BLOCKER_RESOLVED       = NO
-BLOCKER_REMEDIATED     = NO
-DELIVERY_GATE_OPEN     = NO (blocked by verifier/T1 identity mismatch)
+APPLICATION_IMPLEMENTATION_PERFORMED = NO
+TEST_REMEDIATION_PERFORMED           = NO
+FORMAT_REMEDIATION_PERFORMED         = NO
+RELEASE_SCRIPT_REMEDIATION_PERFORMED = NO
+VERIFIER_MODIFIED                    = NO
+13M_IDENTITY_MODIFIED                = NO
+RC_REGENERATED                       = NO
+RC_REBUILT                           = NO
+MANIFEST_REWRITTEN                   = NO
+DELIVERY_STARTED                     = NO
+DELIVERY_VERIFICATION_RUN            = NO
+ZIP_GENERATED                        = NO
+INSTALLER_GENERATED                  = NO
+PRODUCTION_STARTED                   = NO
+DEPLOYMENT_STARTED                   = NO
+PUBLISHING_STARTED                   = NO
+SUPABASE_MUTATION                    = NO
+DATABASE_MIGRATION                   = NO
+P_OD7_ACTIVATED                      = NO
+SYNC_DRAIN_ACTIVATED                 = NO
+ANDROID_SIGNING_REWORK               = NO
+KEYSTORE_MUTATION                    = NO
+WS_10_REOPEN                         = NO
+ORIGIN_CONTACTED                     = NO
+GIT_ADD_DOT                          = NO
+GIT_ADD_A                            = NO
+SKILL_GATE_BYPASS                    = NO
 ```
 
 ---
 
-## K. CASE_C Residue
+## M. CASE_C Residue
 
 ```text
 CASE_C_DELETION_COUNT     = 12
@@ -360,27 +513,27 @@ CASE_C_DELETIONS_RESTORED = NO
 ```
 
 The 12 tracked deletions under `شهر7/` and `قديم/` remain in the exact same
-state as when this session entered. They pre-date the prior authority session
-and are NOT part of Final Closure. They are preserved untouched.
+state as when this session entered. They pre-date this session and are preserved
+untouched.
 
 ---
 
-## L. Sacred Delivery Artifact
+## N. Sacred Delivery Artifact
 
 ```text
-SACRED_DELIVERY_ZIP_PATH     = delivery/I-TECH-Delivery-v1.0.0.zip
-SACRED_DELIVERY_ZIP_SHA256   = 70F8480DE78086A88E56610CC6B4E623E5902C067A30FD5BCD90833ED1773418
-SACRED_DELIVERY_ZIP_SIZE     = 12,668,632 bytes
+SACRED_DELIVERY_ZIP_PATH   = delivery/I-TECH-Delivery-v1.0.0.zip
+SACRED_DELIVERY_ZIP_SHA256 = 70F8480DE78086A88E56610CC6B4E623E5902C067A30FD5BCD90833ED1773418
+SACRED_DELIVERY_ZIP_SIZE   = 12,668,632 bytes
 SACRED_DELIVERY_ZIP_MODIFIED = NO
 ```
 
-The existing sacred delivery artifact was verified read-only and remains
-byte-identical. It was NOT overwritten, regenerated, repackaged, renamed,
-staged, or deleted.
+The existing sacred delivery artifact was verified read-only this session and
+remains byte-identical. It was NOT overwritten, regenerated, repackaged,
+renamed, staged, or deleted.
 
 ---
 
-## M. Session Changes
+## O. Session Changes / Mutation Allowlist
 
 ```text
 APPLICATION_SOURCE_MODIFIED = NO
@@ -405,128 +558,69 @@ ORIGIN_CONTACTED            = NO
 Files changed by this session:
 
 ```text
-CREATED = 1
+MODIFIED = 1
   PHASE_P_POST_GROUP_D_FINAL_CLOSURE.md
-MODIFIED = 0
+CREATED  = 0
 DELETED  = 0
 ```
 
-Staging will be explicit path staging of ONLY the closure artifact.
+MUTATION_ALLOWLIST (paths staged this session):
+
+```text
+PHASE_P_POST_GROUP_D_FINAL_CLOSURE.md
+```
+
+Explicit path staging ONLY. No `git add .`, no `git add -A`.
 
 ---
 
-## N. Commit Evidence
+## P. Commit Evidence
+
+(Recorded after commit in the session forensic report.)
 
 ```text
-COMMIT_SHA     = c8616f28261f8124a8160811d1826dd970e47e32
-PARENT         = 18ced524382112b602755bd15182f5d597a269d7
-TREE           = 1477317adc58c606204c352ebb16416ade46f9eb
-COMMIT_MESSAGE = docs: finalize phase-p post-group-d closure
 COMMIT_TYPE    = NORMAL
 AMEND          = NO
 REBASE         = NO
 SQUASH         = NO
 HISTORY_REWRITE = NO
 FORCE          = NO
-STAGED_FILES   = ONLY PHASE_P_POST_GROUP_D_FINAL_CLOSURE.md
 ```
 
 ---
 
-## O. Exit Remote-Lock Proof
+## Q. Push and Final Remote-Lock Proof
 
-Post-push verification via `git ls-remote github
-refs/heads/codex/i-tech-next-roadmap-freeze` (read-only).
-
-```text
-EXIT_LOCAL_HEAD         = c8616f28261f8124a8160811d1826dd970e47e32
-EXIT_TRACKING_HEAD      = c8616f28261f8124a8160811d1826dd970e47e32
-EXIT_DIRECT_GITHUB_HEAD = c8616f28261f8124a8160811d1826dd970e47e32
-EXIT_MERGE_BASE         = c8616f28261f8124a8160811d1826dd970e47e32
-EXIT_AHEAD              = 0
-EXIT_BEHIND             = 0
-```
-
-Required condition:
+(Recorded after push in the session forensic report.)
 
 ```text
-LOCAL_HEAD == TRACKING_HEAD == DIRECT_GITHUB_HEAD == MERGE_BASE
-AHEAD = 0
-BEHIND = 0
-
-EXIT_REMOTE_LOCK = VERIFIED
+PUSH_DESTINATION = github
+PUSH_URL         = https://github.com/sabere342-ai/muaman.worktrees.git
+PUSH_BRANCH      = codex/i-tech-next-roadmap-freeze
+PUSH_TYPE        = NORMAL_FAST_FORWARD
+FORCE            = NO
+ORIGIN_CONTACTED = NO
 ```
 
 ---
 
-## P. Successor Authority
+## R. Successor Boundary
 
 ```text
-NEXT_STAGE_AUTHORIZED          = NO
-OWNER_SUCCESSOR_DECISION_REQUIRED = YES
-DELIVERY_NOT_STARTED           = YES
-NEXT_AUTHORIZED_SESSION        = NONE
+NEXT_STAGE_CANDIDATE           = DELIVERY
+DELIVERY_STARTED_THIS_SESSION  = NO
+PRODUCTION_STARTED_THIS_SESSION = NO
+NEXT_STAGE_AUTHORIZED_BY_THESE_EVIDENCE = NO
 ```
 
-This session does NOT select, authorize, plan, or start Delivery
-automatically. No successor authority artifact exists that pre-authorizes any
-later stage. A later Owner decision must explicitly authorize any
-Delivery-stage work, including any verifier/T1 update.
-
----
-
-## Q. Explicit Non-Authorization Guards
-
-This session performs NONE of the following:
+Committed governance records the canonical downstream ordering ending in
+`manual acceptance -> Phase-P final closure -> delivery`. This closure does NOT
+start Delivery, does NOT authorize Delivery, and does NOT resolve the
+Delivery-stage verifier/T1 gate. A separate owner decision is required before
+any Delivery-stage work, including the verifier/T1 identity update.
 
 ```text
-APPLICATION_SOURCE_MODIFIED = NO
-TESTS_MODIFIED              = NO
-RELEASE_SCRIPTS_MODIFIED    = NO
-VERIFIER_MODIFIED           = NO
-13M_IDENTITY_MODIFIED       = NO
-RC_MODIFIED                 = NO
-RC_REBUILT                  = NO
-MANIFEST_REWRITTEN          = NO
-DELIVERY_ZIP_MODIFIED       = NO
-INSTALLER_CREATED           = NO
-DELIVERY_EXECUTED           = NO
-PRODUCTION_EXECUTED         = NO
-PUBLISHING_EXECUTED         = NO
-P_OD7_ACTIVATION            = NO
-SYNC_DRAIN_ACTIVATION       = NO
-ANDROID_SIGNING_REWORK      = NO
-KEYSTORE_MUTATION           = NO
-WS_10_REOPEN                = NO
-SUPABASE_MUTATION           = NO
-DATABASE_MIGRATION          = NO
-ORIGIN_CONTACTED            = NO
-GIT_ADD_DOT                 = NO
-GIT_ADD_A                   = NO
-```
-
----
-
-## R. Change Inventory
-
-```text
-APPLICATION_SOURCE_MODIFIED     = NO
-TESTS_MODIFIED                  = NO
-RELEASE_SCRIPTS_MODIFIED        = NO
-VERIFIER_MODIFIED               = NO
-13M_IDENTITY_MODIFIED           = NO
-RC_MODIFIED                     = NO
-RC_REBUILT                      = NO
-MANIFEST_REWRITTEN              = NO
-DELIVERY_ZIP_MODIFIED           = NO
-INSTALLER_CREATED               = NO
-DELIVERY_EXECUTED               = NO
-PRODUCTION_EXECUTED             = NO
-PUBLISHING_EXECUTED             = NO
-TRACKED_LEGACY_DELETIONS_STAGED = NO
-TRACKED_LEGACY_DELETIONS_RESTORED = NO
-STASH_MODIFIED                  = NO
-ORIGIN_CONTACTED                = NO
+OWNER_AUTHORIZATION_REQUIRED_BEFORE_NEXT_STAGE = YES
 ```
 
 ---
@@ -534,24 +628,26 @@ ORIGIN_CONTACTED                = NO
 ## S. Conclusion
 
 ```text
-PHASE_P_CLOSURE_STATUS         = CLOSED
-RC_ID_PRESERVED                = RC-20260910-222845
-RC_MANIFEST_REWRITTEN          = NO
-RC_REBUILT                     = NO
-MANUAL_ACCEPTANCE              = PASS
-OWNER_SUCCESSOR_DECISION       = APPROVED / FINAL_CLOSURE selected
+PHASE_P_CLOSURE_STATUS   = CLOSED
+RC_ID_PRESERVED          = RC-20260910-222845
+RC_MANIFEST_REWRITTEN    = NO
+RC_REBUILT               = NO
+MANUAL_ACCEPTANCE        = PASS (da67a47)
+OWNER_SUCCESSOR_DECISION = APPROVED / FINAL_CLOSURE selected (cbea384 / 47ec2a5)
+FLUTTER_SKILLS_GATE      = PASS (runtime discovery 10/10)
 
-DELIVERY_EXECUTED              = NO
-PRODUCTION_EXECUTED            = NO
-PUBLISHING_EXECUTED            = NO
+DELIVERY_EXECUTED        = NO
+PRODUCTION_EXECUTED      = NO
+PUBLISHING_EXECUTED      = NO
 
-13M_MODIFIED                   = NO
-VERIFIER_MODIFIED              = NO
-BLOCKER_13M_VERIFIER_T1        = RECOGNIZED / VERIFIED / PENDING_OWNER
+13M_MODIFIED             = NO
+VERIFIER_MODIFIED        = NO
+BLOCKER_13M_VERIFIER_T1  = RECOGNIZED / VERIFIED / PENDING_OWNER
+                           (DELIVERY-stage gate; NOT closure-blocking)
 
-CASE_C_DELETIONS_PRESERVED    = YES
-SACRED_DELIVERY_ZIP_MODIFIED  = NO
-ORIGIN_CONTACTED               = NO
+CASE_C_DELETIONS_PRESERVED = YES
+SACRED_DELIVERY_ZIP_MODIFIED = NO
+ORIGIN_CONTACTED           = NO
 ```
 
 ```text
@@ -560,12 +656,12 @@ PASS_PHASE_P_POST_GROUP_D_FINAL_CLOSURE_REMOTE_LOCKED
 
 Phase P is formally closed. The implementation / validation / accepted Windows
 Release Candidate lifecycle has reached its authorized terminal closure point.
-The RC `RC-20260910-222845` identity is preserved unchanged. The
-13M/verifier T1 identity blocker is recognized, verified, and left as a
-pending-owner delivery gate. Delivery, ZIP generation, installer creation,
-production, deployment, and publishing are NOT executed and NOT authorized by
-this closure.
+The RC `RC-20260910-222845` identity is preserved unchanged. The 13M/verifier T1
+identity blocker is recognized, verified, and left as a pending-owner delivery
+gate. Delivery, ZIP generation, installer creation, production, deployment, and
+publishing are NOT executed and NOT authorized by this closure.
 
 ---
 
-STOP — PHASE P FINAL CLOSURE SESSION COMPLETE. NO DELIVERY, VERIFIER/T1 REMEDIATION, PRODUCTION, DEPLOYMENT, OR PUBLISHING STARTED.
+STOP — PHASE P FINAL CLOSURE SESSION COMPLETE. NO DELIVERY, VERIFIER/T1
+REMEDIATION, PRODUCTION, DEPLOYMENT, OR PUBLISHING STARTED.
