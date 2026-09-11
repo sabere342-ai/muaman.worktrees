@@ -41,7 +41,42 @@ Forbidden / sacred remote:
 Reading local Git configuration that displays the origin URL is permitted.
 Network or filesystem remote operations against origin are prohibited.
 
-## 3. Evidence-First Rule
+## 3. Project Identity
+
+Durable project facts (re-verify from repository evidence before relying on
+them; do not copy transient session state here):
+
+- Product: I Tech Store Management
+- Arabic product name: I Tech لإدارة المحلات
+- Primary platforms: Windows Desktop and Android
+- Primary language behavior: Arabic, RTL-first
+- Currency: EGP (`ج.م`)
+- Flutter application root: `app/`
+- Local persistence: SQLite via `sqflite` / `sqflite_common_ffi`
+- Cloud backend: Supabase / PostgreSQL
+- Multi-tenant shop isolation keyed by `shop_id`
+- Row Level Security applied to server tables
+- Android application ID (verified in
+  `app/android/app/build.gradle`): `com.itech.storemanagement`
+
+Established architecture layers in `app/lib/`: `database`, `repositories`,
+`services`, `sync`, `licensing`, `rbac`, `screens`, and `widgets`.
+
+## 4. Instruction Precedence
+
+When instructions conflict, precedence is:
+
+1. explicit owner/user instruction,
+2. binding repository governance / committed authority,
+3. closest applicable `AGENTS.md`,
+4. selected task skills,
+5. general engineering defaults.
+
+Skills never create authority. A skill alone never authorizes
+implementation, migration, dependency changes, release, push, deployment,
+production work, or destructive actions.
+
+## 5. Evidence-First Rule
 
 Never assume repository state, architecture, dependencies, phase state,
 authorization, migration number, test command, or implementation status.
@@ -65,7 +100,7 @@ When governance documents conflict or differ chronologically:
 5. do not call an older artifact "invalid" merely because a later closeout exists,
 6. report unresolved contradictions instead of silently reconciling them.
 
-## 4. Mandatory Session Entry Forensics
+## 6. Mandatory Session Entry Forensics
 
 Before any implementation, modification, commit, deployment, migration,
 or governance mutation, verify:
@@ -99,7 +134,7 @@ local Git metadata such as FETCH_HEAD and possibly remote-tracking refs.
 
 If a fetch is explicitly authorized, report it as a Git metadata mutation.
 
-## 5. Linked-Worktree Awareness
+## 7. Linked-Worktree Awareness
 
 This repository uses a linked Git worktree.
 
@@ -113,7 +148,7 @@ Use Git-aware path resolution:
 for MERGE_HEAD, CHERRY_PICK_HEAD, REVERT_HEAD, BISECT_LOG,
 rebase-merge, rebase-apply, and similar Git-operation metadata.
 
-## 6. Entry Classification
+## 8. Entry Classification
 
 Classify repository entry explicitly.
 
@@ -167,7 +202,7 @@ Git operation is active.
 
 STOP unless the task explicitly authorizes recovery from that exact operation.
 
-## 7. Preserve Existing Work
+## 9. Preserve Existing Work
 
 Never destroy or hide pre-existing work.
 
@@ -190,7 +225,7 @@ If unexpected modifications exist:
 
 STOP and report them.
 
-## 8. Remote Safety
+## 10. Remote Safety
 
 Only `github` is authorized for Git network operations.
 
@@ -211,7 +246,7 @@ Before push, verify destination remote and branch explicitly.
 
 After push, prove remote lock.
 
-## 9. Remote-Lock Contract
+## 11. Remote-Lock Contract
 
 When a task explicitly authorizes commit and push, successful closeout requires
 post-push proof.
@@ -239,7 +274,7 @@ Also verify:
 
 Never claim REMOTE_LOCKED without this evidence.
 
-## 10. Scope and Governance Boundaries
+## 12. Scope and Governance Boundaries
 
 The current task/slice/phase authorization is an allowlist.
 
@@ -269,7 +304,7 @@ governance artifacts.
 
 Do not assume a historical D1/D2 status remains current.
 
-## 11. Owner Decisions
+## 13. Owner Decisions
 
 Owner-gated decisions are hard implementation gates.
 
@@ -291,7 +326,7 @@ When a decision is PENDING_OWNER and documented as blocking implementation:
 
 STOP before implementation.
 
-## 12. Allowlist Discipline
+## 14. Allowlist Discipline
 
 When a task provides an authorized file allowlist:
 
@@ -304,7 +339,7 @@ When a task provides an authorized file allowlist:
 Generated/build/cache artifacts must not be confused with authorized source
 changes.
 
-## 13. Flutter / Dart Safety
+## 15. Flutter / Dart Safety
 
 Flutter application root must be verified from repository evidence.
 
@@ -326,7 +361,141 @@ during ordinary implementation or validation.
 
 Do not alter pubspec files unless allowlisted.
 
-## 14. Static Analysis Reporting
+## 16. Required Skill Routing
+
+For non-trivial Flutter work, classify the task, select the minimal relevant
+skill set, verify each selected skill exists, read each selected `SKILL.md`
+completely, read only relevant references, then inspect the existing
+implementation before acting.
+
+Route task types to skills:
+
+- General Flutter implementation: `flutter-core-engineering`
+- UI / UX work: core + `flutter-ui-ux`, `flutter-rtl-arabic`,
+  `flutter-accessibility`, `flutter-testing`
+- Business logic / bug fix: core + `flutter-testing`
+- Database / offline / sync: core + `flutter-offline-data`,
+  `flutter-testing`; add `flutter-security` when auth, licensing, tenant,
+  sensitive data, or permissions are involved
+- Performance work: core + `flutter-performance`, `flutter-testing`
+- Security / auth / licensing / device trust / permissions: core +
+  `flutter-security`, `flutter-testing`
+- Review-only: `flutter-code-review`; add a specialist skill only when the
+  review scope requires it
+- Release / build / signing: `flutter-release`; add
+  `flutter-security` and `flutter-testing` only where the release contract
+  requires them
+
+Mandatory rule:
+
+DO NOT LOAD ALL SKILLS FOR EVERY TASK.
+
+Use the minimum relevant set.
+
+## 17. Required Skill Availability Rule
+
+Before non-trivial Flutter work:
+
+1. classify the task,
+2. select the minimal relevant skills,
+3. verify the selected skills exist,
+4. read the selected `SKILL.md`,
+5. read only relevant references,
+6. inspect the existing implementation,
+7. then act within current authorization.
+
+If a required skill is unavailable:
+
+do not pretend it loaded.
+
+Return:
+
+REQUIRED_SKILL_UNAVAILABLE
+SKILL = <name>
+ACTION = STOP_BEFORE_IMPLEMENTATION
+
+## 18. Architecture Invariants
+
+PRESERVE ESTABLISHED ARCHITECTURE.
+
+Do not interpret Flutter best-practice guidance as permission to rewrite the
+application architecture.
+
+No wholesale migration to:
+
+- BLoC
+- Riverpod
+- Provider
+- Redux
+- MVVM
+- Clean Architecture
+- another navigation framework
+- another database
+- another backend
+
+unless explicitly authorized.
+
+Apply improvements incrementally within the current authorization.
+
+Keep business and accounting invariants out of presentation-only code and
+preserve transaction ownership.
+
+## 19. UI / UX / RTL Rules
+
+Arabic-first and RTL behavior are product requirements.
+
+Consider:
+
+- RTL layouts and directional APIs
+- mixed Arabic/English text
+- EGP display
+- tables
+- reports
+- PDFs
+- forms
+- dialogs
+- focus and keyboard behavior
+- desktop density
+- Android touch ergonomics
+
+Prefer directional concepts over hard-coded left/right assumptions where
+appropriate.
+
+Reuse existing theme/widgets.
+
+Do not require visual redesign unless the task calls for it.
+
+## 20. Data and Persistence Rules
+
+Treat local persistence and its lifecycle as durable.
+
+Sensitive areas:
+
+- SQLite data
+- migrations
+- existing customer data
+- offline queues
+- retries
+- duplicate prevention
+- idempotency
+- sync conflicts
+- backups
+- restore
+- clock assumptions
+
+Persistent schema changes must consider:
+
+- fresh install
+- upgrade path
+- existing data
+- tests
+- restore/backup interaction
+
+No casual schema mutation.
+
+Never trust a client-supplied `shop_id` without server-side authorization.
+
+## 21. Static Analysis Reporting
 
 Never flatten or hide analyzer results.
 
@@ -352,7 +521,32 @@ Report BOTH:
 
 Never silently change one into the other.
 
-## 15. Test Reporting
+## 22. Testing Requirements
+
+Choose the test type that matches the behavior under change:
+
+- Business logic change: unit test
+- Widget behavior: widget test
+- Bug fix: regression test
+- Critical workflow: integration test
+- Database migration: fresh DB test and upgrade-path test
+- Roles/permissions: authorized case and unauthorized case
+- Offline behavior: offline, reconnect, retries, duplicates, conflicts where
+  applicable
+
+Never treat:
+
+`flutter analyze`
+
+as a substitute for tests.
+
+Never treat:
+
+`flutter test`
+
+as proof that a packaged Windows or Android release works.
+
+## 23. Test Reporting
 
 For every executed test command preserve:
 
@@ -375,40 +569,73 @@ Classify them as:
 
 only when evidence supports the classification.
 
-## 16. Supabase / Production Safety
+## 24. Performance Requirements
 
-Production mutation is forbidden by default.
+Do not claim performance improvement without measurement on representative
+Windows/Android data and an appropriate build mode.
 
-Never perform without explicit task authorization:
+Relevant investigation may include:
 
-- production migration
-- production SQL mutation
-- Edge Function deployment
-- production secrets change
-- production Auth mutation
-- production RLS change
-- production data repair
+- rebuilds
+- large lists/tables
+- startup
+- DB queries
+- memory
+- PDF/report generation
+- blocking I/O
+- jank
 
-A governance/planning/testing task does NOT imply production authorization.
+Do not force performance work into unrelated tasks.
 
-Local or isolated test database execution does not imply production permission.
+## 25. Security Requirements
 
-## 17. Migration Discipline
+Never embed secrets.
 
-Never invent the next migration number.
+Never expose tokens in reports.
 
-Inspect:
+Verify authorization server-side:
 
-- existing migrations,
-- authoritative governance,
-- remote/production state when explicitly authorized to inspect it.
+UI hiding is not authorization.
 
-Do not rewrite already deployed migrations unless a specific governing contract
-explicitly authorizes that operation.
+Tenant isolation requires negative tests.
 
-Prefer additive corrective migrations where required by repository governance.
+RLS-sensitive work requires explicit tests.
 
-## 18. Security
+Licensing/entitlement changes require bypass/tamper consideration.
+
+Local storage of secrets requires review.
+
+Production penetration testing is not implicitly authorized.
+
+`NOT_VERIFIED` must never be reported as `PASS`.
+
+Critical/High security findings block release unless explicitly dispositioned
+under project governance.
+
+Protected durable domains:
+
+- authentication
+- authorization
+- owner/seller role boundaries
+- multi-tenant isolation
+- RLS
+- shop ownership boundaries
+- device trust
+- licensing
+- entitlement
+- offline grace
+- clock/tamper handling
+- local cache
+- inventory integrity
+- financial/reporting integrity
+- PDF/report generation
+- release signing
+
+Changes touching these domains require explicit testing and heightened review.
+
+Also apply the secret-handling rules below.
+
+### Secret Handling
 
 Never expose, print, commit, summarize, or transmit secrets.
 
@@ -429,7 +656,70 @@ Sensitive examples include:
 
 Never put secrets into logs, governance artifacts, prompts, commits, or reports.
 
-## 19. Documentation and Governance Accuracy
+## 26. Supabase / Production Safety
+
+Production mutation is forbidden by default.
+
+Never perform without explicit task authorization:
+
+- production migration
+- production SQL mutation
+- Edge Function deployment
+- production secrets change
+- production Auth mutation
+- production RLS change
+- production data repair
+
+A governance/planning/testing task does NOT imply production authorization.
+
+Local or isolated test database execution does not imply production permission.
+
+## 27. Migration Discipline
+
+Never invent the next migration number.
+
+Inspect:
+
+- existing migrations,
+- authoritative governance,
+- remote/production state when explicitly authorized to inspect it.
+
+Do not rewrite already deployed migrations unless a specific governing contract
+explicitly authorizes that operation.
+
+Prefer additive corrective migrations where required by repository governance.
+
+## 28. Accessibility Requirements
+
+UI changes must consider:
+
+- semantics
+- keyboard navigation
+- focus
+- text scaling
+- labels (including Arabic)
+- contrast
+- error feedback
+- touch targets
+
+Keep requirements proportional to task scope.
+
+## 29. Platform Rules
+
+Verify platform-specific behavior separately.
+
+Preserve:
+
+- application/package identity
+- secure storage behavior
+- file/database locations
+- runtime plugins
+- assets/fonts
+- manifest intent
+
+Do not assume a Windows result proves Android behavior.
+
+## 30. Documentation and Governance Accuracy
 
 Governance artifacts are evidence documents.
 
@@ -449,7 +739,7 @@ write `NOT VERIFIED`.
 
 Never write placeholders as if they were completed proof.
 
-## 20. Commit Discipline
+## 31. Commit Discipline
 
 A commit requires explicit authorization from the current task.
 
@@ -468,7 +758,7 @@ Prefer one coherent normal commit when the task contract requires one.
 Never create an extra "cleanup" or evidence commit unless the governing task
 requires it.
 
-## 21. Push Discipline
+## 32. Push Discipline
 
 A push requires explicit authorization.
 
@@ -484,7 +774,25 @@ No force variants.
 
 After push perform remote-lock proof before reporting success.
 
-## 22. Untracked Files
+## 33. Release Governance Rules
+
+Encode durable release principles, not transient release state.
+
+- Debug != Release
+- Test PASS != packaged-artifact PASS
+- Windows and Android release evidence are separate
+- release artifact identity matters
+- signing matters
+- package/application ID matters
+- version identity matters
+- accepted RC bytes must not silently mutate
+- Delivery/Production require explicit authorization when project governance
+  says so
+- never infer downstream authority from an upstream PASS
+
+Do not encode a specific RC ID or current downstream blocker into this file.
+
+## 34. Untracked Files
 
 Pre-existing untracked files may be important artifacts.
 
@@ -509,7 +817,7 @@ explicitly permits it.
 
 Prefer explicit path staging.
 
-## 23. Agent-Created Runtime Files
+## 35. Agent-Created Runtime Files
 
 Do not create AI-agent configuration, snapshots, caches, or metadata inside
 this repository unless explicitly authorized.
@@ -518,7 +826,7 @@ In particular do not create `.kilo/` during ordinary repository work.
 
 Project instructions live in root `AGENTS.md`.
 
-## 24. PowerShell / Windows Execution
+## 36. PowerShell / Windows Execution
 
 The environment is Windows and commands may execute through PowerShell.
 
@@ -534,7 +842,7 @@ In particular:
 Recover from shell-syntax errors by correcting the command.
 Do not infer the intended output.
 
-## 25. Tool Errors
+## 37. Tool Errors
 
 A failed command is evidence of failure to execute, not evidence of the result
 the command was intended to inspect.
@@ -546,7 +854,7 @@ If a command fails:
 3. retry safely if allowed,
 4. never fabricate the missing result.
 
-## 26. Todo / Planning Discipline
+## 38. Todo / Planning Discipline
 
 For multi-step implementation, maintain a task list when supported.
 
@@ -562,7 +870,7 @@ production verification
 
 complete until their evidence exists.
 
-## 27. Stop Conditions
+## 39. Stop Conditions
 
 STOP instead of improvising when any of these occurs:
 
@@ -580,7 +888,7 @@ STOP instead of improvising when any of these occurs:
 
 State exactly what blocked continuation.
 
-## 28. Final Report Integrity
+## 40. Final Report Integrity
 
 Final reports must distinguish:
 
@@ -600,7 +908,19 @@ AUTHORIZED
 
 unless the applicable evidence contract has been satisfied.
 
-## 29. No Autonomous Successor Work
+## 41. Definition of Done
+
+A change is done when:
+
+- scope and architecture are preserved,
+- behavior is verified with proportionate tests,
+- analyzer/test/build evidence is exact,
+- RTL, accessibility, security, persistence, performance, and platform risks
+  relevant to the change are addressed,
+- no unrelated files or operations were introduced,
+- the agent stops at the authorized boundary.
+
+## 42. No Autonomous Successor Work
 
 After completing the authorized task:
 
@@ -611,7 +931,7 @@ Do not automatically start the next roadmap item.
 Do not interpret "continue" from an older governance document as current owner
 authorization for a successor task.
 
-## 30. Core Principle
+## 43. Core Principle
 
 When safety, governance, repository preservation, and speed conflict:
 
