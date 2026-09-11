@@ -418,9 +418,9 @@ Staging will be explicit path staging of ONLY the closure artifact.
 ## N. Commit Evidence
 
 ```text
-COMMIT_SHA     = e90e307a0bdc3030befa099f6de9b35640d833ec
-PARENT         = 47ec2a56da205fce10831e7ef0d9a6cccb7b1036
-TREE           = 0ae5d04f1386ea02c7839e23d4b8cea73c69e43e
+COMMIT_SHA     = 18ced524382112b602755bd15182f5d597a269d7
+PARENT         = e90e307a0bdc3030befa099f6de9b35640d833ec
+TREE           = 2c7f9a596910037cf217ac427c326733a6ed20b7
 COMMIT_MESSAGE = docs: finalize phase-p post-group-d closure
 COMMIT_TYPE    = NORMAL
 AMEND          = NO
