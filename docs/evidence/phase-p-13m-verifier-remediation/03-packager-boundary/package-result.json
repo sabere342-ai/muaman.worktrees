@@ -1,0 +1,21 @@
+﻿{
+    "run":  {
+                "startedAtUtc":  "2026-09-12T14:30:32.100Z",
+                "finishedAtUtc":  "2026-09-12T14:30:34.243Z",
+                "exitCode":  1
+            },
+    "packaging":  {
+                      "verdict":  "NOT-RUN"
+                  },
+    "outputs":  {
+                    "outputDir":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\13m-remediation\\negatives\\packager-out",
+                    "evidenceDir":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\13m-remediation\\negatives\\packager-evidence"
+                },
+    "schemaVersion":  "1.0",
+    "failureReason":  "release verification failed (verify_release.ps1 exit 1); no ZIP created",
+    "verification":  {
+                         "verdict":  "FAIL",
+                         "verifierExitCode":  1,
+                         "releaseDir":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\13m-remediation\\negatives\\negB"
+                     }
+}

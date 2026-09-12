@@ -1,10 +1,14 @@
-# MUAMAN-13L release verification (refreshed for the governed delivery package
-# refresh of the accepted MUAMAN-19 canonical release).
+# MUAMAN-13L / MUAMAN-13M release verification (reconciled to derive the
+# expected release identity from the SUPPLIED legal manifest).
 #
-# Compares a freshly produced Windows Release directory against the committed
-# legal release manifest (docs/windows-delivery-refresh/evidence/legal
-# /release-manifest.json) on the exact same relative-path set, per-file size and
-# per-file SHA-256, plus the canonical cross-run hash.
+# Compares a freshly produced Windows Release directory against the supplied
+# authoritative release manifest (by default the committed legal manifest
+# docs/windows-delivery-refresh/evidence/legal/release-manifest.json) on the
+# exact same relative-path set, per-file size and per-file SHA-256, plus the
+# canonical cross-run hash. The expected file count, total bytes, and cross-run
+# hash are always derived from the supplied manifest (never hard-coded), so any
+# governed release identity passes only when the fresh tree exactly matches the
+# supplied authoritative manifest.
 #
 # The cross-run hash serialization is IDENTICAL to the one implemented in the
 # committed legal tool tools/muaman13k/compare_release.ps1 (sorted
@@ -101,9 +105,9 @@ foreach ($k in $newMap.Keys) {
 $crossNew = Get-CrossHashFromRoot $ReleaseDir
 $crossLegal = Get-CrossHashFromManifest $legal
 
-$fileCountMatch = ($newCount -eq $legalCount -and $newCount -eq 16)
-$totalBytesMatch = ($newTotal -eq $legalTotal -and $newTotal -eq 35754065)
-$crossHashMatch = ($crossNew -eq $crossLegal) -and ($crossNew -eq '13884FC55E8923EA6111895796CC9F576177CBED6F73AD5DA729E686A0E9A7CF')
+$fileCountMatch = ($newCount -eq $legalCount)
+$totalBytesMatch = ($newTotal -eq $legalTotal)
+$crossHashMatch = ($crossNew -eq $crossLegal)
 $identical = ($diffs.Count -eq 0 -and $onlyLegal.Count -eq 0 -and $onlyNew.Count -eq 0) -and
              $fileCountMatch -and $totalBytesMatch -and $crossHashMatch
 
@@ -115,13 +119,13 @@ $result = [ordered]@{
   fileCountLegal = $legalCount
   totalBytesNew = $newTotal
   totalBytesLegal = $legalTotal
-  expectedFileCount = 16
-  expectedTotalBytes = 35754065
+  expectedFileCount = $legalCount
+  expectedTotalBytes = $legalTotal
   fileCountMatch = $fileCountMatch
   totalBytesMatch = $totalBytesMatch
   crossHashNew = $crossNew
   crossHashLegal = $crossLegal
-  crossHashExpected = '13884FC55E8923EA6111895796CC9F576177CBED6F73AD5DA729E686A0E9A7CF'
+  crossHashExpected = $crossLegal
   crossHashMatch = $crossHashMatch
   diffCount = $diffs.Count
   diffs = $diffs

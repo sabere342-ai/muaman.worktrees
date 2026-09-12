@@ -1,0 +1,30 @@
+﻿{
+    "capturedAtUtc":  "2026-09-12T14:29:57.993Z",
+    "releaseDir":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\13m-remediation\\negatives\\negA",
+    "legalManifest":  "C:\\dev\\muaman.worktrees\\i-tech-next-roadmap-freeze\\docs\\windows-delivery-refresh\\evidence\\legal\\release-manifest.json",
+    "fileCountNew":  17,
+    "fileCountLegal":  18,
+    "totalBytesNew":  32787696,
+    "totalBytesLegal":  37537520,
+    "expectedFileCount":  18,
+    "expectedTotalBytes":  37537520,
+    "fileCountMatch":  false,
+    "totalBytesMatch":  false,
+    "crossHashNew":  "14F4269BED6A47ADD7915E5200D3C25D0D7A26B5CEB85BCEEFCB1AC59E4B8C0B",
+    "crossHashLegal":  "0051D0D60800F53F048320DB28AAE24161785FEF2E54A244C967464108A166B9",
+    "crossHashExpected":  "0051D0D60800F53F048320DB28AAE24161785FEF2E54A244C967464108A166B9",
+    "crossHashMatch":  false,
+    "diffCount":  0,
+    "diffs":  [
+
+              ],
+    "onlyInLegalCount":  1,
+    "onlyInLegal":  [
+                        "pdfium.dll"
+                    ],
+    "onlyInNewCount":  0,
+    "onlyInNew":  [
+
+                  ],
+    "identical":  false
+}

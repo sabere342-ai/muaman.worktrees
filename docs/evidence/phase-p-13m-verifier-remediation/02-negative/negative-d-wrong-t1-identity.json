@@ -1,0 +1,51 @@
+﻿{
+    "capturedAtUtc":  "2026-09-12T14:30:04.774Z",
+    "releaseDir":  "C:\\dev\\muaman.worktrees\\i-tech-next-roadmap-freeze\\app\\build\\windows\\x64\\runner\\Release",
+    "legalManifest":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\13m-remediation\\T1-legal-manifest-preserved.json",
+    "fileCountNew":  18,
+    "fileCountLegal":  16,
+    "totalBytesNew":  37537520,
+    "totalBytesLegal":  35754065,
+    "expectedFileCount":  16,
+    "expectedTotalBytes":  35754065,
+    "fileCountMatch":  false,
+    "totalBytesMatch":  false,
+    "crossHashNew":  "0051D0D60800F53F048320DB28AAE24161785FEF2E54A244C967464108A166B9",
+    "crossHashLegal":  "13884FC55E8923EA6111895796CC9F576177CBED6F73AD5DA729E686A0E9A7CF",
+    "crossHashExpected":  "13884FC55E8923EA6111895796CC9F576177CBED6F73AD5DA729E686A0E9A7CF",
+    "crossHashMatch":  false,
+    "diffCount":  3,
+    "diffs":  [
+                  {
+                      "rel":  "data/app.so",
+                      "sizeLegal":  9290656,
+                      "sizeNew":  10814368,
+                      "shaLegal":  "AE7044F9107430FE0F10CA81890721E49D45485808483D9D5FC4CBFEC11499C5",
+                      "shaNew":  "C90D772FA2DDBFDEE438518C2469C372A14E313926F7D315997C64DCF3EEC0FE"
+                  },
+                  {
+                      "rel":  "data/flutter_assets/NOTICES.Z",
+                      "sizeLegal":  89413,
+                      "sizeNew":  102372,
+                      "shaLegal":  "7A5222CA2B4300D1845CD9E08E982EF32C6B682C84FAB043700CCB6928B48FEA",
+                      "shaNew":  "A3741D67489DD567191DAD9EA082E5B6072B3E60A4916279A8E249B8A5540293"
+                  },
+                  {
+                      "rel":  "muaman_store.exe",
+                      "sizeLegal":  92160,
+                      "sizeNew":  92672,
+                      "shaLegal":  "3D15F1123EC9CBBAF051AA7DFDF1D526C2BBB88096733D981EEF05A2A08D2881",
+                      "shaNew":  "0CC48D2A47AE1F014A536A60A2FA4387405C8938C3A008E5395019177B4278E7"
+                  }
+              ],
+    "onlyInLegalCount":  0,
+    "onlyInLegal":  [
+
+                    ],
+    "onlyInNewCount":  2,
+    "onlyInNew":  [
+                      "app_links_plugin.dll",
+                      "url_launcher_windows_plugin.dll"
+                  ],
+    "identical":  false
+}

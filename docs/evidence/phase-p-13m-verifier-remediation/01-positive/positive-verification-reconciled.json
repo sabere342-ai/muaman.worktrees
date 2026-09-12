@@ -1,0 +1,30 @@
+﻿{
+    "capturedAtUtc":  "2026-09-12T14:50:47.958Z",
+    "releaseDir":  "C:\\dev\\muaman.worktrees\\i-tech-next-roadmap-freeze\\app\\build\\windows\\x64\\runner\\Release",
+    "legalManifest":  "C:\\dev\\muaman.worktrees\\i-tech-next-roadmap-freeze\\docs\\windows-delivery-refresh\\evidence\\legal\\release-manifest.json",
+    "fileCountNew":  18,
+    "fileCountLegal":  18,
+    "totalBytesNew":  37537520,
+    "totalBytesLegal":  37537520,
+    "expectedFileCount":  18,
+    "expectedTotalBytes":  37537520,
+    "fileCountMatch":  true,
+    "totalBytesMatch":  true,
+    "crossHashNew":  "0051D0D60800F53F048320DB28AAE24161785FEF2E54A244C967464108A166B9",
+    "crossHashLegal":  "0051D0D60800F53F048320DB28AAE24161785FEF2E54A244C967464108A166B9",
+    "crossHashExpected":  "0051D0D60800F53F048320DB28AAE24161785FEF2E54A244C967464108A166B9",
+    "crossHashMatch":  true,
+    "diffCount":  0,
+    "diffs":  [
+
+              ],
+    "onlyInLegalCount":  0,
+    "onlyInLegal":  [
+
+                    ],
+    "onlyInNewCount":  0,
+    "onlyInNew":  [
+
+                  ],
+    "identical":  true
+}

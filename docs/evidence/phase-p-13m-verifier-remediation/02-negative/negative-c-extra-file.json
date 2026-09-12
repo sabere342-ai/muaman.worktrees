@@ -1,0 +1,30 @@
+﻿{
+    "capturedAtUtc":  "2026-09-12T14:30:03.452Z",
+    "releaseDir":  "C:\\Users\\saber\\AppData\\Local\\Temp\\opencode\\13m-remediation\\negatives\\negC",
+    "legalManifest":  "C:\\dev\\muaman.worktrees\\i-tech-next-roadmap-freeze\\docs\\windows-delivery-refresh\\evidence\\legal\\release-manifest.json",
+    "fileCountNew":  19,
+    "fileCountLegal":  18,
+    "totalBytesNew":  37537550,
+    "totalBytesLegal":  37537520,
+    "expectedFileCount":  18,
+    "expectedTotalBytes":  37537520,
+    "fileCountMatch":  false,
+    "totalBytesMatch":  false,
+    "crossHashNew":  "7715C71001C45241CE411F1A186BC74E576B6F58BC52D70EED38A5A57C07C1C9",
+    "crossHashLegal":  "0051D0D60800F53F048320DB28AAE24161785FEF2E54A244C967464108A166B9",
+    "crossHashExpected":  "0051D0D60800F53F048320DB28AAE24161785FEF2E54A244C967464108A166B9",
+    "crossHashMatch":  false,
+    "diffCount":  0,
+    "diffs":  [
+
+              ],
+    "onlyInLegalCount":  0,
+    "onlyInLegal":  [
+
+                    ],
+    "onlyInNewCount":  1,
+    "onlyInNew":  [
+                      "stray-extra-file.bin"
+                  ],
+    "identical":  false
+}

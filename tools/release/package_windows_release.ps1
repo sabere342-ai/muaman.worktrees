@@ -49,7 +49,7 @@
 #
 # Optional switches:
 #   -LegalManifest <json>  committed legal release manifest (default:
-#                          docs/evidence/muaman-13k/04-k1-source-a-sdk-a-shorttemp/release-manifest.json)
+#                          docs/windows-delivery-refresh/evidence/legal/release-manifest.json)
 #   -Verifier <script>     canonical verifier (default: tools/release/verify_release.ps1)
 #   -ZipName <name>        distributable ZIP file name (default: muaman-windows-release.zip)
 #   -ConstantZipTimestamp <yyyy-MM-ddTHH:mm:ss>  constant ZIP entry timestamp
