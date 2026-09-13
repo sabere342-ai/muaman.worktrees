@@ -7,10 +7,10 @@ plugins {
 
 android {
     namespace = "com.itech.storemanagement"
-    // Phase K: compileSdk 35 is required by current plugin toolchains
-    // (flutter_plugin_android_lifecycle). Build-time only — targetSdk stays
-    // frozen at 34 (D11) and runtime behavior is unchanged.
-    compileSdk = 35
+    // Phase P (Android productization): compileSdk 36 required to compile
+    // against target API 36 (Owner decision TARGET_API_36; Play target-API
+    // expectations). Build-time only.
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -30,7 +30,9 @@ android {
         versionName = flutter.versionName
         // Phase K (D11): frozen Android baseline from ARCHITECTURE_PLAN §13.
         minSdk = 21
-        targetSdk = 34
+        // Phase P (Android productization): Owner decision resolved targetSdk
+        // to API 36 for Google Play target-API compliance. minSdk stays 21.
+        targetSdk = 36
     }
 
     buildTypes {
