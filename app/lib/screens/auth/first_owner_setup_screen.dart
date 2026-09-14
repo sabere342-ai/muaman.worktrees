@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../config/app_config.dart';
 import '../../database/user_repository.dart';
-import '../../models/user_role.dart';
 import '../../services/app_settings.dart';
 import '../../services/identity_linker.dart';
 import '../../licensing/cloud_licensing_service.dart';
@@ -149,11 +148,10 @@ class _FirstOwnerSetupScreenState extends State<FirstOwnerSetupScreen> {
       }
 
       // Fallback: local-only owner creation (no cloud).
-      await _repo.createUser(
+      await _repo.createFirstOwner(
         displayName: name,
         username: username,
         password: password,
-        role: UserRole.owner,
       );
 
       if (mounted) {

@@ -1,7 +1,6 @@
 import '../database/database_helper.dart';
 import '../database/user_repository.dart';
 import '../models/user.dart';
-import '../models/user_role.dart' as model;
 import '../services/app_settings.dart';
 import 'cloud_auth_service.dart';
 
@@ -166,12 +165,11 @@ class IdentityLinker {
     required String email,
     required String shopName,
   }) async {
-    // 1. Create local user
-    final localUserId = await _userRepo.createUser(
+    // 1. Create local user (fail-closed first-owner bootstrap path only)
+    final localUserId = await _userRepo.createFirstOwner(
       displayName: displayName,
       username: username,
       password: password,
-      role: model.UserRole.owner,
     );
 
     // 2. Create cloud account

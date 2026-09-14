@@ -142,6 +142,59 @@ class UserRepository {
     return await db.insert('users', user.toMap()..remove('id'));
   }
 
+  /// Dedicated first-owner bootstrap path.
+  ///
+  /// The ONLY mutation in this repository that is allowed to skip the normal
+  /// `_requireAdminPermission` / `canManageUsers` guard. It is fail-closed:
+  /// it succeeds ONLY while the local users table is genuinely empty
+  /// (`hasAnyUser() == false`) and ALWAYS provisions an `owner` row. If ANY
+  /// local user already exists it throws `PermissionDeniedException`, so a
+  /// second owner can never be bootstrapped through this path. All normal
+  /// user-management mutations for additional users remain admin-guarded via
+  /// [createUser], [updateUser], [resetPassword] and [setUserActiveStatus].
+  Future<int> createFirstOwner({
+    required String displayName,
+    required String username,
+    required String password,
+    bool isActive = true,
+  }) async {
+    if (await hasAnyUser()) {
+      throw const PermissionDeniedException(
+          'غير مصرح بهذه العملية. هذه الخاصية غير متاحة لدورك.');
+    }
+
+    _validateDisplayName(displayName);
+    _validateUsername(username);
+    _validatePassword(password);
+    _validateRole(UserRole.owner);
+
+    final normalizedUsername = _normalizeUsername(username);
+    final db = await _dbHelper.database;
+
+    final existing = await db.rawQuery(
+      'SELECT id FROM users WHERE LOWER(TRIM(username)) = ? LIMIT 1',
+      [normalizedUsername],
+    );
+    if (existing.isNotEmpty) {
+      throw DuplicateUsernameException(username);
+    }
+
+    final passwordHash = _hasher.hashPassword(password);
+    final now = DateTime.now();
+
+    final user = User(
+      displayName: displayName.trim(),
+      username: normalizedUsername,
+      passwordHash: passwordHash,
+      role: UserRole.owner,
+      isActive: isActive,
+      createdAt: now,
+      updatedAt: now,
+    );
+
+    return await db.insert('users', user.toMap()..remove('id'));
+  }
+
   Future<List<User>> getAllUsers() async {
     final db = await _dbHelper.database;
     final maps = await db.query('users', orderBy: 'id ASC');
