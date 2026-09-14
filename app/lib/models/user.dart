@@ -10,6 +10,7 @@ class User {
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime? lastLoginAt;
+  final String? cloudUuid;
 
   User({
     this.id,
@@ -21,6 +22,7 @@ class User {
     required this.createdAt,
     required this.updatedAt,
     this.lastLoginAt,
+    this.cloudUuid,
   });
 
   Map<String, dynamic> toMap() {
@@ -34,6 +36,7 @@ class User {
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
       'lastLoginAt': lastLoginAt?.toIso8601String(),
+      'cloud_uuid': cloudUuid,
     };
   }
 
@@ -50,6 +53,7 @@ class User {
       lastLoginAt: map['lastLoginAt'] != null
           ? DateTime.parse(map['lastLoginAt'] as String)
           : null,
+      cloudUuid: map['cloud_uuid'] as String?,
     );
   }
 
@@ -63,6 +67,7 @@ class User {
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? lastLoginAt,
+    String? cloudUuid,
   }) {
     return User(
       id: id ?? this.id,
@@ -74,6 +79,7 @@ class User {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       lastLoginAt: lastLoginAt ?? this.lastLoginAt,
+      cloudUuid: cloudUuid ?? this.cloudUuid,
     );
   }
 }

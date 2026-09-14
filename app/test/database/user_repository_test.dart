@@ -711,7 +711,9 @@ Future<void> createTestTables(Database db) async {
       isActive INTEGER NOT NULL DEFAULT 1,
       createdAt TEXT NOT NULL,
       updatedAt TEXT NOT NULL,
-      lastLoginAt TEXT
+      lastLoginAt TEXT,
+      shop_id TEXT,
+      cloud_uuid TEXT
     )
   ''');
   await db.execute('''
