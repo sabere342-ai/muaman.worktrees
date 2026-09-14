@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import '../config/app_config.dart';
 import '../database/database_helper.dart';
 import '../database/workbook_importer.dart';
 import '../import/picker_workbook_source.dart';
@@ -10,9 +11,11 @@ import '../licensing/cloud_licensing_service.dart';
 import 'settings/license_status_screen.dart';
 import 'settings/device_management_screen.dart';
 import '../models/shop_profile.dart';
+import '../models/user.dart';
 import '../models/user_role.dart';
 import '../platform/platform_capabilities.dart';
 import '../services/app_settings.dart';
+import '../services/identity_linker.dart';
 import '../services/clean_start_service.dart';
 import '../services/permissions.dart';
 import '../services/standalone_backup_service.dart';
@@ -27,7 +30,17 @@ import 'expenses/expense_categories_screen.dart';
 class SettingsScreen extends StatefulWidget {
   final SessionState sessionState;
 
-  const SettingsScreen({super.key, required this.sessionState});
+  /// Optional injectable identity linker. When null, the canonical
+  /// [IdentityLinker] is created lazily only when the owner actually triggers
+  /// the cloud-linking flow. Injection keeps the flow testable without an
+  /// initialized Supabase client.
+  final IdentityLinker? identityLinker;
+
+  const SettingsScreen({
+    super.key,
+    required this.sessionState,
+    this.identityLinker,
+  });
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -734,9 +747,231 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 label: const Text('إعادة محاولة المزامنة',
                     style: TextStyle(fontSize: 12)),
               ),
+            // Existing-owner cloud-linking entry: shown only to the owner and
+            // only while the app is not yet cloud-linked. It is the minimal,
+            // reachable surface for the canonical IdentityLinker flow and
+            // never auto-runs — the local owner explicitly triggers it.
+            if (_isOwner && !isCloudLinked) ...[
+              const SizedBox(height: 8),
+              OutlinedButton.icon(
+                key: const ValueKey('cloud-link-button'),
+                onPressed: _openCloudLinkDialog,
+                icon: const Icon(Icons.cloud_upload_outlined, size: 16),
+                label: const Text('ربط الحساب السحابي',
+                    style: TextStyle(fontSize: 12)),
+              ),
+            ],
           ],
         ),
       ),
+    );
+  }
+
+  /// Entry point for the existing-owner cloud-linking flow.
+  ///
+  /// Guards: owner role only, not already cloud-linked, current user present.
+  /// The actual linker is created lazily so widget tests can inject a fake
+  /// without an initialized Supabase client. When neither an injected linker
+  /// nor a configured backend is available, the flow fails closed with a
+  /// clear message and never mutates local state.
+  Future<void> _openCloudLinkDialog() async {
+    final user = widget.sessionState.currentUser;
+    if (!_isOwner || widget.sessionState.isCloudLinked || user == null) {
+      return;
+    }
+
+    final linker = widget.identityLinker;
+    if (linker == null && !AppConfig.isConfigured) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('الربط السحابي غير متاح حاليًا'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+    final shopNameController = TextEditingController();
+    final trimmedShopName =
+        ShopProfileService.instance.current.shopName.trim();
+    shopNameController.text = trimmedShopName.isEmpty ? 'المتجر' : trimmedShopName;
+
+    final draft = await showDialog<CloudLinkDraft>(
+      context: context,
+      builder: (dialogContext) {
+        String? errorText;
+        return StatefulBuilder(
+          builder: (dialogContext, setDialogState) {
+            return AlertDialog(
+              title: const Text('ربط الحساب السحابي'),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      'سيتم إنشاء حساب سحابي جديد مرتبط بهذا المتجر. '
+                      'استخدم نفس كلمة مرور تسجيل الدخول المحلية حتى تدخل '
+                      'من المتجر لاحقًا.',
+                      style: TextStyle(fontSize: 13),
+                      textDirection: TextDirection.rtl,
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      key: const ValueKey('cloud-link-email'),
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      onChanged: (_) => setDialogState(() {}),
+                      decoration: const InputDecoration(
+                        labelText: 'البريد الإلكتروني',
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.email_outlined),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      key: const ValueKey('cloud-link-password'),
+                      controller: passwordController,
+                      obscureText: true,
+                      onChanged: (_) => setDialogState(() {}),
+                      decoration: const InputDecoration(
+                        labelText: 'كلمة المرور',
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.lock_outline),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      key: const ValueKey('cloud-link-shop-name'),
+                      controller: shopNameController,
+                      onChanged: (_) => setDialogState(() {}),
+                      decoration: const InputDecoration(
+                        labelText: 'اسم المتجر',
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.store_outlined),
+                      ),
+                    ),
+                    if (errorText != null) ...[
+                      const SizedBox(height: 8),
+                      Text(
+                        errorText!,
+                        style: TextStyle(
+                          color: Colors.red.shade700,
+                          fontSize: 13,
+                        ),
+                        textDirection: TextDirection.rtl,
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(),
+                  child: const Text('إلغاء'),
+                ),
+                ElevatedButton(
+                  key: const ValueKey('cloud-link-submit'),
+                  onPressed: () {
+                    final email = emailController.text.trim();
+                    final password = passwordController.text;
+                    final shopName = shopNameController.text.trim();
+                    String? error;
+                    if (email.isEmpty || !email.contains('@')) {
+                      error = 'أدخل بريدًا إلكترونيًا صحيحًا';
+                    } else if (password.isEmpty) {
+                      error = 'كلمة المرور مطلوبة';
+                    } else if (shopName.isEmpty) {
+                      error = 'اسم المتجر مطلوب';
+                    }
+                    if (error != null) {
+                      setDialogState(() => errorText = error);
+                      return;
+                    }
+                    Navigator.of(dialogContext).pop(
+                      CloudLinkDraft(
+                        email: email,
+                        password: password,
+                        shopName: shopName,
+                      ),
+                    );
+                  },
+                  child: const Text('ربط الحساب'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    if (draft == null || !mounted) {
+      // Cancelled — the canonical flow never ran, so local state is unchanged.
+      return;
+    }
+    await _runCloudLink(linker ?? IdentityLinker(), user, draft);
+  }
+
+  Future<void> _runCloudLink(
+    IdentityLinker linker,
+    User user,
+    CloudLinkDraft draft,
+  ) async {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+
+    LinkResult result;
+    try {
+      result = await linker.linkExistingUser(
+        localUser: user,
+        email: draft.email,
+        password: draft.password,
+        shopName: draft.shopName,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      Navigator.of(context).pop();
+      _showLinkError('حدث خطأ أثناء الربط السحابي: $e');
+      return;
+    }
+
+    if (!mounted) return;
+    Navigator.of(context).pop();
+
+    switch (result.type) {
+      case LinkResultType.success:
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'تم ربط الحساب السحابي بنجاح. أعد تسجيل الدخول لتفعيل المزامنة.',
+            ),
+            backgroundColor: Colors.green,
+          ),
+        );
+        break;
+      case LinkResultType.localUserNotFound:
+        _showLinkError('تعذر العثور على المستخدم المحلي');
+        break;
+      case LinkResultType.cloudAccountExists:
+        _showLinkError('هذا البريد الإلكتروني مسجل مسبقًا في حساب سحابي');
+        break;
+      case LinkResultType.networkUnavailable:
+        _showLinkError('لا يوجد اتصال بالإنترنت — أعد المحاولة لاحقًا');
+        break;
+      case LinkResultType.unknownError:
+        _showLinkError(result.errorMessage ?? 'حدث خطأ أثناء الربط السحابي');
+        break;
+    }
+  }
+
+  void _showLinkError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: Colors.red),
     );
   }
 
@@ -2189,4 +2424,19 @@ class _ExcelImportSectionState extends State<ExcelImportSection> {
       ),
     ];
   }
+}
+
+/// Collected input for the existing-owner cloud-linking flow. A plain data
+/// holder — the canonical [IdentityLinker.linkExistingUser] performs the
+/// actual mutation.
+class CloudLinkDraft {
+  const CloudLinkDraft({
+    required this.email,
+    required this.password,
+    required this.shopName,
+  });
+
+  final String email;
+  final String password;
+  final String shopName;
 }
