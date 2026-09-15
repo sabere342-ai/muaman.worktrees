@@ -9,6 +9,9 @@ enum LinkResultType {
   success,
   localUserNotFound,
   cloudAccountExists,
+  invalidCredentials,
+  emailNotConfirmed,
+  ownershipConflict,
   networkUnavailable,
   unknownError,
 }
@@ -36,6 +39,17 @@ class LinkResult {
 
   factory LinkResult.cloudAccountExists() =>
       LinkResult._(type: LinkResultType.cloudAccountExists);
+
+  factory LinkResult.invalidCredentials() =>
+      LinkResult._(type: LinkResultType.invalidCredentials);
+
+  factory LinkResult.emailNotConfirmed() =>
+      LinkResult._(type: LinkResultType.emailNotConfirmed);
+
+  factory LinkResult.ownershipConflict(String message) => LinkResult._(
+        type: LinkResultType.ownershipConflict,
+        errorMessage: message,
+      );
 
   factory LinkResult.networkUnavailable() =>
       LinkResult._(type: LinkResultType.networkUnavailable);
@@ -73,22 +87,24 @@ class IdentityLinker {
   final UserRepository _userRepo;
   final DatabaseHelper _dbHelper;
 
-  /// Link an existing local user to a new cloud account.
+  /// Link an existing local user to an existing cloud identity via sign-in.
   ///
   /// Flow:
-  /// 1. Verify local user has no existing cloud_uuid
-  /// 2. Create cloud account via sign-up
-  /// 3. Create shop via create_shop_with_owner RPC
-  /// 4. Persist cloud_uuid in local users table
-  /// 5. Persist shopProfile.cloudUuid
-  /// 6. Persist cloud.auth.email
+  /// 1. Verify local user has no existing cloud_uuid (already linked = success).
+  /// 2. Authenticate the cloud identity using the existing sign-in path.
+  /// 3. Resolve or create the owner shop via the idempotent RPC.
+  /// 4. Persist cloud_uuid, shop_id, cloud.auth.email, shopProfile.cloudUuid.
+  ///
+  /// This is the sign-in-first path for an existing confirmed Supabase Auth
+  /// identity. It does NOT call signUp — the identity already exists and must
+  /// be authenticated, not created.
   Future<LinkResult> linkExistingUser({
     required User localUser,
     required String email,
     required String password,
     required String shopName,
   }) async {
-    // Check if local user already has a cloud link
+    // Step 1: If local user already has a cloud link, the linkage is complete.
     if (localUser.id != null) {
       final db = await _dbHelper.database;
       final rows = await db.query(
@@ -99,37 +115,48 @@ class IdentityLinker {
       );
       if (rows.isNotEmpty &&
           (rows.first['cloud_uuid'] as String?)?.isNotEmpty == true) {
+        final existingShopId =
+            await AppSettings.getValue(AppSettings.keyShopProfileCloudUuid);
         return LinkResult.success(
           cloudUserId: rows.first['cloud_uuid'] as String,
-          shopId:
-              await AppSettings.getValue(AppSettings.keyShopProfileCloudUuid),
+          shopId: existingShopId,
         );
       }
     }
 
-    // Create cloud account
-    final signUpResult = await _cloudAuth.signUp(
+    // Step 2: Authenticate the existing cloud identity via sign-in.
+    final signInResult = await _cloudAuth.signInWithEmail(
       email: email,
       password: password,
     );
 
-    if (signUpResult.type == CloudSignUpResultType.emailAlreadyRegistered) {
-      return LinkResult.cloudAccountExists();
+    if (signInResult.type == CloudAuthResultType.invalidCredentials) {
+      return LinkResult.invalidCredentials();
     }
-    if (signUpResult.type == CloudSignUpResultType.networkUnavailable) {
+    if (signInResult.type == CloudAuthResultType.emailNotConfirmed) {
+      return LinkResult.emailNotConfirmed();
+    }
+    if (signInResult.type == CloudAuthResultType.networkUnavailable) {
       return LinkResult.networkUnavailable();
     }
-    if (!signUpResult.isSuccess || signUpResult.session == null) {
+    if (!signInResult.isSuccess || signInResult.session == null) {
       return LinkResult.unknownError(
-        signUpResult.errorMessage ?? 'فشل إنشاء الحساب السحابي',
+        signInResult.errorMessage ?? 'فشل تسجيل الدخول إلى الحساب السحابي',
       );
     }
 
-    final cloudUserId = signUpResult.session!.user.id;
+    final cloudUserId = signInResult.session!.user.id;
 
-    // Create shop
+    // Step 3: Resolve or create the owner shop via the idempotent RPC.
+    //
+    // resolve_owner_shop uses advisory locking + transaction to guarantee
+    // at most one owner shop per authenticated identity (defense-in-depth
+    // Layer 2). The RPC returns the existing owner shop if one exists,
+    // creates a new one if none exists, or raises if multiple exist.
     try {
-      final shopId = await _cloudAuth.createShopWithOwner(shopName);
+      final shopId = await _cloudAuth.resolveOwnerShop(shopName);
+
+      // Step 4: Persist the three identity linkage points locally.
       await _persistIdentity(
         localUserId: localUser.id!,
         cloudUserId: cloudUserId,
@@ -140,11 +167,22 @@ class IdentityLinker {
         cloudUserId: cloudUserId,
         shopId: shopId,
       );
-    } catch (e) {
-      // Shop creation failed — but the cloud account exists.
-      // The user can retry linking on next launch.
+    } on Exception catch (e) {
+      final msg = e.toString().toLowerCase();
+      if (msg.contains('multiple owner shops') ||
+          msg.contains('reconciliation required')) {
+        return LinkResult.ownershipConflict(
+          'تعذر الربط: الحساب السحابي يحتوي على أكثر من متجر مالك واحد. '
+          'يرجى التواصل مع الدعم الفني.',
+        );
+      }
+      if (msg.contains('network') ||
+          msg.contains('socket') ||
+          msg.contains('connection')) {
+        return LinkResult.networkUnavailable();
+      }
       return LinkResult.unknownError(
-        'تم إنشاء الحساب السحابي لكن فشل إنشاء المتجر: $e',
+        'تم تسجيل الدخول بنجاح لكن فشل ربط المتجر: $e',
       );
     }
   }
@@ -225,10 +263,13 @@ class IdentityLinker {
   }) async {
     final db = await _dbHelper.database;
 
-    // 1. users.cloud_uuid = auth.uid()
+    // 1. users.cloud_uuid = auth.uid(), users.shop_id = resolved shop id
     await db.update(
       'users',
-      {'cloud_uuid': cloudUserId},
+      {
+        'cloud_uuid': cloudUserId,
+        'shop_id': shopId,
+      },
       where: 'id = ?',
       whereArgs: [localUserId],
     );

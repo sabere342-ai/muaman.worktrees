@@ -185,6 +185,24 @@ class CloudAuthService {
     return response as String;
   }
 
+  /// Resolve or create the single owner shop for the authenticated user
+  /// via the `resolve_owner_shop()` RPC.
+  ///
+  /// This is the idempotent, uniqueness-protected path for owner-shop
+  /// provisioning (defense-in-depth Layer 2). The RPC uses advisory
+  /// locking and a transaction to guarantee convergence to at most one
+  /// owner shop per authenticated identity.
+  ///
+  /// Returns the existing owner-shop UUID if one already exists,
+  /// or creates and returns a new one if none exists.
+  /// Raises if multiple owner shops already exist (reconciliation required).
+  Future<String> resolveOwnerShop(String shopName) async {
+    final response = await _client.rpc('resolve_owner_shop', params: {
+      'p_name': shopName,
+    });
+    return response as String;
+  }
+
   /// Accept a pending invitation via the `accept_invitation()` RPC.
   Future<bool> acceptInvitation({
     required String shopId,

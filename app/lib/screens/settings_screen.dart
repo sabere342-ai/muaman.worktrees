@@ -794,9 +794,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
     final shopNameController = TextEditingController();
-    final trimmedShopName =
-        ShopProfileService.instance.current.shopName.trim();
-    shopNameController.text = trimmedShopName.isEmpty ? 'المتجر' : trimmedShopName;
+    final trimmedShopName = ShopProfileService.instance.current.shopName.trim();
+    shopNameController.text =
+        trimmedShopName.isEmpty ? 'المتجر' : trimmedShopName;
 
     final draft = await showDialog<CloudLinkDraft>(
       context: context,
@@ -812,9 +812,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const Text(
-                      'سيتم إنشاء حساب سحابي جديد مرتبط بهذا المتجر. '
-                      'استخدم نفس كلمة مرور تسجيل الدخول المحلية حتى تدخل '
-                      'من المتجر لاحقًا.',
+                      'اربط حسابك السحابي الحالي بالمتجر. '
+                      'أدخل بيانات تسجيل الدخول للحساب السحابي. '
+                      'إذا لم يكن لديك متجر سحابي، سيتم إنشاؤه '
+                      'باسم المتجر المحدد.',
                       style: TextStyle(fontSize: 13),
                       textDirection: TextDirection.rtl,
                     ),
@@ -959,6 +960,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
         break;
       case LinkResultType.cloudAccountExists:
         _showLinkError('هذا البريد الإلكتروني مسجل مسبقًا في حساب سحابي');
+        break;
+      case LinkResultType.invalidCredentials:
+        _showLinkError('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+        break;
+      case LinkResultType.emailNotConfirmed:
+        _showLinkError('يرجى تأكيد البريد الإلكتروني قبل تسجيل الدخول');
+        break;
+      case LinkResultType.ownershipConflict:
+        _showLinkError(
+          result.errorMessage ?? 'تعذر الربط: توجد مشكلة في ملكية المتجر',
+        );
         break;
       case LinkResultType.networkUnavailable:
         _showLinkError('لا يوجد اتصال بالإنترنت — أعد المحاولة لاحقًا');

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' show SupabaseClient;
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
 import 'package:muaman_store/database/database_helper.dart';
 import 'package:muaman_store/models/cloud_session.dart';
@@ -11,6 +11,7 @@ import 'package:muaman_store/models/user_role.dart';
 import 'package:muaman_store/screens/settings_screen.dart';
 import 'package:muaman_store/services/cloud_auth_service.dart';
 import 'package:muaman_store/services/identity_linker.dart';
+import 'package:muaman_store/services/app_settings.dart';
 import 'package:muaman_store/services/permission_resolver.dart';
 import 'package:muaman_store/services/session_state.dart';
 import 'package:muaman_store/services/shop_profile_service.dart';
@@ -122,12 +123,9 @@ void main() {
   }
 
   Future<void> submitValidLinkDialog(WidgetTester tester) async {
-    await tester.enterText(
-        find.byKey(_cloudLinkEmailKey), 'owner@example.com');
-    await tester.enterText(
-        find.byKey(_cloudLinkPasswordKey), 'password123');
-    await tester.enterText(
-        find.byKey(_cloudLinkShopNameKey), 'متجر النور');
+    await tester.enterText(find.byKey(_cloudLinkEmailKey), 'owner@example.com');
+    await tester.enterText(find.byKey(_cloudLinkPasswordKey), 'password123');
+    await tester.enterText(find.byKey(_cloudLinkShopNameKey), 'متجر النور');
     await tester.tap(find.byKey(_cloudLinkSubmitKey));
     await tester.pumpAndSettle();
   }
@@ -137,6 +135,7 @@ void main() {
     final rows = await db.query('users', where: 'id = ?', whereArgs: [1]);
     expect(rows, hasLength(1));
     expect(rows.single['cloud_uuid'], isNull);
+    expect(rows.single['shop_id'], isNull);
     for (final key in _cloudIdentityKeys) {
       final settingRows =
           await db.query('app_settings', where: 'key = ?', whereArgs: [key]);
@@ -144,9 +143,18 @@ void main() {
     }
   }
 
+  User existingOwnerUser() => User(
+        id: 1,
+        displayName: 'المالك',
+        username: 'owner',
+        passwordHash: 'x',
+        role: UserRole.owner,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
   group('Existing owner cloud-link settings entry', () {
-    testWidgets(
-        'an unlinked owner can reach the flow but nothing auto-runs',
+    testWidgets('an unlinked owner can reach the flow but nothing auto-runs',
         (tester) async {
       final fake = _FakeIdentityLinker(null);
       await pumpSettings(tester, ownerSession, fake);
@@ -215,12 +223,9 @@ void main() {
       await pumpSettings(tester, ownerSession, fake);
 
       await openCloudLinkDialog(tester);
-      await tester.enterText(
-          find.byKey(_cloudLinkEmailKey), 'not-an-email');
-      await tester.enterText(
-          find.byKey(_cloudLinkPasswordKey), 'password123');
-      await tester.enterText(
-          find.byKey(_cloudLinkShopNameKey), 'متجر النور');
+      await tester.enterText(find.byKey(_cloudLinkEmailKey), 'not-an-email');
+      await tester.enterText(find.byKey(_cloudLinkPasswordKey), 'password123');
+      await tester.enterText(find.byKey(_cloudLinkShopNameKey), 'متجر النور');
       await tester.tap(find.byKey(_cloudLinkSubmitKey));
       await tester.pumpAndSettle();
 
@@ -257,8 +262,23 @@ void main() {
       await submitValidLinkDialog(tester);
 
       expect(fake.linkCalls, 1);
-      expect(
-          find.text('لا يوجد اتصال بالإنترنت — أعد المحاولة لاحقًا'),
+      expect(find.text('لا يوجد اتصال بالإنترنت — أعد المحاولة لاحقًا'),
+          findsOneWidget);
+      await expectNoCloudIdentityPersisted();
+    });
+
+    testWidgets('invalid credentials shows a clean error and mutates nothing',
+        (tester) async {
+      final fake = _FakeIdentityLinker(
+          (user, email, password, shopName) async =>
+              LinkResult.invalidCredentials());
+      await pumpSettings(tester, ownerSession, fake);
+
+      await openCloudLinkDialog(tester);
+      await submitValidLinkDialog(tester);
+
+      expect(fake.linkCalls, 1);
+      expect(find.text('البريد الإلكتروني أو كلمة المرور غير صحيحة'),
           findsOneWidget);
       await expectNoCloudIdentityPersisted();
     });
@@ -284,58 +304,167 @@ void main() {
       // session is only established on the next login — never here.
       expect(ownerSession.isCloudLinked, false);
     });
+
+    testWidgets('multiple-owner-shop conflict shows a distinguishable error',
+        (tester) async {
+      final fake = _FakeIdentityLinker(
+          (user, email, password, shopName) async =>
+              LinkResult.ownershipConflict(
+                  'تعذر الربط: توجد مشكلة في ملكية المتجر'));
+      await pumpSettings(tester, ownerSession, fake);
+
+      await openCloudLinkDialog(tester);
+      await submitValidLinkDialog(tester);
+
+      expect(fake.linkCalls, 1);
+      expect(
+          find.text('تعذر الربط: توجد مشكلة في ملكية المتجر'), findsOneWidget);
+      await expectNoCloudIdentityPersisted();
+    });
   });
 
-  group('Real IdentityLinker fail-closed guards', () {
-    test('an already-registered email stops before any local persistence',
+  group('Real IdentityLinker sign-in-first fail-closed guards', () {
+    test('an existing confirmed identity uses sign-in, never sign-up',
         () async {
       final auth = _FakeCloudAuthService(
-          CloudSignUpResult.emailAlreadyRegistered());
+          signInResult: CloudAuthResult.success(_testSession()),
+          resolveShopResult: 'sp-1');
       final linker = IdentityLinker(
         cloudAuthService: auth,
         dbHelper: DatabaseHelper.instance,
       );
 
       final result = await linker.linkExistingUser(
-        localUser: User(
-          id: 1,
-          displayName: 'المالك',
-          username: 'owner',
-          passwordHash: 'x',
-          role: UserRole.owner,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        ),
+        localUser: existingOwnerUser(),
         email: 'owner@example.com',
         password: 'password123',
         shopName: 'متجر النور',
       );
 
-      expect(result.type, LinkResultType.cloudAccountExists);
-      expect(result.isSuccess, false);
-      expect(auth.signUpCalls, 1);
+      expect(result.type, LinkResultType.success);
+      expect(result.isSuccess, true);
+      expect(result.cloudUserId, 'cu-1');
+      expect(result.shopId, 'sp-1');
+      expect(auth.signInCalls, 1);
+      expect(auth.signUpCalls, 0);
+      expect(auth.resolveShopCalls, 1);
       expect(auth.createShopCalls, 0);
-      await expectNoCloudIdentityPersisted();
     });
 
-    test('a network failure stops before any local persistence', () async {
-      final auth =
-          _FakeCloudAuthService(CloudSignUpResult.networkUnavailable());
+    test('an existing confirmed identity reuses its single owner shop',
+        () async {
+      final auth = _FakeCloudAuthService(
+        signInResult: CloudAuthResult.success(_testSession()),
+        resolveShopResult: 'sp-1',
+      );
       final linker = IdentityLinker(
         cloudAuthService: auth,
         dbHelper: DatabaseHelper.instance,
       );
 
       final result = await linker.linkExistingUser(
-        localUser: User(
-          id: 1,
-          displayName: 'المالك',
-          username: 'owner',
-          passwordHash: 'x',
-          role: UserRole.owner,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        ),
+        localUser: existingOwnerUser(),
+        email: 'owner@example.com',
+        password: 'password123',
+        shopName: 'متجر النور',
+      );
+
+      expect(result.isSuccess, true);
+      expect(result.shopId, 'sp-1');
+      expect(auth.resolveShopCalls, 1);
+      // Reuse means no shop was created through the older RPC.
+      expect(auth.createShopCalls, 0);
+
+      final db = await DatabaseHelper.instance.database;
+      final rows = await db.query('users', where: 'id = ?', whereArgs: [1]);
+      expect(rows, hasLength(1));
+      expect(rows.single['cloud_uuid'], 'cu-1');
+      expect(rows.single['shop_id'], 'sp-1');
+      expect(rows.single['displayName'], 'المالك');
+      expect(rows.single['username'], 'owner');
+    });
+
+    test('repeats of the linker converge to the same shop (no second shop)',
+        () async {
+      final auth = _FakeCloudAuthService(
+        signInResult: CloudAuthResult.success(_testSession()),
+        resolveShopResult: 'sp-1',
+      );
+      final linker = IdentityLinker(
+        cloudAuthService: auth,
+        dbHelper: DatabaseHelper.instance,
+      );
+
+      await linker.linkExistingUser(
+        localUser: existingOwnerUser(),
+        email: 'owner@example.com',
+        password: 'password123',
+        shopName: 'متجر النور',
+      );
+
+      final db = await DatabaseHelper.instance.database;
+      final users =
+          await db.query('users', where: 'cloud_uuid = ?', whereArgs: ['cu-1']);
+      expect(users, hasLength(1));
+      expect(users.single['shop_id'], 'sp-1');
+    });
+
+    test('invalid credentials fail cleanly with no local persistence',
+        () async {
+      final auth = _FakeCloudAuthService(
+          signInResult: CloudAuthResult.invalidCredentials());
+      final linker = IdentityLinker(
+        cloudAuthService: auth,
+        dbHelper: DatabaseHelper.instance,
+      );
+
+      final result = await linker.linkExistingUser(
+        localUser: existingOwnerUser(),
+        email: 'owner@example.com',
+        password: 'wrong-password',
+        shopName: 'متجر النور',
+      );
+
+      expect(result.type, LinkResultType.invalidCredentials);
+      expect(result.isSuccess, false);
+      expect(auth.signInCalls, 1);
+      expect(auth.signUpCalls, 0);
+      expect(auth.resolveShopCalls, 0);
+      await expectNoCloudIdentityPersisted();
+    });
+
+    test('email-not-confirmed fails cleanly with no local persistence',
+        () async {
+      final auth = _FakeCloudAuthService(
+          signInResult: CloudAuthResult.emailNotConfirmed());
+      final linker = IdentityLinker(
+        cloudAuthService: auth,
+        dbHelper: DatabaseHelper.instance,
+      );
+
+      final result = await linker.linkExistingUser(
+        localUser: existingOwnerUser(),
+        email: 'owner@example.com',
+        password: 'password123',
+        shopName: 'متجر النور',
+      );
+
+      expect(result.type, LinkResultType.emailNotConfirmed);
+      expect(result.isSuccess, false);
+      expect(auth.resolveShopCalls, 0);
+      await expectNoCloudIdentityPersisted();
+    });
+
+    test('a network failure stops before any local persistence', () async {
+      final auth = _FakeCloudAuthService(
+          signInResult: CloudAuthResult.networkUnavailable());
+      final linker = IdentityLinker(
+        cloudAuthService: auth,
+        dbHelper: DatabaseHelper.instance,
+      );
+
+      final result = await linker.linkExistingUser(
+        localUser: existingOwnerUser(),
         email: 'owner@example.com',
         password: 'password123',
         shopName: 'متجر النور',
@@ -343,26 +472,164 @@ void main() {
 
       expect(result.type, LinkResultType.networkUnavailable);
       expect(result.isSuccess, false);
-      expect(auth.signUpCalls, 1);
+      expect(auth.signInCalls, 1);
+      expect(auth.signUpCalls, 0);
       expect(auth.createShopCalls, 0);
       await expectNoCloudIdentityPersisted();
+    });
+
+    test('multiple existing owner shops fail closed (ownership conflict)',
+        () async {
+      final auth = _FakeCloudAuthService(
+        signInResult: CloudAuthResult.success(_testSession()),
+        resolveShopError:
+            Exception('Multiple owner shops already exist for this account '
+                '(count: 2). Reconciliation required.'),
+      );
+      final linker = IdentityLinker(
+        cloudAuthService: auth,
+        dbHelper: DatabaseHelper.instance,
+      );
+
+      final result = await linker.linkExistingUser(
+        localUser: existingOwnerUser(),
+        email: 'owner@example.com',
+        password: 'password123',
+        shopName: 'متجر النور',
+      );
+
+      expect(result.type, LinkResultType.ownershipConflict);
+      expect(result.isSuccess, false);
+      expect(auth.resolveShopCalls, 1);
+      await expectNoCloudIdentityPersisted();
+    });
+
+    test('non-ownership shop-resolution errors map to unknownError', () async {
+      final auth = _FakeCloudAuthService(
+        signInResult: CloudAuthResult.success(_testSession()),
+        resolveShopError: Exception('shop name cannot be empty'),
+      );
+      final linker = IdentityLinker(
+        cloudAuthService: auth,
+        dbHelper: DatabaseHelper.instance,
+      );
+
+      final result = await linker.linkExistingUser(
+        localUser: existingOwnerUser(),
+        email: 'owner@example.com',
+        password: 'password123',
+        shopName: 'متجر النور',
+      );
+
+      expect(result.type, LinkResultType.unknownError);
+      expect(result.isSuccess, false);
+      await expectNoCloudIdentityPersisted();
+    });
+
+    test('a local row that already links returns success without sign-in',
+        () async {
+      final db = await DatabaseHelper.instance.database;
+      await db.update('users', {'cloud_uuid': 'already-linked'},
+          where: 'id = ?', whereArgs: [1]);
+      await AppSettings.setValue(AppSettings.keyShopProfileCloudUuid, 'sp-9');
+
+      final auth = _FakeCloudAuthService(
+          signInResult: CloudAuthResult.success(_testSession()));
+      final linker = IdentityLinker(
+        cloudAuthService: auth,
+        dbHelper: DatabaseHelper.instance,
+      );
+
+      final result = await linker.linkExistingUser(
+        localUser: existingOwnerUser(),
+        email: 'owner@example.com',
+        password: 'password123',
+        shopName: 'متجر النور',
+      );
+
+      expect(result.type, LinkResultType.success);
+      expect(result.cloudUserId, 'already-linked');
+      expect(auth.signInCalls, 0);
+      expect(auth.resolveShopCalls, 0);
+
+      final users = await db.query('users', where: 'id = ?', whereArgs: [1]);
+      expect(users.single['cloud_uuid'], 'already-linked');
+    });
+  });
+
+  group('Real IdentityLinker no trusted cloud_uuid before authentication', () {
+    test('authentication failure never writes the supplied cloud identity',
+        () async {
+      final auth = _FakeCloudAuthService(
+          signInResult: CloudAuthResult.invalidCredentials());
+      final linker = IdentityLinker(
+        cloudAuthService: auth,
+        dbHelper: DatabaseHelper.instance,
+      );
+
+      await linker.linkExistingUser(
+        localUser: existingOwnerUser(),
+        email: 'owner@example.com',
+        password: 'wrong',
+        shopName: 'متجر النور',
+      );
+
+      final db = await DatabaseHelper.instance.database;
+      final rows = await db.query('users', where: 'id = ?', whereArgs: [1]);
+      expect(rows.single['cloud_uuid'], isNull);
+      expect(rows.single['shop_id'], isNull);
+      final settings = await db.query('app_settings',
+          where: 'key = ?', whereArgs: ['cloud.auth.email']);
+      expect(settings, isEmpty);
     });
   });
 }
 
-/// Driver for the real [IdentityLinker.linkExistingUser] flow. The sign-up and
-/// shop-creation steps are fake so the fail-closed behavior can be proven
+/// Builds a real (non-network) Session for the fake sign-in result.
+supabase.Session _testSession() => supabase.Session(
+      accessToken: 'dummy-token',
+      tokenType: 'bearer',
+      user: const supabase.User(
+        id: 'cu-1',
+        appMetadata: {},
+        userMetadata: {},
+        aud: 'authenticated',
+        createdAt: '2026-01-01T00:00:00Z',
+        email: 'owner@example.com',
+      ),
+    );
+
+/// Driver for the real [IdentityLinker.linkExistingUser] flow. The sign-in and
+/// shop-resolution steps are fake so the fail-closed behavior can be proven
 /// without any network or an initialized Supabase client.
 class _FakeCloudAuthService extends CloudAuthService {
-  _FakeCloudAuthService(this._signUpResult)
-      : super(authClient: _dummyClient.auth, client: _dummyClient);
+  _FakeCloudAuthService({
+    CloudAuthResult? signInResult,
+    this.resolveShopResult,
+    this.resolveShopError,
+  })  : _signInResult = signInResult,
+        super(authClient: _dummyClient.auth, client: _dummyClient);
 
-  static final SupabaseClient _dummyClient =
-      SupabaseClient('http://dummy', 'dummy');
+  static final supabase.SupabaseClient _dummyClient =
+      supabase.SupabaseClient('http://dummy', 'dummy');
 
-  final CloudSignUpResult _signUpResult;
+  final CloudAuthResult? _signInResult;
+  final String? resolveShopResult;
+  final Exception? resolveShopError;
+
+  int signInCalls = 0;
   int signUpCalls = 0;
   int createShopCalls = 0;
+  int resolveShopCalls = 0;
+
+  @override
+  Future<CloudAuthResult> signInWithEmail({
+    required String email,
+    required String password,
+  }) async {
+    signInCalls++;
+    return _signInResult ?? CloudAuthResult.success(_testSession());
+  }
 
   @override
   Future<CloudSignUpResult> signUp({
@@ -370,13 +637,21 @@ class _FakeCloudAuthService extends CloudAuthService {
     required String password,
   }) async {
     signUpCalls++;
-    return _signUpResult;
+    return CloudSignUpResult.unknownError(
+        'sign-up is never used by the linker');
   }
 
   @override
   Future<String> createShopWithOwner(String shopName) async {
     createShopCalls++;
     return 'sp-1';
+  }
+
+  @override
+  Future<String> resolveOwnerShop(String shopName) async {
+    resolveShopCalls++;
+    if (resolveShopError != null) throw resolveShopError!;
+    return resolveShopResult ?? 'sp-1';
   }
 }
 
