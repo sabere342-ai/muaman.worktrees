@@ -473,7 +473,7 @@ FORCE_PUSH = NO
 TAG = NO
 ORIGIN_CONTACTED = NO
 
-COMMIT_SHA_EVIDENCE = (filled after push)
+COMMIT_SHA_EVIDENCE = `347a5bd4ec12d4d97b2a64641a70728b3f61184d`
 PUSH_TARGET_EVIDENCE = `github` / `codex/i-tech-next-roadmap-freeze`
 FORCE_PUSH = NO
 TAG = NO
