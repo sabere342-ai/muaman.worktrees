@@ -531,8 +531,25 @@ AHEAD = 0, BEHIND = 0.
 
 ### Post-push verification (recorded after push to `github/codex/i-tech-next-roadmap-freeze`)
 
-(Recording in progress — see post-push addendum appended below after the final
-remote-lock proof is captured.)
+Authorization commit: `176885d661b60c335bb5642b83e51597f7af6e7c`
+
+POST_PUSH_LOCAL_HEAD = `176885d661b60c335bb5642b83e51597f7af6e7c`
+POST_PUSH_TRACKING_HEAD = `176885d661b60c335bb5642b83e51597f7af6e7c`
+POST_PUSH_DIRECT_GITHUB_HEAD = `176885d661b60c335bb5642b83e51597f7af6e7c`
+POST_PUSH_MERGE_BASE = `176885d661b60c335bb5642b83e51597f7af6e7c`
+POST_PUSH_AHEAD = 0
+POST_PUSH_BEHIND = 0
+
+Expected lock satisfied:
+
+```
+LOCAL == TRACKING == DIRECT github HEAD == MERGE BASE
+AHEAD = 0
+BEHIND = 0
+```
+
+Push was a normal fast-forward push to `github/codex/i-tech-next-roadmap-freeze`;
+no force push; `origin` not contacted; no tag created.
 
 ---
 
