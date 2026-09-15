@@ -467,8 +467,8 @@ commit.
 Recorded below after the operations complete (normal one-commit-per-artifact
 pattern per repository protocol; evidence-filled after push).
 
-COMMIT_SHA_AUTHORIZATION = (filled after push)
-PUSH_TARGET = `github` / `codex/i-tech-next-roadmap-freeze` (normal fast-forward)
+COMMIT_SHA_AUTHORIZATION = `dc2fb055e2f6a58cc98dd8ccdd6ac7697c83ae77`
+PUSH_TARGET = `github` / `codex/i-tech-next-roadmap-freeze` (normal fast-forward, `e746098..dc2fb05`)
 FORCE_PUSH = NO
 TAG = NO
 ORIGIN_CONTACTED = NO
@@ -483,16 +483,22 @@ ORIGIN_CONTACTED = NO
 
 ## T. FINAL REMOTE-LOCK EVIDENCE (POST-PUSH)
 
-POST_PUSH_LOCAL_HEAD = (filled after push)
-POST_PUSH_TRACKING_HEAD = (filled after push)
-POST_PUSH_DIRECT_GITHUB_HEAD = (filled after push; `git ls-remote github`)
-POST_PUSH_MERGE_BASE = (filled after push)
-POST_PUSH_AHEAD = (filled after push)
-POST_PUSH_BEHIND = (filled after push)
+POST_PUSH_LOCAL_HEAD = `dc2fb055e2f6a58cc98dd8ccdd6ac7697c83ae77`
+POST_PUSH_TRACKING_HEAD = `dc2fb055e2f6a58cc98dd8ccdd6ac7697c83ae77`
+POST_PUSH_DIRECT_GITHUB_HEAD = `dc2fb055e2f6a58cc98dd8ccdd6ac7697c83ae77` (`git ls-remote github` — VERIFIED)
+POST_PUSH_MERGE_BASE = `dc2fb055e2f6a58cc98dd8ccdd6ac7697c83ae77`
+POST_PUSH_AHEAD = 0
+POST_PUSH_BEHIND = 0
 
 ```
 Expected lock: LOCAL == TRACKING == DIRECT_GITHUB == MERGE_BASE; AHEAD = 0; BEHIND = 0
 ```
+
+Final lock satisfied for the authorization commit:
+`LOCAL == TRACKING == DIRECT_GITHUB == MERGE_BASE == dc2fb055e2f6a58cc98dd8ccdd6ac7697c83ae77`,
+AHEAD = 0, BEHIND = 0. Normal fast-forward push to
+`github/codex/i-tech-next-roadmap-freeze`; no force push; `origin` not
+contacted; no tag.
 
 ---
 
